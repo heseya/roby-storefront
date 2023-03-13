@@ -1,0 +1,26 @@
+image: ubuntu:bionic
+
+stages:
+  - test
+  - build
+  - deploy
+  - postdeploy
+
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - node_modules/
+
+# ----------------------------
+# ? TEST
+# ----------------------------
+
+linter:
+  image: node:16-alpine
+  stage: test
+  before_script:
+    - yarn install
+  rules:
+    - if: $CI_COMMIT_BRANCH != "master"
+  script:
+    - yarn lint
