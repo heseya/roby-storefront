@@ -1,12 +1,13 @@
 $baseFontSize: 16px;
 
-$primaryColor: #8f0e2c;
+//! Dont use scss color variables. Use CSS variables instead!
+$primaryColor: #c63225;
+$secondaryColor: #ffca2b;
 $errorColor: #b22222;
 
-//Fonts
-$headerFont: 'Josefin Sans', sans-serif;
-$textFont: 'Lato', sans-serif;
-$productFont: 'Oswald', sans-serif;
+// Fonts
+$headerFont: 'Roboto', sans-serif;
+$textFont: 'Roboto', sans-serif;
 
 // Responsivity rules
 $viewport-2: 'min-width: 280px';

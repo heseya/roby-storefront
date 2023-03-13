@@ -23,12 +23,12 @@ html {
 }
 
 :root {
+  // Fallback colors to SCSS variables, but they should be declared somewhere in root html element
   --primary-color: #{$primaryColor};
-  --secondary-color: #{$primaryColor};
+  --secondary-color: #{$secondaryColor};
   --grey: #eee;
   --error-color: #{$errorColor};
 
   --header-font-family-family: #{$headerFont};
   --text-font-family: #{$textFont};
-  --product-font-family: #{$productFont};
 }

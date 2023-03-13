@@ -23,15 +23,13 @@
 </i18n>
 
 <script setup lang="ts">
-import { useStore } from '~/store'
-
 const { t } = useI18n({
   useScope: 'local',
 })
-const store = useStore()
+const heseya = useHeseya()
 
 const { data: products } = useAsyncData('products', () => {
-  return store.fetchProducts()
+  return heseya.Products.get()
 })
 </script>
 
@@ -46,9 +44,9 @@ const { data: products } = useAsyncData('products', () => {
 
   &__title {
     display: block;
-    font-weight: 300;
+    font-weight: 600;
     font-size: 100px;
-    color: $primaryColor;
+    color: var(--primary-color);
     letter-spacing: 1px;
   }
 }

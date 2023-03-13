@@ -6,7 +6,7 @@ const isProduction = ENVIRONMENT === 'production'
 export default defineNuxtConfig({
   app: {
     head: {
-      titleTemplate: '%s | Store',
+      titleTemplate: '%s | ***REMOVED***',
       meta: [
         { charset: 'utf-8' },
         {
@@ -25,7 +25,7 @@ export default defineNuxtConfig({
         { rel: 'preconnect', href: 'https://fonts.gstatic.com' },
         {
           rel: 'stylesheet',
-          href: 'https://fonts.googleapis.com/css2?family=Josefin+Sans&family=Lato:wght@300;400&family=Oswald:wght@400;500;600&display=swap',
+          href: 'https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap',
         },
       ],
     },
