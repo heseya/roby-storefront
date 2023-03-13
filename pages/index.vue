@@ -4,10 +4,12 @@
       <h1 class="index-page__title">{{ t('home.title') }}</h1>
       <br />
       <br />
-      <div v-for="product in products?.data || []" :key="product.id">
-        <b>{{ product.name }}</b> -
-        <span>już od {{ formatAmount(product.price_min) }}</span>
-      </div>
+      <ProductMiniature
+        v-for="product in products?.data || []"
+        :key="product.id"
+        :product="product"
+        style="margin-bottom: 80px"
+      />
     </div>
   </div>
 </template>
