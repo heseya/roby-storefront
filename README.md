@@ -1,14 +1,8 @@
-# Nuxt 3 Heseya Store Template
+# ***REMOVED*** Web
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+## IDE
 
-## Boilerplate the project
-
-```bash
-$ git clone ***REMOVED***/store/store-template-nuxt3 $PROJECT_NAME
-$ cd ./$PROJECT_NAME
-$ ./init.sh
-```
+Recommended IDE Plugin: [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
 
 ## Setup
 
@@ -25,11 +19,21 @@ npm install
 pnpm install --shamefully-hoist
 ```
 
+Copy the `.env.example` file to `.env` and fill in the values.
+
+```bash
+cp .env.example .env
+```
+
 ## Development Server
 
 Start the development server on http://localhost:3000
 
 ```bash
+# yarn
+yarn dev
+
+# npm
 npm run dev
 ```
 

@@ -16,7 +16,7 @@
 {
   "en": {
     "home": {
-      "title": "store-template"
+      "title": "***REMOVED***"
     }
   }
 }
