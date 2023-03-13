@@ -1,5 +1,6 @@
 # Modules
 node_modules
+.yarn
 
 # Nuxt
 *.log*
