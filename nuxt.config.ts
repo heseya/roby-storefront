@@ -45,8 +45,8 @@ export default defineNuxtConfig({
   modules: ['@pinia/nuxt', '@pinia-plugin-persistedstate/nuxt', '@nuxtjs/i18n'],
 
   i18n: {
-    locales: ['en'],
-    defaultLocale: 'en',
+    locales: ['pl'],
+    defaultLocale: 'pl',
     strategy: 'prefix_except_default',
   },
 
