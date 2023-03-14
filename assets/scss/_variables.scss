@@ -1,9 +1,25 @@
-$baseFontSize: 16px;
+$base-font-size: 14px;
+$text-color: #141414;
 
-//! Dont use scss color variables. Use CSS variables instead!
-$primaryColor: #c63225;
-$secondaryColor: #ffca2b;
-$errorColor: #b22222;
+// ! Dont use scss color variables as a main theme colors. Use CSS variables instead!
+$primary-color: #c63225;
+$secondary-color: #ffca2b;
+$error-color: #f05454;
+
+// * Universal colors are ok to use as scss variables
+$white-color: #fff;
+$blue-color: #256fc6;
+$green-color: #62a360;
+
+$unnamed-color-f9eae8: #f9eae8;
+$unnamed-color-30475e: #30475e;
+
+$gray-color-100: #f7f7f7;
+$gray-color-200: #f4f8fc;
+$gray-color-300: #efefef;
+$gray-color-400: #cecece;
+$gray-color-600: #8d8d8d;
+$gray-color-900: #242423;
 
 // Fonts
 $headerFont: 'Roboto', sans-serif;
