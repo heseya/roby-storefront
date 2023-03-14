@@ -8,39 +8,53 @@
       <ChevronRight class="pagination__icon pagination__icon--rotated" />
     </button>
 
-    <button
-      :class="['pagination__button', { 'pagination__button--active': 1 === current }]"
-      @click="first"
-    >
-      1
-    </button>
+    <div class="pagination__content pagination__content--desktop">
+      <button
+        :class="['pagination__button', { 'pagination__button--active': 1 === current }]"
+        @click="first"
+      >
+        1
+      </button>
 
-    <div v-if="current > pagesPadding" class="pagination__text">...</div>
+      <div v-if="current > pagesPadding" class="pagination__text">...</div>
 
-    <button
-      v-for="page in visiblePages"
-      :key="page"
-      :class="['pagination__button', { 'pagination__button--active': page === current }]"
-      @click="go(page)"
-    >
-      {{ page }}
-    </button>
+      <button
+        v-for="page in visiblePages"
+        :key="page"
+        :class="['pagination__button', { 'pagination__button--active': page === current }]"
+        @click="go(page)"
+      >
+        {{ page }}
+      </button>
 
-    <div v-if="current + pagesPadding < total - 1" class="pagination__text">...</div>
+      <div v-if="current + pagesPadding < total - 1" class="pagination__text">...</div>
 
-    <button
-      :class="['pagination__button', { 'pagination__button--active': total === current }]"
-      @click="last"
-    >
-      {{ total }}
-    </button>
+      <button
+        :class="['pagination__button', { 'pagination__button--active': total === current }]"
+        @click="last"
+      >
+        {{ total }}
+      </button>
+    </div>
+
+    <div class="pagination__content pagination__content--mobile">
+      <select
+        class="pagination__button pagination__button--select"
+        :value="current"
+        @input="(ev) => go(parseInt((ev.target as HTMLSelectElement)?.value || '1'))"
+      >
+        <option v-for="page in allPages" :key="page" :value="page">{{ page }}</option>
+      </select>
+      <div class="pagination__text">z {{ total }}</div>
+    </div>
 
     <button
       class="pagination__button pagination__button--action"
       :class="{ 'pagination__button--disabled': current === total }"
       @click="next"
     >
-      Następna <ChevronRight />
+      <span class="pagination__button-text"> Następna </span>
+      <ChevronRight />
     </button>
   </div>
 </template>
@@ -69,6 +83,8 @@ const emit = defineEmits<{
  */
 const pagesPadding = 2
 
+const allPages = computed(() => Array.from({ length: props.total }, (_v, k) => k + 1))
+
 const visiblePages = computed(() =>
   Array.from({ length: pagesPadding * 2 + 1 }, (_v, k) => k + props.current - pagesPadding).filter(
     (page) => page > 1 && page < props.total,
@@ -93,6 +109,24 @@ const last = () => go(props.total)
   align-items: center;
   gap: 6px;
   font-size: rem(13);
+
+  &__content {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    &--mobile {
+      @media ($viewport-8) {
+        display: none;
+      }
+    }
+
+    &--desktop {
+      @media ($max-viewport-8) {
+        display: none;
+      }
+    }
+  }
 
   &__text {
     min-width: 36px;
@@ -134,8 +168,20 @@ const last = () => go(props.total)
       }
     }
 
+    &--select {
+      width: 60px;
+    }
+
     &--active {
       border-color: $text-color;
+    }
+  }
+
+  &__button-text {
+    display: none;
+
+    @media ($viewport-8) {
+      display: block;
     }
   }
 
