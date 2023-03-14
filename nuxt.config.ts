@@ -1,3 +1,5 @@
+import svgLoader from 'vite-svg-loader'
+
 const { API_URL = 'https://demo-***REMOVED***.***REMOVED***', ENVIRONMENT = 'development' } = process.env
 
 const isProduction = ENVIRONMENT === 'production'
@@ -49,6 +51,7 @@ export default defineNuxtConfig({
   },
 
   vite: {
+    plugins: [svgLoader()],
     css: {
       preprocessorOptions: {
         scss: {
