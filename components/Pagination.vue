@@ -3,6 +3,7 @@
     <button
       class="pagination__button pagination__button--action"
       :class="{ 'pagination__button--disabled': current === 1 }"
+      :aria-label="t('prev')"
       @click="prev"
     >
       <ChevronRight class="pagination__icon pagination__icon--rotated" />
@@ -51,16 +52,28 @@
     <button
       class="pagination__button pagination__button--action"
       :class="{ 'pagination__button--disabled': current === total }"
+      :aria-label="t('next')"
       @click="next"
     >
-      <span class="pagination__button-text"> Następna </span>
+      <span class="pagination__button-text"> {{ t('next') }} </span>
       <ChevronRight />
     </button>
   </div>
 </template>
 
+<i18n lang="json">
+{
+  "pl": {
+    "next": "Następna",
+    "previous": "Poprzednia"
+  }
+}
+</i18n>
+
 <script setup lang="ts">
 import ChevronRight from '@/assets/icons/chevron.svg?component'
+
+const t = useLocalI18n()
 
 const props = withDefaults(
   defineProps<{
