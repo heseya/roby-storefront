@@ -1,4 +1,4 @@
-const { API_URL = 'https://demo-rubican.***REMOVED***', ENVIRONMENT = 'development' } = process.env
+const { API_URL = 'https://demo-***REMOVED***.***REMOVED***', ENVIRONMENT = 'development' } = process.env
 
 const isProduction = ENVIRONMENT === 'production'
 
