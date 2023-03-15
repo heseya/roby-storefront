@@ -14,11 +14,11 @@
 
 <i18n lang="json">
 {
-  "en": {
+  "pl": {
     "error": {
-      "title": "Error",
-      "text": "Something went wrong. Please try again later.",
-      "button": "Go to home page"
+      "title": "Błąd",
+      "text": "Coś poszło nie tak.",
+      "button": "Wróć do strony głównej"
     }
   }
 }
