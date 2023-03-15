@@ -3,18 +3,17 @@
     <LayoutLoading :active="pending" />
 
     <header class="product-list-page__header">
-      <div class="product-list-page__header-content">
-        <h1 class="h3 h3--smaller product-list-page__title">
-          {{ title }}
-          <span class="product-list-page__quantity"> ({{ products?.pagination.total }}) </span>
-        </h1>
+      <h1 class="h3 h3--smaller product-list-page__title">
+        {{ title }}
+        <span class="product-list-page__quantity"> ({{ products?.pagination.total }}) </span>
+      </h1>
 
+      <div class="product-list-page__header-content">
         <button
           v-if="isAsideSection"
           class="product-list-page__aside-btn"
           @click="isAsideOpen = true"
         >
-          <img src="@/assets/icons/filters-ico.svg" role="presentation" />
           {{ asideOpenText || t('openAside') }}
         </button>
       </div>
@@ -61,7 +60,7 @@
       <LayoutEmpty v-else> Nie znaleziono produktów spełniających podane kryteria </LayoutEmpty>
     </div>
 
-    <LayoutModal v-model="isAsideOpen" class="product-list-page__aside-modal">
+    <LayoutModal v-model:open="isAsideOpen" class="product-list-page__aside-modal">
       <slot name="aside"></slot>
     </LayoutModal>
   </div>
@@ -213,6 +212,21 @@ onMounted(() => emitViewEvent())
     margin-bottom: 16px;
   }
 
+  &__title {
+    font-size: rem(16);
+
+    @media ($viewport-6) {
+      font-size: rem(26);
+    }
+  }
+
+  &__header-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 9px;
+    margin-top: 14px;
+  }
+
   &__quantity {
     color: $gray-color-600;
     font-weight: 400;
@@ -226,19 +240,13 @@ onMounted(() => emitViewEvent())
 
   &__aside-btn {
     all: unset;
-    text-transform: uppercase;
-    font-weight: 600;
-    padding: 4px 8px;
+    padding: 8px;
     border-radius: 4px;
     cursor: pointer;
-    font-size: rem(13);
+    font-size: rem(12);
     transition: 0.3s;
-
-    img {
-      height: 12px;
-      width: 11px;
-      object-fit: contain;
-    }
+    border: solid 1px $gray-color-300;
+    text-align: center;
 
     &:hover {
       background-color: $gray-color-300;
