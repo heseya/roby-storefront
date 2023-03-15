@@ -21,12 +21,12 @@
 const props = withDefaults(
   defineProps<{
     src: string | undefined
-    objectFit: string
-    placeholderClassName: string
-    autoplay: boolean
-    loop: boolean
-    muted: boolean
-    controls: boolean
+    objectFit?: string
+    placeholderClassName?: string
+    autoplay?: boolean
+    loop?: boolean
+    muted?: boolean
+    controls?: boolean
   }>(),
   {
     objectFit: 'cover',

@@ -41,17 +41,17 @@ import { CdnMedia, CdnMediaType } from '@heseya/store-core'
 
 const props = withDefaults(
   defineProps<{
-    media: CdnMedia | null
-    alt: string
-    objectFit: string
-    objectPosition: string
-    width: string | number
-    height: string | number
-    autoplay: boolean
-    loop: boolean
-    muted: boolean
-    controls: boolean
-    placeholderClassName: string
+    media?: CdnMedia | null
+    alt?: string
+    objectFit?: string
+    objectPosition?: string
+    width?: string | number
+    height?: string | number
+    autoplay?: boolean
+    loop?: boolean
+    muted?: boolean
+    controls?: boolean
+    placeholderClassName?: string
   }>(),
   {
     media: null,

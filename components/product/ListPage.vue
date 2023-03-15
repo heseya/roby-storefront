@@ -1,50 +1,52 @@
 <template>
-  <div class="product-list-page" :class="{ 'product-list-page--no-aside': !isAsideSection }">
-    <aside v-if="isAsideSection" class="product-list-page__aside">
-      <slot name="aside"></slot>
-    </aside>
+  <div class="product-list-page">
+    <LayoutLoading :active="pending" />
 
-    <div class="product-list-page__content">
-      <LayoutLoading :active="pending" />
+    <header class="product-list-page__header">
+      <div class="product-list-page__header-content">
+        <h1 class="h3 h3--smaller product-list-page__title">
+          {{ title }}
+          <span class="product-list-page__quantity"> ({{ products?.pagination.total }}) </span>
+        </h1>
 
-      <header class="product-list-page__header">
-        <div class="product-list-page__header-content">
-          <h1 class="h3 h3--smaller product-list-page__title">{{ title }}</h1>
+        <button
+          v-if="isAsideSection"
+          class="product-list-page__aside-btn"
+          @click="isAsideOpen = true"
+        >
+          <img src="@/assets/icons/filters-ico.svg" role="presentation" />
+          {{ asideOpenText || t('openAside') }}
+        </button>
+      </div>
+    </header>
 
-          <button
-            v-if="isAsideSection"
-            class="product-list-page__aside-btn"
-            @click="isAsideOpen = true"
-          >
-            <img src="@/assets/icons/filters-ico.svg" role="presentation" />
-            {{ asideOpenText }}
-          </button>
-        </div>
+    <div
+      class="product-list-page__content"
+      :class="{ 'product-list-page__content--no-aside': !isAsideSection }"
+    >
+      <aside v-if="isAsideSection" class="product-list-page__aside">
+        <slot name="aside"></slot>
+      </aside>
 
-        <div class="product-list-page__header-content">
-          <span class="product-list-page__quantity">
-            {{ pagination.total }}
-          </span>
-
-          <!-- <ProductsSortSelect
-            :value="sort"
-            :default-sort="defaultSort"
-            @input="(sort) => changeRouteQuery('sort', sort)"
-          /> -->
-        </div>
-      </header>
-
-      <template v-if="products?.length">
+      <div v-if="products?.data.length">
         <main class="product-list-page__grid">
-          <ProductMiniature v-for="product in products" :key="product.id" :product="product" />
+          <ProductMiniature v-for="product in products.data" :key="product.id" :product="product" />
         </main>
 
-        <Pagination
-          class="product-list-page__pagination"
-          :pagination="pagination"
-          @go="(page) => changeRouteQuery('page', page)"
-        />
-      </template>
+        <div class="product-list-page__footer">
+          <PaginationPerPageSelect
+            :model-value="perPage"
+            class="product-list-page__per-page-select"
+            @update:model-value="(quantity) => changeRouteQuery('per_page', quantity)"
+          />
+          <Pagination
+            class="product-list-page__pagination"
+            :current="products?.pagination.currentPage"
+            :total="products?.pagination.lastPage"
+            @go="(page) => changeRouteQuery('page', page)"
+          />
+        </div>
+      </div>
 
       <template v-else-if="pending">
         <main class="product-list-page__grid">
@@ -65,13 +67,24 @@
   </div>
 </template>
 
+<i18n lang="json">
+{
+  "pl": {
+    "openAside": "Rozwiń filtry"
+  }
+}
+</i18n>
+
 <script setup lang="ts">
-import { HeseyaEvent, HeseyaPaginationMeta } from '@heseya/store-core'
+import { HeseyaEvent } from '@heseya/store-core'
 
 const route = useRoute()
 const router = useRouter()
+const t = useLocalI18n()
+
 const ev = useHeseyaEventBus()
 const heseya = useHeseya()
+
 const slots = useSlots()
 
 const props = withDefaults(
@@ -83,17 +96,20 @@ const props = withDefaults(
   }>(),
   {
     title: '',
-    asideOpenText: 'Filtruj',
+    asideOpenText: '',
     queryParams: () => ({}),
     defaultSort: undefined,
   },
 )
 
-const pagination = ref<HeseyaPaginationMeta>({} as HeseyaPaginationMeta)
 const isAsideOpen = ref(false)
 
 const sort = computed(() => {
   return (route.query.sort as string) ?? props.defaultSort ?? undefined
+})
+
+const perPage = computed(() => {
+  return Number(route.query.per_page) || 24
 })
 
 const isAsideSection = computed(() => !!slots.aside)
@@ -101,7 +117,7 @@ const isAsideSection = computed(() => !!slots.aside)
 const emitViewEvent = () => {
   ev.emit(HeseyaEvent.ViewProductList, {
     set: { name: props.title },
-    items: products.value || [],
+    items: products.value?.data || [],
   })
 }
 
@@ -117,28 +133,19 @@ const {
   data: products,
   refresh,
   pending,
-} = useAsyncData(
-  async () => {
-    try {
-      const page = Number(route.query.page ?? 1)
+  error,
+} = useAsyncData(async () => {
+  const page = Number(route.query.page ?? 1)
 
-      const response = await heseya.Products.get({
-        ...props.queryParams,
-        ...route.query,
-        page,
-        sort: sort.value as any, // TODO
-        limit: 30,
-      })
-      pagination.value = response.pagination
-      return response.data
-    } catch (e) {
-      console.log('🚀 ~ file: ListPage.vue:140 ~ e:', e)
-      // TODO: handle error
-      return []
-    }
-  },
-  { default: () => [] },
-)
+  const response = await heseya.Products.get({
+    ...props.queryParams,
+    ...route.query,
+    page,
+    sort: sort.value,
+    limit: perPage.value,
+  })
+  return response
+})
 
 watch(
   () => products.value,
@@ -150,10 +157,19 @@ watch(
   () => refresh(),
 )
 
+watch(
+  () => error.value,
+  () => {
+    // TODO: Handle error
+    // eslint-disable-next-line no-console
+    if (error.value) console.error(error.value)
+  },
+)
+
 onBeforeMount(() => {
   // If current page is out of scope, redirect to the first page
   const page = Number(route.query.page ?? 1)
-  if (page < 1 || page > pagination.value.lastPage) {
+  if (page < 1 || page > (products.value?.pagination.lastPage || Infinity)) {
     changeRouteQuery('page', 1)
   }
 })
@@ -166,17 +182,23 @@ onMounted(() => emitViewEvent())
   max-width: $container-width;
   padding: $container-padding;
   margin: 0 auto;
-  display: grid;
-  grid-gap: 48px;
-  grid-template-columns: 1fr;
+  position: relative;
 
-  @media ($viewport-10) {
-    grid-template-columns: auto 1fr;
-  }
-
-  &--no-aside {
+  &__content {
+    min-height: 40vh;
+    position: relative;
+    display: grid;
+    grid-gap: 38px;
     grid-template-columns: 1fr;
-    grid-gap: 0;
+
+    @media ($viewport-10) {
+      grid-template-columns: minmax(auto, 300px) 1fr;
+    }
+
+    &--no-aside {
+      grid-template-columns: 1fr;
+      grid-gap: 0;
+    }
   }
 
   &__aside {
@@ -189,28 +211,11 @@ onMounted(() => emitViewEvent())
 
   &__header {
     margin-bottom: 16px;
-
-    @media ($viewport-10) {
-      padding-left: 21px;
-    }
-  }
-
-  &__header-content {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    align-items: center;
-    margin-top: 7px;
   }
 
   &__quantity {
-    font-size: rem(14);
-
-    img {
-      height: 12px;
-      width: 11px;
-      object-fit: contain;
-    }
+    color: $gray-color-600;
+    font-weight: 400;
   }
 
   &__placeholder {
@@ -250,9 +255,9 @@ onMounted(() => emitViewEvent())
   &__grid {
     display: grid;
     justify-items: center;
-    align-items: center;
+    align-items: start;
     grid-template-columns: 1fr 1fr;
-    gap: 39px 10px;
+    gap: 20px 9px;
 
     @media ($viewport-6) {
       grid-template-columns: 1fr 1fr 1fr;
@@ -260,21 +265,28 @@ onMounted(() => emitViewEvent())
 
     @media ($viewport-11) {
       grid-template-columns: 1fr 1fr 1fr 1fr;
-      row-gap: 53px;
+      row-gap: 37px;
     }
+  }
 
-    @media ($viewport-13) {
-      grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-    }
+  &__footer {
+    margin-top: 64px;
+    display: flex;
+    justify-content: space-between;
   }
 
   &__pagination {
-    margin-top: 64px;
+    margin: 0 auto;
+
+    @media ($viewport-4) {
+      margin: 0;
+    }
   }
 
-  &__content {
-    min-height: 40vh;
-    position: relative;
+  &__per-page-select {
+    @media ($max-viewport-4) {
+      display: none;
+    }
   }
 }
 </style>
