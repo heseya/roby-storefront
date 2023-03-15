@@ -16,6 +16,12 @@
         >
           {{ asideOpenText || t('openAside') }}
         </button>
+
+        <ProductSortSelect
+          hide-label
+          :model-value="sort"
+          @update:model-value="(newSort) => changeRouteQuery('sort', newSort)"
+        />
       </div>
     </header>
 
@@ -225,6 +231,10 @@ onMounted(() => emitViewEvent())
     grid-template-columns: 1fr 1fr;
     grid-gap: 9px;
     margin-top: 14px;
+
+    @media ($viewport-6) {
+      display: none;
+    }
   }
 
   &__quantity {
