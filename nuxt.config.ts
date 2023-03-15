@@ -1,3 +1,5 @@
+import svgLoader from 'vite-svg-loader'
+
 const { API_URL = 'https://demo-***REMOVED***.***REMOVED***', ENVIRONMENT = 'development' } = process.env
 
 const isProduction = ENVIRONMENT === 'production'
@@ -43,12 +45,13 @@ export default defineNuxtConfig({
   modules: ['@pinia/nuxt', '@pinia-plugin-persistedstate/nuxt', '@nuxtjs/i18n'],
 
   i18n: {
-    locales: ['en'],
-    defaultLocale: 'en',
+    locales: ['pl'],
+    defaultLocale: 'pl',
     strategy: 'prefix_except_default',
   },
 
   vite: {
+    plugins: [svgLoader()],
     css: {
       preprocessorOptions: {
         scss: {

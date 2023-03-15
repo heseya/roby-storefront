@@ -3,6 +3,9 @@
     <div>
       <h1 class="index-page__title">{{ t('home.title') }}</h1>
       <br />
+      <PaginationPerPageSelect v-model="perPage" />
+      <br />
+      <Pagination :current="currentPage" :total="totalPages" @go="(v) => (currentPage = v)" />
       <br />
       <ProductMiniature
         v-for="product in products?.data || []"
@@ -16,7 +19,7 @@
 
 <i18n lang="json">
 {
-  "en": {
+  "pl": {
     "home": {
       "title": "***REMOVED***"
     }
@@ -29,6 +32,10 @@ const { t } = useI18n({
   useScope: 'local',
 })
 const heseya = useHeseya()
+
+const perPage = ref(24)
+const currentPage = ref(1)
+const totalPages = ref(40)
 
 const { data: products } = useAsyncData('products', () => {
   return heseya.Products.get()
