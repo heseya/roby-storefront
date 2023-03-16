@@ -13,12 +13,15 @@
         :product="product"
         style="margin-bottom: 80px"
       />
+      <br />
       <HomeLinkBox
         text="ZAPYTAJ O WYNAJEM"
         backgroundSrc="https://***REMOVED***.pl/wp-content/uploads/2017/06/dummy-wood-title.jpg"
         link="rent"
         linkText="Zapytaj"
       />
+      <br />
+      <HomeBanner />
     </div>
   </div>
 </template>
