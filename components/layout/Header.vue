@@ -1,7 +1,7 @@
 <template>
-  <span :class="[`header`, `header__${variant}`]">
+  <component :is="tag" :class="[`header`, `header--${variant}`]">
     <slot />
-  </span>
+  </component>
 </template>
 
 <script lang="ts" setup>
@@ -9,9 +9,13 @@ type HeaderVariant = 'white' | 'black'
 
 withDefaults(
   defineProps<{
+    tag?: string
     variant?: HeaderVariant
   }>(),
-  { variant: 'white' },
+  {
+    tag: 'span',
+    variant: 'white',
+  },
 )
 </script>
 
@@ -21,12 +25,12 @@ withDefaults(
   font-weight: bold;
   text-align: center;
 
-  &__white {
+  &--white {
     color: $white-color;
   }
 
-  &__black {
-    color: $black-color;
+  &--black {
+    color: $gray-color-900;
   }
 }
 </style>

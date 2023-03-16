@@ -1,5 +1,5 @@
 <template>
-  <button :class="[`btn`, `btn__${variant}`]">
+  <button :class="[`btn`, `btn--${variant}`]">
     {{ label }}
   </button>
 </template>
@@ -28,7 +28,7 @@ withDefaults(
   font-size: rem(14);
   transition: background-color 200ms ease-in-out;
 
-  &__primary {
+  &--primary {
     color: $white-color;
     background-color: $unnamed-color-e1a044;
 
@@ -38,8 +38,8 @@ withDefaults(
     }
   }
 
-  &__secondary {
-    color: $black-color;
+  &--secondary {
+    color: $gray-color-900;
     background-color: $white-color;
 
     &:hover {

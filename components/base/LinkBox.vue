@@ -1,5 +1,5 @@
 <template>
-  <div class="link-box__background" :style="{ backgroundImage: `url(${backgroundSrc})` }">
+  <div class="link-box" :style="{ backgroundImage: `url(${backgroundSrc})` }">
     <LayoutHeader>{{ text }}</LayoutHeader>
     <nuxt-link :to="link">
       <LayoutButton :label="linkText" variant="secondary" />
@@ -17,7 +17,7 @@ defineProps<{
 </script>
 
 <style lang="scss" scoped>
-.link-box__background {
+.link-box {
   height: 400px;
   width: 100%;
   display: flex;
