@@ -139,7 +139,7 @@ const changeRouteQuery = (query: Record<string, any>) =>
       ...Object.entries(query).reduce(
         (acc, [key, value]) => ({
           ...acc,
-          [key]: value !== undefined ? String(value) : undefined,
+          [key]: value ? String(value) : undefined,
         }),
         {} as Record<string, any>,
       ),
