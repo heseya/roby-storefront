@@ -80,10 +80,7 @@ const props = withDefaults(
     current: number
     total: number
   }>(),
-  {
-    current: 4,
-    total: 10,
-  },
+  {},
 )
 
 const emit = defineEmits<{
@@ -161,6 +158,7 @@ const last = () => go(props.total)
     align-items: center;
     justify-content: center;
     gap: 8px;
+    text-align: center;
 
     &:hover {
       border-color: $text-color;

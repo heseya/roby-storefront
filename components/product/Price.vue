@@ -30,7 +30,7 @@ import { ProductList } from '@heseya/store-core'
 const props = withDefaults(
   defineProps<{
     product: ProductList
-    tag: string
+    tag?: string
   }>(),
   {
     tag: 'span',

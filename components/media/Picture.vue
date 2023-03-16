@@ -20,14 +20,16 @@
 const props = withDefaults(
   defineProps<{
     src: string | undefined
-    width: number | string | undefined
-    height: number | string | undefined
-    objectPosition: string
-    objectFit: string
-    alt: string
-    placeholderClassName: string
+    width?: number | string
+    height?: number | string
+    objectPosition?: string
+    objectFit?: string
+    alt?: string
+    placeholderClassName?: string
   }>(),
   {
+    width: undefined,
+    height: undefined,
     objectPosition: 'top',
     objectFit: 'cover',
     alt: '',

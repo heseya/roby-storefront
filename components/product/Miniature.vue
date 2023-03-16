@@ -43,6 +43,7 @@ const productSubtext = computed(() => {
   display: block;
   text-align: left;
   text-decoration: none;
+  width: 100%;
   max-width: 200px;
   color: $text-color;
 

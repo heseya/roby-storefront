@@ -12,7 +12,7 @@
 
 <script setup lang="ts">
 defineProps<{
-  placeholderClassName: string
+  placeholderClassName?: string
 }>()
 </script>
 
