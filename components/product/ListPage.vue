@@ -67,11 +67,13 @@
     </div>
 
     <LayoutModal v-model:open="isAsideOpen" class="product-list-page__aside-modal">
-      <ProductFilters
-        hide-sort
-        :filters="route.query"
-        @update:filters="(query) => changeRouteQuery(query)"
-      />
+      <div class="product-list-page__aside-modal-content">
+        <ProductFilters
+          hide-sort
+          :filters="route.query"
+          @update:filters="(query) => changeRouteQuery(query)"
+        />
+      </div>
     </LayoutModal>
   </div>
 </template>
@@ -284,6 +286,10 @@ onMounted(() => emitViewEvent())
     @media ($viewport-6) {
       display: none;
     }
+  }
+
+  &__aside-modal-content {
+    padding: 24px;
   }
 
   &__grid {
