@@ -56,11 +56,14 @@ watch(
 
   &__link {
     display: block;
-    margin-bottom: 10px;
     color: $text-color;
     text-decoration: none;
     font-size: rem(14);
     line-height: rem(19);
+
+    &:not(:last-child) {
+      margin-bottom: 10px;
+    }
 
     &--bold {
       font-weight: 600;
