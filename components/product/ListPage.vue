@@ -130,7 +130,8 @@ const emitViewEvent = () => {
   })
 }
 
-const changeRouteQuery = (query: Record<string, any>) =>
+const changeRouteQuery = (query: Record<string, any>) => {
+  console.log('🚀 ~ file: ListPage.vue:134 ~ changeRouteQuery ~ query:', query)
   router.push({
     name: route.name!,
     params: route.params,
@@ -145,6 +146,7 @@ const changeRouteQuery = (query: Record<string, any>) =>
       ),
     },
   })
+}
 
 const {
   data: products,
