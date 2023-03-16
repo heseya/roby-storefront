@@ -131,7 +131,14 @@ const emitViewEvent = () => {
 }
 
 const changeRouteQuery = (query: Record<string, any>) => {
-  console.log('🚀 ~ file: ListPage.vue:134 ~ changeRouteQuery ~ query:', query)
+  const transformValue = (
+    v: string | any[] | number | undefined,
+  ): undefined | string | string[] => {
+    if (!v) return undefined
+    if (Array.isArray(v)) return v.map((i) => String(i))
+    return String(v)
+  }
+
   router.push({
     name: route.name!,
     params: route.params,
@@ -140,7 +147,7 @@ const changeRouteQuery = (query: Record<string, any>) => {
       ...Object.entries(query).reduce(
         (acc, [key, value]) => ({
           ...acc,
-          [key]: value ? String(value) : undefined,
+          [key]: transformValue(value),
         }),
         {} as Record<string, any>,
       ),

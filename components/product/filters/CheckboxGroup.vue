@@ -46,7 +46,7 @@ const toggleCheckbox = (optionId: string) => {
   const newValue = isChecked(optionId)
     ? value.value.filter((v) => v !== optionId)
     : [...value.value, optionId]
-  emit('update:value', newValue)
+  emit('update:value', newValue.filter(Boolean))
 }
 </script>
 
