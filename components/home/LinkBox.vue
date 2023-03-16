@@ -26,9 +26,6 @@ defineProps<{
   align-items: center;
   gap: 14px;
 
-  background-color: $gray-color-600;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
+  @include background-image-basic;
 }
 </style>
