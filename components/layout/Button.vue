@@ -10,7 +10,7 @@ type ButtonVariant = 'primary' | 'secondary'
 withDefaults(
   defineProps<{
     label: string
-    variant: ButtonVariant
+    variant?: ButtonVariant
   }>(),
   { variant: 'primary' },
 )

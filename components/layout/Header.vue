@@ -9,7 +9,7 @@ type HeaderVariant = 'white' | 'black'
 
 withDefaults(
   defineProps<{
-    variant: HeaderVariant
+    variant?: HeaderVariant
   }>(),
   { variant: 'white' },
 )
