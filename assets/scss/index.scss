@@ -31,3 +31,9 @@ html {
   --header-font-family-family: #{$headerFont};
   --text-font-family: #{$textFont};
 }
+
+hr {
+  border: none;
+  border-top: 1px solid $gray-color-400;
+  margin: 25px 0;
+}

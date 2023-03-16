@@ -3,34 +3,34 @@
     <LayoutLoading :active="pending" />
 
     <header class="product-list-page__header">
-      <h1 class="h3 h3--smaller product-list-page__title">
+      <h1 class="product-list-page__title">
         {{ title }}
         <span class="product-list-page__quantity"> ({{ products?.pagination.total }}) </span>
       </h1>
 
       <div class="product-list-page__header-content">
-        <button
-          v-if="isAsideSection"
-          class="product-list-page__aside-btn"
-          @click="isAsideOpen = true"
-        >
+        <button class="product-list-page__aside-btn" @click="isAsideOpen = true">
           {{ asideOpenText || t('openAside') }}
         </button>
 
         <ProductSortSelect
           hide-label
           :model-value="sort"
-          @update:model-value="(newSort) => changeRouteQuery('sort', newSort)"
+          @update:model-value="(newSort) => changeRouteQuery({ sort: newSort })"
         />
       </div>
     </header>
 
-    <div
-      class="product-list-page__content"
-      :class="{ 'product-list-page__content--no-aside': !isAsideSection }"
-    >
-      <aside v-if="isAsideSection" class="product-list-page__aside">
+    <div class="product-list-page__content">
+      <aside class="product-list-page__aside">
         <slot name="aside"></slot>
+
+        <hr v-if="isAsideSection" />
+
+        <ProductFilters
+          :filters="route.query"
+          @update:filters="(query) => changeRouteQuery(query)"
+        />
       </aside>
 
       <div v-if="products?.data.length">
@@ -42,13 +42,13 @@
           <PaginationPerPageSelect
             :model-value="perPage"
             class="product-list-page__per-page-select"
-            @update:model-value="(quantity) => changeRouteQuery('per_page', quantity)"
+            @update:model-value="(quantity) => changeRouteQuery({ per_page: quantity })"
           />
           <Pagination
             class="product-list-page__pagination"
             :current="products?.pagination.currentPage"
             :total="products?.pagination.lastPage"
-            @go="(page) => changeRouteQuery('page', page)"
+            @go="(page) => changeRouteQuery({ page })"
           />
         </div>
       </div>
@@ -67,7 +67,11 @@
     </div>
 
     <LayoutModal v-model:open="isAsideOpen" class="product-list-page__aside-modal">
-      <slot name="aside"></slot>
+      <ProductFilters
+        hide-sort
+        :filters="route.query"
+        @update:filters="(query) => changeRouteQuery(query)"
+      />
     </LayoutModal>
   </div>
 </template>
@@ -126,13 +130,21 @@ const emitViewEvent = () => {
   })
 }
 
-const changeRouteQuery = (key: string, value: any) => {
+const changeRouteQuery = (query: Record<string, any>) =>
   router.push({
     name: route.name!,
     params: route.params,
-    query: { ...route.query, [key]: value !== undefined ? String(value) : undefined },
+    query: {
+      ...route.query,
+      ...Object.entries(query).reduce(
+        (acc, [key, value]) => ({
+          ...acc,
+          [key]: value !== undefined ? String(value) : undefined,
+        }),
+        {} as Record<string, any>,
+      ),
+    },
   })
-}
 
 const {
   data: products,
@@ -175,7 +187,7 @@ onBeforeMount(() => {
   // If current page is out of scope, redirect to the first page
   const page = Number(route.query.page ?? 1)
   if (page < 1 || page > (products.value?.pagination.lastPage || Infinity)) {
-    changeRouteQuery('page', 1)
+    changeRouteQuery({ page: 1 })
   }
 })
 
@@ -198,11 +210,6 @@ onMounted(() => emitViewEvent())
 
     @media ($viewport-10) {
       grid-template-columns: minmax(auto, 300px) 1fr;
-    }
-
-    &--no-aside {
-      grid-template-columns: 1fr;
-      grid-gap: 0;
     }
   }
 

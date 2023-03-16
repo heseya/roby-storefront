@@ -8,21 +8,24 @@
 </template>
 
 <script setup lang="ts">
+type SelectValue = number | string | undefined
+
 const props = withDefaults(
   defineProps<{
-    modelValue: number | string
+    modelValue: SelectValue
     name: string
     label?: string
     type?: 'default' | 'gray'
   }>(),
   {
+    modelValue: undefined,
     label: '',
     type: 'default',
   },
 )
 
 const emit = defineEmits<{
-  (e: 'update:modelValue', value: number | string): void
+  (e: 'update:modelValue', value: SelectValue): void
 }>()
 
 const innerValue = computed({

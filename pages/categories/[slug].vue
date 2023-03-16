@@ -3,7 +3,6 @@
     <ProductListPage title="Test">
       <template #aside>
         <div class="box">Subcategories</div>
-        <div class="box">Filters</div>
       </template>
     </ProductListPage>
   </div>

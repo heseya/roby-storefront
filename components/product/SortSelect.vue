@@ -1,7 +1,7 @@
 <template>
   <FormSelect
     v-model="innerValue"
-    :label="hideLabel ? undefined : t('title')"
+    :label="hideLabel ? undefined : t('label')"
     name="sort"
     type="gray"
   >
@@ -30,12 +30,12 @@
 const t = useLocalI18n()
 
 const props = defineProps<{
-  modelValue: string
+  modelValue?: string
   hideLabel?: boolean
 }>()
 
 const emit = defineEmits<{
-  (e: 'update:modelValue', value: string): void
+  (e: 'update:modelValue', value: string | undefined): void
 }>()
 
 const innerValue = computed({
