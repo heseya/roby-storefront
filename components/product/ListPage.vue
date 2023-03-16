@@ -29,6 +29,7 @@
 
         <ProductFilters
           :filters="route.query"
+          :sets="sets"
           @update:filters="(query) => changeRouteQuery(query)"
         />
       </aside>
@@ -63,13 +64,14 @@
         </main>
       </template>
 
-      <LayoutEmpty v-else> Nie znaleziono produktów spełniających podane kryteria </LayoutEmpty>
+      <LayoutEmpty v-else> {{ t('empty') }} </LayoutEmpty>
     </div>
 
     <LayoutModal v-model:open="isAsideOpen" class="product-list-page__aside-modal">
       <div class="product-list-page__aside-modal-content">
         <ProductFilters
           hide-sort
+          :sets="sets"
           :filters="route.query"
           @update:filters="(query) => changeRouteQuery(query)"
         />
@@ -81,7 +83,8 @@
 <i18n lang="json">
 {
   "pl": {
-    "openAside": "Rozwiń filtry"
+    "openAside": "Rozwiń filtry",
+    "empty": "Nie znaleziono produktów spełniających podane kryteria"
   }
 }
 </i18n>
@@ -104,12 +107,14 @@ const props = withDefaults(
     asideOpenText?: string
     queryParams?: Record<string, any>
     defaultSort?: string
+    sets?: string[]
   }>(),
   {
     title: '',
     asideOpenText: '',
     queryParams: () => ({}),
     defaultSort: undefined,
+    sets: () => [],
   },
 )
 

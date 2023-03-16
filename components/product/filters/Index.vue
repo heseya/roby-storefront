@@ -52,10 +52,12 @@ const props = withDefaults(
   defineProps<{
     hideSort?: boolean
     filters?: Record<string, any>
+    sets: string[]
   }>(),
   {
     hideSort: false,
     filters: () => ({}),
+    sets: () => [],
   },
 )
 const emit = defineEmits<{
@@ -66,8 +68,7 @@ const heseya = useHeseya()
 
 const { data: attributes } = useAsyncData(async () => {
   // TODO: add support for date and number attributes
-  // TODO: extract sets from filters
-  const attrs = await heseya.Products.getFilters({ sets: [] })
+  const attrs = await heseya.Products.getFilters({ sets: props.sets })
   return attrs.filter(
     (a) => a.type === AttributeType.MultiChoiceOption || a.type === AttributeType.SingleOption,
   )
