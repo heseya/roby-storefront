@@ -19,6 +19,8 @@
         link="rent"
         linkText="Zapytaj"
       />
+      <br />
+      <HomeWhyUs />
     </div>
   </div>
 </template>
