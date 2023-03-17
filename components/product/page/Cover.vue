@@ -20,6 +20,12 @@
         @click="openBigGallery"
       />
     </div>
+
+    <ProductPageGallery
+      v-if="isBigGalleryOpen"
+      :media="props.media"
+      @close="isBigGalleryOpen = false"
+    />
   </div>
 </template>
 
@@ -30,6 +36,7 @@ const props = defineProps<{
   media: CdnMedia[]
 }>()
 
+const isBigGalleryOpen = ref(false)
 const active = ref<CdnMedia | null>(props.media[0] || null)
 const shownImages = computed(() => props.media.filter((m) => m.id !== active.value?.id))
 
@@ -37,9 +44,7 @@ const setActive = (image: CdnMedia) => {
   active.value = image
 }
 
-const openBigGallery = () => {
-  console.log('openBigGallery')
-}
+const openBigGallery = () => (isBigGalleryOpen.value = true)
 </script>
 
 <style lang="scss" scoped>

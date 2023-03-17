@@ -1,7 +1,7 @@
 <template>
   <div class="product-page">
     <div class="product-page__header">
-      <ProductPageCoverGallery class="product-page__gallery" :media="product?.gallery || []" />
+      <ProductPageCover class="product-page__gallery" :media="product?.gallery || []" />
 
       <div class="product-page__summary">
         {{ product }}
