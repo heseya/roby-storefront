@@ -76,17 +76,25 @@ const reasonList: ReasonProps[] = [
   }
 
   &__reasons {
-    @include flex-row;
+    @include flex-column;
     gap: 20px;
+    @media ($viewport-8) {
+      flex-direction: row;
+    }
   }
 
   &__partner {
-    max-width: 80%;
     margin-top: 70px;
 
-    @include flex-row;
+    @include flex-column;
+    align-items: center;
     align-self: center;
     gap: 20px;
+
+    @media ($viewport-8) {
+      max-width: 80%;
+      flex-direction: row;
+    }
   }
 }
 
