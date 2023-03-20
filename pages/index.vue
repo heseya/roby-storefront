@@ -16,9 +16,9 @@
       <br />
       <HomeLinkBox
         text="ZAPYTAJ O WYNAJEM"
-        backgroundSrc="https://***REMOVED***.pl/wp-content/uploads/2017/06/dummy-wood-title.jpg"
+        background-src="https://***REMOVED***.pl/wp-content/uploads/2017/06/dummy-wood-title.jpg"
         link="rent"
-        linkText="Zapytaj"
+        link-text="Zapytaj"
       />
       <br />
       <HomeBanner />
@@ -39,15 +39,6 @@
 <script setup lang="ts">
 const { t } = useI18n({
   useScope: 'local',
-})
-const heseya = useHeseya()
-
-const perPage = ref(24)
-const currentPage = ref(1)
-const totalPages = ref(40)
-
-const { data: products } = useAsyncData('products', () => {
-  return heseya.Products.get()
 })
 </script>
 

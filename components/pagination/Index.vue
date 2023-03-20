@@ -65,7 +65,7 @@
 {
   "pl": {
     "next": "Następna",
-    "previous": "Poprzednia"
+    "prev": "Poprzednia"
   }
 }
 </i18n>
