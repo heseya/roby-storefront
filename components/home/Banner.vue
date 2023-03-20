@@ -59,8 +59,10 @@ const cardList: CardProps[] = [
 
   &__cards {
     flex: 1;
-    display: flex;
-    flex-direction: row;
+    @include flex-column;
+    @media ($viewport-9) {
+      flex-direction: row;
+    }
   }
 }
 </style>
