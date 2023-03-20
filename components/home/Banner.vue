@@ -1,7 +1,7 @@
 <template>
   <div class="banner">
     <div class="banner__main-card">
-      <HomeMainCard
+      <HomeCard
         title="URZĄDZENIA BIUROWE"
         subtitle="SPRZEDAŻ • WYNAJEM • SERWIS"
         link="sale"
