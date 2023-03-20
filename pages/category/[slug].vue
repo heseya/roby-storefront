@@ -8,20 +8,29 @@
   </div>
 </template>
 
+<i18n lang="json">
+{
+  "pl": {
+    "notFoundError": "Podany produkt nie istnieje"
+  }
+}
+</i18n>
+
 <script setup lang="ts">
 const heseya = useHeseya()
 const route = useRoute()
+const t = useLocalI18n()
 
 const { data: category } = useAsyncData('category', async () => {
   try {
     const category = await heseya.ProductSets.getOneBySlug(route.params.slug as string)
 
-    if (!category) showError({ message: 'Podana kategoria nie istnieje', statusCode: 404 })
+    if (!category) showError({ message: t('notFoundError'), statusCode: 404 })
 
     return category
   } catch (e: any) {
     if (e?.response?.status === 404) {
-      showError({ message: 'Podana kategoria nie istnieje', statusCode: 404 })
+      showError({ message: t('notFoundError'), statusCode: 404 })
       return null
     }
 
