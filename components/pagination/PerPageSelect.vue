@@ -2,12 +2,12 @@
   <div class="per-page-select">
     <div class="per-page-select__text">{{ t('text') }}</div>
 
-    <select v-model="innerValue" name="perPage" class="per-page-select__input">
+    <FormSelect v-model="innerValue" name="perPage" class="per-page-select__input" type="gray">
       <option :value="12">12</option>
       <option :value="24">24</option>
       <option :value="48">48</option>
       <option :value="96">96</option>
-    </select>
+    </FormSelect>
   </div>
 </template>
 
@@ -45,23 +45,11 @@ const innerValue = computed({
   &__text {
     font-size: rem(14);
     margin-right: 8px;
+    white-space: nowrap;
   }
 
   &__input {
-    all: unset;
-    background-color: $gray-color-300;
-    border-radius: 5px;
-    padding: 11px 14px;
-    padding-right: 32px;
-    background-image: url('@/assets/icons/arrow-drop-down.svg');
-    background-repeat: no-repeat;
-    background-position: right 15px center;
-    cursor: pointer;
-    transition: 0.3s;
-
-    &:hover {
-      background-color: $gray-color-400;
-    }
+    max-width: 70px;
   }
 }
 </style>
