@@ -42,11 +42,12 @@ export default defineNuxtConfig({
     },
   },
 
-  modules: ['@pinia/nuxt', '@pinia-plugin-persistedstate/nuxt', '@nuxtjs/i18n'],
+  modules: ['@pinia/nuxt', '@pinia-plugin-persistedstate/nuxt', '@nuxtjs/i18n', '@vueuse/nuxt'],
 
   i18n: {
-    locales: ['pl'],
+    locales: [{ code: 'pl', iso: 'pl-PL', file: 'pl.ts' }],
     defaultLocale: 'pl',
+    langDir: 'lang',
     strategy: 'prefix_except_default',
   },
 

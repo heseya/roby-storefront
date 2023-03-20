@@ -1,6 +1,6 @@
 <template>
   <div class="product-filters">
-    <h3 class="product-filters__title">Filtry</h3>
+    <h3 class="product-filters__title">{{ t('title') }}</h3>
 
     <div class="product-filters__section">
       <ProductSortSelect
@@ -11,10 +11,10 @@
     </div>
 
     <div class="product-filters__section">
-      <FormInputLabel>Cena</FormInputLabel>
+      <FormInputLabel> {{ t('price') }} </FormInputLabel>
 
       <div class="product-filters__row">
-        <span>Od</span>
+        <span> {{ t('from') }} </span>
         <FormInput
           type="gray"
           html-type="number"
@@ -23,7 +23,7 @@
           postfix="zł"
           @update:model-value="(v) => updateKey('price.min', v)"
         />
-        <span>do</span>
+        <span> {{ t('to') }} </span>
         <FormInput
           type="gray"
           html-type="number"
@@ -45,6 +45,17 @@
   </div>
 </template>
 
+<i18n lang="json">
+{
+  "pl": {
+    "title": "Filtry",
+    "price": "Cena",
+    "from": "Od",
+    "to": "do"
+  }
+}
+</i18n>
+
 <script setup lang="ts">
 import { AttributeType } from '@heseya/store-core'
 
@@ -65,6 +76,7 @@ const emit = defineEmits<{
 }>()
 
 const heseya = useHeseya()
+const t = useLocalI18n()
 
 const { data: attributes } = useAsyncData(async () => {
   // TODO: add support for date and number attributes
