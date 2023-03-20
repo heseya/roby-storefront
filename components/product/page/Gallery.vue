@@ -211,10 +211,6 @@ $btn-position-desktop: 48px;
   &__main {
     width: 100%;
     max-width: 70vh;
-
-    // > * {
-    //   width: 100%;
-    // }
   }
 
   &__item {
