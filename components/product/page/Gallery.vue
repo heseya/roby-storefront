@@ -30,6 +30,60 @@
         height="164"
         @click="setActive(m)"
       />
+      <Media
+        v-for="m in media"
+        :key="m.id"
+        class="product-gallery__item"
+        :media="m"
+        width="164"
+        height="164"
+        @click="setActive(m)"
+      />
+      <Media
+        v-for="m in media"
+        :key="m.id"
+        class="product-gallery__item"
+        :media="m"
+        width="164"
+        height="164"
+        @click="setActive(m)"
+      />
+      <Media
+        v-for="m in media"
+        :key="m.id"
+        class="product-gallery__item"
+        :media="m"
+        width="164"
+        height="164"
+        @click="setActive(m)"
+      />
+      <Media
+        v-for="m in media"
+        :key="m.id"
+        class="product-gallery__item"
+        :media="m"
+        width="164"
+        height="164"
+        @click="setActive(m)"
+      />
+      <Media
+        v-for="m in media"
+        :key="m.id"
+        class="product-gallery__item"
+        :media="m"
+        width="164"
+        height="164"
+        @click="setActive(m)"
+      />
+      <Media
+        v-for="m in media"
+        :key="m.id"
+        class="product-gallery__item"
+        :media="m"
+        width="164"
+        height="164"
+        @click="setActive(m)"
+      />
     </div>
   </div>
 </template>
@@ -168,16 +222,20 @@ $btn-position-desktop: 48px;
   }
 
   &__list {
+    max-width: 100%;
     display: flex;
     gap: 10px;
+    overflow-x: auto;
   }
 
   &__list &__item {
     cursor: pointer;
-    max-width: 70px;
+    width: 70px;
+    flex-shrink: 0;
+    min-height: max-content;
 
     @media ($viewport-10) {
-      max-width: 140px;
+      width: 140px;
     }
   }
 }
