@@ -173,6 +173,7 @@ const {
   const response = await heseya.Products.get({
     ...props.queryParams,
     ...route.query,
+    sets: props.sets,
     page,
     sort: sort.value,
     limit: perPage.value,
@@ -187,6 +188,11 @@ watch(
 
 watch(
   () => route.query,
+  () => refresh(),
+)
+
+watch(
+  () => props.sets,
   () => refresh(),
 )
 
