@@ -56,8 +56,8 @@ const props = withDefaults(
   {
     media: null,
     alt: '',
-    objectFit: 'cover',
-    objectPosition: 'top',
+    objectFit: 'contain',
+    objectPosition: 'center',
     width: undefined,
     height: undefined,
     autoplay: true,

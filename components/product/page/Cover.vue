@@ -76,6 +76,7 @@ const openBigGallery = () => (isBigGalleryOpen.value = true)
   &__item {
     border: solid 1px $gray-color-300;
     cursor: pointer;
+    aspect-ratio: 1/1;
   }
 }
 </style>

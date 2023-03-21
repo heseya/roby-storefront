@@ -50,7 +50,6 @@ const productSubtext = computed(() => {
   &__header {
     max-width: 200px;
     max-height: 200px;
-    padding: 4px;
     border: solid 1px $gray-color-300;
     position: relative;
   }
@@ -73,7 +72,10 @@ const productSubtext = computed(() => {
   }
 
   &__cover {
+    display: block;
     min-height: 200px;
+    aspect-ratio: 1/1;
+    padding: 4px;
   }
 
   &__name {
