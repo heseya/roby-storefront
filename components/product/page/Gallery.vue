@@ -30,60 +30,6 @@
         height="164"
         @click="setActive(m)"
       />
-      <Media
-        v-for="m in media"
-        :key="m.id"
-        class="product-gallery__item"
-        :media="m"
-        width="164"
-        height="164"
-        @click="setActive(m)"
-      />
-      <Media
-        v-for="m in media"
-        :key="m.id"
-        class="product-gallery__item"
-        :media="m"
-        width="164"
-        height="164"
-        @click="setActive(m)"
-      />
-      <Media
-        v-for="m in media"
-        :key="m.id"
-        class="product-gallery__item"
-        :media="m"
-        width="164"
-        height="164"
-        @click="setActive(m)"
-      />
-      <Media
-        v-for="m in media"
-        :key="m.id"
-        class="product-gallery__item"
-        :media="m"
-        width="164"
-        height="164"
-        @click="setActive(m)"
-      />
-      <Media
-        v-for="m in media"
-        :key="m.id"
-        class="product-gallery__item"
-        :media="m"
-        width="164"
-        height="164"
-        @click="setActive(m)"
-      />
-      <Media
-        v-for="m in media"
-        :key="m.id"
-        class="product-gallery__item"
-        :media="m"
-        width="164"
-        height="164"
-        @click="setActive(m)"
-      />
     </div>
   </div>
 </template>
@@ -211,6 +157,7 @@ $btn-position-desktop: 48px;
   &__main {
     width: 100%;
     max-width: 70vh;
+    aspect-ratio: 1/1;
   }
 
   &__item {
@@ -229,6 +176,7 @@ $btn-position-desktop: 48px;
     width: 70px;
     flex-shrink: 0;
     min-height: max-content;
+    aspect-ratio: 1/1;
 
     @media ($viewport-10) {
       width: 140px;
