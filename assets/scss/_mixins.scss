@@ -1,0 +1,16 @@
+@mixin background-image-basic{
+  background-color: $gray-color-600;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+@mixin flex-row{
+  display: flex;
+  flex-direction: row;
+}
+
+@mixin flex-column{
+  display: flex;
+  flex-direction: column;
+}

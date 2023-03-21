@@ -2,12 +2,26 @@
   <div class="index-page">
     <div>
       <h1 class="index-page__title">{{ t('home.title') }}</h1>
+      <br />
+      <PaginationPerPageSelect v-model="perPage" />
+      <br />
+      <Pagination :current="currentPage" :total="totalPages" @go="(v) => (currentPage = v)" />
+      <br />
+      <ProductMiniature
+        v-for="product in products?.data || []"
+        :key="product.id"
+        :product="product"
+        style="margin-bottom: 80px"
+      />
+      <br />
       <HomeLinkBox
         text="ZAPYTAJ O WYNAJEM"
         background-src="https://***REMOVED***.pl/wp-content/uploads/2017/06/dummy-wood-title.jpg"
         link="rent"
         link-text="Zapytaj"
       />
+      <br />
+      <HomeBanner />
     </div>
   </div>
 </template>
