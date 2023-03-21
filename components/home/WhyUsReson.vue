@@ -1,6 +1,6 @@
 <template>
   <div class="reason">
-    <div class="reason__icon--background">
+    <div class="reason__icon-container">
       <component class="reason__icon" :is="icon" />
     </div>
     <span class="reason__title">{{ title }}</span>
@@ -9,8 +9,7 @@
 </template>
 
 <script lang="ts" setup>
-// import ChevronRight from '@/assets/icons/chevron.svg?component'
-import { FunctionalComponent } from '@vue/runtime-dom'
+import { FunctionalComponent } from 'vue'
 
 export interface ReasonProps {
   title: string
@@ -22,17 +21,6 @@ defineProps<ReasonProps>()
 </script>
 
 <style lang="scss" scoped>
-.tmp {
-  flex-shrink: 0;
-  width: 34px;
-  height: 34px;
-
-  svg {
-    width: 34px;
-    height: 34px;
-  }
-}
-
 .reason {
   display: flex;
   flex-direction: column;
@@ -49,17 +37,17 @@ defineProps<ReasonProps>()
 
   &__icon {
     color: $primary-color;
+  }
 
-    &--background {
-      display: flex;
-      justify-content: center;
-      align-items: center;
+  &__icon-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-      height: 68px;
-      width: 68px;
-      border-radius: 50%;
-      background-color: $unnamed-color-f9eae8;
-    }
+    height: 68px;
+    width: 68px;
+    border-radius: 50%;
+    background-color: $unnamed-color-f9eae8;
   }
 }
 </style>
