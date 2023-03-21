@@ -2,14 +2,9 @@
   <nuxt-link :to="localePath(`/product/${product.slug}`)" class="product-miniature">
     <div class="product-miniature__header">
       <div class="product-miniature__tags">
-        <div
-          v-for="tag in product.tags"
-          :key="tag.id"
-          class="product-miniature__tag"
-          :style="{ backgroundColor: `#${tag.color}` }"
-        >
+        <ProductTag v-for="tag in product.tags" :key="tag.id" :color="`#${tag.color}`">
           {{ tag.name }}
-        </div>
+        </ProductTag>
       </div>
 
       <Media :media="product.cover" width="200" height="200" class="product-miniature__cover" />
@@ -61,14 +56,6 @@ const productSubtext = computed(() => {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-  }
-
-  &__tag {
-    background-color: var(--secondary-color);
-    padding: 2px 9px;
-    font-size: rem(10);
-    text-transform: uppercase;
-    margin-bottom: 3px;
   }
 
   &__cover {

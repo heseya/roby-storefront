@@ -1,18 +1,18 @@
 <template>
   <button :class="[`btn`, `btn--${variant}`]">
-    {{ label }}
+    <slot>{{ label }}</slot>
   </button>
 </template>
 
 <script lang="ts" setup>
-type ButtonVariant = 'primary' | 'secondary'
+type ButtonVariant = 'primary' | 'secondary' | 'white'
 
 withDefaults(
   defineProps<{
-    label: string
+    label?: string
     variant?: ButtonVariant
   }>(),
-  { variant: 'primary' },
+  { variant: 'primary', label: '' },
 )
 </script>
 
@@ -45,6 +45,17 @@ withDefaults(
     &:hover {
       background-color: $gray-color-300;
       cursor: pointer;
+    }
+  }
+
+  &--white {
+    color: $text-color;
+    background-color: #fff;
+    cursor: pointer;
+    border: solid 1px $gray-color-300;
+
+    &:hover {
+      background-color: $gray-color-300;
     }
   }
 }
