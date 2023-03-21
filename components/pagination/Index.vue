@@ -31,6 +31,7 @@
       <div v-if="current + pagesPadding < total - 1" class="pagination__text">...</div>
 
       <button
+        v-if="total !== 1"
         :class="['pagination__button', { 'pagination__button--active': total === current }]"
         @click="last"
       >
@@ -65,7 +66,7 @@
 {
   "pl": {
     "next": "Następna",
-    "previous": "Poprzednia"
+    "prev": "Poprzednia"
   }
 }
 </i18n>

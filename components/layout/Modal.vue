@@ -47,6 +47,7 @@ watch(
     window.document.body.classList.remove(NO_SCROLL_CLASS)
   },
 )
+onKeyStroke('Escape', () => close())
 </script>
 
 <style lang="scss" scoped>

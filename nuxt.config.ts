@@ -27,7 +27,7 @@ export default defineNuxtConfig({
         { rel: 'preconnect', href: 'https://fonts.gstatic.com' },
         {
           rel: 'stylesheet',
-          href: 'https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap',
+          href: 'https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap',
         },
       ],
     },
@@ -42,11 +42,12 @@ export default defineNuxtConfig({
     },
   },
 
-  modules: ['@pinia/nuxt', '@pinia-plugin-persistedstate/nuxt', '@nuxtjs/i18n'],
+  modules: ['@pinia/nuxt', '@pinia-plugin-persistedstate/nuxt', '@nuxtjs/i18n', '@vueuse/nuxt'],
 
   i18n: {
-    locales: ['pl'],
+    locales: [{ code: 'pl', iso: 'pl-PL', file: 'pl.ts' }],
     defaultLocale: 'pl',
+    langDir: 'lang',
     strategy: 'prefix_except_default',
   },
 

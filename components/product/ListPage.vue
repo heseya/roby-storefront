@@ -3,28 +3,35 @@
     <LayoutLoading :active="pending" />
 
     <header class="product-list-page__header">
-      <h1 class="h3 h3--smaller product-list-page__title">
+      <h1 class="product-list-page__title">
         {{ title }}
         <span class="product-list-page__quantity"> ({{ products?.pagination.total }}) </span>
       </h1>
 
       <div class="product-list-page__header-content">
-        <button
-          v-if="isAsideSection"
-          class="product-list-page__aside-btn"
-          @click="isAsideOpen = true"
-        >
+        <button class="product-list-page__aside-btn" @click="isAsideOpen = true">
           {{ asideOpenText || t('openAside') }}
         </button>
+
+        <ProductSortSelect
+          hide-label
+          :model-value="sort"
+          @update:model-value="(newSort) => changeRouteQuery({ sort: newSort })"
+        />
       </div>
     </header>
 
-    <div
-      class="product-list-page__content"
-      :class="{ 'product-list-page__content--no-aside': !isAsideSection }"
-    >
-      <aside v-if="isAsideSection" class="product-list-page__aside">
+    <div class="product-list-page__content">
+      <aside class="product-list-page__aside">
         <slot name="aside"></slot>
+
+        <hr v-if="isAsideSection" />
+
+        <ProductFilters
+          :filters="route.query"
+          :sets="sets"
+          @update:filters="(query) => changeRouteQuery(query)"
+        />
       </aside>
 
       <div v-if="products?.data.length">
@@ -36,13 +43,13 @@
           <PaginationPerPageSelect
             :model-value="perPage"
             class="product-list-page__per-page-select"
-            @update:model-value="(quantity) => changeRouteQuery('per_page', quantity)"
+            @update:model-value="(quantity) => changeRouteQuery({ per_page: quantity })"
           />
           <Pagination
             class="product-list-page__pagination"
             :current="products?.pagination.currentPage"
             :total="products?.pagination.lastPage"
-            @go="(page) => changeRouteQuery('page', page)"
+            @go="(page) => changeRouteQuery({ page })"
           />
         </div>
       </div>
@@ -57,11 +64,18 @@
         </main>
       </template>
 
-      <LayoutEmpty v-else> Nie znaleziono produktów spełniających podane kryteria </LayoutEmpty>
+      <LayoutEmpty v-else> {{ t('empty') }} </LayoutEmpty>
     </div>
 
     <LayoutModal v-model:open="isAsideOpen" class="product-list-page__aside-modal">
-      <slot name="aside"></slot>
+      <div class="product-list-page__aside-modal-content">
+        <ProductFilters
+          hide-sort
+          :sets="sets"
+          :filters="route.query"
+          @update:filters="(query) => changeRouteQuery(query)"
+        />
+      </div>
     </LayoutModal>
   </div>
 </template>
@@ -69,7 +83,8 @@
 <i18n lang="json">
 {
   "pl": {
-    "openAside": "Rozwiń filtry"
+    "openAside": "Rozwiń filtry",
+    "empty": "Nie znaleziono produktów spełniających podane kryteria"
   }
 }
 </i18n>
@@ -92,12 +107,14 @@ const props = withDefaults(
     asideOpenText?: string
     queryParams?: Record<string, any>
     defaultSort?: string
+    sets?: string[]
   }>(),
   {
     title: '',
     asideOpenText: '',
     queryParams: () => ({}),
     defaultSort: undefined,
+    sets: () => [],
   },
 )
 
@@ -120,11 +137,28 @@ const emitViewEvent = () => {
   })
 }
 
-const changeRouteQuery = (key: string, value: any) => {
+const changeRouteQuery = (query: Record<string, any>) => {
+  const transformValue = (
+    v: string | any[] | number | undefined,
+  ): undefined | string | string[] => {
+    if (!v) return undefined
+    if (Array.isArray(v)) return v.map((i) => String(i))
+    return String(v)
+  }
+
   router.push({
     name: route.name!,
     params: route.params,
-    query: { ...route.query, [key]: value !== undefined ? String(value) : undefined },
+    query: {
+      ...route.query,
+      ...Object.entries(query).reduce(
+        (acc, [key, value]) => ({
+          ...acc,
+          [key]: transformValue(value),
+        }),
+        {} as Record<string, any>,
+      ),
+    },
   })
 }
 
@@ -169,7 +203,7 @@ onBeforeMount(() => {
   // If current page is out of scope, redirect to the first page
   const page = Number(route.query.page ?? 1)
   if (page < 1 || page > (products.value?.pagination.lastPage || Infinity)) {
-    changeRouteQuery('page', 1)
+    changeRouteQuery({ page: 1 })
   }
 })
 
@@ -192,11 +226,6 @@ onMounted(() => emitViewEvent())
 
     @media ($viewport-10) {
       grid-template-columns: minmax(auto, 300px) 1fr;
-    }
-
-    &--no-aside {
-      grid-template-columns: 1fr;
-      grid-gap: 0;
     }
   }
 
@@ -225,6 +254,10 @@ onMounted(() => emitViewEvent())
     grid-template-columns: 1fr 1fr;
     grid-gap: 9px;
     margin-top: 14px;
+
+    @media ($viewport-6) {
+      display: none;
+    }
   }
 
   &__quantity {
@@ -258,6 +291,10 @@ onMounted(() => emitViewEvent())
     @media ($viewport-6) {
       display: none;
     }
+  }
+
+  &__aside-modal-content {
+    padding: 24px;
   }
 
   &__grid {
