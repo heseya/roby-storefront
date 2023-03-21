@@ -1,0 +1,113 @@
+<template>
+  <div
+    class="product-purchase-panel"
+    :class="{ 'product-purchase-panel--no-schemas': !product.has_schemas }"
+  >
+    <ProductPrice :product="product" class="product-purchase-panel__price" />
+    <ProductPageOmnibus class="product-purchase-panel__omnibus" />
+
+    <div v-if="product.has_schemas" class="product-purchase-panel__schemas">Schemas</div>
+
+    <FormSelect v-model="quantity" name="quantity" class="product-purchase-panel__quantity">
+      <option v-for="q in 10" :key="q" :value="q">{{ q }}</option>
+    </FormSelect>
+    <LayoutButton class="product-purchase-panel__cart-btn">Dodaj do koszyka</LayoutButton>
+    <LayoutButton variant="gray" class="product-purchase-panel__lease-btn">
+      Zapytaj o leasing
+    </LayoutButton>
+
+    <div class="product-purchase-panel__detail">
+      <DeliveryIcon /> Produkt dostępny na zamówienie
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { Product } from '@heseya/store-core'
+
+import DeliveryIcon from '@/assets/icons/delivery.svg?component'
+
+const props = withDefaults(
+  defineProps<{
+    product: Product
+  }>(),
+  {},
+)
+
+const quantity = ref(1)
+</script>
+
+<style lang="scss" scoped>
+.product-purchase-panel {
+  display: grid;
+  align-items: center;
+  align-items: center;
+  grid-template-columns: 80px 1fr;
+  grid-gap: 16px;
+  grid-template-areas: 'schemas schemas' 'quantity price' 'omnibus omnibus' 'cart-btn cart-btn' 'lease-btn lease-btn' 'details details';
+
+  @media ($viewport-6) {
+    grid-template-columns: 80px 1fr 1fr;
+    justify-content: strech;
+    justify-content: stretch;
+    grid-template-areas: 'price price price' 'omnibus omnibus omnibus' 'schemas schemas schemas' 'quantity cart-btn lease-btn' 'details details details';
+  }
+
+  &--no-schemas {
+    grid-template-areas: 'quantity price' 'omnibus omnibus' 'cart-btn cart-btn' 'lease-btn lease-btn' 'details details';
+
+    @media ($viewport-6) {
+      grid-template-areas: 'price price price' 'omnibus omnibus omnibus' 'quantity cart-btn lease-btn' 'details details details';
+    }
+  }
+
+  :deep(.btn) {
+    font-weight: 500;
+    min-height: 40px;
+  }
+
+  &__price {
+    font-size: rem(20);
+    font-weight: 600;
+    grid-area: price;
+
+    @media ($viewport-5) {
+      font-size: rem(26);
+    }
+  }
+
+  &__omnibus {
+    grid-area: omnibus;
+  }
+
+  &__quantity {
+    grid-area: quantity;
+  }
+
+  &__cart-btn {
+    grid-area: cart-btn;
+  }
+
+  &__lease-btn {
+    grid-area: lease-btn;
+  }
+
+  &__detail {
+    font-weight: 500;
+    grid-area: details;
+    display: flex;
+    align-items: center;
+
+    > svg {
+      color: $gray-color-600;
+      margin-right: 8px;
+    }
+  }
+
+  &__schemas {
+    background-color: #fff;
+    padding: 8px;
+    grid-area: schemas;
+  }
+}
+</style>

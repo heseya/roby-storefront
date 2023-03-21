@@ -26,7 +26,7 @@
             { key: 'renting', label: t('tabs.renting') },
           ]"
         >
-          <template #buy> Kup se teraz </template>
+          <template #buy> <ProductPagePurchasePanel v-if="product" :product="product" /> </template>
           <template #renting> Wynajmij se teraz </template>
         </LayoutTabs>
       </div>

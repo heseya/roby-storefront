@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts" setup>
-type ButtonVariant = 'primary' | 'secondary' | 'white'
+type ButtonVariant = 'primary' | 'secondary' | 'white' | 'gray'
 
 withDefaults(
   defineProps<{
@@ -21,12 +21,12 @@ withDefaults(
   padding: 0;
   outline: none;
   border: none;
-  height: 32px;
-  width: 200px;
+  padding: 8px 16px;
   border-radius: 4px;
   font-family: $textFont;
   font-size: rem(14);
   transition: background-color 200ms ease-in-out;
+  cursor: pointer;
 
   &--primary {
     color: $white-color;
@@ -34,7 +34,6 @@ withDefaults(
 
     &:hover {
       background-color: $gray-color-300;
-      cursor: pointer;
     }
   }
 
@@ -44,7 +43,6 @@ withDefaults(
 
     &:hover {
       background-color: $gray-color-300;
-      cursor: pointer;
     }
   }
 
@@ -56,6 +54,15 @@ withDefaults(
 
     &:hover {
       background-color: $gray-color-300;
+    }
+  }
+
+  &--gray {
+    color: $text-color;
+    background-color: $gray-color-300;
+
+    &:hover {
+      background-color: $gray-color-400;
     }
   }
 }
