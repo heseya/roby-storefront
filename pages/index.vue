@@ -22,6 +22,8 @@
       />
       <br />
       <HomeBanner />
+      <br />
+      <HomeCarousel />
     </div>
   </div>
 </template>
