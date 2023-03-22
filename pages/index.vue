@@ -23,6 +23,8 @@
       <br />
       <HomeBanner />
       <br />
+      <HomeWhyUs />
+      <br />
       <div style="width: 80vw">
         <HomeCarousel :title="t('home.ourPartners')" :imageArr="imageArr" />
       </div>
