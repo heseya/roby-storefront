@@ -39,16 +39,15 @@ const slider = ref() as Ref<HTMLDivElement>
 
 const handleNext = () => {
   if (slider.value) {
-    const width = slider.value.clientWidth
-    const scrollWidth = slider.value.scrollWidth
+    const { clientWidth, scrollWidth } = slider.value
     const scrollPosition = slider.value.scrollLeft + 210
     slider.value.scrollLeft = scrollPosition
 
-    if (scrollPosition >= 200) {
+    if (scrollPosition >= 200 && scrollWidth > clientWidth) {
       hidePrev.value = false
     }
 
-    if (scrollPosition + width >= scrollWidth - 50) {
+    if (scrollPosition + clientWidth >= scrollWidth - 50) {
       hideNext.value = true
     }
   }
@@ -66,6 +65,18 @@ const handlePrev = () => {
   }
 }
 
+const checkWidth = () => {
+  const { clientWidth, scrollWidth } = slider.value
+
+  if (scrollWidth === clientWidth) {
+    hideNext.value = true
+  }
+}
+
+watch(
+  () => slider.value,
+  () => checkWidth(),
+)
 defineProps<{
   title: string
   imageArr: ImageSrc[]
@@ -80,7 +91,7 @@ defineProps<{
 .carousel {
   @include flex-column;
   gap: 22px;
-  width: 80vw;
+  width: 100%;
 
   &__slider {
     position: relative;
