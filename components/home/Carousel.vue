@@ -1,6 +1,6 @@
 <template>
   <div class="carousel">
-    <LayoutHeader class="carousel__title" variant="black">{{ t('ourPartners') }}</LayoutHeader>
+    <LayoutHeader class="carousel__title" variant="black">{{ title }}</LayoutHeader>
     <div class="carousel__slider">
       <button
         class="carousel__button carousel__button--prev"
@@ -25,48 +25,13 @@
   </div>
 </template>
 
-<i18n lang="json">
-{
-  "pl": {
-    "ourPartners": "Nasi partnerzy"
-  }
-}
-</i18n>
-
 <script lang="ts" setup>
 import ArrowNext from '@/assets/icons/arrow-next.svg?component'
 
-interface ImageSrc {
+export interface ImageSrc {
   src: string
   alt: string
 }
-
-const imageArr: ImageSrc[] = [
-  {
-    src: 'https://***REMOVED***.pl/wp-content/uploads/2021/08/Logo-HSM-Niszczarki.svg',
-    alt: 'hsm',
-  },
-  {
-    src: 'https://***REMOVED***.pl/wp-content/uploads/2021/08/Logo-Sharp-Kserokopiarki-Drukarki.svg',
-    alt: 'sharp',
-  },
-  {
-    src: 'https://***REMOVED***.pl/wp-content/uploads/2021/08/Logo-Sharp-Kserokopiarki-Drukarki.svg',
-    alt: 'sharp',
-  },
-  {
-    src: 'https://***REMOVED***.pl/wp-content/uploads/2021/08/Logo-Sharp-Kserokopiarki-Drukarki.svg',
-    alt: 'sharp',
-  },
-  {
-    src: 'https://***REMOVED***.pl/wp-content/uploads/2021/08/Logo-Sharp-Kserokopiarki-Drukarki.svg',
-    alt: 'sharp',
-  },
-  {
-    src: 'https://***REMOVED***.pl/wp-content/uploads/2021/08/Logo-HSM-Niszczarki.svg',
-    alt: 'hsm',
-  },
-]
 
 const hidePrev = ref(true)
 const hideNext = ref(false)
@@ -100,6 +65,11 @@ const handlePrev = () => {
     hideNext.value = false
   }
 }
+
+defineProps<{
+  title: string
+  imageArr: ImageSrc[]
+}>()
 </script>
 
 <style lang="scss" scoped>

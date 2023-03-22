@@ -23,7 +23,9 @@
       <br />
       <HomeBanner />
       <br />
-      <HomeCarousel />
+      <div style="width: 80vw">
+        <HomeCarousel :title="t('home.ourPartners')" :imageArr="imageArr" />
+      </div>
     </div>
   </div>
 </template>
@@ -32,16 +34,46 @@
 {
   "pl": {
     "home": {
-      "title": "***REMOVED***"
+      "title": "***REMOVED***",
+      "ourPartners": "Nasi partnerzy"
     }
   }
 }
 </i18n>
 
 <script setup lang="ts">
+import { ImageSrc } from '~/components/home/Carousel.vue'
+
 const { t } = useI18n({
   useScope: 'local',
 })
+
+const imageArr: ImageSrc[] = [
+  {
+    src: 'https://***REMOVED***.pl/wp-content/uploads/2021/08/Logo-HSM-Niszczarki.svg',
+    alt: 'hsm',
+  },
+  {
+    src: 'https://***REMOVED***.pl/wp-content/uploads/2021/08/Logo-Sharp-Kserokopiarki-Drukarki.svg',
+    alt: 'sharp',
+  },
+  {
+    src: 'https://***REMOVED***.pl/wp-content/uploads/2021/08/Logo-Sharp-Kserokopiarki-Drukarki.svg',
+    alt: 'sharp',
+  },
+  {
+    src: 'https://***REMOVED***.pl/wp-content/uploads/2021/08/Logo-Sharp-Kserokopiarki-Drukarki.svg',
+    alt: 'sharp',
+  },
+  {
+    src: 'https://***REMOVED***.pl/wp-content/uploads/2021/08/Logo-Sharp-Kserokopiarki-Drukarki.svg',
+    alt: 'sharp',
+  },
+  {
+    src: 'https://***REMOVED***.pl/wp-content/uploads/2021/08/Logo-HSM-Niszczarki.svg',
+    alt: 'hsm',
+  },
+]
 </script>
 
 <style lang="scss" scoped>
