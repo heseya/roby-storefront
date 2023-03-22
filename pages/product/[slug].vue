@@ -27,7 +27,13 @@
           ]"
         >
           <template #buy> <ProductPagePurchasePanel v-if="product" :product="product" /> </template>
-          <template #renting> TODO: wynajem </template>
+          <template #renting>
+            <ProductPageContactForm
+              v-if="product"
+              :product-id="product?.id"
+              :action-text="t('tabs.renting')"
+            />
+          </template>
         </LayoutTabs>
       </div>
     </div>

@@ -11,8 +11,9 @@ withDefaults(
   defineProps<{
     label?: string
     variant?: ButtonVariant
+    htmlType?: 'button' | 'submit' | 'reset'
   }>(),
-  { variant: 'primary', label: '' },
+  { variant: 'primary', label: '', htmlType: 'button' },
 )
 </script>
 
