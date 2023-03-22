@@ -11,7 +11,7 @@
         />
 
         <h1 class="product-header__title">{{ product?.name }}</h1>
-        <span class="product-header__subtitle"> Canon </span>
+        <span class="product-header__subtitle"> {{ productSubtext }} </span>
         <div class="product-header__sales">
           <ProductTag v-for="sale in product?.sales || []" :key="sale.id" type="sale">
             {{ sale.name }}
@@ -27,7 +27,7 @@
           ]"
         >
           <template #buy> <ProductPagePurchasePanel v-if="product" :product="product" /> </template>
-          <template #renting> Wynajmij se teraz </template>
+          <template #renting> TODO: wynajem </template>
         </LayoutTabs>
       </div>
     </div>
@@ -63,6 +63,8 @@
 </i18n>
 
 <script setup lang="ts">
+import { PRODUCT_SUBTEXT_ATTRIBUTE_NAME } from '@/consts/subtextAttribute'
+
 const heseya = useHeseya()
 const route = useRoute()
 const t = useLocalI18n()
@@ -75,6 +77,12 @@ const { data: product } = useAsyncData('product', async () => {
     else showError({ message: e.statusCode, statusCode: 500 })
     return null
   }
+})
+
+const productSubtext = computed(() => {
+  // TODO: do not attribute from fixed string
+  return product.value?.attributes.find((a) => a.name === PRODUCT_SUBTEXT_ATTRIBUTE_NAME)
+    ?.selected_options[0]?.name
 })
 </script>
 

@@ -20,6 +20,7 @@
 
 <script lang="ts" setup>
 import { ProductList } from '@heseya/store-core'
+import { PRODUCT_SUBTEXT_ATTRIBUTE_NAME } from '~~/consts/subtextAttribute'
 
 const localePath = useLocalePath()
 
@@ -28,8 +29,9 @@ const props = defineProps<{
 }>()
 
 const productSubtext = computed(() => {
-  // TODO: from where should we get this?
-  return props.product.metadata.brand || 'Canon'
+  // TODO: do not attribute from fixed string
+  return props.product?.attributes.find((a) => a.name === PRODUCT_SUBTEXT_ATTRIBUTE_NAME)
+    ?.selected_options[0]?.name
 })
 </script>
 
