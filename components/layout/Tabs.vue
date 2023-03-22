@@ -26,7 +26,7 @@ interface Tab {
 const props = withDefaults(
   defineProps<{
     tabs: Tab[]
-    type: 'default' | 'gray'
+    type?: 'default' | 'gray'
   }>(),
   {
     type: 'default',

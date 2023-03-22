@@ -41,7 +41,22 @@
         { key: 'serviceAndApps', label: t('tabs.serviceAndApps') },
       ]"
     >
-      <template #description> TODO opis </template>
+      <template #description>
+        <div class="product-page__description-wrapper">
+          <BaseWysiwygContent :content="product?.description_html" />
+
+          <ProductPageAttributeCard v-if="product" :product="product" />
+        </div>
+      </template>
+      <template #additionalInfo>
+        <BaseWysiwygContent :content="product?.description_html" />
+      </template>
+      <template #paperAndInk>
+        <BaseWysiwygContent :content="product?.description_html" />
+      </template>
+      <template #serviceAndApps>
+        <BaseWysiwygContent :content="product?.description_html" />
+      </template>
     </LayoutTabs>
   </div>
 </template>
@@ -98,6 +113,20 @@ const productSubtext = computed(() => {
 
   &__main {
     margin-top: 38px;
+  }
+
+  &__description-wrapper {
+    display: flex;
+    gap: 16px;
+    flex-direction: column-reverse;
+
+    @media ($viewport-8) {
+      flex-direction: row;
+    }
+
+    > * {
+      width: 100%;
+    }
   }
 }
 
