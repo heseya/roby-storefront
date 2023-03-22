@@ -43,6 +43,11 @@
     >
       <template #description> TODO opis </template>
     </LayoutTabs>
+
+    <h2 class="primary-text">Aktualne promocje</h2>
+    <div class="product-page__sales">
+      <LazyProductPageSale v-for="sale in product?.sales || []" :key="sale.id" :sale="sale" />
+    </div>
   </div>
 </template>
 
@@ -98,6 +103,15 @@ const productSubtext = computed(() => {
 
   &__main {
     margin-top: 38px;
+  }
+
+  &__sales {
+    display: flex;
+    gap: 16px;
+    margin-top: 16px;
+    width: 100%;
+    overflow: auto;
+    padding-bottom: 8px;
   }
 }
 
