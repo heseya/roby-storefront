@@ -24,6 +24,8 @@
       <HomeBanner />
       <br />
       <HomeWhyUs />
+      <br />
+      <HomeNavBar />
     </div>
   </div>
 </template>
