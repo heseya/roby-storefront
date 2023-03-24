@@ -48,7 +48,7 @@ withDefaults(
 
   &--white {
     color: $text-color;
-    background-color: #fff;
+    background-color: $white-color;
     cursor: pointer;
     border: solid 1px $gray-color-300;
 
