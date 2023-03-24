@@ -9,9 +9,7 @@
 
     <div v-if="product.has_schemas" class="product-purchase-panel__schemas">TODO Schemas</div>
 
-    <FormSelect v-model="quantity" name="quantity" class="product-purchase-panel__quantity">
-      <option v-for="q in 10" :key="q" :value="q">{{ q }}</option>
-    </FormSelect>
+    <ProductQuantityInput v-model:quantity="quantity" class="product-purchase-panel__quantity" />
 
     <LayoutButton class="product-purchase-panel__cart-btn" @click="addToCart">
       {{ t('actions.addToCart') }}

@@ -5,17 +5,14 @@
     <div class="cart-item__content">
       <div class="cart-item__name">{{ item.name }}</div>
 
-      <div class="cart-item__quantity">
-        Ilość
-        <FormSelect name="quantity" :model-value="item.qty">
-          <option :value="1">1</option>
-          <option :value="2">2</option>
-          <option :value="3">3</option>
-          <option :value="4">4</option>
-        </FormSelect>
-      </div>
+      <ProductQuantityInput show-label class="cart-item__quantity" :quantity="item.qty" />
 
-      <div class="cart-item__price">{{ formatAmount(item.price) }}</div>
+      <div class="cart-item__price">
+        <span v-if="item.totalInitialPrice !== item.totalPrice" class="cart-item__price-initial">
+          {{ formatAmount(item.totalInitialPrice) }}
+        </span>
+        <span class="cart-item__price-current">{{ formatAmount(item.totalPrice) }}</span>
+      </div>
     </div>
 
     <div class="cart-item__actions">
@@ -72,18 +69,27 @@ defineProps<{
   }
 
   &__quantity {
-    display: flex;
-    align-items: center;
-    gap: 11px;
   }
 
   &__price {
-    font-weight: 600;
     font-size: rem(16);
 
     @media ($viewport-8) {
       margin-left: auto;
     }
+  }
+
+  &__price-initial {
+    text-decoration: line-through;
+    margin-right: 8px;
+  }
+
+  &__price-current {
+    font-weight: 600;
+  }
+
+  &__price-initial + &__price-current {
+    color: var(--primary-color);
   }
 
   &__btn {

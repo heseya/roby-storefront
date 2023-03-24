@@ -10,15 +10,27 @@ export const useCartStore = defineStore('cart', {
           type: 'photo',
         },
         qty: 1,
+        totalQty: 1,
         name: 'imagePROGRAF TC-20',
-        price: 3899,
+        totalPrice: 3799,
+        totalInitialPrice: 3999,
+        discountValue: 200,
       } as any,
     ] as CartItem[],
   }),
 
   getters: {
     length(): number {
-      return this.items.length
+      return this.items.reduce((total, item) => total + item.totalQty, 0)
+    },
+    totalValue(): number {
+      return this.items.reduce((acc, curr) => acc + curr.totalPrice, 0)
+    },
+    totalValueInitial(): number {
+      return this.items.reduce((acc, curr) => acc + curr.totalInitialPrice, 0)
+    },
+    discountValue(): number {
+      return this.totalValueInitial - this.totalValue
     },
   },
 })
