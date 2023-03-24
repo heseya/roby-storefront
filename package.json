@@ -13,6 +13,8 @@
     "@heseya/store-vue": "^3.0.0",
     "@pinia-plugin-persistedstate/nuxt": "1.0.0",
     "@pinia/nuxt": "^0.4.7",
+    "@vee-validate/i18n": "^4.8.3",
+    "@vee-validate/rules": "^4.8.3",
     "@vueuse/core": "^9.13.0",
     "@vueuse/nuxt": "^9.13.0",
     "axios": "^1.3.4",

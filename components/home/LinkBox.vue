@@ -2,7 +2,7 @@
   <div class="link-box" :style="{ backgroundImage: `url(${backgroundSrc})` }">
     <LayoutHeader>{{ text }}</LayoutHeader>
     <nuxt-link :to="link">
-      <LayoutButton :label="linkText" variant="secondary" />
+      <LayoutButton class="link-box__btn" :label="linkText" variant="secondary" />
     </nuxt-link>
   </div>
 </template>
@@ -25,6 +25,10 @@ defineProps<{
   justify-content: center;
   align-items: center;
   gap: 14px;
+
+  &__btn {
+    width: 200px;
+  }
 
   @include background-image-basic;
 }

@@ -6,6 +6,7 @@ html {
   font-family: $textFont;
   color: $text-color;
   font-size: $base-font-size;
+  line-height: rem(19);
   word-spacing: 1px;
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
@@ -36,4 +37,17 @@ hr {
   border: none;
   border-top: 1px solid $gray-color-400;
   margin: 25px 0;
+}
+
+h2 {
+  font-size: rem(20);
+  line-height: rem(26);
+  font-weight: 500;
+}
+
+.primary-text {
+  color: var(--primary-color);
+}
+.secondary-text {
+  color: var(--secondary-color);
 }

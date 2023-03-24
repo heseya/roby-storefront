@@ -2,14 +2,9 @@
   <nuxt-link :to="localePath(`/product/${product.slug}`)" class="product-miniature">
     <div class="product-miniature__header">
       <div class="product-miniature__tags">
-        <div
-          v-for="tag in product.tags"
-          :key="tag.id"
-          class="product-miniature__tag"
-          :style="{ backgroundColor: `#${tag.color}` }"
-        >
+        <ProductTag v-for="tag in product.tags" :key="tag.id" :color="`#${tag.color}`">
           {{ tag.name }}
-        </div>
+        </ProductTag>
       </div>
 
       <Media :media="product.cover" width="200" height="200" class="product-miniature__cover" />
@@ -25,6 +20,7 @@
 
 <script lang="ts" setup>
 import { ProductList } from '@heseya/store-core'
+import { PRODUCT_SUBTEXT_ATTRIBUTE_NAME } from '~~/consts/subtextAttribute'
 
 const localePath = useLocalePath()
 
@@ -33,8 +29,9 @@ const props = defineProps<{
 }>()
 
 const productSubtext = computed(() => {
-  // TODO: from where should we get this?
-  return props.product.metadata.brand || 'Canon'
+  // TODO: do not attribute from fixed string
+  return props.product?.attributes.find((a) => a.name === PRODUCT_SUBTEXT_ATTRIBUTE_NAME)
+    ?.selected_options[0]?.name
 })
 </script>
 
@@ -61,14 +58,6 @@ const productSubtext = computed(() => {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-  }
-
-  &__tag {
-    background-color: var(--secondary-color);
-    padding: 2px 9px;
-    font-size: rem(10);
-    text-transform: uppercase;
-    margin-bottom: 3px;
   }
 
   &__cover {
