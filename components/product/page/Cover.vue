@@ -1,5 +1,8 @@
 <template>
-  <div class="product-cover-gallery">
+  <div
+    class="product-cover-gallery"
+    :class="{ 'product-cover-gallery--singular': media.length < 2 }"
+  >
     <div class="product-cover-gallery__list">
       <Media
         v-for="image in shownImages"
@@ -77,6 +80,14 @@ const openBigGallery = () => (isBigGalleryOpen.value = true)
     border: solid 1px $gray-color-300;
     cursor: pointer;
     aspect-ratio: 1/1;
+  }
+
+  &--singular {
+    grid-template-columns: 1fr;
+  }
+
+  &--singular &__list {
+    display: none;
   }
 }
 </style>

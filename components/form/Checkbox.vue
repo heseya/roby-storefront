@@ -108,7 +108,7 @@ const checkboxValue = computed({
 
   &[disabled='true'] label::before {
     opacity: 0.6;
-    background-color: $gray-color-200;
+    background-color: $unnamed-color-f4f8fc;
     cursor: not-allowed;
   }
 
