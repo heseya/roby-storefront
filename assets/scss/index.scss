@@ -38,3 +38,16 @@ hr {
   border-top: 1px solid $gray-color-400;
   margin: 25px 0;
 }
+
+h2 {
+  font-size: rem(20);
+  line-height: rem(26);
+  font-weight: 500;
+}
+
+.primary-text {
+  color: var(--primary-color);
+}
+.secondary-text {
+  color: var(--secondary-color);
+}

@@ -22,6 +22,8 @@
       />
       <br />
       <HomeBanner />
+      <br />
+      <HomeWhyUs />
     </div>
   </div>
 </template>

@@ -9,11 +9,13 @@
         <slot name="text">{{ text }}</slot>
       </span>
     </label>
-    <span class="checkbox__error">{{ error }}</span>
+    <span class="checkbox__error">{{ errors[0] || error }}</span>
   </div>
 </template>
 
 <script setup lang="ts">
+import { useField } from 'vee-validate'
+
 const props = withDefaults(
   defineProps<{
     name: string
@@ -22,18 +24,22 @@ const props = withDefaults(
     modelValue: boolean
     disabled?: boolean
     error?: string
+    rules?: string
   }>(),
   {
     label: '',
     text: '',
     disabled: false,
     error: '',
+    rules: '',
   },
 )
 
 const emit = defineEmits<{
   (event: 'update:modelValue', value: boolean): void
 }>()
+
+const { errors } = useField(props.name, props.rules)
 
 const checkboxValue = computed({
   get() {
@@ -113,10 +119,10 @@ const checkboxValue = computed({
   }
 
   &__error {
-    font-size: 0.8rem;
+    font-size: rem(10);
     color: $error-color;
-    font-weight: 600;
-    padding-left: 34px;
+    padding-left: 24px;
+    font-weight: 500;
 
     &:empty {
       display: none;

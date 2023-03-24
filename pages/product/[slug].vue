@@ -27,7 +27,13 @@
           ]"
         >
           <template #buy> <ProductPagePurchasePanel v-if="product" :product="product" /> </template>
-          <template #renting> TODO: wynajem </template>
+          <template #renting>
+            <ProductPageContactForm
+              v-if="product"
+              :product-id="product?.id"
+              :action-text="t('tabs.renting')"
+            />
+          </template>
         </LayoutTabs>
       </div>
     </div>
@@ -58,6 +64,11 @@
         <BaseWysiwygContent :content="product?.description_html" />
       </template>
     </LayoutTabs>
+
+    <h2 class="primary-text">Aktualne promocje</h2>
+    <div class="product-page__sales">
+      <LazyProductPageSale v-for="sale in product?.sales || []" :key="sale.id" :sale="sale" />
+    </div>
   </div>
 </template>
 
@@ -127,6 +138,15 @@ const productSubtext = computed(() => {
     > * {
       width: 100%;
     }
+  }
+
+  &__sales {
+    display: flex;
+    gap: 16px;
+    margin-top: 16px;
+    width: 100%;
+    overflow: auto;
+    padding-bottom: 8px;
   }
 }
 

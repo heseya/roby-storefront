@@ -11,8 +11,9 @@ withDefaults(
   defineProps<{
     label?: string
     variant?: ButtonVariant
+    htmlType?: 'button' | 'submit' | 'reset'
   }>(),
-  { variant: 'primary', label: '' },
+  { variant: 'primary', label: '', htmlType: 'button' },
 )
 </script>
 
@@ -48,7 +49,7 @@ withDefaults(
 
   &--white {
     color: $text-color;
-    background-color: #fff;
+    background-color: $white-color;
     cursor: pointer;
     border: solid 1px $gray-color-300;
 
