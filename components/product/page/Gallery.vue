@@ -92,6 +92,7 @@ $btn-position-desktop: 48px;
   justify-content: center;
   align-items: center;
   padding: $btn-position-mobile;
+  z-index: 100000;
 
   &__close-btn {
     all: unset;

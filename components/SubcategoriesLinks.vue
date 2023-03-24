@@ -1,17 +1,26 @@
 <template>
   <div class="subcategories-list">
-    <NuxtLink
-      v-if="category?.parent"
-      class="subcategories-list__link subcategories-list__link--bold"
-      :to="`/category/${category?.parent?.slug}`"
-    >
-      {{ t('returnTo') }} {{ category?.parent?.name }}
-    </NuxtLink>
+    <template v-if="isParent">
+      <NuxtLink
+        v-if="category?.parent"
+        class="subcategories-list__link"
+        :to="`/category/${category?.parent?.slug}`"
+      >
+        <ChevronIcon class="subcategories-list__icon" /> {{ category?.parent?.name }}
+      </NuxtLink>
+
+      <span v-if="subcategories?.length" class="subcategories-list__text">
+        {{ category?.name }}
+      </span>
+    </template>
 
     <NuxtLink
       v-for="cat in subcategories || []"
       :key="cat.id"
       class="subcategories-list__link"
+      :class="{
+        'subcategories-list__link--intended': isParent,
+      }"
       :to="`/category/${cat.slug}`"
     >
       {{ cat.name }}
@@ -19,22 +28,16 @@
   </div>
 </template>
 
-<i18n lang="json">
-{
-  "pl": {
-    "returnTo": "Wróć do"
-  }
-}
-</i18n>
-
 <script setup lang="ts">
 import { ProductSet } from '@heseya/store-core'
+import ChevronIcon from '@/assets/icons/chevron.svg?component'
 
 const props = defineProps<{
   category: ProductSet
 }>()
 const heseya = useHeseya()
-const t = useLocalI18n()
+
+const isParent = computed(() => !!props.category?.parent)
 
 const { data: subcategories, refresh } = useAsyncData('subcategories', async () => {
   const { data } = await heseya.ProductSets.get({
@@ -53,25 +56,34 @@ watch(
 .subcategories-list {
   display: flex;
   flex-direction: column;
+  font-size: rem(14);
+  line-height: rem(19);
+
+  > *:not(:last-child) {
+    margin-bottom: 10px;
+  }
+
+  &__icon {
+    transform: scale(0.7) rotate(180deg);
+    margin-right: 2px;
+  }
 
   &__link {
     display: block;
     color: $text-color;
     text-decoration: none;
-    font-size: rem(14);
-    line-height: rem(19);
 
-    &:not(:last-child) {
-      margin-bottom: 10px;
-    }
-
-    &--bold {
-      font-weight: 600;
+    &--intended {
+      margin-left: 20px;
     }
 
     &:hover {
       color: var(--primary-color);
     }
+  }
+
+  &__text {
+    font-weight: 600;
   }
 }
 </style>

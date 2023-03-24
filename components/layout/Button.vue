@@ -1,18 +1,19 @@
 <template>
   <button :class="[`btn`, `btn--${variant}`]">
-    {{ label }}
+    <slot>{{ label }}</slot>
   </button>
 </template>
 
 <script lang="ts" setup>
-type ButtonVariant = 'primary' | 'secondary'
+type ButtonVariant = 'primary' | 'secondary' | 'white' | 'gray'
 
 withDefaults(
   defineProps<{
-    label: string
+    label?: string
     variant?: ButtonVariant
+    htmlType?: 'button' | 'submit' | 'reset'
   }>(),
-  { variant: 'primary' },
+  { variant: 'primary', label: '', htmlType: 'button' },
 )
 </script>
 
@@ -21,12 +22,12 @@ withDefaults(
   padding: 0;
   outline: none;
   border: none;
-  height: 32px;
-  width: 200px;
+  padding: 8px 16px;
   border-radius: 4px;
   font-family: $textFont;
   font-size: rem(14);
   transition: background-color 200ms ease-in-out;
+  cursor: pointer;
 
   &--primary {
     color: $white-color;
@@ -34,7 +35,6 @@ withDefaults(
 
     &:hover {
       background-color: $gray-color-300;
-      cursor: pointer;
     }
   }
 
@@ -44,7 +44,26 @@ withDefaults(
 
     &:hover {
       background-color: $gray-color-300;
-      cursor: pointer;
+    }
+  }
+
+  &--white {
+    color: $text-color;
+    background-color: $white-color;
+    cursor: pointer;
+    border: solid 1px $gray-color-300;
+
+    &:hover {
+      background-color: $gray-color-300;
+    }
+  }
+
+  &--gray {
+    color: $text-color;
+    background-color: $gray-color-300;
+
+    &:hover {
+      background-color: $gray-color-400;
     }
   }
 }
