@@ -5,8 +5,8 @@
         {{ label }}
       </div>
     </NuxtLink>
-    <div v-show="Boolean(categories)" class="category-btn__list">
-      <NuxtLink :key="category.value" v-for="category in categories" :to="category.value"
+    <div v-show="Boolean(subcategories)" class="category-btn__list">
+      <NuxtLink :key="category.value" v-for="category in subcategories" :to="category.value"
         >{{ category.label }}
       </NuxtLink>
     </div>
@@ -20,7 +20,7 @@ defineProps<{
   link?: string
   special?: boolean
   label: string
-  categories?: SelectOption[]
+  subcategories?: SelectOption[]
 }>()
 </script>
 
