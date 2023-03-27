@@ -22,6 +22,10 @@
         <LayoutIconButton class="main__button" :icon="Shopping" label="Koszyk" />
       </div>
     </div>
+    <div class="bar__categories">
+      <LayoutCategoryButton label="Promocja" special link="promotion" />
+      <LayoutCategoryButton label="Papier" :categories="categories" />
+    </div>
   </div>
 </template>
 
@@ -72,6 +76,13 @@ const categories: SelectOption[] = [
     justify-content: space-between;
     align-items: center;
     gap: 40px;
+  }
+
+  &__categories {
+    @include flex-row;
+    justify-content: center;
+
+    background-color: $gray-color-300;
   }
 }
 
