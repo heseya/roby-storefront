@@ -1,8 +1,8 @@
 <template>
   <form class="search" v-on:submit.prevent="callback">
-    <input class="search__input search__input--main" :placeholder="t('search')" name="search" />
+    <input class="search__input" :placeholder="t('search')" name="search" />
     <div class="search__separator" />
-    <select class="search__input search__input--select" name="category">
+    <select class="search__input" name="category">
       <option selected value="all">{{ t('allCategories') }}</option>
       <option :key="value" v-for="{ label, value } in categories" :value="value">
         {{ label }}
@@ -59,11 +59,7 @@ defineProps<{
     border: none;
     background: transparent;
 
-    &--main {
-    }
-
-    &--select {
-    }
+    font-size: rem(14);
   }
 
   &__button {

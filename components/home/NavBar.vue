@@ -12,10 +12,14 @@
       <div class="main__left">
         <LayoutIconButton class="main__menu-btn" :icon="Menu" @click="handleOpenCategory" />
         <img class="main__logo" src="@/assets/images/logo.svg?url" alt="***REMOVED***" />
-        <LayoutSearch class="main__search--wide" :categories="categories" />
+        <LayoutSearch
+          class="main__search--wide"
+          :categories="categories"
+          :callback="searchCallback"
+        />
       </div>
       <div class="main__buttons">
-        <LayoutIconButton class="main__search--narrow" :icon="Search" />
+        <LayoutIconButton class="main__search--narrow" :icon="Search" @click="handleOpenSearch" />
         <LayoutIconButton
           class="main__button"
           :icon="Profile"
@@ -47,6 +51,16 @@
         <LayoutCategoryMobileButton label="Papier" link="papier" :subcategories="categories" />
         <LayoutCategoryMobileButton label="Promocja" special link="promotion" />
       </div>
+      <form v-show="isOpenSearch" class="bar__mobile-search" v-on:submit.prevent="searchCallback">
+        <IconButton
+          class="mobile-search__btn"
+          type="button"
+          :icon="ArrowBack"
+          @click="handleCloseSearch"
+        />
+        <input class="mobile-search__input" type="text" :placeholder="t('search')" name="search" />
+        <IconButton class="mobile-search__btn" type="submit" :icon="Search" />
+      </form>
     </div>
     <div class="bar__categories">
       <LayoutCategoryButton label="Promocja" special link="promotion" />
@@ -73,6 +87,7 @@ import Profile from '@/assets/icons/profile.svg?component'
 import Favorite from '@/assets/icons/favorite.svg?component'
 import Shopping from '@/assets/icons/shopping.svg?component'
 import Menu from '@/assets/icons/menu.svg?component'
+import ArrowBack from '@/assets/icons/arrow-back.svg?component'
 import { SelectOption } from '~/components/layout/Search.vue'
 import IconButton from '~/components/layout/IconButton.vue'
 
@@ -102,6 +117,7 @@ const t = useLocalI18n()
 const isLogin = true
 const isOpenNotification = ref(true)
 const isOpenCategories = ref(false)
+const isOpenSearch = ref(false)
 
 const handleCloseNotification = () => {
   isOpenNotification.value = false
@@ -112,10 +128,20 @@ const handleOpenCategory = () => {
 const handleCloseCategory = () => {
   isOpenCategories.value = false
 }
+const handleOpenSearch = () => {
+  isOpenSearch.value = true
+}
+const handleCloseSearch = () => {
+  isOpenSearch.value = false
+}
 
 const handleAccountBtn = () => {
   const path = isLogin ? 'account' : 'login'
   router.push(path)
+}
+
+const searchCallback = (data: SubmitEvent) => {
+  console.log(data)
 }
 </script>
 
@@ -164,7 +190,8 @@ const handleAccountBtn = () => {
     }
   }
 
-  &__mobile-menu {
+  &__mobile-menu,
+  &__mobile-search {
     position: absolute;
     top: 0;
     left: 0;
@@ -173,6 +200,17 @@ const handleAccountBtn = () => {
     background: $white-color;
     overflow: hidden;
     @include flex-column;
+
+    @media ($viewport-12) {
+      display: none;
+    }
+  }
+
+  &__mobile-search {
+    height: 60px;
+
+    @include flex-row;
+    align-items: center;
 
     @media ($viewport-12) {
       display: none;
@@ -258,6 +296,25 @@ const handleAccountBtn = () => {
   &__close-btn {
     width: 44px;
     height: 44px;
+  }
+}
+
+.mobile-search {
+  &__btn {
+    width: 44px;
+    height: 44px;
+    color: $gray-color-600;
+  }
+
+  &__input {
+    height: 100%;
+    flex: 1;
+    padding: 0px;
+    outline: none;
+    border: none;
+    background: transparent;
+
+    font-size: rem(14);
   }
 }
 </style>
