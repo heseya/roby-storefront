@@ -14,7 +14,7 @@
         <img class="main__logo" src="@/assets/images/logo.svg?url" alt="***REMOVED***" />
         <LayoutSearch
           class="main__search--wide"
-          :categories="categories"
+          :categories="subcategories"
           :callback="searchCallback"
         />
       </div>
@@ -46,10 +46,16 @@
       <div v-show="isOpenCategories" class="bar__mobile-menu">
         <div class="mobile-menu__title">
           <IconButton class="mobile-menu__close-btn" :icon="Close" @click="handleCloseCategory" />
-          <span>Menu</span>
+          <span>{{ t('menu') }}</span>
         </div>
-        <LayoutCategoryMobileButton label="Papier" link="papier" :subcategories="categories" />
-        <LayoutCategoryMobileButton label="Promocja" special link="promotion" />
+        <LayoutCategoryMobileButton
+          v-for="category in categories"
+          :key="category.name"
+          :label="category.name"
+          :special="category.isSpecial"
+          :link="category.link"
+          :subcategories="category.subcategories"
+        />
       </div>
       <form v-show="isOpenSearch" class="bar__mobile-search" v-on:submit.prevent="searchCallback">
         <IconButton
@@ -63,8 +69,14 @@
       </form>
     </div>
     <div class="bar__categories">
-      <LayoutCategoryButton label="Promocja" special link="promotion" />
-      <LayoutCategoryButton label="Papier" :subcategories="categories" />
+      <LayoutCategoryButton
+        v-for="category in categories"
+        :key="category.name"
+        :label="category.name"
+        :special="category.isSpecial"
+        :link="category.link"
+        :subcategories="category.subcategories"
+      />
     </div>
   </div>
 </template>
@@ -75,7 +87,9 @@
     "myAccount": "Moje konto",
     "signIn": "Zaloguj się",
     "wishList": "Lista życzeń",
-    "shopping": "Koszyk"
+    "shopping": "Koszyk",
+    "menu": "Menu",
+    "search": "Czego szukasz?"
   }
 }
 </i18n>
@@ -91,7 +105,15 @@ import ArrowBack from '@/assets/icons/arrow-back.svg?component'
 import { SelectOption } from '~/components/layout/Search.vue'
 import IconButton from '~/components/layout/IconButton.vue'
 
-const categories: SelectOption[] = [
+interface Category {
+  name: string
+  link?: string
+  subcategories?: SelectOption[]
+  isSpecial?: boolean
+}
+
+// temporary, in the future from the backend
+const subcategories: SelectOption[] = [
   {
     label: 'Papier',
     value: 'papier',
@@ -109,7 +131,32 @@ const categories: SelectOption[] = [
     value: 'papier3',
   },
 ]
+
+const categories: Category[] = [
+  {
+    name: 'Promocja',
+    isSpecial: true,
+    link: 'promotion',
+  },
+  {
+    name: 'Nowości',
+    link: 'news',
+  },
+  {
+    name: 'Papier',
+    link: 'papers',
+    subcategories,
+  },
+  {
+    name: 'Drukarki',
+    isSpecial: true,
+    link: 'printers',
+    subcategories,
+  },
+]
+
 const notification = 'Złóż zamówienie do 19.12, 18:00, aby prezenty trafiły pod choinkę na czas!'
+// end temporary
 
 const router = useRouter()
 const t = useLocalI18n()
