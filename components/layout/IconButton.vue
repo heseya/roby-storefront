@@ -6,7 +6,7 @@
         notificationNumber
       }}</span>
     </div>
-    <span v-show="label">{{ label }}</span>
+    <span :class="isResize ? 'btn__label--resize' : ''" v-show="label">{{ label }}</span>
   </button>
 </template>
 
@@ -18,8 +18,9 @@ withDefaults(
     icon: FunctionalComponent
     label?: string
     notificationNumber?: number
+    isResize?: boolean
   }>(),
-  { label: '', notificationNumber: 0 },
+  { label: '', notificationNumber: 0, isResize: false },
 )
 </script>
 
@@ -46,6 +47,7 @@ withDefaults(
 
   &__icon-container {
     position: relative;
+    display: flex;
   }
 
   &__notification {
@@ -61,6 +63,12 @@ withDefaults(
     font-size: rem(10);
 
     background-color: $secondary-color;
+  }
+
+  &__label--resize {
+    @media ($max-viewport-12) {
+      display: none;
+    }
   }
 }
 </style>

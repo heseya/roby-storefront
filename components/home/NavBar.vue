@@ -10,15 +10,18 @@
     </div>
     <div class="bar__main">
       <div class="main__left">
+        <LayoutIconButton class="main__menu-btn" :icon="Menu" @click="handleOpenCategory" />
         <img class="main__logo" src="@/assets/images/logo.svg?url" alt="***REMOVED***" />
-        <LayoutSearch :categories="categories" />
+        <LayoutSearch class="main__search--wide" :categories="categories" />
       </div>
       <div class="main__buttons">
+        <LayoutIconButton class="main__search--narrow" :icon="Search" />
         <LayoutIconButton
           class="main__button"
           :icon="Profile"
           :label="isLogin ? t('myAccount') : t('signIn')"
           @click="handleAccountBtn"
+          isResize
         />
         <LayoutIconButton
           class="main__button"
@@ -26,13 +29,23 @@
           :label="t('wishList')"
           :notificationNumber="2"
           @click="() => router.push('list')"
+          isResize
         />
         <LayoutIconButton
           class="main__button"
           :icon="Shopping"
           :label="t('shopping')"
           @click="() => router.push('shopping')"
+          isResize
         />
+      </div>
+      <div v-show="isOpenCategories" class="bar__mobile-menu">
+        <div class="mobile-menu__title">
+          <IconButton class="mobile-menu__close-btn" :icon="Close" @click="handleCloseCategory" />
+          <span>Menu</span>
+        </div>
+        <LayoutCategoryMobileButton label="Papier" link="papier" :subcategories="categories" />
+        <LayoutCategoryMobileButton label="Promocja" special link="promotion" />
       </div>
     </div>
     <div class="bar__categories">
@@ -55,10 +68,13 @@
 
 <script lang="ts" setup>
 import Close from '@/assets/icons/cross.svg?component'
+import Search from '@/assets/icons/search.svg?component'
 import Profile from '@/assets/icons/profile.svg?component'
 import Favorite from '@/assets/icons/favorite.svg?component'
 import Shopping from '@/assets/icons/shopping.svg?component'
+import Menu from '@/assets/icons/menu.svg?component'
 import { SelectOption } from '~/components/layout/Search.vue'
+import IconButton from '~/components/layout/IconButton.vue'
 
 const categories: SelectOption[] = [
   {
@@ -85,8 +101,17 @@ const t = useLocalI18n()
 
 const isLogin = true
 const isOpenNotification = ref(true)
+const isOpenCategories = ref(false)
 
-const handleCloseNotification = () => (isOpenNotification.value = false)
+const handleCloseNotification = () => {
+  isOpenNotification.value = false
+}
+const handleOpenCategory = () => {
+  isOpenCategories.value = true
+}
+const handleCloseCategory = () => {
+  isOpenCategories.value = false
+}
 
 const handleAccountBtn = () => {
   const path = isLogin ? 'account' : 'login'
@@ -96,6 +121,11 @@ const handleAccountBtn = () => {
 
 <style lang="scss" scoped>
 .bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  background-color: $white-color;
   @include flex-column;
 
   &__notification {
@@ -108,12 +138,19 @@ const handleAccountBtn = () => {
   }
 
   &__main {
-    padding: 54px 42px;
+    position: relative;
+    height: 130px;
+    padding: 0 42px;
 
     @include flex-row;
     justify-content: space-between;
     align-items: center;
     gap: 40px;
+    @media ($max-viewport-12) {
+      height: 60px;
+      padding: 20px 18px;
+      gap: 18px;
+    }
   }
 
   &__categories {
@@ -121,6 +158,25 @@ const handleAccountBtn = () => {
     justify-content: center;
 
     background-color: $gray-color-300;
+
+    @media ($max-viewport-12) {
+      display: none;
+    }
+  }
+
+  &__mobile-menu {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: $white-color;
+    overflow: hidden;
+    @include flex-column;
+
+    @media ($viewport-12) {
+      display: none;
+    }
   }
 }
 
@@ -140,16 +196,68 @@ const handleAccountBtn = () => {
   &__left {
     @include flex-row;
     align-items: center;
+
+    @media ($max-viewport-12) {
+      gap: 18px;
+    }
     gap: 40px;
   }
 
   &__logo {
     height: 38px;
+    @media ($max-viewport-12) {
+      height: 20px;
+    }
+
+    @media ($max-viewport-3) {
+      display: none;
+    }
   }
 
   &__buttons {
     @include flex-row;
-    gap: 50px;
+    gap: 40px;
+
+    @media ($max-viewport-12) {
+      gap: 22px;
+    }
+  }
+
+  &__search {
+    &--wide {
+      @media ($max-viewport-12) {
+        display: none;
+      }
+    }
+
+    &--narrow {
+      color: $gray-color-600;
+      @media ($viewport-12) {
+        display: none;
+      }
+    }
+  }
+
+  &__menu-btn {
+    @media ($viewport-12) {
+      display: none;
+    }
+  }
+}
+
+.mobile-menu {
+  &__title {
+    @include flex-row;
+    align-items: center;
+    height: 60px;
+    font-weight: bold;
+
+    border-bottom: 1px solid $gray-color-300;
+  }
+
+  &__close-btn {
+    width: 44px;
+    height: 44px;
   }
 }
 </style>
