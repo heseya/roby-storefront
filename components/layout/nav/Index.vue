@@ -5,12 +5,24 @@
       <LayoutIconButton
         class="notification__button"
         :icon="Close"
-        @click="handleCloseNotification"
+        @click="
+          () => {
+            isOpenNotification.value = false
+          }
+        "
       />
     </div>
     <div class="bar__main">
       <div class="main__left">
-        <LayoutIconButton class="main__menu-btn" :icon="Menu" @click="handleOpenCategory" />
+        <LayoutIconButton
+          class="main__menu-btn"
+          :icon="Menu"
+          @click="
+            () => {
+              isOpenCategories.value = true
+            }
+          "
+        />
         <img class="main__logo" src="@/assets/images/logo.svg?url" alt="***REMOVED***" />
         <LayoutNavSearch
           class="main__search--wide"
@@ -19,7 +31,15 @@
         />
       </div>
       <div class="main__buttons">
-        <LayoutIconButton class="main__search--narrow" :icon="Search" @click="handleOpenSearch" />
+        <LayoutIconButton
+          class="main__search--narrow"
+          :icon="Search"
+          @click="
+            () => {
+              isOpenSearch.value = true
+            }
+          "
+        />
         <LayoutIconButton
           class="main__button"
           :icon="Profile"
@@ -45,7 +65,15 @@
       </div>
       <div v-show="isOpenCategories" class="bar__mobile-menu">
         <div class="mobile-menu__title">
-          <IconButton class="mobile-menu__close-btn" :icon="Close" @click="handleCloseCategory" />
+          <IconButton
+            class="mobile-menu__close-btn"
+            :icon="Close"
+            @click="
+              () => {
+                isOpenCategories.value = false
+              }
+            "
+          />
           <span>{{ t('menu') }}</span>
         </div>
         <LayoutNavCategoryMobileButton
@@ -62,7 +90,11 @@
           class="mobile-search__btn"
           type="button"
           :icon="ArrowBack"
-          @click="handleCloseSearch"
+          @click="
+            () => {
+              isOpenSearch.value = false
+            }
+          "
         />
         <input class="mobile-search__input" type="text" :placeholder="t('search')" name="search" />
         <IconButton class="mobile-search__btn" type="submit" :icon="Search" />
@@ -165,22 +197,6 @@ const isLogin = true
 const isOpenNotification = ref(true)
 const isOpenCategories = ref(false)
 const isOpenSearch = ref(false)
-
-const handleCloseNotification = () => {
-  isOpenNotification.value = false
-}
-const handleOpenCategory = () => {
-  isOpenCategories.value = true
-}
-const handleCloseCategory = () => {
-  isOpenCategories.value = false
-}
-const handleOpenSearch = () => {
-  isOpenSearch.value = true
-}
-const handleCloseSearch = () => {
-  isOpenSearch.value = false
-}
 
 const handleAccountBtn = () => {
   const path = isLogin ? 'account' : 'login'
