@@ -52,7 +52,7 @@ export default defineNuxtConfig({
   },
 
   vite: {
-    plugins: [svgLoader()],
+    plugins: [svgLoader({ defaultImport: 'url' })],
     css: {
       preprocessorOptions: {
         scss: {
