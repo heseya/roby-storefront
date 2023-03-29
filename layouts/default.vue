@@ -1,7 +1,7 @@
 <template>
   <div class="site">
     <div class="site__nav">
-      <BaseNav />
+      <LayoutNav />
     </div>
     <div class="site__content">
       <slot></slot>

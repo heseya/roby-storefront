@@ -14,7 +14,7 @@
 </template>
 
 <script lang="ts" setup>
-import { SelectOption } from '~/components/layout/Search.vue'
+import { SelectOption } from '~/components/layout/nav/Search.vue'
 
 defineProps<{
   link?: string

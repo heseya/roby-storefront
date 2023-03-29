@@ -12,7 +12,7 @@
       <div class="main__left">
         <LayoutIconButton class="main__menu-btn" :icon="Menu" @click="handleOpenCategory" />
         <img class="main__logo" src="@/assets/images/logo.svg?url" alt="***REMOVED***" />
-        <LayoutSearch
+        <LayoutNavSearch
           class="main__search--wide"
           :categories="subcategories"
           :callback="searchCallback"
@@ -48,7 +48,7 @@
           <IconButton class="mobile-menu__close-btn" :icon="Close" @click="handleCloseCategory" />
           <span>{{ t('menu') }}</span>
         </div>
-        <LayoutCategoryMobileButton
+        <LayoutNavCategoryMobileButton
           v-for="category in categories"
           :key="category.name"
           :label="category.name"
@@ -69,7 +69,7 @@
       </form>
     </div>
     <div class="bar__categories">
-      <LayoutCategoryButton
+      <LayoutNavCategoryButton
         v-for="category in categories"
         :key="category.name"
         :label="category.name"
@@ -102,7 +102,7 @@ import Favorite from '@/assets/icons/favorite.svg?component'
 import Shopping from '@/assets/icons/shopping.svg?component'
 import Menu from '@/assets/icons/menu.svg?component'
 import ArrowBack from '@/assets/icons/arrow-back.svg?component'
-import { SelectOption } from '~/components/layout/Search.vue'
+import { SelectOption } from '~/components/layout/nav/Search.vue'
 import IconButton from '~/components/layout/IconButton.vue'
 
 interface Category {

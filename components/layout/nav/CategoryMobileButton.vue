@@ -26,7 +26,7 @@
 
 <script lang="ts" setup>
 import Chevron from '@/assets/icons/chevron.svg?component'
-import { SelectOption } from '~/components/layout/Search.vue'
+import { SelectOption } from '~/components/layout/nav/Search.vue'
 import IconButton from '~/components/layout/IconButton.vue'
 
 const isOpenSubcategories = ref(false)
