@@ -22,9 +22,9 @@
 </i18n>
 
 <script lang="ts" setup>
-const t = useLocalI18n()
-
 import Search from '@/assets/icons/search.svg?component'
+
+const t = useLocalI18n()
 
 export interface SelectOption {
   label: string
