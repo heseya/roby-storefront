@@ -1,8 +1,13 @@
 <template>
-  <form class="search" v-on:submit.prevent="callback">
-    <input class="search__input" :placeholder="t('search')" name="search" />
+  <form class="search" @submit.prevent="onSubmit">
+    <input
+      class="search__input"
+      :placeholder="t('search')"
+      v-model="form.values.query"
+      name="query"
+    />
     <div class="search__separator" />
-    <select class="search__input" name="category">
+    <select class="search__input" v-model="form.values.category" name="category">
       <option selected value="all">{{ t('allCategories') }}</option>
       <option :key="value" v-for="{ label, value } in categories" :value="value">
         {{ label }}
@@ -22,17 +27,37 @@
 </i18n>
 
 <script lang="ts" setup>
+import { useForm } from 'vee-validate'
 import Search from '@/assets/icons/search.svg?component'
 
 const t = useLocalI18n()
+
+export interface SearchValues {
+  query: string
+  category: string
+}
 
 export interface SelectOption {
   label: string
   value: string
 }
 
+const emit = defineEmits<{
+  (event: 'search', values: SearchValues): void
+}>()
+
+const form = useForm({
+  initialValues: {
+    query: '',
+    category: 'all',
+  },
+})
+
+const onSubmit = form.handleSubmit((values) => {
+  emit('search', values)
+})
+
 defineProps<{
-  callback: (data: SubmitEvent) => void
   categories: SelectOption[]
 }>()
 </script>

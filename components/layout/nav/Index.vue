@@ -15,7 +15,7 @@
         <LayoutNavSearch
           class="main__search--wide"
           :categories="subcategories"
-          :callback="searchCallback"
+          @search="searchCallback"
         />
       </div>
       <div class="main__buttons">
@@ -102,7 +102,7 @@ import Favorite from '@/assets/icons/favorite.svg?component'
 import Shopping from '@/assets/icons/shopping.svg?component'
 import Menu from '@/assets/icons/menu.svg?component'
 import ArrowBack from '@/assets/icons/arrow-back.svg?component'
-import { SelectOption } from '~/components/layout/nav/Search.vue'
+import { SearchValues, SelectOption } from '~/components/layout/nav/Search.vue'
 import IconButton from '~/components/layout/IconButton.vue'
 
 interface Category {
@@ -187,7 +187,7 @@ const handleAccountBtn = () => {
   router.push(path)
 }
 
-const searchCallback = (data: SubmitEvent) => {
+const searchCallback = (data: SearchValues) => {
   console.log(data)
 }
 </script>
