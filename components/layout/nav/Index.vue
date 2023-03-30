@@ -1,13 +1,6 @@
 <template>
   <nav class="nav-bar">
-    <div v-show="isOpenNotification" class="nav-bar__notification">
-      <span class="notification__title">{{ notification }}</span>
-      <LayoutIconButton
-        class="notification__button"
-        :icon="Close"
-        @click="isOpenNotification = false"
-      />
-    </div>
+    <LayoutNavNotification :notification="notification" />
     <div class="nav-bar__items">
       <div class="items__left">
         <LayoutIconButton class="items__menu-btn" :icon="Menu" @click="isOpenCategories = true" />
@@ -169,7 +162,6 @@ const notification = 'Złóż zamówienie do 19.12, 18:00, aby prezenty trafiły
 const t = useLocalI18n()
 
 const isLogin = true
-const isOpenNotification = ref(true)
 const isOpenCategories = ref(false)
 const isOpenSearch = ref(false)
 
@@ -186,15 +178,6 @@ const searchCallback = (data: SearchValues) => {
   width: 100vw;
   background-color: $white-color;
   @include flex-column;
-
-  &__notification {
-    @include flex-row;
-    justify-content: space-between;
-    align-items: center;
-
-    color: $white-color;
-    background-color: $primary-color;
-  }
 
   &__items {
     position: relative;
@@ -248,18 +231,6 @@ const searchCallback = (data: SearchValues) => {
     @media ($viewport-12) {
       display: none;
     }
-  }
-}
-
-.notification {
-  &__title {
-    flex: 1;
-  }
-
-  &__button {
-    height: 40px;
-    width: 40px;
-    color: $white-color;
   }
 }
 
