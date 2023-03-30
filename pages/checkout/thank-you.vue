@@ -3,21 +3,35 @@
     <div class="checkout-container__icon">
       <ShoppingBag />
     </div>
-    <div class="checkout-container__header">Dziękujemy za zakupy!</div>
-    <div class="checkout-container__text">
-      Na Twojego maila zostanie wysłane potwierdzenie zakupu.
-    </div>
+    <div class="checkout-container__header">{{ t('container.header') }}</div>
+    <div class="checkout-container__text">{{ t('container.text') }}</div>
     <div class="checkout-container__btn">
-      <nuxt-link to="/"> <LayoutButton>Przejdź na stronę główną</LayoutButton></nuxt-link>
+      <nuxt-link to="/">
+        <LayoutButton>{{ t('container.btn') }}</LayoutButton></nuxt-link
+      >
     </div>
   </div>
 </template>
+
+<i18n lang="json">
+{
+  "pl": {
+    "container": {
+      "header": "Dziękujemy za zakupy!",
+      "text": "Na Twojego maila zostanie wysłane potwierdzenie zakupu.",
+      "btn": "Przejdź na stronę główną"
+    }
+  }
+}
+</i18n>
 
 <script setup lang="ts">
 import ShoppingBag from '@/assets/icons/shopping-bag.svg?component'
 definePageMeta({
   layout: 'buying-progress',
 })
+
+const t = useLocalI18n()
 </script>
 
 <style lang="scss" scoped>
