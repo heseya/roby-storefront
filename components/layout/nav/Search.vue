@@ -79,11 +79,10 @@ defineProps<{
 
   &__input {
     height: 100%;
-    padding: 0px;
+    padding: 0;
     outline: none;
     border: none;
     background: transparent;
-
     font-size: rem(14);
   }
 

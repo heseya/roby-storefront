@@ -1,20 +1,20 @@
 <template>
-  <div class="category-btn" :class="special ? 'special' : ''">
-    <div class="category-btn__link-container">
-      <NuxtLink class="category-btn__link" :to="link">
+  <div class="category-mobile-btn" :class="special && 'category-mobile-btn--special'">
+    <div class="category-mobile-btn__link-container">
+      <NuxtLink class="category-mobile-btn__link" :to="link">
         {{ label }}
       </NuxtLink>
       <IconButton
-        v-show="Boolean(subcategories)"
-        class="category-btn__arrow"
-        :class="isOpenSubcategories ? 'category-btn__arrow--down' : ''"
+        v-show="Boolean(subcategories?.length)"
+        class="category-mobile-btn__arrow"
+        :class="isOpenSubcategories ? 'category-mobile-btn__arrow--down' : ''"
         :icon="Chevron"
         @click="toggleOpenSubcategories"
       />
     </div>
-    <div v-show="isOpenSubcategories" class="category-btn__list">
+    <div v-show="isOpenSubcategories" class="category-mobile-btn__list">
       <NuxtLink
-        class="category-btn__list--item"
+        class="category-mobile-btn__list-item"
         :key="category.value"
         v-for="category in subcategories"
         :to="category.value"
@@ -44,7 +44,7 @@ defineProps<{
 </script>
 
 <style lang="scss" scoped>
-.category-btn {
+.category-mobile-btn {
   @include flex-column;
 
   &__link-container {
@@ -81,7 +81,7 @@ defineProps<{
     @include flex-column;
     background-color: $white-color;
 
-    &--item {
+    &-item {
       padding: 12px 32px;
 
       text-align: left;
@@ -92,11 +92,11 @@ defineProps<{
       border-bottom: 1px solid $gray-color-100;
     }
   }
-}
 
-.special {
-  .category-btn__link {
-    color: $primary-color;
+  &--special {
+    .category-mobile-btn__link {
+      color: $primary-color;
+    }
   }
 }
 </style>

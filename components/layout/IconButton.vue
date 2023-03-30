@@ -1,12 +1,14 @@
 <template>
-  <button class="btn">
-    <div class="btn__icon-container">
+  <button class="icon-btn">
+    <div class="icon-btn__icon-container">
       <component :is="icon" />
-      <span class="btn__notification" v-show="notificationNumber > 0">{{
+      <span class="icon-btn__notification" v-show="notificationNumber > 0">{{
         notificationNumber
       }}</span>
     </div>
-    <span :class="isResize ? 'btn__label--resize' : ''" v-show="label">{{ label }}</span>
+    <span :class="['icon-btn__label', isResize && 'icon-btn__label--resize']" v-show="label">{{
+      label
+    }}</span>
   </button>
 </template>
 
@@ -25,7 +27,7 @@ withDefaults(
 </script>
 
 <style lang="scss" scoped>
-.btn {
+.icon-btn {
   padding: 0;
   min-width: 32px;
   min-height: 32px;
@@ -65,9 +67,11 @@ withDefaults(
     background-color: $secondary-color;
   }
 
-  &__label--resize {
-    @media ($max-viewport-12) {
-      display: none;
+  &__label {
+    &--resize {
+      @media ($max-viewport-12) {
+        display: none;
+      }
     }
   }
 }

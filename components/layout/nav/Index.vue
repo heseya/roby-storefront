@@ -1,6 +1,6 @@
 <template>
-  <div class="bar">
-    <div v-show="isOpenNotification" class="bar__notification">
+  <nav class="nav-bar">
+    <div v-show="isOpenNotification" class="nav-bar__notification">
       <span class="notification__title">{{ notification }}</span>
       <LayoutIconButton
         class="notification__button"
@@ -12,10 +12,10 @@
         "
       />
     </div>
-    <div class="bar__main">
-      <div class="main__left">
+    <div class="nav-bar__items">
+      <div class="items__left">
         <LayoutIconButton
-          class="main__menu-btn"
+          class="items__menu-btn"
           :icon="Menu"
           @click="
             () => {
@@ -23,16 +23,16 @@
             }
           "
         />
-        <img class="main__logo" src="@/assets/images/logo.svg?url" alt="***REMOVED***" />
+        <img class="items__logo" src="@/assets/images/logo.svg?url" alt="***REMOVED***" />
         <LayoutNavSearch
-          class="main__search--wide"
+          class="items__search--wide"
           :categories="subcategories"
           @search="searchCallback"
         />
       </div>
-      <div class="main__buttons">
+      <div class="items__buttons">
         <LayoutIconButton
-          class="main__search--narrow"
+          class="items__search--narrow"
           :icon="Search"
           @click="
             () => {
@@ -40,30 +40,26 @@
             }
           "
         />
-        <LayoutIconButton
-          class="main__button"
-          :icon="Profile"
-          :label="isLogin ? t('myAccount') : t('signIn')"
-          @click="handleAccountBtn"
-          isResize
-        />
-        <LayoutIconButton
-          class="main__button"
-          :icon="Favorite"
-          :label="t('wishList')"
-          :notificationNumber="2"
-          @click="() => router.push('list')"
-          isResize
-        />
-        <LayoutIconButton
-          class="main__button"
-          :icon="Shopping"
-          :label="t('shopping')"
-          @click="() => router.push('shopping')"
-          isResize
-        />
+        <NuxtLink class="items__button" :to="isLogin ? 'account' : 'login'">
+          <LayoutIconButton
+            :icon="Profile"
+            :label="isLogin ? t('myAccount') : t('signIn')"
+            isResize
+          />
+        </NuxtLink>
+        <NuxtLink class="items__button" to="list">
+          <LayoutIconButton
+            :icon="Favorite"
+            :label="t('wishList')"
+            :notificationNumber="2"
+            isResize
+          />
+        </NuxtLink>
+        <NuxtLink class="items__button" to="shopping">
+          <LayoutIconButton :icon="Shopping" :label="t('shopping')" isResize />
+        </NuxtLink>
       </div>
-      <div v-show="isOpenCategories" class="bar__mobile-menu">
+      <div v-show="isOpenCategories" class="nav-bar__mobile-menu">
         <div class="mobile-menu__title">
           <IconButton
             class="mobile-menu__close-btn"
@@ -85,7 +81,11 @@
           :subcategories="category.subcategories"
         />
       </div>
-      <form v-show="isOpenSearch" class="bar__mobile-search" v-on:submit.prevent="searchCallback">
+      <form
+        v-show="isOpenSearch"
+        class="nav-bar__mobile-search"
+        v-on:submit.prevent="searchCallback"
+      >
         <IconButton
           class="mobile-search__btn"
           type="button"
@@ -100,7 +100,7 @@
         <IconButton class="mobile-search__btn" type="submit" :icon="Search" />
       </form>
     </div>
-    <div class="bar__categories">
+    <div class="nav-bar__categories">
       <LayoutNavCategoryButton
         v-for="category in categories"
         :key="category.name"
@@ -110,7 +110,7 @@
         :subcategories="category.subcategories"
       />
     </div>
-  </div>
+  </nav>
 </template>
 
 <i18n lang="json">
@@ -190,7 +190,6 @@ const categories: Category[] = [
 const notification = 'Złóż zamówienie do 19.12, 18:00, aby prezenty trafiły pod choinkę na czas!'
 // end temporary
 
-const router = useRouter()
 const t = useLocalI18n()
 
 const isLogin = true
@@ -198,18 +197,13 @@ const isOpenNotification = ref(true)
 const isOpenCategories = ref(false)
 const isOpenSearch = ref(false)
 
-const handleAccountBtn = () => {
-  const path = isLogin ? 'account' : 'login'
-  router.push(path)
-}
-
 const searchCallback = (data: SearchValues) => {
   console.log(data)
 }
 </script>
 
 <style lang="scss" scoped>
-.bar {
+.nav-bar {
   position: fixed;
   top: 0;
   left: 0;
@@ -226,7 +220,7 @@ const searchCallback = (data: SearchValues) => {
     background-color: $primary-color;
   }
 
-  &__main {
+  &__items {
     position: relative;
     height: 130px;
     padding: 0 42px;
@@ -293,7 +287,7 @@ const searchCallback = (data: SearchValues) => {
   }
 }
 
-.main {
+.items {
   &__left {
     @include flex-row;
     align-items: center;
@@ -322,6 +316,10 @@ const searchCallback = (data: SearchValues) => {
     @media ($max-viewport-12) {
       gap: 22px;
     }
+  }
+
+  &__button {
+    text-decoration: none;
   }
 
   &__search {
