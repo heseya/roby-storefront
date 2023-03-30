@@ -8,7 +8,7 @@
       Na Twojego maila zostanie wysłane potwierdzenie zakupu.
     </div>
     <div class="checkout-container__btn">
-      <LayoutButton>Przejdź na stronę główną</LayoutButton>
+      <nuxt-link to="/"> <LayoutButton>Przejdź na stronę główną</LayoutButton></nuxt-link>
     </div>
   </div>
 </template>
