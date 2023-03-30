@@ -5,7 +5,7 @@
         title="URZĄDZENIA BIUROWE"
         subtitle="SPRZEDAŻ • WYNAJEM • SERWIS"
         link="sale"
-        backgroundSrc="https://***REMOVED***.pl/wp-content/uploads/2017/06/dummy-wood-title.jpg"
+        background-src="https://***REMOVED***.pl/wp-content/uploads/2017/06/dummy-wood-title.jpg"
       />
     </div>
     <div class="banner__cards">
@@ -14,7 +14,7 @@
         :key="index"
         :title="card.title"
         :link="card.link"
-        :backgroundSrc="card.backgroundSrc"
+        :background-src="card.backgroundSrc"
       />
     </div>
   </div>
