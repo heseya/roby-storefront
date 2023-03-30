@@ -54,20 +54,11 @@
           :subcategories="category.subcategories"
         />
       </div>
-      <form
+      <LayoutNavMobileSearch
         v-show="isOpenSearch"
-        class="nav-bar__mobile-search"
-        v-on:submit.prevent="searchCallback"
-      >
-        <IconButton
-          class="mobile-search__btn"
-          type="button"
-          :icon="ArrowBack"
-          @click="isOpenSearch = false"
-        />
-        <input class="mobile-search__input" type="text" :placeholder="t('search')" name="search" />
-        <IconButton class="mobile-search__btn" type="submit" :icon="Search" />
-      </form>
+        @search="searchCallback"
+        @close="isOpenSearch = false"
+      />
     </div>
     <div class="nav-bar__categories">
       <LayoutNavCategoryButton
@@ -102,7 +93,6 @@ import Profile from '@/assets/icons/profile.svg?component'
 import Favorite from '@/assets/icons/favorite.svg?component'
 import Shopping from '@/assets/icons/shopping.svg?component'
 import Menu from '@/assets/icons/menu.svg?component'
-import ArrowBack from '@/assets/icons/arrow-back.svg?component'
 import { SearchValues, SelectOption } from '~/components/layout/nav/Search.vue'
 import IconButton from '~/components/layout/IconButton.vue'
 
@@ -206,8 +196,7 @@ const searchCallback = (data: SearchValues) => {
     }
   }
 
-  &__mobile-menu,
-  &__mobile-search {
+  &__mobile-menu {
     position: absolute;
     top: 0;
     left: 0;
@@ -216,17 +205,6 @@ const searchCallback = (data: SearchValues) => {
     background: $white-color;
     overflow: hidden;
     @include flex-column;
-
-    @media ($viewport-12) {
-      display: none;
-    }
-  }
-
-  &__mobile-search {
-    height: 60px;
-
-    @include flex-row;
-    align-items: center;
 
     @media ($viewport-12) {
       display: none;
@@ -304,25 +282,6 @@ const searchCallback = (data: SearchValues) => {
   &__close-btn {
     width: 44px;
     height: 44px;
-  }
-}
-
-.mobile-search {
-  &__btn {
-    width: 44px;
-    height: 44px;
-    color: $gray-color-600;
-  }
-
-  &__input {
-    height: 100%;
-    flex: 1;
-    padding: 0px;
-    outline: none;
-    border: none;
-    background: transparent;
-
-    font-size: rem(14);
   }
 }
 </style>
