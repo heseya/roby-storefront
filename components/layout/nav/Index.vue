@@ -5,24 +5,12 @@
       <LayoutIconButton
         class="notification__button"
         :icon="Close"
-        @click="
-          () => {
-            isOpenNotification.value = false
-          }
-        "
+        @click="isOpenNotification = false"
       />
     </div>
     <div class="nav-bar__items">
       <div class="items__left">
-        <LayoutIconButton
-          class="items__menu-btn"
-          :icon="Menu"
-          @click="
-            () => {
-              isOpenCategories.value = true
-            }
-          "
-        />
+        <LayoutIconButton class="items__menu-btn" :icon="Menu" @click="isOpenCategories = true" />
         <img class="items__logo" src="@/assets/images/logo.svg?url" alt="***REMOVED***" />
         <LayoutNavSearch
           class="items__search--wide"
@@ -34,11 +22,7 @@
         <LayoutIconButton
           class="items__search--narrow"
           :icon="Search"
-          @click="
-            () => {
-              isOpenSearch.value = true
-            }
-          "
+          @click="isOpenSearch = true"
         />
         <NuxtLink class="items__button" :to="isLogin ? 'account' : 'login'">
           <LayoutIconButton
@@ -64,11 +48,7 @@
           <IconButton
             class="mobile-menu__close-btn"
             :icon="Close"
-            @click="
-              () => {
-                isOpenCategories.value = false
-              }
-            "
+            @click="isOpenCategories = false"
           />
           <span>{{ t('menu') }}</span>
         </div>
@@ -90,11 +70,7 @@
           class="mobile-search__btn"
           type="button"
           :icon="ArrowBack"
-          @click="
-            () => {
-              isOpenSearch.value = false
-            }
-          "
+          @click="isOpenSearch = false"
         />
         <input class="mobile-search__input" type="text" :placeholder="t('search')" name="search" />
         <IconButton class="mobile-search__btn" type="submit" :icon="Search" />
