@@ -28,6 +28,7 @@ withDefaults(
   font-size: rem(14);
   transition: background-color 200ms ease-in-out;
   cursor: pointer;
+  border: solid 1px $transparent;
 
   &--primary {
     color: $white-color;

@@ -51,6 +51,10 @@ export default defineNuxtConfig({
     strategy: 'prefix_except_default',
   },
 
+  piniaPersistedstate: {
+    storage: 'localStorage',
+  },
+
   vite: {
     plugins: [svgLoader()],
     css: {

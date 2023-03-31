@@ -4,11 +4,13 @@
       <ProductPageCover class="product-header__gallery" :media="product?.gallery || []" />
 
       <div class="product-header__summary">
-        <ProductPageFavouriteButton
-          v-if="product"
-          class="product-header__fav-btn"
-          :product-id="product?.id"
-        />
+        <ClientOnly>
+          <ProductPageFavouriteButton
+            v-if="product"
+            class="product-header__fav-btn"
+            :product="product"
+          />
+        </ClientOnly>
 
         <h1 class="product-header__title">{{ product?.name }}</h1>
         <span class="product-header__subtitle"> {{ productSubtext }} </span>
@@ -103,6 +105,17 @@ const { data: product } = useAsyncData('product', async () => {
     else showError({ message: e.statusCode, statusCode: 500 })
     return null
   }
+})
+
+useHead({
+  title: computed(() => product.value?.name || ''),
+  meta: [
+    {
+      hid: 'description',
+      name: 'description',
+      content: computed(() => product.value?.description_short || ''),
+    },
+  ],
 })
 
 const productSubtext = computed(() => {
