@@ -185,6 +185,7 @@ const searchCallback = (data: SearchValues) => {
   &__left {
     @include flex-row;
     align-items: center;
+    flex: 1;
 
     @media ($max-viewport-12) {
       gap: 18px;

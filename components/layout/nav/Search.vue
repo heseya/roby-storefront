@@ -1,7 +1,7 @@
 <template>
   <form class="search" @submit.prevent="onSubmit">
     <input
-      class="search__input"
+      class="search__input search__input--query"
       :placeholder="t('search')"
       v-model="form.values.query"
       name="query"
@@ -65,6 +65,8 @@ defineProps<{
 <style lang="scss" scoped>
 .search {
   @include flex-row;
+  width: 100%;
+  max-width: 600px;
   align-items: center;
   gap: 22px;
   padding-left: 22px;
@@ -84,6 +86,10 @@ defineProps<{
     border: none;
     background: transparent;
     font-size: rem(14);
+
+    &--query {
+      width: 100%;
+    }
   }
 
   &__button {
