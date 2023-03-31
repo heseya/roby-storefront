@@ -1,5 +1,9 @@
 <template>
-  <nuxt-link :to="localePath(`/product/${product.slug}`)" class="product-miniature">
+  <nuxt-link
+    :to="localePath(`/product/${product.slug}`)"
+    class="product-miniature"
+    :class="{ 'product-miniature--horizontal': horizontal }"
+  >
     <div class="product-miniature__header">
       <div class="product-miniature__tags">
         <ProductTag v-for="tag in product.tags" :key="tag.id" :color="`#${tag.color}`">
@@ -10,11 +14,15 @@
       <Media :media="product.cover" width="200" height="200" class="product-miniature__cover" />
     </div>
 
-    <span class="product-miniature__name">
-      {{ product.name }}
-    </span>
-    <span class="product-miniature__subtext"> {{ productSubtext }} </span>
-    <ProductPrice class="product-miniature__price" :product="product" />
+    <div class="product-miniature__content">
+      <span class="product-miniature__name">
+        {{ product.name }}
+      </span>
+      <span class="product-miniature__subtext"> {{ productSubtext }} </span>
+      <ProductPrice class="product-miniature__price" :product="product" />
+
+      <slot />
+    </div>
   </nuxt-link>
 </template>
 
@@ -26,6 +34,7 @@ const localePath = useLocalePath()
 
 const props = defineProps<{
   product: ProductList
+  horizontal?: boolean
 }>()
 
 const productSubtext = computed(() => {
@@ -37,18 +46,35 @@ const productSubtext = computed(() => {
 
 <style lang="scss" scoped>
 .product-miniature {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
   text-align: left;
   text-decoration: none;
   width: 100%;
   max-width: 200px;
   color: $text-color;
+  position: relative;
+
+  &--horizontal {
+    flex-direction: row;
+    gap: 12px;
+    max-width: 100%;
+
+    @media ($viewport-7) {
+      gap: 32px;
+    }
+  }
 
   &__header {
     max-width: 200px;
     max-height: 200px;
     border: solid 1px $gray-color-300;
     position: relative;
+  }
+
+  &__content {
+    width: 100%;
   }
 
   &__tags {
@@ -67,9 +93,26 @@ const productSubtext = computed(() => {
     padding: 4px;
   }
 
+  &--horizontal &__cover {
+    min-height: 100px;
+
+    @media ($viewport-10) {
+      min-height: 200px;
+    }
+  }
+  &--horizontal &__header {
+    max-width: 100px;
+    max-height: 100px;
+
+    @media ($viewport-10) {
+      max-width: 200px;
+      max-height: 200px;
+    }
+  }
+
   &__name {
     display: block;
-    margin-top: 14px;
+    transition: 0.3s;
   }
 
   &__subtext {
@@ -83,6 +126,10 @@ const productSubtext = computed(() => {
     font-size: rem(16);
     margin-top: 16px;
     font-weight: 600;
+  }
+
+  &:hover &__name {
+    color: var(--primary-color);
   }
 }
 </style>

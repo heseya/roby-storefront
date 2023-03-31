@@ -21,6 +21,7 @@ export const useWishlistStore = defineStore('wishlist', {
 
   actions: {
     add(product: ProductList) {
+      if (this.isInWishlist(product.id)) return
       this.localWishlist.push(product)
       // TODO: trigger sync
     },

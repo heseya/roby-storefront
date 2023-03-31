@@ -1,12 +1,12 @@
 <template>
   <LayoutButton
-    :class="['favorite-btn', { 'favorite-btn--active': isFavorite }]"
-    :variant="isFavorite ? 'gray' : 'white'"
-    @click="toggleWishlist"
+    :class="['favorite-btn', { 'favorite-btn--active': isInWishlist }]"
+    :variant="isInWishlist ? 'gray' : 'white'"
+    @click="toggle"
   >
     <HeartIcon class="favorite-btn__icon" />
     <span class="favorite-btn__text">
-      {{ isFavorite ? t('removeFromFavorites') : t('addToFavorites') }}
+      {{ isInWishlist ? t('removeFromFavorites') : t('addToFavorites') }}
     </span>
   </LayoutButton>
 </template>
@@ -29,18 +29,10 @@ import { ProductList } from '@heseya/store-core'
 
 import HeartIcon from '@/assets/icons/heart.svg?component'
 
-import { useWishlistStore } from '~~/store/wishlist'
-
-const wishlist = useWishlistStore()
 const t = useLocalI18n()
 const props = withDefaults(defineProps<{ product: ProductList }>(), {})
 
-const isFavorite = computed(() => wishlist.isInWishlist(props.product.id))
-
-const toggleWishlist = () => {
-  if (isFavorite.value) wishlist.remove(props.product.id)
-  else wishlist.add(props.product)
-}
+const { isInWishlist, toggle } = useWishlist(props.product)
 </script>
 
 <style lang="scss" scoped>
