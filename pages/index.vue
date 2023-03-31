@@ -1,7 +1,6 @@
 <template>
   <div class="index-page">
     <div>
-      <h1 class="index-page__title">{{ t('home.title') }}</h1>
       <br />
       <PaginationPerPageSelect v-model="perPage" />
       <br />
@@ -46,7 +45,7 @@ const { t } = useI18n({
 
 <style lang="scss" scoped>
 .index-page {
-  margin: 200px auto;
+  margin: 24px auto;
   height: 100%;
   display: flex;
   justify-content: center;

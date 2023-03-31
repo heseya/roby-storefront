@@ -31,6 +31,7 @@ defineProps<{
 <style lang="scss" scoped>
 .category-btn {
   position: relative;
+  height: 55px;
   padding: 12px 18px;
   background-color: $gray-color-300;
 

@@ -146,6 +146,7 @@ const searchCallback = (data: SearchValues) => {
 
 <style lang="scss" scoped>
 .nav-bar {
+  z-index: 100;
   position: fixed;
   top: 0;
   left: 0;
