@@ -36,24 +36,11 @@
           <LayoutIconButton :icon="Shopping" :label="t('shopping')" isResize />
         </NuxtLink>
       </div>
-      <div v-show="isOpenCategories" class="nav-bar__mobile-menu">
-        <div class="mobile-menu__title">
-          <IconButton
-            class="mobile-menu__close-btn"
-            :icon="Close"
-            @click="isOpenCategories = false"
-          />
-          <span>{{ t('menu') }}</span>
-        </div>
-        <LayoutNavCategoryMobileButton
-          v-for="category in categories"
-          :key="category.name"
-          :label="category.name"
-          :special="category.isSpecial"
-          :link="category.link"
-          :subcategories="category.subcategories"
-        />
-      </div>
+      <LayoutNavMobileMenu
+        v-show="isOpenCategories"
+        @close="isOpenCategories = false"
+        :categories="categories"
+      />
       <LayoutNavMobileSearch
         v-show="isOpenSearch"
         @search="searchCallback"
@@ -80,23 +67,20 @@
     "signIn": "Zaloguj się",
     "wishList": "Lista życzeń",
     "shopping": "Koszyk",
-    "menu": "Menu",
     "search": "Czego szukasz?"
   }
 }
 </i18n>
 
 <script lang="ts" setup>
-import Close from '@/assets/icons/cross.svg?component'
 import Search from '@/assets/icons/search.svg?component'
 import Profile from '@/assets/icons/profile.svg?component'
 import Favorite from '@/assets/icons/favorite.svg?component'
 import Shopping from '@/assets/icons/shopping.svg?component'
 import Menu from '@/assets/icons/menu.svg?component'
 import { SearchValues, SelectOption } from '~/components/layout/nav/Search.vue'
-import IconButton from '~/components/layout/IconButton.vue'
 
-interface Category {
+export interface Category {
   name: string
   link?: string
   subcategories?: SelectOption[]
@@ -195,21 +179,6 @@ const searchCallback = (data: SearchValues) => {
       display: none;
     }
   }
-
-  &__mobile-menu {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: $white-color;
-    overflow: hidden;
-    @include flex-column;
-
-    @media ($viewport-12) {
-      display: none;
-    }
-  }
 }
 
 .items {
@@ -266,22 +235,6 @@ const searchCallback = (data: SearchValues) => {
     @media ($viewport-12) {
       display: none;
     }
-  }
-}
-
-.mobile-menu {
-  &__title {
-    @include flex-row;
-    align-items: center;
-    height: 60px;
-    font-weight: bold;
-
-    border-bottom: 1px solid $gray-color-300;
-  }
-
-  &__close-btn {
-    width: 44px;
-    height: 44px;
   }
 }
 </style>
