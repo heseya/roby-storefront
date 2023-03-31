@@ -149,7 +149,7 @@ const searchCallback = (data: SearchValues) => {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
+  width: 100%;
   background-color: $white-color;
   @include flex-column;
 
@@ -164,7 +164,7 @@ const searchCallback = (data: SearchValues) => {
     gap: 40px;
     @media ($max-viewport-12) {
       height: 60px;
-      padding: 20px 18px;
+      padding: 0 18px;
       gap: 18px;
     }
   }
@@ -172,7 +172,6 @@ const searchCallback = (data: SearchValues) => {
   &__categories {
     @include flex-row;
     justify-content: center;
-
     background-color: $gray-color-300;
 
     @media ($max-viewport-12) {
