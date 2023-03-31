@@ -1,5 +1,5 @@
 <template>
-  <component class="icon" :height="calcSize()" :width="calcSize()" :is="icon" />
+  <component class="icon" :height="calculatedSize" :width="calculatedSize" :is="icon" />
 </template>
 
 <script lang="ts" setup>
@@ -17,7 +17,7 @@ const props = withDefaults(
   },
 )
 
-const calcSize = () => {
+const calculatedSize = computed(() => {
   switch (props.size) {
     case 'md':
       return 24
@@ -28,7 +28,7 @@ const calcSize = () => {
     default:
       return isNaN(props.size) ? 24 : props.size
   }
-}
+})
 </script>
 
 <style lang="scss" scoped>
