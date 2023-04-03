@@ -1,55 +1,61 @@
 <template>
   <footer class="footer">
     <div class="footer__content">
-      <BaseFooterSection class="footer__section" title="Sprzedaż">
-        <NuxtLink to="/"> Lorem ipsum </NuxtLink>
-        <NuxtLink to="/"> Lorem ipsum </NuxtLink>
-        <NuxtLink to="/"> Lorem ipsum </NuxtLink>
-        <NuxtLink to="/"> Lorem ipsum </NuxtLink>
-      </BaseFooterSection>
-      <BaseFooterSection class="footer__section" title="Serwis">
-        <NuxtLink to="/"> Lorem ipsum </NuxtLink>
-        <NuxtLink to="/"> Lorem ipsum </NuxtLink>
-        <NuxtLink to="/"> Lorem ipsum </NuxtLink>
-        <NuxtLink to="/"> Lorem ipsum </NuxtLink>
-      </BaseFooterSection>
-      <BaseFooterSection class="footer__section" title="Finansowanie">
-        <NuxtLink to="/"> Lorem ipsum </NuxtLink>
-        <NuxtLink to="/"> Lorem ipsum </NuxtLink>
-        <NuxtLink to="/"> Lorem ipsum </NuxtLink>
-        <NuxtLink to="/"> Lorem ipsum </NuxtLink>
-      </BaseFooterSection>
-      <BaseFooterSection class="footer__section" title="Informacje" last>
-        <NuxtLink to="/"> Lorem ipsum </NuxtLink>
-        <NuxtLink to="/"> Lorem ipsum </NuxtLink>
-        <NuxtLink to="/"> Lorem ipsum </NuxtLink>
-        <NuxtLink to="/"> Lorem ipsum </NuxtLink>
+      <BaseFooterSection
+        v-for="section in SECTIONS_COUNT"
+        :key="section"
+        class="footer__section"
+        :title="getSectionName(section)"
+        :last="section === SECTIONS_COUNT"
+      >
+        <NuxtLink
+          v-for="page in getSectionPages(section)"
+          :key="page.id"
+          :to="localePath(`/${page.slug}`)"
+        >
+          {{ page.name }}
+        </NuxtLink>
       </BaseFooterSection>
 
       <div class="footer__section footer__section--main">
-        <div class="footer__logo">LOGO</div>
+        <img class="footer__logo" :src="footerLogoPath" />
 
-        <div class="footer__text">
+        <div v-if="companyAddress" class="footer__text">
           <div class="footer__icon"><PinIcon /></div>
-          ul. Zakopiańska 190, 60-467 Poznań
+          {{ companyAddress }}
         </div>
-        <div class="footer__text">
+        <div v-if="companyPhone" class="footer__text">
           <div class="footer__icon"><PhoneIcon /></div>
-          tel. +48 61 842-53-00
+          {{ companyPhone }}
         </div>
-        <div class="footer__text">
+        <div v-if="companyEmail" class="footer__text">
           <div class="footer__icon"><MailIcon /></div>
-          biuro@***REMOVED***.pl
+          <a :href="`mailto:${companyEmail}`">{{ companyEmail }}</a>
         </div>
 
         <div class="footer__row">
-          <a class="footer__social-icon" href="https://facebook.com" rel="nofollow noreferrer">
+          <a
+            v-if="companyFacebook"
+            class="footer__social-icon"
+            :href="companyFacebook"
+            rel="nofollow noreferrer"
+          >
             <FacebookIcon />
           </a>
-          <a class="footer__social-icon" href="https://instagram.com" rel="nofollow noreferrer">
+          <a
+            v-if="companyInstagram"
+            class="footer__social-icon"
+            :href="companyInstagram"
+            rel="nofollow noreferrer"
+          >
             <InstagramIcon />
           </a>
-          <a class="footer__social-icon" href="https://linkedin.com" rel="nofollow noreferrer">
+          <a
+            v-if="companyLinkedin"
+            class="footer__social-icon"
+            :href="companyLinkedin"
+            rel="nofollow noreferrer"
+          >
             <LinkedinIcon />
           </a>
         </div>
@@ -59,12 +65,48 @@
 </template>
 
 <script lang="ts" setup>
+import { useConfigStore } from '~~/store/config'
+
+import FooterLogo from '@/assets/images/logo-grayscale.svg'
 import FacebookIcon from '@/assets/icons/facebook.svg?component'
 import InstagramIcon from '@/assets/icons/instagram.svg?component'
 import LinkedinIcon from '@/assets/icons/linkedin.svg?component'
 import PinIcon from '@/assets/icons/pin.svg?component'
 import PhoneIcon from '@/assets/icons/phone.svg?component'
 import MailIcon from '@/assets/icons/mail.svg?component'
+
+const config = useConfigStore()
+const heseya = useHeseya()
+const localePath = useLocalePath()
+
+const SECTIONS_COUNT = 4
+
+// TODO: footer logo should also come from the config
+const footerLogoPath = FooterLogo
+
+const companyFacebook = computed(() => String(config.env.facebook_url))
+const companyInstagram = computed(() => String(config.env.instagram_url))
+const companyLinkedin = computed(() => String(config.env.linkedin_url))
+
+const companyAddress = computed(() => String(config.env.company_address))
+const companyPhone = computed(() => String(config.env.company_phone))
+const companyEmail = computed(() => String(config.env.company_email))
+
+const { data: sections } = useAsyncData('footer-pages', async () => {
+  const pages = await Promise.all([
+    heseya.Pages.get({ metadata: { footer_section: '1' } }),
+    heseya.Pages.get({ metadata: { footer_section: '2' } }),
+    heseya.Pages.get({ metadata: { footer_section: '3' } }),
+    heseya.Pages.get({ metadata: { footer_section: '4' } }),
+  ])
+  return pages.map((section) => section.data)
+})
+
+const getSectionPages = (section: number) => {
+  return sections.value?.[section - 1] || []
+}
+
+const getSectionName = (section: number) => String(config.env[`footer_section_name${section}`])
 </script>
 
 <style lang="scss" scoped>
@@ -104,24 +146,24 @@ import MailIcon from '@/assets/icons/mail.svg?component'
   }
 
   &__logo {
-    // TODO: replace with logo
     width: 130px;
     height: 38px;
-    background-color: $gray-color-600;
-    border-radius: 8px;
-    margin-bottom: 20px;
-    color: #fff;
-    font-weight: 600;
-    font-size: rem(18);
-    display: flex;
-    justify-content: center;
-    align-items: center;
   }
 
   &__text {
     margin: 12px 0;
     font-size: rem(14);
     display: flex;
+
+    > a {
+      color: $text-color;
+      text-decoration: none;
+      transition: 0.3s;
+
+      &:hover {
+        color: var(--primary-color);
+      }
+    }
   }
 
   &__icon {
