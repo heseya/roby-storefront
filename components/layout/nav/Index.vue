@@ -18,17 +18,34 @@
           :icon="Search"
           @click="isOpenSearch = true"
         />
-        <NuxtLink class="items__button" :to="isLogin ? 'account' : 'login'">
-          <LayoutIconButton
-            class="items__button--icon"
-            :icon="Profile"
-            :label="isLogin ? t('myAccount') : t('signIn')"
-            isResize
-          />
-        </NuxtLink>
+        <div class="items__button-wrapper">
+          <NuxtLink class="items__button" :to="isLogin ? 'account' : 'login'">
+            <LayoutIconButton
+              class="button__icon"
+              :icon="Profile"
+              :label="isLogin ? t('myAccount') : t('signIn')"
+              isResize
+            />
+          </NuxtLink>
+          <div v-show="isLogin" class="button__list">
+            <NuxtLink
+              class="button__list-item"
+              :key="link.label"
+              v-for="link in accountLinks"
+              :to="link.link"
+              >{{ t(link.label) }}
+            </NuxtLink>
+            <button
+              @click="logoutCallback"
+              :class="['button__list-item', 'button__list-item--logout']"
+            >
+              {{ t('logout') }}
+            </button>
+          </div>
+        </div>
         <NuxtLink class="items__button" to="list">
           <LayoutIconButton
-            class="items__button--icon"
+            class="button__icon"
             :icon="Favorite"
             :label="t('wishList')"
             :notificationNumber="2"
@@ -36,12 +53,7 @@
           />
         </NuxtLink>
         <NuxtLink class="items__button" to="shopping">
-          <LayoutIconButton
-            class="items__button--icon"
-            :icon="Shopping"
-            :label="t('shopping')"
-            isResize
-          />
+          <LayoutIconButton class="button__icon" :icon="Shopping" :label="t('shopping')" isResize />
         </NuxtLink>
       </div>
       <LayoutNavMobileMenu
@@ -75,7 +87,11 @@
     "signIn": "Zaloguj się",
     "wishList": "Lista życzeń",
     "shopping": "Koszyk",
-    "search": "Czego szukasz?"
+    "search": "Czego szukasz?",
+    "orders": "Zamówienia",
+    "accountSettings": "Ustawienia konta",
+    "address": "Adresy",
+    "logout": "Wyloguj się"
   }
 }
 </i18n>
@@ -94,6 +110,30 @@ export interface Category {
   subcategories?: SelectOption[]
   isSpecial?: boolean
 }
+
+interface Link {
+  link: string
+  label: string
+}
+
+const accountLinks: Link[] = [
+  {
+    link: 'orders',
+    label: 'orders',
+  },
+  {
+    link: 'settings',
+    label: 'accountSettings',
+  },
+  {
+    link: 'address',
+    label: 'address',
+  },
+  {
+    link: 'wish-list',
+    label: 'wishList',
+  },
+]
 
 // temporary, in the future from the backend
 const subcategories: SelectOption[] = [
@@ -149,6 +189,10 @@ const isOpenSearch = ref(false)
 
 const searchCallback = (data: SearchValues) => {
   console.log(data)
+}
+
+const logoutCallback = () => {
+  console.log('logout')
 }
 </script>
 
@@ -225,8 +269,18 @@ const searchCallback = (data: SearchValues) => {
     text-decoration: none;
   }
 
-  &__button--icon {
-    color: #8d8d8d;
+  &__button-wrapper {
+    position: relative;
+
+    &:hover {
+      .button__list {
+        display: flex !important;
+
+        @media ($max-viewport-12) {
+          display: none !important;
+        }
+      }
+    }
   }
 
   &__search {
@@ -248,6 +302,52 @@ const searchCallback = (data: SearchValues) => {
     @media ($viewport-12) {
       display: none;
     }
+  }
+}
+
+.button {
+  &__icon {
+    color: #8d8d8d;
+  }
+
+  &__list {
+    position: absolute;
+    left: 0;
+    z-index: 1001;
+    padding: 10px 0;
+
+    @include flex-column;
+    border: 1px solid $gray-color-300;
+    background-color: $white-color;
+
+    &-item {
+      padding: 10px 20px;
+
+      text-align: left;
+      white-space: nowrap;
+      text-decoration: none;
+      color: $gray-color-900;
+      transition: color 200ms ease-in-out;
+
+      &:hover {
+        color: $primary-color;
+        cursor: pointer;
+      }
+
+      &--logout {
+        outline: none;
+        border: none;
+        background-color: $white-color;
+      }
+
+      &:last-child {
+        padding: 10px 0px;
+        margin: 0 20px;
+        border-top: 1px solid $gray-color-300;
+      }
+    }
+
+    display: none;
   }
 }
 </style>
