@@ -31,8 +31,8 @@ withDefaults(
 <style lang="scss" scoped>
 .icon-btn {
   padding: 0;
-  min-width: 32px;
-  min-height: 32px;
+  min-width: 16px;
+  min-height: 16px;
   flex-shrink: 0;
 
   outline: none;

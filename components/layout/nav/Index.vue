@@ -251,7 +251,7 @@ const logoutCallback = () => {
       height: 20px;
     }
 
-    @media ($max-viewport-40) {
+    @media ($max-viewport-3) {
       display: none;
     }
   }
