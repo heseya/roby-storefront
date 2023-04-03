@@ -32,7 +32,6 @@ const { isInWishlist, toggle } = useWishlist(props.product)
   background-color: #fff;
   cursor: pointer;
   transition: 0.3s;
-  transition: 0.3s;
 
   &__icon {
     color: $gray-color-600;
