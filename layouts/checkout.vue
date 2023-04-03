@@ -11,7 +11,7 @@
           v-for="item of barItems"
           :key="item.name"
           class="checkout__bar-item"
-          :class="{ 'checkout__active-path': item.value }"
+          :class="{ 'checkout__bar-item--active-path': item.value }"
         >
           {{ item.name }}
         </div>
@@ -33,7 +33,7 @@ interface CheckoutSiteBarItem {
 const barItems = ref<CheckoutSiteBarItem[]>([
   { name: 'Koszyk', value: true },
   { name: 'Dostawa i płatność', value: true },
-  { name: 'Gotowe', value: true },
+  { name: 'Gotowe', value: false },
 ])
 </script>
 <style lang="scss">
@@ -75,6 +75,11 @@ const barItems = ref<CheckoutSiteBarItem[]>([
     text-align: center;
     margin-top: 40px;
 
+    &::before,
+    &:not(:last-child)::after {
+      background-color: #a7a7a7;
+    }
+
     &::before {
       content: '';
       width: 15px;
@@ -96,21 +101,18 @@ const barItems = ref<CheckoutSiteBarItem[]>([
       padding-left: 5px;
       padding-right: 5px;
     }
+
+    &--active-path {
+      &::before,
+      &:not(:last-child)::after {
+        background-color: #e1a044;
+      }
+    }
   }
 
   &__content {
     display: flex;
     justify-content: center;
-  }
-
-  ::before,
-  :not(:last-child)::after {
-    background-color: #a7a7a7;
-  }
-
-  .checkout__active-path::before,
-  .checkout__active-path:not(:last-child)::after {
-    background-color: #e1a044;
   }
 }
 </style>
