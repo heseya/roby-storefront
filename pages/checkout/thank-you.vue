@@ -5,10 +5,10 @@
     </div>
     <div class="checkout-container__header">{{ t('container.header') }}</div>
     <div class="checkout-container__text">{{ t('container.text') }}</div>
-    <div class="checkout-container__btn">
-      <nuxt-link to="/">
-        <LayoutButton>{{ t('container.btn') }}</LayoutButton></nuxt-link
-      >
+    <div class="checkout-container__nav">
+      <NuxtLink to="/">
+        <LayoutButton class="checkout-container__btn">{{ t('container.btn') }}</LayoutButton>
+      </NuxtLink>
     </div>
   </div>
 </template>
@@ -28,7 +28,7 @@
 <script setup lang="ts">
 import ShoppingBag from '@/assets/icons/shopping-bag.svg?component'
 definePageMeta({
-  layout: 'buying-progress',
+  layout: 'checkout',
 })
 
 const t = useLocalI18n()
@@ -62,13 +62,13 @@ const t = useLocalI18n()
     font-size: 14px;
   }
 
-  &__btn {
+  &__nav {
     display: flex;
     justify-content: center;
     margin-bottom: 32px;
   }
 
-  &__btn .btn {
+  &__btn {
     padding: 8px 55px;
   }
 }

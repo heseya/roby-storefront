@@ -1,45 +1,45 @@
 <template>
-  <div class="buying-progress-site">
-    <div class="buying-progress-site__header">
-      <div class="buying-progress-site__logo">
+  <div class="checkout">
+    <div class="checkout__header">
+      <div class="checkout__logo">
         <LogoIcon />
       </div>
     </div>
-    <div class="buying-progress-site__bar">
-      <div class="buying-progress-site__bar-container">
+    <div class="checkout__bar">
+      <div class="checkout__bar-container">
         <div
           v-for="item of barItems"
           :key="item.name"
-          class="buying-progress-site__bar-item"
-          :class="item.value ? 'active-path' : 'not-active-path'"
+          class="checkout__bar-item"
+          :class="{ 'checkout__active-path': item.value }"
         >
           {{ item.name }}
         </div>
       </div>
     </div>
 
-    <div class="buying-progress-site__content"><slot /></div>
+    <div class="checkout__content"><slot /></div>
   </div>
 </template>
 <script setup lang="ts">
 import { ref } from 'vue'
 import LogoIcon from '@/assets/icons/logo.svg?component'
 
-interface BuyingProgressSiteBarItem {
+interface CheckoutSiteBarItem {
   name: string
   value: boolean
 }
 
-const barItems = ref<BuyingProgressSiteBarItem[]>([
+const barItems = ref<CheckoutSiteBarItem[]>([
   { name: 'Koszyk', value: true },
   { name: 'Dostawa i płatność', value: true },
   { name: 'Gotowe', value: true },
 ])
 </script>
 <style lang="scss">
-.buying-progress-site {
+.checkout {
   min-height: 100vh;
-  background: #f7f7f7;
+  background: $gray-color-100;
 
   &__header {
     height: 100px;
@@ -103,14 +103,14 @@ const barItems = ref<BuyingProgressSiteBarItem[]>([
     justify-content: center;
   }
 
-  .active-path::before,
-  .active-path:not(:last-child)::after {
-    background-color: #e1a044;
+  ::before,
+  :not(:last-child)::after {
+    background-color: #a7a7a7;
   }
 
-  .not-active-path::before,
-  .not-active-path:not(:last-child)::after {
-    background-color: #a7a7a7;
+  .checkout__active-path::before,
+  .checkout__active-path:not(:last-child)::after {
+    background-color: #e1a044;
   }
 }
 </style>
