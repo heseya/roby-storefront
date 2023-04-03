@@ -3,7 +3,10 @@
     <LayoutHeader variant="black" tag="h1" class="wishlist-page__title">
       {{ t('title') }}
     </LayoutHeader>
-    <div v-if="wishlist.products.length" class="wishlist-page__items">
+
+    <LayoutEmpty v-if="wishlist.products.length === 0"> {{ t('empty') }} </LayoutEmpty>
+
+    <div v-if="wishlist.products.length > 0" class="wishlist-page__items">
       <ProductMiniature
         v-for="product in wishlist.products"
         :key="product.id"
@@ -14,8 +17,6 @@
         <ProductPageSmallFavouriteButton class="wishlist-page__btn" :product="product" />
       </ProductMiniature>
     </div>
-
-    <LayoutEmpty v-else> {{ t('empty') }} </LayoutEmpty>
   </div>
 </template>
 
