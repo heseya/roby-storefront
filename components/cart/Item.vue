@@ -16,9 +16,7 @@
     </div>
 
     <div class="cart-item__actions">
-      <button class="cart-item__btn">
-        <CrossIcon />
-      </button>
+      <LayoutIconButton :icon="CrossIcon" iconSize="sm" />
     </div>
   </div>
 </template>
