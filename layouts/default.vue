@@ -4,6 +4,7 @@
       <BaseNav />
     </div>
     <div class="site__content">
+      <LayoutBreadcrumps />
       <slot></slot>
     </div>
     <div class="site__footer">
