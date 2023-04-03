@@ -227,12 +227,6 @@ const searchCallback = (data: SearchValues) => {
 
   &__button--icon {
     color: #8d8d8d;
-
-    @media ($max-viewport-12) {
-      > svg {
-        height: 16px;
-      }
-    }
   }
 
   &__search {

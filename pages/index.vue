@@ -27,21 +27,7 @@
   </div>
 </template>
 
-<i18n lang="json">
-{
-  "pl": {
-    "home": {
-      "title": "***REMOVED***"
-    }
-  }
-}
-</i18n>
-
-<script setup lang="ts">
-const { t } = useI18n({
-  useScope: 'local',
-})
-</script>
+<script setup lang="ts"></script>
 
 <style lang="scss" scoped>
 .index-page {
