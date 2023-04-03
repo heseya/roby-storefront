@@ -1,9 +1,9 @@
 <template>
   <component
+    :is="icon"
     :class="['icon', isResize && 'icon--resize']"
     :height="calculatedSize"
     :width="calculatedSize"
-    :is="icon"
   />
 </template>
 

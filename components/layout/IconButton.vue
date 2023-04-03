@@ -2,11 +2,11 @@
   <button class="icon-btn">
     <div class="icon-btn__icon-container">
       <LayoutIcon :icon="icon" :size="iconSize" :isResize="isResize" />
-      <span class="icon-btn__notification" v-show="notificationNumber > 0">{{
+      <span v-show="notificationNumber > 0" class="icon-btn__notification">{{
         notificationNumber
       }}</span>
     </div>
-    <span :class="['icon-btn__label', isResize && 'icon-btn__label--resize']" v-show="label">{{
+    <span v-show="label" :class="['icon-btn__label', isResize && 'icon-btn__label--resize']">{{
       label
     }}</span>
   </button>

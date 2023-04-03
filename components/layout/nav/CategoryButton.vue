@@ -7,9 +7,9 @@
     </NuxtLink>
     <div v-show="Boolean(subcategories?.length)" class="category-btn__list">
       <NuxtLink
-        class="category-btn__list-item"
-        :key="category.value"
         v-for="category in subcategories"
+        :key="category.value"
+        class="category-btn__list-item"
         :to="category.value"
         >{{ category.label }}
       </NuxtLink>

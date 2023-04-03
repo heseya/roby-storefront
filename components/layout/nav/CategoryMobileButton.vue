@@ -15,9 +15,9 @@
     </div>
     <div v-show="isOpenSubcategories" class="category-mobile-btn__list">
       <NuxtLink
-        class="category-mobile-btn__list-item"
-        :key="category.value"
         v-for="category in subcategories"
+        :key="category.value"
+        class="category-mobile-btn__list-item"
         :to="category.value"
         >{{ category.label }}
       </NuxtLink>

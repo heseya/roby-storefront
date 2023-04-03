@@ -29,15 +29,15 @@
           </NuxtLink>
           <div v-show="isLogin" class="button__list">
             <NuxtLink
-              class="button__list-item"
-              :key="link.label"
               v-for="link in accountLinks"
+              :key="link.label"
+              class="button__list-item"
               :to="link.link"
               >{{ t(link.label) }}
             </NuxtLink>
             <button
-              @click="logoutCallback"
               :class="['button__list-item', 'button__list-item--logout']"
+              @click="logoutCallback"
             >
               {{ t('logout') }}
             </button>
@@ -61,8 +61,8 @@
       </div>
       <LayoutNavMobileMenu
         v-show="isOpenCategories"
-        @close="isOpenCategories = false"
         :categories="categories"
+        @close="isOpenCategories = false"
       />
       <LayoutNavMobileSearch
         v-show="isOpenSearch"

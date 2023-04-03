@@ -1,15 +1,15 @@
 <template>
   <form class="search" @submit.prevent="onSubmit">
     <input
+      v-model="form.values.query"
       class="search__input search__input--query"
       :placeholder="t('search')"
-      v-model="form.values.query"
       name="query"
     />
     <div class="search__separator" />
-    <select class="search__input" v-model="form.values.category" name="category">
+    <select v-model="form.values.category" class="search__input" name="category">
       <option selected value="all">{{ t('allCategories') }}</option>
-      <option :key="value" v-for="{ label, value } in categories" :value="value">
+      <option v-for="{ label, value } in categories" :key="value" :value="value">
         {{ label }}
       </option>
     </select>
