@@ -31,10 +31,10 @@ withDefaults(
 
   &--primary {
     color: $white-color;
-    background-color: $unnamed-color-e1a044;
+    background-color: var(--secondary-color-alt);
 
     &:hover {
-      background-color: $gray-color-300;
+      background-color: var(--secondary-color);
     }
   }
 
