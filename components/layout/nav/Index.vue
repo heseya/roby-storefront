@@ -52,9 +52,12 @@
             isResize
           />
         </NuxtLink>
-        <NuxtLink class="items__button" to="shopping">
-          <LayoutIconButton class="button__icon" :icon="Shopping" :label="t('shopping')" isResize />
-        </NuxtLink>
+        <div class="items__button-wrapper">
+          <NuxtLink class="items__button" to="cart">
+            <LayoutIconButton class="button__icon" :icon="Shopping" :label="t('cart')" isResize />
+          </NuxtLink>
+          <LayoutNavCartPreview class="items__cart-preview" />
+        </div>
       </div>
       <LayoutNavMobileMenu
         v-show="isOpenCategories"
@@ -86,7 +89,7 @@
     "myAccount": "Moje konto",
     "signIn": "Zaloguj się",
     "wishList": "Lista życzeń",
-    "shopping": "Koszyk",
+    "cart": "Koszyk",
     "search": "Czego szukasz?",
     "orders": "Zamówienia",
     "accountSettings": "Ustawienia konta",
@@ -266,7 +269,13 @@ const logoutCallback = () => {
   }
 
   &__button {
+    display: inline-block;
     text-decoration: none;
+    padding: 20px 0;
+  }
+
+  &__cart-preview {
+    display: none;
   }
 
   &__button-wrapper {
@@ -274,6 +283,14 @@ const logoutCallback = () => {
 
     &:hover {
       .button__list {
+        display: flex !important;
+
+        @media ($max-viewport-12) {
+          display: none !important;
+        }
+      }
+
+      .items__cart-preview {
         display: flex !important;
 
         @media ($max-viewport-12) {
