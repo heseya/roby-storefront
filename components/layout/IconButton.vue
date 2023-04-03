@@ -1,7 +1,7 @@
 <template>
   <button class="icon-btn">
     <div class="icon-btn__icon-container">
-      <component :is="icon" />
+      <LayoutIcon :icon="icon" :size="iconSize" :isResize="isResize" />
       <span class="icon-btn__notification" v-show="notificationNumber > 0">{{
         notificationNumber
       }}</span>
@@ -14,10 +14,12 @@
 
 <script lang="ts" setup>
 import { FunctionalComponent } from 'vue'
+import { IconSize } from '~/components/layout/Icon.vue'
 
 withDefaults(
   defineProps<{
     icon: FunctionalComponent
+    iconSize?: IconSize
     label?: string
     notificationNumber?: number
     isResize?: boolean
@@ -40,7 +42,6 @@ withDefaults(
   align-items: center;
   gap: 14px;
 
-  color: $gray-color-900;
   background-color: transparent;
 
   &:hover {
@@ -64,10 +65,13 @@ withDefaults(
     line-height: 15px;
     font-size: rem(10);
 
+    color: $gray-color-900;
     background-color: $secondary-color;
   }
 
   &__label {
+    color: $gray-color-900;
+
     &--resize {
       @media ($max-viewport-12) {
         display: none;

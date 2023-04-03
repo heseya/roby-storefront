@@ -1,7 +1,12 @@
 <template>
   <div v-show="isOpenCategories" class="mobile-menu">
     <div class="mobile-menu__title">
-      <LayoutIconButton class="mobile-menu__close-btn" :icon="Close" @click="onClose" />
+      <LayoutIconButton
+        class="mobile-menu__close-btn"
+        :icon="Close"
+        @click="onClose"
+        iconSize="sm"
+      />
       <span>{{ t('menu') }}</span>
     </div>
     <LayoutNavCategoryMobileButton
@@ -25,7 +30,6 @@
 
 <script lang="ts" setup>
 import Close from '@/assets/icons/cross.svg?component'
-import { SearchValues } from '~/components/layout/nav/Search.vue'
 import { Category } from '~/components/layout/nav/Index.vue'
 
 const t = useLocalI18n()

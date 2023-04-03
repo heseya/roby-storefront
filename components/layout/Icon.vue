@@ -1,5 +1,10 @@
 <template>
-  <component class="icon" :height="calcSize()" :width="calcSize()" :is="icon" />
+  <component
+    :class="['icon', isResize && 'icon--resize']"
+    :height="calcSize()"
+    :width="calcSize()"
+    :is="icon"
+  />
 </template>
 
 <script lang="ts" setup>
@@ -9,11 +14,13 @@ export type IconSize = 'sm' | 'md' | 'lg' | number
 
 const props = withDefaults(
   defineProps<{
+    isResize?: boolean
     icon: FunctionalComponent
     size?: IconSize
   }>(),
   {
     size: 'md',
+    isResize: false,
   },
 )
 
@@ -34,5 +41,12 @@ const calcSize = () => {
 <style lang="scss" scoped>
 .icon {
   display: inline-block;
+
+  &--resize {
+    @media ($max-viewport-12) {
+      height: 16px;
+      width: 16px;
+    }
+  }
 }
 </style>

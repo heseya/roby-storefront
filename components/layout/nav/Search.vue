@@ -13,7 +13,7 @@
         {{ label }}
       </option>
     </select>
-    <LayoutIconButton class="search__button" :icon="Search" type="submit" />
+    <LayoutIconButton iconSize="sm" class="search__button" :icon="Search" type="submit" />
   </form>
 </template>
 

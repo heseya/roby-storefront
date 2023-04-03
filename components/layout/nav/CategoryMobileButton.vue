@@ -4,11 +4,12 @@
       <NuxtLink class="category-mobile-btn__link" :to="link">
         {{ label }}
       </NuxtLink>
-      <IconButton
+      <LayoutIconButton
         v-show="Boolean(subcategories?.length)"
         class="category-mobile-btn__arrow"
         :class="isOpenSubcategories ? 'category-mobile-btn__arrow--down' : ''"
         :icon="Chevron"
+        :iconSize="12"
         @click="toggleOpenSubcategories"
       />
     </div>
@@ -27,7 +28,6 @@
 <script lang="ts" setup>
 import Chevron from '@/assets/icons/chevron.svg?component'
 import { SelectOption } from '~/components/layout/nav/Search.vue'
-import IconButton from '~/components/layout/IconButton.vue'
 
 const isOpenSubcategories = ref(false)
 

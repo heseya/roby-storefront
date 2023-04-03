@@ -13,12 +13,14 @@
       </div>
       <div class="items__buttons">
         <LayoutIconButton
+          iconSize="sm"
           class="items__search--narrow"
           :icon="Search"
           @click="isOpenSearch = true"
         />
         <NuxtLink class="items__button" :to="isLogin ? 'account' : 'login'">
           <LayoutIconButton
+            class="items__button--icon"
             :icon="Profile"
             :label="isLogin ? t('myAccount') : t('signIn')"
             isResize
@@ -26,6 +28,7 @@
         </NuxtLink>
         <NuxtLink class="items__button" to="list">
           <LayoutIconButton
+            class="items__button--icon"
             :icon="Favorite"
             :label="t('wishList')"
             :notificationNumber="2"
@@ -33,7 +36,12 @@
           />
         </NuxtLink>
         <NuxtLink class="items__button" to="shopping">
-          <LayoutIconButton :icon="Shopping" :label="t('shopping')" isResize />
+          <LayoutIconButton
+            class="items__button--icon"
+            :icon="Shopping"
+            :label="t('shopping')"
+            isResize
+          />
         </NuxtLink>
       </div>
       <LayoutNavMobileMenu
@@ -199,7 +207,7 @@ const searchCallback = (data: SearchValues) => {
       height: 20px;
     }
 
-    @media ($max-viewport-3) {
+    @media ($max-viewport-40) {
       display: none;
     }
   }
@@ -215,6 +223,16 @@ const searchCallback = (data: SearchValues) => {
 
   &__button {
     text-decoration: none;
+  }
+
+  &__button--icon {
+    color: #8d8d8d;
+
+    @media ($max-viewport-12) {
+      > svg {
+        height: 16px;
+      }
+    }
   }
 
   &__search {

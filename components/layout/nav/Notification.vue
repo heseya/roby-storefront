@@ -4,6 +4,7 @@
     <LayoutIconButton
       class="notification__button"
       :icon="Close"
+      iconSize="sm"
       @click="isOpenNotification = false"
     />
   </div>

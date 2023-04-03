@@ -1,6 +1,12 @@
 <template>
   <form class="mobile-search" @submit.prevent="onSubmit">
-    <LayoutIconButton class="mobile-search__btn" type="button" :icon="ArrowBack" @click="onClose" />
+    <LayoutIconButton
+      class="mobile-search__btn"
+      type="button"
+      :icon="ArrowBack"
+      iconSize="sm"
+      @click="onClose"
+    />
     <input
       v-model="form.values.query"
       class="mobile-search__input"
@@ -8,7 +14,7 @@
       :placeholder="t('search')"
       name="query"
     />
-    <LayoutIconButton class="mobile-search__btn" type="submit" :icon="Search" />
+    <LayoutIconButton class="mobile-search__btn" type="submit" iconSize="sm" :icon="Search" />
   </form>
 </template>
 
