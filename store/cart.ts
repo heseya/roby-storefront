@@ -1,36 +1,225 @@
-import { CartItem } from '@heseya/store-core'
+import {
+  CartDto,
+  CartItem,
+  CartItemDto,
+  CartItemSchema,
+  Coupon,
+  HeseyaEvent,
+  ProductList,
+  restoreCart,
+  SaleShort,
+  SavedCartItem,
+  Schema,
+} from '@heseya/store-core'
+import cloneDeep from 'lodash/cloneDeep'
 import { defineStore } from 'pinia'
+
+export type CartCoupon = Coupon & { effective_value?: number }
 
 export const useCartStore = defineStore('cart', {
   state: () => ({
-    items: [
-      {
-        coverMedia: {
-          url: 'https://cdn-dev.heseya.com/demo/yXM0I54gAscKiEcKYnpmZFZPafTiQajOlh3XOFPp.jpg',
-          type: 'photo',
-        },
-        qty: 1,
-        totalQty: 1,
-        name: 'imagePROGRAF TC-20',
-        totalPrice: 3799,
-        totalInitialPrice: 3999,
-        discountValue: 200,
-      } as any,
-    ] as CartItem[],
+    items: [] as CartItem[],
+    isProcessing: false,
+    error: null as any, // TODO: show this error somewhere in the UI
+    coupons: [] as CartCoupon[],
+    sales: [] as SaleShort[],
+    totalValue: 0,
+    totalValueInitial: 0,
+    shippingPrice: 0,
+    shippingTime: null as number | null,
+    shippingDate: null as string | null,
+    summary: 0,
+    unavailableItems: [] as CartItem[],
   }),
 
   getters: {
     length(): number {
       return this.items.reduce((total, item) => total + item.totalQty, 0)
     },
-    totalValue(): number {
+    calcedTotalValue(): number {
       return this.items.reduce((acc, curr) => acc + curr.totalPrice, 0)
     },
-    totalValueInitial(): number {
-      return this.items.reduce((acc, curr) => acc + curr.totalInitialPrice, 0)
-    },
-    discountValue(): number {
+    totalDiscountValue(): number {
       return this.totalValueInitial - this.totalValue
     },
+
+    isPhisicalShippingNeeded(): boolean {
+      return this.items.some((i) => !i.shippingDigital)
+    },
+    isDigitalShippingNeeded(): boolean {
+      return this.items.some((i) => i.shippingDigital)
+    },
+
+    orderItems(): CartItemDto[] {
+      return this.items.map((i) => i.getOrderObject())
+    },
+    cartDto(): CartDto {
+      return {
+        items: this.items.map((item) => item.getOrderObject()),
+        coupons: this.coupons.map((coupon) => coupon.code),
+        shipping_method_id: undefined, // TODO
+        digital_shipping_method_id: undefined, // TODO
+      }
+    },
+  },
+
+  actions: {
+    deboucedProcessCart() {
+      // TODO: debounce
+      this.processCart()
+    },
+
+    async processCart() {
+      const heseya = useHeseya()
+      if (!this.length) {
+        this.clear()
+        return
+      }
+
+      this.isProcessing = true
+      this.error = null
+      try {
+        const cart = await heseya.Orders.processCart(this.cartDto)
+
+        this.sales = cart.sales
+
+        this.coupons = cart.coupons.map((coupon) => ({
+          ...this.coupons.find((c) => c.id === coupon.id)!,
+          effective_value: coupon.value,
+        }))
+
+        this.unavailableItems = this.items.filter(
+          (item) => !cart.items.find((cartItem) => cartItem.cartitem_id === item.id),
+        )
+
+        this.items = mergeCartItems(
+          cart.items.map((item) => {
+            const cartItem = this.items.find((cartItem) => cartItem.id === item.cartitem_id)!
+            return cloneDeep(cartItem)
+              .updateQuantity(item.quantity)
+              .setPrecalculatedPrices(item.price_discounted, item.price)
+          }),
+        )
+
+        this.totalValue = cart.cart_total
+        this.totalValueInitial = cart.cart_total_initial
+
+        this.shippingPrice = cart.shipping_price
+        this.shippingTime = cart.shipping_time
+        this.shippingDate = cart.shipping_date
+        this.summary = cart.summary
+
+        // Side effect: fetch the shipping method
+        // dispatch('shippingMethods/fetch', state.totalValue, { root: true })
+      } catch (e) {
+        this.error = e
+      }
+      this.isProcessing = false
+    },
+
+    setQuantity(id: string, value: number) {
+      const ev = useHeseyaEventBus()
+      const cartItem = this.items.find((i) => i.id === id)
+      if (!cartItem) return
+
+      if (value <= 0) this.remove(id)
+      else {
+        const updatedCartItem = cartItem.updateQuantity(value)
+
+        const itemIndex = this.items.findIndex((item) => item.id === updatedCartItem.id)
+        this.items[itemIndex] = updatedCartItem
+
+        const quantityDiff = value - cartItem.totalQty
+        if (quantityDiff > 0) ev.emit(HeseyaEvent.AddToCart, cartItem.updateQuantity(quantityDiff))
+        else ev.emit(HeseyaEvent.RemoveFromCart, cartItem.updateQuantity(-quantityDiff))
+
+        this.deboucedProcessCart()
+      }
+    },
+
+    increaseQuantity(itemId: string) {
+      const cartItem = this.items.find((i) => i.id === itemId)
+      if (!cartItem) return
+      this.setQuantity(itemId, cartItem.totalQty + 1)
+    },
+
+    decreaseQuantity(itemId: string) {
+      const cartItem = this.items.find((i) => i.id === itemId)
+      if (!cartItem) return
+      this.setQuantity(itemId, cartItem.totalQty - 1)
+    },
+
+    add({
+      product,
+      schemas,
+      schemaValue,
+      quantity = 1,
+    }: {
+      product: ProductList
+      schemaValue: CartItemSchema[]
+      schemas: Schema[]
+      quantity: number
+    }) {
+      const ev = useHeseyaEventBus()
+      const newCartItem = new CartItem(product, quantity, schemas, schemaValue)
+      const existingCartItem = this.items.find((item) => item.id === newCartItem.id)
+
+      if (!existingCartItem) {
+        ev.emit(HeseyaEvent.AddToCart, newCartItem)
+        this.items = [...this.items, newCartItem]
+        this.deboucedProcessCart()
+      } else {
+        this.setQuantity(existingCartItem.id, existingCartItem.totalQty + quantity)
+      }
+    },
+
+    remove(itemId: string) {
+      const ev = useHeseyaEventBus()
+      const item = this.items.find((i) => i.id === itemId)
+      if (!item) return
+      // const oldType = getShippingTypeFromCart(this.items)
+
+      ev.emit(HeseyaEvent.RemoveFromCart, item)
+      this.items = this.items.filter((item) => item.id !== itemId)
+
+      // const newType = getShippingTypeFromCart(this.items)
+
+      // If shipping type for order changes, checkout data should be reset
+      // if (oldType !== newType) dispatch('checkout/reset', null, { root: true })
+
+      this.deboucedProcessCart()
+    },
+
+    clear() {
+      this.items = []
+      this.unavailableItems = []
+      this.coupons = []
+      this.sales = []
+      this.totalValue = 0
+      this.totalValueInitial = 0
+      this.shippingPrice = 0
+      this.shippingTime = null
+      this.shippingDate = null
+      this.summary = 0
+    },
+
+    addCoupon(coupon: Coupon) {
+      this.coupons = [...this.coupons, coupon]
+      this.processCart()
+    },
+
+    removeCoupon(couponId: string) {
+      this.coupons = this.coupons.filter((item) => item.id !== couponId)
+      this.processCart()
+    },
+  },
+
+  persist: true,
+
+  hydrate(storeState) {
+    if (storeState?.items) {
+      // CartItem class is saved in JSON as plain object, and needs to be restored
+      storeState.items = restoreCart(storeState.items as unknown as SavedCartItem[])
+    }
   },
 })

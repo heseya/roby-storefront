@@ -5,7 +5,12 @@
     <div class="cart-item__content">
       <div class="cart-item__name">{{ item.name }}</div>
 
-      <ProductQuantityInput show-label class="cart-item__quantity" :quantity="item.qty" />
+      <ProductQuantityInput
+        show-label
+        class="cart-item__quantity"
+        :quantity="item.qty"
+        @update:quantity="updateQuantity"
+      />
 
       <div class="cart-item__price">
         <span v-if="item.totalInitialPrice !== item.totalPrice" class="cart-item__price-initial">
@@ -16,7 +21,7 @@
     </div>
 
     <div class="cart-item__actions">
-      <LayoutIconButton :icon="CrossIcon" iconSize="sm" />
+      <LayoutIconButton :icon="CrossIcon" iconSize="sm" @click="removeFromCart"/>
     </div>
   </div>
 </template>
@@ -24,10 +29,21 @@
 <script setup lang="ts">
 import { CartItem } from '@heseya/store-core'
 import CrossIcon from '@/assets/icons/cross.svg?component'
+import { useCartStore } from '~~/store/cart'
 
-defineProps<{
+const props = defineProps<{
   item: CartItem
 }>()
+
+const cart = useCartStore()
+
+const updateQuantity = (newQty: number) => {
+  cart.setQuantity(props.item.id, newQty)
+}
+
+const removeFromCart = () => {
+  cart.remove(props.item.id)
+}
 </script>
 
 <style lang="scss" scoped>

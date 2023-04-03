@@ -1,5 +1,5 @@
 <template>
-  <div class="product-page">
+  <BaseContainer class="product-page">
     <div class="product-page__header product-header">
       <ProductPageCover class="product-header__gallery" :media="product?.gallery || []" />
 
@@ -69,7 +69,7 @@
     <div class="product-page__sales">
       <LazyProductPageSale v-for="sale in product?.sales || []" :key="sale.id" :sale="sale" />
     </div>
-  </div>
+  </BaseContainer>
 </template>
 
 <i18n lang="json">
@@ -114,14 +114,6 @@ const productSubtext = computed(() => {
 
 <style lang="scss" scoped>
 .product-page {
-  max-width: $container-width;
-  margin: 0 auto;
-  padding: $container-padding;
-
-  @media ($viewport-13) {
-    padding: 0;
-  }
-
   &__main {
     margin-top: 38px;
   }

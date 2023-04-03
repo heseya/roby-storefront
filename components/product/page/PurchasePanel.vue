@@ -46,6 +46,7 @@
 import { Product } from '@heseya/store-core'
 
 import DeliveryIcon from '@/assets/icons/delivery.svg?component'
+import { useCartStore } from '~~/store/cart'
 
 const props = withDefaults(
   defineProps<{
@@ -53,6 +54,8 @@ const props = withDefaults(
   }>(),
   {},
 )
+const cart = useCartStore()
+const router = useRouter()
 const t = useLocalI18n()
 
 const quantity = ref(1)
@@ -77,8 +80,16 @@ const availability = computed(() => {
 })
 
 const addToCart = () => {
-  // TODO
-  console.log('addToCart')
+  if (!props.product.available) return
+
+  cart.add({
+    product: props.product,
+    schemas: [],
+    schemaValue: [],
+    quantity: Number(quantity.value) || 1,
+  })
+
+  router.push('/cart')
 }
 
 const lease = () => {

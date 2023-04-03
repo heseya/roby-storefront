@@ -5,9 +5,9 @@
       <div class="cart-summary__value">{{ formatAmount(cart.totalValueInitial) }}</div>
     </div>
 
-    <div v-if="cart.discountValue > 0" class="cart-summary__item cart-summary__item--green">
+    <div v-if="cart.totalDiscountValue > 0" class="cart-summary__item cart-summary__item--green">
       <div class="cart-summary__label">{{ t('summary.discount') }}</div>
-      <div class="cart-summary__value">{{ formatAmount(cart.discountValue) }}</div>
+      <div class="cart-summary__value">{{ formatAmount(cart.totalDiscountValue) }}</div>
     </div>
 
     <div class="cart-summary__item">

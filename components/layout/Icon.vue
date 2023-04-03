@@ -1,8 +1,8 @@
 <template>
   <component
     :class="['icon', isResize && 'icon--resize']"
-    :height="calcSize()"
-    :width="calcSize()"
+    :height="calculatedSize"
+    :width="calculatedSize"
     :is="icon"
   />
 </template>
@@ -24,7 +24,7 @@ const props = withDefaults(
   },
 )
 
-const calcSize = () => {
+const calculatedSize = computed(() => {
   switch (props.size) {
     case 'md':
       return 24
@@ -35,7 +35,7 @@ const calcSize = () => {
     default:
       return isNaN(props.size) ? 24 : props.size
   }
-}
+})
 </script>
 
 <style lang="scss" scoped>

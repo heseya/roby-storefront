@@ -1,6 +1,6 @@
 <template>
   <!-- eslint-disable-next-line vue/no-v-html -->
-  <div class="hs-html-content" v-html="content"></div>
+  <div class="hs-html-content" v-html="content || ''"></div>
 </template>
 
 <script setup lang="ts">
