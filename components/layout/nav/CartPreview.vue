@@ -1,5 +1,5 @@
 <template>
-  <div class="cart-preview">
+  <div v-if="Boolean(cart.items.length)" class="cart-preview">
     <div v-for="item in cart.items" :key="item.id" class="cart-preview__item">
       <Media width="100" class="item__cover" :media="item.coverMedia" />
       <div class="item__content">
@@ -24,13 +24,15 @@
       <span class="summary__total">{{ formatAmount(cart.totalValue) }}</span>
     </div>
   </div>
+  <div v-else class="cart-preview cart-preview--empty">{{ t('emptyCart') }}</div>
 </template>
 
 <i18n lang="json">
 {
   "pl": {
     "quantity": "Ilość:",
-    "totalAmount": "Łączna kwota"
+    "totalAmount": "Łączna kwota",
+    "emptyCart": "Twój koszyk jest pusty"
   }
 }
 </i18n>
@@ -58,6 +60,10 @@ const handleRemove = (id: string) => {
   @include flex-column;
   border: 1px solid $gray-color-300;
   background-color: $white-color;
+
+  &--empty {
+    text-align: center;
+  }
 
   &__item {
     position: relative;
