@@ -1,30 +1,37 @@
 <template>
-  <div class="cart-page">
+  <BaseContainer class="cart-page">
     <div class="cart-page__content">
       <div class="cart-page__cart">
         <h1 class="cart-page__title">
-          {{ t('cart.title') }} <span class="cart-page__subtext">({{ cart.length }})</span>
+          {{ t('cart.title') }}
+          <ClientOnly>
+            <span class="cart-page__subtext">({{ cart.length }})</span>
+          </ClientOnly>
         </h1>
 
         <div class="cart-page__list">
-          <CartItem
-            v-for="item in cart.items"
-            :key="item.id"
-            :item="item"
-            class="cart-page__item"
-          />
+          <ClientOnly>
+            <CartItem
+              v-for="item in cart.items"
+              :key="item.id"
+              :item="item"
+              class="cart-page__item"
+            />
+          </ClientOnly>
         </div>
       </div>
 
       <div class="cart-page__summary">
         <h2 class="cart-page__title cart-page__title--hideable">{{ t('cart.summary') }}</h2>
 
-        <CartSummary class="cart-page__summary-box" />
+        <ClientOnly>
+          <CartSummary class="cart-page__summary-box" />
+        </ClientOnly>
       </div>
     </div>
 
     <div class="cart-page__suggested">TODO: Sugerowane produkty</div>
-  </div>
+  </BaseContainer>
 </template>
 
 <i18n lang="json">
@@ -43,13 +50,23 @@ import { useCartStore } from '@/store/cart'
 
 const cart = useCartStore()
 const t = useLocalI18n()
+
+const router = useRouter()
+
+watch(
+  () => cart.length,
+  () => {
+    if (cart.length === 0) router.push('/')
+  },
+)
+
+onMounted(() => {
+  if (cart.length === 0) router.push('/')
+})
 </script>
 
 <style lang="scss" scoped>
 .cart-page {
-  max-width: $container-width;
-  padding: 0 $container-padding;
-  margin: 0 auto;
   margin-bottom: 50px;
 
   @media ($viewport-10) {
