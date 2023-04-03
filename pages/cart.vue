@@ -1,5 +1,5 @@
 <template>
-  <div class="cart-page">
+  <BaseContainer class="cart-page">
     <div class="cart-page__content">
       <div class="cart-page__cart">
         <h1 class="cart-page__title">
@@ -31,7 +31,7 @@
     </div>
 
     <div class="cart-page__suggested">TODO: Sugerowane produkty</div>
-  </div>
+  </BaseContainer>
 </template>
 
 <i18n lang="json">
@@ -67,9 +67,6 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 .cart-page {
-  max-width: $container-width;
-  padding: 0 $container-padding;
-  margin: 0 auto;
   margin-bottom: 50px;
 
   @media ($viewport-10) {

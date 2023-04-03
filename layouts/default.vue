@@ -14,4 +14,7 @@
 
 <script lang="ts" setup></script>
 
-<style lang="scss"></style>
+<style lang="scss">
+.site {
+}
+</style>
