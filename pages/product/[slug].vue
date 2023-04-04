@@ -107,6 +107,17 @@ const { data: product } = useAsyncData('product', async () => {
   }
 })
 
+const category = computed(() => {
+  return product.value?.sets[0]
+})
+
+useBreadcrumbs([
+  category.value
+    ? { label: category.value.name || '', link: `/category/${category.value.slug}` }
+    : null,
+  { label: product.value?.name || '', link: route.fullPath },
+])
+
 useHead({
   title: computed(() => product.value?.name || ''),
   meta: [
