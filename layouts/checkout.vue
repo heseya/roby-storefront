@@ -7,33 +7,56 @@
     </div>
     <div class="checkout__bar">
       <div class="checkout__bar-container">
+        <div class="checkout__bar-item checkout__bar-item--filled">
+          {{ t('cart') }}
+        </div>
         <div
-          v-for="item of barItems"
-          :key="item.name"
           class="checkout__bar-item"
-          :class="{ 'checkout__bar-item--active-path': item.value }"
+          :class="{
+            'checkout__bar-item--active': activeStep === CheckoutStep.Checkout,
+            'checkout__bar-item--filled': activeStep === CheckoutStep.Finished,
+          }"
         >
-          {{ item.name }}
+          {{ t('checkout') }}
+        </div>
+        <div
+          class="checkout__bar-item"
+          :class="{ 'checkout__bar-item--filled': activeStep === CheckoutStep.Finished }"
+        >
+          {{ t('finished') }}
         </div>
       </div>
     </div>
     <div class="checkout__content"><slot /></div>
   </div>
 </template>
+
+<i18n lang="json">
+{
+  "pl": {
+    "cart": "Koszyk",
+    "checkout": "Dostawa i płatność",
+    "finished": "Gotowe"
+  }
+}
+</i18n>
+
 <script setup lang="ts">
-import { ref } from 'vue'
 import LogoIcon from '@/assets/icons/logo.svg?component'
 
-interface CheckoutSiteBarItem {
-  name: string
-  value: boolean
+const route = useRoute()
+const t = useLocalI18n()
+
+enum CheckoutStep {
+  Cart = 'cart',
+  Checkout = 'checkout',
+  Finished = 'finished',
 }
 
-const barItems = ref<CheckoutSiteBarItem[]>([
-  { name: 'Koszyk', value: true },
-  { name: 'Dostawa i płatność', value: true },
-  { name: 'Gotowe', value: true },
-])
+const activeStep = computed(() => {
+  if (route.path === '/checkout') return CheckoutStep.Checkout
+  return CheckoutStep.Finished
+})
 </script>
 <style lang="scss">
 .checkout {
@@ -128,11 +151,17 @@ const barItems = ref<CheckoutSiteBarItem[]>([
       padding-right: 5px;
     }
 
-    &--active-path {
+    &--filled {
       &::before,
       &:not(:last-child)::after {
-        background-color: $secondary-color-alt;
+        background-color: var(--secondary-color-alt);
         border: none;
+      }
+    }
+
+    &--active {
+      &::before {
+        border-color: var(--secondary-color-alt);
       }
     }
   }

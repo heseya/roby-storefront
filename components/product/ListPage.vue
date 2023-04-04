@@ -25,7 +25,7 @@
       <aside class="product-list-page__aside">
         <slot name="aside"></slot>
 
-        <hr v-if="isAsideSection" />
+        <hr v-if="isAsideSection" class="hr" />
 
         <ProductFilters
           :filters="route.query"
