@@ -4,10 +4,15 @@
       <ShoppingBag />
     </div>
     <div class="checkout-container__header">{{ t('container.header') }}</div>
-    <div class="checkout-container__text">{{ t('container.text') }}</div>
+    <div class="checkout-container__text">
+      {{ t('container.text') }}
+      <b
+        ><u>{{ t('container.my-account') }}</u></b
+      >
+    </div>
     <div class="checkout-container__nav">
       <NuxtLink to="/">
-        <LayoutButton class="checkout-container__btn">{{ t('container.btn') }}</LayoutButton>
+        <LayoutButton class="checkout-container__btn"> {{ t('container.btn') }}</LayoutButton>
       </NuxtLink>
     </div>
   </div>
@@ -18,8 +23,9 @@
   "pl": {
     "container": {
       "header": "Dziękujemy za zakupy!",
-      "text": "Na Twojego maila zostanie wysłane potwierdzenie zakupu.",
-      "btn": "Przejdź na stronę główną"
+      "text": "Na Twojego maila zostanie wysłane potwierdzenie zakupu. Szczegóły zamówienia znajdziesz również w  ",
+      "my-account": "Moje konto",
+      "btn": "Sprawdź szczegóły zamówienia"
     }
   }
 }
@@ -37,9 +43,21 @@ const t = useLocalI18n()
 <style lang="scss" scoped>
 .checkout-container {
   display: grid;
-  gap: 20px;
-  width: 50%;
-  background-color: #ffffff;
+  align-content: center;
+  gap: 30px;
+  padding: 10px;
+  background-color: $white-color;
+  width: 90%;
+
+  @media ($viewport-7) {
+    width: 80%;
+    gap: 20px;
+    align-content: flex-start;
+  }
+
+  @media ($viewport-13) {
+    width: 41%;
+  }
 
   &__icon {
     margin-top: 20px;
@@ -55,11 +73,12 @@ const t = useLocalI18n()
 
   &__header {
     font-weight: 800;
-    font-size: 26px;
+    font-size: 25px;
+    line-height: 2rem;
   }
 
   &__text {
-    font-size: 14px;
+    font-size: 12px;
   }
 
   &__nav {
@@ -69,7 +88,7 @@ const t = useLocalI18n()
   }
 
   &__btn {
-    padding: 8px 55px;
+    padding: 10px 55px;
   }
 }
 </style>

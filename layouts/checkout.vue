@@ -17,7 +17,6 @@
         </div>
       </div>
     </div>
-
     <div class="checkout__content"><slot /></div>
   </div>
 </template>
@@ -33,39 +32,68 @@ interface CheckoutSiteBarItem {
 const barItems = ref<CheckoutSiteBarItem[]>([
   { name: 'Koszyk', value: true },
   { name: 'Dostawa i płatność', value: true },
-  { name: 'Gotowe', value: false },
+  { name: 'Gotowe', value: true },
 ])
 </script>
 <style lang="scss">
 .checkout {
   min-height: 100vh;
   background: $gray-color-100;
+  display: grid;
+  grid-template-rows: 0.1fr 0.1fr 1fr;
 
   &__header {
-    height: 100px;
-    background-color: #ffffff;
-    padding-left: 54px;
     display: flex;
     align-items: center;
+    height: 60px;
+    padding-left: 16px;
+    background-color: #ffffff;
+    width: 100%;
+
+    @media ($viewport-7) {
+      height: 100px;
+      grid-gap: 16px;
+      grid-template-columns: 1fr 1fr;
+      padding-left: 54px;
+    }
   }
 
   &__logo {
-    width: 160px;
-    height: 40px;
+    width: 90px;
+    height: 20px;
+
+    @media ($viewport-7) {
+      width: 160px;
+      height: 40px;
+    }
   }
 
   &__bar-container {
-    width: 21%;
+    width: 100%;
     display: flex;
     justify-content: space-between;
+    margin-top: 40px;
+
+    @media ($viewport-7) {
+      width: 50%;
+      margin-top: 0px;
+    }
+
+    @media ($viewport-13) {
+      width: 25%;
+    }
   }
 
   &__bar {
-    height: 92px;
+    height: 36px;
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
+
+    @media ($viewport-7) {
+      height: 92px;
+    }
   }
 
   &__bar-item {
@@ -75,12 +103,8 @@ const barItems = ref<CheckoutSiteBarItem[]>([
     text-align: center;
     margin-top: 40px;
 
-    &::before,
-    &:not(:last-child)::after {
-      background-color: #a7a7a7;
-    }
-
     &::before {
+      background-color: $gray-color-050;
       content: '';
       width: 15px;
       height: 15px;
@@ -89,11 +113,13 @@ const barItems = ref<CheckoutSiteBarItem[]>([
       top: -25px;
       left: 50%;
       transform: translateX(-50%);
+      border: 3px solid $gray-color-400;
     }
 
     &:not(:last-child)::after {
+      background-color: $gray-color-400;
       content: '';
-      height: 3px;
+      height: 2px;
       width: calc(100% - 25px);
       position: absolute;
       top: -18px;
@@ -105,14 +131,21 @@ const barItems = ref<CheckoutSiteBarItem[]>([
     &--active-path {
       &::before,
       &:not(:last-child)::after {
-        background-color: #e1a044;
+        background-color: $unnamed-color-e1a044;
+        border: none;
       }
     }
   }
 
   &__content {
+    margin-top: 30px;
     display: flex;
+    align-items: flex-start;
     justify-content: center;
+
+    @media ($viewport-7) {
+      margin-top: 10px;
+    }
   }
 }
 </style>
