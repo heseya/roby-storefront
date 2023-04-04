@@ -1,11 +1,11 @@
 <template>
-  <div class="categories-page">
+  <BaseContainer class="categories-page">
     <ProductListPage :title="category?.name" :sets="[route.params.slug as string]">
       <template #aside>
         <SubcategoriesLinks v-if="category" :category="category" />
       </template>
     </ProductListPage>
-  </div>
+  </BaseContainer>
 </template>
 
 <i18n lang="json">
