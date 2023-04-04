@@ -131,7 +131,7 @@ const barItems = ref<CheckoutSiteBarItem[]>([
     &--active-path {
       &::before,
       &:not(:last-child)::after {
-        background-color: $unnamed-color-e1a044;
+        background-color: $secondary-color-alt;
         border: none;
       }
     }
