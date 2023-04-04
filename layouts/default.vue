@@ -4,6 +4,7 @@
       <BaseNav />
     </div>
     <div class="site__content">
+      <LayoutBreadcrumps />
       <slot></slot>
     </div>
     <div class="site__footer">
@@ -14,4 +15,7 @@
 
 <script lang="ts" setup></script>
 
-<style lang="scss"></style>
+<style lang="scss">
+.site {
+}
+</style>

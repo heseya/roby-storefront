@@ -1,27 +1,38 @@
 <template>
-  <LayoutButton class="favorite-btn" variant="white">
+  <LayoutButton
+    :class="['favorite-btn', { 'favorite-btn--active': isInWishlist }]"
+    :variant="isInWishlist ? 'gray' : 'white'"
+    @click="toggle"
+  >
     <HeartIcon class="favorite-btn__icon" />
-    <span class="favorite-btn__text"> {{ t('addToFavorites') }} </span>
+    <span class="favorite-btn__text">
+      {{ isInWishlist ? t('removeFromFavorites') : t('addToFavorites') }}
+    </span>
   </LayoutButton>
 </template>
 
 <i18n lang="json">
 {
   "en": {
-    "addToFavorites": "Add to favorites"
+    "addToFavorites": "Add to favorites",
+    "removeFromFavorites": "Remove from favorites"
   },
   "pl": {
-    "addToFavorites": "Dodaj do ulubionych"
+    "addToFavorites": "Dodaj do ulubionych",
+    "removeFromFavorites": "Usuń z ulubionych"
   }
 }
 </i18n>
 
 <script setup lang="ts">
+import { ProductList } from '@heseya/store-core'
+
 import HeartIcon from '@/assets/icons/heart.svg?component'
 
 const t = useLocalI18n()
+const props = withDefaults(defineProps<{ product: ProductList }>(), {})
 
-withDefaults(defineProps<{ productId: string }>(), {})
+const { isInWishlist, toggle } = useWishlist(props.product)
 </script>
 
 <style lang="scss" scoped>

@@ -1,9 +1,9 @@
 <template>
   <div class="link-box" :style="{ backgroundImage: `url(${backgroundSrc})` }">
     <LayoutHeader>{{ text }}</LayoutHeader>
-    <nuxt-link :to="link">
+    <NuxtLink :to="link">
       <LayoutButton class="link-box__btn" :label="linkText" variant="secondary" />
-    </nuxt-link>
+    </NuxtLink>
   </div>
 </template>
 

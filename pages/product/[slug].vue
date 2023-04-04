@@ -1,14 +1,16 @@
 <template>
-  <div class="product-page">
+  <BaseContainer class="product-page">
     <div class="product-page__header product-header">
       <ProductPageCover class="product-header__gallery" :media="product?.gallery || []" />
 
       <div class="product-header__summary">
-        <ProductPageFavouriteButton
-          v-if="product"
-          class="product-header__fav-btn"
-          :product-id="product?.id"
-        />
+        <ClientOnly>
+          <ProductPageFavouriteButton
+            v-if="product"
+            class="product-header__fav-btn"
+            :product="product"
+          />
+        </ClientOnly>
 
         <h1 class="product-header__title">{{ product?.name }}</h1>
         <span class="product-header__subtitle"> {{ productSubtext }} </span>
@@ -69,7 +71,7 @@
     <div class="product-page__sales">
       <LazyProductPageSale v-for="sale in product?.sales || []" :key="sale.id" :sale="sale" />
     </div>
-  </div>
+  </BaseContainer>
 </template>
 
 <i18n lang="json">
@@ -105,6 +107,28 @@ const { data: product } = useAsyncData('product', async () => {
   }
 })
 
+const category = computed(() => {
+  return product.value?.sets[0]
+})
+
+useBreadcrumbs([
+  category.value
+    ? { label: category.value.name || '', link: `/category/${category.value.slug}` }
+    : null,
+  { label: product.value?.name || '', link: route.fullPath },
+])
+
+useHead({
+  title: computed(() => product.value?.name || ''),
+  meta: [
+    {
+      hid: 'description',
+      name: 'description',
+      content: computed(() => product.value?.description_short || ''),
+    },
+  ],
+})
+
 const productSubtext = computed(() => {
   // TODO: do not attribute from fixed string
   return product.value?.attributes.find((a) => a.name === PRODUCT_SUBTEXT_ATTRIBUTE_NAME)
@@ -114,14 +138,6 @@ const productSubtext = computed(() => {
 
 <style lang="scss" scoped>
 .product-page {
-  max-width: $container-width;
-  margin: 0 auto;
-  padding: $container-padding;
-
-  @media ($viewport-13) {
-    padding: 0;
-  }
-
   &__main {
     margin-top: 38px;
   }
