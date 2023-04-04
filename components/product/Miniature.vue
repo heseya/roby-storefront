@@ -1,5 +1,5 @@
 <template>
-  <nuxt-link
+  <NuxtLink
     :to="localePath(`/product/${product.slug}`)"
     class="product-miniature"
     :class="{ 'product-miniature--horizontal': horizontal }"
@@ -23,7 +23,7 @@
 
       <slot />
     </div>
-  </nuxt-link>
+  </NuxtLink>
 </template>
 
 <script lang="ts" setup>
