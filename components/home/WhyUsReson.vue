@@ -1,7 +1,7 @@
 <template>
   <div class="reason">
     <div class="reason__icon-container">
-      <component class="reason__icon" :is="icon" />
+      <component :is="icon" class="reason__icon" />
     </div>
     <span class="reason__title">{{ title }}</span>
     <span class="reason__description">{{ description }}</span>
