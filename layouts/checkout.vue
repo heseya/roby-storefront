@@ -47,7 +47,7 @@ const barItems = ref<CheckoutSiteBarItem[]>([
     align-items: center;
     height: 60px;
     padding-left: 16px;
-    background-color: #ffffff;
+    background-color: $white-color;
     width: 100%;
 
     @media ($viewport-7) {
