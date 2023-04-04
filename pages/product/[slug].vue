@@ -105,6 +105,17 @@ const { data: product } = useAsyncData('product', async () => {
   }
 })
 
+const category = computed(() => {
+  return product.value?.sets[0]
+})
+
+useBreadcrumbs([
+  category.value
+    ? { label: category.value.name || '', link: `/category/${category.value.slug}` }
+    : null,
+  { label: product.value?.name || '', link: route.fullPath },
+])
+
 const productSubtext = computed(() => {
   // TODO: do not attribute from fixed string
   return product.value?.attributes.find((a) => a.name === PRODUCT_SUBTEXT_ATTRIBUTE_NAME)
