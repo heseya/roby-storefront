@@ -23,6 +23,10 @@
     &:hover {
       background-color: $gray-color-100;
     }
+
+    &::placeholder {
+      color: $gray-color-600;
+    }
   }
 
   &__label {
@@ -30,8 +34,11 @@
     color: $gray-color-900;
     font-size: rem(14);
     font-weight: 500;
-    text-transform: uppercase;
     margin-bottom: 6px;
+
+    &--uppercase {
+      text-transform: uppercase;
+    }
   }
 
   &__error {

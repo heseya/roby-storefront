@@ -1,9 +1,9 @@
 <template>
   <div class="checkout">
     <div class="checkout__header">
-      <div class="checkout__logo">
+      <NuxtLink to="/" class="checkout__logo">
         <LogoIcon />
-      </div>
+      </NuxtLink>
     </div>
     <div class="checkout__bar">
       <div class="checkout__bar-container">

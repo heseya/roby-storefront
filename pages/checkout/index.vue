@@ -2,33 +2,51 @@
   <BaseContainer class="checkout-page">
     <section class="checkout-page__section">
       <div class="checkout-page__area">
-        <h2 class="checkout-page__title checkout-page__title--slim">Moje dane</h2>
+        <h2 class="checkout-page__title checkout-page__title--slim">{{ t('personalData') }}</h2>
         <hr class="hr hr--light" />
-        <h2 class="checkout-page__title checkout-page__title--slim">Załóż konto</h2>
+        <h2 class="checkout-page__title checkout-page__title--slim">{{ t('createAccount') }}</h2>
       </div>
       <div class="checkout-page__area">
-        <h2 class="checkout-page__title">Dostawa</h2>
+        <h2 class="checkout-page__title">{{ t('shipping') }}</h2>
       </div>
       <div class="checkout-page__area">
-        <h2 class="checkout-page__title">Dane do rachunku</h2>
+        <h2 class="checkout-page__title">{{ t('delivery') }}</h2>
+        <CheckoutBillingAddress />
       </div>
       <div class="checkout-page__area">
-        <h2 class="checkout-page__title">Metoda płatności</h2>
+        <h2 class="checkout-page__title">{{ t('payment') }}</h2>
+        <CheckoutPaymentMethods />
       </div>
       <div class="checkout-page__area">
-        <h6>Uwagi do zamówienia</h6>
+        <CheckoutComment />
       </div>
     </section>
     <section class="checkout-page__section">
-      <div class="checkout-page__area"></div>
+      <div class="checkout-page__area">
+        <CheckoutSummary />
+      </div>
     </section>
   </BaseContainer>
 </template>
+
+<i18n lang="json">
+{
+  "pl": {
+    "personalData": "Moje dane",
+    "createAccount": "Załóż konto",
+    "shipping": "Dostawa",
+    "billing": "Dane do rachunku",
+    "payment": "Metoda płatności"
+  }
+}
+</i18n>
 
 <script setup lang="ts">
 definePageMeta({
   layout: 'checkout',
 })
+
+const t = useLocalI18n()
 </script>
 
 <style lang="scss" scoped>
@@ -53,6 +71,7 @@ definePageMeta({
     font-size: rem(18);
     font-weight: 600;
     margin-top: 0;
+    margin-bottom: 16px;
 
     &--slim {
       font-weight: 400;

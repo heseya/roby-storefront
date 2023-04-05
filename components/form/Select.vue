@@ -1,6 +1,8 @@
 <template>
   <div class="input input--select" :class="`input--${type}`">
-    <FormInputLabel v-if="label" :for="name" class="input__label">{{ label }}</FormInputLabel>
+    <FormInputLabel v-if="label" uppercase :for="name" class="input__label">
+      {{ label }}
+    </FormInputLabel>
     <select :id="name" v-model="innerValue" :name="name" class="input__input">
       <slot />
     </select>
