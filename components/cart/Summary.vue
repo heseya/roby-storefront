@@ -26,11 +26,13 @@
       </div>
     </div>
 
-    <NuxtLink to="basket/authentication">
-      <LayoutButton variant="primary" class="cart-summary__button">
-        {{ t('summary.submit') }}
-      </LayoutButton>
-    </NuxtLink>
+    <LayoutButton
+      variant="primary"
+      class="cart-summary__button"
+      @click="AuthenticationModalVisible = true"
+    >
+      {{ t('summary.submit') }}
+    </LayoutButton>
 
     <span class="cart-summary__text">{{ t('summary.paymentMethods') }}</span>
     <div class="cart-summary__payment-methods">
@@ -42,6 +44,8 @@
         :alt="method.name"
       />
     </div>
+    <basket />
+    <Authentication v-model:modal="AuthenticationModalVisible" />
   </div>
 </template>
 
@@ -66,6 +70,7 @@
 import { PaymentMethod } from '@heseya/store-core'
 import { useCartStore } from '~~/store/cart'
 import PayuIcon from '@/assets/images/payu.png'
+import Authentication from '@/pages/basket/authentication.vue'
 
 const cart = useCartStore()
 const t = useLocalI18n()
@@ -88,6 +93,7 @@ const paymentMethods: PaymentMethod[] = [
 
 // TODO: get from API
 const isTraditionalTransfer = true
+const AuthenticationModalVisible = ref<boolean>(false)
 </script>
 
 <style lang="scss" scoped>

@@ -1,5 +1,5 @@
 <template>
-  <LayoutModal :closeable="false" :open="true" :box="true">
+  <LayoutModal :closeable="false" v-model:open="isModalVisible" :box="true">
     <div class="basket-authentication">
       <div class="basket-authentication__authorized">
         <h2 class="basket-authentication__header">Zaloguj się</h2>
@@ -57,6 +57,21 @@
 </template>
 <script setup lang="ts">
 definePageMeta({ layout: 'empty' })
+const props = defineProps<{
+  modal: boolean
+}>()
+const emit = defineEmits<{
+  (e: 'update:modal', isModalVisible: boolean): void
+}>()
+
+const isModalVisible = computed({
+  get() {
+    return props.modal
+  },
+  set(value) {
+    emit('update:modal', value)
+  },
+})
 </script>
 <style lang="scss" scoped>
 .basket-authentication {
@@ -155,3 +170,5 @@ definePageMeta({ layout: 'empty' })
   }
 }
 </style>
+
+function emit(arg0: string, arg1: boolean) { throw new Error("Function not implemented.") }
