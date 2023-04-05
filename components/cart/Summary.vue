@@ -26,9 +26,11 @@
       </div>
     </div>
 
-    <LayoutButton variant="primary" class="cart-summary__button">
-      {{ t('summary.submit') }}
-    </LayoutButton>
+    <NuxtLink to="basket/authentication">
+      <LayoutButton variant="primary" class="cart-summary__button">
+        {{ t('summary.submit') }}
+      </LayoutButton>
+    </NuxtLink>
 
     <span class="cart-summary__text">{{ t('summary.paymentMethods') }}</span>
     <div class="cart-summary__payment-methods">
@@ -122,6 +124,7 @@ const isTraditionalTransfer = true
 
   &__button {
     margin-top: 16px;
+    width: 100%;
   }
 
   &__text {
