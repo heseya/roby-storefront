@@ -8,9 +8,10 @@
       </div>
       <div class="checkout-page__area">
         <h2 class="checkout-page__title">{{ t('shipping') }}</h2>
+        <CheckoutShippingMethods />
       </div>
       <div class="checkout-page__area">
-        <h2 class="checkout-page__title">{{ t('delivery') }}</h2>
+        <h2 class="checkout-page__title">{{ t('billing') }}</h2>
         <CheckoutBillingAddress />
       </div>
       <div class="checkout-page__area">

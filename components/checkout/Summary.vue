@@ -42,7 +42,7 @@
     "summary": {
       "discount": "Oszczędzasz",
       "shipping": "Dostawa",
-      "total": "Łączna kwoata",
+      "total": "Łączna kwota",
       "submit": "Potwierdzam i płacę"
     }
   }
