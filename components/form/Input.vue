@@ -5,16 +5,20 @@
     :data-postfix="postfix"
   >
     <FormInputLabel v-if="label" class="input__label" :for="id">{{ label }}</FormInputLabel>
-    <input
-      :id="id"
-      v-model="inputValue"
-      class="input__input"
-      :type="htmlType"
-      :autocomplete="autocomplete"
-      :name="name"
-      placeholder=" "
-      @keydown.stop
-    />
+    <div class="input__content">
+      <input
+        :id="id"
+        v-model="inputValue"
+        class="input__input"
+        :type="htmlType"
+        :autocomplete="autocomplete"
+        :name="name"
+        placeholder=" "
+        @keydown.stop
+      />
+      <slot></slot>
+    </div>
+
     <span class="input__error">{{ errorMessage || errors[0] }}</span>
   </div>
 </template>
