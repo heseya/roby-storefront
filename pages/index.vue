@@ -11,21 +11,20 @@
       />
       <HomeWhyUs />
     </BaseContainer>
-      <br />
-      <div style="width: 80vw">
-        <HomeCarousel :title="t('home.ourPartners')" :imageArr="imageArr" />
-      </div>
+
+    <div style="width: 80vw">
+      <LayoutImageCarousel title="Nasi partnerzy" :imageArr="imageArr" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { ImageSrc } from '~/components/home/Carousel.vue'
 const heseya = useHeseya()
 
 const { data } = useAsyncData(async () => {
   const mainBanner = await heseya.Banners.getOneBySlug('main-banner')
   return { mainBanner }
-import { ImageSrc } from '~/components/home/Carousel.vue'
 })
 
 const imageArr: ImageSrc[] = [
