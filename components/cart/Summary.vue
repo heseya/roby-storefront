@@ -45,7 +45,7 @@
       />
     </div>
     <basket />
-    <Authentication v-model:modal="AuthenticationModalVisible" />
+    <CartAuthentication v-model:modal="AuthenticationModalVisible" />
   </div>
 </template>
 
@@ -70,7 +70,6 @@
 import { PaymentMethod } from '@heseya/store-core'
 import { useCartStore } from '~~/store/cart'
 import PayuIcon from '@/assets/images/payu.png'
-import Authentication from '@/pages/basket/authentication.vue'
 
 const cart = useCartStore()
 const t = useLocalI18n()
