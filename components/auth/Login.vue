@@ -2,12 +2,12 @@
   <div class="login">
     <h2 class="login__header">{{ t('form.login') }}</h2>
     <div class="login__form">
-      <FormInput name="email" label="Adres e-mail" v-model="loginForm.email" />
+      <FormInput v-model="loginForm.email" name="email" label="Adres e-mail" />
       <FormInput
+        v-model="loginForm.password"
         name="password"
         :label="t('form.password')"
         :html-type="showPassword ? 'text' : 'password'"
-        v-model="loginForm.password"
       >
         <span class="login__form--icon" @click="tooglePassword">
           <Visibility v-if="showPassword" />
@@ -16,7 +16,7 @@
       </FormInput>
     </div>
     <div class="login__options">
-      <FormCheckbox :text="t('form.remember')" name="remember" v-model="rememberPassword" />
+      <FormCheckbox v-model="rememberPassword" :text="t('form.remember')" name="remember" />
       <NuxtLink class="login__options--forgot" to="/forgot-password">
         {{ t('form.forgot-password') }}
       </NuxtLink>

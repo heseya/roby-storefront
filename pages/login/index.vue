@@ -9,11 +9,7 @@
           <div>
             <div>{{ t('form.benefits-header') }}</div>
             <ul class="login-content__list">
-              <li
-                class="login-content__list--item"
-                v-for="(item, index) in benefits"
-                v-bind:key="index"
-              >
+              <li v-for="(item, index) in benefits" :key="index" class="login-content__list--item">
                 <Check class="login-content__list--icon" />
                 {{ item }}
               </li>
@@ -92,7 +88,9 @@ const benefits = ref<string[]>([t('benefits.faster'), t('benefits.track'), t('be
   }
 
   &__list {
-    margin-top: 12px;
+    @media ($viewport-11) {
+      padding-left: 25px;
+    }
 
     &--item {
       margin-top: 15px;
@@ -100,7 +98,7 @@ const benefits = ref<string[]>([t('benefits.faster'), t('benefits.track'), t('be
       position: relative;
 
       @media ($viewport-11) {
-        margin-top: 20px;
+        margin-top: 12px;
       }
     }
 
