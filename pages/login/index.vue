@@ -1,9 +1,8 @@
 <template>
-  <LayoutSplitContent class="login-content">
-    <template #firstComponent>
+  <div class="login-content">
+    <div class="login-content__container">
       <AuthLogin class="login-content__login" />
-    </template>
-    <template #secondComponent>
+      <div class="login-content__spacer" />
       <div class="login-content__register">
         <div>
           <div class="login-content__header">{{ t('form.no-account') }}</div>
@@ -20,8 +19,8 @@
 
         <LayoutButton class="login-content__btn" :label="t('form.register')" />
       </div>
-    </template>
-  </LayoutSplitContent>
+    </div>
+  </div>
 </template>
 
 <i18n lang="json">
@@ -52,7 +51,34 @@ const benefits = ref<string[]>([t('benefits.faster'), t('benefits.track'), t('be
 
 <style lang="scss" scoped>
 .login-content {
-  margin-bottom: 20px;
+  padding: 16px;
+  width: 100%;
+
+  @media ($viewport-11) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+    margin-bottom: 100px;
+  }
+
+  &__container {
+    display: grid;
+    gap: 30px;
+
+    @media ($viewport-11) {
+      grid-template-columns: 1fr 0.3fr 1fr;
+      width: 60%;
+    }
+
+    @media ($viewport-16) {
+      width: 40%;
+    }
+  }
+
+  &__content {
+    margin-bottom: 20px;
+  }
 
   &__header {
     font-size: 1.8rem;
@@ -102,7 +128,30 @@ const benefits = ref<string[]>([t('benefits.faster'), t('benefits.track'), t('be
 
   &__btn {
     margin-top: 30px;
+    margin-bottom: 15px;
     height: 41px;
+    background-color: $gray-color-300;
+    color: $text-color;
+    font-weight: 500;
+
+    @media ($viewport-11) {
+      margin-bottom: 0px;
+    }
+  }
+
+  &__spacer {
+    width: 100%;
+    border-bottom: 2px solid $gray-color-300;
+    display: flex;
+    justify-content: center;
+
+    @media ($viewport-11) {
+      border-bottom: none;
+      height: 100%;
+      width: 2px;
+      background-color: $gray-color-300;
+      margin-left: 50%;
+    }
   }
 }
 </style>
