@@ -1,4 +1,6 @@
-<template>xD</template>
+<template>
+  <AuthLogin />
+</template>
 
 <script setup lang="ts"></script>
 
