@@ -70,15 +70,12 @@ const tooglePassword = () => (showPassword.value = !showPassword.value)
     justify-content: space-between;
     align-items: baseline;
     margin: 1rem 0;
-    font-size: 12px;
 
     &--forgot {
       color: $blue-color;
       cursor: pointer;
-
-      &:hover {
-        text-decoration: underline;
-      }
+      font-size: 12px;
+      text-decoration: none;
     }
   }
 
@@ -99,6 +96,11 @@ const tooglePassword = () => (showPassword.value = !showPassword.value)
   &__header {
     font-size: 20px;
     font-weight: 700;
+    margin-bottom: 10px;
+
+    @media ($viewport-7) {
+      font-size: 26px;
+    }
   }
 
   &__btn {
