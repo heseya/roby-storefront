@@ -1,9 +1,14 @@
 <template>
-  <div>
+  <div class="image-carousel">
     <LayoutHeader class="image-carousel__title" variant="black">{{ title }}</LayoutHeader>
-    <LayoutCarousel :itemArr="imageArr">
+    <LayoutCarousel :itemArr="imageArr" :breakpoints="breakpoints">
       <template #item="{ src, alt }: ImageSrc">
-        <img class="image-carousel__picture" :src="src" :alt="alt" />
+        <img
+          class="image-carousel__picture"
+          :style="{ height: `${imageHeight}px`, width: `${imageWidth}px` }"
+          :src="src"
+          :alt="alt"
+        />
       </template>
     </LayoutCarousel>
   </div>
@@ -15,17 +20,35 @@ export interface ImageSrc {
   alt: string
 }
 
+const breakpoints = {
+  480: { slidesPerView: 2 },
+  640: { slidesPerView: 3 },
+  850: { slidesPerView: 4 },
+  1100: { slidesPerView: 5 },
+  1280: { slidesPerView: 6 },
+  1680: { slidesPerView: 7 },
+}
+
 defineProps<{
   title: string
   imageArr: ImageSrc[]
+  imageWidth: number
+  imageHeight: number
 }>()
 </script>
 
 <style lang="scss" scoped>
-.image-carousel__picture {
-  width: 160px;
-  height: 60px;
-  object-fit: contain;
-  flex-shrink: 0;
+.image-carousel {
+  @include flex-column;
+  gap: 22px;
+
+  &__title {
+    text-align: left;
+  }
+
+  &__picture {
+    object-fit: contain;
+    flex-shrink: 0;
+  }
 }
 </style>

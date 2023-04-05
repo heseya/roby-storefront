@@ -10,7 +10,18 @@
         link-text="Zapytaj"
       />
       <HomeWhyUs />
-      <HomeImageCarousel title="Nasi partnerzy" :imageArr="imageArr" />
+      <HomeImageCarousel
+        title="Nasi partnerzy"
+        :imageArr="imageArr"
+        imageWidth="160"
+        imageHeight="160"
+      />
+      <HomeImageCarousel
+        title="Zaufali Nam"
+        :imageArr="imageArr"
+        imageWidth="136"
+        imageHeight="136"
+      />
     </BaseContainer>
   </div>
 </template>

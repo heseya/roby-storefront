@@ -1,11 +1,6 @@
 <template>
   <div class="carousel">
-    <Swiper
-      class="carousel__slider"
-      slides-per-view="4"
-      watch-slides-progress
-      :breakpoints="breakpoints"
-    >
+    <Swiper class="carousel__slider" watch-slides-progress :breakpoints="breakpoints">
       <SwiperSlide v-for="(item, index) in itemArr" v-slot="{ isVisible }" :key="index">
         <div
           class="carousel__content-container"
