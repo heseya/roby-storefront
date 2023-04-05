@@ -40,10 +40,6 @@ defineProps<{
     overflow: visible;
   }
 
-  &__button-background {
-    background-color: $white-color;
-  }
-
   &__button {
     position: absolute;
     top: calc(50% - 18px);
@@ -60,8 +56,8 @@ defineProps<{
     @include flex-column;
     justify-content: center;
     align-items: center;
-    opacity: 0;
 
+    opacity: 0;
     transition: opacity 200ms ease-in-out;
 
     &--visible {
