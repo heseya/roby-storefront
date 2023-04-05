@@ -1,8 +1,6 @@
 <template>
   <button
     class="carousel-button"
-    :icon="ArrowNext"
-    iconSize="sm"
     @click="next ? swiper.slideNext() : swiper.slidePrev()"
     v-show="next ? !swiper.isEnd : !swiper.isBeginning"
   >
@@ -11,8 +9,8 @@
 </template>
 
 <script lang="ts" setup>
-import ArrowNext from '@/assets/icons/arrow-next.svg?component'
 import { useSwiper } from 'swiper/vue'
+import ArrowNext from '@/assets/icons/arrow-next.svg?component'
 
 const swiper = useSwiper()
 

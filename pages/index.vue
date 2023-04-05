@@ -10,16 +10,14 @@
         link-text="Zapytaj"
       />
       <HomeWhyUs />
+      <HomeImageCarousel title="Nasi partnerzy" :imageArr="imageArr" />
     </BaseContainer>
-
-    <div style="width: 80vw">
-      <LayoutImageCarousel title="Nasi partnerzy" :imageArr="imageArr" />
-    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ImageSrc } from '~/components/home/Carousel.vue'
+import { ImageSrc } from '~/components/home/ImageCarousel.vue'
+
 const heseya = useHeseya()
 
 const { data } = useAsyncData(async () => {

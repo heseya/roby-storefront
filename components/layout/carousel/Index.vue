@@ -1,13 +1,17 @@
 <template>
   <div class="carousel">
-    <LayoutHeader class="carousel__title" variant="black">{{ title }}</LayoutHeader>
-    <Swiper class="carousel__slider" slides-per-view="4" watch-slides-progress>
-      <SwiperSlide v-for="(image, index) in imageArr" v-slot="{ isVisible }" :key="index">
+    <Swiper
+      class="carousel__slider"
+      slides-per-view="4"
+      watch-slides-progress
+      :breakpoints="breakpoints"
+    >
+      <SwiperSlide v-for="(item, index) in itemArr" v-slot="{ isVisible }" :key="index">
         <div
-          class="carousel__picture-container"
-          :class="{ 'carousel__picture-container--visible': isVisible }"
+          class="carousel__content-container"
+          :class="{ 'carousel__content-container--visible': isVisible }"
         >
-          <img class="carousel__picture" :src="image.src" :alt="image.alt" />
+          <slot name="item" v-bind="item" />
         </div>
       </SwiperSlide>
       <template #container-start>
@@ -22,18 +26,18 @@
 
 <script lang="ts" setup>
 import { Swiper, SwiperSlide } from 'swiper/vue'
+import { SwiperOptions } from 'swiper/types'
 import 'swiper/css'
-import { ImageSrc } from '~/components/home/Carousel.vue'
 
 defineProps<{
-  title: string
-  imageArr: ImageSrc[]
+  itemArr: Record<string, string>[]
+  breakpoints: SwiperOptions['breakpoints']
 }>()
 </script>
 
 <style lang="scss" scoped>
 .carousel {
-  //overflow: hidden;
+  overflow: hidden;
 
   &__slider {
     position: relative;
@@ -57,7 +61,7 @@ defineProps<{
     }
   }
 
-  &__picture-container {
+  &__content-container {
     @include flex-column;
     justify-content: center;
     align-items: center;
@@ -68,13 +72,6 @@ defineProps<{
     &--visible {
       opacity: 100%;
     }
-  }
-
-  &__picture {
-    width: 160px;
-    height: 60px;
-    object-fit: contain;
-    flex-shrink: 0;
   }
 }
 </style>
