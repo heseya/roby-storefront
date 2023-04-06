@@ -1,5 +1,5 @@
 <template>
-  <label :for="props.for" class="input__label">
+  <label :for="props.for" class="input__label" :class="{ 'input__label--uppercase': uppercase }">
     <slot>{{ label }}</slot>
   </label>
 </template>
@@ -9,10 +9,12 @@ const props = withDefaults(
   defineProps<{
     label?: string
     for?: string
+    uppercase?: boolean
   }>(),
   {
     label: '',
     for: '',
+    uppercase: false,
   },
 )
 </script>

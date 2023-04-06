@@ -4,17 +4,22 @@
     :class="[`input--${type}`, !!errors.length && `input--error`, postfix && 'input--postfix']"
     :data-postfix="postfix"
   >
-    <FormInputLabel v-if="label" class="input__label" :for="id">{{ label }}</FormInputLabel>
-    <input
-      :id="id"
-      v-model="inputValue"
-      class="input__input"
-      :type="htmlType"
-      :autocomplete="autocomplete"
-      :name="name"
-      placeholder=" "
-      @keydown.stop
-    />
+    <FormInputLabel v-if="label" :uppercase="labelUppercase" class="input__label" :for="id">
+      {{ label }}
+    </FormInputLabel>
+    <div class="input__content">
+      <input
+        :id="id"
+        v-model="inputValue"
+        class="input__input"
+        :type="htmlType"
+        :autocomplete="autocomplete"
+        :name="name"
+        :placeholder="placeholder"
+        @keydown.stop
+      />
+      <slot></slot>
+    </div>
     <span class="input__error">{{ errorMessage || errors[0] }}</span>
   </div>
 </template>
@@ -27,23 +32,27 @@ const props = withDefaults(
     type?: 'default' | 'gray'
     htmlType?: string
     autocomplete?: string
+    placeholder?: string
     name: string
     label?: string
     postfix?: string
     errorMessage?: string
     modelValue?: string | number
     rules?: string
+    labelUppercase?: boolean
   }>(),
   {
     type: 'default',
     htmlType: 'text',
     name: '',
+    placeholder: '',
     label: '',
     postfix: '',
     errorMessage: '',
     modelValue: '',
     rules: '',
     autocomplete: undefined,
+    labelUppercase: false,
   },
 )
 

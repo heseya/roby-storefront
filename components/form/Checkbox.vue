@@ -1,5 +1,5 @@
 <template>
-  <div class="checkbox" :class="`${!!error && 'checkbox--error'}`" :disabled="disabled">
+  <div class="checkbox" :class="{ 'checkbox--error': error }" :disabled="disabled">
     <input :id="name" v-model="checkboxValue" type="checkbox" :disabled="disabled" />
     <label tabindex="0" :for="name">
       <span class="checkbox__label">
@@ -102,14 +102,14 @@ const checkboxValue = computed({
 
     a {
       font-weight: 600;
-      color: var(--secondary-color);
+      color: var(--secondary-color-alt);
     }
   }
 
   input:checked + label::before {
-    background-color: var(--secondary-color);
+    background-color: var(--secondary-color-alt);
     background-image: url('@/assets/icons/check.svg');
-    border-color: var(--secondary-color);
+    border-color: var(--secondary-color-alt);
   }
 
   &[disabled='true'] label::before {
