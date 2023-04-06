@@ -5,7 +5,7 @@
       <FormInput
         v-model="form.values.email"
         name="email"
-        :label="t('email')"
+        :label="t('form.email')"
         rules="required|email"
       />
       <FormInputPassword v-model="form.values.password" />
@@ -60,7 +60,6 @@ const onSubmit = form.handleSubmit((values) => {
 </script>
 <style lang="scss" scoped>
 .login-form {
-  display: grid;
   &__options {
     display: flex;
     justify-content: space-between;

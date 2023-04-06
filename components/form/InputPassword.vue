@@ -6,7 +6,7 @@
     :html-type="showPassword ? 'text' : 'password'"
     rules="password"
   >
-    <span class="icon" @click="toogleShowPassword">
+    <span class="input-icon" @click="toogleShowPassword">
       <Visibility v-if="showPassword" />
       <VisibilityOff v-else />
     </span>
@@ -57,7 +57,7 @@ const inputValue = computed({
 </script>
 
 <style lang="scss" scoped>
-.icon {
+.input-icon {
   position: absolute;
   top: 50%;
   right: 10px;

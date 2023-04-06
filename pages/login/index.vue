@@ -1,7 +1,7 @@
 <template>
   <div class="login-content">
     <div class="login-content__container">
-      <AuthLogin class="login-content__login" />
+      <AuthLoginForm class="login-content__login" />
       <div class="login-content__spacer" />
       <div class="login-content__register">
         <div>
