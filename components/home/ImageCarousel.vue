@@ -1,7 +1,7 @@
 <template>
   <div class="image-carousel">
     <LayoutHeader class="image-carousel__title" variant="black">{{ title }}</LayoutHeader>
-    <LayoutCarousel :itemArr="images" :breakpoints="breakpoints">
+    <LayoutCarousel :item-arr="images" :breakpoints="breakpoints">
       <template #item="{ src, alt }: ImageSrc">
         <img
           class="image-carousel__picture"

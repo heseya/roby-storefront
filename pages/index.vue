@@ -14,8 +14,8 @@
       <HomeImageCarousel
         title="Zaufali Nam"
         :images="imageArr"
-        imageWidth="136"
-        imageHeight="136"
+        image-width="136"
+        image-height="136"
       />
     </BaseContainer>
   </div>

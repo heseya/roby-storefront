@@ -2,6 +2,10 @@
   width: 100%;
   position: relative;
 
+  &__content {
+    position: relative;
+  }
+
   &__input {
     all: unset;
     display: block;
