@@ -1,7 +1,7 @@
 <template>
   <component
     :is="icon"
-    :class="['icon', isResize && 'icon--resize']"
+    :class="['icon', { 'icon--resize': isResize }]"
     :height="calculatedSize"
     :width="calculatedSize"
   />

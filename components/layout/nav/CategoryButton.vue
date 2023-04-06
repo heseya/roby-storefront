@@ -75,7 +75,7 @@ defineProps<{
       transition: color 200ms ease-in-out;
 
       &:hover {
-        color: $primary-color;
+        color: var(--primary-color);
       }
     }
 
@@ -90,12 +90,12 @@ defineProps<{
 
   &--special {
     .category-btn__label-container {
-      color: $primary-color;
+      color: var(--primary-color);
     }
 
     &:hover {
       .category-btn__label-container {
-        border-bottom-color: $primary-color;
+        border-bottom-color: var(--primary-color);
       }
     }
   }

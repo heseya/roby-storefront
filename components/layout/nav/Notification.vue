@@ -25,7 +25,7 @@ defineProps<{ notification?: string }>()
   align-items: center;
 
   color: $white-color;
-  background-color: $primary-color;
+  background-color: var(--primary-color);
 
   &__title {
     flex: 1;

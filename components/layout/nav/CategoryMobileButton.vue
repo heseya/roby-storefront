@@ -1,13 +1,13 @@
 <template>
-  <div class="category-mobile-btn" :class="special && 'category-mobile-btn--special'">
+  <div class="category-mobile-btn" :class="{ 'category-mobile-btn--special': special }">
     <div class="category-mobile-btn__link-container">
       <NuxtLink class="category-mobile-btn__link" :to="link">
         {{ label }}
       </NuxtLink>
       <LayoutIconButton
-        v-show="Boolean(subcategories?.length)"
+        v-show="subcategories?.length"
         class="category-mobile-btn__arrow"
-        :class="isOpenSubcategories ? 'category-mobile-btn__arrow--down' : ''"
+        :class="{ 'category-mobile-btn__arrow--down': isOpenSubcategories }"
         :icon="Chevron"
         :iconSize="12"
         @click="toggleOpenSubcategories"
@@ -93,10 +93,8 @@ defineProps<{
     }
   }
 
-  &--special {
-    .category-mobile-btn__link {
-      color: $primary-color;
-    }
+  &--special &__link {
+    color: var(--primary-color);
   }
 }
 </style>

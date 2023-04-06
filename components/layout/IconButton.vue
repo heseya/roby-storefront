@@ -6,7 +6,7 @@
         notificationNumber
       }}</span>
     </div>
-    <span v-show="label" :class="['icon-btn__label', isResize && 'icon-btn__label--resize']">{{
+    <span v-show="label" :class="['icon-btn__label', { 'icon-btn__label--resize': isResize }]">{{
       label
     }}</span>
   </button>
@@ -66,7 +66,7 @@ withDefaults(
     font-size: rem(10);
 
     color: $gray-color-900;
-    background-color: $secondary-color;
+    background-color: var(--secondary-color);
   }
 
   &__label {

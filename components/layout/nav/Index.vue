@@ -1,62 +1,71 @@
 <template>
   <nav class="nav-bar">
     <LayoutNavNotification :notification="notification" />
-    <div class="nav-bar__items">
-      <div class="items__left">
-        <LayoutIconButton class="items__menu-btn" :icon="Menu" @click="isOpenCategories = true" />
-        <img class="items__logo" src="@/assets/images/logo.svg?url" alt="***REMOVED***" />
+    <div class="nav-items">
+      <div class="nav-items__left">
+        <LayoutIconButton
+          class="nav-items__menu-btn"
+          :icon="Menu"
+          @click="isOpenCategories = true"
+        />
+        <img class="nav-items__logo" src="@/assets/images/logo.svg?url" alt="***REMOVED***" />
         <LayoutNavSearch
-          class="items__search--wide"
+          class="nav-items__search--wide"
           :categories="subcategories"
           @search="searchCallback"
         />
       </div>
-      <div class="items__buttons">
+      <div class="nav-items__buttons">
         <LayoutIconButton
           iconSize="sm"
-          class="items__search--narrow"
+          class="nav-items__search--narrow"
           :icon="Search"
           @click="isOpenSearch = true"
         />
-        <div class="items__button-wrapper">
-          <NuxtLink class="items__button" :to="isLogin ? 'account' : 'login'">
+        <div class="nav-items__button-wrapper">
+          <NuxtLink class="nav-button" :to="isLogin ? '/account' : '/login'">
             <LayoutIconButton
-              class="button__icon"
+              class="nav-button__icon"
               :icon="Profile"
               :label="isLogin ? t('myAccount') : t('signIn')"
               isResize
             />
           </NuxtLink>
-          <div v-show="isLogin" class="button__list">
+          <div v-show="isLogin" class="nav-button__list">
             <NuxtLink
               v-for="link in accountLinks"
               :key="link.label"
-              class="button__list-item"
+              class="nav-button__list-item"
               :to="link.link"
               >{{ t(link.label) }}
             </NuxtLink>
             <button
-              :class="['button__list-item', 'button__list-item--logout']"
+              class="nav-button__list-item nav-button__list-item--logout"
               @click="logoutCallback"
             >
               {{ t('logout') }}
             </button>
           </div>
         </div>
-        <NuxtLink class="items__button" to="list">
+        <NuxtLink class="nav-button" to="/list">
           <LayoutIconButton
-            class="button__icon"
+            class="nav-button__icon"
             :icon="Favorite"
             :label="t('wishList')"
             :notificationNumber="2"
             isResize
           />
         </NuxtLink>
-        <div class="items__button-wrapper">
-          <NuxtLink class="items__button" to="cart">
-            <LayoutIconButton class="button__icon" :icon="Shopping" :label="t('cart')" isResize />
+        <div class="nav-items__button-wrapper">
+          <NuxtLink class="nav-button" to="/cart">
+            <LayoutIconButton
+              class="nav-button__icon"
+              :icon="Shopping"
+              :label="t('cart')"
+              isResize
+            />
           </NuxtLink>
-          <LayoutNavCartPreview class="items__cart-preview" />
+          <LayoutNavCartPreview class="nav-items__cart-preview" />
         </div>
       </div>
       <LayoutNavMobileMenu
@@ -209,22 +218,6 @@ const logoutCallback = () => {
   background-color: $white-color;
   @include flex-column;
 
-  &__items {
-    position: relative;
-    height: 130px;
-    padding: 0 42px;
-
-    @include flex-row;
-    justify-content: space-between;
-    align-items: center;
-    gap: 40px;
-    @media ($max-viewport-12) {
-      height: 60px;
-      padding: 0 18px;
-      gap: 18px;
-    }
-  }
-
   &__categories {
     @include flex-row;
     justify-content: center;
@@ -236,7 +229,21 @@ const logoutCallback = () => {
   }
 }
 
-.items {
+.nav-items {
+  position: relative;
+  height: 130px;
+  padding: 0 42px;
+
+  @include flex-row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 40px;
+  @media ($max-viewport-12) {
+    height: 60px;
+    padding: 0 18px;
+    gap: 18px;
+  }
+
   &__left {
     @include flex-row;
     align-items: center;
@@ -268,12 +275,6 @@ const logoutCallback = () => {
     }
   }
 
-  &__button {
-    display: inline-block;
-    text-decoration: none;
-    padding: 20px 0;
-  }
-
   &__cart-preview {
     display: none;
   }
@@ -282,7 +283,7 @@ const logoutCallback = () => {
     position: relative;
 
     &:hover {
-      .button__list {
+      .nav-button__list {
         display: flex !important;
 
         @media ($max-viewport-12) {
@@ -290,7 +291,7 @@ const logoutCallback = () => {
         }
       }
 
-      .items__cart-preview {
+      .nav-items__cart-preview {
         display: flex !important;
 
         @media ($max-viewport-12) {
@@ -322,7 +323,11 @@ const logoutCallback = () => {
   }
 }
 
-.button {
+.nav-button {
+  display: inline-block;
+  text-decoration: none;
+  padding: 20px 0;
+
   &__icon {
     color: #8d8d8d;
   }
@@ -347,7 +352,7 @@ const logoutCallback = () => {
       transition: color 200ms ease-in-out;
 
       &:hover {
-        color: $primary-color;
+        color: var(--primary-color);
         cursor: pointer;
       }
 

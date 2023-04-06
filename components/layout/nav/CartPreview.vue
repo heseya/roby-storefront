@@ -1,27 +1,27 @@
 <template>
-  <div v-if="Boolean(cart.items.length)" class="cart-preview">
-    <div v-for="item in cart.items" :key="item.id" class="cart-preview__item">
-      <Media width="100" class="item__cover" :media="item.coverMedia" />
-      <div class="item__content">
-        <span class="item__name">{{ item.name }}</span>
-        <span class="item__brand">{{ item.name }}</span>
-        <div class="item__summary">
-          <span class="item__quantity">{{ t('quantity') }} {{ item.qty }}</span>
-          <span class="item__price">
+  <div v-if="cart.items.length" class="cart-preview">
+    <div v-for="item in cart.items" :key="item.id" class="cart-preview-item">
+      <Media width="100" class="cart-preview-item__cover" :media="item.coverMedia" />
+      <div class="cart-preview-item__content">
+        <span class="cart-preview-item__name">{{ item.name }}</span>
+        <span class="cart-preview-item__brand">{{ item.name }}</span>
+        <div class="cart-preview-item__summary">
+          <span class="cart-preview-item__quantity">{{ t('quantity') }} {{ item.qty }}</span>
+          <span class="cart-preview-item__price">
             {{ formatAmount(item.totalPrice) }}
           </span>
         </div>
       </div>
       <LayoutIconButton
-        class="item__remove-btn"
+        class="cart-preview-item__remove-btn"
         :icon="CrossIcon"
         iconSize="sm"
         @click="handleRemove(item.id)"
       />
     </div>
-    <div class="cart-preview__summary">
+    <div class="cart-preview-summary">
       <span>{{ t('totalAmount') }}</span>
-      <span class="summary__total">{{ formatAmount(cart.totalValue) }}</span>
+      <span class="cart-preview-summary__total">{{ formatAmount(cart.totalValue) }}</span>
     </div>
   </div>
   <div v-else class="cart-preview cart-preview--empty">{{ t('emptyCart') }}</div>
@@ -64,25 +64,16 @@ const handleRemove = (id: string) => {
   &--empty {
     text-align: center;
   }
-
-  &__item {
-    position: relative;
-    @include flex-row;
-    padding: 10px 0;
-    gap: 10px;
-
-    border-bottom: solid 1px $gray-color-400;
-  }
-
-  &__summary {
-    padding-top: 10px;
-
-    @include flex-row;
-    justify-content: space-between;
-  }
 }
 
-.item {
+.cart-preview-item {
+  position: relative;
+  @include flex-row;
+  padding: 10px 0;
+  gap: 10px;
+
+  border-bottom: solid 1px $gray-color-400;
+
   &__cover {
     flex-shrink: 0;
     width: 100px;
@@ -118,7 +109,12 @@ const handleRemove = (id: string) => {
   }
 }
 
-.summary {
+.cart-preview-summary {
+  padding-top: 10px;
+
+  @include flex-row;
+  justify-content: space-between;
+
   &__total {
     font-weight: bold;
     font-size: rem(16);

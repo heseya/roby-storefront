@@ -96,7 +96,7 @@ defineProps<{
     height: 46px;
     width: 46px;
     border-radius: 50%;
-    background-color: $secondary-color;
+    background-color: var(--secondary-color);
   }
 }
 </style>
