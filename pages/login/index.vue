@@ -9,15 +9,16 @@
           <div>
             <div>{{ t('form.benefits-header') }}</div>
             <ul class="login-content__list">
-              <li v-for="(item, index) in benefits" :key="index" class="login-content__list--item">
-                <Check class="login-content__list--icon" />
+              <li v-for="(item, index) in benefits" :key="index" class="login-content__list-item">
+                <Check class="login-content__list-icon" />
                 {{ item }}
               </li>
             </ul>
           </div>
         </div>
-
-        <LayoutButton class="login-content__btn" :label="t('form.register')" />
+        <NuxtLink to="/register">
+          <LayoutButton class="login-content__btn" :label="t('form.register')" />
+        </NuxtLink>
       </div>
     </div>
   </div>
@@ -97,23 +98,23 @@ const benefits = ref<string[]>([t('benefits.faster'), t('benefits.track'), t('be
     @media ($viewport-11) {
       padding-left: 25px;
     }
+  }
 
-    &--item {
-      margin-top: 15px;
-      display: flex;
-      position: relative;
+  &__list-item {
+    margin-top: 15px;
+    display: flex;
+    position: relative;
 
-      @media ($viewport-11) {
-        margin-top: 12px;
-      }
+    @media ($viewport-11) {
+      margin-top: 12px;
     }
+  }
 
-    &--icon {
-      position: absolute;
-      left: -22px;
-      top: 5px;
-      color: $blue-color;
-    }
+  &__list-icon {
+    position: absolute;
+    left: -22px;
+    top: 5px;
+    color: $blue-color;
   }
 
   &__login,
