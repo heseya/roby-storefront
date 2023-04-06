@@ -17,7 +17,7 @@
       </div>
     </div>
 
-    <hr class="cart-summary__line" />
+    <hr class="hr cart-summary__line" />
 
     <div class="cart-summary__item">
       <div class="cart-summary__label">{{ t('summary.total') }}</div>

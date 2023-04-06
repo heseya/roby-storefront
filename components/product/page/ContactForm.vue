@@ -11,6 +11,7 @@
         class="product-contact-form__input"
         :label="t('name')"
         rules="required"
+        label-uppercase
       />
       <FormInput
         v-model="form.values.email"
@@ -19,6 +20,7 @@
         class="product-contact-form__input"
         :label="t('email')"
         rules="required|email"
+        label-uppercase
       />
     </div>
 
@@ -28,6 +30,7 @@
       class="product-contact-form__input"
       :label="t('message')"
       rules="required"
+      label-uppercase
     />
 
     <FormCheckbox v-model="form.values.consent" name="consent" rules="required">

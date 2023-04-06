@@ -64,7 +64,6 @@ const onSubmit = form.handleSubmit((values) => {
 </script>
 <style lang="scss" scoped>
 .login-form {
-  display: grid;
   &__options {
     display: flex;
     justify-content: space-between;
