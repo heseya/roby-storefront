@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="modal-bg" :class="{ 'modal--open': open }" @click="close" />
-    <div class="modal" :class="{ 'modal--open': open }">
+    <div class="modal" :class="{ 'modal--open': open, 'modal--box': box }">
       <button v-if="closeable" class="modal__close-btn" aria-label="Zamknij modal" @click="close" />
 
       <slot />
@@ -16,6 +16,7 @@ const props = withDefaults(
   defineProps<{
     open: boolean
     closeable?: boolean
+    box?: boolean
   }>(),
   {
     closeable: true,
@@ -75,7 +76,7 @@ onKeyStroke('Escape', () => close())
   top: 0;
   width: 100vw;
   height: 100vh;
-  background-color: #fff;
+  background-color: $white-color;
   z-index: 1001;
   opacity: 0;
   visibility: hidden;
@@ -98,6 +99,28 @@ onKeyStroke('Escape', () => close())
   &--open {
     opacity: 1;
     visibility: visible;
+  }
+
+  &--box {
+    margin-top: 20px;
+    margin-bottom: 30px;
+    width: 90%;
+    height: auto;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    @media ($viewport-6) {
+      width: 70%;
+    }
+
+    @media ($viewport-10) {
+      width: 60%;
+    }
+
+    @media ($viewport-12) {
+      width: 40%;
+    }
   }
 
   &__close-btn {
