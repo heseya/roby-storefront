@@ -1,6 +1,5 @@
 <template>
   <form class="login-form" @submit.prevent="onSubmit">
-    <h2 class="login-form__header">{{ t('form.login') }}</h2>
     <div class="login-form__form">
       <FormInput
         v-model="form.values.email"
@@ -80,19 +79,13 @@ const onSubmit = form.handleSubmit((values) => {
     margin-top: 15px;
   }
 
-  &__header {
-    font-size: 20px;
-    font-weight: 700;
-    margin-bottom: 10px;
-
-    @media ($viewport-7) {
-      font-size: 26px;
-    }
-  }
-
   &__btn {
     padding: 11px 0px;
     width: 100%;
   }
+}
+
+.modal-form > h2 {
+  font-size: 20px;
 }
 </style>

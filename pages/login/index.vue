@@ -1,8 +1,12 @@
 <template>
   <div class="login-content">
     <div class="login-content__container">
-      <AuthLoginForm class="login-content__login" />
-      <div class="login-content__spacer" />
+      <div>
+        <h2 class="login-content__header">{{ t('form.login') }}</h2>
+        <AuthLoginForm />
+      </div>
+
+      <LayoutSpacer />
       <div class="login-content__register">
         <div>
           <div class="login-content__header">{{ t('form.no-account') }}</div>
@@ -33,6 +37,7 @@
       "wishlist": "Dodawać produkty do listy życzeń"
     },
     "form": {
+      "login": "Zaloguj się",
       "register": "Zarejestruj się",
       "benefits-header": "Mając konto w sklepie ***REMOVED*** możesz:",
       "no-account": "Nie masz konta?"
@@ -77,10 +82,6 @@ const benefits = ref<string[]>([t('benefits.faster'), t('benefits.track'), t('be
     }
   }
 
-  &__content {
-    margin-bottom: 20px;
-  }
-
   &__header {
     font-size: 1.8rem;
     font-weight: 700;
@@ -116,11 +117,6 @@ const benefits = ref<string[]>([t('benefits.faster'), t('benefits.track'), t('be
     color: $blue-color;
   }
 
-  &__login,
-  &__register {
-    width: 100%;
-  }
-
   &__register {
     display: grid;
     align-content: space-between;
@@ -130,6 +126,7 @@ const benefits = ref<string[]>([t('benefits.faster'), t('benefits.track'), t('be
   &__btn {
     margin-top: 30px;
     margin-bottom: 15px;
+    width: 100%;
     height: 41px;
     background-color: $gray-color-300;
     color: $text-color;
@@ -137,21 +134,6 @@ const benefits = ref<string[]>([t('benefits.faster'), t('benefits.track'), t('be
 
     @media ($viewport-11) {
       margin-bottom: 0px;
-    }
-  }
-
-  &__spacer {
-    width: 100%;
-    border-bottom: 2px solid $gray-color-300;
-    display: flex;
-    justify-content: center;
-
-    @media ($viewport-11) {
-      border-bottom: none;
-      height: 100%;
-      width: 2px;
-      background-color: $gray-color-300;
-      margin-left: 50%;
     }
   }
 }
