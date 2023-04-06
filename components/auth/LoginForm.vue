@@ -7,7 +7,11 @@
         :label="t('form.email')"
         rules="required|email"
       />
-      <FormInputPassword v-model="form.values.password" />
+      <FormInputPassword
+        v-model="form.values.password"
+        :label="t('form.password')"
+        name="password"
+      />
     </div>
     <div class="login-form__options">
       <FormCheckbox v-model="rememberPassword" :text="t('form.remember')" name="remember" />
@@ -26,7 +30,8 @@
       "login": "Zaloguj się",
       "email": "Adres e-mail",
       "forgot-password": "Nie pamiętasz hasła?",
-      "remember": "Zapamiętaj mnie"
+      "remember": "Zapamiętaj mnie",
+      "password": "Hasło"
     }
   }
 }
@@ -83,9 +88,5 @@ const onSubmit = form.handleSubmit((values) => {
     padding: 11px 0px;
     width: 100%;
   }
-}
-
-.modal-form > h2 {
-  font-size: 20px;
 }
 </style>

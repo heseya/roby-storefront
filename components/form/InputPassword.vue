@@ -1,10 +1,10 @@
 <template>
   <FormInput
     v-model="inputValue"
-    name="password"
-    :label="t('input.password')"
+    :name="name"
+    :label="label"
     :html-type="showPassword ? 'text' : 'password'"
-    rules="password"
+    :rules="rules"
   >
     <span class="input-icon" @click="toogleShowPassword">
       <Visibility v-if="showPassword" />
@@ -13,28 +13,22 @@
   </FormInput>
 </template>
 
-<i18n lang="json">
-{
-  "pl": {
-    "input": {
-      "password": "Hasło"
-    }
-  }
-}
-</i18n>
-
 <script setup lang="ts">
 import Visibility from '@/assets/icons/visibility.svg?component'
 import VisibilityOff from '@/assets/icons/visibility-off.svg?component'
 
-const t = useLocalI18n()
-
 const props = withDefaults(
   defineProps<{
-    modelValue?: string
+    modelValue: string
+    label: string
+    name: string
+    rules: string
   }>(),
   {
     modelValue: '',
+    label: '',
+    name: 'password',
+    rules: 'password',
   },
 )
 
