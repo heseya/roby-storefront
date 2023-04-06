@@ -12,5 +12,6 @@ module.exports = {
   plugins: [],
   rules: {
     'vue/multi-word-component-names': ['off'],
+    'vue/v-slot-style': ['off'],
   },
 }

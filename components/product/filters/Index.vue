@@ -11,7 +11,7 @@
     </div>
 
     <div class="product-filters__section">
-      <FormInputLabel> {{ t('price') }} </FormInputLabel>
+      <FormInputLabel label-uppercase> {{ t('price') }} </FormInputLabel>
 
       <div class="product-filters__row">
         <span> {{ t('from') }} </span>
@@ -21,6 +21,7 @@
           name="price_min"
           :model-value="filters['price.min']"
           postfix="zł"
+          label-uppercase
           @update:model-value="(v) => updateKey('price.min', v)"
         />
         <span> {{ t('to') }} </span>
@@ -30,6 +31,7 @@
           name="price_max"
           postfix="zł"
           :model-value="filters['price.max']"
+          label-uppercase
           @update:model-value="(v) => updateKey('price.max', v)"
         />
       </div>

@@ -1,6 +1,8 @@
 <template>
   <div class="filter-checkbox-group">
-    <FormInputLabel class="filter-checkbox-group__label">{{ attribute.name }}</FormInputLabel>
+    <FormInputLabel class="filter-checkbox-group__label" uppercase>
+      {{ attribute.name }}
+    </FormInputLabel>
 
     <FormCheckbox
       v-for="option in options"

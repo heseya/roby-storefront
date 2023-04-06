@@ -1,5 +1,5 @@
 <template>
-  <button :class="[`btn`, `btn--${variant}`]">
+  <button :class="[`btn`, `btn--${variant}`]" :disabled="disabled">
     <slot>{{ label }}</slot>
   </button>
 </template>
@@ -12,8 +12,9 @@ withDefaults(
     label?: string
     variant?: ButtonVariant
     htmlType?: 'button' | 'submit' | 'reset'
+    disabled?: boolean
   }>(),
-  { variant: 'primary', label: '', htmlType: 'button' },
+  { variant: 'primary', label: '', htmlType: 'button', disabled: false },
 )
 </script>
 
@@ -30,11 +31,16 @@ withDefaults(
   cursor: pointer;
   border: solid 1px $transparent;
 
+  &[disabled] {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+
   &--primary {
     color: $white-color;
     background-color: var(--secondary-color-alt);
 
-    &:hover {
+    &:not([disabled]):hover {
       background-color: var(--secondary-color);
     }
   }
@@ -43,7 +49,7 @@ withDefaults(
     color: $gray-color-900;
     background-color: $white-color;
 
-    &:hover {
+    &:not([disabled]):hover {
       background-color: $gray-color-300;
     }
   }
@@ -54,7 +60,7 @@ withDefaults(
     cursor: pointer;
     border: solid 1px $gray-color-300;
 
-    &:hover {
+    &:not([disabled]):hover {
       background-color: $gray-color-300;
     }
   }
@@ -63,7 +69,7 @@ withDefaults(
     color: $text-color;
     background-color: $gray-color-300;
 
-    &:hover {
+    &:not([disabled]):hover {
       background-color: $gray-color-400;
     }
   }
