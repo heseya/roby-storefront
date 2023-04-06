@@ -21,9 +21,7 @@
     </div>
 
     <div class="cart-item__actions">
-      <button class="cart-item__btn" @click="removeFromCart">
-        <CrossIcon />
-      </button>
+      <LayoutIconButton :icon="CrossIcon" iconSize="sm" @click="removeFromCart" />
     </div>
   </div>
 </template>
