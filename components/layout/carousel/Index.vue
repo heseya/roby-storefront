@@ -10,10 +10,10 @@
         </div>
       </SwiperSlide>
       <template #container-start>
-        <LayoutCarouselButton class="carousel__button carousel__button--prev" />
+        <LayoutCarouselButton class="carousel__button" />
       </template>
       <template #container-end>
-        <LayoutCarouselButton next class="carousel__button" />
+        <LayoutCarouselButton next class="carousel__button" type="next" />
       </template>
     </Swiper>
   </div>
@@ -45,11 +45,6 @@ defineProps<{
     top: calc(50% - 18px);
     right: -64px;
     z-index: 10;
-
-    &--prev {
-      transform: rotate(180deg);
-      left: -64px;
-    }
   }
 
   &__content-container {

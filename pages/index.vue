@@ -10,15 +10,10 @@
         link-text="Zapytaj"
       />
       <HomeWhyUs />
-      <HomeImageCarousel
-        title="Nasi partnerzy"
-        :imageArr="imageArr"
-        imageWidth="160"
-        imageHeight="160"
-      />
+      <HomeImageCarousel title="Nasi partnerzy" :images="imageArr" />
       <HomeImageCarousel
         title="Zaufali Nam"
-        :imageArr="imageArr"
+        :images="imageArr"
         imageWidth="136"
         imageHeight="136"
       />

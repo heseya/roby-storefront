@@ -1,8 +1,8 @@
 <template>
   <button
-    class="carousel-button"
-    @click="next ? swiper.slideNext() : swiper.slidePrev()"
-    v-show="next ? !swiper.isEnd : !swiper.isBeginning"
+    v-show="type === 'next' ? !swiper.isEnd : !swiper.isBeginning"
+    :class="['carousel-button', { 'carousel-button--prev': type === 'prev' }]"
+    @click="type === 'next' ? swiper.slideNext() : swiper.slidePrev()"
   >
     <ArrowNext />
   </button>
@@ -14,9 +14,12 @@ import ArrowNext from '@/assets/icons/arrow-next.svg?component'
 
 const swiper = useSwiper()
 
-defineProps<{
-  next?: boolean
-}>()
+withDefaults(
+  defineProps<{
+    type?: 'next' | 'prev'
+  }>(),
+  { type: 'prev' },
+)
 </script>
 
 <style lang="scss" scoped>
@@ -36,6 +39,11 @@ defineProps<{
   &:hover {
     background-color: $gray-color-400;
     cursor: pointer;
+  }
+
+  &--prev {
+    transform: rotate(180deg);
+    left: -64px;
   }
 }
 </style>

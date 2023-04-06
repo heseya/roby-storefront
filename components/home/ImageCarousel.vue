@@ -1,7 +1,7 @@
 <template>
   <div class="image-carousel">
     <LayoutHeader class="image-carousel__title" variant="black">{{ title }}</LayoutHeader>
-    <LayoutCarousel :itemArr="imageArr" :breakpoints="breakpoints">
+    <LayoutCarousel :itemArr="images" :breakpoints="breakpoints">
       <template #item="{ src, alt }: ImageSrc">
         <img
           class="image-carousel__picture"
@@ -29,12 +29,18 @@ const breakpoints = {
   1680: { slidesPerView: 7 },
 }
 
-defineProps<{
-  title: string
-  imageArr: ImageSrc[]
-  imageWidth: number
-  imageHeight: number
-}>()
+withDefaults(
+  defineProps<{
+    title: string
+    images: ImageSrc[]
+    imageWidth?: number
+    imageHeight?: number
+  }>(),
+  {
+    imageWidth: 160,
+    imageHeight: 60,
+  },
+)
 </script>
 
 <style lang="scss" scoped>
