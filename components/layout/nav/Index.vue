@@ -23,33 +23,33 @@
           @click="isOpenSearch = true"
         />
         <div class="nav-items__button-wrapper">
-          <NuxtLink class="nav-button" :to="isLogin ? '/account' : '/login'">
+          <NuxtLink class="nav-link-button" :to="isLogin ? '/account' : '/login'">
             <LayoutIconButton
-              class="nav-button__icon"
+              class="nav-link-button__button"
               :icon="Profile"
               :label="isLogin ? t('myAccount') : t('signIn')"
               isResize
             />
           </NuxtLink>
-          <div v-show="isLogin" class="nav-button__list">
+          <div v-show="isLogin" class="nav-link-button__list">
             <NuxtLink
               v-for="link in accountLinks"
               :key="link.label"
-              class="nav-button__list-item"
+              class="nav-link-button__list-item"
               :to="link.link"
               >{{ t(link.label) }}
             </NuxtLink>
             <button
-              class="nav-button__list-item nav-button__list-item--logout"
+              class="nav-link-button__list-item nav-link-button__list-item--logout"
               @click="logoutCallback"
             >
               {{ t('logout') }}
             </button>
           </div>
         </div>
-        <NuxtLink class="nav-button" to="/list">
+        <NuxtLink class="nav-link-button" to="/list">
           <LayoutIconButton
-            class="nav-button__icon"
+            class="nav-link-button__button"
             :icon="Favorite"
             :label="t('wishList')"
             :notificationNumber="2"
@@ -57,9 +57,9 @@
           />
         </NuxtLink>
         <div class="nav-items__button-wrapper">
-          <NuxtLink class="nav-button" to="/cart">
+          <NuxtLink class="nav-link-button" to="/cart">
             <LayoutIconButton
-              class="nav-button__icon"
+              class="nav-link-button__button"
               :icon="Shopping"
               :label="t('cart')"
               isResize
@@ -283,7 +283,7 @@ const logoutCallback = () => {
     position: relative;
 
     &:hover {
-      .nav-button__list {
+      .nav-link-button__list {
         display: flex !important;
 
         @media ($max-viewport-12) {
@@ -323,12 +323,12 @@ const logoutCallback = () => {
   }
 }
 
-.nav-button {
+.nav-link-button {
   display: inline-block;
   text-decoration: none;
   padding: 20px 0;
 
-  &__icon {
+  &__button {
     color: #8d8d8d;
   }
 

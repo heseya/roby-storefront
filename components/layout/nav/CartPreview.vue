@@ -45,7 +45,7 @@ const t = useLocalI18n()
 const cart = useCartStore()
 
 const handleRemove = (id: string) => {
-  console.log('remove', id)
+  cart.remove(id)
 }
 </script>
 
