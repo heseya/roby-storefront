@@ -171,6 +171,7 @@ const activeStep = computed(() => {
     display: flex;
     align-items: flex-start;
     justify-content: center;
+    padding-bottom: 32px;
 
     @media ($viewport-7) {
       margin-top: 10px;
