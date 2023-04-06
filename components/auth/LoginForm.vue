@@ -1,5 +1,5 @@
 <template>
-  <form class="login-form" @submit.prevent="onSubmit" :class="{ 'modal-form': isFormInModal }">
+  <form class="login-form" :class="{ 'modal-form': isFormInModal }" @submit.prevent="onSubmit">
     <h2 class="login-form__header">{{ t('form.login') }}</h2>
     <div class="login-form__form">
       <FormInput
