@@ -1,13 +1,21 @@
 <template>
   <div class="checkout-shipping-methods">
-    <FormRadioGroup v-model="selectedMethod" :options="shippingOptions" name="shipping-method">
+    <FormRadioGroup
+      :value="checkout.shippingMethod?.id"
+      :options="shippingOptions"
+      name="shipping-method"
+      @update:value="setShippingMethod"
+    >
       <template v-for="method in shippingMethods" :key="method.id" v-slot:[`${method.id}-label`]>
         <div class="shipping-method">
           <span class="shipping-method__name">{{ method.name }}</span>
           <span class="shipping-method__price">{{ formatAmount(method.price || 0) }}</span>
         </div>
         <div class="shipping-method-description">
-          {{ t('shippingTime') }} <b>{{ packagingTime }}.</b> {{ t('packagingTime') }}
+          <template v-if="cart.shippingTimeDescription">
+            {{ t('shippingTime') }} <b>{{ cart.shippingTimeDescription }}.</b>
+          </template>
+          {{ t('packagingTime') }}
           <b>{{ method.shipping_time_min }}-{{ method.shipping_time_max }} {{ t('days') }}</b>
         </div>
       </template>
@@ -18,7 +26,7 @@
 <i18n lang="json">
 {
   "pl": {
-    "shippingTime": "Przewidywana wysyłka w",
+    "shippingTime": "Przewidywana wysyłka",
     "packagingTime": "Przewidywany czas realizacji dostawy",
     "days": "dni roboczych"
   }
@@ -28,12 +36,12 @@
 <script setup lang="ts">
 import { ShippingMethod } from '@heseya/store-core'
 import { useCartStore } from '~~/store/cart'
+import { useCheckoutStore } from '~~/store/checkout'
 
 const t = useLocalI18n()
 const heseya = useHeseya()
 const cart = useCartStore()
-
-const selectedMethod = ref<string>()
+const checkout = useCheckoutStore()
 
 const { data: shippingMethods } = useAsyncData(
   async () => {
@@ -51,8 +59,9 @@ const shippingOptions = computed(() => {
   }))
 })
 
-// TODO: dynamic value from cart/process
-const packagingTime = `24h`
+const setShippingMethod = (id: unknown) => {
+  checkout.shippingMethod = shippingMethods.value?.find((method) => method.id === id) || null
+}
 </script>
 
 <style lang="scss" scoped>
