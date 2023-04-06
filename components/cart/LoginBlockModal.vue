@@ -1,8 +1,12 @@
 <template>
   <LayoutModal v-model:open="isModalVisible" :closeable="false" :box="true">
     <div class="login-block">
-      <AuthLoginForm class="login-block__login" :is-form-in-modal="true" />
-      <div class="spacer" />
+      <div>
+        <h2 class="login-block__header">{{ t('block.login') }}</h2>
+        <AuthLoginForm class="login-block__login" :is-form-in-modal="true" />
+      </div>
+
+      <LayoutSpacer />
 
       <div class="login-block__guest">
         <div class="login-block__continue">
@@ -14,7 +18,7 @@
         </div>
 
         <div class="login-block__register">
-          <div class="spacer" />
+          <LayoutSpacer />
           <div>
             <h2 class="login-block__header">{{ t('block.noAccount') }}</h2>
             <NuxtLink to="/register">
@@ -31,6 +35,7 @@
 {
   "pl": {
     "block": {
+      "login": "Zaloguj się",
       "continueWithoutLogin": "Kontynuuj bez logowania",
       "continueAsGuest": "Kontynuuj jako gość",
       "description": "Możesz zrobić zakupy jako gość. Wymagane są tylko dane niezbędne do realizacji zamówienia.",
@@ -42,8 +47,6 @@
 </i18n>
 
 <script setup lang="ts">
-definePageMeta({ layout: 'empty' })
-
 const t = useLocalI18n()
 
 const props = defineProps<{
@@ -63,7 +66,6 @@ const isModalVisible = computed({
 })
 </script>
 <style lang="scss" scoped>
-@import '@/assets/scss/components/spacer';
 .login-block {
   display: grid;
   gap: 15px;

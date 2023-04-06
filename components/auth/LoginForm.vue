@@ -1,6 +1,5 @@
 <template>
-  <form class="login-form" :class="{ 'modal-form': isFormInModal }" @submit.prevent="onSubmit">
-    <h2 class="login-form__header">{{ t('form.login') }}</h2>
+  <form class="login-form" @submit.prevent="onSubmit">
     <div class="login-form__form">
       <FormInput
         v-model="form.values.email"
@@ -24,7 +23,6 @@
 {
   "pl": {
     "form": {
-      "login": "Zaloguj się",
       "email": "Adres e-mail",
       "forgot-password": "Nie pamiętasz hasła?",
       "remember": "Zapamiętaj mnie"
@@ -35,10 +33,6 @@
 
 <script setup lang="ts">
 import { useForm } from 'vee-validate'
-
-defineProps<{
-  isFormInModal?: boolean
-}>()
 
 interface LoginForm {
   email: string
@@ -82,16 +76,6 @@ const onSubmit = form.handleSubmit((values) => {
     display: grid;
     gap: 15px;
     margin-top: 15px;
-  }
-
-  &__header {
-    font-size: 20px;
-    font-weight: 700;
-    margin-bottom: 10px;
-
-    @media ($viewport-7) {
-      font-size: 26px;
-    }
   }
 
   &__btn {

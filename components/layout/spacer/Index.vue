@@ -1,3 +1,10 @@
+<template>
+  <div class="spacer" />
+</template>
+
+<script lang="ts" setup></script>
+
+<style lang="scss" scoped>
 .spacer {
   display: flex;
   justify-content: center;
@@ -12,3 +19,4 @@
     margin-left: 50%;
   }
 }
+</style>

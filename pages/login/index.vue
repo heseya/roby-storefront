@@ -1,8 +1,12 @@
 <template>
   <div class="login-content">
     <div class="login-content__container">
-      <AuthLoginForm />
-      <div class="spacer" />
+      <div>
+        <h2 class="login-content__header">{{ t('form.login') }}</h2>
+        <AuthLoginForm />
+      </div>
+
+      <LayoutSpacer />
       <div class="login-content__register">
         <div>
           <div class="login-content__header">{{ t('form.no-account') }}</div>
@@ -33,6 +37,7 @@
       "wishlist": "Dodawać produkty do listy życzeń"
     },
     "form": {
+      "login": "Zaloguj się",
       "register": "Zarejestruj się",
       "benefits-header": "Mając konto w sklepie ***REMOVED*** możesz:",
       "no-account": "Nie masz konta?"
@@ -51,7 +56,6 @@ const benefits = ref<string[]>([t('benefits.faster'), t('benefits.track'), t('be
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/scss/components/spacer';
 .login-content {
   padding: 16px;
   width: 100%;
