@@ -45,7 +45,7 @@
       />
     </div>
     <basket />
-    <CartAuthentication v-model:modal="AuthenticationModalVisible" />
+    <CartCheckout v-model:modal="AuthenticationModalVisible" />
   </div>
 </template>
 

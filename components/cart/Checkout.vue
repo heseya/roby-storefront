@@ -1,31 +1,7 @@
 <template>
   <LayoutModal v-model:open="isModalVisible" :closeable="false" :box="true">
     <div class="basket-authentication">
-      <div class="basket-authentication__authorized">
-        <h2 class="basket-authentication__header">Zaloguj się</h2>
-        <div class="basket-authentication__form">
-          <div>
-            <span class="basket-authentication__form--text"> Adres e-mail</span>
-            <FormInput name="email" />
-          </div>
-          <div>
-            <span class="basket-authentication__form--text">Hasło</span>
-            <FormInput name="password" />
-          </div>
-        </div>
-        <div class="basket-authentication__options">
-          <div class="basket-authentication__options--checkbox">
-            <input type="checkbox" />
-            <span>Zapamiętaj mnie</span>
-          </div>
-          <NuxtLink class="basket-authentication__options--forgot" to="/forgot-password">
-            Nie pamiętasz hasła?
-          </NuxtLink>
-        </div>
-        <NuxtLink to="/checkout">
-          <LayoutButton class="basket-authentication__btn">Zaloguj się</LayoutButton>
-        </NuxtLink>
-      </div>
+      <AuthLogin class="login-content__login" />
       <div class="basket-authentication__spacer" />
 
       <div class="basket-authentication__not-authorized">
@@ -74,6 +50,7 @@ const isModalVisible = computed({
 })
 </script>
 <style lang="scss" scoped>
+@import '@/assets/scss/components/spacer';
 .basket-authentication {
   display: grid;
   gap: 15px;
@@ -144,20 +121,6 @@ const isModalVisible = computed({
     color: black;
     font-weight: 500;
     margin-top: 10px;
-  }
-
-  &__spacer {
-    border-bottom: 2px solid $gray-color-300;
-    display: flex;
-    justify-content: center;
-
-    @media ($viewport-7) {
-      border-bottom: none;
-      height: 100%;
-      width: 2px;
-      background-color: $gray-color-400;
-      margin-left: 50%;
-    }
   }
 
   &__guest {

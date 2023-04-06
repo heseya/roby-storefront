@@ -2,7 +2,7 @@
   <div class="login-content">
     <div class="login-content__container">
       <AuthLogin class="login-content__login" />
-      <div class="login-content__spacer" />
+      <div class="spacer" />
       <div class="login-content__register">
         <div>
           <div class="login-content__header">{{ t('form.no-account') }}</div>
@@ -50,6 +50,7 @@ const benefits = ref<string[]>([t('benefits.faster'), t('benefits.track'), t('be
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/scss/components/spacer';
 .login-content {
   padding: 16px;
   width: 100%;
@@ -136,21 +137,6 @@ const benefits = ref<string[]>([t('benefits.faster'), t('benefits.track'), t('be
 
     @media ($viewport-11) {
       margin-bottom: 0px;
-    }
-  }
-
-  &__spacer {
-    width: 100%;
-    border-bottom: 2px solid $gray-color-300;
-    display: flex;
-    justify-content: center;
-
-    @media ($viewport-11) {
-      border-bottom: none;
-      height: 100%;
-      width: 2px;
-      background-color: $gray-color-300;
-      margin-left: 50%;
     }
   }
 }
