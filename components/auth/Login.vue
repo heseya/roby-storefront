@@ -1,30 +1,23 @@
 <template>
-  <div class="login">
-    <h2 class="login__header">{{ t('form.login') }}</h2>
-    <div class="login__form">
-      <FormInput v-model="loginForm.email" name="email" label="Adres e-mail" />
+  <form class="login-form" @submit.prevent="onSubmit">
+    <h2 class="login-form__header">{{ t('form.login') }}</h2>
+    <div class="login-form__form">
       <FormInput
-        v-model="loginForm.password"
-        name="password"
-        :label="t('form.password')"
-        :html-type="showPassword ? 'text' : 'password'"
-      >
-        <span class="login__form--icon" @click="tooglePassword">
-          <Visibility v-if="showPassword" />
-          <VisibilityOff v-else />
-        </span>
-      </FormInput>
+        v-model="form.values.email"
+        name="email"
+        :label="t('email')"
+        rules="required|email"
+      />
+      <FormInputPassword v-model="form.values.password" />
     </div>
-    <div class="login__options">
+    <div class="login-form__options">
       <FormCheckbox v-model="rememberPassword" :text="t('form.remember')" name="remember" />
-      <NuxtLink class="login__options--forgot" to="/forgot-password">
+      <NuxtLink class="login-form__options--forgot" to="/forgot-password">
         {{ t('form.forgot-password') }}
       </NuxtLink>
     </div>
-    <NuxtLink to="/checkout">
-      <LayoutButton class="login__btn" :label="t('form.login')" />
-    </NuxtLink>
-  </div>
+    <LayoutButton class="login-form__btn" :label="t('form.login')" />
+  </form>
 </template>
 
 <i18n lang="json">
@@ -33,7 +26,6 @@
     "form": {
       "login": "Zaloguj się",
       "email": "Adres e-mail",
-      "password": "Hasło",
       "forgot-password": "Nie pamiętasz hasła?",
       "remember": "Zapamiętaj mnie"
     }
@@ -42,8 +34,7 @@
 </i18n>
 
 <script setup lang="ts">
-import Visibility from '@/assets/icons/visibility.svg?component'
-import VisibilityOff from '@/assets/icons/visibility-off.svg?component'
+import { useForm } from 'vee-validate'
 
 interface LoginForm {
   email: string
@@ -53,17 +44,22 @@ interface LoginForm {
 const t = useLocalI18n()
 
 const rememberPassword = ref<boolean>(false)
-const showPassword = ref<boolean>(false)
 
-const loginForm = reactive<LoginForm>({
-  email: '',
-  password: '',
+const form = useForm<LoginForm>({
+  initialValues: {
+    email: '',
+    password: '',
+  },
 })
 
-const tooglePassword = () => (showPassword.value = !showPassword.value)
+const onSubmit = form.handleSubmit((values) => {
+  // TODO: send this form somewhere
+  console.log(values)
+  // TODO: redirect it to checkout
+})
 </script>
 <style lang="scss" scoped>
-.login {
+.login-form {
   display: grid;
   &__options {
     display: flex;
@@ -83,14 +79,6 @@ const tooglePassword = () => (showPassword.value = !showPassword.value)
     display: grid;
     gap: 15px;
     margin-top: 15px;
-
-    &--icon {
-      position: absolute;
-      top: 50%;
-      right: 10px;
-      transform: translateY(-50%);
-      cursor: pointer;
-    }
   }
 
   &__header {
