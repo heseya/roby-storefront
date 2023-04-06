@@ -29,7 +29,7 @@
     <LayoutButton
       variant="primary"
       class="cart-summary__button"
-      @click="AuthenticationModalVisible = true"
+      @click="isAuthenticationModalVisible = true"
     >
       {{ t('summary.submit') }}
     </LayoutButton>
@@ -45,7 +45,7 @@
       />
     </div>
     <basket />
-    <CartCheckout v-model:modal="AuthenticationModalVisible" />
+    <CartLoginBlockModal v-model:open="isAuthenticationModalVisible" />
   </div>
 </template>
 
@@ -92,7 +92,7 @@ const paymentMethods: PaymentMethod[] = [
 
 // TODO: get from API
 const isTraditionalTransfer = true
-const AuthenticationModalVisible = ref<boolean>(false)
+const isAuthenticationModalVisible = ref<boolean>(false)
 </script>
 
 <style lang="scss" scoped>

@@ -1,11 +1,11 @@
 <template>
-  <form class="login-form" @submit.prevent="onSubmit">
+  <form class="login-form" @submit.prevent="onSubmit" :class="{ 'modal-form': isFormInModal }">
     <h2 class="login-form__header">{{ t('form.login') }}</h2>
     <div class="login-form__form">
       <FormInput
         v-model="form.values.email"
         name="email"
-        :label="t('email')"
+        :label="t('form.email')"
         rules="required|email"
       />
       <FormInputPassword v-model="form.values.password" />
@@ -35,6 +35,10 @@
 
 <script setup lang="ts">
 import { useForm } from 'vee-validate'
+
+defineProps<{
+  isFormInModal?: boolean
+}>()
 
 interface LoginForm {
   email: string
@@ -95,5 +99,9 @@ const onSubmit = form.handleSubmit((values) => {
     padding: 11px 0px;
     width: 100%;
   }
+}
+
+.modal-form > h2 {
+  font-size: 20px;
 }
 </style>
