@@ -23,6 +23,7 @@
 {
   "pl": {
     "form": {
+      "login": "Zaloguj się",
       "email": "Adres e-mail",
       "forgot-password": "Nie pamiętasz hasła?",
       "remember": "Zapamiętaj mnie"
