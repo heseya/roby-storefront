@@ -1,7 +1,7 @@
 <template>
   <div class="login-content">
     <div class="login-content__container">
-      <AuthLoginForm class="login-content__login" />
+      <AuthLoginForm />
       <div class="spacer" />
       <div class="login-content__register">
         <div>
@@ -78,10 +78,6 @@ const benefits = ref<string[]>([t('benefits.faster'), t('benefits.track'), t('be
     }
   }
 
-  &__content {
-    margin-bottom: 20px;
-  }
-
   &__header {
     font-size: 1.8rem;
     font-weight: 700;
@@ -117,11 +113,6 @@ const benefits = ref<string[]>([t('benefits.faster'), t('benefits.track'), t('be
     color: $blue-color;
   }
 
-  &__login,
-  &__register {
-    width: 100%;
-  }
-
   &__register {
     display: grid;
     align-content: space-between;
@@ -131,6 +122,7 @@ const benefits = ref<string[]>([t('benefits.faster'), t('benefits.track'), t('be
   &__btn {
     margin-top: 30px;
     margin-bottom: 15px;
+    width: 100%;
     height: 41px;
     background-color: $gray-color-300;
     color: $text-color;

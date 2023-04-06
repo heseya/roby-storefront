@@ -1,7 +1,7 @@
 <template>
   <LayoutModal v-model:open="isModalVisible" :closeable="false" :box="true">
     <div class="login-block">
-      <AuthLogin class="login-content__login" :is-form-in-modal="true" />
+      <AuthLoginForm class="login-block__login" :is-form-in-modal="true" />
       <div class="spacer" />
 
       <div class="login-block__guest">
@@ -67,7 +67,7 @@ const isModalVisible = computed({
 .login-block {
   display: grid;
   gap: 15px;
-  padding: 25px 17px 15px 17px;
+  padding: 25px 17px 20px 17px;
 
   @media ($viewport-7) {
     grid-template-columns: 1fr 0.1fr 1fr;
@@ -97,6 +97,7 @@ const isModalVisible = computed({
     color: black;
     font-weight: 500;
     margin-top: 10px;
+    width: 100%;
   }
 
   &__continue,
