@@ -1,8 +1,8 @@
 <template>
   <div class="product-carousel">
-    <div>
+    <div class="product-carousel__header">
       <LayoutHeader class="product-carousel__title" variant="black">{{ title }}</LayoutHeader>
-      <button class="product-carousel__show-all">Pokaż wszystkie</button>
+      <HomeProductCarouselShowAll />
     </div>
     <div class="product-carousel__categories">
       <LayoutCarousel :item-arr="categories" :breakpoints="breakpoints" withoutNavButtons>
@@ -77,18 +77,21 @@ withDefaults(
   @include flex-column;
   gap: 22px;
 
+  &__header {
+    @include flex-row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__title {
+    padding-left: 150px;
+    flex: 1;
+  }
+
   &__categories {
     //@include flex-row;
     //justify-content: center;
     //gap: 20px;
-  }
-
-  &__show-all {
-    all: unset;
-    font-family: $textFont;
-    font-size: rem(12);
-
-    text-transform: uppercase;
   }
 
   &__picture {
