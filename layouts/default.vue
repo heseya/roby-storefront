@@ -1,7 +1,7 @@
 <template>
   <div class="site">
     <div class="site__nav">
-      <BaseNav />
+      <LayoutNav />
     </div>
     <div class="site__content">
       <LayoutBreadcrumps />
@@ -15,4 +15,20 @@
 
 <script lang="ts" setup></script>
 
-<style lang="scss"></style>
+<style lang="scss">
+.site {
+  @include flex-column;
+  min-height: 100vh;
+
+  &__content {
+    flex: 1;
+    padding-top: 185px;
+    padding-bottom: 100px;
+
+    @media ($max-viewport-12) {
+      padding-top: 60px;
+      padding-bottom: 74px;
+    }
+  }
+}
+</style>

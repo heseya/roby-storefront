@@ -1,5 +1,5 @@
 import { defineRule, configure } from 'vee-validate'
-import { localize } from '@vee-validate/i18n'
+import { localize, setLocale } from '@vee-validate/i18n'
 import { required, email } from '@vee-validate/rules'
 
 export default defineNuxtPlugin((_nuxt) => {
@@ -18,4 +18,6 @@ export default defineNuxtPlugin((_nuxt) => {
       },
     }),
   })
+
+  setLocale('pl')
 })
