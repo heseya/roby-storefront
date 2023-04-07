@@ -21,8 +21,8 @@ const props = withDefaults(
   defineProps<{
     modelValue: string
     label: string
-    name: string
-    rules: string
+    name?: string
+    rules?: string
   }>(),
   {
     modelValue: '',

@@ -10,7 +10,6 @@
       </span>
       <span class="checkbox__text">
         <slot name="text">{{ text }}</slot>
-        <span v-if="($slots.text || text) && isRequired" class="checkbox__required-star">*</span>
       </span>
     </label>
     <span class="checkbox__error">{{ errors[0] || error }}</span>
@@ -45,9 +44,7 @@ const emit = defineEmits<{
 
 const { errors } = useField(props.name, props.rules)
 
-const isRequired = computed(() => {
-  return props.rules?.includes('required')
-})
+const isRequired = computed(() => props.rules?.includes('required'))
 
 const checkboxValue = computed({
   get() {

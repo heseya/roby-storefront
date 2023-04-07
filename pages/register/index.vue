@@ -87,16 +87,7 @@ useHead({
   title: t('title'),
 })
 
-interface RegisterForm {
-  email: string
-  password: string
-  confirmPassword: string
-  name: string
-  surname: string
-  privacyPolicyAgreement: boolean
-}
-
-const form = useForm<RegisterForm>({
+const form = useForm({
   initialValues: {
     email: '',
     password: '',

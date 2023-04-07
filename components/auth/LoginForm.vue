@@ -40,16 +40,11 @@
 <script setup lang="ts">
 import { useForm } from 'vee-validate'
 
-interface LoginForm {
-  email: string
-  password: string
-}
-
 const t = useLocalI18n()
 
 const rememberPassword = ref<boolean>(false)
 
-const form = useForm<LoginForm>({
+const form = useForm({
   initialValues: {
     email: '',
     password: '',
