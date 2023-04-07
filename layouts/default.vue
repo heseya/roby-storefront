@@ -23,6 +23,7 @@
   &__content {
     flex: 1;
     padding-top: 225px;
+    // TODO: handle when notification is closed
     // padding-top: 185px;
     padding-bottom: 100px;
 
