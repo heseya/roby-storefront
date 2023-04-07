@@ -1,4 +1,5 @@
 <template>
+  <button @click="fetchConsents">test</button>
   <form class="register-content" @submit.prevent="onSubmit">
     <div class="register-content__form">
       <h2 class="register-content__header">{{ t('form.header') }}</h2>
@@ -81,11 +82,17 @@
 import { useForm } from 'vee-validate'
 
 const t = useLocalI18n()
+const heseya = useHeseya()
 
 useBreadcrumbs([{ label: 'Rejestracja', link: '/register' }])
 useHead({
   title: t('title'),
 })
+
+const fetchConsents = async () => {
+  const consents = await heseya.Consents.get()
+  console.log(consents)
+}
 
 const form = useForm({
   initialValues: {
