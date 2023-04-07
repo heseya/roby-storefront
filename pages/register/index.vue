@@ -33,7 +33,7 @@
         <FormInputPassword
           v-model="form.values.confirmPassword"
           :label="t('form.confirmPassword')"
-          rules="confirmed:@password"
+          rules="confirmedPassword:@password"
           name="confirmPassword"
         />
       </div>
