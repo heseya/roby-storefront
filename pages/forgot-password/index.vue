@@ -12,7 +12,8 @@
       <div class="forgot-password-content__btn-container">
         <LayoutButton class="forgot-password-content__btn" :label="t('form.send')" />
       </div>
-      <NuxtLink :to="'login'" class="forgot-password-content__nav">
+      <span v-if="errorMessage" class="forgot-password-content__error">{{ errorMessage }}</span>
+      <NuxtLink :to="'/login'" class="forgot-password-content__nav">
         &lt; Wróć do logowania</NuxtLink
       >
     </div>
@@ -34,6 +35,7 @@
 </i18n>
 
 <script setup lang="ts">
+import { formatApiError } from '@heseya/store-core'
 import { useForm } from 'vee-validate'
 
 const t = useLocalI18n()
@@ -45,15 +47,19 @@ const form = useForm({
   },
 })
 
+const errorMessage = ref('')
+
 const onSubmit = form.handleSubmit(async (values) => {
   try {
     const { appHost } = useRuntimeConfig()
 
-    await heseya.Auth.requestResetPassword(values.email, appHost)
+    // TODO: Change to corrent link
+
+    await heseya.Auth.requestResetPassword(values.email, `${appHost}\\new-password`)
 
     // TODO: Add a message if mail was sent correctly
   } catch (e: any) {
-    showError({ message: e.message, statusCode: 500 })
+    errorMessage.value = formatApiError(e).text
   }
 })
 </script>
@@ -95,7 +101,6 @@ const onSubmit = form.handleSubmit(async (values) => {
     width: 100%;
     padding: 11px 24px;
     margin-top: 10px;
-    margin-bottom: 30px;
   }
 
   &__description {
@@ -112,6 +117,13 @@ const onSubmit = form.handleSubmit(async (values) => {
     text-decoration: none;
     color: $text-color;
     font-weight: 500;
+    margin-top: 30px;
+  }
+
+  &__error {
+    color: $error-color;
+    font-weight: bold;
+    text-align: center;
   }
 }
 </style>
