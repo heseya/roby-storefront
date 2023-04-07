@@ -1,14 +1,22 @@
 <template>
   <div class="checkout-shipping-methods">
-    <FormRadioGroup v-model="selectedMethod" :options="METHODS" name="shipping-method">
-      <template v-for="{ key } in METHODS" :key="key" v-slot:[`${key}-label`]>
+    <FormRadioGroup
+      :value="checkout.shippingMethod?.id"
+      :options="shippingOptions"
+      name="shipping-method"
+      @update:value="setShippingMethod"
+    >
+      <template v-for="method in shippingMethods" :key="method.id" v-slot:[`${method.id}-label`]>
         <div class="shipping-method">
-          <span class="shipping-method__name">{{ t(`shippingMethod.${key}`) }}</span>
-          <span class="shipping-method__price">{{ formatAmount(20) }}</span>
+          <span class="shipping-method__name">{{ method.name }}</span>
+          <span class="shipping-method__price">{{ formatAmount(method.price || 0) }}</span>
         </div>
         <div class="shipping-method-description">
-          {{ t('shippingTime') }} <b>24h</b>. {{ t('packagingTime') }}
-          <b>1-3 dni roboczych</b>
+          <template v-if="cart.shippingTimeDescription">
+            {{ t('shippingTime') }} <b>{{ cart.shippingTimeDescription }}.</b>
+          </template>
+          {{ t('packagingTime') }}
+          <b>{{ method.shipping_time_min }}-{{ method.shipping_time_max }} {{ t('days') }}</b>
         </div>
       </template>
     </FormRadioGroup>
@@ -18,27 +26,42 @@
 <i18n lang="json">
 {
   "pl": {
-    "shippingMethod": {
-      "courier": "Przesyłka kurierska",
-      "inpost": "Paczkomat InPost 24/7",
-      "pickupPoint": "Odbiór osobisty"
-    },
-    "shippingTime": "Przewidywana wysyłka w",
-    "packagingTime": "Przewidywany czas realizacji dostawy"
+    "shippingTime": "Przewidywana wysyłka",
+    "packagingTime": "Przewidywany czas realizacji dostawy",
+    "days": "dni roboczych"
   }
 }
 </i18n>
 
 <script setup lang="ts">
+import { ShippingMethod } from '@heseya/store-core'
+import { useCartStore } from '~~/store/cart'
+import { useCheckoutStore } from '~~/store/checkout'
+
 const t = useLocalI18n()
+const heseya = useHeseya()
+const cart = useCartStore()
+const checkout = useCheckoutStore()
 
-const METHODS = [
-  { key: 'courier', value: 'courier', label: '' },
-  { key: 'inpost', value: 'inpost', label: '' },
-  { key: 'pickupPoint', value: 'pickupPoint', label: '' },
-]
+const { data: shippingMethods } = useAsyncData(
+  async () => {
+    const methods = await heseya.ShippingMethods.get({ cart_value: cart.totalValue })
+    return methods.data
+  },
+  { server: false, default: () => [] as ShippingMethod[] },
+)
 
-const selectedMethod = ref('1')
+const shippingOptions = computed(() => {
+  return (shippingMethods.value || []).map((method) => ({
+    key: method.id,
+    value: method.id,
+    label: method.name,
+  }))
+})
+
+const setShippingMethod = (id: unknown) => {
+  checkout.shippingMethod = shippingMethods.value?.find((method) => method.id === id) || null
+}
 </script>
 
 <style lang="scss" scoped>
