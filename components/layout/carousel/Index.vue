@@ -1,6 +1,11 @@
 <template>
   <div class="carousel">
-    <Swiper class="carousel__slider" watch-slides-progress :breakpoints="breakpoints">
+    <Swiper
+      class="carousel__slider"
+      watch-slides-progress
+      :breakpoints="breakpoints"
+      slides-per-view="auto"
+    >
       <SwiperSlide v-for="(item, index) in itemArr" v-slot="{ isVisible }" :key="index">
         <div
           class="carousel__content-container"
@@ -27,7 +32,7 @@ import 'swiper/css'
 withDefaults(
   defineProps<{
     itemArr: Record<string, string>[]
-    breakpoints: SwiperOptions['breakpoints']
+    breakpoints?: SwiperOptions['breakpoints']
     withoutNavButtons?: boolean
   }>(),
   { withoutNavButtons: false },
@@ -36,18 +41,29 @@ withDefaults(
 
 <style lang="scss" scoped>
 .carousel {
+  @include flex-column;
+  align-items: center;
+  padding: 0 36px;
   overflow: hidden;
 
   &__slider {
     position: relative;
-    margin: 0 64px;
+    min-height: 36px;
     overflow: visible;
+    width: fit-content;
+    max-width: 100%;
+    padding: 0 36px;
+    margin: 0;
+  }
+
+  .swiper-slide {
+    width: fit-content;
   }
 
   &__button {
     position: absolute;
     top: calc(50% - 18px);
-    right: -64px;
+    right: -36px;
     z-index: 10;
   }
 
