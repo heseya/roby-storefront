@@ -11,8 +11,10 @@ import {
   SavedCartItem,
   Schema,
 } from '@heseya/store-core'
+import { isAfter } from 'date-fns'
 import cloneDeep from 'lodash/cloneDeep'
 import { defineStore } from 'pinia'
+import { useCheckoutStore } from './checkout'
 
 export type CartCoupon = Coupon & { effective_value?: number }
 
@@ -54,12 +56,25 @@ export const useCartStore = defineStore('cart', {
       return this.items.map((i) => i.getOrderObject())
     },
     cartDto(): CartDto {
+      const checkout = useCheckoutStore()
       return {
         items: this.items.map((item) => item.getOrderObject()),
         coupons: this.coupons.map((coupon) => coupon.code),
-        shipping_method_id: undefined, // TODO
-        digital_shipping_method_id: undefined, // TODO
+        shipping_method_id: checkout.shippingMethod?.id,
+        digital_shipping_method_id: checkout.digitalShippingMethod?.id,
       }
+    },
+
+    shippingTimeDescription(): string {
+      // TODO: multilanguage
+      if (this.shippingDate && isAfter(new Date(this.shippingDate), new Date())) {
+        return `od ${formatDate(new Date(this.shippingDate))}`
+      }
+      if (this.shippingTime) {
+        const hours = Math.round(this.shippingTime * 24)
+        return `w ${hours <= 72 ? `${hours}h` : `${this.shippingTime} dni roboczych`}`
+      }
+      return ''
     },
   },
 
@@ -179,7 +194,7 @@ export const useCartStore = defineStore('cart', {
       if (!item) return
       // const oldType = getShippingTypeFromCart(this.items)
 
-      ev.emit(HeseyaEvent.RemoveFromCart, item)
+      ev.emit(HeseyaEvent.RemoveFromCart, item as CartItem)
       this.items = this.items.filter((item) => item.id !== itemId)
 
       // const newType = getShippingTypeFromCart(this.items)
@@ -217,7 +232,7 @@ export const useCartStore = defineStore('cart', {
   persist: true,
 
   hydrate(storeState) {
-    if (storeState?.items) {
+    if (storeState?.items.length) {
       // CartItem class is saved in JSON as plain object, and needs to be restored
       storeState.items = restoreCart(storeState.items as unknown as SavedCartItem[])
     }

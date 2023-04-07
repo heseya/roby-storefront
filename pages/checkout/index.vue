@@ -2,29 +2,64 @@
   <BaseContainer class="checkout-page">
     <section class="checkout-page__section">
       <div class="checkout-page__area">
-        <h2 class="checkout-page__title checkout-page__title--slim">{{ t('personalData') }}</h2>
-        <hr class="hr hr--light" />
-        <h2 class="checkout-page__title checkout-page__title--slim">{{ t('createAccount') }}</h2>
+        <h2 class="checkout-page__title">{{ t('personalData') }}</h2>
+        <ClientOnly>
+          <CheckoutPersonalData />
+
+          <template #placeholder>
+            <div class="checkout-page__placeholder" style="height: 80px"></div>
+          </template>
+        </ClientOnly>
       </div>
       <div class="checkout-page__area">
         <h2 class="checkout-page__title">{{ t('shipping') }}</h2>
-        <CheckoutShippingMethods />
+        <ClientOnly>
+          <CheckoutShippingMethods />
+
+          <template #placeholder>
+            <div class="checkout-page__placeholder" style="height: 150px"></div>
+          </template>
+        </ClientOnly>
       </div>
       <div class="checkout-page__area">
         <h2 class="checkout-page__title">{{ t('billing') }}</h2>
-        <CheckoutBillingAddress />
+        <ClientOnly>
+          <CheckoutBillingAddress />
+
+          <template #placeholder>
+            <div class="checkout-page__placeholder" style="height: 80px"></div>
+          </template>
+        </ClientOnly>
       </div>
       <div class="checkout-page__area">
         <h2 class="checkout-page__title">{{ t('payment') }}</h2>
-        <CheckoutPaymentMethods />
+        <ClientOnly>
+          <CheckoutPaymentMethods />
+
+          <template #placeholder>
+            <div class="checkout-page__placeholder" style="height: 100px"></div>
+          </template>
+        </ClientOnly>
       </div>
       <div class="checkout-page__area">
-        <CheckoutComment />
+        <ClientOnly>
+          <CheckoutComment />
+
+          <template #placeholder>
+            <div class="checkout-page__placeholder" style="height: 80px"></div>
+          </template>
+        </ClientOnly>
       </div>
     </section>
     <section class="checkout-page__section">
       <div class="checkout-page__area">
-        <CheckoutSummary />
+        <ClientOnly>
+          <CheckoutSummary />
+
+          <template #placeholder>
+            <div class="checkout-page__placeholder" style="height: 300px"></div>
+          </template>
+        </ClientOnly>
       </div>
     </section>
   </BaseContainer>
@@ -33,6 +68,7 @@
 <i18n lang="json">
 {
   "pl": {
+    "title": "Podsumowanie zamówienia",
     "personalData": "Moje dane",
     "createAccount": "Załóż konto",
     "shipping": "Dostawa",
@@ -43,11 +79,13 @@
 </i18n>
 
 <script setup lang="ts">
+const t = useLocalI18n()
 definePageMeta({
   layout: 'checkout',
 })
-
-const t = useLocalI18n()
+useHead({
+  title: t('title'),
+})
 </script>
 
 <style lang="scss" scoped>
@@ -77,6 +115,11 @@ const t = useLocalI18n()
     &--slim {
       font-weight: 400;
     }
+  }
+
+  &__placeholder {
+    width: 100%;
+    height: 80px;
   }
 }
 </style>

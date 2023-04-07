@@ -1,5 +1,5 @@
 import { defineRule, configure } from 'vee-validate'
-import { localize } from '@vee-validate/i18n'
+import { localize, setLocale } from '@vee-validate/i18n'
 import { required, email, confirmed } from '@vee-validate/rules'
 
 export default defineNuxtPlugin((_nuxt) => {
@@ -15,9 +15,10 @@ export default defineNuxtPlugin((_nuxt) => {
           required: 'To pole jest wymagane',
           email: 'To pole musi być poprawnym adresem email',
           password: 'Hasło musi mieć co najmniej 12 znaków',
-          confirmedPassword: 'Hasła muszą być takie same',
         },
       },
     }),
   })
+
+  setLocale('pl')
 })

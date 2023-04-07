@@ -22,27 +22,27 @@ const props = withDefaults(
   defineProps<{
     name: string
     disabled?: boolean
-    modelValue: Value
+    value: Value
     options: Option[]
   }>(),
   {
     name: '',
     disabled: false,
-    modelValue: null,
+    value: null,
     options: () => [],
   },
 )
 
 const emit = defineEmits<{
-  (event: 'update:modelValue', value: Value): void
+  (event: 'update:value', value: Value): void
 }>()
 
 const radioValue = computed({
   get() {
-    return props.modelValue
+    return props.value
   },
-  set(value: Value) {
-    if (!props.disabled) emit('update:modelValue', value)
+  set(value: Value): void {
+    if (!props.disabled) emit('update:value', value)
   },
 })
 </script>

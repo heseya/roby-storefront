@@ -1,6 +1,10 @@
 <template>
   <div class="checkout-payment-methods">
-    <FormRadioGroup v-model="selectedMethod" :options="METHODS" name="payment-method">
+    <FormRadioGroup
+      v-model:value="checkout.paymentMethodId"
+      :options="METHODS"
+      name="payment-method"
+    >
       <template #traditional>
         <CheckoutTraditionalPaymentNotice class="checkout-payment-methods__notice" />
       </template>
@@ -31,14 +35,15 @@
 </i18n>
 
 <script setup lang="ts">
+import { useCheckoutStore } from '~~/store/checkout'
+
 const t = useLocalI18n()
+const checkout = useCheckoutStore()
 
 const METHODS = [
   { key: 'traditional', value: 'traditional', label: t('paymentMethods.traditional') },
   { key: 'bluemedia', value: 'bluemedia', label: '' },
 ]
-
-const selectedMethod = ref('1')
 </script>
 
 <style lang="scss" scoped>
