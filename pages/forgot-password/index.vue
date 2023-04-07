@@ -37,6 +37,7 @@
 import { useForm } from 'vee-validate'
 
 const t = useLocalI18n()
+const heseya = useHeseya()
 
 const form = useForm({
   initialValues: {
@@ -44,10 +45,16 @@ const form = useForm({
   },
 })
 
-const onSubmit = form.handleSubmit((values) => {
-  // TODO: send this form somewhere
-  console.log(values)
-  // TODO: redirect it to checkout
+const onSubmit = form.handleSubmit(async (values) => {
+  try {
+    const { appHost } = useRuntimeConfig()
+
+    await heseya.Auth.requestResetPassword(values.email, appHost)
+
+    // TODO: Add a message if mail was sent correctly
+  } catch (e: any) {
+    showError({ message: e.message, statusCode: 500 })
+  }
 })
 </script>
 
