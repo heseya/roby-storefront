@@ -39,17 +39,14 @@
         />
       </div>
       <FormCheckbox
-        v-model="form.values.privacyPolicyAgreement"
-        name="privatePolicyAgreement"
+        v-for="consent in consents"
+        :key="consent.id"
+        :model-value="form.values.consents[consent.id] || false"
+        :name="consent.name"
+        @input="(v) => setConsentValue(consent.id, v.returnValue)"
         rules="required"
       >
-        <span>
-          {{ t('form.private-policy-description') }}
-          <strong class="register-content__policy-agreement">
-            {{ t('form.private-policy') }}</strong
-          >
-          {{ t('form.private-policy-agreement') }}
-        </span>
+        <span v-html="consent.description_html"></span>
       </FormCheckbox>
       <div class="register-content__btn-container">
         <LayoutButton class="register-content__btn" :label="t('form.register')" />
@@ -79,25 +76,25 @@
 </i18n>
 
 <script setup lang="ts">
-import { Consent } from '@heseya/store-core'
+import { Consent, UserConsentDto } from '@heseya/store-core'
 import { useForm } from 'vee-validate'
 
 const t = useLocalI18n()
 const heseya = useHeseya()
-
-const consents = ref<Consent[]>([])
 
 useBreadcrumbs([{ label: 'Rejestracja', link: '/register' }])
 useHead({
   title: t('title'),
 })
 
-const fetchConsents = async () => {
+const { data: consents } = useAsyncData(async () => {
   try {
-    const consentsResponse = await heseya.Consents.get()
-    consents.value = consentsResponse.data
-  } catch (e) {}
-}
+    const consents = await heseya.Consents.get()
+    return consents.data
+  } catch (e: any) {
+    showError({ message: e.message, statusCode: 500 })
+  }
+})
 
 const form = useForm({
   initialValues: {
@@ -106,14 +103,34 @@ const form = useForm({
     confirmPassword: '',
     name: '',
     surname: '',
-    privacyPolicyAgreement: false,
+    consents: {} as UserConsentDto,
   },
 })
 
-const onSubmit = form.handleSubmit((values) => {
-  // TODO: send this form somewhere
-  console.log(values)
-  // TODO: redirect it to checkout
+const registerForm = computed(() => ({
+  name: `${form.values.name} ${form.values.surname}`,
+  email: form.values.email,
+  password: form.values.password,
+  consents: consents.value?.reduce(
+    (acc, consent) => ({
+      ...acc,
+      [consent.id]: form.values.consents[consent.id] || false,
+    }),
+    {} as UserConsentDto,
+  ),
+  roles: [],
+}))
+
+const setConsentValue = (consentId: string, value: boolean) => {
+  form.values.consents[consentId] = value
+}
+
+const onSubmit = form.handleSubmit(async () => {
+  try {
+    await heseya.Users.create(registerForm.value)
+  } catch (e: any) {
+    showError({ message: e.message, statusCode: 500 })
+  }
 })
 </script>
 
