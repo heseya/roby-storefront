@@ -1,18 +1,18 @@
 <template>
-  <div class="category-btn" :class="special && 'category-btn--special'">
-    <NuxtLink class="category-btn__link" :to="link">
+  <div class="category-btn" :class="{ 'category-btn--special': isProductSetHighlighted(category) }">
+    <NuxtLink class="category-btn__link" :to="`/category/${category.slug}`">
       <div class="category-btn__label-container">
-        {{ label }}
+        {{ category.name }}
       </div>
     </NuxtLink>
     <div v-show="Boolean(subcategories?.length)" class="category-btn__list">
       <NuxtLink
-        v-for="category in subcategories"
-        :key="category.slug"
+        v-for="cat in subcategories"
+        :key="cat.slug"
         class="category-btn__list-item"
-        :to="`/category/${category.slug}`"
+        :to="`/category/${cat.slug}`"
       >
-        {{ category.name }}
+        {{ cat.name }}
       </NuxtLink>
     </div>
   </div>
@@ -20,19 +20,21 @@
 
 <script lang="ts" setup>
 import { ProductSetList } from '@heseya/store-core'
+import { useCategoriesStore } from '~~/store/categories'
 
-withDefaults(
+const props = withDefaults(
   defineProps<{
-    link?: string
-    special?: boolean
-    label: string
-    subcategories?: ProductSetList[]
+    category: ProductSetList
   }>(),
-  {
-    link: '',
-    subcategories: () => [],
-  },
+  {},
 )
+const categoriesStore = useCategoriesStore()
+
+const subcategories = ref<ProductSetList[]>([])
+
+onBeforeMount(async () => {
+  subcategories.value = await categoriesStore.getSubcategories(props.category.id)
+})
 </script>
 
 <style lang="scss" scoped>

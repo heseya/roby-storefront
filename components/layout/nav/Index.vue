@@ -12,7 +12,7 @@
         <NuxtLink to="/">
           <img class="nav-items__logo" :src="config.storeLogoUrl" :alt="config.storeName" />
         </NuxtLink>
-        <LayoutNavSearch class="nav-items__search--wide" :categories="categories || []" />
+        <LayoutNavSearch class="nav-items__search--wide" :categories="categoriesStore.categories" />
       </div>
 
       <div class="nav-items__buttons">
@@ -74,21 +74,14 @@
           <LayoutNavCartPreview class="nav-items__cart-preview" />
         </div>
       </div>
-      <LayoutNavMobileMenu
-        v-show="isOpenCategories"
-        :categories="categories || []"
-        @close="isOpenCategories = false"
-      />
+      <LayoutNavMobileMenu v-show="isOpenCategories" @close="isOpenCategories = false" />
       <LayoutNavMobileSearch v-show="isOpenSearch" @close="isOpenSearch = false" />
     </div>
     <div class="nav-bar__categories">
       <LayoutNavCategoryButton
-        v-for="category in categories || []"
-        :key="category.name"
-        :label="category.name"
-        :special="isProductSetHighlighted(category)"
-        :link="`/category/${category.slug}`"
-        :subcategories="categories || []"
+        v-for="category in categoriesStore.categories"
+        :key="category.id"
+        :category="category"
       />
     </div>
   </nav>
@@ -120,24 +113,18 @@ import { useWishlistStore } from '@/store/wishlist'
 import { useCartStore } from '@/store/cart'
 import { useConfigStore } from '@/store/config'
 import { useAuthStore } from '@/store/auth'
+import { useCategoriesStore } from '~~/store/categories'
 
 const t = useLocalI18n()
-const heseya = useHeseya()
 
 const auth = useAuthStore()
 const config = useConfigStore()
 const wishlist = useWishlistStore()
 const cart = useCartStore()
+const categoriesStore = useCategoriesStore()
 
 const isOpenCategories = ref(false)
 const isOpenSearch = ref(false)
-
-const { data: categories } = useAsyncData(async () => {
-  // TODO: determine root category
-  // fetch direct subcategories?
-  const res = await heseya.ProductSets.get({ parent_id: '8ae481a6-edc6-41cb-85b0-058c754330d7' })
-  return res.data
-})
 
 const onLogout = () => auth.logout()
 </script>

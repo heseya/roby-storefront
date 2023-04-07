@@ -10,12 +10,9 @@
       <span>{{ t('menu') }}</span>
     </div>
     <LayoutNavCategoryMobileButton
-      v-for="category in categories"
-      :key="category.name"
-      :label="category.name"
-      :special="isProductSetHighlighted(category)"
-      :link="`/category/${category.slug}`"
-      :subcategories="subcategories"
+      v-for="category in categoriesStore.categories"
+      :key="category.id"
+      :category="category"
     />
   </div>
 </template>
@@ -29,8 +26,8 @@
 </i18n>
 
 <script lang="ts" setup>
-import { ProductSetList } from '@heseya/store-core'
 import Close from '@/assets/icons/cross.svg?component'
+import { useCategoriesStore } from '~~/store/categories'
 
 const t = useLocalI18n()
 
@@ -38,14 +35,11 @@ const emit = defineEmits<{
   (event: 'close'): void
 }>()
 
+const categoriesStore = useCategoriesStore()
+
 const onClose = () => {
   emit('close')
 }
-
-defineProps<{ categories: ProductSetList[] }>()
-
-// TODO
-const subcategories: ProductSetList[] = []
 </script>
 
 <style lang="scss" scoped>
