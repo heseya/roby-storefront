@@ -4,7 +4,7 @@
     :class="{ 'category-mobile-btn--special': isProductSetHighlighted(category) }"
   >
     <div class="category-mobile-btn__link-container">
-      <NuxtLink class="category-mobile-btn__link" :to="`/category/${category.slug}`">
+      <NuxtLink class="category-mobile-btn__link" :to="localePath(`/category/${category.slug}`)">
         {{ category.name }}
       </NuxtLink>
       <LayoutIconButton
@@ -21,7 +21,7 @@
         v-for="cat in subcategories"
         :key="cat.id"
         class="category-mobile-btn__list-item"
-        :to="`/category/${cat.slug}`"
+        :to="localePath(`/category/${cat.slug}`)"
       >
         {{ cat.name }}
       </NuxtLink>
@@ -32,11 +32,13 @@
 <script lang="ts" setup>
 import { ProductSetList } from '@heseya/store-core'
 import Chevron from '@/assets/icons/chevron.svg?component'
-import { useCategoriesStore } from '~~/store/categories'
+import { useCategoriesStore } from '@/store/categories'
 
 const props = defineProps<{
   category: ProductSetList
 }>()
+
+const localePath = useLocalePath()
 
 const categoriesStore = useCategoriesStore()
 const isOpenSubcategories = ref(false)

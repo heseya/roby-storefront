@@ -23,7 +23,10 @@
           @click="isOpenSearch = true"
         />
         <div class="nav-items__button-wrapper">
-          <NuxtLink class="nav-link-button" :to="auth.isLogged ? '/account' : '/login'">
+          <NuxtLink
+            class="nav-link-button"
+            :to="auth.isLogged ? localePath('/account') : localePath('/login')"
+          >
             <LayoutIconButton
               class="nav-link-button__button"
               :icon="Profile"
@@ -32,16 +35,16 @@
             />
           </NuxtLink>
           <div v-if="auth.isLogged" class="nav-link-button__list">
-            <NuxtLink class="nav-link-button__list-item" to="/profile/orders">
+            <NuxtLink class="nav-link-button__list-item" :to="localePath('/profile/orders')">
               {{ t('orders') }}
             </NuxtLink>
-            <NuxtLink class="nav-link-button__list-item" to="/profile/settings">
+            <NuxtLink class="nav-link-button__list-item" :to="localePath('/profile/settings')">
               {{ t('accountSettings') }}
             </NuxtLink>
-            <NuxtLink class="nav-link-button__list-item" to="/profile/address">
+            <NuxtLink class="nav-link-button__list-item" :to="localePath('/profile/address')">
               {{ t('address') }}
             </NuxtLink>
-            <NuxtLink class="nav-link-button__list-item" to="/wishlist">
+            <NuxtLink class="nav-link-button__list-item" :to="localePath('/wishlist')">
               {{ t('wishlist') }}
             </NuxtLink>
             <button
@@ -52,7 +55,7 @@
             </button>
           </div>
         </div>
-        <NuxtLink class="nav-link-button" to="/wishlist">
+        <NuxtLink class="nav-link-button" :to="localePath('/wishlist')">
           <LayoutIconButton
             class="nav-link-button__button"
             :icon="Favorite"
@@ -62,7 +65,7 @@
           />
         </NuxtLink>
         <div class="nav-items__button-wrapper">
-          <NuxtLink class="nav-link-button" to="/cart">
+          <NuxtLink class="nav-link-button" :to="localePath('/cart')">
             <LayoutIconButton
               class="nav-link-button__button"
               :icon="Shopping"
@@ -113,9 +116,10 @@ import { useWishlistStore } from '@/store/wishlist'
 import { useCartStore } from '@/store/cart'
 import { useConfigStore } from '@/store/config'
 import { useAuthStore } from '@/store/auth'
-import { useCategoriesStore } from '~~/store/categories'
+import { useCategoriesStore } from '@/store/categories'
 
 const t = useLocalI18n()
+const localePath = useLocalePath()
 
 const auth = useAuthStore()
 const config = useConfigStore()

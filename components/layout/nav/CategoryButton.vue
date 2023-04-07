@@ -1,6 +1,6 @@
 <template>
   <div class="category-btn" :class="{ 'category-btn--special': isProductSetHighlighted(category) }">
-    <NuxtLink class="category-btn__link" :to="`/category/${category.slug}`">
+    <NuxtLink class="category-btn__link" :to="localePath(`/category/${category.slug}`)">
       <div class="category-btn__label-container">
         {{ category.name }}
       </div>
@@ -8,9 +8,9 @@
     <div v-show="Boolean(subcategories?.length)" class="category-btn__list">
       <NuxtLink
         v-for="cat in subcategories"
-        :key="cat.slug"
+        :key="cat.id"
         class="category-btn__list-item"
-        :to="`/category/${cat.slug}`"
+        :to="localePath(`/category/${cat.slug}`)"
       >
         {{ cat.name }}
       </NuxtLink>
@@ -20,7 +20,7 @@
 
 <script lang="ts" setup>
 import { ProductSetList } from '@heseya/store-core'
-import { useCategoriesStore } from '~~/store/categories'
+import { useCategoriesStore } from '@/store/categories'
 
 const props = withDefaults(
   defineProps<{
@@ -28,6 +28,8 @@ const props = withDefaults(
   }>(),
   {},
 )
+
+const localePath = useLocalePath()
 const categoriesStore = useCategoriesStore()
 
 const subcategories = ref<ProductSetList[]>([])
