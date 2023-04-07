@@ -1,6 +1,7 @@
 <template>
   <nav class="nav-bar">
-    <LayoutNavNotification :notification="notification" />
+    <LayoutNavNotification class="nav-bar__notification" />
+
     <div class="nav-items">
       <div class="nav-items__left">
         <LayoutIconButton
@@ -8,13 +9,12 @@
           :icon="Menu"
           @click="isOpenCategories = true"
         />
-        <img class="nav-items__logo" src="@/assets/images/logo.svg?url" alt="***REMOVED***" />
-        <LayoutNavSearch
-          class="nav-items__search--wide"
-          :categories="subcategories"
-          @search="searchCallback"
-        />
+        <NuxtLink to="/">
+          <img class="nav-items__logo" :src="config.storeLogoUrl" :alt="config.storeName" />
+        </NuxtLink>
+        <LayoutNavSearch class="nav-items__search--wide" :categories="categories || []" />
       </div>
+
       <div class="nav-items__buttons">
         <LayoutIconButton
           icon-size="sm"
@@ -23,36 +23,41 @@
           @click="isOpenSearch = true"
         />
         <div class="nav-items__button-wrapper">
-          <NuxtLink class="nav-link-button" :to="isLogin ? '/account' : '/login'">
+          <NuxtLink class="nav-link-button" :to="auth.isLogged ? '/account' : '/login'">
             <LayoutIconButton
               class="nav-link-button__button"
               :icon="Profile"
-              :label="isLogin ? t('myAccount') : t('signIn')"
+              :label="auth.isLogged ? t('myAccount') : t('login')"
               is-resize
             />
           </NuxtLink>
-          <div v-show="isLogin" class="nav-link-button__list">
-            <NuxtLink
-              v-for="link in accountLinks"
-              :key="link.label"
-              class="nav-link-button__list-item"
-              :to="link.link"
-              >{{ t(link.label) }}
+          <div v-if="auth.isLogged" class="nav-link-button__list">
+            <NuxtLink class="nav-link-button__list-item" to="/profile/orders">
+              {{ t('orders') }}
+            </NuxtLink>
+            <NuxtLink class="nav-link-button__list-item" to="/profile/settings">
+              {{ t('accountSettings') }}
+            </NuxtLink>
+            <NuxtLink class="nav-link-button__list-item" to="/profile/address">
+              {{ t('address') }}
+            </NuxtLink>
+            <NuxtLink class="nav-link-button__list-item" to="/wishlist">
+              {{ t('wishlist') }}
             </NuxtLink>
             <button
               class="nav-link-button__list-item nav-link-button__list-item--logout"
-              @click="logoutCallback"
+              @click="onLogout"
             >
               {{ t('logout') }}
             </button>
           </div>
         </div>
-        <NuxtLink class="nav-link-button" to="/list">
+        <NuxtLink class="nav-link-button" to="/wishlist">
           <LayoutIconButton
             class="nav-link-button__button"
             :icon="Favorite"
-            :label="t('wishList')"
-            :notification-number="2"
+            :label="t('wishlist')"
+            :count="wishlist.quantity"
             is-resize
           />
         </NuxtLink>
@@ -62,6 +67,7 @@
               class="nav-link-button__button"
               :icon="Shopping"
               :label="t('cart')"
+              :count="cart.length"
               is-resize
             />
           </NuxtLink>
@@ -70,23 +76,19 @@
       </div>
       <LayoutNavMobileMenu
         v-show="isOpenCategories"
-        :categories="categories"
+        :categories="categories || []"
         @close="isOpenCategories = false"
       />
-      <LayoutNavMobileSearch
-        v-show="isOpenSearch"
-        @search="searchCallback"
-        @close="isOpenSearch = false"
-      />
+      <LayoutNavMobileSearch v-show="isOpenSearch" @close="isOpenSearch = false" />
     </div>
     <div class="nav-bar__categories">
       <LayoutNavCategoryButton
-        v-for="category in categories"
+        v-for="category in categories || []"
         :key="category.name"
         :label="category.name"
-        :special="category.isSpecial"
-        :link="category.link"
-        :subcategories="category.subcategories"
+        :special="isProductSetHighlighted(category)"
+        :link="`/category/${category.slug}`"
+        :subcategories="categories || []"
       />
     </div>
   </nav>
@@ -96,10 +98,9 @@
 {
   "pl": {
     "myAccount": "Moje konto",
-    "signIn": "Zaloguj się",
-    "wishList": "Lista życzeń",
+    "login": "Zaloguj się",
+    "wishlist": "Lista życzeń",
     "cart": "Koszyk",
-    "search": "Czego szukasz?",
     "orders": "Zamówienia",
     "accountSettings": "Ustawienia konta",
     "address": "Adresy",
@@ -114,98 +115,31 @@ import Profile from '@/assets/icons/profile.svg?component'
 import Favorite from '@/assets/icons/favorite.svg?component'
 import Shopping from '@/assets/icons/shopping.svg?component'
 import Menu from '@/assets/icons/menu.svg?component'
-import { SearchValues, SelectOption } from '~/components/layout/nav/Search.vue'
 
-export interface Category {
-  name: string
-  link?: string
-  subcategories?: SelectOption[]
-  isSpecial?: boolean
-}
-
-interface Link {
-  link: string
-  label: string
-}
-
-const accountLinks: Link[] = [
-  {
-    link: 'orders',
-    label: 'orders',
-  },
-  {
-    link: 'settings',
-    label: 'accountSettings',
-  },
-  {
-    link: 'address',
-    label: 'address',
-  },
-  {
-    link: 'wish-list',
-    label: 'wishList',
-  },
-]
-
-// temporary, in the future from the backend
-const subcategories: SelectOption[] = [
-  {
-    label: 'Papier',
-    value: 'papier',
-  },
-  {
-    label: 'Papier1',
-    value: 'papier1',
-  },
-  {
-    label: 'Papier2',
-    value: 'papier2',
-  },
-  {
-    label: 'Papier3',
-    value: 'papier3',
-  },
-]
-
-const categories: Category[] = [
-  {
-    name: 'Promocja',
-    isSpecial: true,
-    link: 'promotion',
-  },
-  {
-    name: 'Nowości',
-    link: 'news',
-  },
-  {
-    name: 'Papier',
-    link: 'papers',
-    subcategories,
-  },
-  {
-    name: 'Drukarki',
-    isSpecial: true,
-    link: 'printers',
-    subcategories,
-  },
-]
-
-const notification = 'Złóż zamówienie do 19.12, 18:00, aby prezenty trafiły pod choinkę na czas!'
-// end temporary
+import { useWishlistStore } from '@/store/wishlist'
+import { useCartStore } from '@/store/cart'
+import { useConfigStore } from '@/store/config'
+import { useAuthStore } from '@/store/auth'
 
 const t = useLocalI18n()
+const heseya = useHeseya()
 
-const isLogin = true
+const auth = useAuthStore()
+const config = useConfigStore()
+const wishlist = useWishlistStore()
+const cart = useCartStore()
+
 const isOpenCategories = ref(false)
 const isOpenSearch = ref(false)
 
-const searchCallback = (data: SearchValues) => {
-  console.log(data)
-}
+const { data: categories } = useAsyncData(async () => {
+  // TODO: determine root category
+  // fetch direct subcategories?
+  const res = await heseya.ProductSets.get({ parent_id: '8ae481a6-edc6-41cb-85b0-058c754330d7' })
+  return res.data
+})
 
-const logoutCallback = () => {
-  console.log('logout')
-}
+const onLogout = () => auth.logout()
 </script>
 
 <style lang="scss" scoped>
@@ -330,6 +264,10 @@ const logoutCallback = () => {
 
   &__button {
     color: #8d8d8d;
+  }
+
+  &:hover {
+    color: var(--primary-color);
   }
 
   &__list {

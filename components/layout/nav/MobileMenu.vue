@@ -1,5 +1,5 @@
 <template>
-  <div v-show="isOpenCategories" class="mobile-menu">
+  <div class="mobile-menu">
     <div class="mobile-menu__title">
       <LayoutIconButton
         class="mobile-menu__close-btn"
@@ -13,9 +13,9 @@
       v-for="category in categories"
       :key="category.name"
       :label="category.name"
-      :special="category.isSpecial"
-      :link="category.link"
-      :subcategories="category.subcategories"
+      :special="isProductSetHighlighted(category)"
+      :link="`/category/${category.slug}`"
+      :subcategories="subcategories"
     />
   </div>
 </template>
@@ -29,8 +29,8 @@
 </i18n>
 
 <script lang="ts" setup>
+import { ProductSetList } from '@heseya/store-core'
 import Close from '@/assets/icons/cross.svg?component'
-import { Category } from '~/components/layout/nav/Index.vue'
 
 const t = useLocalI18n()
 
@@ -42,7 +42,10 @@ const onClose = () => {
   emit('close')
 }
 
-defineProps<{ categories: Category[] }>()
+defineProps<{ categories: ProductSetList[] }>()
+
+// TODO
+const subcategories: ProductSetList[] = []
 </script>
 
 <style lang="scss" scoped>

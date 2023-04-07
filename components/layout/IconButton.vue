@@ -2,9 +2,7 @@
   <button class="icon-btn">
     <div class="icon-btn__icon-container">
       <LayoutIcon :icon="icon" :size="iconSize" :is-resize="isResize" />
-      <span v-show="notificationNumber > 0" class="icon-btn__notification">{{
-        notificationNumber
-      }}</span>
+      <span v-show="count > 0" class="icon-btn__notification">{{ count }}</span>
     </div>
     <span v-show="label" :class="['icon-btn__label', { 'icon-btn__label--resize': isResize }]">{{
       label
@@ -21,10 +19,10 @@ withDefaults(
     icon: FunctionalComponent
     iconSize?: IconSize
     label?: string
-    notificationNumber?: number
+    count?: number
     isResize?: boolean
   }>(),
-  { label: '', iconSize: 'md', notificationNumber: 0, isResize: false },
+  { label: '', iconSize: 'md', count: 0, isResize: false },
 )
 </script>
 
@@ -34,14 +32,12 @@ withDefaults(
   min-width: 16px;
   min-height: 16px;
   flex-shrink: 0;
-
   outline: none;
   border: none;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 14px;
-
   background-color: transparent;
 
   &:hover {
@@ -71,12 +67,17 @@ withDefaults(
 
   &__label {
     color: $gray-color-900;
+    transition: color 0.3s;
 
     &--resize {
       @media ($max-viewport-12) {
         display: none;
       }
     }
+  }
+
+  &:hover &__label {
+    color: var(--primary-color);
   }
 }
 </style>

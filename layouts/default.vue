@@ -22,11 +22,13 @@
 
   &__content {
     flex: 1;
-    padding-top: 185px;
+    padding-top: 225px;
+    // padding-top: 185px;
     padding-bottom: 100px;
 
     @media ($max-viewport-12) {
-      padding-top: 60px;
+      padding-top: 100px;
+      // padding-top: 60px;
       padding-bottom: 74px;
     }
   }

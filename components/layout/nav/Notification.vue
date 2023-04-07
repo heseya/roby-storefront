@@ -12,10 +12,12 @@
 
 <script lang="ts" setup>
 import Close from '@/assets/icons/cross.svg?component'
+import { useConfigStore } from '@/store/config'
 
+const config = useConfigStore()
 const isOpenNotification = ref(true)
 
-defineProps<{ notification?: string }>()
+const notification = computed(() => config.env.top_site_text)
 </script>
 
 <style lang="scss" scoped>
@@ -23,9 +25,13 @@ defineProps<{ notification?: string }>()
   @include flex-row;
   justify-content: space-between;
   align-items: center;
-
   color: $white-color;
   background-color: var(--primary-color);
+  font-size: rem(12);
+
+  @media ($viewport-6) {
+    font-size: 1rem;
+  }
 
   &__title {
     flex: 1;

@@ -8,24 +8,31 @@
     <div v-show="Boolean(subcategories?.length)" class="category-btn__list">
       <NuxtLink
         v-for="category in subcategories"
-        :key="category.value"
+        :key="category.slug"
         class="category-btn__list-item"
-        :to="category.value"
-        >{{ category.label }}
+        :to="`/category/${category.slug}`"
+      >
+        {{ category.name }}
       </NuxtLink>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { SelectOption } from '~/components/layout/nav/Search.vue'
+import { ProductSetList } from '@heseya/store-core'
 
-defineProps<{
-  link?: string
-  special?: boolean
-  label: string
-  subcategories?: SelectOption[]
-}>()
+withDefaults(
+  defineProps<{
+    link?: string
+    special?: boolean
+    label: string
+    subcategories?: ProductSetList[]
+  }>(),
+  {
+    link: '',
+    subcategories: () => [],
+  },
+)
 </script>
 
 <style lang="scss" scoped>

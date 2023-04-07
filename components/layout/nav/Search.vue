@@ -9,8 +9,8 @@
     <div class="search__separator" />
     <select v-model="form.values.category" class="search__input" name="category">
       <option selected value="all">{{ t('allCategories') }}</option>
-      <option v-for="{ label, value } in categories" :key="value" :value="value">
-        {{ label }}
+      <option v-for="{ name, slug } in categories" :key="slug" :value="slug">
+        {{ name }}
       </option>
     </select>
     <LayoutIconButton icon-size="sm" class="search__button" :icon="Search" type="submit" />
@@ -28,19 +28,16 @@
 
 <script lang="ts" setup>
 import { useForm } from 'vee-validate'
-import Search from '@/assets/icons/search.svg?component'
+import { ProductSetList } from '@heseya/store-core'
 
-const t = useLocalI18n()
+import Search from '@/assets/icons/search.svg?component'
 
 export interface SearchValues {
   query: string
   category: string
 }
 
-export interface SelectOption {
-  label: string
-  value: string
-}
+const t = useLocalI18n()
 
 const emit = defineEmits<{
   (event: 'search', values: SearchValues): void
@@ -58,7 +55,7 @@ const onSubmit = form.handleSubmit((values) => {
 })
 
 defineProps<{
-  categories: SelectOption[]
+  categories: ProductSetList[]
 }>()
 </script>
 

@@ -2,7 +2,7 @@
   <div class="checkout">
     <div class="checkout__header">
       <NuxtLink to="/" class="checkout__logo">
-        <LogoIcon />
+        <img class="checkout__logo-img" :src="config.storeLogoUrl" :alt="config.storeName" />
       </NuxtLink>
     </div>
     <div class="checkout__bar">
@@ -42,9 +42,10 @@
 </i18n>
 
 <script setup lang="ts">
-import LogoIcon from '@/assets/icons/logo.svg?component'
+import { useConfigStore } from '~~/store/config'
 
 const route = useRoute()
+const config = useConfigStore()
 const t = useLocalI18n()
 
 enum CheckoutStep {
@@ -89,6 +90,12 @@ const activeStep = computed(() => {
       width: 160px;
       height: 40px;
     }
+  }
+
+  &__logo-img {
+    width: 100%;
+    max-height: 100%;
+    object-fit: contain;
   }
 
   &__bar-container {

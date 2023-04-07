@@ -6,6 +6,15 @@ export const useConfigStore = defineStore('config', {
     env: {} as SettingsRecord,
   }),
 
+  getters: {
+    storeLogoUrl(): string {
+      return this.env.store_logo as string
+    },
+    storeName(): string {
+      return this.env.store_name as string
+    },
+  },
+
   actions: {
     async fetchConfig() {
       const heseya = useHeseya()
