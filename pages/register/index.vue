@@ -68,7 +68,7 @@
       "name": "Imię",
       "surname": "Nazwisko",
       "password": "Hasło",
-      "confirmPassword": "Powtórz Hasło",
+      "confirmPassword": "Powtórz hasło",
       "private-policy": "Polityką prywatności",
       "private-policy-description": "Wyrażam zgodę na przetwarzanie moich danych osobowych podanych przeze mnie w formularzu rejestracyjnym, przez ROBICAN S.C. R. JASTRZĘBSKI I WSPÓLNICY UL. ZAKOPIAŃSKA 190, 60-467POZNAŃ, w celu złożenia i prowadzenia konta klienta. Zapoznałem się z",
       "private-policy-agreement": "na temat zasad przetwarzania danych osobowych i ją akceptuję."
