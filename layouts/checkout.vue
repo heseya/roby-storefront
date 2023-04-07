@@ -99,7 +99,7 @@ const activeStep = computed(() => {
 
     @media ($viewport-7) {
       width: 50%;
-      margin-top: 0px;
+      margin-top: 0;
     }
 
     @media ($viewport-13) {

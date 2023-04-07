@@ -15,7 +15,7 @@
       <LayoutIconButton
         class="cart-preview-item__remove-btn"
         :icon="CrossIcon"
-        iconSize="sm"
+        icon-size="sm"
         @click="handleRemove(item.id)"
       />
     </div>

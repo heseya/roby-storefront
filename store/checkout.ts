@@ -97,13 +97,11 @@ export const useCheckoutStore = defineStore('checkout', {
       const orderShippingType = getOrderShippingType(order)
 
       // TODO: create this env variable
-      const paymentUrl = await heseya.Orders.pay(
+      return await heseya.Orders.pay(
         orderCode,
         paymentMethods[0].id,
         `${process.env.appHost}/checkout/thank-you?code=${orderCode}&t=${orderShippingType}`,
       )
-
-      return paymentUrl
     },
   },
 

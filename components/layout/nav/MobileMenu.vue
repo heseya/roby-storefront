@@ -4,8 +4,8 @@
       <LayoutIconButton
         class="mobile-menu__close-btn"
         :icon="Close"
+        icon-size="sm"
         @click="onClose"
-        iconSize="sm"
       />
       <span>{{ t('menu') }}</span>
     </div>

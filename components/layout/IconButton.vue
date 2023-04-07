@@ -1,7 +1,7 @@
 <template>
   <button class="icon-btn">
     <div class="icon-btn__icon-container">
-      <LayoutIcon :icon="icon" :size="iconSize" :isResize="isResize" />
+      <LayoutIcon :icon="icon" :size="iconSize" :is-resize="isResize" />
       <span v-show="notificationNumber > 0" class="icon-btn__notification">{{
         notificationNumber
       }}</span>
