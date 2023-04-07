@@ -14,8 +14,14 @@
       <HomeImageCarousel
         title="Zaufali Nam"
         :images="imageArr"
-        image-width="136"
-        image-height="136"
+        :image-width="136"
+        :image-height="136"
+      />
+      <HomeProductCarousel
+        title="Urządzenia biurowe"
+        :images="printers"
+        :image-width="200"
+        :image-height="300"
       />
     </BaseContainer>
   </div>
@@ -55,6 +61,33 @@ const imageArr: ImageSrc[] = [
   {
     src: 'https://***REMOVED***.pl/wp-content/uploads/2021/08/Logo-HSM-Niszczarki.svg',
     alt: 'hsm',
+  },
+]
+
+const printers = [
+  {
+    src: 'https://***REMOVED***.pl/wp-content/uploads/2023/02/iR-ADV-DX-C478-Series-FSL-04-800x800-1.jpg',
+    alt: 'printer',
+  },
+  {
+    src: 'https://***REMOVED***.pl/wp-content/uploads/2020/07/Lexmark-XC4140-FRONT.jpg',
+    alt: 'printer',
+  },
+  {
+    src: 'https://***REMOVED***.pl/wp-content/uploads/2023/02/iR-ADV-DX-C478-Series-FSL-04-800x800-1.jpg',
+    alt: 'printer',
+  },
+  {
+    src: 'https://***REMOVED***.pl/wp-content/uploads/2020/07/Lexmark-XC4140-FRONT.jpg',
+    alt: 'printer',
+  },
+  {
+    src: 'https://***REMOVED***.pl/wp-content/uploads/2023/02/iR-ADV-DX-C478-Series-FSL-04-800x800-1.jpg',
+    alt: 'printer',
+  },
+  {
+    src: 'https://***REMOVED***.pl/wp-content/uploads/2020/07/Lexmark-XC4140-FRONT.jpg',
+    alt: 'printer',
   },
 ]
 </script>

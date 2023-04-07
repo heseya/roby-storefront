@@ -9,10 +9,10 @@
           <slot name="item" v-bind="item" />
         </div>
       </SwiperSlide>
-      <template #container-start>
+      <template v-if="!withoutNavButtons" #container-start>
         <LayoutCarouselButton class="carousel__button" />
       </template>
-      <template #container-end>
+      <template v-if="!withoutNavButtons" #container-end>
         <LayoutCarouselButton next class="carousel__button" type="next" />
       </template>
     </Swiper>
@@ -24,10 +24,14 @@ import { Swiper, SwiperSlide } from 'swiper/vue'
 import { SwiperOptions } from 'swiper/types'
 import 'swiper/css'
 
-defineProps<{
-  itemArr: Record<string, string>[]
-  breakpoints: SwiperOptions['breakpoints']
-}>()
+withDefaults(
+  defineProps<{
+    itemArr: Record<string, string>[]
+    breakpoints: SwiperOptions['breakpoints']
+    withoutNavButtons?: boolean
+  }>(),
+  { withoutNavButtons: false },
+)
 </script>
 
 <style lang="scss" scoped>
