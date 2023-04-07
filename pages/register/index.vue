@@ -37,15 +37,18 @@
           name="confirmPassword"
         />
       </div>
-      <FormCheckbox v-model="form.values.privacyPolicyAgreement" name="privatePolicyAgreement">
-        <div>
+      <FormCheckbox
+        v-model="form.values.privacyPolicyAgreement"
+        name="privatePolicyAgreement"
+        rules="required"
+      >
+        <span>
           {{ t('form.private-policy-description') }}
           <strong class="register-content__policy-agreement">
             {{ t('form.private-policy') }}</strong
           >
           {{ t('form.private-policy-agreement') }}
-          <strong class="register-content__policy-agreement">*</strong>
-        </div>
+        </span>
       </FormCheckbox>
       <div class="register-content__btn-container">
         <LayoutButton class="register-content__btn" :label="t('form.register')" />
@@ -57,6 +60,7 @@
 <i18n lang="json">
 {
   "pl": {
+    "title": "Rejestracja",
     "form": {
       "email": "Adres e-mail",
       "header": "Rejestracja",
@@ -76,7 +80,12 @@
 <script setup lang="ts">
 import { useForm } from 'vee-validate'
 
+const t = useLocalI18n()
+
 useBreadcrumbs([{ label: 'Rejestracja', link: '/register' }])
+useHead({
+  title: t('title'),
+})
 
 interface RegisterForm {
   email: string
@@ -86,8 +95,6 @@ interface RegisterForm {
   surname: string
   privacyPolicyAgreement: boolean
 }
-
-const t = useLocalI18n()
 
 const form = useForm<RegisterForm>({
   initialValues: {

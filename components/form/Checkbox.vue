@@ -4,9 +4,19 @@
     <label tabindex="0" :for="name">
       <span class="checkbox__label">
         <slot name="default">{{ label }}</slot>
+        <span
+          v-if="($slots.default || label) && rules.includes('required')"
+          class="checkbox__required-dot"
+          >*</span
+        >
       </span>
       <span class="checkbox__text">
         <slot name="text">{{ text }}</slot>
+        <span
+          v-if="($slots.text || text) && rules.includes('required')"
+          class="checkbox__required-dot"
+          >*</span
+        >
       </span>
     </label>
     <span class="checkbox__error">{{ errors[0] || error }}</span>
@@ -127,6 +137,11 @@ const checkboxValue = computed({
     &:empty {
       display: none;
     }
+  }
+
+  &__required-dot {
+    color: $primary-color;
+    font-weight: bold;
   }
 
   &--error label::before {
