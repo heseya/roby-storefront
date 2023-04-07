@@ -24,7 +24,7 @@ withDefaults(
     notificationNumber?: number
     isResize?: boolean
   }>(),
-  { label: '', notificationNumber: 0, isResize: false },
+  { label: '', iconSize: 'md', notificationNumber: 0, isResize: false },
 )
 </script>
 
