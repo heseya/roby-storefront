@@ -1,5 +1,4 @@
 <template>
-  <button @click="fetchConsents">test</button>
   <form class="register-content" @submit.prevent="onSubmit">
     <div class="register-content__form">
       <h2 class="register-content__header">{{ t('form.header') }}</h2>
@@ -43,11 +42,12 @@
         :key="consent.id"
         :model-value="form.values.consents[consent.id] || false"
         :name="consent.name"
-        @input="(v) => setConsentValue(consent.id, v.returnValue)"
         rules="required"
+        @input="(v) => setConsentValue(consent.id, v.returnValue)"
       >
         <span v-html="consent.description_html"></span>
       </FormCheckbox>
+      <span v-if="errorMessage" class="register-content__error">{{ errorMessage }}</span>
       <div class="register-content__btn-container">
         <LayoutButton class="register-content__btn" :label="t('form.register')" />
       </div>
@@ -76,7 +76,7 @@
 </i18n>
 
 <script setup lang="ts">
-import { UserConsentDto } from '@heseya/store-core'
+import { formatApiError, UserConsentDto } from '@heseya/store-core'
 import { useForm } from 'vee-validate'
 
 const t = useLocalI18n()
@@ -87,6 +87,7 @@ useHead({
   title: t('title'),
 })
 
+const errorMessage = ref('')
 const { data: consents } = useAsyncData(async () => {
   try {
     const consents = await heseya.Consents.get()
@@ -128,8 +129,10 @@ const setConsentValue = (consentId: string, value: boolean) => {
 const onSubmit = form.handleSubmit(async () => {
   try {
     await heseya.Users.create(registerForm.value)
+
+    // TODO add a redirect when successfully create account
   } catch (e: any) {
-    showError({ message: e.message, statusCode: 500 })
+    errorMessage.value = formatApiError(e).text
   }
 })
 </script>
@@ -199,6 +202,12 @@ const onSubmit = form.handleSubmit(async () => {
 
   &__policy-agreement {
     color: $primary-color;
+  }
+
+  &__error {
+    color: $error-color;
+    font-weight: bold;
+    text-align: center;
   }
 }
 </style>
