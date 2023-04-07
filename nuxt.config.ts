@@ -64,5 +64,10 @@ export default defineNuxtConfig({
         },
       },
     },
+    build: {
+      commonjsOptions: {
+        transformMixedEsModules: true,
+      },
+    },
   },
 })
