@@ -79,10 +79,13 @@
 </i18n>
 
 <script setup lang="ts">
+import { Consent } from '@heseya/store-core'
 import { useForm } from 'vee-validate'
 
 const t = useLocalI18n()
 const heseya = useHeseya()
+
+const consents = ref<Consent[]>([])
 
 useBreadcrumbs([{ label: 'Rejestracja', link: '/register' }])
 useHead({
@@ -90,8 +93,10 @@ useHead({
 })
 
 const fetchConsents = async () => {
-  const consents = await heseya.Consents.get()
-  console.log(consents)
+  try {
+    const consentsResponse = await heseya.Consents.get()
+    consents.value = consentsResponse.data
+  } catch (e) {}
 }
 
 const form = useForm({
