@@ -1,6 +1,10 @@
 import svgLoader from 'vite-svg-loader'
 
-const { API_URL = 'https://demo-***REMOVED***.***REMOVED***', ENVIRONMENT = 'development' } = process.env
+const {
+  API_URL = 'https://demo-***REMOVED***.***REMOVED***',
+  ENVIRONMENT = 'development',
+  APP_HOST,
+} = process.env
 
 const isProduction = ENVIRONMENT === 'production'
 
@@ -38,6 +42,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       apiUrl: API_URL,
+      appHost: APP_HOST,
       isProduction,
     },
   },
