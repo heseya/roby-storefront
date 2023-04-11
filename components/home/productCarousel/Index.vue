@@ -4,7 +4,12 @@
       <LayoutHeader class="product-carousel__title" variant="black">{{ title }}</LayoutHeader>
       <HomeProductCarouselShowAll />
     </div>
-    <LayoutCarousel :item-arr="categories" :spaceBetween="20" withoutNavButtons>
+    <LayoutCarousel
+      class="product-carousel__categories"
+      :item-arr="categories"
+      :spaceBetween="20"
+      withoutNavButtons
+    >
       <template #item="{ value, label }: ImageSrc">
         <HomeProductCarouselCategoryButton
           :label="label"
@@ -77,11 +82,35 @@ withDefaults(
     @include flex-row;
     justify-content: space-between;
     align-items: center;
+
+    @media ($max-viewport-3) {
+      flex-direction: column;
+      align-items: flex-end;
+    }
   }
 
   &__title {
     padding-left: 150px;
     flex: 1;
+    line-height: 130%;
+
+    @media ($max-viewport-8) {
+      padding: 0;
+      text-align: left;
+    }
+
+    @media ($max-viewport-3) {
+      align-self: flex-start;
+    }
+  }
+
+  &__categories {
+    @include flex-row;
+    justify-content: center;
+
+    @media ($max-viewport-8) {
+      justify-content: flex-start;
+    }
   }
 
   &__picture {

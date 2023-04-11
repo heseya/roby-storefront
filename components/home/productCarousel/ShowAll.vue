@@ -31,6 +31,7 @@ import ArrowNext from '@/assets/icons/arrow-next.svg?component'
     text-transform: uppercase;
     font-family: $textFont;
     font-size: rem(12);
+    white-space: nowrap;
   }
 }
 </style>
