@@ -18,21 +18,16 @@
         />
       </template>
     </LayoutCarousel>
-    <LayoutCarousel :item-arr="images" :breakpoints="breakpoints">
-      <template #item="{ src, alt }: ImageSrc">
-        <img
-          class="product-carousel__picture"
-          :style="{ height: `${imageHeight}px`, width: `${imageWidth}px` }"
-          :src="src"
-          :alt="alt"
-        />
+    <LayoutCarousel :item-arr="products" :spaceBetween="10">
+      <template #item="product">
+        <ProductMiniature :product="product" />
       </template>
     </LayoutCarousel>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ImageSrc } from '~/components/home/ImageCarousel.vue'
+import { CdnMediaType } from '@heseya/store-core'
 
 const categories = [
   { label: 'Category1', value: 'cat1' },
@@ -42,14 +37,47 @@ const categories = [
   { label: 'Category5', value: 'cat5' },
 ]
 
-const breakpoints = {
-  480: { slidesPerView: 2 },
-  640: { slidesPerView: 3 },
-  850: { slidesPerView: 4 },
-  1100: { slidesPerView: 5 },
-  1280: { slidesPerView: 6 },
-  1680: { slidesPerView: 'auto' },
-}
+const products = [
+  {
+    name: 'Canon',
+    slug: 'canon-printer',
+    price_min: 12333,
+    price_max: 12333,
+    attributes: [],
+    cover: {
+      url: 'https://***REMOVED***.pl/wp-content/uploads/2020/07/Lexmark-XC4140-FRONT.jpg',
+      alt: 'printer',
+      type: CdnMediaType.Photo,
+    },
+    tags: [],
+  },
+  {
+    name: 'Canon',
+    slug: 'canon-printer',
+    price_min: 12333,
+    price_max: 12333,
+    attributes: [],
+    cover: {
+      url: 'https://***REMOVED***.pl/wp-content/uploads/2020/07/Lexmark-XC4140-FRONT.jpg',
+      alt: 'printer',
+      type: CdnMediaType.Photo,
+    },
+    tags: [],
+  },
+  {
+    name: 'Canon',
+    slug: 'canon-printer',
+    price_min: 12333,
+    price_max: 12333,
+    attributes: [],
+    cover: {
+      url: 'https://***REMOVED***.pl/wp-content/uploads/2020/07/Lexmark-XC4140-FRONT.jpg',
+      alt: 'printer',
+      type: CdnMediaType.Photo,
+    },
+    tags: [],
+  },
+]
 
 const selectedCategory = ref(categories[0].value)
 
@@ -59,18 +87,9 @@ const setNewCategory = (value: string) => {
   }
 }
 
-withDefaults(
-  defineProps<{
-    title: string
-    images: ImageSrc[]
-    imageWidth?: number
-    imageHeight?: number
-  }>(),
-  {
-    imageWidth: 160,
-    imageHeight: 60,
-  },
-)
+defineProps<{
+  title: string
+}>()
 </script>
 
 <style lang="scss" scoped>
