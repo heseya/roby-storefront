@@ -1,7 +1,7 @@
 <template>
   <button class="show-all">
     <span class="show-all__label">{{ 'Pokaż wszystkie' }}</span>
-    <LayoutIcon :icon="ArrowNext" :size="12" />
+    <LayoutIcon :icon="ArrowNext" :size="8" />
   </button>
 </template>
 
