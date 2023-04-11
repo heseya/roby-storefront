@@ -4,17 +4,15 @@
       <LayoutHeader class="product-carousel__title" variant="black">{{ title }}</LayoutHeader>
       <HomeProductCarouselShowAll />
     </div>
-    <div class="product-carousel__categories">
-      <LayoutCarousel :item-arr="categories" :breakpoints="breakpoints" withoutNavButtons>
-        <template #item="{ value, label }: ImageSrc">
-          <HomeProductCarouselCategoryButton
-            :label="label"
-            :isChosen="value === selectedCategory"
-            @click="setNewCategory(value)"
-          />
-        </template>
-      </LayoutCarousel>
-    </div>
+    <LayoutCarousel :item-arr="categories" :spaceBetween="20" withoutNavButtons>
+      <template #item="{ value, label }: ImageSrc">
+        <HomeProductCarouselCategoryButton
+          :label="label"
+          :isChosen="value === selectedCategory"
+          @click="setNewCategory(value)"
+        />
+      </template>
+    </LayoutCarousel>
     <LayoutCarousel :item-arr="images" :breakpoints="breakpoints">
       <template #item="{ src, alt }: ImageSrc">
         <img
@@ -45,7 +43,7 @@ const breakpoints = {
   850: { slidesPerView: 4 },
   1100: { slidesPerView: 5 },
   1280: { slidesPerView: 6 },
-  1680: { slidesPerView: 7 },
+  1680: { slidesPerView: 'auto' },
 }
 
 const selectedCategory = ref(categories[0].value)
@@ -54,8 +52,6 @@ const setNewCategory = (value: string) => {
   if (value !== selectedCategory.value) {
     selectedCategory.value = value
   }
-
-  console.log(value, selectedCategory.value)
 }
 
 withDefaults(
@@ -86,12 +82,6 @@ withDefaults(
   &__title {
     padding-left: 150px;
     flex: 1;
-  }
-
-  &__categories {
-    //@include flex-row;
-    //justify-content: center;
-    //gap: 20px;
   }
 
   &__picture {

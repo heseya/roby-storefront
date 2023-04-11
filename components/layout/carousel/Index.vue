@@ -1,10 +1,12 @@
 <template>
-  <div class="carousel">
+  <div class="carousel" :class="{ 'carousel--without-button': withoutNavButtons }">
     <Swiper
       class="carousel__slider"
+      :class="{ 'carousel__slider--without-button': withoutNavButtons }"
       watch-slides-progress
       :breakpoints="breakpoints"
       slides-per-view="auto"
+      :space-between="spaceBetween"
     >
       <SwiperSlide v-for="(item, index) in itemArr" v-slot="{ isVisible }" :key="index">
         <div
@@ -34,8 +36,9 @@ withDefaults(
     itemArr: Record<string, string>[]
     breakpoints?: SwiperOptions['breakpoints']
     withoutNavButtons?: boolean
+    spaceBetween?: number
   }>(),
-  { withoutNavButtons: false },
+  { withoutNavButtons: false, spaceBetween: 0 },
 )
 </script>
 
@@ -46,6 +49,10 @@ withDefaults(
   padding: 0 36px;
   overflow: hidden;
 
+  &--without-button {
+    padding: 0;
+  }
+
   &__slider {
     position: relative;
     min-height: 36px;
@@ -54,6 +61,10 @@ withDefaults(
     max-width: 100%;
     padding: 0 36px;
     margin: 0;
+
+    &--without-button {
+      padding: 0;
+    }
   }
 
   .swiper-slide {
