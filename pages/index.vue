@@ -17,12 +17,7 @@
         :image-width="136"
         :image-height="136"
       />
-      <HomeProductCarousel
-        title="Urządzenia biurowe"
-        :images="printers"
-        :image-width="200"
-        :image-height="300"
-      />
+      <HomeProductCarousel :category="category" />
     </BaseContainer>
   </div>
 </template>
@@ -64,32 +59,29 @@ const imageArr: ImageSrc[] = [
   },
 ]
 
-const printers = [
-  {
-    src: 'https://***REMOVED***.pl/wp-content/uploads/2023/02/iR-ADV-DX-C478-Series-FSL-04-800x800-1.jpg',
-    alt: 'printer',
-  },
-  {
-    src: 'https://***REMOVED***.pl/wp-content/uploads/2020/07/Lexmark-XC4140-FRONT.jpg',
-    alt: 'printer',
-  },
-  {
-    src: 'https://***REMOVED***.pl/wp-content/uploads/2023/02/iR-ADV-DX-C478-Series-FSL-04-800x800-1.jpg',
-    alt: 'printer',
-  },
-  {
-    src: 'https://***REMOVED***.pl/wp-content/uploads/2020/07/Lexmark-XC4140-FRONT.jpg',
-    alt: 'printer',
-  },
-  {
-    src: 'https://***REMOVED***.pl/wp-content/uploads/2023/02/iR-ADV-DX-C478-Series-FSL-04-800x800-1.jpg',
-    alt: 'printer',
-  },
-  {
-    src: 'https://***REMOVED***.pl/wp-content/uploads/2020/07/Lexmark-XC4140-FRONT.jpg',
-    alt: 'printer',
-  },
-]
+const category = {
+  id: 'maincat',
+  name: 'MainCategory',
+  children: [
+    { name: 'Category1', id: 'cat1' },
+    {
+      name: 'Category2',
+      id: 'cat2',
+    },
+    {
+      name: 'Category3',
+      id: 'cat3',
+    },
+    {
+      name: 'Category4',
+      id: 'cat4',
+    },
+    {
+      name: 'Category5',
+      id: 'cat5',
+    },
+  ],
+}
 </script>
 
 <style lang="scss" scoped>

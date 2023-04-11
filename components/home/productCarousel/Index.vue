@@ -1,20 +1,23 @@
 <template>
   <div class="product-carousel">
     <div class="product-carousel__header">
-      <LayoutHeader class="product-carousel__title" variant="black">{{ title }}</LayoutHeader>
+      <LayoutHeader class="product-carousel__title" variant="black">{{
+        category.name
+      }}</LayoutHeader>
       <HomeProductCarouselShowAll />
     </div>
     <LayoutCarousel
+      v-if="category.children?.length && !withoutSubcategories"
       class="product-carousel__categories"
-      :item-arr="categories"
+      :item-arr="category.children"
       :spaceBetween="20"
       withoutNavButtons
     >
-      <template #item="{ value, label }: ImageSrc">
+      <template #item="{ id, name }: ProductSet">
         <HomeProductCarouselCategoryButton
-          :label="label"
-          :isChosen="value === selectedCategory"
-          @click="setNewCategory(value)"
+          :label="name"
+          :isChosen="id === selectedCategory"
+          @click="setNewCategory(id)"
         />
       </template>
     </LayoutCarousel>
@@ -27,16 +30,9 @@
 </template>
 
 <script lang="ts" setup>
-import { CdnMediaType } from '@heseya/store-core'
+import { CdnMediaType, ProductSet } from '@heseya/store-core'
 
-const categories = [
-  { label: 'Category1', value: 'cat1' },
-  { label: 'Category2', value: 'cat2' },
-  { label: 'Category3', value: 'cat3' },
-  { label: 'Category4', value: 'cat4' },
-  { label: 'Category5', value: 'cat5' },
-]
-
+// tmp, in the future from the BE
 const products = [
   {
     name: 'Canon',
@@ -79,17 +75,21 @@ const products = [
   },
 ]
 
-const selectedCategory = ref(categories[0].value)
+const props = withDefaults(
+  defineProps<{
+    category: ProductSet
+    withoutSubcategories?: boolean
+  }>(),
+  { withoutSubcategories: false },
+)
+
+const selectedCategory = ref(props.category.children?.length && props.category.children[0].id)
 
 const setNewCategory = (value: string) => {
   if (value !== selectedCategory.value) {
     selectedCategory.value = value
   }
 }
-
-defineProps<{
-  title: string
-}>()
 </script>
 
 <style lang="scss" scoped>
