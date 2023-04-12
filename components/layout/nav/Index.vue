@@ -143,8 +143,8 @@ const isOpenSearch = ref(false)
 const onLogout = () => auth.logout()
 
 const { data: navLinks } = useAsyncData<NavLink[]>('nav-pages', async () => {
-  const d = await heseya.Pages.get({ metadata: { nav: true } })
-  return d.data.map((p) => ({ text: p.name, path: p.slug }))
+  const { data } = await heseya.Pages.get({ metadata: { nav: true } })
+  return data.map((p) => ({ text: p.name, path: p.slug }))
 })
 </script>
 
