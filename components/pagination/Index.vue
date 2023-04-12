@@ -143,6 +143,7 @@ const last = () => go(props.total)
     min-width: 36px;
     height: 36px;
     padding-top: 9px;
+    text-align: center;
   }
 
   &__button {
