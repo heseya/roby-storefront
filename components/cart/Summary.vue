@@ -68,7 +68,7 @@
 
 <script setup lang="ts">
 import { PaymentMethod } from '@heseya/store-core'
-import { useCartStore } from '~~/store/cart'
+import { useCartStore } from '@/store/cart'
 import PayuIcon from '@/assets/images/payu.png'
 
 const cart = useCartStore()

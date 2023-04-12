@@ -97,7 +97,7 @@ const heseya = useHeseya()
 const route = useRoute()
 const t = useLocalI18n()
 
-const { data: product } = useAsyncData('product', async () => {
+const { data: product } = useAsyncData(async () => {
   try {
     return await heseya.Products.getOneBySlug(route.params.slug as string)
   } catch (e: any) {

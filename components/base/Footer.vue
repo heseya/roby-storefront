@@ -65,7 +65,7 @@
 </template>
 
 <script lang="ts" setup>
-import { useConfigStore } from '~~/store/config'
+import { useConfigStore } from '@/store/config'
 
 import FooterLogo from '@/assets/images/logo-grayscale.svg'
 import FacebookIcon from '@/assets/icons/facebook.svg?component'

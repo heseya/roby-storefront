@@ -1,5 +1,5 @@
 import { ProductList } from '@heseya/store-core'
-import { useWishlistStore } from '~~/store/wishlist'
+import { useWishlistStore } from '@/store/wishlist'
 
 export const useWishlist = (product: ProductList) => {
   const wishlist = useWishlistStore()

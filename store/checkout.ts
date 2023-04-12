@@ -8,7 +8,7 @@ import {
 } from '@heseya/store-core'
 import { defineStore } from 'pinia'
 import { useCartStore } from './cart'
-import { Paczkomat } from '~~/interfaces/Paczkomat'
+import { Paczkomat } from '@/interfaces/Paczkomat'
 
 export const useCheckoutStore = defineStore('checkout', {
   state: () => ({

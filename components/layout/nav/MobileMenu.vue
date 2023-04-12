@@ -1,5 +1,5 @@
 <template>
-  <div v-show="isOpenCategories" class="mobile-menu">
+  <div class="mobile-menu">
     <div class="mobile-menu__title">
       <LayoutIconButton
         class="mobile-menu__close-btn"
@@ -10,12 +10,9 @@
       <span>{{ t('menu') }}</span>
     </div>
     <LayoutNavCategoryMobileButton
-      v-for="category in categories"
-      :key="category.name"
-      :label="category.name"
-      :special="category.isSpecial"
-      :link="category.link"
-      :subcategories="category.subcategories"
+      v-for="category in categoriesStore.categories"
+      :key="category.id"
+      :category="category"
     />
   </div>
 </template>
@@ -30,7 +27,7 @@
 
 <script lang="ts" setup>
 import Close from '@/assets/icons/cross.svg?component'
-import { Category } from '~/components/layout/nav/Index.vue'
+import { useCategoriesStore } from '@/store/categories'
 
 const t = useLocalI18n()
 
@@ -38,11 +35,11 @@ const emit = defineEmits<{
   (event: 'close'): void
 }>()
 
+const categoriesStore = useCategoriesStore()
+
 const onClose = () => {
   emit('close')
 }
-
-defineProps<{ categories: Category[] }>()
 </script>
 
 <style lang="scss" scoped>

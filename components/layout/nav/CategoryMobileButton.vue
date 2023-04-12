@@ -1,8 +1,11 @@
 <template>
-  <div class="category-mobile-btn" :class="{ 'category-mobile-btn--special': special }">
+  <div
+    class="category-mobile-btn"
+    :class="{ 'category-mobile-btn--special': isProductSetHighlighted(category) }"
+  >
     <div class="category-mobile-btn__link-container">
-      <NuxtLink class="category-mobile-btn__link" :to="link">
-        {{ label }}
+      <NuxtLink class="category-mobile-btn__link" :to="localePath(`/category/${category.slug}`)">
+        {{ category.name }}
       </NuxtLink>
       <LayoutIconButton
         v-show="subcategories?.length"
@@ -15,32 +18,40 @@
     </div>
     <div v-show="isOpenSubcategories" class="category-mobile-btn__list">
       <NuxtLink
-        v-for="category in subcategories"
-        :key="category.value"
+        v-for="cat in subcategories"
+        :key="cat.id"
         class="category-mobile-btn__list-item"
-        :to="category.value"
-        >{{ category.label }}
+        :to="localePath(`/category/${cat.slug}`)"
+      >
+        {{ cat.name }}
       </NuxtLink>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
+import { ProductSetList } from '@heseya/store-core'
 import Chevron from '@/assets/icons/chevron.svg?component'
-import { SelectOption } from '~/components/layout/nav/Search.vue'
+import { useCategoriesStore } from '@/store/categories'
 
+const props = defineProps<{
+  category: ProductSetList
+}>()
+
+const localePath = useLocalePath()
+
+const categoriesStore = useCategoriesStore()
 const isOpenSubcategories = ref(false)
 
 const toggleOpenSubcategories = () => {
   isOpenSubcategories.value = !isOpenSubcategories.value
 }
 
-defineProps<{
-  link?: string
-  special?: boolean
-  label: string
-  subcategories?: SelectOption[]
-}>()
+const subcategories = ref<ProductSetList[]>([])
+
+onBeforeMount(async () => {
+  subcategories.value = await categoriesStore.getSubcategories(props.category.id)
+})
 </script>
 
 <style lang="scss" scoped>
@@ -80,17 +91,17 @@ defineProps<{
   &__list {
     @include flex-column;
     background-color: $white-color;
+  }
 
-    &-item {
-      padding: 12px 32px;
+  &__list-item {
+    padding: 12px 32px;
 
-      text-align: left;
-      white-space: nowrap;
-      text-decoration: none;
-      color: $gray-color-900;
+    text-align: left;
+    white-space: nowrap;
+    text-decoration: none;
+    color: $gray-color-900;
 
-      border-bottom: 1px solid $gray-color-100;
-    }
+    border-bottom: 1px solid $gray-color-100;
   }
 
   &--special &__link {

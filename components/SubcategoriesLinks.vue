@@ -64,8 +64,9 @@ watch(
   }
 
   &__icon {
-    transform: scale(0.7) rotate(180deg);
+    transform: rotate(180deg);
     margin-right: 2px;
+    height: 0.65em;
   }
 
   &__link {

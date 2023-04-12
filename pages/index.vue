@@ -21,10 +21,23 @@
   </div>
 </template>
 
+<i18n lang="json">
+{
+  "pl": {
+    "title": "Strona główna"
+  }
+}
+</i18n>
+
 <script setup lang="ts">
 import { ImageSrc } from '~/components/home/ImageCarousel.vue'
 
+const t = useLocalI18n()
 const heseya = useHeseya()
+
+useHead({
+  title: t('title'),
+})
 
 const { data } = useAsyncData(async () => {
   const mainBanner = await heseya.Banners.getOneBySlug('main-banner')

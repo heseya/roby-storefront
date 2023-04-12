@@ -35,8 +35,8 @@
 
 <script setup lang="ts">
 import { ShippingMethod } from '@heseya/store-core'
-import { useCartStore } from '~~/store/cart'
-import { useCheckoutStore } from '~~/store/checkout'
+import { useCartStore } from '@/store/cart'
+import { useCheckoutStore } from '@/store/checkout'
 
 const t = useLocalI18n()
 const heseya = useHeseya()

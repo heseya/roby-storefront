@@ -1,31 +1,39 @@
 <template>
-  <div class="category-btn" :class="special && 'category-btn--special'">
-    <NuxtLink class="category-btn__link" :to="link">
+  <div class="category-btn" :class="{ 'category-btn--special': isProductSetHighlighted(category) }">
+    <NuxtLink class="category-btn__link" :to="localePath(`/category/${category.slug}`)">
       <div class="category-btn__label-container">
-        {{ label }}
+        {{ category.name }}
       </div>
     </NuxtLink>
     <div v-show="Boolean(subcategories?.length)" class="category-btn__list">
       <NuxtLink
-        v-for="category in subcategories"
-        :key="category.value"
+        v-for="cat in subcategories"
+        :key="cat.id"
         class="category-btn__list-item"
-        :to="category.value"
-        >{{ category.label }}
+        :to="localePath(`/category/${cat.slug}`)"
+      >
+        {{ cat.name }}
       </NuxtLink>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { SelectOption } from '~/components/layout/nav/Search.vue'
+import { ProductSetList } from '@heseya/store-core'
+import { useCategoriesStore } from '@/store/categories'
 
-defineProps<{
-  link?: string
-  special?: boolean
-  label: string
-  subcategories?: SelectOption[]
+const props = defineProps<{
+  category: ProductSetList
 }>()
+
+const localePath = useLocalePath()
+const categoriesStore = useCategoriesStore()
+
+const subcategories = ref<ProductSetList[]>([])
+
+onBeforeMount(async () => {
+  subcategories.value = await categoriesStore.getSubcategories(props.category.id)
+})
 </script>
 
 <style lang="scss" scoped>

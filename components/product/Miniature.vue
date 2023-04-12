@@ -28,7 +28,7 @@
 
 <script lang="ts" setup>
 import { ProductList } from '@heseya/store-core'
-import { PRODUCT_SUBTEXT_ATTRIBUTE_NAME } from '~~/consts/subtextAttribute'
+import { PRODUCT_SUBTEXT_ATTRIBUTE_NAME } from '@/consts/subtextAttribute'
 
 const localePath = useLocalePath()
 
