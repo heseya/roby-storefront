@@ -1,57 +1,49 @@
 <template>
-  <div
-    class="category-mobile-btn"
-    :class="{ 'category-mobile-btn--special': isProductSetHighlighted(category) }"
-  >
+  <div class="category-mobile-btn" :class="{ 'category-mobile-btn--special': highlighted }">
     <div class="category-mobile-btn__link-container">
-      <NuxtLink class="category-mobile-btn__link" :to="localePath(`/category/${category.slug}`)">
-        {{ category.name }}
+      <NuxtLink class="category-mobile-btn__link" :to="localePath(link.path)">
+        {{ link.text }}
       </NuxtLink>
       <LayoutIconButton
-        v-show="subcategories?.length"
+        v-show="link.children?.length"
         class="category-mobile-btn__arrow"
-        :class="{ 'category-mobile-btn__arrow--down': isOpenSubcategories }"
+        :class="{ 'category-mobile-btn__arrow--down': isOpen }"
         :icon="Chevron"
         :icon-size="12"
-        @click="toggleOpenSubcategories"
+        @click="toggleOpen"
       />
     </div>
-    <div v-show="isOpenSubcategories" class="category-mobile-btn__list">
+    <div v-show="isOpen" class="category-mobile-btn__list">
       <NuxtLink
-        v-for="cat in subcategories"
-        :key="cat.id"
+        v-for="sub in link.children || []"
+        :key="sub.path"
         class="category-mobile-btn__list-item"
-        :to="localePath(`/category/${cat.slug}`)"
+        :to="localePath(sub.path)"
       >
-        {{ cat.name }}
+        {{ sub.text }}
       </NuxtLink>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ProductSetList } from '@heseya/store-core'
 import Chevron from '@/assets/icons/chevron.svg?component'
-import { useCategoriesStore } from '@/store/categories'
+import { NavLink } from '~~/interfaces/NavLink'
 
-const props = defineProps<{
-  category: ProductSetList
-}>()
+withDefaults(
+  defineProps<{
+    link: NavLink
+    highlighted?: boolean
+  }>(),
+  { highlighted: false },
+)
 
 const localePath = useLocalePath()
 
-const categoriesStore = useCategoriesStore()
-const isOpenSubcategories = ref(false)
-
-const toggleOpenSubcategories = () => {
-  isOpenSubcategories.value = !isOpenSubcategories.value
+const isOpen = ref(false)
+const toggleOpen = () => {
+  isOpen.value = !isOpen.value
 }
-
-const subcategories = ref<ProductSetList[]>([])
-
-onBeforeMount(async () => {
-  subcategories.value = await categoriesStore.getSubcategories(props.category.id)
-})
 </script>
 
 <style lang="scss" scoped>

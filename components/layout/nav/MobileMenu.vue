@@ -9,11 +9,13 @@
       />
       <span>{{ t('menu') }}</span>
     </div>
-    <LayoutNavCategoryMobileButton
+    <LayoutNavCategoryButton
       v-for="category in categoriesStore.navCategories"
       :key="category.id"
       :category="category"
+      mobile
     />
+    <LayoutNavMobileButton :link="{ text: 'Blog', path: '/blog' }" />
   </div>
 </template>
 

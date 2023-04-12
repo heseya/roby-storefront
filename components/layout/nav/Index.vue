@@ -89,6 +89,7 @@
         :key="category.id"
         :category="category"
       />
+      <LayoutNavButton :link="{ text: 'Blog', path: '/blog' }" />
     </div>
   </nav>
 </template>
