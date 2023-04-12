@@ -10,7 +10,11 @@ export const useCategoriesStore = defineStore('categories', {
     subcategoriesMap: {} as Record<string, ProductSetList[]>,
   }),
 
-  getters: {},
+  getters: {
+    navCategories(): ProductSetList[] {
+      return this.categories.filter((category) => category.metadata.nav)
+    },
+  },
 
   actions: {
     async fetchRootCategory() {

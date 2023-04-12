@@ -12,7 +12,10 @@
         <NuxtLink to="/">
           <img class="nav-items__logo" :src="config.storeLogoUrl" :alt="config.storeName" />
         </NuxtLink>
-        <LayoutNavSearch class="nav-items__search--wide" :categories="categoriesStore.categories" />
+        <LayoutNavSearch
+          class="nav-items__search--wide"
+          :categories="categoriesStore.navCategories"
+        />
       </div>
 
       <div class="nav-items__buttons">
@@ -82,7 +85,7 @@
     </div>
     <div class="nav-bar__categories">
       <LayoutNavCategoryButton
-        v-for="category in categoriesStore.categories"
+        v-for="category in categoriesStore.navCategories"
         :key="category.id"
         :category="category"
       />

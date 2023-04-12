@@ -10,7 +10,7 @@
       <span>{{ t('menu') }}</span>
     </div>
     <LayoutNavCategoryMobileButton
-      v-for="category in categoriesStore.categories"
+      v-for="category in categoriesStore.navCategories"
       :key="category.id"
       :category="category"
     />
