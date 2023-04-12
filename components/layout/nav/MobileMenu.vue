@@ -15,7 +15,7 @@
       :category="category"
       mobile
     />
-    <LayoutNavMobileButton :link="{ text: 'Blog', path: '/blog' }" />
+    <LayoutNavMobileButton v-for="link in links" :key="link.path" :link="link" />
   </div>
 </template>
 
@@ -30,8 +30,16 @@
 <script lang="ts" setup>
 import Close from '@/assets/icons/cross.svg?component'
 import { useCategoriesStore } from '@/store/categories'
+import { NavLink } from '~~/interfaces/NavLink'
 
 const t = useLocalI18n()
+
+withDefaults(
+  defineProps<{
+    links?: NavLink[]
+  }>(),
+  { links: () => [] },
+)
 
 const emit = defineEmits<{
   (event: 'close'): void
