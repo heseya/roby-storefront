@@ -5,7 +5,7 @@
     :data-postfix="postfix"
   >
     <FormInputLabel v-if="label" :uppercase="labelUppercase" class="input__label" :for="id">
-      {{ label }}
+      {{ label }} <span v-if="isRequired && label" class="input__required-star">*</span>
     </FormInputLabel>
     <div class="input__content">
       <input
@@ -74,6 +74,8 @@ const inputValue = computed({
     emit('update:modelValue', value)
   },
 })
+
+const isRequired = computed(() => props.rules.includes('required'))
 </script>
 
 <style lang="scss" scoped>

@@ -33,8 +33,8 @@ withDefaults(
   defineProps<{
     title: string
     images: ImageSrc[]
-    imageWidth?: number
-    imageHeight?: number
+    imageWidth?: number | string
+    imageHeight?: number | string
   }>(),
   {
     imageWidth: 160,

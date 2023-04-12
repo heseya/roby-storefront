@@ -4,7 +4,7 @@
       class="mobile-search__btn"
       type="button"
       :icon="ArrowBack"
-      iconSize="sm"
+      icon-size="sm"
       @click="onClose"
     />
     <input
@@ -14,7 +14,7 @@
       :placeholder="t('search')"
       name="query"
     />
-    <LayoutIconButton class="mobile-search__btn" type="submit" iconSize="sm" :icon="Search" />
+    <LayoutIconButton class="mobile-search__btn" type="submit" icon-size="sm" :icon="Search" />
   </form>
 </template>
 

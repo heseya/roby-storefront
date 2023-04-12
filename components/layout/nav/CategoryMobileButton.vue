@@ -9,7 +9,7 @@
         class="category-mobile-btn__arrow"
         :class="{ 'category-mobile-btn__arrow--down': isOpenSubcategories }"
         :icon="Chevron"
-        :iconSize="12"
+        :icon-size="12"
         @click="toggleOpenSubcategories"
       />
     </div>

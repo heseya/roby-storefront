@@ -4,6 +4,9 @@
     <label tabindex="0" :for="name">
       <span class="checkbox__label">
         <slot name="default">{{ label }}</slot>
+        <span v-if="($slots.default || label) && isRequired" class="checkbox__required-star"
+          >*</span
+        >
       </span>
       <span class="checkbox__text">
         <slot name="text">{{ text }}</slot>
@@ -40,6 +43,8 @@ const emit = defineEmits<{
 }>()
 
 const { errors } = useField(props.name, props.rules)
+
+const isRequired = computed(() => props.rules?.includes('required'))
 
 const checkboxValue = computed({
   get() {
@@ -127,6 +132,11 @@ const checkboxValue = computed({
     &:empty {
       display: none;
     }
+  }
+
+  &__required-star {
+    color: $primary-color;
+    font-weight: bold;
   }
 
   &--error label::before {

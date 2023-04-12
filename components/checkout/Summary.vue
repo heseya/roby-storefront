@@ -18,7 +18,7 @@
 
     <div class="checkout-summary-item">
       <span class="checkout-summary-item__text">{{ t('summary.shipping') }}</span>
-      <span class="checkout-summary-item__text"> {{ formatAmount(20) }} </span>
+      <span class="checkout-summary-item__text"> {{ formatAmount(cart.shippingPrice) }} </span>
     </div>
 
     <hr class="checkout-summary__hr hr" />

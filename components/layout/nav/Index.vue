@@ -17,7 +17,7 @@
       </div>
       <div class="nav-items__buttons">
         <LayoutIconButton
-          iconSize="sm"
+          icon-size="sm"
           class="nav-items__search--narrow"
           :icon="Search"
           @click="isOpenSearch = true"
@@ -28,7 +28,7 @@
               class="nav-link-button__button"
               :icon="Profile"
               :label="isLogin ? t('myAccount') : t('signIn')"
-              isResize
+              is-resize
             />
           </NuxtLink>
           <div v-show="isLogin" class="nav-link-button__list">
@@ -52,8 +52,8 @@
             class="nav-link-button__button"
             :icon="Favorite"
             :label="t('wishList')"
-            :notificationNumber="2"
-            isResize
+            :notification-number="2"
+            is-resize
           />
         </NuxtLink>
         <div class="nav-items__button-wrapper">
@@ -62,7 +62,7 @@
               class="nav-link-button__button"
               :icon="Shopping"
               :label="t('cart')"
-              isResize
+              is-resize
             />
           </NuxtLink>
           <LayoutNavCartPreview class="nav-items__cart-preview" />

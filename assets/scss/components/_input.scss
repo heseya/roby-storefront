@@ -45,6 +45,10 @@
     }
   }
 
+  &__required-star {
+    color: $error-color;
+  }
+
   &__error {
     font-size: rem(10);
     line-height: 1.5rem;
