@@ -21,7 +21,7 @@ const heseya = useHeseya()
 const route = useRoute()
 const t = useLocalI18n()
 
-const { data: category } = useAsyncData('category', async () => {
+const { data: category } = useAsyncData(`category-${route.params.slug}`, async () => {
   try {
     const category = await heseya.ProductSets.getOneBySlug(route.params.slug as string)
 

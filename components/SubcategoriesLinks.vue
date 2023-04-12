@@ -39,12 +39,15 @@ const heseya = useHeseya()
 
 const isParent = computed(() => !!props.category?.parent)
 
-const { data: subcategories, refresh } = useAsyncData('subcategories', async () => {
-  const { data } = await heseya.ProductSets.get({
-    parent_id: props.category.id,
-  })
-  return data
-})
+const { data: subcategories, refresh } = useAsyncData(
+  `subcategories-${props.category.id}`,
+  async () => {
+    const { data } = await heseya.ProductSets.get({
+      parent_id: props.category.id,
+    })
+    return data
+  },
+)
 
 watch(
   () => props.category,

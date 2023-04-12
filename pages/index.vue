@@ -39,7 +39,7 @@ useHead({
   title: t('title'),
 })
 
-const { data } = useAsyncData(async () => {
+const { data } = useAsyncData('main-banner', async () => {
   const mainBanner = await heseya.Banners.getOneBySlug('main-banner')
   return { mainBanner }
 })
