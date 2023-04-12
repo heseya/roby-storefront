@@ -1,12 +1,22 @@
 <template>
   <button class="show-all">
-    <span class="show-all__label">{{ 'Pokaż wszystkie' }}</span>
+    <span class="show-all__label">{{ t('showAll') }}</span>
     <LayoutIcon :icon="ArrowNext" :size="8" />
   </button>
 </template>
 
+<i18n lang="json">
+{
+  "pl": {
+    "showAll": "Pokaż wszystkie"
+  }
+}
+</i18n>
+
 <script lang="ts" setup>
 import ArrowNext from '@/assets/icons/arrow-next.svg?component'
+
+const t = useLocalI18n()
 </script>
 
 <style lang="scss" scoped>
