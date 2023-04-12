@@ -6,7 +6,7 @@
       :aria-label="t('prev')"
       @click="prev"
     >
-      <ChevronRight class="pagination__icon pagination__icon--rotated" />
+      <LayoutIcon :icon="ChevronRight" class="pagination__icon pagination__icon--rotated" />
     </button>
 
     <div class="pagination__content pagination__content--desktop">
@@ -57,7 +57,7 @@
       @click="next"
     >
       <span class="pagination__button-text"> {{ t('next') }} </span>
-      <ChevronRight />
+      <LayoutIcon :icon="ChevronRight" class="pagination__icon" />
     </button>
   </div>
 </template>
@@ -139,6 +139,11 @@ const last = () => go(props.total)
     }
   }
 
+  &__icon {
+    width: 12px;
+    height: 12px;
+  }
+
   &__text {
     min-width: 36px;
     height: 36px;
@@ -172,7 +177,7 @@ const last = () => go(props.total)
     }
 
     &--action {
-      padding: 0 12px;
+      padding: 0 10px;
       background-color: $gray-color-300;
 
       &:hover {
