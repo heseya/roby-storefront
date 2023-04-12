@@ -42,7 +42,7 @@
 </i18n>
 
 <script setup lang="ts">
-import { useConfigStore } from '~~/store/config'
+import { useConfigStore } from '@/store/config'
 
 const route = useRoute()
 const config = useConfigStore()

@@ -22,12 +22,9 @@
 import { ProductSetList } from '@heseya/store-core'
 import { useCategoriesStore } from '@/store/categories'
 
-const props = withDefaults(
-  defineProps<{
-    category: ProductSetList
-  }>(),
-  {},
-)
+const props = defineProps<{
+  category: ProductSetList
+}>()
 
 const localePath = useLocalePath()
 const categoriesStore = useCategoriesStore()

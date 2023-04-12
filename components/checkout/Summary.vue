@@ -50,7 +50,7 @@
 </i18n>
 
 <script setup lang="ts">
-import { useCartStore } from '~~/store/cart'
+import { useCartStore } from '@/store/cart'
 
 const t = useLocalI18n()
 const cart = useCartStore()

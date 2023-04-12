@@ -46,7 +46,7 @@
 import { Product } from '@heseya/store-core'
 
 import DeliveryIcon from '@/assets/icons/delivery.svg?component'
-import { useCartStore } from '~~/store/cart'
+import { useCartStore } from '@/store/cart'
 
 const props = withDefaults(
   defineProps<{

@@ -1,5 +1,5 @@
 import { useConfigStore } from '@/store/config'
-import { useCategoriesStore } from '~~/store/categories'
+import { useCategoriesStore } from '@/store/categories'
 
 export default defineNuxtPlugin(async (nuxtApp) => {
   const config = useConfigStore(nuxtApp.$pinia)

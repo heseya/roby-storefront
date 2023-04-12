@@ -2,7 +2,7 @@
   <button class="icon-btn">
     <div class="icon-btn__icon-container">
       <LayoutIcon :icon="icon" :size="iconSize" :is-resize="isResize" />
-      <span v-show="count > 0" class="icon-btn__notification">{{ count }}</span>
+      <span v-show="isNumber(count)" class="icon-btn__notification">{{ count }}</span>
     </div>
     <span v-show="label" :class="['icon-btn__label', { 'icon-btn__label--resize': isResize }]">{{
       label
@@ -11,6 +11,7 @@
 </template>
 
 <script lang="ts" setup>
+import isNumber from 'lodash/isNumber'
 import { FunctionalComponent } from 'vue'
 import { IconSize } from '~/components/layout/Icon.vue'
 
@@ -22,7 +23,7 @@ withDefaults(
     count?: number
     isResize?: boolean
   }>(),
-  { label: '', iconSize: 'md', count: 0, isResize: false },
+  { label: '', iconSize: 'md', count: undefined, isResize: false },
 )
 </script>
 

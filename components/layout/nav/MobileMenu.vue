@@ -27,7 +27,7 @@
 
 <script lang="ts" setup>
 import Close from '@/assets/icons/cross.svg?component'
-import { useCategoriesStore } from '~~/store/categories'
+import { useCategoriesStore } from '@/store/categories'
 
 const t = useLocalI18n()
 
