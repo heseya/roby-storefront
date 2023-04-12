@@ -38,6 +38,23 @@ const { data: category } = useAsyncData(`category-${route.params.slug}`, async (
     return null
   }
 })
+
+useHead({
+  title: category.value?.name,
+})
+
+useBreadcrumbs([
+  category.value?.parent
+    ? {
+        label: category.value?.parent?.name || '',
+        link: `/category/${category.value?.parent?.slug}`,
+      }
+    : null,
+  {
+    label: category.value?.name || '',
+    link: `/category/${category.value?.slug}`,
+  },
+])
 </script>
 
 <style lang="scss" scoped>
