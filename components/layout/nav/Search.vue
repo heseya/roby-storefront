@@ -1,20 +1,23 @@
 <template>
-  <form class="search" @submit.prevent="onSubmit">
-    <input
-      v-model="form.values.query"
-      class="search__input search__input--query"
-      :placeholder="t('search')"
-      name="query"
-    />
-    <div class="search__separator" />
-    <select v-model="form.values.category" class="search__input" name="category">
-      <option selected value="all">{{ t('allCategories') }}</option>
-      <option v-for="{ name, slug } in categories" :key="slug" :value="slug">
-        {{ name }}
-      </option>
-    </select>
-    <LayoutIconButton icon-size="sm" class="search__button" :icon="Search" type="submit" />
-  </form>
+  <div>
+    <form class="search" @submit.prevent="onSubmit">
+      <input
+        v-model="form.values.query"
+        class="search__input search__input--query"
+        :placeholder="t('search')"
+        name="query"
+      />
+      <div class="search__separator" />
+      <select v-model="form.values.category" class="search__input" name="category">
+        <option selected value="all">{{ t('allCategories') }}</option>
+        <option v-for="{ name, slug } in categories" :key="slug" :value="slug">
+          {{ name }}
+        </option>
+      </select>
+      <LayoutIconButton icon-size="sm" class="search__button" :icon="Search" type="submit" />
+    </form>
+    <LayoutNavSearchHistory />
+  </div>
 </template>
 
 <i18n lang="json">
@@ -61,6 +64,7 @@ defineProps<{
 
 <style lang="scss" scoped>
 .search {
+  position: relative;
   @include flex-row;
   width: 100%;
   max-width: 600px;
