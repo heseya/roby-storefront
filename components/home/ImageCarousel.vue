@@ -1,13 +1,12 @@
 <template>
   <div class="image-carousel">
-    <LayoutHeader class="image-carousel__title" variant="black">{{ title }}</LayoutHeader>
-    <LayoutCarousel :item-arr="images" :breakpoints="breakpoints">
-      <template #item="{ src, alt }: ImageSrc">
-        <img
+    <LayoutHeader class="image-carousel__title" variant="black">{{ banner.name }}</LayoutHeader>
+    <LayoutCarousel :item-arr="banner.banner_media" :breakpoints="breakpoints">
+      <template #item="media: BannerMedia">
+        <Media
           class="image-carousel__picture"
           :style="{ height: `${imageHeight}px`, width: `${imageWidth}px` }"
-          :src="src"
-          :alt="alt"
+          :media="media.media[0].media"
         />
       </template>
     </LayoutCarousel>
@@ -15,10 +14,8 @@
 </template>
 
 <script lang="ts" setup>
-export interface ImageSrc {
-  src: string
-  alt: string
-}
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { Banner, BannerMedia } from '@heseya/store-core'
 
 const breakpoints = {
   480: { slidesPerView: 2 },
@@ -31,10 +28,9 @@ const breakpoints = {
 
 withDefaults(
   defineProps<{
-    title: string
-    images: ImageSrc[]
     imageWidth?: number | string
     imageHeight?: number | string
+    banner: Banner
   }>(),
   {
     imageWidth: 160,
