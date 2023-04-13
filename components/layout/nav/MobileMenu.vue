@@ -30,7 +30,7 @@
 <script lang="ts" setup>
 import Close from '@/assets/icons/cross.svg?component'
 import { useCategoriesStore } from '@/store/categories'
-import { NavLink } from '~~/interfaces/NavLink'
+import { NavLink } from '@/interfaces/NavLink'
 
 const t = useLocalI18n()
 

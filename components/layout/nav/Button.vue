@@ -19,7 +19,7 @@
 </template>
 
 <script lang="ts" setup>
-import { NavLink } from '~~/interfaces/NavLink'
+import { NavLink } from '@/interfaces/NavLink'
 withDefaults(
   defineProps<{
     link: NavLink

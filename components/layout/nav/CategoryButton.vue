@@ -10,7 +10,7 @@
 <script lang="ts" setup>
 import { ProductSetList } from '@heseya/store-core'
 import { useCategoriesStore } from '@/store/categories'
-import { NavLink } from '~~/interfaces/NavLink'
+import { NavLink } from '@/interfaces/NavLink'
 
 const props = withDefaults(
   defineProps<{

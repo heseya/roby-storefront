@@ -125,7 +125,7 @@ import { useCartStore } from '@/store/cart'
 import { useConfigStore } from '@/store/config'
 import { useAuthStore } from '@/store/auth'
 import { useCategoriesStore } from '@/store/categories'
-import { NavLink } from '~~/interfaces/NavLink'
+import { NavLink } from '@/interfaces/NavLink'
 
 const t = useLocalI18n()
 const localePath = useLocalePath()

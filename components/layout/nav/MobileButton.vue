@@ -28,7 +28,7 @@
 
 <script lang="ts" setup>
 import Chevron from '@/assets/icons/chevron.svg?component'
-import { NavLink } from '~~/interfaces/NavLink'
+import { NavLink } from '@/interfaces/NavLink'
 
 withDefaults(
   defineProps<{
