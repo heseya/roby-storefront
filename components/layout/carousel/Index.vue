@@ -25,7 +25,7 @@ import { SwiperOptions } from 'swiper/types'
 import 'swiper/css'
 
 defineProps<{
-  itemArr: Record<string, string>[]
+  itemArr: unknown[]
   breakpoints: SwiperOptions['breakpoints']
 }>()
 </script>
