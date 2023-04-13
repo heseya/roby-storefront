@@ -188,7 +188,7 @@ const {
     page,
     sort: sort.value,
     limit: perPage.value,
-    attribute,
+    attribute: Object.keys(attribute).length ? attribute : undefined,
   })
   return response
 })
@@ -321,6 +321,7 @@ onMounted(() => emitViewEvent())
     align-items: start;
     grid-template-columns: 1fr 1fr;
     gap: 20px 9px;
+    max-width: 100%;
 
     @media ($viewport-6) {
       grid-template-columns: 1fr 1fr 1fr;

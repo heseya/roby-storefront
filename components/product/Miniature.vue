@@ -88,7 +88,6 @@ const productSubtext = computed(() => {
 
   &__cover {
     display: block;
-    min-height: 200px;
     aspect-ratio: 1/1;
     padding: 4px;
   }
