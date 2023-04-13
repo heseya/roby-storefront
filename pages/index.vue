@@ -37,6 +37,30 @@ useHead({
   title: t('title'),
 })
 
+const category = {
+  id: 'maincat',
+  name: 'MainCategory',
+  children: [
+    { name: 'Category1', id: 'cat1' },
+    {
+      name: 'Category2',
+      id: 'cat2',
+    },
+    {
+      name: 'Category3',
+      id: 'cat3',
+    },
+    {
+      name: 'Category4',
+      id: 'cat4',
+    },
+    {
+      name: 'Category5',
+      id: 'cat5',
+    },
+  ],
+}
+
 const { data } = useAsyncData('main-banner', async () => {
   const [mainBanner, { data: homepageBanners }] = await Promise.all([
     heseya.Banners.getOneBySlug('main-banner'),

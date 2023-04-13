@@ -9,11 +9,11 @@
     <LayoutCarousel
       v-if="category.children?.length && !withoutSubcategories"
       class="product-carousel__categories"
-      :item-arr="category.children"
+      :items="category.children"
       :spaceBetween="20"
-      withoutNavButtons
+      hideNav
     >
-      <template #item="{ id, name }: ProductSet">
+      <template #item="{ id, name }: ProductSetList">
         <HomeProductCarouselCategoryButton
           :label="name"
           :isChosen="id === selectedCategory"
@@ -21,7 +21,7 @@
         />
       </template>
     </LayoutCarousel>
-    <LayoutCarousel :item-arr="products" :spaceBetween="10">
+    <LayoutCarousel :items="products" :spaceBetween="10">
       <template #item="product">
         <ProductMiniature :product="product" />
       </template>
@@ -30,7 +30,7 @@
 </template>
 
 <script lang="ts" setup>
-import { CdnMediaType, ProductSet } from '@heseya/store-core'
+import { CdnMediaType, ProductSetList } from '@heseya/store-core'
 
 // tmp, in the future from the BE
 const products = [
@@ -77,7 +77,7 @@ const products = [
 
 const props = withDefaults(
   defineProps<{
-    category: ProductSet
+    category: ProductSetList
     withoutSubcategories?: boolean
   }>(),
   { withoutSubcategories: false },

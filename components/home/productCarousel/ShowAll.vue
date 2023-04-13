@@ -14,7 +14,7 @@
 </i18n>
 
 <script lang="ts" setup>
-import ArrowNext from '@/assets/icons/arrow-next.svg?component'
+import ArrowNext from '@/assets/icons/chevron.svg?component'
 
 const t = useLocalI18n()
 </script>
