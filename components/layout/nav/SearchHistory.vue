@@ -4,20 +4,26 @@
       <span class="search-history__header">Ostatnie wyszukiwania</span>
       <button class="search-history__button" @click="handleClear">Wyczyść</button>
     </div>
-    <NuxtLink v-for="(item, index) in history" :key="index" to="xd" class="search-history__link">
-      <LayoutIcon :icon="History" size="sm" class="search-history__icon" />
-      <span>{{ item }}</span>
+    <NuxtLink
+      v-for="(query, index) in searchHistory.queries"
+      :key="index"
+      :to="`/search/${query}`"
+      class="search-history__link"
+    >
+      <LayoutIcon :icon="HistoryIcon" size="sm" class="search-history__icon" />
+      <span>{{ query }}</span>
     </NuxtLink>
   </div>
 </template>
 
 <script lang="ts" setup>
-import History from '@/assets/icons/history.svg?component'
+import HistoryIcon from '@/assets/icons/history.svg?component'
+import { useSearchHistoryStore } from '@/store/searchHistory'
 
-const history = ['drukarka', 'tusz', 'ploter']
+const searchHistory = useSearchHistoryStore()
 
 const handleClear = () => {
-  console.log('clear')
+  searchHistory.clearHistory()
 }
 </script>
 

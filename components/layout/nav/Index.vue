@@ -12,7 +12,11 @@
         <NuxtLink to="/">
           <img class="nav-items__logo" :src="config.storeLogoUrl" :alt="config.storeName" />
         </NuxtLink>
-        <LayoutNavSearch class="nav-items__search--wide" :categories="categoriesStore.categories" />
+        <LayoutNavSearch
+          class="nav-items__search--wide"
+          :categories="categoriesStore.categories"
+          @search="handleSearch"
+        />
       </div>
 
       <div class="nav-items__buttons">
@@ -78,7 +82,11 @@
         </div>
       </div>
       <LayoutNavMobileMenu v-show="isOpenCategories" @close="isOpenCategories = false" />
-      <LayoutNavMobileSearch v-show="isOpenSearch" @close="isOpenSearch = false" />
+      <LayoutNavMobileSearch
+        v-show="isOpenSearch"
+        @close="isOpenSearch = false"
+        @search="handleSearch"
+      />
     </div>
     <div class="nav-bar__categories">
       <LayoutNavCategoryButton
@@ -117,6 +125,8 @@ import { useCartStore } from '@/store/cart'
 import { useConfigStore } from '@/store/config'
 import { useAuthStore } from '@/store/auth'
 import { useCategoriesStore } from '@/store/categories'
+import { SearchValues } from '@/components/layout/nav/Search.vue'
+import { useSearchHistoryStore } from '@/store/searchHistory'
 
 const t = useLocalI18n()
 const localePath = useLocalePath()
@@ -126,10 +136,14 @@ const config = useConfigStore()
 const wishlist = useWishlistStore()
 const cart = useCartStore()
 const categoriesStore = useCategoriesStore()
+const searchHistory = useSearchHistoryStore()
 
 const isOpenCategories = ref(false)
 const isOpenSearch = ref(false)
 
+const handleSearch = (values: SearchValues) => {
+  searchHistory.addNewQuery(values.query)
+}
 const onLogout = () => auth.logout()
 </script>
 
