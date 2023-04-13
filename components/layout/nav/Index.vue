@@ -130,6 +130,7 @@ import { useSearchHistoryStore } from '@/store/searchHistory'
 
 const t = useLocalI18n()
 const localePath = useLocalePath()
+const router = useRouter()
 
 const auth = useAuthStore()
 const config = useConfigStore()
@@ -141,8 +142,11 @@ const searchHistory = useSearchHistoryStore()
 const isOpenCategories = ref(false)
 const isOpenSearch = ref(false)
 
-const handleSearch = (values: SearchValues) => {
-  if (values.query !== '') searchHistory.addNewQuery(values.query)
+const handleSearch = ({ query, category }: SearchValues) => {
+  if (query !== '') {
+    searchHistory.addNewQuery(query)
+    router.push(`/search/${query}?set=${category}`)
+  }
 }
 const onLogout = () => auth.logout()
 </script>
