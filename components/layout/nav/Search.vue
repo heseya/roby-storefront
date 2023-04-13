@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <form class="search" @submit.prevent="onSubmit">
+  <div class="search">
+    <form class="search__form" @submit.prevent="onSubmit">
       <input
         v-model="form.values.query"
         class="search__input search__input--query"
@@ -78,14 +78,17 @@ defineProps<{
 <style lang="scss" scoped>
 .search {
   position: relative;
-  @include flex-row;
-  width: 100%;
   max-width: 600px;
-  align-items: center;
-  gap: 22px;
-  padding-left: 22px;
-  background-color: $gray-color-300;
-  border-radius: 23px;
+  width: 100%;
+
+  &__form {
+    @include flex-row;
+    align-items: center;
+    gap: 22px;
+    padding-left: 22px;
+    background-color: $gray-color-300;
+    border-radius: 23px;
+  }
 
   &__separator {
     height: 32px;
@@ -114,8 +117,9 @@ defineProps<{
   }
 
   &__history {
+    margin-top: 6px;
     position: absolute;
-    width: 450px; //todo change to dynamic
+    width: 100%;
     border-radius: 5px;
     border: solid 1px $gray-color-300;
   }
