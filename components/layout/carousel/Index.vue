@@ -33,7 +33,7 @@ import 'swiper/css'
 
 withDefaults(
   defineProps<{
-    itemArr: Record<string, string>[]
+    itemArr: unknown[]
     breakpoints?: SwiperOptions['breakpoints']
     withoutNavButtons?: boolean
     spaceBetween?: number

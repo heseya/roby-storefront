@@ -28,7 +28,7 @@
 
 <script lang="ts" setup>
 import { ProductList } from '@heseya/store-core'
-import { PRODUCT_SUBTEXT_ATTRIBUTE_NAME } from '~~/consts/subtextAttribute'
+import { PRODUCT_SUBTEXT_ATTRIBUTE_NAME } from '@/consts/subtextAttribute'
 
 const localePath = useLocalePath()
 
@@ -88,7 +88,6 @@ const productSubtext = computed(() => {
 
   &__cover {
     display: block;
-    min-height: 200px;
     aspect-ratio: 1/1;
     padding: 4px;
   }

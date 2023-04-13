@@ -1,5 +1,5 @@
 <template>
-  <div class="cart-summary">
+  <div class="cart-summary" :class="{ 'cart-summary--disabled': disabled }">
     <div class="cart-summary__item">
       <div class="cart-summary__label">{{ t('summary.productsPrice') }}</div>
       <div class="cart-summary__value">{{ formatAmount(cart.totalValueInitial) }}</div>
@@ -29,6 +29,7 @@
     <LayoutButton
       variant="primary"
       class="cart-summary__button"
+      :disabled="disabled"
       @click="isAuthenticationModalVisible = true"
     >
       {{ t('summary.submit') }}
@@ -44,7 +45,6 @@
         :alt="method.name"
       />
     </div>
-    <basket />
     <CartLoginBlockModal v-model:open="isAuthenticationModalVisible" />
   </div>
 </template>
@@ -68,8 +68,17 @@
 
 <script setup lang="ts">
 import { PaymentMethod } from '@heseya/store-core'
-import { useCartStore } from '~~/store/cart'
+import { useCartStore } from '@/store/cart'
 import PayuIcon from '@/assets/images/payu.png'
+
+withDefaults(
+  defineProps<{
+    disabled?: boolean
+  }>(),
+  {
+    disabled: false,
+  },
+)
 
 const cart = useCartStore()
 const t = useLocalI18n()
@@ -104,6 +113,10 @@ const isAuthenticationModalVisible = ref<boolean>(false)
   font-size: rem(14);
   line-height: rem(19);
 
+  &--disabled {
+    color: $gray-color-600;
+  }
+
   &__item {
     display: flex;
     justify-content: space-between;
@@ -134,12 +147,14 @@ const isAuthenticationModalVisible = ref<boolean>(false)
 
   &__text {
     margin-top: 16px;
+    color: $text-color;
   }
 
   &__payment-methods {
     display: flex;
     gap: 4px;
     align-items: center;
+    color: $text-color;
 
     > img {
       height: 2em;

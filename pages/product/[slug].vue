@@ -67,10 +67,12 @@
       </template>
     </LayoutTabs>
 
-    <h2 class="primary-text">Aktualne promocje</h2>
-    <div class="product-page__sales">
-      <LazyProductPageSale v-for="sale in product?.sales || []" :key="sale.id" :sale="sale" />
-    </div>
+    <template v-if="product?.sales.length">
+      <h2 class="primary-text">Aktualne promocje</h2>
+      <div class="product-page__sales">
+        <LazyProductPageSale v-for="sale in product?.sales || []" :key="sale.id" :sale="sale" />
+      </div>
+    </template>
   </BaseContainer>
 </template>
 
@@ -97,7 +99,7 @@ const heseya = useHeseya()
 const route = useRoute()
 const t = useLocalI18n()
 
-const { data: product } = useAsyncData('product', async () => {
+const { data: product } = useAsyncData(`product-${route.params.slug}`, async () => {
   try {
     return await heseya.Products.getOneBySlug(route.params.slug as string)
   } catch (e: any) {

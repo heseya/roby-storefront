@@ -30,7 +30,7 @@
 </i18n>
 
 <script setup lang="ts">
-import { useWishlistStore } from '~~/store/wishlist'
+import { useWishlistStore } from '@/store/wishlist'
 
 const t = useLocalI18n()
 const wishlist = useWishlistStore()

@@ -11,6 +11,7 @@
         v-model="form.values.password"
         :label="t('form.password')"
         name="password"
+        rules="required"
       />
     </div>
     <div class="login-form__options">
@@ -39,8 +40,11 @@
 
 <script setup lang="ts">
 import { useForm } from 'vee-validate'
+import { useAuthStore } from '@/store/auth'
 
 const t = useLocalI18n()
+
+const auth = useAuthStore()
 
 const rememberPassword = ref<boolean>(false)
 
@@ -54,6 +58,8 @@ const form = useForm({
 const onSubmit = form.handleSubmit((values) => {
   // TODO: send this form somewhere
   console.log(values)
+  auth.login()
+
   // TODO: redirect it to checkout
 })
 </script>
