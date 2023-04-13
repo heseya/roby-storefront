@@ -43,6 +43,10 @@
 
 <script setup lang="ts">
 import { useConfigStore } from '@/store/config'
+import { useCartStore } from '@/store/cart'
+
+// This forces initialisation of the cart store, somehow it's not hydrating state without it
+useCartStore()
 
 const route = useRoute()
 const config = useConfigStore()
