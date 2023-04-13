@@ -1,8 +1,8 @@
 <template>
   <div class="search-history">
     <div class="search-history__header-bar">
-      <span class="search-history__header">Ostatnie wyszukiwania</span>
-      <button class="search-history__button" @click="handleClear">Wyczyść</button>
+      <span class="search-history__header">{{ t('lastSearch') }}</span>
+      <button class="search-history__button" @click="handleClear">{{ t('clear') }}</button>
     </div>
     <NuxtLink
       v-for="(query, index) in searchHistory.queries"
@@ -16,10 +16,20 @@
   </div>
 </template>
 
+<i18n lang="json">
+{
+  "pl": {
+    "clear": "Wyczyść",
+    "lastSearch": "Ostatnie wyszukiwania"
+  }
+}
+</i18n>
+
 <script lang="ts" setup>
 import HistoryIcon from '@/assets/icons/history.svg?component'
 import { useSearchHistoryStore } from '@/store/searchHistory'
 
+const t = useLocalI18n()
 const searchHistory = useSearchHistoryStore()
 
 const handleClear = () => {
