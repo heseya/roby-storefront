@@ -1,21 +1,24 @@
 <template>
-  <form class="mobile-search" @submit.prevent="onSubmit">
-    <LayoutIconButton
-      class="mobile-search__btn"
-      type="button"
-      :icon="ArrowBack"
-      icon-size="sm"
-      @click="onClose"
-    />
-    <input
-      v-model="form.values.query"
-      class="mobile-search__input"
-      type="text"
-      :placeholder="t('search')"
-      name="query"
-    />
-    <LayoutIconButton class="mobile-search__btn" type="submit" icon-size="sm" :icon="Search" />
-  </form>
+  <div class="mobile-xd">
+    <form class="mobile-search" @submit.prevent="onSubmit">
+      <LayoutIconButton
+        class="mobile-search__btn"
+        type="button"
+        :icon="ArrowBack"
+        icon-size="sm"
+        @click="onClose"
+      />
+      <input
+        v-model="form.values.query"
+        class="mobile-search__input"
+        type="text"
+        :placeholder="t('search')"
+        name="query"
+      />
+      <LayoutIconButton class="mobile-search__btn" type="submit" icon-size="sm" :icon="Search" />
+    </form>
+    <LayoutNavSearchHistory class="mobile-xd__search-history" />
+  </div>
 </template>
 
 <i18n lang="json">
@@ -57,14 +60,28 @@ const onClose = () => {
 </script>
 
 <style lang="scss" scoped>
-.mobile-search {
+.mobile-xd {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
-  height: 60px;
+  height: 100vh;
   background: $white-color;
   overflow: hidden;
+  @include flex-column;
+
+  @media ($viewport-12) {
+    display: none;
+  }
+
+  &__search-history {
+    flex: 1;
+    background-color: $gray-color-100;
+  }
+}
+.mobile-search {
+  width: 100%;
+  height: 60px;
   @include flex-row;
   align-items: center;
 

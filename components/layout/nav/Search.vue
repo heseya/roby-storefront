@@ -16,7 +16,7 @@
       </select>
       <LayoutIconButton icon-size="sm" class="search__button" :icon="Search" type="submit" />
     </form>
-    <LayoutNavSearchHistory />
+    <LayoutNavSearchHistory class="search__history" />
   </div>
 </template>
 
@@ -98,6 +98,13 @@ defineProps<{
     width: 46px;
     border-radius: 50%;
     background-color: var(--secondary-color);
+  }
+
+  &__history {
+    position: absolute;
+    width: 450px; //todo change to dynamic
+    border-radius: 5px;
+    border: solid 1px $gray-color-300;
   }
 }
 </style>

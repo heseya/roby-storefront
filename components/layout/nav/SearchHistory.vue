@@ -29,13 +29,9 @@ const handleClear = () => {
 
 <style lang="scss" scoped>
 .search-history {
-  position: absolute;
-  width: 450px; //todo change to dynamic
   z-index: 1001;
   padding: 10px 0;
 
-  border-radius: 5px;
-  border: solid 1px $gray-color-300;
   background-color: $white-color;
 
   @include flex-column;
@@ -75,7 +71,7 @@ const handleClear = () => {
     color: $gray-color-900;
     transition: background-color 200ms ease-in-out;
     &:hover {
-      background-color: $gray-color-050;
+      background-color: $gray-color-100;
     }
   }
 
