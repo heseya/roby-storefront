@@ -2,17 +2,28 @@
   <div class="cart-empty">
     <div class="cart-empty__row">
       <LayoutIcon class="cart-empty__icon" :icon="CartIcon" :size="24" />
-      <span class="cart-empty__text">Twój koszyk jest pusty</span>
+      <span class="cart-empty__text">{{ t('title') }}</span>
     </div>
 
     <NuxtLink to="/">
-      <LayoutButton class="cart-empty__btn">Wróć do sklepu</LayoutButton>
+      <LayoutButton class="cart-empty__btn">{{ t('btn') }}</LayoutButton>
     </NuxtLink>
   </div>
 </template>
 
+<i18n lang="json">
+{
+  "pl": {
+    "title": "Twój koszyk jest pusty",
+    "btn": "Wróć do sklepu"
+  }
+}
+</i18n>
+
 <script setup lang="ts">
 import CartIcon from '@/assets/icons/shopping.svg?component'
+
+const t = useLocalI18n()
 </script>
 
 <style lang="scss" scoped>
