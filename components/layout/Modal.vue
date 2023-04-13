@@ -4,7 +4,7 @@
     <div class="modal" :class="{ 'modal--open': open, 'modal--box': box }">
       <button v-if="closeable" class="modal__close-btn" aria-label="Zamknij modal" @click="close" />
 
-      <slot />
+      <slot v-if="open" />
     </div>
   </div>
 </template>
