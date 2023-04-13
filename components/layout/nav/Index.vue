@@ -74,7 +74,9 @@
               is-resize
             />
           </NuxtLink>
-          <LayoutNavCartPreview class="nav-items__cart-preview" />
+          <ClientOnly>
+            <LayoutNavCartPreview class="nav-items__cart-preview" />
+          </ClientOnly>
         </div>
       </div>
       <LayoutNavMobileMenu v-show="isOpenCategories" @close="isOpenCategories = false" />
