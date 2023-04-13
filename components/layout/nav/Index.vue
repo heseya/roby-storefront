@@ -142,7 +142,7 @@ const isOpenCategories = ref(false)
 const isOpenSearch = ref(false)
 
 const handleSearch = (values: SearchValues) => {
-  searchHistory.addNewQuery(values.query)
+  if (values.query !== '') searchHistory.addNewQuery(values.query)
 }
 const onLogout = () => auth.logout()
 </script>

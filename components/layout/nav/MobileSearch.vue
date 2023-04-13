@@ -1,6 +1,6 @@
 <template>
-  <div class="mobile-xd">
-    <form class="mobile-search" @submit.prevent="onSubmit">
+  <div class="mobile-search">
+    <form class="mobile-search__input-bar" @submit.prevent="onSubmit">
       <LayoutIconButton
         class="mobile-search__btn"
         type="button"
@@ -14,10 +14,11 @@
         type="text"
         :placeholder="t('search')"
         name="query"
+        autocomplete="off"
       />
       <LayoutIconButton class="mobile-search__btn" type="submit" icon-size="sm" :icon="Search" />
     </form>
-    <LayoutNavSearchHistory class="mobile-xd__search-history" />
+    <LayoutNavSearchHistory v-show="searchHistory.queries.length" class="mobile-search__history" />
   </div>
 </template>
 
@@ -34,9 +35,12 @@ import { useForm } from 'vee-validate'
 
 import Search from '@/assets/icons/search.svg?component'
 import ArrowBack from '@/assets/icons/arrow-back.svg?component'
-import { SearchValues } from '~/components/layout/nav/Search.vue'
+import { SearchValues } from '@/components/layout/nav/Search.vue'
+import { useSearchHistoryStore } from '@/store/searchHistory'
 
 const t = useLocalI18n()
+
+const searchHistory = useSearchHistoryStore()
 
 const emit = defineEmits<{
   (event: 'search', values: SearchValues): void
@@ -60,33 +64,26 @@ const onClose = () => {
 </script>
 
 <style lang="scss" scoped>
-.mobile-xd {
+.mobile-search {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100vh;
-  background: $white-color;
   overflow: hidden;
+
   @include flex-column;
+  background: $gray-color-100;
 
   @media ($viewport-12) {
     display: none;
   }
 
-  &__search-history {
-    flex: 1;
-    background-color: $gray-color-100;
-  }
-}
-.mobile-search {
-  width: 100%;
-  height: 60px;
-  @include flex-row;
-  align-items: center;
-
-  @media ($viewport-12) {
-    display: none;
+  &__input-bar {
+    height: 60px;
+    @include flex-row;
+    align-items: center;
+    background: $white-color;
   }
 
   &__btn {
@@ -104,6 +101,11 @@ const onClose = () => {
     background: transparent;
 
     font-size: rem(14);
+  }
+
+  &__history {
+    flex: 1;
+    background-color: $gray-color-100;
   }
 }
 </style>

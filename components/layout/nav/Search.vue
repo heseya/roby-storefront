@@ -6,6 +6,9 @@
         class="search__input search__input--query"
         :placeholder="t('search')"
         name="query"
+        autocomplete="off"
+        @focus="isFocusInput = true"
+        @blur="isFocusInput = false"
       />
       <div class="search__separator" />
       <select v-model="form.values.category" class="search__input" name="category">
@@ -16,7 +19,12 @@
       </select>
       <LayoutIconButton icon-size="sm" class="search__button" :icon="Search" type="submit" />
     </form>
-    <LayoutNavSearchHistory class="search__history" />
+    <LayoutNavSearchHistory
+      v-show="(isFocusInput || isMouseOver) && searchHistory.queries.length"
+      class="search__history"
+      @mouseover="isMouseOver = true"
+      @mouseleave="isMouseOver = false"
+    />
   </div>
 </template>
 
@@ -34,6 +42,7 @@ import { useForm } from 'vee-validate'
 import { ProductSetList } from '@heseya/store-core'
 
 import Search from '@/assets/icons/search.svg?component'
+import { useSearchHistoryStore } from '@/store/searchHistory'
 
 export interface SearchValues {
   query: string
@@ -41,6 +50,10 @@ export interface SearchValues {
 }
 
 const t = useLocalI18n()
+const searchHistory = useSearchHistoryStore()
+
+const isFocusInput = ref(false)
+const isMouseOver = ref(false)
 
 const emit = defineEmits<{
   (event: 'search', values: SearchValues): void
