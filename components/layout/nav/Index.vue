@@ -12,7 +12,10 @@
         <NuxtLink to="/">
           <img class="nav-items__logo" :src="config.storeLogoUrl" :alt="config.storeName" />
         </NuxtLink>
-        <LayoutNavSearch class="nav-items__search--wide" :categories="categoriesStore.categories" />
+        <LayoutNavSearch
+          class="nav-items__search--wide"
+          :categories="categoriesStore.navCategories"
+        />
       </div>
 
       <div class="nav-items__buttons">
@@ -79,15 +82,20 @@
           </ClientOnly>
         </div>
       </div>
-      <LayoutNavMobileMenu v-show="isOpenCategories" @close="isOpenCategories = false" />
+      <LayoutNavMobileMenu
+        v-show="isOpenCategories"
+        :links="navLinks || []"
+        @close="isOpenCategories = false"
+      />
       <LayoutNavMobileSearch v-show="isOpenSearch" @close="isOpenSearch = false" />
     </div>
     <div class="nav-bar__categories">
       <LayoutNavCategoryButton
-        v-for="category in categoriesStore.categories"
+        v-for="category in categoriesStore.navCategories"
         :key="category.id"
         :category="category"
       />
+      <LayoutNavButton v-for="link in navLinks" :key="link.path" :link="link" />
     </div>
   </nav>
 </template>
@@ -119,9 +127,11 @@ import { useCartStore } from '@/store/cart'
 import { useConfigStore } from '@/store/config'
 import { useAuthStore } from '@/store/auth'
 import { useCategoriesStore } from '@/store/categories'
+import { NavLink } from '@/interfaces/NavLink'
 
 const t = useLocalI18n()
 const localePath = useLocalePath()
+const heseya = useHeseya()
 
 const auth = useAuthStore()
 const config = useConfigStore()
@@ -133,6 +143,11 @@ const isOpenCategories = ref(false)
 const isOpenSearch = ref(false)
 
 const onLogout = () => auth.logout()
+
+const { data: navLinks } = useAsyncData<NavLink[]>('nav-pages', async () => {
+  const { data } = await heseya.Pages.get({ metadata: { nav: true } })
+  return data.map((p) => ({ text: p.name, path: p.slug }))
+})
 </script>
 
 <style lang="scss" scoped>
