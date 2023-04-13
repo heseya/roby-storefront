@@ -1,19 +1,21 @@
 <template>
   <div class="product-gallery">
-    <button class="product-gallery__close-btn" @click="emit('close')"><CrossIcon /></button>
+    <button class="product-gallery__close-btn" @click="emit('close')">
+      <LayoutIcon :size="10" :icon="CrossIcon" />
+    </button>
     <button
       class="product-gallery__btn product-gallery__btn--prev"
       :disabled="!prev"
       @click="active = prev"
     >
-      <ChevronIcon />
+      <LayoutIcon :size="13" :icon="ChevronIcon" />
     </button>
     <button
       class="product-gallery__btn product-gallery__btn--next"
       :disabled="!next"
       @click="active = next"
     >
-      <ChevronIcon />
+      <LayoutIcon :size="13" :icon="ChevronIcon" />
     </button>
 
     <div class="product-gallery__main">
