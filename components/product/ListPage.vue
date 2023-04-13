@@ -170,6 +170,17 @@ const {
 } = useAsyncData(async () => {
   const page = Number(route.query.page ?? 1)
 
+  // Override attributes to make sure they are arrays
+  const attribute = Object.entries(route.query)
+    .filter(([key]) => key.startsWith('attribute'))
+    .reduce((acc, [key, value]) => {
+      const [, attributeId] = key.split('.')
+      return {
+        ...acc,
+        [attributeId]: Array.isArray(value) ? (value as string[]) : [value as string],
+      }
+    }, {} as Record<string, string[]>)
+
   const response = await heseya.Products.get({
     ...props.queryParams,
     ...route.query,
@@ -177,6 +188,7 @@ const {
     page,
     sort: sort.value,
     limit: perPage.value,
+    attribute: Object.keys(attribute).length ? attribute : undefined,
   })
   return response
 })
@@ -309,6 +321,7 @@ onMounted(() => emitViewEvent())
     align-items: start;
     grid-template-columns: 1fr 1fr;
     gap: 20px 9px;
+    max-width: 100%;
 
     @media ($viewport-6) {
       grid-template-columns: 1fr 1fr 1fr;

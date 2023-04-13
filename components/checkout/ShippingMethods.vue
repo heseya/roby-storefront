@@ -44,6 +44,7 @@ const cart = useCartStore()
 const checkout = useCheckoutStore()
 
 const { data: shippingMethods } = useAsyncData(
+  `shipping-methods-for-value`,
   async () => {
     const methods = await heseya.ShippingMethods.get({ cart_value: cart.totalValue })
     return methods.data

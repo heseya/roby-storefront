@@ -42,6 +42,7 @@
           >
             <FacebookIcon />
           </a>
+          {{ companyInstagram }}
           <a
             v-if="companyInstagram"
             class="footer__social-icon"
@@ -84,13 +85,15 @@ const SECTIONS_COUNT = 4
 // TODO: footer logo should also come from the config
 const footerLogoPath = FooterLogo
 
-const companyFacebook = computed(() => String(config.env.facebook_url))
-const companyInstagram = computed(() => String(config.env.instagram_url))
-const companyLinkedin = computed(() => String(config.env.linkedin_url))
+const getFromConfig = (key: string) => (config.env[key] ? String(config.env[key]) : null)
 
-const companyAddress = computed(() => String(config.env.company_address))
-const companyPhone = computed(() => String(config.env.company_phone))
-const companyEmail = computed(() => String(config.env.company_email))
+const companyFacebook = computed(() => getFromConfig('facebook_url'))
+const companyInstagram = computed(() => getFromConfig('instagram_url'))
+const companyLinkedin = computed(() => getFromConfig('linkedin_url'))
+
+const companyAddress = computed(() => getFromConfig('company_address'))
+const companyPhone = computed(() => getFromConfig('company_phone'))
+const companyEmail = computed(() => getFromConfig('company_email'))
 
 const { data: sections } = useAsyncData('footer-pages', async () => {
   const pages = await Promise.all([

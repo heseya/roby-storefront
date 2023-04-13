@@ -5,7 +5,7 @@
   >
     <div class="product-cover-gallery__list">
       <Media
-        v-for="image in shownImages"
+        v-for="image in props.media"
         :key="image.id"
         class="product-cover-gallery__item"
         :media="image"
@@ -40,14 +40,22 @@ const props = defineProps<{
 }>()
 
 const isBigGalleryOpen = ref(false)
-const active = ref<CdnMedia | null>(props.media[0] || null)
-const shownImages = computed(() => props.media.filter((m) => m.id !== active.value?.id))
+const active = ref<CdnMedia | null>(null)
+// const shownImages = computed(() => props.media.filter((m) => m.id !== active.value?.id))
 
 const setActive = (image: CdnMedia) => {
   active.value = image
 }
 
 const openBigGallery = () => (isBigGalleryOpen.value = true)
+
+watch(
+  () => props.media,
+  (media) => {
+    active.value = media[0] || null
+  },
+  { immediate: true },
+)
 </script>
 
 <style lang="scss" scoped>

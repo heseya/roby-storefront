@@ -21,7 +21,7 @@ const heseya = useHeseya()
 const route = useRoute()
 const t = useLocalI18n()
 
-const { data: category } = useAsyncData('category', async () => {
+const { data: category } = useAsyncData(`category-${route.params.slug}`, async () => {
   try {
     const category = await heseya.ProductSets.getOneBySlug(route.params.slug as string)
 
@@ -38,6 +38,23 @@ const { data: category } = useAsyncData('category', async () => {
     return null
   }
 })
+
+useHead({
+  title: category.value?.name,
+})
+
+useBreadcrumbs([
+  category.value?.parent
+    ? {
+        label: category.value?.parent?.name || '',
+        link: `/category/${category.value?.parent?.slug}`,
+      }
+    : null,
+  {
+    label: category.value?.name || '',
+    link: `/category/${category.value?.slug}`,
+  },
+])
 </script>
 
 <style lang="scss" scoped>
