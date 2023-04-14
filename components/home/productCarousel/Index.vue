@@ -10,18 +10,18 @@
       v-if="category.children?.length && !withoutSubcategories"
       class="product-carousel__categories"
       :items="category.children"
-      :spaceBetween="20"
-      hideNav
+      :space-between="20"
+      hide-nav
     >
       <template #item="{ id, name }: ProductSetList">
         <HomeProductCarouselCategoryButton
           :label="name"
-          :isChosen="id === selectedCategory"
+          :is-chosen="id === selectedCategory"
           @click="setNewCategory(id)"
         />
       </template>
     </LayoutCarousel>
-    <LayoutCarousel :items="products" :spaceBetween="10">
+    <LayoutCarousel :items="products" :space-between="10">
       <template #item="product">
         <ProductMiniature :product="product" />
       </template>

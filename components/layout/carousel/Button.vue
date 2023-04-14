@@ -2,9 +2,9 @@
   <IconButton
     v-show="type === 'next' ? !swiper.isEnd : !swiper.isBeginning"
     :class="['carousel-button', { 'carousel-button--prev': type === 'prev' }]"
-    @click="type === 'next' ? swiper.slideNext() : swiper.slidePrev()"
     :icon="ArrowNext"
-    :iconSize="12"
+    :icon-size="12"
+    @click="type === 'next' ? swiper.slideNext() : swiper.slidePrev()"
   />
 </template>
 
