@@ -149,7 +149,7 @@ const productSubtext = computed(() => {
 })
 
 const showPrice = computed(() => {
-  return !product.value?.metadata[ASK_FOR_PRICE_KEY]
+  return !product.value?.metadata?.[ASK_FOR_PRICE_KEY] ?? true
 })
 </script>
 
