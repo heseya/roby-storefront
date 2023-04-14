@@ -14,7 +14,7 @@
         </NuxtLink>
         <LayoutNavSearch
           class="nav-items__search--wide"
-          :categories="categoriesStore.categories"
+          :categories="categoriesStore.navCategories"
           @search="handleSearch"
         />
       </div>
@@ -78,10 +78,16 @@
               is-resize
             />
           </NuxtLink>
-          <LayoutNavCartPreview class="nav-items__cart-preview" />
+          <ClientOnly>
+            <LayoutNavCartPreview class="nav-items__cart-preview" />
+          </ClientOnly>
         </div>
       </div>
-      <LayoutNavMobileMenu v-show="isOpenCategories" @close="isOpenCategories = false" />
+      <LayoutNavMobileMenu
+        v-show="isOpenCategories"
+        :links="navLinks || []"
+        @close="isOpenCategories = false"
+      />
       <LayoutNavMobileSearch
         v-show="isOpenSearch"
         @close="isOpenSearch = false"
@@ -90,10 +96,11 @@
     </div>
     <div class="nav-bar__categories">
       <LayoutNavCategoryButton
-        v-for="category in categoriesStore.categories"
+        v-for="category in categoriesStore.navCategories"
         :key="category.id"
         :category="category"
       />
+      <LayoutNavButton v-for="link in navLinks" :key="link.path" :link="link" />
     </div>
   </nav>
 </template>
@@ -125,11 +132,13 @@ import { useCartStore } from '@/store/cart'
 import { useConfigStore } from '@/store/config'
 import { useAuthStore } from '@/store/auth'
 import { useCategoriesStore } from '@/store/categories'
+import { NavLink } from '@/interfaces/NavLink'
 import { SearchValues } from '@/components/layout/nav/Search.vue'
 import { useSearchHistoryStore } from '@/store/searchHistory'
 
 const t = useLocalI18n()
 const localePath = useLocalePath()
+const heseya = useHeseya()
 const router = useRouter()
 
 const auth = useAuthStore()
@@ -149,6 +158,11 @@ const handleSearch = ({ query, category }: SearchValues) => {
   }
 }
 const onLogout = () => auth.logout()
+
+const { data: navLinks } = useAsyncData<NavLink[]>('nav-pages', async () => {
+  const { data } = await heseya.Pages.get({ metadata: { nav: true } })
+  return data.map((p) => ({ text: p.name, path: p.slug }))
+})
 </script>
 
 <style lang="scss" scoped>

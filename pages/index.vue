@@ -10,12 +10,11 @@
         link-text="Zapytaj"
       />
       <HomeWhyUs />
-      <HomeImageCarousel title="Nasi partnerzy" :images="imageArr" />
       <HomeImageCarousel
-        title="Zaufali Nam"
-        :images="imageArr"
-        image-width="136"
-        image-height="136"
+        v-for="banner in data?.homepageBanners"
+        :key="banner.id"
+        :banner="banner"
+        :title="banner.name"
       />
     </BaseContainer>
   </div>
@@ -30,8 +29,6 @@
 </i18n>
 
 <script setup lang="ts">
-import { ImageSrc } from '~/components/home/ImageCarousel.vue'
-
 const t = useLocalI18n()
 const heseya = useHeseya()
 
@@ -40,36 +37,12 @@ useHead({
 })
 
 const { data } = useAsyncData('main-banner', async () => {
-  const mainBanner = await heseya.Banners.getOneBySlug('main-banner')
-  return { mainBanner }
+  const [mainBanner, { data: homepageBanners }] = await Promise.all([
+    heseya.Banners.getOneBySlug('main-banner'),
+    heseya.Banners.get({ metadata: { homepage: true } }),
+  ])
+  return { mainBanner, homepageBanners }
 })
-
-const imageArr: ImageSrc[] = [
-  {
-    src: 'https://***REMOVED***.pl/wp-content/uploads/2021/08/Logo-HSM-Niszczarki.svg',
-    alt: 'hsm',
-  },
-  {
-    src: 'https://***REMOVED***.pl/wp-content/uploads/2021/08/Logo-Sharp-Kserokopiarki-Drukarki.svg',
-    alt: 'sharp',
-  },
-  {
-    src: 'https://***REMOVED***.pl/wp-content/uploads/2021/08/Logo-Sharp-Kserokopiarki-Drukarki.svg',
-    alt: 'sharp',
-  },
-  {
-    src: 'https://***REMOVED***.pl/wp-content/uploads/2021/08/Logo-Sharp-Kserokopiarki-Drukarki.svg',
-    alt: 'sharp',
-  },
-  {
-    src: 'https://***REMOVED***.pl/wp-content/uploads/2021/08/Logo-Sharp-Kserokopiarki-Drukarki.svg',
-    alt: 'sharp',
-  },
-  {
-    src: 'https://***REMOVED***.pl/wp-content/uploads/2021/08/Logo-HSM-Niszczarki.svg',
-    alt: 'hsm',
-  },
-]
 </script>
 
 <style lang="scss" scoped>

@@ -9,28 +9,30 @@
           </ClientOnly>
         </h1>
 
-        <div class="cart-page__list">
-          <ClientOnly>
+        <ClientOnly>
+          <div v-if="!isCartEmpty" class="cart-page__list">
             <CartItem
               v-for="item in cart.items"
               :key="item.id"
               :item="item"
               class="cart-page__item"
             />
-          </ClientOnly>
-        </div>
+          </div>
+
+          <CartEmpty v-else class="cart-page__empty" />
+        </ClientOnly>
       </div>
 
       <div class="cart-page__summary">
         <h2 class="cart-page__title cart-page__title--hideable">{{ t('cart.summary') }}</h2>
 
         <ClientOnly>
-          <CartSummary class="cart-page__summary-box" />
+          <CartSummary class="cart-page__summary-box" :disabled="isCartEmpty" />
         </ClientOnly>
       </div>
     </div>
 
-    <div class="cart-page__suggested">TODO: Sugerowane produkty</div>
+    <div v-if="!isCartEmpty" class="cart-page__suggested">TODO: Sugerowane produkty</div>
   </BaseContainer>
 </template>
 
@@ -51,17 +53,10 @@ import { useCartStore } from '@/store/cart'
 const cart = useCartStore()
 const t = useLocalI18n()
 
-const router = useRouter()
+const isCartEmpty = computed(() => cart.length === 0)
 
-watch(
-  () => cart.length,
-  () => {
-    if (cart.length === 0) router.push('/')
-  },
-)
-
-onMounted(() => {
-  if (cart.length === 0) router.push('/')
+useHead({
+  title: t('cart.title'),
 })
 </script>
 
@@ -124,6 +119,11 @@ onMounted(() => {
     @media ($viewport-10) {
       margin-top: 90px;
     }
+  }
+
+  &__empty {
+    margin-top: 120px;
+    margin-bottom: 120px;
   }
 }
 </style>
