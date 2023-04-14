@@ -15,6 +15,7 @@
         <LayoutNavSearch
           class="nav-items__search--wide"
           :categories="categoriesStore.navCategories"
+          @search="handleSearch"
         />
       </div>
 
@@ -87,7 +88,11 @@
         :links="navLinks || []"
         @close="isOpenCategories = false"
       />
-      <LayoutNavMobileSearch v-show="isOpenSearch" @close="isOpenSearch = false" />
+      <LayoutNavMobileSearch
+        v-show="isOpenSearch"
+        @close="isOpenSearch = false"
+        @search="handleSearch"
+      />
     </div>
     <div class="nav-bar__categories">
       <LayoutNavCategoryButton
@@ -128,20 +133,32 @@ import { useConfigStore } from '@/store/config'
 import { useAuthStore } from '@/store/auth'
 import { useCategoriesStore } from '@/store/categories'
 import { NavLink } from '@/interfaces/NavLink'
+import { SearchValues } from '@/components/layout/nav/Search.vue'
+import { useSearchHistoryStore } from '@/store/searchHistory'
 
 const t = useLocalI18n()
 const localePath = useLocalePath()
 const heseya = useHeseya()
+const router = useRouter()
 
 const auth = useAuthStore()
 const config = useConfigStore()
 const wishlist = useWishlistStore()
 const cart = useCartStore()
 const categoriesStore = useCategoriesStore()
+const searchHistory = useSearchHistoryStore()
 
 const isOpenCategories = ref(false)
 const isOpenSearch = ref(false)
 
+const handleSearch = ({ query, category }: SearchValues) => {
+  if (query !== '') {
+    searchHistory.addNewQuery(query)
+    const pathQuery = `/search/${query}`
+    const pathCategory = ['', 'all'].includes(category) ? '' : `?set=${category}`
+    router.push(pathQuery + pathCategory)
+  }
+}
 const onLogout = () => auth.logout()
 
 const { data: navLinks } = useAsyncData<NavLink[]>('nav-pages', async () => {
