@@ -1,93 +1,73 @@
 <template>
   <div class="product-carousel">
     <div class="product-carousel__header">
-      <LayoutHeader class="product-carousel__title" variant="black">{{
-        category.name
-      }}</LayoutHeader>
-      <HomeProductCarouselShowAll />
+      <LayoutHeader class="product-carousel__title" variant="black">
+        {{ label || category.name }}
+      </LayoutHeader>
+      <HomeProductCarouselShowAll :category-slug="category.slug" />
     </div>
     <LayoutCarousel
-      v-if="category.children?.length && !withoutSubcategories"
+      v-if="subcategories?.length && !withoutSubcategories"
       class="product-carousel__categories"
-      :items="category.children"
+      :items="subcategories"
       :space-between="20"
       hide-nav
     >
-      <template #item="{ id, name }: ProductSetList">
+      <template #item="set: ProductSetList">
         <HomeProductCarouselCategoryButton
-          :label="name"
-          :is-chosen="id === selectedCategory"
-          @click="setNewCategory(id)"
+          :label="set.name"
+          :is-chosen="set.slug === selectedCategory"
+          @click="setNewCategory(set.slug)"
         />
       </template>
     </LayoutCarousel>
-    <LayoutCarousel :items="products" :space-between="10">
-      <template #item="product">
-        <ProductMiniature :product="product" />
-      </template>
-    </LayoutCarousel>
+    <HomeProductCarouselSimple :products="products || []" />
   </div>
 </template>
 
 <script lang="ts" setup>
-import { CdnMediaType, ProductSetList } from '@heseya/store-core'
-
-// tmp, in the future from the BE
-const products = [
-  {
-    name: 'Canon',
-    slug: 'canon-printer',
-    price_min: 12333,
-    price_max: 12333,
-    attributes: [],
-    cover: {
-      url: 'https://***REMOVED***.pl/wp-content/uploads/2020/07/Lexmark-XC4140-FRONT.jpg',
-      alt: 'printer',
-      type: CdnMediaType.Photo,
-    },
-    tags: [],
-  },
-  {
-    name: 'Canon',
-    slug: 'canon-printer',
-    price_min: 12333,
-    price_max: 12333,
-    attributes: [],
-    cover: {
-      url: 'https://***REMOVED***.pl/wp-content/uploads/2020/07/Lexmark-XC4140-FRONT.jpg',
-      alt: 'printer',
-      type: CdnMediaType.Photo,
-    },
-    tags: [],
-  },
-  {
-    name: 'Canon',
-    slug: 'canon-printer',
-    price_min: 12333,
-    price_max: 12333,
-    attributes: [],
-    cover: {
-      url: 'https://***REMOVED***.pl/wp-content/uploads/2020/07/Lexmark-XC4140-FRONT.jpg',
-      alt: 'printer',
-      type: CdnMediaType.Photo,
-    },
-    tags: [],
-  },
-]
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { ProductList, ProductSetList } from '@heseya/store-core'
+import { useCategoriesStore } from '@/store/categories'
 
 const props = withDefaults(
   defineProps<{
     category: ProductSetList
+    label?: string
     withoutSubcategories?: boolean
   }>(),
-  { withoutSubcategories: false },
+  { label: '', withoutSubcategories: false },
+)
+const heseya = useHeseya()
+const categoriesStore = useCategoriesStore()
+
+const selectedCategory = ref<string | null>(null)
+
+const subcategories = ref<ProductSetList[]>([])
+
+const { data: products, refresh: refreshProducts } = useAsyncData(
+  `products-${props.category.id}`,
+  async () => {
+    const categorySlug = selectedCategory.value || props.category.slug
+    const { data } = await heseya.Products.get({ sets: [categorySlug], limit: 16 })
+    // console.log('🚀 ~ file: Index.vue:59 ~ const{data:products,refresh}=useAsyncData ~ data:', data)
+    return data
+  },
+  { immediate: false },
 )
 
-const selectedCategory = ref(props.category.children?.length && props.category.children[0].id)
+useAsyncData(`subcategories-${props.category.id}`, async () => {
+  if (!props.withoutSubcategories) {
+    subcategories.value = await categoriesStore.getSubcategories(props.category.id)
+    if (subcategories.value.length) selectedCategory.value = subcategories.value[0].slug
+  }
+  refreshProducts()
+})
 
-const setNewCategory = (value: string) => {
-  if (value !== selectedCategory.value) {
-    selectedCategory.value = value
+const setNewCategory = (categorySlug: string) => {
+  if (categorySlug !== selectedCategory.value) {
+    selectedCategory.value = categorySlug
+    refreshProducts()
   }
 }
 </script>
