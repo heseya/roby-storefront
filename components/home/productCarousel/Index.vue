@@ -21,11 +21,7 @@
         />
       </template>
     </LayoutCarousel>
-    <LayoutCarousel :items="products || []" :space-between="10">
-      <template #item="product: ProductList">
-        <ProductMiniature :product="product" />
-      </template>
-    </LayoutCarousel>
+    <HomeProductCarouselSimple :products="products || []" />
   </div>
 </template>
 
