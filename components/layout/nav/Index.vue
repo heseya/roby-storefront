@@ -154,7 +154,9 @@ const isOpenSearch = ref(false)
 const handleSearch = ({ query, category }: SearchValues) => {
   if (query !== '') {
     searchHistory.addNewQuery(query)
-    router.push(`/search/${query}?set=${category}`)
+    const pathQuery = `/search/${query}`
+    const pathCategory = ['', 'all'].includes(category) ? '' : `?set=${category}`
+    router.push(pathQuery + pathCategory)
   }
 }
 const onLogout = () => auth.logout()

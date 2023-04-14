@@ -11,11 +11,6 @@ export const useSearchHistoryStore = defineStore('searchHistory', {
     },
 
     addNewQuery(query: string) {
-      if (!this.queries) {
-        this.queries = [query]
-        return
-      }
-
       if (!this.queries.includes(query)) {
         this.queries.push(query)
       }
