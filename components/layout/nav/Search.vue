@@ -2,13 +2,12 @@
   <div class="search">
     <form class="search__form" @submit.prevent="onSubmit">
       <input
+        ref="inputRef"
         v-model="form.values.query"
         class="search__input search__input--query"
         :placeholder="t('search')"
         name="query"
         autocomplete="off"
-        @focus="isFocusInput = true"
-        @blur="isFocusInput = false"
       />
       <div class="search__separator" />
       <select v-model="form.values.category" class="search__input" name="category">
@@ -19,12 +18,7 @@
       </select>
       <LayoutIconButton icon-size="sm" class="search__button" :icon="Search" type="submit" />
     </form>
-    <LayoutNavSearchHistory
-      v-show="(isFocusInput || isMouseOver) && searchHistory.queries.length"
-      class="search__history"
-      @mouseover="isMouseOver = true"
-      @mouseleave="isMouseOver = false"
-    />
+    <LayoutNavSearchHistory v-show="showHistory" ref="historyRef" class="search__history" />
   </div>
 </template>
 
@@ -52,8 +46,15 @@ export interface SearchValues {
 const t = useLocalI18n()
 const searchHistory = useSearchHistoryStore()
 
-const isFocusInput = ref(false)
-const isMouseOver = ref(false)
+const historyRef = ref(null)
+const inputRef = ref(null)
+
+const isHoverHistory = useElementHover(historyRef)
+const { focused: isFocusInput } = useFocus(inputRef)
+
+const showHistory = computed(
+  () => (isFocusInput.value || isHoverHistory.value) && searchHistory.queries.length,
+)
 
 const emit = defineEmits<{
   (event: 'search', values: SearchValues): void
