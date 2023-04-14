@@ -1,7 +1,7 @@
 <template>
   <div class="image-carousel">
     <LayoutHeader class="image-carousel__title" variant="black">{{ banner.name }}</LayoutHeader>
-    <LayoutCarousel :item-arr="banner.banner_media" :breakpoints="breakpoints">
+    <LayoutCarousel :items="banner.banner_media" :breakpoints="breakpoints">
       <template #item="media: BannerMedia">
         <Media
           class="image-carousel__picture"
