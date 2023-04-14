@@ -2,6 +2,7 @@ import { ProductSet, ProductSetList } from '@heseya/store-core'
 import { defineStore } from 'pinia'
 
 import { useConfigStore } from './config'
+import { CATEGORY_IN_NAV_KEY } from '@/consts/metadataKeys'
 
 export const useCategoriesStore = defineStore('categories', {
   state: () => ({
@@ -12,7 +13,7 @@ export const useCategoriesStore = defineStore('categories', {
 
   getters: {
     navCategories(): ProductSetList[] {
-      return this.categories.filter((category) => category.metadata.nav)
+      return this.categories.filter((category) => category.metadata[CATEGORY_IN_NAV_KEY])
     },
   },
 

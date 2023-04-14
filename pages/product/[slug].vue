@@ -21,6 +21,7 @@
         </div>
 
         <LayoutTabs
+          v-if="showPrice"
           class="product-header__tabs"
           type="gray"
           :tabs="[
@@ -37,6 +38,14 @@
             />
           </template>
         </LayoutTabs>
+
+        <div v-else class="product-header__form">
+          <ProductPageContactForm
+            v-if="product"
+            :product-id="product?.id"
+            :action-text="t('tabs.pricing')"
+          />
+        </div>
       </div>
     </div>
 
@@ -83,6 +92,7 @@
     "tabs": {
       "buy": "Zakup",
       "renting": "Zapytaj o wynajem",
+      "pricing": "Zapytaj o cenę",
       "description": "Opis",
       "additionalInfo": "Dodatkowe informacje",
       "paperAndInk": "Papier i tusze",
@@ -94,6 +104,7 @@
 
 <script setup lang="ts">
 import { PRODUCT_SUBTEXT_ATTRIBUTE_NAME } from '@/consts/subtextAttribute'
+import { ASK_FOR_PRICE_KEY } from '@/consts/metadataKeys'
 
 const heseya = useHeseya()
 const route = useRoute()
@@ -135,6 +146,10 @@ const productSubtext = computed(() => {
   // TODO: do not attribute from fixed string
   return product.value?.attributes.find((a) => a.name === PRODUCT_SUBTEXT_ATTRIBUTE_NAME)
     ?.selected_options[0]?.name
+})
+
+const showPrice = computed(() => {
+  return !product.value?.metadata[ASK_FOR_PRICE_KEY]
 })
 </script>
 
@@ -202,6 +217,12 @@ const productSubtext = computed(() => {
 
   &__tabs {
     margin-top: 14px;
+  }
+
+  &__form {
+    margin-top: 14px;
+    background-color: $gray-color-100;
+    padding: 16px;
   }
 }
 </style>
