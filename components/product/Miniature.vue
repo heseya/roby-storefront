@@ -55,7 +55,7 @@ const productSubtext = computed(() => {
 })
 
 const showPrice = computed(() => {
-  return !props.product?.metadata[ASK_FOR_PRICE_KEY]
+  return !props.product?.metadata?.[ASK_FOR_PRICE_KEY] ?? true
 })
 </script>
 
