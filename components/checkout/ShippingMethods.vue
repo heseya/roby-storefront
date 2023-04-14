@@ -19,6 +19,10 @@
           <b>{{ method.shipping_time_min }}-{{ method.shipping_time_max }} {{ t('days') }}</b>
         </div>
       </template>
+
+      <template v-for="method in shippingMethods" :key="method.id" v-slot:[method.id]>
+        <CheckoutFormAddress />
+      </template>
     </FormRadioGroup>
   </div>
 </template>

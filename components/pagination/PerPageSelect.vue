@@ -2,7 +2,13 @@
   <div class="per-page-select">
     <div class="per-page-select__text">{{ t('text') }}</div>
 
-    <FormSelect v-model="innerValue" name="perPage" class="per-page-select__input" type="gray">
+    <FormSelect
+      v-model="innerValue"
+      label-uppercase
+      name="perPage"
+      class="per-page-select__input"
+      type="gray"
+    >
       <option :value="12">12</option>
       <option :value="24">24</option>
       <option :value="48">48</option>
