@@ -3,7 +3,7 @@ type BreadcrumbLink = { link: string; label: string }
 const BREADCRUMPS = ref([] as BreadcrumbLink[])
 
 export const useBreadcrumbs = (currentPageLinks?: Array<BreadcrumbLink | null>) => {
-  const { t } = useI18n()
+  const { t } = useI18n({ useScope: 'global' })
 
   const HOME_LINK = { link: '/', label: t('breadcrumbs.home') }
 
