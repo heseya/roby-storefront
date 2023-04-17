@@ -2,11 +2,13 @@
   <div class="checkbox" :class="{ 'checkbox--error': error }" :disabled="disabled">
     <input :id="name" v-model="checkboxValue" type="checkbox" :disabled="disabled" />
     <span>
-      <label class="checkbox__label" tabindex="0" :for="name">
-        <slot name="default">{{ label }}</slot>
-        <span v-if="($slots.default || label) && isRequired" class="checkbox__required-star"
-          >*</span
-        >
+      <label
+        class="checkbox__label"
+        :class="{ 'checkbox__label--star': (!$slots.default || label) && isRequired }"
+        tabindex="0"
+        :for="name"
+      >
+        <slot name="default" class="star">{{ label }}</slot>
       </label>
       <span class="checkbox__text">
         <slot name="text">{{ text }}</slot>
@@ -56,7 +58,15 @@ const checkboxValue = computed({
 })
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
+.required {
+  ::after {
+    content: '*';
+    color: $primary-color;
+    font-weight: bold;
+  }
+}
+
 .checkbox {
   margin: 12px 0;
   text-align: left;
@@ -132,11 +142,6 @@ const checkboxValue = computed({
     &:empty {
       display: none;
     }
-  }
-
-  &__required-star {
-    color: $primary-color;
-    font-weight: bold;
   }
 
   &--error label::before {
