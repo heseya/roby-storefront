@@ -58,10 +58,6 @@ const isCartEmpty = computed(() => cart.length === 0)
 useHead({
   title: t('cart.title'),
 })
-
-definePageMeta({
-  middleware: ['auth'],
-})
 </script>
 
 <style lang="scss" scoped>
