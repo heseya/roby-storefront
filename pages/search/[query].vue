@@ -1,29 +1,38 @@
 <template>
   <BaseContainer>
-    <ProductListPage :title="query" :sets="preparedSets" :query-params="{ search: query }" />
+    <ProductListPage
+      :title="t('searchResultFor') + route.params.query"
+      :sets="preparedSets"
+      :query-params="{ search: route.params.query }"
+    />
   </BaseContainer>
 </template>
 
+<i18n lang="json">
+{
+  "pl": {
+    "searchResultFor": "Wyniki wyszukiwania dla: ",
+    "searchResult": "Wyniki wyszukiwania"
+  }
+}
+</i18n>
+
 <script setup lang="ts">
 const route = useRoute()
+const t = useLocalI18n()
 
-const { query } = route.params
-const { set } = route.query
 const preparedSets = computed(() => {
-  if (!set) {
-    return
-  }
-
-  return Array.isArray(set) ? set : [set]
+  if (!route.query.set) return
+  return Array.isArray(route.query.set) ? route.query.set : [route.query.set]
 })
 
 useHead({
-  title: query,
+  title: t('searchResult'),
 })
 
 useBreadcrumbs([
   {
-    label: query,
+    label: t('searchResultFor') + route.params.query,
     link: ``,
   },
 ])
