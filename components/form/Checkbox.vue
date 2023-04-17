@@ -1,7 +1,7 @@
 <template>
   <div class="checkbox" :class="{ 'checkbox--error': error }" :disabled="disabled">
-    <input :id="name" v-model="checkboxValue" type="checkbox" :disabled="disabled" />
     <span>
+      <input :id="name" v-model="checkboxValue" type="checkbox" :disabled="disabled" />
       <label
         class="checkbox__label"
         :class="{ 'checkbox__label--star': (!$slots.default || label) && isRequired }"

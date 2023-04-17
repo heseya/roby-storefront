@@ -1,6 +1,6 @@
 <template>
-  <LayoutLoading :active="isLoading" />
-  <form class="register-form" @submit.prevent="onSubmit" :disabled="true">
+  <LayoutLoading :active="isLoading" :disabled="true" />
+  <form class="register-form" @submit.prevent="onSubmit">
     <h2 class="register-form__header">{{ t('form.header') }}</h2>
     <div class="register-form__container">
       <FormInput v-model="form.values.name" name="name" :label="t('form.name')" rules="required" />
