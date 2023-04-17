@@ -44,11 +44,11 @@
 
 <script setup lang="ts">
 import { useForm } from 'vee-validate'
-import { formatApiError } from '@heseya/store-core'
 import { useAuthStore } from '@/store/auth'
 
 const t = useLocalI18n()
 
+const getErrorMessage = useErrorMessage()
 const auth = useAuthStore()
 const { notify } = useNotify()
 
@@ -66,10 +66,10 @@ const form = useForm({
 })
 
 const onSubmit = form.handleSubmit(async ({ email, password }) => {
+  errorMessage.value = null
   const { success, error } = await auth.login({ email, password })
   if (!success) {
-    // TODO: translate error using key
-    errorMessage.value = formatApiError(error).title
+    errorMessage.value = getErrorMessage(error)
   } else {
     notify({
       title: t('message.success'),

@@ -3,7 +3,9 @@
     <NuxtLayout>
       <NuxtPage />
     </NuxtLayout>
-    <Notifications position="bottom right" />
+    <ClientOnly>
+      <Notifications position="bottom right" />
+    </ClientOnly>
   </div>
 </template>
 
