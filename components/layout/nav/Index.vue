@@ -115,7 +115,10 @@
     "orders": "Zamówienia",
     "accountSettings": "Ustawienia konta",
     "address": "Adresy",
-    "logout": "Wyloguj się"
+    "logout": "Wyloguj się",
+    "message": {
+      "logout": "Wylogowano pomyślnie"
+    }
   }
 }
 </i18n>
@@ -140,6 +143,7 @@ const t = useLocalI18n()
 const localePath = useLocalePath()
 const heseya = useHeseya()
 const router = useRouter()
+const { notify } = useNotify()
 
 const auth = useAuthStore()
 const config = useConfigStore()
@@ -161,7 +165,10 @@ const handleSearch = ({ query, category }: SearchValues) => {
 }
 const onLogout = async () => {
   await auth.logout()
-  // TODO: notify about logout
+  notify({
+    title: t('message.logout'),
+    type: 'success',
+  })
 }
 
 const { data: navLinks } = useAsyncData<NavLink[]>('nav-pages', async () => {

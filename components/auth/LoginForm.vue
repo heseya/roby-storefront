@@ -34,6 +34,9 @@
       "email": "Adres e-mail",
       "forgot-password": "Nie pamiętasz hasła?",
       "password": "Hasło"
+    },
+    "message": {
+      "success": "Zalogowano pomyślnie"
     }
   }
 }
@@ -47,6 +50,7 @@ import { useAuthStore } from '@/store/auth'
 const t = useLocalI18n()
 
 const auth = useAuthStore()
+const { notify } = useNotify()
 
 const emit = defineEmits<{
   (event: 'login'): void
@@ -67,7 +71,10 @@ const onSubmit = form.handleSubmit(async ({ email, password }) => {
     // TODO: translate error using key
     errorMessage.value = formatApiError(error).title
   } else {
-    // TODO: notify about success
+    notify({
+      title: t('message.success'),
+      type: 'success',
+    })
     emit('login')
   }
 })
