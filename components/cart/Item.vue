@@ -29,7 +29,7 @@
 <script setup lang="ts">
 import { CartItem } from '@heseya/store-core'
 import CrossIcon from '@/assets/icons/cross.svg?component'
-import { useCartStore } from '~~/store/cart'
+import { useCartStore } from '@/store/cart'
 
 const props = defineProps<{
   item: CartItem

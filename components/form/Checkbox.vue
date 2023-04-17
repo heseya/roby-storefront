@@ -1,17 +1,17 @@
 <template>
   <div class="checkbox" :class="{ 'checkbox--error': error }" :disabled="disabled">
     <input :id="name" v-model="checkboxValue" type="checkbox" :disabled="disabled" />
-    <label tabindex="0" :for="name">
-      <span class="checkbox__label">
+    <span>
+      <label class="checkbox__label" tabindex="0" :for="name">
         <slot name="default">{{ label }}</slot>
         <span v-if="($slots.default || label) && isRequired" class="checkbox__required-star"
           >*</span
         >
-      </span>
+      </label>
       <span class="checkbox__text">
         <slot name="text">{{ text }}</slot>
       </span>
-    </label>
+    </span>
     <span class="checkbox__error">{{ errors[0] || error }}</span>
   </div>
 </template>

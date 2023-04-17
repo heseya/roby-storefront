@@ -10,11 +10,11 @@
 </template>
 
 <script setup lang="ts">
-type SelectValue = number | string | undefined
+type SelectValue = number | string | undefined | null
 
 const props = withDefaults(
   defineProps<{
-    modelValue: SelectValue
+    modelValue?: SelectValue
     name: string
     label?: string
     type?: 'default' | 'gray'

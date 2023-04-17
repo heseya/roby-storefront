@@ -1,6 +1,10 @@
 $base-font-size: 14px;
 $text-color: #141414;
 
+$font-weight-regular: 400;
+$font-weight-medium: 500;
+$font-weight-bold: 600;
+
 // ! Dont use scss color variables as a main theme colors. Use CSS variables instead!
 $primary-color: #c63225;
 $secondary-color: #ffca2b;

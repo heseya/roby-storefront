@@ -1,18 +1,22 @@
 <template>
-  <div class="link-box" :style="{ backgroundImage: `url(${backgroundSrc})` }">
-    <LayoutHeader>{{ text }}</LayoutHeader>
-    <NuxtLink :to="link">
-      <LayoutButton class="link-box__btn" :label="linkText" variant="secondary" />
+  <div class="link-box" :style="{ backgroundImage: `url(${link.src})` }">
+    <LayoutHeader>{{ link.text }}</LayoutHeader>
+    <NuxtLink :to="link.link">
+      <LayoutButton class="link-box__btn" :label="link.linkText" variant="secondary" />
     </NuxtLink>
   </div>
 </template>
 
 <script lang="ts" setup>
-defineProps<{
+export type LinkBox = {
   text: string
-  backgroundSrc: string
+  src: string
   link: string
   linkText: string
+}
+
+defineProps<{
+  link: LinkBox
 }>()
 </script>
 

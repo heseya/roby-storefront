@@ -5,9 +5,9 @@
       <h1 class="error-page__code">{{ error?.statusCode || 500 }}</h1>
       <p class="error-page__text">{{ error?.statusMessage || t('error.text') }}</p>
 
-      <button class="error-page__button" type="transparent" @click="handleError">
+      <LayoutButton class="error-page__button" @click="handleError">
         {{ t('error.button') }}
-      </button>
+      </LayoutButton>
     </div>
   </NuxtLayout>
 </template>
@@ -56,7 +56,9 @@ useSeoMeta({
 
   &__code {
     font-size: rem(80);
+    line-height: rem(160);
     margin: 24px 0;
+    color: var(--primary-color);
 
     &::first-letter {
       margin-left: 0;

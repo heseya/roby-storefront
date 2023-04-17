@@ -21,7 +21,7 @@
 </i18n>
 
 <script setup lang="ts">
-import { useCheckoutStore } from '~~/store/checkout'
+import { useCheckoutStore } from '@/store/checkout'
 
 const t = useLocalI18n()
 const checkout = useCheckoutStore()

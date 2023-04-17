@@ -1,7 +1,14 @@
 <template>
-  <div class="carousel">
-    <Swiper class="carousel__slider" watch-slides-progress :breakpoints="breakpoints">
-      <SwiperSlide v-for="(item, index) in itemArr" v-slot="{ isVisible }" :key="index">
+  <div class="carousel" :class="{ 'carousel--without-button': hideNav }">
+    <Swiper
+      class="carousel__slider"
+      :class="{ 'carousel__slider--without-button': hideNav }"
+      watch-slides-progress
+      :breakpoints="breakpoints"
+      slides-per-view="auto"
+      :space-between="spaceBetween"
+    >
+      <SwiperSlide v-for="(item, index) in items" v-slot="{ isVisible }" :key="index">
         <div
           class="carousel__content-container"
           :class="{ 'carousel__content-container--visible': isVisible }"
@@ -9,10 +16,10 @@
           <slot name="item" v-bind="item" />
         </div>
       </SwiperSlide>
-      <template #container-start>
+      <template v-if="!hideNav" #container-start>
         <LayoutCarouselButton class="carousel__button" />
       </template>
-      <template #container-end>
+      <template v-if="!hideNav" #container-end>
         <LayoutCarouselButton next class="carousel__button" type="next" />
       </template>
     </Swiper>
@@ -24,26 +31,50 @@ import { Swiper, SwiperSlide } from 'swiper/vue'
 import { SwiperOptions } from 'swiper/types'
 import 'swiper/css'
 
-defineProps<{
-  itemArr: Record<string, string>[]
-  breakpoints: SwiperOptions['breakpoints']
-}>()
+withDefaults(
+  defineProps<{
+    items: unknown[]
+    breakpoints?: SwiperOptions['breakpoints']
+    hideNav?: boolean
+    spaceBetween?: number
+  }>(),
+  { hideNav: false, spaceBetween: 0, breakpoints: undefined },
+)
 </script>
 
 <style lang="scss" scoped>
 .carousel {
+  @include flex-column;
+  align-items: center;
+  padding: 0 36px;
   overflow: hidden;
+
+  &--without-button {
+    padding: 0;
+  }
 
   &__slider {
     position: relative;
-    margin: 0 64px;
+    min-height: 36px;
     overflow: visible;
+    width: fit-content;
+    max-width: 100%;
+    padding: 0 36px;
+    margin: 0;
+
+    &--without-button {
+      padding: 0;
+    }
+  }
+
+  .swiper-slide {
+    width: fit-content;
   }
 
   &__button {
     position: absolute;
     top: calc(50% - 18px);
-    right: -64px;
+    right: -36px;
     z-index: 10;
   }
 

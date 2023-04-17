@@ -1,16 +1,17 @@
 <template>
-  <button
+  <IconButton
     v-show="type === 'next' ? !swiper.isEnd : !swiper.isBeginning"
     :class="['carousel-button', { 'carousel-button--prev': type === 'prev' }]"
+    :icon="ArrowNext"
+    :icon-size="12"
     @click="type === 'next' ? swiper.slideNext() : swiper.slidePrev()"
-  >
-    <ArrowNext />
-  </button>
+  />
 </template>
 
 <script lang="ts" setup>
 import { useSwiper } from 'swiper/vue'
-import ArrowNext from '@/assets/icons/arrow-next.svg?component'
+import ArrowNext from '@/assets/icons/chevron.svg?component'
+import IconButton from '~/components/layout/IconButton.vue'
 
 const swiper = useSwiper()
 
@@ -26,24 +27,18 @@ withDefaults(
 .carousel-button {
   width: 36px;
   height: 36px;
-  outline: none;
-  border: none;
   background-color: $gray-color-300;
   border-radius: 50%;
 
-  display: flex;
-  justify-content: center;
-  align-items: center;
   transition: background-color 200ms ease-in-out;
 
   &:hover {
     background-color: $gray-color-400;
-    cursor: pointer;
   }
 
   &--prev {
     transform: rotate(180deg);
-    left: -64px;
+    left: -36px;
   }
 }
 </style>

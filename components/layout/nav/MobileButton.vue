@@ -1,25 +1,26 @@
 <template>
-  <div class="category-mobile-btn" :class="{ 'category-mobile-btn--special': special }">
+  <div class="category-mobile-btn" :class="{ 'category-mobile-btn--special': highlighted }">
     <div class="category-mobile-btn__link-container">
-      <NuxtLink class="category-mobile-btn__link" :to="link">
-        {{ label }}
+      <NuxtLink class="category-mobile-btn__link" :to="localePath(link.path)">
+        {{ link.text }}
       </NuxtLink>
       <LayoutIconButton
-        v-show="subcategories?.length"
+        v-show="link.children?.length"
         class="category-mobile-btn__arrow"
-        :class="{ 'category-mobile-btn__arrow--down': isOpenSubcategories }"
+        :class="{ 'category-mobile-btn__arrow--down': isOpen }"
         :icon="Chevron"
         :icon-size="12"
-        @click="toggleOpenSubcategories"
+        @click="toggleOpen"
       />
     </div>
-    <div v-show="isOpenSubcategories" class="category-mobile-btn__list">
+    <div v-show="isOpen" class="category-mobile-btn__list">
       <NuxtLink
-        v-for="category in subcategories"
-        :key="category.value"
+        v-for="sub in link.children || []"
+        :key="sub.path"
         class="category-mobile-btn__list-item"
-        :to="category.value"
-        >{{ category.label }}
+        :to="localePath(sub.path)"
+      >
+        {{ sub.text }}
       </NuxtLink>
     </div>
   </div>
@@ -27,20 +28,22 @@
 
 <script lang="ts" setup>
 import Chevron from '@/assets/icons/chevron.svg?component'
-import { SelectOption } from '~/components/layout/nav/Search.vue'
+import { NavLink } from '@/interfaces/NavLink'
 
-const isOpenSubcategories = ref(false)
+withDefaults(
+  defineProps<{
+    link: NavLink
+    highlighted?: boolean
+  }>(),
+  { highlighted: false },
+)
 
-const toggleOpenSubcategories = () => {
-  isOpenSubcategories.value = !isOpenSubcategories.value
+const localePath = useLocalePath()
+
+const isOpen = ref(false)
+const toggleOpen = () => {
+  isOpen.value = !isOpen.value
 }
-
-defineProps<{
-  link?: string
-  special?: boolean
-  label: string
-  subcategories?: SelectOption[]
-}>()
 </script>
 
 <style lang="scss" scoped>
@@ -80,17 +83,17 @@ defineProps<{
   &__list {
     @include flex-column;
     background-color: $white-color;
+  }
 
-    &-item {
-      padding: 12px 32px;
+  &__list-item {
+    padding: 12px 32px;
 
-      text-align: left;
-      white-space: nowrap;
-      text-decoration: none;
-      color: $gray-color-900;
+    text-align: left;
+    white-space: nowrap;
+    text-decoration: none;
+    color: $gray-color-900;
 
-      border-bottom: 1px solid $gray-color-100;
-    }
+    border-bottom: 1px solid $gray-color-100;
   }
 
   &--special &__link {

@@ -19,18 +19,29 @@
         {{ product.name }}
       </span>
       <span class="product-miniature__subtext"> {{ productSubtext }} </span>
-      <ProductPrice class="product-miniature__price" :product="product" />
+      <ProductPrice v-if="showPrice" class="product-miniature__price" :product="product" />
+      <LayoutButton v-else class="product-miniature__btn"> {{ t('askForPrice') }} </LayoutButton>
 
       <slot />
     </div>
   </NuxtLink>
 </template>
 
+<i18n lang="json">
+{
+  "pl": {
+    "askForPrice": "Zapytaj o cenę"
+  }
+}
+</i18n>
+
 <script lang="ts" setup>
 import { ProductList } from '@heseya/store-core'
-import { PRODUCT_SUBTEXT_ATTRIBUTE_NAME } from '~~/consts/subtextAttribute'
+import { PRODUCT_SUBTEXT_ATTRIBUTE_NAME } from '@/consts/subtextAttribute'
+import { ASK_FOR_PRICE_KEY } from '@/consts/metadataKeys'
 
 const localePath = useLocalePath()
+const t = useLocalI18n()
 
 const props = defineProps<{
   product: ProductList
@@ -41,6 +52,10 @@ const productSubtext = computed(() => {
   // TODO: do not attribute from fixed string
   return props.product?.attributes.find((a) => a.name === PRODUCT_SUBTEXT_ATTRIBUTE_NAME)
     ?.selected_options[0]?.name
+})
+
+const showPrice = computed(() => {
+  return !props.product?.metadata?.[ASK_FOR_PRICE_KEY] ?? true
 })
 </script>
 
@@ -88,7 +103,6 @@ const productSubtext = computed(() => {
 
   &__cover {
     display: block;
-    min-height: 200px;
     aspect-ratio: 1/1;
     padding: 4px;
   }
@@ -126,6 +140,10 @@ const productSubtext = computed(() => {
     font-size: rem(16);
     margin-top: 16px;
     font-weight: 600;
+  }
+
+  &__btn {
+    width: 100%;
   }
 
   &:hover &__name {

@@ -1,20 +1,25 @@
 <template>
-  <form class="search" @submit.prevent="onSubmit">
-    <input
-      v-model="form.values.query"
-      class="search__input search__input--query"
-      :placeholder="t('search')"
-      name="query"
-    />
-    <div class="search__separator" />
-    <select v-model="form.values.category" class="search__input" name="category">
-      <option selected value="all">{{ t('allCategories') }}</option>
-      <option v-for="{ label, value } in categories" :key="value" :value="value">
-        {{ label }}
-      </option>
-    </select>
-    <LayoutIconButton icon-size="sm" class="search__button" :icon="Search" type="submit" />
-  </form>
+  <div class="search">
+    <form class="search__form" @submit.prevent="onSubmit">
+      <input
+        ref="inputRef"
+        v-model="form.values.query"
+        class="search__input search__input--query"
+        :placeholder="t('search')"
+        name="query"
+        autocomplete="off"
+      />
+      <div class="search__separator" />
+      <select v-model="form.values.category" class="search__input" name="category">
+        <option selected value="all">{{ t('allCategories') }}</option>
+        <option v-for="{ name, slug } in categories" :key="slug" :value="slug">
+          {{ name }}
+        </option>
+      </select>
+      <LayoutIconButton icon-size="sm" class="search__button" :icon="Search" type="submit" />
+    </form>
+    <LayoutNavSearchHistory v-show="showHistory" ref="historyRef" class="search__history" />
+  </div>
 </template>
 
 <i18n lang="json">
@@ -28,19 +33,28 @@
 
 <script lang="ts" setup>
 import { useForm } from 'vee-validate'
-import Search from '@/assets/icons/search.svg?component'
+import { ProductSetList } from '@heseya/store-core'
 
-const t = useLocalI18n()
+import Search from '@/assets/icons/search.svg?component'
+import { useSearchHistoryStore } from '@/store/searchHistory'
 
 export interface SearchValues {
   query: string
   category: string
 }
 
-export interface SelectOption {
-  label: string
-  value: string
-}
+const t = useLocalI18n()
+const searchHistory = useSearchHistoryStore()
+
+const historyRef = ref(null)
+const inputRef = ref(null)
+
+const isHoverHistory = useElementHover(historyRef)
+const { focused: isFocusInput } = useFocus(inputRef)
+
+const showHistory = computed(
+  () => (isFocusInput.value || isHoverHistory.value) && searchHistory.queries.length,
+)
 
 const emit = defineEmits<{
   (event: 'search', values: SearchValues): void
@@ -58,20 +72,24 @@ const onSubmit = form.handleSubmit((values) => {
 })
 
 defineProps<{
-  categories: SelectOption[]
+  categories: ProductSetList[]
 }>()
 </script>
 
 <style lang="scss" scoped>
 .search {
-  @include flex-row;
-  width: 100%;
+  position: relative;
   max-width: 600px;
-  align-items: center;
-  gap: 22px;
-  padding-left: 22px;
-  background-color: $gray-color-300;
-  border-radius: 23px;
+  width: 100%;
+
+  &__form {
+    @include flex-row;
+    align-items: center;
+    gap: 22px;
+    padding-left: 22px;
+    background-color: $gray-color-300;
+    border-radius: 23px;
+  }
 
   &__separator {
     height: 32px;
@@ -97,6 +115,14 @@ defineProps<{
     width: 46px;
     border-radius: 50%;
     background-color: var(--secondary-color);
+  }
+
+  &__history {
+    margin-top: 6px;
+    position: absolute;
+    width: 100%;
+    border-radius: 5px;
+    border: solid 1px $gray-color-300;
   }
 }
 </style>

@@ -3,60 +3,95 @@
     <HomeBanner v-if="data?.mainBanner" class="index-page__banner" :banner="data?.mainBanner" />
 
     <BaseContainer class="index-page__content">
-      <HomeLinkBox
-        text="Zapytaj o wynajem"
-        background-src="https://***REMOVED***.pl/wp-content/uploads/2017/06/dummy-wood-title.jpg"
-        link="rent"
-        link-text="Zapytaj"
-      />
+      <template v-for="section in sections">
+        <HomeProductCarousel
+          v-if="section.type === 'set'"
+          :key="section.data.id"
+          :category="section.data"
+        />
+
+        <HomeLinkBox v-if="section.type === 'box'" :key="section.data.text" :link="section.data" />
+      </template>
+
       <HomeWhyUs />
-      <HomeImageCarousel title="Nasi partnerzy" :images="imageArr" />
+
       <HomeImageCarousel
-        title="Zaufali Nam"
-        :images="imageArr"
-        image-width="136"
-        image-height="136"
+        v-for="banner in data?.homepageBanners"
+        :key="banner.id"
+        :banner="banner"
+        :title="banner.name"
       />
     </BaseContainer>
   </div>
 </template>
 
-<script setup lang="ts">
-import { ImageSrc } from '~/components/home/ImageCarousel.vue'
+<i18n lang="json">
+{
+  "pl": {
+    "title": "Strona główna"
+  }
+}
+</i18n>
 
+<script setup lang="ts">
+import { ProductSetList } from '@heseya/store-core'
+import { LinkBox } from '~~/components/home/LinkBox.vue'
+
+const t = useLocalI18n()
 const heseya = useHeseya()
 
-const { data } = useAsyncData(async () => {
-  const mainBanner = await heseya.Banners.getOneBySlug('main-banner')
-  return { mainBanner }
+type Section = { type: 'set'; data: ProductSetList } | { type: 'box'; data: LinkBox }
+
+useHead({
+  title: t('title'),
 })
 
-const imageArr: ImageSrc[] = [
+const { data } = useAsyncData('main-banner', async () => {
+  const [mainBanner, { data: homepageBanners }, { data: homepageSets }] = await Promise.all([
+    heseya.Banners.getOneBySlug('main-banner'),
+    heseya.Banners.get({ metadata: { homepage: true } }),
+    heseya.ProductSets.get({ metadata: { homepage: true } }),
+  ])
+  return {
+    mainBanner,
+    homepageBanners,
+    homepageSets,
+  }
+})
+
+// TODO: maybe fetch from API? Directus?
+const LINK_BOXES: LinkBox[] = [
   {
-    src: 'https://***REMOVED***.pl/wp-content/uploads/2021/08/Logo-HSM-Niszczarki.svg',
-    alt: 'hsm',
+    text: 'Zapytaj o wynajem',
+    src: 'https://***REMOVED***.pl/wp-content/uploads/2017/06/dummy-wood-title.jpg',
+    link: '/rent',
+    linkText: 'Zapytaj',
   },
   {
-    src: 'https://***REMOVED***.pl/wp-content/uploads/2021/08/Logo-Sharp-Kserokopiarki-Drukarki.svg',
-    alt: 'sharp',
-  },
-  {
-    src: 'https://***REMOVED***.pl/wp-content/uploads/2021/08/Logo-Sharp-Kserokopiarki-Drukarki.svg',
-    alt: 'sharp',
-  },
-  {
-    src: 'https://***REMOVED***.pl/wp-content/uploads/2021/08/Logo-Sharp-Kserokopiarki-Drukarki.svg',
-    alt: 'sharp',
-  },
-  {
-    src: 'https://***REMOVED***.pl/wp-content/uploads/2021/08/Logo-Sharp-Kserokopiarki-Drukarki.svg',
-    alt: 'sharp',
-  },
-  {
-    src: 'https://***REMOVED***.pl/wp-content/uploads/2021/08/Logo-HSM-Niszczarki.svg',
-    alt: 'hsm',
+    text: 'Zapytaj o indywidualną ofertę',
+    src: 'https://***REMOVED***.pl/wp-content/uploads/2017/06/dummy-wood-title.jpg',
+    link: '/rent',
+    linkText: 'Zapytaj',
   },
 ]
+
+const sections = computed<Section[]>(() => {
+  const sets =
+    data.value?.homepageSets?.map((set) => ({
+      type: 'set' as const,
+      data: set,
+    })) || []
+
+  const boxes = LINK_BOXES.map((box) => ({
+    type: 'box' as const,
+    data: box,
+  }))
+
+  const length = Math.max(sets.length, boxes.length)
+  return Array.from({ length }, (_, i) => [sets[i], boxes[i]])
+    .flat()
+    .filter(Boolean)
+})
 </script>
 
 <style lang="scss" scoped>
