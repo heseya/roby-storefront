@@ -15,11 +15,13 @@
       />
     </div>
     <div class="login-form__options">
-      <FormCheckbox v-model="rememberPassword" :text="t('form.remember')" name="remember" />
-      <NuxtLink class="login-form__options--forgot" to="/forgot-password">
+      <NuxtLink class="login-form__forgot-password" to="/forgot-password">
         {{ t('form.forgot-password') }}
       </NuxtLink>
     </div>
+    <LayoutInfoBox v-if="errorMessage" type="danger" class="login-form__error">
+      {{ errorMessage }}
+    </LayoutInfoBox>
     <LayoutButton class="login-form__btn" :label="t('form.login')" />
   </form>
 </template>
@@ -31,7 +33,6 @@
       "login": "Zaloguj się",
       "email": "Adres e-mail",
       "forgot-password": "Nie pamiętasz hasła?",
-      "remember": "Zapamiętaj mnie",
       "password": "Hasło"
     }
   }
@@ -40,13 +41,18 @@
 
 <script setup lang="ts">
 import { useForm } from 'vee-validate'
+import { formatApiError } from '@heseya/store-core'
 import { useAuthStore } from '@/store/auth'
 
 const t = useLocalI18n()
 
 const auth = useAuthStore()
 
-const rememberPassword = ref<boolean>(false)
+const emit = defineEmits<{
+  (event: 'login'): void
+}>()
+
+const errorMessage = ref<string | null>(null)
 
 const form = useForm({
   initialValues: {
@@ -55,28 +61,31 @@ const form = useForm({
   },
 })
 
-const onSubmit = form.handleSubmit((values) => {
-  // TODO: send this form somewhere
-  console.log(values)
-  auth.login()
-
-  // TODO: redirect it to checkout
+const onSubmit = form.handleSubmit(async ({ email, password }) => {
+  const { success, error } = await auth.login({ email, password })
+  if (!success) {
+    // TODO: translate error using key
+    errorMessage.value = formatApiError(error).title
+  } else {
+    // TODO: notify about success
+    emit('login')
+  }
 })
 </script>
 <style lang="scss" scoped>
 .login-form {
   &__options {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: baseline;
     margin: 1rem 0;
+  }
 
-    &--forgot {
-      color: $blue-color;
-      cursor: pointer;
-      font-size: 12px;
-      text-decoration: none;
-    }
+  &__forgot-password {
+    color: $blue-color;
+    cursor: pointer;
+    font-size: 12px;
+    text-decoration: none;
   }
 
   &__form {

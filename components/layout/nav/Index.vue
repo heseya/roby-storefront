@@ -159,7 +159,10 @@ const handleSearch = ({ query, category }: SearchValues) => {
     router.push(pathQuery + pathCategory)
   }
 }
-const onLogout = () => auth.logout()
+const onLogout = async () => {
+  await auth.logout()
+  // TODO: notify about logout
+}
 
 const { data: navLinks } = useAsyncData<NavLink[]>('nav-pages', async () => {
   const { data } = await heseya.Pages.get({ metadata: { nav: true } })
