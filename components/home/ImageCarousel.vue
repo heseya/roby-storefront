@@ -4,7 +4,7 @@
     <LayoutCarousel :items="banner.banner_media" :breakpoints="breakpoints">
       <template #item="media: BannerMedia">
         <Media
-          class="image-carousel__picture"
+          class="image-carousel__picture image-carousel__picture--gray-filter"
           :style="{ height: `${imageHeight}px`, width: `${imageWidth}px` }"
           :media="media.media[0].media"
         />
@@ -31,10 +31,12 @@ withDefaults(
     imageWidth?: number | string
     imageHeight?: number | string
     banner: Banner
+    grayFilter?: boolean
   }>(),
   {
     imageWidth: 160,
     imageHeight: 60,
+    grayFilter: false,
   },
 )
 </script>
@@ -51,6 +53,15 @@ withDefaults(
   &__picture {
     object-fit: contain;
     flex-shrink: 0;
+
+    &--gray-filter {
+      filter: grayscale(100%);
+      transition: all 200ms ease-in-out;
+
+      &:hover {
+        filter: grayscale(0);
+      }
+    }
   }
 }
 </style>
