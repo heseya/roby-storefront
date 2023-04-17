@@ -6,7 +6,6 @@
 
 <script setup lang="ts">
 const route = useRoute()
-const t = useLocalI18n()
 
 const { query } = route.params
 const { set } = route.query
