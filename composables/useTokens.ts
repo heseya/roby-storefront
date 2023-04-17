@@ -1,16 +1,7 @@
 import { ACCESS_TOKEN_KEY, IDENTITY_TOKEN_KEY, REFRESH_TOKEN_KEY } from '@/consts/cookiesKeys'
 
-export const useAccessToken = () => {
-  const accessTokenCookie = useStatefulCookie(ACCESS_TOKEN_KEY)
-  return accessTokenCookie
-}
+export const useAccessToken = () => useStatefulCookie(ACCESS_TOKEN_KEY)
 
-export const useIdentityToken = () => {
-  const identityTokenCookie = useStatefulCookie(IDENTITY_TOKEN_KEY)
-  return identityTokenCookie
-}
+export const useIdentityToken = () => useStatefulCookie(IDENTITY_TOKEN_KEY)
 
-export const useRefreshToken = () => {
-  const refreshTokenCookie = useStatefulCookie(REFRESH_TOKEN_KEY)
-  return refreshTokenCookie
-}
+export const useRefreshToken = () => useStatefulCookie(REFRESH_TOKEN_KEY)
