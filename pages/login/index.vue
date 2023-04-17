@@ -54,13 +54,14 @@ useBreadcrumbs([{ label: 'Logowanie', link: '/login' }])
 
 const t = useLocalI18n()
 const router = useRouter()
+const route = useRoute()
 const auth = useAuthStore()
 
 const benefits = ref<string[]>([t('benefits.faster'), t('benefits.track'), t('benefits.wishlist')])
 
 const handleLogin = () => {
-  // TODO: to profile maybe?
-  router.push('/')
+  const redirectUrl = (route.query.redirect as string | undefined) || '/'
+  router.push(redirectUrl)
 }
 
 onBeforeMount(() => {
