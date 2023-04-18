@@ -22,7 +22,7 @@ const breakpoints = {
   640: { slidesPerView: 'auto', spaceBetween: 50 },
 }
 
-const props = withDefaults(
+withDefaults(
   defineProps<{
     imageWidth?: number | string
     imageHeight?: number | string
