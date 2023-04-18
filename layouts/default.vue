@@ -27,10 +27,10 @@
     // padding-top: 185px;
     padding-bottom: 100px;
 
-    @media ($max-viewport-12) {
+    @media ($max-viewport-9) {
       padding-top: 100px;
       // padding-top: 60px;
-      padding-bottom: 74px;
+      padding-bottom: 70px;
     }
   }
 }
