@@ -1,6 +1,6 @@
 <template>
-  <LayoutLoading :active="isLoading" :disabled="true" />
   <form class="register-form" @submit.prevent="onSubmit">
+    <LayoutLoading :active="isLoading" />
     <h2 class="register-form__header">{{ t('form.header') }}</h2>
     <div class="register-form__container">
       <FormInput v-model="form.values.name" name="name" :label="t('form.name')" rules="required" />
@@ -37,10 +37,11 @@
       :key="consent.id"
       :model-value="form.values.consents[consent.id] || false"
       :name="consent.name"
-      :rules="isFieldRequired(consent.required)"
+      :rules="consent.required ? 'required' : ''"
+      :is-required="consent.required"
       @update:model-value="(v) => setConsentValue(consent.id, v)"
     >
-      <span :class="{ required: consent.required }" v-html="consent.description_html"></span>
+      <span v-html="consent.description_html"></span>
     </FormCheckbox>
     <span v-if="errorMessage" class="register-form__error">{{ errorMessage }}</span>
     <div class="register-form__btn-container">
@@ -52,7 +53,6 @@
 <i18n lang="json">
 {
   "pl": {
-    "title": "Rejestracja",
     "form": {
       "email": "Adres e-mail",
       "header": "Rejestracja",
@@ -60,26 +60,18 @@
       "name": "Imię",
       "surname": "Nazwisko",
       "password": "Hasło",
-      "confirmPassword": "Powtórz hasło",
-      "private-policy": "Polityką prywatności",
-      "private-policy-description": "Wyrażam zgodę na przetwarzanie moich danych osobowych podanych przeze mnie w formularzu rejestracyjnym, przez ROBICAN S.C. R. JASTRZĘBSKI I WSPÓLNICY UL. ZAKOPIAŃSKA 190, 60-467POZNAŃ, w celu złożenia i prowadzenia konta klienta. Zapoznałem się z",
-      "private-policy-agreement": "na temat zasad przetwarzania danych osobowych i ją akceptuję."
+      "confirmPassword": "Powtórz hasło"
     }
   }
 }
 </i18n>
 
 <script setup lang="ts">
-import { formatApiError, User, UserConsentDto } from '@heseya/store-core'
+import { formatApiError, User, UserConsentDto, UserRegisterDto } from '@heseya/store-core'
 import { useForm } from 'vee-validate'
 
 const t = useLocalI18n()
 const heseya = useHeseya()
-
-useBreadcrumbs([{ label: 'Rejestracja', link: '/register' }])
-useHead({
-  title: t('title'),
-})
 
 const isLoading = ref(false)
 const errorMessage = ref('')
@@ -93,7 +85,8 @@ const { data: consents } = useAsyncData(async () => {
     const consents = await heseya.Consents.get()
     return consents.data
   } catch (e: any) {
-    showError({ message: e.message, statusCode: 500 })
+    // TODO after merging, change to final version with error translation
+    errorMessage.value = formatApiError(e).text
   }
 })
 
@@ -108,19 +101,18 @@ const form = useForm({
   },
 })
 
-const isFieldRequired = (required: boolean): string => (required ? 'required' : '')
-
-const registerForm = computed(() => ({
+const registerForm = computed<UserRegisterDto>(() => ({
   name: `${form.values.name} ${form.values.surname}`,
   email: form.values.email,
   password: form.values.password,
-  consents: consents.value!.reduce(
-    (acc, consent) => ({
-      ...acc,
-      [consent.id]: form.values.consents[consent.id] || false,
-    }),
-    {} as UserConsentDto,
-  ),
+  consents:
+    consents.value?.reduce(
+      (acc, consent) => ({
+        ...acc,
+        [consent.id]: form.values.consents[consent.id] || false,
+      }),
+      {},
+    ) || {},
   roles: [],
 }))
 
@@ -129,13 +121,13 @@ const setConsentValue = (consentId: string, value: boolean) => {
 }
 
 const onSubmit = form.handleSubmit(async () => {
-  // @TODO add loading element in html component
   isLoading.value = true
 
   try {
     const user = await heseya.Auth.register(registerForm.value)
-    emit('registered', user)
+    user && emit('registered', user)
   } catch (e: any) {
+    // TODO after merging, change to final version with error translation
     errorMessage.value = formatApiError(e).text
   } finally {
     isLoading.value = false
@@ -146,6 +138,7 @@ const onSubmit = form.handleSubmit(async () => {
 <style lang="scss" scoped>
 .register-form {
   display: grid;
+  position: relative;
   gap: 15px;
 
   @media ($viewport-11) {

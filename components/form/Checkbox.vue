@@ -4,11 +4,13 @@
       <input :id="name" v-model="checkboxValue" type="checkbox" :disabled="disabled" />
       <label
         class="checkbox__label"
-        :class="{ 'checkbox__label--star': (!$slots.default || label) && isRequired }"
+        :class="{
+          'checkbox__label checkbox__input--required': ($slots.default || label) && isRequired,
+        }"
         tabindex="0"
         :for="name"
       >
-        <slot name="default" class="star">{{ label }}</slot>
+        <slot name="default">{{ label }}</slot>
       </label>
       <span class="checkbox__text">
         <slot name="text">{{ text }}</slot>
@@ -30,6 +32,7 @@ const props = withDefaults(
     disabled?: boolean
     error?: string
     rules?: string
+    isRequired?: boolean
   }>(),
   {
     label: '',
@@ -59,20 +62,22 @@ const checkboxValue = computed({
 </script>
 
 <style lang="scss">
-.required {
-  ::after {
-    content: '*';
-    color: $primary-color;
-    font-weight: bold;
-  }
-}
-
 .checkbox {
   margin: 12px 0;
   text-align: left;
 
   input {
     display: none;
+  }
+
+  &__input {
+    &--required > :first-child {
+      ::after {
+        content: '*';
+        color: $primary-color;
+        font-weight: bold;
+      }
+    }
   }
 
   &__label {
