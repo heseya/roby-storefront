@@ -26,7 +26,7 @@
         <CheckoutFormShippingAddress
           v-if="method.shipping_type === ShippingType.Address && !method.metadata.paczkomat"
         />
-        <CheckoutFormPaczkomatSelect
+        <CheckoutInpostSelect
           v-if="method.shipping_type === ShippingType.Address && method.metadata.paczkomat"
         />
         <CheckoutFormShippingPointSelect
