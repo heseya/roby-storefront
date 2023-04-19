@@ -8,13 +8,16 @@ import {
 } from '@heseya/store-core'
 import { defineStore } from 'pinia'
 import { useCartStore } from './cart'
+
 import { Paczkomat } from '@/interfaces/Paczkomat'
+import { EMPTY_ADDRESS } from '@/consts/address'
 
 export const useCheckoutStore = defineStore('checkout', {
   state: () => ({
     email: '',
     comment: '',
-    shippingAddress: null as Address | null,
+    shippingAddress: { ...EMPTY_ADDRESS } as Address,
+    shippingPointId: null as string | null,
     billingAddress: null as Address | null,
     shippingMethod: null as ShippingMethod | null,
     digitalShippingMethod: null as ShippingMethod | null,
@@ -30,7 +33,10 @@ export const useCheckoutStore = defineStore('checkout', {
       return {
         email: this.email,
         comment: this.comment,
-        shipping_place: this.shippingAddress ?? undefined,
+        shipping_place:
+          (this.shippingMethod?.shipping_type === ShippingType.Point
+            ? this.shippingPointId
+            : this.shippingAddress) ?? undefined,
         items: cart.orderItems,
         shipping_method_id: this.shippingMethod?.id,
         digital_shipping_method_id: this.digitalShippingMethod?.id,
@@ -41,8 +47,23 @@ export const useCheckoutStore = defineStore('checkout', {
       }
     },
 
-    isShippingAddressValid(state): boolean {
-      return isAddressValid(state.shippingAddress)
+    isShippingAddressValid(): boolean {
+      return isAddressValid(this.shippingAddress)
+    },
+
+    isValid(): boolean {
+      if (!this.email) return false
+      if (!this.shippingMethod) return false
+      if (!this.paymentMethodId) return false
+
+      if (this.shippingMethod.shipping_type === ShippingType.Point && !this.shippingPointId)
+        return false
+      if (
+        this.shippingMethod.shipping_type === ShippingType.Address &&
+        !this.isShippingAddressValid
+      )
+        return false
+      return true
     },
   },
 
@@ -50,7 +71,8 @@ export const useCheckoutStore = defineStore('checkout', {
     reset() {
       this.email = ''
       this.comment = ''
-      this.shippingAddress = null
+      this.shippingAddress = { ...EMPTY_ADDRESS }
+      this.shippingPointId = null
       this.billingAddress = null
       this.shippingMethod = null
       this.digitalShippingMethod = null

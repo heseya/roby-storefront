@@ -30,7 +30,12 @@
       </span>
     </div>
 
-    <LayoutButton variant="primary" class="cart-summary__button" disabled>
+    <LayoutButton
+      variant="primary"
+      class="cart-summary__button"
+      :disabled="!checkout.isValid"
+      @click="createOrder"
+    >
       {{ t('summary.submit') }}
     </LayoutButton>
   </div>
@@ -51,9 +56,36 @@
 
 <script setup lang="ts">
 import { useCartStore } from '@/store/cart'
+import { useCheckoutStore } from '~/store/checkout'
 
 const t = useLocalI18n()
 const cart = useCartStore()
+const checkout = useCheckoutStore()
+const formatError = useErrorMessage()
+const { notify } = useNotify()
+const router = useRouter()
+
+const createOrder = async () => {
+  try {
+    // paymentMethodId must exist at this point, it is validated before
+    const paymentKey = checkout.paymentMethodId!
+    const order = await checkout.createOrder()
+    checkout.reset()
+
+    // TODO: move 'traditional' to some const
+    if (paymentKey === 'traditional') {
+      router.push(`/checkout/thank-you?code=${order.code}`)
+      return
+    }
+
+    router.push(`/checkout/payment/${paymentKey}?code=${order.code}`)
+  } catch (error) {
+    notify({
+      title: formatError(error),
+      type: 'error',
+    })
+  }
+}
 </script>
 
 <style lang="scss" scoped>

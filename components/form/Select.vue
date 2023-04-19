@@ -1,6 +1,6 @@
 <template>
   <div class="input input--select" :class="`input--${type}`">
-    <FormInputLabel v-if="label" uppercase :for="name" class="input__label">
+    <FormInputLabel v-if="label" :uppercase="labelUppercase" :for="name" class="input__label">
       {{ label }}
     </FormInputLabel>
     <select :id="name" v-model="innerValue" :name="name" class="input__input">
@@ -18,11 +18,13 @@ const props = withDefaults(
     name: string
     label?: string
     type?: 'default' | 'gray'
+    labelUppercase?: boolean
   }>(),
   {
     modelValue: undefined,
     label: '',
     type: 'default',
+    labelUppercase: false,
   },
 )
 

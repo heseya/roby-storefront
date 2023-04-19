@@ -3,6 +3,7 @@
     <div v-if="showLabel" class="quantity-input__label">{{ t('label') }}</div>
     <FormSelect
       :model-value="quantity"
+      label-uppercase
       name="quantity"
       class="quantity-input__quantity"
       @update:model-value="(v) => emit('update:quantity', Number(v))"
