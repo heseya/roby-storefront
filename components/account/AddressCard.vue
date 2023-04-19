@@ -10,7 +10,7 @@
       <p :class="{ 'address-cart__header': !userAddress.address.vat }">
         {{ userAddress.address.name }}
       </p>
-      <p v-if="userAddress.address.vat">{{ t('companyTaxId') }} {{ userAddress.address.vat }}</p>
+      <p v-if="userAddress.address.vat">{{ t('vatNumber') }} {{ userAddress.address.vat }}</p>
       <p>{{ userAddress.address.phone }}</p>
     </div>
     <div>
@@ -27,7 +27,7 @@
 <i18n lang="json">
 {
   "pl": {
-    "companyTaxId": "NIP"
+    "vatNumber": "NIP"
   }
 }
 </i18n>
