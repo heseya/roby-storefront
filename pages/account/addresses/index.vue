@@ -1,36 +1,20 @@
 <template>
   <div class="addresses-content">
     <div class="addresses-content__container">
-      <h1 ckass->{{ t('header') }}</h1>
+      <h1 class="addresses-content__header">{{ t('header') }}</h1>
       <div>
-        <div class="addresses-content__address">
-          <div>
-            <h4>{{ t('deliveryAddresses.title') }}</h4>
+        <div class="addresses-content__box">
+          <div class="addresses-content__description">
+            <h3>{{ t('deliveryAddresses.title') }}</h3>
             <p>{{ t('deliveryAddresses.description') }}</p>
           </div>
 
           <div
             v-for="address in deliveryAddresses"
             :key="address.id"
-            class="addresses-content__box"
-            :class="{
-              'addresses-content__box--selected': selectedDeliveryAddresses === address,
-            }"
             @click="selectedDeliveryAddresses = address"
           >
-            <div class="addresses-content__select"></div>
-            <div>
-              <h4>{{ address.name }}</h4>
-              <p>{{ address.phone }}</p>
-            </div>
-            <div>
-              <p>{{ address.street }}</p>
-              <p>{{ address.postCode }} {{ address.city }}</p>
-            </div>
-            <div class="addresses-content__icons">
-              <Trash class="addresses-content__icons--icon" />
-              <PencilLine class="addresses-content__icons--icon" />
-            </div>
+            <CartAddress :address="address" :is-selected="selectedDeliveryAddresses === address" />
           </div>
         </div>
         <LayoutButton class="addresses-content__button">{{
@@ -38,7 +22,7 @@
         }}</LayoutButton>
       </div>
       <div>
-        <div class="addresses-content__address">
+        <div class="addresses-content__box">
           <div>
             <h4>{{ t('billingAddresses.title') }}</h4>
             <p>{{ t('billingAddresses.description') }}</p>
@@ -47,25 +31,9 @@
           <div
             v-for="address in billingAddresses"
             :key="address.id"
-            class="addresses-content__box"
-            :class="{
-              'addresses-content__box--selected': selectedBillingAddresses === address,
-            }"
             @click="selectedBillingAddresses = address"
           >
-            <div class="addresses-content__select"></div>
-            <div>
-              <h4>{{ address.name }}</h4>
-              <p>{{ address.phone }}</p>
-            </div>
-            <div>
-              <p>{{ address.street }}</p>
-              <p>{{ address.postCode }} {{ address.city }}</p>
-            </div>
-            <div class="addresses-content__icons">
-              <Trash class="addresses-content__icons--icon" />
-              <PencilLine class="addresses-content__icons--icon" />
-            </div>
+            <CartAddress :address="address" :is-selected="address === selectedBillingAddresses" />
           </div>
         </div>
         <LayoutButton class="addresses-content__button">{{
@@ -96,9 +64,6 @@
 </i18n>
 
 <script setup lang="ts">
-import Trash from '@/assets/icons/trash.svg?component'
-import PencilLine from '@/assets/icons/pencil-line-filled.svg?component'
-
 const t = useLocalI18n()
 
 useBreadcrumbs([
@@ -132,7 +97,7 @@ const billingAddresses = ref([
   {
     id: 1,
     name: 'Przykładowa Firma',
-    nip: '2293774000',
+    nip: 2293774000,
     phone: '+48228960722',
     street: 'ul. Wrocławska 160/12',
     postCode: '00-002',
@@ -146,71 +111,36 @@ const billingAddresses = ref([
   display: flex;
   justify-content: center;
 
-  &__container {
-    display: grid;
-    gap: 20px;
-    width: 35%;
+  &__header {
+    @media ($max-viewport-11) {
+      font-size: 22px;
+    }
   }
 
-  &__address {
+  &__description {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-bottom: 5px;
+  }
+
+  &__container {
     display: grid;
-    gap: 10px;
-    margin-top: 15px;
+    gap: 5px;
+
+    @media ($viewport-11) {
+      width: 35%;
+      gap: 20px;
+    }
   }
 
   &__box {
     display: grid;
-    position: relative;
-    align-content: space-between;
-    gap: 15px;
-    padding: 10px 10px 10px 36px;
-    border: 1px solid $gray-color-300;
+    gap: 10px;
+    margin-top: 5px;
 
-    &:hover {
-      background-color: $gray-color-100;
-      cursor: pointer;
-    }
-
-    &--selected > .addresses-content__select {
-      border: 1px solid $secondary-color-alt;
-
-      &::before {
-        content: '';
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        height: 8px;
-        width: 8px;
-        border-radius: 50%;
-        background-color: $secondary-color-alt;
-      }
-    }
-  }
-
-  &__select {
-    position: absolute;
-    top: 15px;
-    left: 12px;
-    transform: translateY(-50%);
-    height: 16px;
-    width: 16px;
-    border: 1px solid $gray-color-400;
-    border-radius: 50%;
-    background-color: $white-color;
-  }
-
-  &__icons {
-    display: flex;
-    gap: 5px;
-    position: absolute;
-    right: 15px;
-    top: 50%;
-    transform: translateY(-50%);
-
-    &--icon {
-      height: 16px;
-      width: 16px;
+    @media ($viewport-11) {
+      margin-top: 15px;
     }
   }
 
