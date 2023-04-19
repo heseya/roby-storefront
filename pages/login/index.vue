@@ -3,7 +3,7 @@
     <div class="login-content__container">
       <div>
         <h2 class="login-content__header">{{ t('form.login') }}</h2>
-        <AuthLoginForm />
+        <AuthLoginForm @login="handleLogin" />
       </div>
 
       <LayoutSpacer />
@@ -48,11 +48,25 @@
 
 <script setup lang="ts">
 import Check from '@/assets/icons/check-2.svg?component'
+import { useAuthStore } from '@/store/auth'
+
 useBreadcrumbs([{ label: 'Logowanie', link: '/login' }])
 
 const t = useLocalI18n()
+const router = useRouter()
+const route = useRoute()
+const auth = useAuthStore()
 
 const benefits = ref<string[]>([t('benefits.faster'), t('benefits.track'), t('benefits.wishlist')])
+
+const handleLogin = () => {
+  const redirectUrl = (route.query.redirect as string | undefined) || '/'
+  router.push(redirectUrl)
+}
+
+onBeforeMount(() => {
+  if (auth.isLogged) router.push('/')
+})
 </script>
 
 <style lang="scss" scoped>

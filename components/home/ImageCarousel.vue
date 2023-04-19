@@ -5,6 +5,7 @@
       <template #item="media: BannerMedia">
         <Media
           class="image-carousel__picture"
+          :class="{ 'image-carousel__picture--gray-filter': grayFilter }"
           :style="{ height: `${imageHeight}px`, width: `${imageWidth}px` }"
           :media="media.media[0].media"
         />
@@ -17,12 +18,9 @@
 import { Banner, BannerMedia } from '@heseya/store-core'
 
 const breakpoints = {
+  320: { slidesPerView: 1 },
   480: { slidesPerView: 2 },
-  640: { slidesPerView: 3 },
-  850: { slidesPerView: 4 },
-  1100: { slidesPerView: 5 },
-  1280: { slidesPerView: 6 },
-  1680: { slidesPerView: 7 },
+  640: { slidesPerView: 'auto', spaceBetween: 50 },
 }
 
 withDefaults(
@@ -30,10 +28,12 @@ withDefaults(
     imageWidth?: number | string
     imageHeight?: number | string
     banner: Banner
+    grayFilter?: boolean
   }>(),
   {
     imageWidth: 160,
     imageHeight: 60,
+    grayFilter: false,
   },
 )
 </script>
@@ -50,6 +50,15 @@ withDefaults(
   &__picture {
     object-fit: contain;
     flex-shrink: 0;
+
+    &--gray-filter {
+      filter: grayscale(100%);
+      transition: all 200ms ease-in-out;
+
+      &:hover {
+        filter: grayscale(0);
+      }
+    }
   }
 }
 </style>

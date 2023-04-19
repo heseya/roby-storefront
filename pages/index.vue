@@ -18,8 +18,10 @@
       <HomeImageCarousel
         v-for="banner in data?.homepageBanners"
         :key="banner.id"
+        class="index-page__image-carousel"
         :banner="banner"
         :title="banner.name"
+        :gray-filter="banner.metadata.gray_filter"
       />
     </BaseContainer>
   </div>
@@ -99,6 +101,16 @@ const sections = computed<Section[]>(() => {
   &__content {
     > * {
       margin-top: 50px;
+
+      @media ($viewport-9) {
+        margin-top: 140px;
+      }
+    }
+  }
+
+  &__image-carousel {
+    @media ($viewport-9) {
+      margin-top: 80px;
     }
   }
 }

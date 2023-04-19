@@ -59,7 +59,7 @@ withDefaults(
     overflow: visible;
     width: fit-content;
     max-width: 100%;
-    padding: 0 36px;
+    padding: 0 26px;
     margin: 0;
 
     &--without-button {
