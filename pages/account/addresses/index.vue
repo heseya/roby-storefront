@@ -1,3 +1,5 @@
+import { Address } from "@heseya/store-core"
+
 <template>
   <div class="addresses-content">
     <div class="addresses-content__container">
@@ -70,6 +72,8 @@ useBreadcrumbs([
   { label: 'Moje konto', link: '/account' },
   { label: 'Adresy', link: '/addresses' },
 ])
+
+// TODO: add logic and real interfaces
 
 const selectedDeliveryAddresses = ref({})
 const selectedBillingAddresses = ref({})

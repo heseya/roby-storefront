@@ -26,7 +26,7 @@
 import Trash from '@/assets/icons/trash.svg?component'
 import PencilLine from '@/assets/icons/pencil-line-filled.svg?component'
 
-interface UserAddress {
+interface Address {
   id: number
   name: string
   phone: string
@@ -37,7 +37,7 @@ interface UserAddress {
 }
 
 defineProps<{
-  address: UserAddress
+  address: Address
   isSelected: boolean
 }>()
 </script>
