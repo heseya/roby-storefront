@@ -3,12 +3,19 @@
     <LayoutLoading :active="isLoading" />
     <h2 class="register-form__header">{{ t('form.header') }}</h2>
     <div class="register-form__container">
-      <FormInput v-model="form.values.name" name="name" :label="t('form.name')" rules="required" />
+      <FormInput
+        v-model="form.values.name"
+        name="name"
+        :label="t('form.name')"
+        rules="required"
+        :disabled="isFormDisabled"
+      />
       <FormInput
         v-model="form.values.surname"
         name="surname"
         :label="t('form.surname')"
         rules="required"
+        :disabled="isFormDisabled"
       />
     </div>
     <div class="register-form__container">
@@ -17,6 +24,7 @@
         name="email"
         :label="t('form.email')"
         rules="required|email"
+        :disabled="isFormDisabled"
       />
     </div>
     <div class="register-form__container">
@@ -24,12 +32,14 @@
         v-model="form.values.password"
         :label="t('form.password')"
         name="password"
+        :disabled="isFormDisabled"
       />
       <FormInputPassword
         v-model="form.values.confirmPassword"
         :label="t('form.confirmPassword')"
         rules="confirmedPassword:@password"
         name="confirmPassword"
+        :disabled="isFormDisabled"
       />
     </div>
     <FormCheckbox
@@ -45,7 +55,7 @@
     <span v-if="errorMessage" class="register-form__error">{{ errorMessage }}</span>
     <div class="register-form__btn-container">
       <LayoutButton
-        :disabled="!consents?.length"
+        :disabled="isFormDisabled"
         class="register-form__btn"
         :label="t('form.register')"
       />
@@ -92,6 +102,8 @@ const { data: consents } = useAsyncData('consents', async () => {
     errorMessage.value = formatApiError(e).text
   }
 })
+
+const isFormDisabled = computed(() => !consents)
 
 const form = useForm({
   initialValues: {
