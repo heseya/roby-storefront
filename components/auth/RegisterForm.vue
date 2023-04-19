@@ -1,5 +1,5 @@
 <template>
-  <form class="register-form" @submit.prevent="onSubmit">
+  <form class="register-form" disabled @submit.prevent="onSubmit">
     <LayoutLoading :active="isLoading" />
     <h2 class="register-form__header">{{ t('form.header') }}</h2>
     <div class="register-form__container">
@@ -38,14 +38,17 @@
       :model-value="form.values.consents[consent.id] || false"
       :name="consent.name"
       :rules="consent.required ? 'required' : ''"
-      :is-required="consent.required"
       @update:model-value="(v) => setConsentValue(consent.id, v)"
     >
       <span v-html="consent.description_html"></span>
     </FormCheckbox>
     <span v-if="errorMessage" class="register-form__error">{{ errorMessage }}</span>
     <div class="register-form__btn-container">
-      <LayoutButton class="register-form__btn" :label="t('form.register')" />
+      <LayoutButton
+        :disabled="!consents?.length"
+        class="register-form__btn"
+        :label="t('form.register')"
+      />
     </div>
   </form>
 </template>
@@ -80,7 +83,7 @@ const emit = defineEmits<{
   (event: 'registered', value: User): void
 }>()
 
-const { data: consents } = useAsyncData(async () => {
+const { data: consents } = useAsyncData('consents', async () => {
   try {
     const consents = await heseya.Consents.get()
     return consents.data

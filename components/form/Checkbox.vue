@@ -32,7 +32,6 @@ const props = withDefaults(
     disabled?: boolean
     error?: string
     rules?: string
-    isRequired?: boolean
   }>(),
   {
     label: '',
