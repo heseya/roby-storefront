@@ -7,39 +7,51 @@
   >
     <div class="address-cart__select" />
     <div>
-      <p :class="{ 'address-cart__header': !address.nip }">{{ address.name }}</p>
-      <p v-if="address.nip">NIP {{ address.nip }}</p>
-      <p>{{ address.phone }}</p>
+      <p :class="{ 'address-cart__header': !userAddress.address.vat }">
+        {{ userAddress.address.name }}
+      </p>
+      <p v-if="userAddress.address.vat">{{ t('companyTaxId') }} {{ userAddress.address.vat }}</p>
+      <p>{{ userAddress.address.phone }}</p>
     </div>
     <div>
-      <p>{{ address.street }}</p>
-      <p>{{ address.postCode }} {{ address.city }}</p>
+      <p>{{ userAddress.address.address }}</p>
+      <p>{{ userAddress.address.zip }} {{ userAddress.address.city }}</p>
     </div>
     <div class="address-cart__actions">
-      <LayoutIcon class="address-cart__icon" :icon="Trash" />
-      <LayoutIcon class="address-cart__icon" :icon="PencilLine" />
+      <LayoutIcon class="address-cart__icon" :icon="Trash" @click="editAddress" />
+      <LayoutIcon class="address-cart__icon" :icon="PencilLine" @click="deleteAddress" />
     </div>
   </div>
 </template>
 
+<i18n lang="json">
+{
+  "pl": {
+    "companyTaxId": "NIP"
+  }
+}
+</i18n>
+
 <script setup lang="ts">
+import { UserSavedAddress } from '@heseya/store-core'
 import Trash from '@/assets/icons/trash.svg?component'
 import PencilLine from '@/assets/icons/pencil-line-filled.svg?component'
 
-interface Address {
-  id: number
-  name: string
-  phone: string
-  street: string
-  postCode: string
-  city: string
-  nip?: number
-}
+const t = useLocalI18n()
 
-defineProps<{
-  address: Address
+const props = defineProps<{
+  userAddress: UserSavedAddress
   isSelected: boolean
 }>()
+
+const editAddress = () => {
+  // TODO add logic
+  console.log(props.userAddress)
+}
+const deleteAddress = () => {
+  // TODO add logic
+  console.log(props.userAddress)
+}
 </script>
 
 <style lang="scss" scoped>
@@ -89,7 +101,7 @@ defineProps<{
     }
   }
 
-  &--selected > .address-cart__select {
+  &--selected > &__select {
     border: 1px solid $secondary-color-alt;
 
     &::before {
