@@ -21,6 +21,7 @@
         class="index-page__image-carousel"
         :banner="banner"
         :title="banner.name"
+        :gray-filter="banner.metadata.gray_filter"
       />
     </BaseContainer>
   </div>
