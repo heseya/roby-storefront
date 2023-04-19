@@ -16,6 +16,7 @@
         :autocomplete="autocomplete"
         :name="name"
         :placeholder="placeholder"
+        :disabled="disabled"
         @keydown.stop
       />
       <slot></slot>
@@ -40,6 +41,7 @@ const props = withDefaults(
     modelValue?: string | number
     rules?: string
     labelUppercase?: boolean
+    disabled?: boolean
   }>(),
   {
     type: 'default',
