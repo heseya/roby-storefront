@@ -5,13 +5,16 @@
     </div>
     <div class="checkout-container__header">{{ t('container.header') }}</div>
     <div class="checkout-container__text">
-      {{ t('container.text') }}
-      <b
-        ><u>{{ t('container.my-account') }}</u></b
-      >
+      <span>{{ t('container.text') }}&nbsp;</span>
+      <span v-if="auth.isLogged">
+        {{ t('container.text2') }}&nbsp;
+        <b>
+          <u>{{ t('container.my-account') }}</u>
+        </b>
+      </span>
     </div>
-    <div class="checkout-container__nav">
-      <NuxtLink to="/">
+    <div v-if="route.query.code" class="checkout-container__nav">
+      <NuxtLink :to="`/checkout/status/${route.query.code}`">
         <LayoutButton class="checkout-container__btn"> {{ t('container.btn') }}</LayoutButton>
       </NuxtLink>
     </div>
@@ -23,7 +26,8 @@
   "pl": {
     "container": {
       "header": "Dziękujemy za zakupy!",
-      "text": "Na Twojego maila zostanie wysłane potwierdzenie zakupu. Szczegóły zamówienia znajdziesz również w  ",
+      "text": "Na Twojego maila zostanie wysłane potwierdzenie zakupu.",
+      "text2": "Szczegóły zamówienia znajdziesz również w",
       "my-account": "Moje konto",
       "btn": "Sprawdź szczegóły zamówienia"
     }
@@ -33,9 +37,13 @@
 
 <script setup lang="ts">
 import ShoppingBag from '@/assets/icons/shopping-bag.svg?component'
+import { useAuthStore } from '~/store/auth'
 definePageMeta({
   layout: 'checkout',
 })
+
+const route = useRoute()
+const auth = useAuthStore()
 
 const t = useLocalI18n()
 </script>

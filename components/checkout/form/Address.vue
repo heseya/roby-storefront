@@ -1,65 +1,70 @@
 <template>
   <div class="address-form">
     <FormInput
-      :model-value="value.name"
+      :model-value="address.name"
       name="name"
       :label="invoice ? t('companyName') : t('name')"
       rules="required"
-      @update:model-value="update('name')"
+      @update:model-value="update('name', $event as string)"
     />
     <FormInput
       v-if="invoice"
-      :model-value="value.vat"
+      :model-value="address.vat"
       name="vat"
       rules="required"
       :label="t('vatNumber')"
-      @update:model-value="update('vat')"
+      @update:model-value="update('vat', $event as string)"
     />
 
     <div class="address-form__row">
       <FormSelect
-        :model-value="value.country"
+        :model-value="address.country"
         name="country"
         rules="required"
         :label="t('country')"
-        @update:model-value="update('country')"
+        @update:model-value="update('country', $event as string)"
       >
         <option v-for="country in countries" :key="country.code" :value="country.code">
           {{ country.name }}
         </option>
       </FormSelect>
       <FormInput
-        :model-value="value.address"
+        :model-value="address.address"
         name="address"
         rules="required"
         :label="t('address')"
-        @update:model-value="update('address')"
+        @update:model-value="update('address', $event as string)"
       />
     </div>
     <div class="address-form__row">
       <FormInput
-        :model-value="value.zip"
+        :model-value="address.zip"
         name="postalCode"
         rules="required"
         :label="t('postalCode')"
-        @update:model-value="update('zip')"
+        @update:model-value="update('zip', $event as string)"
       />
       <FormInput
-        :model-value="value.city"
+        :model-value="address.city"
         name="city"
         rules="required"
         :label="t('city')"
-        @update:model-value="update('city')"
+        @update:model-value="update('city', $event as string)"
       />
     </div>
     <FormInput
-      :model-value="value.phone"
+      :model-value="address.phone"
       name="phone"
       html-type="phone"
       rules="required"
       :label="t('phone')"
-      @update:model-value="update('phone')"
+      @update:model-value="update('phone', $event as string)"
     />
+
+    <div class="address-form__info">
+      <span class="address-form__info-star">*</span>
+      - {{ t('info') }}
+    </div>
   </div>
 </template>
 
@@ -73,45 +78,38 @@
     "city": "Miasto",
     "postalCode": "Kod pocztowy",
     "phone": "Telefon",
-    "country": "Kraj"
+    "country": "Kraj",
+    "info": "Dane obowiązkowe do wypełnienia"
   }
 }
 </i18n>
 
 <script setup lang="ts">
 import { AddressDto } from '@heseya/store-core'
+import { EMPTY_ADDRESS } from '~/consts/address'
 
 const t = useLocalI18n()
 const heseya = useHeseya()
 
 const props = withDefaults(
   defineProps<{
-    value?: AddressDto
+    address?: AddressDto
     invoice?: boolean
   }>(),
   {
-    value: () => ({
-      name: '',
-      address: '',
-      postal_code: '',
-      city: '',
-      phone: '',
-      zip: '',
-      country: 'PL',
-      country_name: '',
-    }),
+    address: () => ({ ...EMPTY_ADDRESS }),
     invoice: false,
   },
 )
 
 const emit = defineEmits<{
-  (event: 'update:value', value: AddressDto): void
+  (event: 'update:address', value: AddressDto): void
 }>()
 
-const { data: countries } = useAsyncData(() => heseya.ShippingMethods.getCountries())
+const { data: countries } = useAsyncData('countries', () => heseya.ShippingMethods.getCountries())
 
-const update = (key: keyof AddressDto) => (value: string) => {
-  emit('update:value', { ...props.value, [key]: value })
+const update = (key: keyof AddressDto, value: string) => {
+  emit('update:address', { ...props.address, [key]: value })
 }
 </script>
 
@@ -124,6 +122,13 @@ const update = (key: keyof AddressDto) => (value: string) => {
 
   > *:not(:last-child) {
     margin-bottom: 1em;
+  }
+
+  &__info {
+    font-size: rem(12);
+  }
+  &__info-star {
+    color: var(--primary-color);
   }
 }
 </style>
