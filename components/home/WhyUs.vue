@@ -69,7 +69,7 @@ const reasonList: ReasonProps[] = [
   width: 100%;
 
   @include flex-column;
-  gap: 20px;
+  gap: 30px;
 
   &__header {
     text-align: left;
@@ -78,20 +78,21 @@ const reasonList: ReasonProps[] = [
   &__reasons {
     @include flex-column;
     gap: 20px;
-    @media ($viewport-8) {
+    @media ($viewport-9) {
       flex-direction: row;
     }
   }
 
   &__partner {
-    margin-top: 70px;
+    margin-top: 20px;
 
     @include flex-column;
     align-items: center;
     align-self: center;
     gap: 20px;
 
-    @media ($viewport-8) {
+    @media ($viewport-9) {
+      margin: 70px 0 40px 0;
       max-width: 80%;
       flex-direction: row;
     }
