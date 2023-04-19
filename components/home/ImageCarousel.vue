@@ -14,6 +14,7 @@
 </template>
 
 <script lang="ts" setup>
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Banner, BannerMedia } from '@heseya/store-core'
 
 const breakpoints = {
