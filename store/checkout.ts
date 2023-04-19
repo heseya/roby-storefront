@@ -44,6 +44,11 @@ export const useCheckoutStore = defineStore('checkout', {
         billing_address: this.billingAddress || this.shippingAddress!,
         coupons: cart.coupons.map((c) => c.code),
         sales_ids: cart.sales.map((s) => s.id),
+        metadata: this.isInpostShippingMethod
+          ? {
+              inpost_phone: this.shippingAddress.phone,
+            }
+          : {},
       }
     },
 
