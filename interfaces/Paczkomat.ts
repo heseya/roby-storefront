@@ -18,6 +18,7 @@ export interface Paczkomat {
   easy_access_zone: boolean
   location_247: boolean
   location_date: string | null
+  location_description: string | null
   opening_hours: string
   partner_id: number
   type: string[]

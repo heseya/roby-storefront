@@ -44,7 +44,19 @@ export const useCheckoutStore = defineStore('checkout', {
         billing_address: this.billingAddress || this.shippingAddress!,
         coupons: cart.coupons.map((c) => c.code),
         sales_ids: cart.sales.map((s) => s.id),
+        metadata: this.isInpostShippingMethod
+          ? {
+              inpost_phone: this.shippingAddress.phone,
+            }
+          : {},
       }
+    },
+
+    isInpostShippingMethod(): boolean {
+      return !!(
+        this.shippingMethod?.shipping_type === ShippingType.Address &&
+        this.shippingMethod?.metadata.paczkomat
+      )
     },
 
     isShippingAddressValid(): boolean {
@@ -58,10 +70,8 @@ export const useCheckoutStore = defineStore('checkout', {
 
       if (this.shippingMethod.shipping_type === ShippingType.Point && !this.shippingPointId)
         return false
-      if (
-        this.shippingMethod.shipping_type === ShippingType.Address &&
-        !this.isShippingAddressValid
-      )
+      if (!this.isInpostShippingMethod && !this.isShippingAddressValid) return false
+      if (this.isInpostShippingMethod && (!this.paczkomat || !this.shippingAddress.phone))
         return false
       return true
     },
