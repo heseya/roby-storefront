@@ -66,7 +66,8 @@ export const useCheckoutStore = defineStore('checkout', {
       if (this.shippingMethod.shipping_type === ShippingType.Point && !this.shippingPointId)
         return false
       if (!this.isInpostShippingMethod && !this.isShippingAddressValid) return false
-      if (this.isInpostShippingMethod && !this.paczkomat) return false
+      if (this.isInpostShippingMethod && (!this.paczkomat || !this.shippingAddress.phone))
+        return false
       return true
     },
   },
