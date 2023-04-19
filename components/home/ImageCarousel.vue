@@ -4,7 +4,8 @@
     <LayoutCarousel :items="banner.banner_media" :breakpoints="breakpoints">
       <template #item="media: BannerMedia">
         <Media
-          class="image-carousel__picture image-carousel__picture--gray-filter"
+          class="image-carousel__picture"
+          :class="{ 'image-carousel__picture--gray-filter': grayFilter }"
           :style="{ height: `${imageHeight}px`, width: `${imageWidth}px` }"
           :media="media.media[0].media"
         />
@@ -14,7 +15,6 @@
 </template>
 
 <script lang="ts" setup>
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Banner, BannerMedia } from '@heseya/store-core'
 
 const breakpoints = {

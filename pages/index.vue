@@ -20,6 +20,7 @@
         :key="banner.id"
         :banner="banner"
         :title="banner.name"
+        :gray-filter="banner.metadata.gray_filter"
       />
     </BaseContainer>
   </div>
