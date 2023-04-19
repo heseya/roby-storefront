@@ -55,9 +55,8 @@ const form = useForm({
   },
 })
 
-const onSubmit = form.handleSubmit((values) => {
+const onSubmit = form.handleSubmit(() => {
   // TODO: send this form somewhere
-  console.log(values)
   auth.login()
 
   // TODO: redirect it to checkout
@@ -86,7 +85,7 @@ const onSubmit = form.handleSubmit((values) => {
   }
 
   &__btn {
-    padding: 11px 0px;
+    padding: 11px 0;
     width: 100%;
   }
 }
