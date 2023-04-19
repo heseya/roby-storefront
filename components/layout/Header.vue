@@ -24,6 +24,7 @@ withDefaults(
   font-size: rem(26);
   font-weight: bold;
   text-align: center;
+  line-height: 1.3;
 
   &--white {
     color: $white-color;

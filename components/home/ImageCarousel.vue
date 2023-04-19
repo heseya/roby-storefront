@@ -14,16 +14,12 @@
 </template>
 
 <script lang="ts" setup>
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Banner, BannerMedia } from '@heseya/store-core'
 
 const breakpoints = {
+  320: { slidesPerView: 1 },
   480: { slidesPerView: 2 },
-  640: { slidesPerView: 3 },
-  850: { slidesPerView: 4 },
-  1100: { slidesPerView: 5 },
-  1280: { slidesPerView: 6 },
-  1680: { slidesPerView: 7 },
+  640: { slidesPerView: 'auto', spaceBetween: 50 },
 }
 
 withDefaults(
