@@ -1,25 +1,29 @@
 <template>
-  <nuxt-link :to="localePath(`/blog/${article.url}`)" class="article">
+  <nuxt-link :to="localePath(`/blog/${article.slug}`)" class="article">
     <div class="article__image-container">
-      <div class="article__floating-title">{{ article.title }}</div>
+      <img :src="imageUrl" :alt="translatedArticle.title" />
+      <div class="article__floating-title">{{ translatedArticle.title }}</div>
     </div>
-    <div class="article__title">{{ article.title }}</div>
-    <div class="article__date">{{ article.date }}</div>
+    <div class="article__title">{{ translatedArticle.description }}</div>
+    <div class="article__date">{{ formatDate(article.date_created, 'dd LLLL yyyy') }}</div>
   </nuxt-link>
 </template>
 
 <script lang="ts" setup>
-export interface Article {
-  title: string
-  url: string
-  date: string
-  img: string
-}
+import { Article } from '~/interfaces/Article'
+import { getImageUrl, getTranslated } from '~/utils/directus'
+import { formatDate } from '~/utils/dates'
 
-defineProps<{
-  article: Article
+const props = defineProps<{
+  article: {
+    type: Article
+    required: true
+  }
 }>()
+
 const localePath = useLocalePath()
+const imageUrl = getImageUrl(props.article.image)
+const translatedArticle = getTranslated(props.article.translations, 'PL-pl')
 </script>
 
 <style lang="scss" scoped>
@@ -36,6 +40,14 @@ const localePath = useLocalePath()
       content: '';
       display: block;
       padding-bottom: 63%;
+    }
+
+    img {
+      position: absolute;
+      border-radius: 5px;
+      height: 100%;
+      width: 100%;
+      object-fit: fill;
     }
   }
 

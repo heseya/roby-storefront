@@ -2,10 +2,10 @@
   <div class="articles">
     <div class="articles__header">
       <LayoutHeader variant="'black">{{ t('blog') }}</LayoutHeader>
-      <ShowAll path="/blog" />
+      <ShowAllButton path="/blog" />
     </div>
     <div class="articles__list">
-      <BlogArticle v-for="(article, index) in articles" :key="index" :article="article" />
+      <BlogArticle v-for="(article, index) in articles.data" :key="index" :article="article" />
     </div>
   </div>
 </template>
@@ -19,35 +19,28 @@
 </i18n>
 
 <script lang="ts" setup>
-import BlogArticle, { Article } from '~/components/home/articlesList/BlogArticle.vue'
-import ShowAll from '~/components/home/ShowAll.vue'
+import BlogArticle from '~/components/home/articlesList/BlogArticle.vue'
+import ShowAllButton from '~/components/home/ShowAllButton.vue'
 
-const articles: Article[] = [
-  {
-    title: 'Drukarka do plakatów',
-    date: '20 marca 2023',
-    img: '',
-    url: '',
-  },
-  {
-    title: 'Drukarka do plakatów',
-    date: '20 marca 2023',
-    img: '',
-    url: '',
-  },
-  {
-    title: 'Drukarka do plakatów',
-    date: '20 marca 2023',
-    img: '',
-    url: '',
-  },
-  {
-    title: 'Drukarka do plakatów',
-    date: '20 marca 2023',
-    img: '',
-    url: '',
-  },
-]
+const { $directus } = useNuxtApp()
+const { data: articles } = await useAsyncData('articles', () => {
+  return $directus.items('Articles').readByQuery({
+    fields: [
+      'id',
+      'slug',
+      'date_created',
+      'image.filename_disk',
+      'translations.title',
+      'translations.description',
+      'translations.languages_code',
+    ],
+    page: 1,
+    limit: 4,
+    filter: {
+      status: 'published' as const,
+    },
+  })
+})
 
 const t = useLocalI18n()
 </script>
