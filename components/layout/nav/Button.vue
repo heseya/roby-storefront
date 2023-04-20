@@ -1,10 +1,10 @@
 <template>
   <div class="category-btn" :class="{ 'category-btn--special': highlighted }">
-    <NuxtLink class="category-btn__link" :to="localePath(link.path)">
-      <div class="category-btn__label-container">
+    <div class="category-btn__link-container">
+      <NuxtLink class="category-btn__link" :to="localePath(link.path)">
         {{ link.text }}
-      </div>
-    </NuxtLink>
+      </NuxtLink>
+    </div>
     <div v-show="Boolean(link.children?.length)" class="category-btn__list">
       <NuxtLink
         v-for="sub in link.children"
@@ -35,22 +35,27 @@ const localePath = useLocalePath()
 .category-btn {
   position: relative;
   height: 55px;
-  padding: 12px 18px;
+  padding: 0 18px;
   background-color: $gray-color-300;
 
   &:hover {
     cursor: pointer;
 
-    .category-btn__label-container {
+    .category-btn__link {
       border-bottom-color: $gray-color-900;
     }
   }
 
-  &__link {
-    text-decoration: none;
+  &__link-container {
+    @include flex-column;
+    justify-content: center;
+    height: 100%;
   }
 
-  &__label-container {
+  &__link {
+    text-decoration: none;
+    text-align: center;
+
     padding: 5px 0;
     font-weight: bold;
     text-transform: uppercase;
@@ -92,12 +97,12 @@ const localePath = useLocalePath()
   }
 
   &--special {
-    .category-btn__label-container {
+    .category-btn__link {
       color: var(--primary-color);
     }
 
     &:hover {
-      .category-btn__label-container {
+      .category-btn__link {
         border-bottom-color: var(--primary-color);
       }
     }
