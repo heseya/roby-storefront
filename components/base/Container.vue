@@ -10,7 +10,7 @@
 .container {
   max-width: $container-width;
   margin: 0 auto;
-  padding: $container-padding;
+  padding: 0 $container-padding;
 
   @media ($viewport-13) {
     padding: 0;
