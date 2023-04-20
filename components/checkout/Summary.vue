@@ -74,7 +74,7 @@ const createOrder = async () => {
 
     // TODO: move 'traditional' to some const
     if (paymentKey === 'traditional') {
-      router.push(`/checkout/thank-you?code=${order.code}`)
+      router.push(`/checkout/thank-you?code=${order.code}&payment=traditional`)
       return
     }
 

@@ -40,6 +40,7 @@ import { useCheckoutStore } from '@/store/checkout'
 const t = useLocalI18n()
 const checkout = useCheckoutStore()
 
+// TODO: fetch from API
 const METHODS = [
   { key: 'traditional', value: 'traditional', label: t('paymentMethods.traditional') },
   { key: 'bluemedia', value: 'bluemedia', label: '' },

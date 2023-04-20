@@ -1,9 +1,23 @@
 <template>
   <div class="checkout-billing-address">
-    <p>{{ t('billingAddress.sameAsDelivery') }}</p>
-    <FormCheckbox v-model="isInvoice" name="fvat" style="margin-top: 16px">
+    <CheckoutSelectedAddress
+      :address="checkout.billingAddress"
+      :empty-text="t('billingAddress.sameAsDelivery')"
+      @edit="isModalOpen = true"
+    />
+
+    <FormCheckbox
+      :model-value="checkout.invoiceRequested"
+      name="fvat"
+      style="margin-top: 16px"
+      disabled
+    >
       {{ t('billingAddress.invoice') }}
     </FormCheckbox>
+
+    <LayoutModal v-model:open="isModalOpen">
+      <CheckoutFormBillingAddress v-if="isModalOpen" @close="isModalOpen = false" />
+    </LayoutModal>
   </div>
 </template>
 
@@ -19,8 +33,10 @@
 </i18n>
 
 <script setup lang="ts">
-const t = useLocalI18n()
-const isInvoice = ref(false)
-</script>
+import { useCheckoutStore } from '~/store/checkout'
 
-<style lang="scss" scoped></style>
+const t = useLocalI18n()
+const checkout = useCheckoutStore()
+
+const isModalOpen = ref(false)
+</script>
