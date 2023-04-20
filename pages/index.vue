@@ -2,18 +2,17 @@
   <div class="index-page">
     <HomeBanner v-if="data?.mainBanner" class="index-page__banner" :banner="data?.mainBanner" />
 
-    <template v-for="section in sections">
+    <template
+      v-for="section in sections"
+      :key="section.type === 'box' ? section.data.text : section.data.id"
+    >
       <BaseContainer
         class="index-page__content"
         :class="{ 'index-page__content--wide': section.type === 'box' }"
       >
-        <HomeProductCarousel
-          v-if="section.type === 'set'"
-          :key="section.data.id"
-          :category="section.data"
-        />
+        <HomeProductCarousel v-if="section.type === 'set'" :category="section.data" />
 
-        <HomeLinkBox v-if="section.type === 'box'" :key="section.data.text" :link="section.data" />
+        <HomeLinkBox v-if="section.type === 'box'" :link="section.data" />
       </BaseContainer>
     </template>
 
