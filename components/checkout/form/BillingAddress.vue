@@ -2,12 +2,13 @@
   <form class="billing-form" @submit.prevent="onSave">
     <h2 class="billing-form__title">{{ t('billingAddress.formTitle') }}</h2>
     <CheckoutFormAddress v-model:address="form.address" :invoice="form.invoice" />
+
     <FormCheckbox v-model="form.invoice" name="invoice">
       {{ t('billingAddress.invoice') }}
     </FormCheckbox>
 
     <div class="billing-form__btns">
-      <LayoutButton variant="white" html-type="button" @click="close">
+      <LayoutButton variant="white" html-type="button" @click="cancel">
         {{ t('cancel') }}
       </LayoutButton>
       <LayoutButton html-type="submit"> {{ t('save') }} </LayoutButton>
@@ -20,27 +21,32 @@
   "pl": {
     "billingAddress": {
       "formTitle": "Wprowadź dane do rachunku",
-      "invoice": "Potrzebuje fakturę VAT",
-      "save": "Zapisz",
-      "cancel": "Anuluj"
-    }
+      "invoice": "Potrzebuje fakturę VAT"
+    },
+    "save": "Zapisz",
+    "cancel": "Anuluj"
   }
 }
 </i18n>
 
 <script setup lang="ts">
+// TODO: maybe this component will be unnecessary? For now it's not used anywhere
 import { useForm } from 'vee-validate'
 
 import { AddressDto } from '@heseya/store-core'
-import { useCheckoutStore } from '@/store/checkout'
 import { EMPTY_ADDRESS } from '~/consts/address'
 
 const emit = defineEmits<{
-  (e: 'close'): void
+  (e: 'cancel'): void
+  (e: 'submit', data: { address: AddressDto; invoice: boolean }): void
+}>()
+
+const props = defineProps<{
+  address: AddressDto
+  invoice: boolean
 }>()
 
 const t = useLocalI18n()
-const checkout = useCheckoutStore()
 
 const { handleSubmit } = useForm()
 const form = reactive({
@@ -49,21 +55,19 @@ const form = reactive({
 })
 
 watch(
-  () => checkout.billingAddress,
+  () => [props.address, props.invoice],
   () => {
-    form.address = { ...EMPTY_ADDRESS, ...(checkout.billingAddress || {}) }
-    form.invoice = checkout.invoiceRequested
+    form.address = { ...EMPTY_ADDRESS, ...(props.address || {}) }
+    form.invoice = props.invoice
   },
   { immediate: true },
 )
 
-const close = () => emit('close')
+const cancel = () => emit('cancel')
 
 const onSave = handleSubmit(() => {
   if (!form.invoice) form.address.vat = undefined
-  checkout.billingAddress = form.address
-  checkout.invoiceRequested = form.invoice
-  close()
+  emit('submit', form)
 })
 </script>
 

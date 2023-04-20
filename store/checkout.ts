@@ -19,7 +19,7 @@ export const useCheckoutStore = defineStore('checkout', {
     comment: '',
     shippingAddress: { ...EMPTY_ADDRESS } as Address,
     shippingPointId: null as string | null,
-    billingAddress: null as Address | null,
+    billingAddress: { ...EMPTY_ADDRESS } as Address,
     shippingMethod: null as ShippingMethod | null,
     digitalShippingMethod: null as ShippingMethod | null,
     paczkomat: null as Paczkomat | null,
@@ -42,15 +42,14 @@ export const useCheckoutStore = defineStore('checkout', {
       return {
         email: this.email,
         comment: this.comment,
-        shipping_place:
-          (this.shippingMethod?.shipping_type === ShippingType.Point
-            ? this.shippingPointId
-            : this.shippingAddress) ?? undefined,
+        shipping_place: this.orderShippingPlace,
         items: cart.orderItems,
         shipping_method_id: this.shippingMethod?.id,
         digital_shipping_method_id: this.digitalShippingMethod?.id,
         invoice_requested: !!this.invoiceRequested,
-        billing_address: this.billingAddress || this.shippingAddress!,
+        billing_address: isAddressValid(this.billingAddress)
+          ? this.billingAddress
+          : this.shippingAddress,
         coupons: cart.coupons.map((c) => c.code),
         sales_ids: cart.sales.map((s) => s.id),
         metadata: this.isInpostShippingMethod
@@ -85,6 +84,7 @@ export const useCheckoutStore = defineStore('checkout', {
       )
         return false
       if (!isAddress(this.orderShippingPlace) && !isAddressValid(this.billingAddress)) return false
+      if (this.invoiceRequested && !this.billingAddress.vat) return false
       return true
     },
   },

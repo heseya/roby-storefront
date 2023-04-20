@@ -2,7 +2,7 @@
   <div class="selected-address">
     <span v-if="label" class="selected-address__label">{{ label }}</span>
 
-    <template v-if="address">
+    <template v-if="address && isAddressValid(address)">
       <span>{{ address.name }}</span>
       <span>{{ address.address }}</span>
       <span>{{ address.zip }} {{ address.city }}</span>
@@ -32,6 +32,7 @@
 </i18n>
 
 <script setup lang="ts">
+// TODO: maybe this component will be unnecessary? For now it's not used anywhere
 import { Address } from '@heseya/store-core'
 import EditIcon from '@/assets/icons/pencil-line-filled.svg?component'
 
