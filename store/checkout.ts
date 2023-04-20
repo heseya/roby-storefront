@@ -91,15 +91,9 @@ export const useCheckoutStore = defineStore('checkout', {
 
   actions: {
     reset() {
-      this.email = ''
-      this.comment = ''
-      this.shippingAddress = { ...EMPTY_ADDRESS }
-      this.shippingPointId = null
-      this.billingAddress = null
-      this.shippingMethod = null
-      this.digitalShippingMethod = null
-      this.invoiceRequested = false
-      this.paczkomat = null
+      const cart = useCartStore()
+      this.$reset()
+      cart.$reset()
     },
 
     async attachDigitalShippingMethod() {
@@ -131,19 +125,22 @@ export const useCheckoutStore = defineStore('checkout', {
       return order
     },
 
-    async createOrderPayment(orderCode: string) {
+    async createOrderPayment(orderCode: string, paymentMethodId: string) {
       const heseya = useHeseya()
+      const { appHost } = useRuntimeConfig()
+
       const { order, paymentMethods } = await heseya.Orders.getPaymentMethods(orderCode)
 
       if (!order.payable) throw new Error('Order is not payable')
-      if (!paymentMethods.length) throw new Error('No payment methods available')
+      if (!paymentMethods.find((m) => m.id === paymentMethodId))
+        throw new Error('This payment method is not available for this order')
 
       const orderShippingType = getOrderShippingType(order)
 
       return await heseya.Orders.pay(
         orderCode,
         paymentMethods[0].id,
-        `${process.env.appHost}/checkout/thank-you?code=${orderCode}&t=${orderShippingType}`,
+        `${appHost}/checkout/thank-you?code=${orderCode}&t=${orderShippingType}`,
       )
     },
   },

@@ -15,15 +15,15 @@
 </template>
 
 <script setup lang="ts">
-type Value = string | number | boolean | null
-type Option = { key: string; value: Value; label: string }
+export type RadioGroupValue = string | number | boolean | null
+export type RadioGroupOption = { key: string; value: RadioGroupValue; label: string }
 
 const props = withDefaults(
   defineProps<{
     name: string
     disabled?: boolean
-    value: Value
-    options: Option[]
+    value: RadioGroupValue
+    options: RadioGroupOption[]
   }>(),
   {
     name: '',
@@ -34,14 +34,14 @@ const props = withDefaults(
 )
 
 const emit = defineEmits<{
-  (event: 'update:value', value: Value): void
+  (event: 'update:value', value: RadioGroupValue): void
 }>()
 
 const radioValue = computed({
   get() {
     return props.value
   },
-  set(value: Value): void {
+  set(value: RadioGroupValue): void {
     if (!props.disabled) emit('update:value', value)
   },
 })
