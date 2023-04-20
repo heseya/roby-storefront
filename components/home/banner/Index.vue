@@ -9,7 +9,7 @@
         centered
       />
     </div>
-    <div class="banner__cards">
+    <div class="banner__cards" :style="{ flex: remainingImages.length }">
       <HomeBannerCard
         v-for="image in remainingImages"
         :key="image.id"
@@ -31,7 +31,7 @@ const props = defineProps<{
 
 const mainImage = computed(() => props.banner?.banner_media[0])
 
-const remainingImages = computed(() => props.banner?.banner_media.slice(1))
+const remainingImages = computed(() => props.banner?.banner_media.slice(1)) as Banner[]
 </script>
 
 <style lang="scss" scoped>
@@ -42,12 +42,15 @@ const remainingImages = computed(() => props.banner?.banner_media.slice(1))
 
   &__main-card {
     flex: 1;
+    @media ($viewport-9) {
+      flex-direction: row;
+    }
   }
 
   &__cards {
-    flex: 1;
     @include flex-column;
     @media ($viewport-9) {
+      flex: 1 !important;
       flex-direction: row;
     }
   }

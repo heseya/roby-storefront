@@ -55,6 +55,11 @@ const selectedMedia = computed(() => props.media[0].media)
       align-items: flex-start;
       gap: 12px;
     }
+
+    @media ($max-viewport-9) {
+      padding: 24px 16px;
+      justify-content: flex-end;
+    }
   }
 
   &__image {
@@ -76,6 +81,10 @@ const selectedMedia = computed(() => props.media[0].media)
     position: relative;
     text-transform: uppercase;
     z-index: 1;
+
+    @media ($max-viewport-9) {
+      font-size: rem(16);
+    }
   }
 
   &__subtitle {
@@ -85,6 +94,10 @@ const selectedMedia = computed(() => props.media[0].media)
     line-height: rem(26);
     text-transform: uppercase;
     z-index: 1;
+
+    @media ($max-viewport-9) {
+      font-size: rem(12);
+    }
   }
 
   &:hover &__image {

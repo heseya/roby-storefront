@@ -12,12 +12,27 @@
           <span class="shipping-method__price">{{ formatAmount(method.price || 0) }}</span>
         </div>
         <div class="shipping-method-description">
-          <template v-if="cart.shippingTimeDescription">
-            {{ t('shippingTime') }} <b>{{ cart.shippingTimeDescription }}.</b>
-          </template>
-          {{ t('packagingTime') }}
-          <b>{{ method.shipping_time_min }}-{{ method.shipping_time_max }} {{ t('days') }}</b>
+          <p>
+            <template v-if="cart.shippingTimeDescription">
+              {{ t('shippingTime') }} <b>{{ cart.shippingTimeDescription }}.</b>
+            </template>
+            {{ t('packagingTime') }}
+            <b>{{ method.shipping_time_min }}-{{ method.shipping_time_max }} {{ t('days') }}</b>
+          </p>
         </div>
+      </template>
+
+      <template v-for="method in shippingMethods" :key="method.id" v-slot:[method.id]>
+        <CheckoutFormShippingAddress
+          v-if="method.shipping_type === ShippingType.Address && !method.metadata.paczkomat"
+        />
+        <CheckoutInpostSelect
+          v-if="method.shipping_type === ShippingType.Address && method.metadata.paczkomat"
+        />
+        <CheckoutFormShippingPointSelect
+          v-if="method.shipping_type === ShippingType.Point"
+          :method="method"
+        />
       </template>
     </FormRadioGroup>
   </div>
@@ -34,7 +49,7 @@
 </i18n>
 
 <script setup lang="ts">
-import { ShippingMethod } from '@heseya/store-core'
+import { ShippingMethod, ShippingType } from '@heseya/store-core'
 import { useCartStore } from '@/store/cart'
 import { useCheckoutStore } from '@/store/checkout'
 
@@ -61,7 +76,12 @@ const shippingOptions = computed(() => {
 })
 
 const setShippingMethod = (id: unknown) => {
-  checkout.shippingMethod = shippingMethods.value?.find((method) => method.id === id) || null
+  const shippingMethod = shippingMethods.value?.find((method) => method.id === id) || null
+  checkout.shippingMethod = shippingMethod
+
+  if (shippingMethod?.shipping_type === ShippingType.Point && !checkout.shippingPointId) {
+    checkout.shippingPointId = shippingMethod.shipping_points[0].id || null
+  }
 }
 </script>
 

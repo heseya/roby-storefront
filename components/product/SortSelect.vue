@@ -1,6 +1,7 @@
 <template>
   <FormSelect
     v-model="innerValue"
+    label-uppercase
     :label="hideLabel ? undefined : t('label')"
     name="sort"
     type="gray"
