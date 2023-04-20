@@ -7,7 +7,7 @@
       <span class="checkout-summary-item__text">{{ formatAmount(item.totalPrice) }}</span>
     </div>
 
-    <div class="checkout-summary-item">
+    <div v-if="cart.totalDiscountValue !== 0" class="checkout-summary-item">
       <span class="checkout-summary-item__text checkout-summary-item__text--green">
         {{ t('summary.discount') }}
       </span>

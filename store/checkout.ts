@@ -1,5 +1,6 @@
 import {
   Address,
+  AddressDto,
   CartItem,
   HeseyaEvent,
   OrderCreateDto,
@@ -27,6 +28,14 @@ export const useCheckoutStore = defineStore('checkout', {
   }),
 
   getters: {
+    orderShippingPlace(): string | AddressDto | undefined {
+      if (!this.shippingMethod) return undefined
+      if (this.shippingMethod.shipping_type === ShippingType.Point)
+        return this.shippingPointId || undefined
+      if (this.isInpostShippingMethod) return this.paczkomat?.name
+      return this.shippingAddress
+    },
+
     orderDto(): OrderCreateDto | null {
       const cart = useCartStore()
       if (!(this.shippingAddress || this.billingAddress)) return null
@@ -54,7 +63,7 @@ export const useCheckoutStore = defineStore('checkout', {
 
     isInpostShippingMethod(): boolean {
       return !!(
-        this.shippingMethod?.shipping_type === ShippingType.Address &&
+        this.shippingMethod?.shipping_type === ShippingType.PointExternal &&
         this.shippingMethod?.metadata.paczkomat
       )
     },
@@ -65,14 +74,17 @@ export const useCheckoutStore = defineStore('checkout', {
 
     isValid(): boolean {
       if (!this.email) return false
+      // TODO: not all orders requires phisical shipping method
       if (!this.shippingMethod) return false
       if (!this.paymentMethodId) return false
-
-      if (this.shippingMethod.shipping_type === ShippingType.Point && !this.shippingPointId)
+      if (this.shippingMethod && !this.orderShippingPlace) return false
+      if (
+        this.shippingMethod &&
+        isAddress(this.orderShippingPlace) &&
+        !isAddressValid(this.orderShippingPlace)
+      )
         return false
-      if (!this.isInpostShippingMethod && !this.isShippingAddressValid) return false
-      if (this.isInpostShippingMethod && (!this.paczkomat || !this.shippingAddress.phone))
-        return false
+      if (!isAddress(this.orderShippingPlace) && !isAddressValid(this.billingAddress)) return false
       return true
     },
   },
@@ -128,7 +140,6 @@ export const useCheckoutStore = defineStore('checkout', {
 
       const orderShippingType = getOrderShippingType(order)
 
-      // TODO: create this env variable
       return await heseya.Orders.pay(
         orderCode,
         paymentMethods[0].id,
