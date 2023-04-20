@@ -1,21 +1,21 @@
 import { defineStore } from 'pinia'
-export const useNotificationBarStore = defineStore('notificationBar', {
+export const useNavNotificationBarStore = defineStore('navNotificationBar', {
   state: () => ({
     isOpen: true as boolean,
-    notification: '' as string,
+    text: '' as string,
   }),
 
   actions: {
-    setIfNewNotification(newNotification: string) {
-      if (newNotification === this.notification) {
+    setIfNew(newText: string) {
+      if (newText === this.text) {
         return
       }
 
       this.isOpen = true
-      this.notification = newNotification
+      this.text = newText
     },
 
-    closeNotification() {
+    close() {
       this.isOpen = false
     },
   },

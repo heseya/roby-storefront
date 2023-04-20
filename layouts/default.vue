@@ -17,9 +17,9 @@
 </template>
 
 <script lang="ts" setup>
-import { useNotificationBarStore } from '@/store/notificationBar'
+import { useNavNotificationBarStore } from '@/store/notificationBar'
 
-const notificationBar = useNotificationBarStore()
+const notificationBar = useNavNotificationBarStore()
 </script>
 
 <style lang="scss">

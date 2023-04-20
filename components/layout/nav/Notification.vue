@@ -1,11 +1,11 @@
 <template>
-  <div v-show="notificationBar.isOpen" class="notification">
-    <span class="notification__title">{{ notificationBar.notification }}</span>
+  <div v-show="navNotificationBar.isOpen" class="notification">
+    <span class="notification__title">{{ navNotificationBar.text }}</span>
     <LayoutIconButton
       class="notification__button"
       :icon="Close"
       icon-size="sm"
-      @click="notificationBar.closeNotification"
+      @click="navNotificationBar.close"
     />
   </div>
 </template>
@@ -13,17 +13,15 @@
 <script lang="ts" setup>
 import Close from '@/assets/icons/cross.svg?component'
 import { useConfigStore } from '@/store/config'
-import { useNotificationBarStore } from '@/store/notificationBar'
+import { useNavNotificationBarStore } from '@/store/notificationBar'
 
 const config = useConfigStore()
-const notificationBar = useNotificationBarStore()
-
-onMounted(() => notificationBar.setIfNewNotification(config.env.top_site_text as string))
+const navNotificationBar = useNavNotificationBarStore()
 
 watch(
   () => config.env.top_site_text,
-  () => notificationBar.setIfNewNotification(config.env.top_site_text as string),
-  { deep: true },
+  () => navNotificationBar.setIfNew(config.env.top_site_text as string),
+  { deep: true, immediate: true },
 )
 </script>
 
