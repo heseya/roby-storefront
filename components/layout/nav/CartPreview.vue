@@ -5,7 +5,7 @@
         <Media width="100" class="cart-preview-item__cover" :media="item.coverMedia" />
         <div class="cart-preview-item__content">
           <span class="cart-preview-item__name">{{ item.name }}</span>
-          <span class="cart-preview-item__brand">{{ item.name }}</span>
+          <span class="cart-preview-item__brand">{{ productSubtext(item) }}</span>
           <div class="cart-preview-item__summary">
             <span class="cart-preview-item__quantity">{{ t('quantity') }} {{ item.qty }}</span>
             <span class="cart-preview-item__price">
@@ -40,14 +40,22 @@
 </i18n>
 
 <script setup lang="ts">
+import { CartItem } from '@heseya/store-core'
 import CrossIcon from '@/assets/icons/cross.svg?component'
 import { useCartStore } from '@/store/cart'
+import { PRODUCT_SUBTEXT_ATTRIBUTE_NAME } from '~/consts/subtextAttribute'
 
 const t = useLocalI18n()
 const cart = useCartStore()
 
 const handleRemove = (id: string) => {
   cart.remove(id)
+}
+
+const productSubtext = (item: CartItem) => {
+  // TODO: do not attribute from fixed string
+  return item?.attributes.find((a) => a.name === PRODUCT_SUBTEXT_ATTRIBUTE_NAME)
+    ?.selected_options[0]?.name
 }
 </script>
 
@@ -83,6 +91,7 @@ const handleRemove = (id: string) => {
   gap: 10px;
 
   border-bottom: solid 1px $gray-color-400;
+
   &:last-child {
     border-bottom-color: transparent;
   }
