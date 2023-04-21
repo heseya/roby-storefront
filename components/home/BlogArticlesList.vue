@@ -20,8 +20,8 @@
 
 <script lang="ts" setup>
 const directus = useDirectus()
-const { data: articles } = await useAsyncData('articles', () => {
-  return directus.items('Articles').readByQuery({
+const { data: articles } = useAsyncData('articles', async () => {
+  return await directus.items('Articles').readByQuery({
     fields: [
       'id',
       'slug',
@@ -34,8 +34,8 @@ const { data: articles } = await useAsyncData('articles', () => {
     page: 1,
     limit: 4,
     filter: {
-      status: 'published' as const,
-    },
+      status: 'published',
+    } as any,
   })
 })
 

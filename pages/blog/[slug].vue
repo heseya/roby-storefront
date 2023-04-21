@@ -1,0 +1,119 @@
+<template>
+  <BaseContainer>
+    <LayoutLoading :active="pending" />
+    <div class="blog-page">
+      <h1 class="blog-page__title">{{ translatedArticle.title }}</h1>
+      <div class="blog-page__img">
+        <img :src="imageUrl" :alt="translatedArticle.description" />
+      </div>
+      <div class="blog-page__info">
+        <div class="blog-page__tags">
+          <BlogTag v-for="tag in article.tags" :key="tag.name" :tag="tag" />
+        </div>
+        <div class="blog-page__date">{{ dateCreated }}</div>
+      </div>
+      <div
+        v-if="translatedArticle.content"
+        class="blog-page__content"
+        v-html="translatedArticle.content"
+      ></div>
+    </div>
+  </BaseContainer>
+</template>
+
+<script setup lang="ts">
+import { BlogArticle } from '~/interfaces/BlogArticle'
+
+const { data: article, pending } = useAsyncData('article', async () => {
+  const { params } = useRoute()
+  const directus = useDirectus()
+  const response = await directus.items('Articles').readByQuery({
+    fields: [
+      'id',
+      'slug',
+      'date_created',
+      'image.filename_disk',
+      'translations.title',
+      'translations.description',
+      'translations.languages_code',
+      'translations.content',
+      'tags.BlogTags_id.translations.*',
+    ],
+    limit: 1,
+    filter: {
+      slug: params.slug,
+      status: 'published' as const,
+    } as any,
+  })
+
+  if (!response.data[0]) {
+    showError({ statusCode: 404 })
+  }
+
+  return response.data[0] as BlogArticle
+})
+
+const imageUrl = computed(() => getImageUrl(article.value?.image))
+const translatedArticle = computed(() =>
+  article.value ? getTranslated(article.value.translations, 'PL-pl') : '',
+)
+const dateCreated = computed(() =>
+  article.value ? formatDate(article.value.date_created, 'dd LLLL yyyy') : '',
+)
+
+useBreadcrumbs([
+  { label: 'Blog', link: `/blog` },
+  { label: translatedArticle.value?.title || '', link: `/blog/${article.value?.slug}` },
+])
+</script>
+
+<style lang="scss" scoped>
+.blog-page {
+  max-width: $content-width;
+  margin: auto;
+
+  &__title {
+    margin: 25px 0;
+    text-align: center;
+  }
+
+  &__img {
+    width: 100%;
+    background: $gray-color-300;
+    border-radius: 5px;
+    position: relative;
+
+    &::after {
+      content: '';
+      display: block;
+      padding-bottom: 30%;
+    }
+
+    img {
+      position: absolute;
+      border-radius: 5px;
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+    }
+  }
+
+  &__info {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 61px;
+    margin: 10px 0;
+  }
+
+  &__tags {
+    display: flex;
+    gap: 10px;
+  }
+
+  &__date {
+    color: $gray-color-600;
+  }
+}
+</style>

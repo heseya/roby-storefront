@@ -43,11 +43,12 @@ const dateCreated = computed(() => formatDate(props.article.date_created, 'dd LL
     }
 
     img {
+      transition: 0.2s;
       position: absolute;
       border-radius: 5px;
       height: 100%;
       width: 100%;
-      object-fit: fill;
+      object-fit: cover;
     }
   }
 
@@ -63,7 +64,7 @@ const dateCreated = computed(() => formatDate(props.article.date_created, 'dd LL
   }
 
   &__title {
-    color: black;
+    color: $text-color;
     margin-top: 5px;
     font-weight: bold;
   }
