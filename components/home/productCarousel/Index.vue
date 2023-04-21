@@ -4,7 +4,7 @@
       <LayoutHeader class="product-carousel__title" variant="black">
         {{ label || category.name }}
       </LayoutHeader>
-      <HomeProductCarouselShowAll :category-slug="category.slug" />
+      <HomeShowAllButton :path="`/categories/${category.slug}`" />
     </div>
     <LayoutCarousel
       v-if="subcategories?.length && !withoutSubcategories"
