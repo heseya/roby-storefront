@@ -9,6 +9,7 @@
     "lint": "eslint --ext .ts,.js,.vue ."
   },
   "dependencies": {
+    "@directus/sdk": "^10.3.3",
     "@heseya/store-core": "4.0.1",
     "@kyvg/vue3-notification": "^2.9.0",
     "@pinia-plugin-persistedstate/nuxt": "1.1.1",

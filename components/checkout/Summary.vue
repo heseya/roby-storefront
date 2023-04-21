@@ -7,7 +7,7 @@
       <span class="checkout-summary-item__text">{{ formatAmount(item.totalPrice) }}</span>
     </div>
 
-    <div class="checkout-summary-item">
+    <div v-if="cart.totalDiscountValue !== 0" class="checkout-summary-item">
       <span class="checkout-summary-item__text checkout-summary-item__text--green">
         {{ t('summary.discount') }}
       </span>
@@ -68,18 +68,21 @@ const router = useRouter()
 const createOrder = async () => {
   try {
     // paymentMethodId must exist at this point, it is validated before
-    const paymentKey = checkout.paymentMethodId!
+    const paymentId = checkout.paymentMethodId!
     const order = await checkout.createOrder()
     checkout.reset()
 
     // TODO: move 'traditional' to some const
-    if (paymentKey === 'traditional') {
-      router.push(`/checkout/thank-you?code=${order.code}`)
+    if (paymentId === 'traditional') {
+      router.push(`/checkout/thank-you?code=${order.code}&payment=traditional`)
       return
     }
 
-    router.push(`/checkout/payment/${paymentKey}?code=${order.code}`)
+    const paymentUrl = await checkout.createOrderPayment(order.code, paymentId)
+    window.location.href = paymentUrl
   } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error('🚀 ~ file: Summary.vue:84 ~ createOrder ~ error:', error)
     notify({
       title: formatError(error),
       type: 'error',

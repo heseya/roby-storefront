@@ -23,11 +23,9 @@
       </template>
 
       <template v-for="method in shippingMethods" :key="method.id" v-slot:[method.id]>
-        <CheckoutFormShippingAddress
-          v-if="method.shipping_type === ShippingType.Address && !method.metadata.paczkomat"
-        />
+        <CheckoutFormShippingAddress v-if="method.shipping_type === ShippingType.Address" />
         <CheckoutInpostSelect
-          v-if="method.shipping_type === ShippingType.Address && method.metadata.paczkomat"
+          v-if="method.shipping_type === ShippingType.PointExternal && method.metadata.paczkomat"
         />
         <CheckoutFormShippingPointSelect
           v-if="method.shipping_type === ShippingType.Point"
@@ -82,6 +80,8 @@ const setShippingMethod = (id: unknown) => {
   if (shippingMethod?.shipping_type === ShippingType.Point && !checkout.shippingPointId) {
     checkout.shippingPointId = shippingMethod.shipping_points[0].id || null
   }
+
+  cart.processCart()
 }
 </script>
 

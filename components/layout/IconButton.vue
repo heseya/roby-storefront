@@ -42,9 +42,11 @@ withDefaults(
   align-items: center;
   gap: 14px;
   background-color: transparent;
+  transition: filter 0.3s;
 
   &:hover {
     cursor: pointer;
+    filter: brightness(1.5);
   }
 
   &__icon-container {

@@ -68,7 +68,7 @@ const activeStep = computed(() => {
   min-height: 100vh;
   background: $gray-color-100;
   display: grid;
-  grid-template-rows: 0.1fr 0.1fr 1fr;
+  grid-template-rows: auto auto 1fr;
 
   &__header {
     display: flex;
@@ -136,6 +136,11 @@ const activeStep = computed(() => {
     width: 100%;
     text-align: center;
     margin-top: 40px;
+    font-size: rem(10);
+
+    @media ($viewport-6) {
+      font-size: rem(14);
+    }
 
     &::before {
       background-color: $gray-color-050;
