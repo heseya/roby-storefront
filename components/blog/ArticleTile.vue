@@ -5,7 +5,7 @@
       <div class="blog-article__floating-title">{{ translatedArticle.title }}</div>
     </div>
     <div class="blog-article__title">{{ translatedArticle.description }}</div>
-    <div class="blog-article__date">{{ formatDate(article.date_created, 'dd LLLL yyyy') }}</div>
+    <div class="blog-article__date">{{ dateCreated }}</div>
   </nuxt-link>
 </template>
 
@@ -23,6 +23,7 @@ const props = defineProps<{
 const localePath = useLocalePath()
 const imageUrl = computed(() => getImageUrl(props.article.image))
 const translatedArticle = computed(() => getTranslated(props.article.translations, 'PL-pl'))
+const dateCreated = computed(() => formatDate(props.article.date_created, 'dd LLLL yyyy'))
 </script>
 
 <style lang="scss" scoped>
