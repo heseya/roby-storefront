@@ -13,7 +13,7 @@
         </ClientOnly>
 
         <h1 class="product-header__title">{{ product?.name }}</h1>
-        <span class="product-header__subtitle"> {{ productSubtext }} </span>
+        <span class="product-header__subtitle"> {{ getProductSubtext(product) }} </span>
         <div class="product-header__sales">
           <ProductTag v-for="sale in product?.sales || []" :key="sale.id" type="sale">
             {{ sale.name }}
@@ -103,8 +103,8 @@
 </i18n>
 
 <script setup lang="ts">
-import { PRODUCT_SUBTEXT_ATTRIBUTE_NAME } from '@/consts/subtextAttribute'
 import { ASK_FOR_PRICE_KEY } from '@/consts/metadataKeys'
+import { getProductSubtext } from '@/utils/product'
 
 const heseya = useHeseya()
 const route = useRoute()
@@ -140,12 +140,6 @@ useHead({
       content: computed(() => product.value?.description_short || ''),
     },
   ],
-})
-
-const productSubtext = computed(() => {
-  // TODO: do not attribute from fixed string
-  return product.value?.attributes.find((a) => a.name === PRODUCT_SUBTEXT_ATTRIBUTE_NAME)
-    ?.selected_options[0]?.name
 })
 
 const showPrice = computed(() => {
