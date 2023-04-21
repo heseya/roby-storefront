@@ -118,6 +118,11 @@ const update = (key: keyof AddressDto, value: string) => {
   &__row {
     display: flex;
     gap: 1rem;
+    flex-direction: column;
+
+    @media ($viewport-6) {
+      flex-direction: row;
+    }
   }
 
   > *:not(:last-child) {

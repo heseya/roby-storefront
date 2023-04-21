@@ -18,8 +18,8 @@
       <p>{{ userAddress.address.zip }} {{ userAddress.address.city }}</p>
     </div>
     <div class="address-cart__actions">
-      <LayoutIcon class="address-cart__icon" :icon="Trash" @click="editAddress" />
-      <LayoutIcon class="address-cart__icon" :icon="PencilLine" @click="deleteAddress" />
+      <LayoutIcon class="address-cart__icon" :size="14" :icon="Trash" @click="editAddress" />
+      <LayoutIcon class="address-cart__icon" :size="14" :icon="PencilLine" @click="deleteAddress" />
     </div>
   </div>
 </template>

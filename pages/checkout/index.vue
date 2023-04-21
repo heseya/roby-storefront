@@ -95,8 +95,12 @@ useHead({
 .checkout-page {
   width: 100%;
   display: grid;
-  grid-template-columns: 1fr 360px;
+  grid-template-columns: 1fr;
   gap: 18px;
+
+  @media ($viewport-10) {
+    grid-template-columns: 1fr 360px;
+  }
 
   &__section {
     display: flex;
@@ -107,6 +111,7 @@ useHead({
   &__area {
     padding: 16px;
     background-color: #fff;
+    position: relative;
   }
 
   &__title {
