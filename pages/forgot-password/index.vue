@@ -1,6 +1,6 @@
 <template>
-  <form class="forgot-password-content" @submit.prevent="onSubmit">
-    <div class="forgot-password-content__form">
+  <div class="forgot-password-content">
+    <form class="forgot-password-content__form" @submit.prevent="onSubmit">
       <h2 class="forgot-password-content__header">{{ t('form.header') }}</h2>
       <span class="forgot-password-content__description">{{ t('form.description') }}</span>
       <FormInput
@@ -9,15 +9,15 @@
         :label="t('form.email')"
         rules="required|email"
       />
-      <div class="forgot-password-content__btn-container">
-        <LayoutButton class="forgot-password-content__btn" :label="t('form.send')" />
-      </div>
-      <span v-if="errorMessage" class="forgot-password-content__error">{{ errorMessage }}</span>
-      <NuxtLink :to="'/login'" class="forgot-password-content__nav">
-        &lt; Wróć do logowania</NuxtLink
-      >
-    </div>
-  </form>
+      <LayoutInfoBox v-if="errorMessage" type="danger" class="login-form__error">
+        {{ errorMessage }}
+      </LayoutInfoBox>
+      <LayoutButton class="forgot-password-content__button" :label="t('form.send')" />
+      <LayoutButton />
+    </form>
+
+    <NuxtLink :to="'/login'" class="forgot-password-content__nav"> &lt; Wróć do logowania</NuxtLink>
+  </div>
 </template>
 
 <i18n lang="json">
@@ -50,12 +50,18 @@ const form = useForm({
 const errorMessage = ref('')
 
 const onSubmit = form.handleSubmit(async (values) => {
+  console.log('hi')
+
   try {
     const { appHost } = useRuntimeConfig()
 
     // TODO: Change to corrent link
 
-    await heseya.Auth.requestResetPassword(values.email, `${appHost}\\new-password`)
+    const response = await heseya.Auth.requestResetPassword(
+      values.email,
+      `${appHost}\\new-password`,
+    )
+    console.log(response)
 
     // TODO: Add a message if mail was sent correctly
   } catch (e: any) {
@@ -66,11 +72,10 @@ const onSubmit = form.handleSubmit(async (values) => {
 
 <style lang="scss" scoped>
 .forgot-password-content {
-  width: 100%;
-  height: 100%;
   padding: 16px;
   margin-top: 50px;
   display: flex;
+  flex-direction: column;
   align-items: center;
 
   @media ($viewport-11) {
@@ -97,7 +102,7 @@ const onSubmit = form.handleSubmit(async (values) => {
     font-weight: 800;
   }
 
-  &__btn {
+  &__button {
     width: 100%;
     padding: 11px 24px;
     margin-top: 10px;
