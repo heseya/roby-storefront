@@ -3,8 +3,8 @@ import { DirectusTranslated } from '~/interfaces/DirectusTranslated'
 
 export const getImageUrl = (file?: DirectusImage): string => {
   if (!file) return ''
-  const nuxtApp = useNuxtApp()
-  return `${nuxtApp.$config.public.directusUrl}/assets/${file.filename_disk}`
+  const { directusUrl } = useRuntimeConfig()
+  return `${directusUrl}/assets/${file.filename_disk}`
 }
 
 export const getTranslated = <T>(translated: DirectusTranslated<T>, lang: string): T => {

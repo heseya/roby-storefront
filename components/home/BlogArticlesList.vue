@@ -1,11 +1,11 @@
 <template>
-  <div class="articles">
-    <div class="articles__header">
-      <LayoutHeader variant="'black">{{ t('blog') }}</LayoutHeader>
-      <ShowAllButton path="/blog" />
+  <div class="blog-articles">
+    <div class="blog-articles__header">
+      <LayoutHeader variant="black">{{ t('blog') }}</LayoutHeader>
+      <HomeShowAllButton path="/blog" />
     </div>
-    <div class="articles__list">
-      <BlogArticle v-for="(article, index) in articles.data" :key="index" :article="article" />
+    <div class="blog-articles__list">
+      <BlogArticleTile v-for="(article, index) in articles.data" :key="index" :article="article" />
     </div>
   </div>
 </template>
@@ -19,12 +19,9 @@
 </i18n>
 
 <script lang="ts" setup>
-import BlogArticle from '~/components/home/articlesList/BlogArticle.vue'
-import ShowAllButton from '~/components/home/ShowAllButton.vue'
-
-const { $directus } = useNuxtApp()
+const directus = useDirectus()
 const { data: articles } = await useAsyncData('articles', () => {
-  return $directus.items('Articles').readByQuery({
+  return directus.items('Articles').readByQuery({
     fields: [
       'id',
       'slug',
@@ -46,7 +43,7 @@ const t = useLocalI18n()
 </script>
 
 <style lang="scss" scoped>
-.articles {
+.blog-articles {
   &__header {
     width: 100%;
     display: flex;

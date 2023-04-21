@@ -1,12 +1,12 @@
 import { ID } from '@directus/sdk'
 import { DirectusTranslated } from './DirectusTranslated'
 
-export interface Tag {
+export interface BlogTag {
   id: ID
   translations: DirectusTranslated<{ name: string }>
 }
 
-export interface TranslatedTag {
+export interface TranslatedBlogTag {
   id: ID
   name: string
 }

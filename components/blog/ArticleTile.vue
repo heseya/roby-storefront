@@ -1,33 +1,32 @@
 <template>
-  <nuxt-link :to="localePath(`/blog/${article.slug}`)" class="article">
-    <div class="article__image-container">
+  <nuxt-link :to="localePath(`/blog/${article.slug}`)" class="blog-article">
+    <div class="blog-article__image-container">
       <img :src="imageUrl" :alt="translatedArticle.title" />
-      <div class="article__floating-title">{{ translatedArticle.title }}</div>
+      <div class="blog-article__floating-title">{{ translatedArticle.title }}</div>
     </div>
-    <div class="article__title">{{ translatedArticle.description }}</div>
-    <div class="article__date">{{ formatDate(article.date_created, 'dd LLLL yyyy') }}</div>
+    <div class="blog-article__title">{{ translatedArticle.description }}</div>
+    <div class="blog-article__date">{{ formatDate(article.date_created, 'dd LLLL yyyy') }}</div>
   </nuxt-link>
 </template>
 
 <script lang="ts" setup>
-import { Article } from '~/interfaces/Article'
+import { BlogArticle } from '~/interfaces/BlogArticle'
 import { getImageUrl, getTranslated } from '~/utils/directus'
-import { formatDate } from '~/utils/dates'
 
 const props = defineProps<{
   article: {
-    type: Article
+    type: BlogArticle
     required: true
   }
 }>()
 
 const localePath = useLocalePath()
-const imageUrl = getImageUrl(props.article.image)
-const translatedArticle = getTranslated(props.article.translations, 'PL-pl')
+const imageUrl = computed(() => getImageUrl(props.article.image))
+const translatedArticle = computed(() => getTranslated(props.article.translations, 'PL-pl'))
 </script>
 
 <style lang="scss" scoped>
-.article {
+.blog-article {
   text-decoration: none;
 
   &__image-container {
@@ -36,7 +35,7 @@ const translatedArticle = getTranslated(props.article.translations, 'PL-pl')
     border-radius: 5px;
     position: relative;
 
-    &:after {
+    &::after {
       content: '';
       display: block;
       padding-bottom: 63%;
@@ -53,7 +52,7 @@ const translatedArticle = getTranslated(props.article.translations, 'PL-pl')
 
   &__floating-title {
     color: white;
-    background: $unnamed-color-242423;
+    background: $gray-color-900;
     position: absolute;
     bottom: 15px;
     left: 0;

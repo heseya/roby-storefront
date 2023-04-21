@@ -1,9 +1,9 @@
 import { ID } from '@directus/sdk'
 import { DirectusImage } from './DirectusImage'
-import { Tag } from './Tag'
+import { BlogTag } from './BlogTag'
 import { DirectusTranslated } from './DirectusTranslated'
 
-export interface Article {
+export interface BlogArticle {
   id: ID
   image: DirectusImage
   date_created: string
@@ -11,7 +11,7 @@ export interface Article {
   status: 'draft' | 'published' | 'archived'
   tags: {
     id: ID
-    BlogTags_id: Tag
+    BlogTags_id: BlogTag
   }[]
   slug: string
   translations: DirectusTranslated<{
@@ -28,7 +28,7 @@ export interface Article {
   }
 }
 
-export interface TranslatedArticle {
+export interface TranslatedBlogArticle {
   id: ID
   image_url: string
   date_created: string

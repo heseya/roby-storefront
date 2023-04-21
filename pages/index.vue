@@ -17,7 +17,7 @@
     </template>
 
     <BaseContainer class="index-page__content">
-      <ArticlesList />
+      <HomeBlogArticlesList />
       <HomeWhyUs />
 
       <HomeImageCarousel
@@ -43,7 +43,6 @@
 <script setup lang="ts">
 import { ProductSetList } from '@heseya/store-core'
 import { LinkBox } from '~~/components/home/LinkBox.vue'
-import ArticlesList from '~/components/home/articlesList/ArticlesList.vue'
 
 const t = useLocalI18n()
 const heseya = useHeseya()
