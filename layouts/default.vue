@@ -5,7 +5,7 @@
     </div>
     <div
       class="site__content"
-      :class="{ 'site__content--with-notification': notificationBar.isOpen }"
+      :class="{ 'site__content--with-notification': config.env.top_site_text }"
     >
       <LayoutBreadcrumps />
       <slot></slot>
@@ -17,9 +17,14 @@
 </template>
 
 <script lang="ts" setup>
-import { useNavNotificationBarStore } from '@/store/notificationBar'
+import { useConfigStore } from '~/store/config'
 
-const notificationBar = useNavNotificationBarStore()
+const config = useConfigStore()
+
+// TODO load notification without hydration & layout shift problem
+// import { useNavNotificationBarStore } from '@/store/navNotificationBar'
+//
+// const notificationBar = useNavNotificationBarStore()
 </script>
 
 <style lang="scss">
