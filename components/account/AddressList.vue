@@ -74,5 +74,10 @@ const selectedAddress = ref({})
       background-color: $gray-color-400 !important;
     }
   }
+
+  &__description {
+    display: grid;
+    gap: 5px;
+  }
 }
 </style>
