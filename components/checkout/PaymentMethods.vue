@@ -2,16 +2,16 @@
   <div class="checkout-payment-methods">
     <FormRadioGroup
       v-model:value="checkout.paymentMethodId"
-      :options="METHODS"
+      :options="optionGroups"
       name="payment-method"
     >
       <template #traditional>
         <CheckoutTraditionalPaymentNotice class="checkout-payment-methods__notice" />
       </template>
 
-      <template #bluemedia-label>
+      <template #payu-label>
         <div class="checkout-payment-methods__label">
-          {{ t('paymentMethods.bluemedia') }}
+          {{ t('paymentMethods.quick') }}
           <img
             src="@/assets/images/payu.png"
             role="presentation"
@@ -28,7 +28,7 @@
   "pl": {
     "paymentMethods": {
       "traditional": "Przelew bankowy",
-      "bluemedia": "Przelew natychmiastowy"
+      "quick": "Przelew natychmiastowy"
     }
   }
 }
@@ -36,14 +36,42 @@
 
 <script setup lang="ts">
 import { useCheckoutStore } from '@/store/checkout'
+import { RadioGroupOption } from '@/components/form/RadioGroup.vue'
+import { useConfigStore } from '~/store/config'
 
 const t = useLocalI18n()
 const checkout = useCheckoutStore()
+const config = useConfigStore()
+const heseya = useHeseya()
 
-const METHODS = [
-  { key: 'traditional', value: 'traditional', label: t('paymentMethods.traditional') },
-  { key: 'bluemedia', value: 'bluemedia', label: '' },
-]
+const { data: paymentMethods, refresh } = useAsyncData('payment-methods', async () => {
+  const { data } = await heseya.PaymentMethods.get({
+    shipping_method_id: checkout.shippingMethod?.id,
+  })
+  return data
+})
+
+watch(
+  () => checkout.shippingMethod?.id,
+  () => refresh(),
+)
+
+const TRADITIONAL_TRANSFER: RadioGroupOption = {
+  key: 'traditional',
+  value: 'traditional',
+  label: t('paymentMethods.traditional'),
+}
+
+const isTraditionalTransfer = computed(() => config.env.allow_traditional_transfer === '1')
+
+const optionGroups = computed<RadioGroupOption[]>(() => [
+  ...(isTraditionalTransfer.value ? [TRADITIONAL_TRANSFER] : []),
+  ...(paymentMethods.value?.map((method) => ({
+    key: method.alias,
+    value: method.id,
+    label: method.name,
+  })) || []),
+])
 </script>
 
 <style lang="scss" scoped>

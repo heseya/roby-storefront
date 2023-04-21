@@ -1,5 +1,5 @@
 <template>
-  <button :class="[`btn`, `btn--${variant}`]" :disabled="disabled">
+  <button :class="[`btn`, `btn--${variant}`]" :disabled="disabled" :type="htmlType">
     <slot>{{ label }}</slot>
   </button>
 </template>

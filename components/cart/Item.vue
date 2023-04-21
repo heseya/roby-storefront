@@ -72,7 +72,7 @@ const removeFromCart = () => {
     grid-gap: 8px;
 
     @media ($viewport-8) {
-      grid-template-columns: 3fr auto 1fr;
+      grid-template-columns: 5fr 2fr 3fr;
       grid-gap: 20px;
     }
   }

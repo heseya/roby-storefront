@@ -2,6 +2,7 @@ import svgLoader from 'vite-svg-loader'
 
 const {
   API_URL = 'https://demo-***REMOVED***.***REMOVED***',
+  DIRECTUS_URL = 'https://cms.heseya.com',
   ENVIRONMENT = 'development',
   APP_HOST,
 } = process.env
@@ -42,6 +43,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       apiUrl: API_URL,
+      directusUrl: DIRECTUS_URL,
       appHost: APP_HOST,
       isProduction,
     },

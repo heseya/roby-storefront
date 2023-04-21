@@ -4,15 +4,17 @@
       <span class="search-history__header">{{ t('lastSearch') }}</span>
       <button class="search-history__button" @click="handleClear">{{ t('clear') }}</button>
     </div>
-    <NuxtLink
-      v-for="(query, index) in searchHistory.queries"
-      :key="index"
-      :to="`/search/${query}`"
-      class="search-history__link"
-    >
-      <LayoutIcon :icon="HistoryIcon" size="sm" class="search-history__icon" />
-      <span>{{ query }}</span>
-    </NuxtLink>
+    <div class="search-history__link-list">
+      <NuxtLink
+        v-for="(query, index) in searchHistory.queries"
+        :key="index"
+        :to="`/search/${query}`"
+        class="search-history__link"
+      >
+        <LayoutIcon :icon="HistoryIcon" size="sm" class="search-history__icon" />
+        <span>{{ query }}</span>
+      </NuxtLink>
+    </div>
   </div>
 </template>
 
@@ -41,6 +43,7 @@ const handleClear = () => {
 .search-history {
   z-index: 1001;
   padding: 10px 0;
+  max-height: calc(100vh - 130px);
 
   background-color: $white-color;
 
@@ -70,6 +73,10 @@ const handleClear = () => {
       cursor: pointer;
       color: $unnamed-color-30475e;
     }
+  }
+
+  &__link-list {
+    overflow: auto;
   }
 
   &__link {

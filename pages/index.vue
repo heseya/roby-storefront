@@ -2,17 +2,22 @@
   <div class="index-page">
     <HomeBanner v-if="data?.mainBanner" class="index-page__banner" :banner="data?.mainBanner" />
 
+    <template
+      v-for="section in sections"
+      :key="section.type === 'box' ? section.data.text : section.data.id"
+    >
+      <BaseContainer
+        class="index-page__content"
+        :class="{ 'index-page__content--wide': section.type === 'box' }"
+      >
+        <HomeProductCarousel v-if="section.type === 'set'" :category="section.data" />
+
+        <HomeLinkBox v-if="section.type === 'box'" :link="section.data" />
+      </BaseContainer>
+    </template>
+
     <BaseContainer class="index-page__content">
-      <template v-for="section in sections">
-        <HomeProductCarousel
-          v-if="section.type === 'set'"
-          :key="section.data.id"
-          :category="section.data"
-        />
-
-        <HomeLinkBox v-if="section.type === 'box'" :key="section.data.text" :link="section.data" />
-      </template>
-
+      <HomeBlogArticlesList />
       <HomeWhyUs />
 
       <HomeImageCarousel
@@ -99,6 +104,10 @@ const sections = computed<Section[]>(() => {
 <style lang="scss" scoped>
 .index-page {
   &__content {
+    &--wide {
+      padding: 0;
+    }
+
     > * {
       margin-top: 50px;
 

@@ -30,7 +30,11 @@ const checkout = useCheckoutStore()
 .checkout-personal-data {
   width: 100%;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
   gap: 8px;
+
+  @media ($viewport-6) {
+    grid-template-columns: 1fr 1fr;
+  }
 }
 </style>

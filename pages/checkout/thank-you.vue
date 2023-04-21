@@ -46,6 +46,10 @@ const route = useRoute()
 const auth = useAuthStore()
 
 const t = useLocalI18n()
+
+useHead({
+  title: t('container.header'),
+})
 </script>
 
 <style lang="scss" scoped>
