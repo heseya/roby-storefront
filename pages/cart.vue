@@ -64,7 +64,7 @@ useHead({
 .cart-page {
   margin-bottom: 50px;
 
-  @media ($viewport-10) {
+  @media ($viewport-12) {
     margin-top: 90px;
   }
 
@@ -75,7 +75,7 @@ useHead({
     margin-bottom: 16px;
 
     &--hideable {
-      @media ($max-viewport-10) {
+      @media ($max-viewport-12) {
         display: none;
       }
     }
@@ -91,7 +91,7 @@ useHead({
     grid-template-columns: 1fr;
     grid-gap: 24px;
 
-    @media ($viewport-10) {
+    @media ($viewport-12) {
       grid-template-columns: 1fr minmax(auto, 400px);
     }
   }
@@ -116,7 +116,7 @@ useHead({
     text-align: center;
     color: $gray-color-400;
 
-    @media ($viewport-10) {
+    @media ($viewport-12) {
       margin-top: 90px;
     }
   }
