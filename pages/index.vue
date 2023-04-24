@@ -16,8 +16,9 @@
       </BaseContainer>
     </template>
 
+    <HomeBlogArticlesList />
+
     <BaseContainer class="index-page__content">
-      <HomeBlogArticlesList />
       <HomeWhyUs />
 
       <HomeImageCarousel
