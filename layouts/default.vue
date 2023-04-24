@@ -7,7 +7,10 @@
       class="site__content"
       :class="{ 'site__content--with-notification': notificationBar.isOpen }"
     >
-      <LayoutBreadcrumps />
+      <!-- Temporary hydration fix: -->
+      <ClientOnly>
+        <LayoutBreadcrumps />
+      </ClientOnly>
       <slot></slot>
     </div>
     <div class="site__footer">
