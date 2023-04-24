@@ -22,7 +22,7 @@
     <LayoutInfoBox v-if="errorMessage" type="danger" class="login-form__error">
       {{ errorMessage }}
     </LayoutInfoBox>
-    <LayoutButton class="login-form__btn" html-type="submit" :label="t('form.login')" />
+    <LayoutButton class="login-form__btn" :label="t('form.login')" html-type="submit" />
   </form>
 </template>
 
