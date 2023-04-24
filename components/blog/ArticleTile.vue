@@ -55,7 +55,7 @@ const dateCreated = computed(() => formatDate(props.article.date_created, 'dd LL
     color: white;
     background: $gray-color-900;
     position: absolute;
-    bottom: 15px;
+    bottom: 20px;
     left: 0;
     font-weight: bold;
     padding: 3px 10px;
