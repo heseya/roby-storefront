@@ -58,6 +58,7 @@
         :disabled="isFormDisabled"
         class="register-form__btn"
         :label="t('form.register')"
+        html-type="submit"
       />
     </div>
   </form>

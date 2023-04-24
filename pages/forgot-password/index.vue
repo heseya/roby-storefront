@@ -12,8 +12,11 @@
       <LayoutInfoBox v-if="errorMessage" type="danger" class="login-form__error">
         {{ errorMessage }}
       </LayoutInfoBox>
-      <LayoutButton class="forgot-password-content__button" :label="t('form.send')" />
-      <LayoutButton />
+      <LayoutButton
+        class="forgot-password-content__button"
+        :label="t('form.send')"
+        html-type="submit"
+      />
     </form>
 
     <NuxtLink :to="'/login'" class="forgot-password-content__nav"> &lt; Wróć do logowania</NuxtLink>
@@ -50,17 +53,12 @@ const form = useForm({
 const errorMessage = ref('')
 
 const onSubmit = form.handleSubmit(async (values) => {
-  console.log('hi')
-
   try {
     const { appHost } = useRuntimeConfig()
 
     // TODO: Change to corrent link
 
-    const response = await heseya.Auth.requestResetPassword(
-      values.email,
-      `${appHost}\\new-password`,
-    )
+    const response = await heseya.Auth.requestResetPassword(values.email, `${appHost}\\`)
     console.log(response)
 
     // TODO: Add a message if mail was sent correctly
