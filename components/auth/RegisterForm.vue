@@ -56,9 +56,9 @@
     <div class="register-form__btn-container">
       <LayoutButton
         :disabled="isFormDisabled"
+        html-type="submit"
         class="register-form__btn"
         :label="t('form.register')"
-        html-type="submit"
       />
     </div>
   </form>
