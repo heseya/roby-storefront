@@ -11,7 +11,6 @@
 
 <script lang="ts" setup>
 import { BlogArticle } from '~/interfaces/BlogArticle'
-import { getImageUrl, getTranslated } from '~/utils/directus'
 
 const props = defineProps<{
   article: {

@@ -14,7 +14,7 @@
       </div>
       <div
         v-if="translatedArticle.content"
-        class="blog-page__content"
+        class="hs-html-content"
         v-html="translatedArticle.content"
       ></div>
     </div>
@@ -24,8 +24,8 @@
 <script setup lang="ts">
 import { BlogArticle } from '~/interfaces/BlogArticle'
 
-const { data: article, pending } = useAsyncData('article', async () => {
-  const { params } = useRoute()
+const { params } = useRoute()
+const { data: article, pending } = useAsyncData(`article-${params.id}`, async () => {
   const directus = useDirectus()
   const response = await directus.items('Articles').readByQuery({
     fields: [
@@ -43,7 +43,7 @@ const { data: article, pending } = useAsyncData('article', async () => {
     filter: {
       slug: params.slug,
       status: 'published' as const,
-    } as any,
+    } as any, // this any exists because of directus weird typing
   })
 
   if (!response.data[0]) {
@@ -61,6 +61,10 @@ const dateCreated = computed(() =>
   article.value ? formatDate(article.value.date_created, 'dd LLLL yyyy') : '',
 )
 
+useHead({
+  title: computed(() => translatedArticle.value?.title || ''),
+})
+
 useBreadcrumbs([
   { label: 'Blog', link: `/blog` },
   { label: translatedArticle.value?.title || '', link: `/blog/${article.value?.slug}` },
@@ -73,8 +77,12 @@ useBreadcrumbs([
   margin: auto;
 
   &__title {
-    margin: 25px 0;
-    text-align: center;
+    margin-bottom: 20px;
+
+    @media ($viewport-8) {
+      margin: 25px 0;
+      text-align: center;
+    }
   }
 
   &__img {
@@ -86,7 +94,11 @@ useBreadcrumbs([
     &::after {
       content: '';
       display: block;
-      padding-bottom: 30%;
+      padding-bottom: 40%;
+
+      @media ($viewport-8) {
+        padding-bottom: 30%;
+      }
     }
 
     img {

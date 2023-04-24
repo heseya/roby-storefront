@@ -20,8 +20,8 @@
 
 <script lang="ts" setup>
 const directus = useDirectus()
-const { data: articles } = useAsyncData('articles', async () => {
-  return await directus.items('Articles').readByQuery({
+const { data: articles } = useAsyncData('articles', () => {
+  return directus.items('Articles').readByQuery({
     fields: [
       'id',
       'slug',
@@ -35,7 +35,7 @@ const { data: articles } = useAsyncData('articles', async () => {
     limit: 4,
     filter: {
       status: 'published',
-    } as any,
+    } as any, // this any exists because of directus weird typing
   })
 })
 
