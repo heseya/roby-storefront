@@ -10,7 +10,7 @@
           @click="isModalVisible = false"
           >Anuluj</LayoutButton
         >
-        <LayoutButton class="edit-name-modal__button">Zapisz</LayoutButton>
+        <LayoutButton class="edit-name-modal__button" html-type="submit">Zapisz</LayoutButton>
       </div>
     </form>
   </LayoutModal>
@@ -38,7 +38,7 @@ const props = defineProps<{
   user: User
 }>()
 
-const userForm = useForm<UserProfileUpdateDto>({ initialValues: { name: props.user.name } })
+const userForm = useForm<UserProfileUpdateDto>()
 
 const emit = defineEmits<{
   (e: 'update:open', isModalVisible: boolean): void
@@ -57,6 +57,10 @@ const isModalVisible = computed({
   set(value) {
     emit('update:open', value)
   },
+})
+
+onMounted(() => {
+  userForm.values = { name: props.user.name }
 })
 </script>
 

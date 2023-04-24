@@ -44,7 +44,10 @@
     </div>
   </div>
 
-  <span v-else class="settings-card__error">{{ errorMessage }}</span>
+  <LayoutInfoBox v-if="errorMessage" type="danger" class="settings-card__error">
+    {{ errorMessage }}
+  </LayoutInfoBox>
+
   <AccountEditNameModal
     v-if="user"
     v-model:open="isEditNameModalVisible"

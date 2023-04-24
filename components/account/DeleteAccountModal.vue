@@ -16,7 +16,7 @@
           @click="isModalVisible = false"
           >Anuluj</LayoutButton
         >
-        <LayoutButton class="delete-account-modal__button">Zapisz</LayoutButton>
+        <LayoutButton class="delete-account-modal__button" html-type="submit">Zapisz</LayoutButton>
       </div>
     </form>
 

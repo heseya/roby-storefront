@@ -10,7 +10,11 @@
         rules="required|email"
       />
       <div class="forgot-password-content__btn-container">
-        <LayoutButton class="forgot-password-content__btn" :label="t('form.send')" />
+        <LayoutButton
+          class="forgot-password-content__btn"
+          :label="t('form.send')"
+          html-type="submit"
+        />
       </div>
       <span v-if="errorMessage" class="forgot-password-content__error">{{ errorMessage }}</span>
       <NuxtLink :to="'/login'" class="forgot-password-content__nav">

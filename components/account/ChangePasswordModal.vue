@@ -23,7 +23,7 @@
           @click="isModalVisible = false"
           >Anuluj</LayoutButton
         >
-        <LayoutButton class="edit-password-modal__button">Zapisz</LayoutButton>
+        <LayoutButton class="edit-password-modal__button" html-type="submit">Zapisz</LayoutButton>
       </div>
     </form>
   </LayoutModal>
