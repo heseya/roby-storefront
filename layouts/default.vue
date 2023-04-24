@@ -7,7 +7,7 @@
       class="site__content"
       :class="{ 'site__content--with-notification': notificationBar.isOpen }"
     >
-      <LayoutBreadcrumps />
+      <!-- <LayoutBreadcrumps /> -->
       <slot></slot>
     </div>
     <div class="site__footer">
