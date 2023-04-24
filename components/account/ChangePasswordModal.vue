@@ -1,5 +1,5 @@
 <template>
-  <LayoutAccountFormModal
+  <AccountFormModal
     v-model:open="isModalVisible"
     :form="form"
     :header="t('header')"
@@ -18,7 +18,7 @@
       name="newPassword"
       rules="required"
     />
-  </LayoutAccountFormModal>
+  </AccountFormModal>
 </template>
 
 <i18n lang="json">

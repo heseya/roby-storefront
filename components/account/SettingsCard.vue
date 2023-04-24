@@ -1,6 +1,6 @@
 <template>
   <div v-if="!errorMessage" class="settings-card">
-    <h4 class="settings-card__header">Moje dane</h4>
+    <h4 class="settings-card__header">{{ t('myData') }}</h4>
     <div class="settings-card__container">
       <p>{{ user?.name }}</p>
       <p>{{ user?.email }}</p>
@@ -17,30 +17,22 @@
         class="settings-card__action settings-card__action--text"
         @click="isChangePasswordModalVisible = true"
       >
-        Zmień hasło
+        {{ t('changePassword') }}
       </p>
     </div>
 
-    <div>
-      <FormCheckbox
-        v-for="consent in consents"
-        :key="consent.id"
-        :model-value="
-          user?.consents.find((userConsent) => userConsent.id === consent.id)?.value || false
-        "
-        :name="consent.name"
-        :rules="consent.required ? 'required' : ''"
-        :disabled="user?.consents.find((userConsent) => userConsent.id === consent.id)?.value"
-        @update:model-value="(v) => setConsentValue(consent.id, v)"
-      >
-        <span v-html="consent.description_html"></span>
-      </FormCheckbox>
-      <LayoutButton v-if="isAnyConsentsNotRequired" class="settings-card__button"
-        >Zapisz Zgody</LayoutButton
-      >
+    <div v-if="userConsentsDto">
+      <AccountConsentsList
+        v-model:userConsents="userConsentsDto"
+        :disabled="true"
+        @error-occurred="(e) => formatError(e)"
+      />
+      <LayoutButton class="settings-card__button" @click="saveConsent">{{
+        t('saveConsent')
+      }}</LayoutButton>
     </div>
     <div class="settings-card__delete-account" @click="isDeleteAccountModalVisible = true">
-      Usuń Konto
+      {{ t('deleteAccount') }}
     </div>
   </div>
 
@@ -56,17 +48,26 @@
 <i18n lang="json">
 {
   "pl": {
-    "password": "Hasło"
+    "myData": "Moje dane",
+    "password": "Hasło",
+    "changePassword": "Zmień hasło",
+    "saveConsent": "Zapisz zgody",
+    "deleteAccount": "Usuń konto",
+    "sucessUpdate": "Zaktualizowano zgody użytkownika."
   }
 }
 </i18n>
 
 <script setup lang="ts">
-import { formatApiError } from '@heseya/store-core'
+import { UserConsentDto } from '@heseya/store-core'
 import PencilLine from '@/assets/icons/pencil-line-filled.svg?component'
+import { useUserStore } from '@/store/user'
 
 const t = useLocalI18n()
+const formatError = useErrorMessage()
+const { notify } = useNotify()
 const heseya = useHeseya()
+const userStore = useUserStore()
 
 const errorMessage = ref('')
 
@@ -76,25 +77,24 @@ const isEditNameModalVisible = ref<boolean>(false)
 const isChangePasswordModalVisible = ref<boolean>(false)
 const isDeleteAccountModalVisible = ref<boolean>(false)
 
-const { data: consents } = useAsyncData('consents', async () => {
-  try {
-    const consents = await heseya.Consents.get()
-    return consents.data
-  } catch (e: any) {
-    errorMessage.value = formatApiError(e).text
-  }
-})
+const userConsentsDto: UserConsentDto =
+  user.value?.consents.reduce(
+    (acc, item) => ({ ...acc, [item.id]: item.value }),
+    {} as UserConsentDto,
+  ) || {}
 
-const setConsentValue = (consentId: string, value: boolean) => {
-  if (user.value) {
-    const consent = user.value.consents.find((userConsent) => userConsent.id === consentId)
-    if (consent) consent.value = value
+const saveConsent = async () => {
+  try {
+    const user = await heseya.UserProfile.update({ consents: userConsentsDto })
+    userStore.setUser(user)
+    notify({
+      title: t('sucessUpdate'),
+      type: 'success',
+    })
+  } catch (e) {
+    errorMessage.value = formatError(e)
   }
 }
-
-const isAnyConsentsNotRequired = computed(
-  () => !!consents.value?.filter((consent) => !consent.required).length,
-)
 </script>
 <style lang="scss" scoped>
 .settings-card {

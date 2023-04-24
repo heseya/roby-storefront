@@ -8,14 +8,14 @@
         name="name"
         :label="t('form.name')"
         rules="required"
-        :disabled="isFormDisabled"
+        :disabled="consentsError"
       />
       <FormInput
         v-model="form.values.surname"
         name="surname"
         :label="t('form.surname')"
         rules="required"
-        :disabled="isFormDisabled"
+        :disabled="consentsError"
       />
     </div>
     <div class="register-form__container">
@@ -24,7 +24,7 @@
         name="email"
         :label="t('form.email')"
         rules="required|email"
-        :disabled="isFormDisabled"
+        :disabled="consentsError"
       />
     </div>
     <div class="register-form__container">
@@ -32,30 +32,27 @@
         v-model="form.values.password"
         :label="t('form.password')"
         name="password"
-        :disabled="isFormDisabled"
+        :disabled="consentsError"
       />
       <FormInputPassword
         v-model="form.values.confirmPassword"
         :label="t('form.confirmPassword')"
         rules="confirmedPassword:@password"
         name="confirmPassword"
-        :disabled="isFormDisabled"
+        :disabled="consentsError"
       />
     </div>
-    <FormCheckbox
-      v-for="consent in consents"
-      :key="consent.id"
-      :model-value="form.values.consents[consent.id] || false"
-      :name="consent.name"
-      :rules="consent.required ? 'required' : ''"
-      @update:model-value="(v) => setConsentValue(consent.id, v)"
-    >
-      <span v-html="consent.description_html"></span>
-    </FormCheckbox>
-    <span v-if="errorMessage" class="register-form__error">{{ errorMessage }}</span>
+    <AccountConsentsList
+      v-if="form.values.consents"
+      v-model:userConsents="form.values.consents"
+      @error-occurred="(e) => (errorMessage = formatError(e))"
+    />
+    <LayoutInfoBox v-if="errorMessage || consentsError" type="danger" class="register-form__error">
+      {{ errorMessage || consentsError }}
+    </LayoutInfoBox>
     <div class="register-form__btn-container">
       <LayoutButton
-        :disabled="isFormDisabled"
+        :disabled="consentsError"
         html-type="submit"
         class="register-form__btn"
         :label="t('form.register')"
@@ -81,14 +78,16 @@
 </i18n>
 
 <script setup lang="ts">
-import { formatApiError, User, UserConsentDto, UserRegisterDto } from '@heseya/store-core'
+import { User, UserConsentDto, UserRegisterDto } from '@heseya/store-core'
 import { useForm } from 'vee-validate'
 
 const t = useLocalI18n()
 const heseya = useHeseya()
+const formatError = useErrorMessage()
 
 const isLoading = ref(false)
 const errorMessage = ref('')
+const consentsError = ref()
 
 const emit = defineEmits<{
   (event: 'registered', value: User): void
@@ -99,12 +98,9 @@ const { data: consents } = useAsyncData('consents', async () => {
     const consents = await heseya.Consents.get()
     return consents.data
   } catch (e: any) {
-    // TODO after merging, change to final version with error translation
-    errorMessage.value = formatApiError(e).text
+    errorMessage.value = formatError(e)
   }
 })
-
-const isFormDisabled = computed(() => !consents)
 
 const form = useForm({
   initialValues: {
@@ -132,10 +128,6 @@ const registerForm = computed<UserRegisterDto>(() => ({
   roles: [],
 }))
 
-const setConsentValue = (consentId: string, value: boolean) => {
-  form.values.consents[consentId] = value
-}
-
 const onSubmit = form.handleSubmit(async () => {
   isLoading.value = true
 
@@ -143,8 +135,7 @@ const onSubmit = form.handleSubmit(async () => {
     const user = await heseya.Auth.register(registerForm.value)
     user && emit('registered', user)
   } catch (e: any) {
-    // TODO after merging, change to final version with error translation
-    errorMessage.value = formatApiError(e).text
+    errorMessage.value = formatError(e)
   } finally {
     isLoading.value = false
   }

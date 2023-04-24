@@ -1,5 +1,5 @@
 <template>
-  <LayoutAccountFormModal
+  <AccountFormModal
     v-model:open="isModalVisible"
     :form="form"
     :header="t('header')"
@@ -13,7 +13,7 @@
       name="currentPassword"
       rules="required"
     />
-  </LayoutAccountFormModal>
+  </AccountFormModal>
 </template>
 
 <i18n lang="json">
@@ -29,26 +29,11 @@
 <script setup lang="ts">
 import { useForm } from 'vee-validate'
 const t = useLocalI18n()
+const heseya = useHeseya()
 
 const props = defineProps<{
   open: boolean
 }>()
-
-const error = ref()
-
-const form = useForm({
-  initialValues: { currentPassword: '' },
-})
-
-const onSubmit = form.handleSubmit(() => {
-  try {
-    // TODO add logic to delete account
-    // await heseya.Users.deleteSelf(password)
-    emit('update:open', false)
-  } catch (e: any) {
-    error.value = e
-  }
-})
 
 const emit = defineEmits<{
   (e: 'update:open', isModalVisible: boolean): void
@@ -61,6 +46,21 @@ const isModalVisible = computed({
   set(value) {
     emit('update:open', value)
   },
+})
+
+const error = ref()
+
+const form = useForm({
+  initialValues: { currentPassword: '' },
+})
+
+const onSubmit = form.handleSubmit(async () => {
+  try {
+    await heseya.Users.deleteSelf(form.values.currentPassword)
+    isModalVisible.value = false
+  } catch (e: any) {
+    error.value = e
+  }
 })
 </script>
 

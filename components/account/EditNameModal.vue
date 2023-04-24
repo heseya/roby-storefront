@@ -1,5 +1,5 @@
 <template>
-  <LayoutAccountFormModal
+  <AccountFormModal
     v-model:open="isModalVisible"
     :form="form"
     :header="t('header')"
@@ -8,7 +8,7 @@
   >
     <FormInput v-model:model-value="form.values.name" :label="t('nameSurname')" name="name" />
     <FormInput :label="t('email')" :model-value="user.email" :disabled="true" name="email" />
-  </LayoutAccountFormModal>
+  </AccountFormModal>
 </template>
 
 <i18n lang="json">
