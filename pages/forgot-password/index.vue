@@ -1,6 +1,6 @@
 <template>
   <div class="forgot-password-content">
-    <form class="forgot-password-content__form" @submit.prevent="onSubmit">
+    <form v-if="!formStatus.sent" class="forgot-password-content__form" @submit.prevent="onSubmit">
       <h2 class="forgot-password-content__header">{{ t('form.header') }}</h2>
       <span class="forgot-password-content__description">{{ t('form.description') }}</span>
       <FormInput
@@ -19,6 +19,11 @@
       />
     </form>
 
+    <div v-else>
+      {{ t('message') }} <b>{{ formStatus.email }}</b
+      >{{ t('message2') }}
+    </div>
+
     <NuxtLink :to="'/login'" class="forgot-password-content__nav"> &lt; Wróć do logowania</NuxtLink>
   </div>
 </template>
@@ -32,7 +37,9 @@
       "header": "Przypomnij hasło",
       "description": "Jeżeli ten adres e-mail został zarejestrowany w naszym serwisie, otrzymasz link do zrestartowania hasła.",
       "send": "Wyślij"
-    }
+    },
+    "message": "Jeżeli istnieje konto powiązane z podanym adresem",
+    "message2": ", wysłaliśmy e-mail z linkiem do resetowania hasła."
   }
 }
 </i18n>
@@ -50,18 +57,22 @@ const form = useForm({
   },
 })
 
+const formStatus = ref({
+  sent: false,
+  email: '',
+})
+
 const errorMessage = ref('')
 
 const onSubmit = form.handleSubmit(async (values) => {
   try {
     const { appHost } = useRuntimeConfig()
 
-    // TODO: Change to corrent link
-
-    const response = await heseya.Auth.requestResetPassword(values.email, `${appHost}\\`)
-    console.log(response)
-
-    // TODO: Add a message if mail was sent correctly
+    await heseya.Auth.requestResetPassword(values.email, `${appHost}/reset-password`)
+    formStatus.value = {
+      sent: true,
+      email: form.values.email,
+    }
   } catch (e: any) {
     errorMessage.value = formatApiError(e).text
   }
