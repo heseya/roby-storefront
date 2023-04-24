@@ -48,17 +48,7 @@
     {{ errorMessage }}
   </LayoutInfoBox>
 
-  <AccountEditNameModal
-    v-if="user"
-    v-model:open="isEditNameModalVisible"
-    :user="user"
-    @update:user="
-      (editedUser) => {
-        user = editedUser
-        isEditNameModalVisible = false
-      }
-    "
-  />
+  <AccountEditNameModal v-if="user" v-model:open="isEditNameModalVisible" :user="user" />
   <AccountChangePasswordModal v-model:open="isChangePasswordModalVisible" />
   <AccountDeleteAccountModal v-model:open="isDeleteAccountModalVisible" />
 </template>

@@ -1,32 +1,24 @@
 <template>
-  <LayoutModal v-model:open="isModalVisible" :closeable="false" class="edit-password-modal">
-    <form class="edit-password-modal__form" @submit.prevent="onSubmit">
-      <h1>{{ t('header') }}</h1>
-      <FormInputPassword
-        v-model:model-value="changePasswordForm.values.currentPassword"
-        :label="t('currentPassword')"
-        name="currentPassword"
-        rules="required"
-      />
-      <FormInputPassword
-        v-model:model-value="changePasswordForm.values.newPassword"
-        :label="t('newPassword')"
-        name="newPassword"
-        rules="required"
-      />
-
-      <span class="edit-password-modal__error">{{ errorMessage }}</span>
-
-      <div class="edit-password-modal__actions">
-        <LayoutButton
-          class="edit-password-modal__button edit-password-modal__button--cancel"
-          @click="isModalVisible = false"
-          >Anuluj</LayoutButton
-        >
-        <LayoutButton class="edit-password-modal__button" html-type="submit">Zapisz</LayoutButton>
-      </div>
-    </form>
-  </LayoutModal>
+  <LayoutAccountFormModal
+    v-model:open="isModalVisible"
+    :form="form"
+    :header="t('header')"
+    :on-submit="onSubmit"
+    :error="error"
+  >
+    <FormInputPassword
+      v-model:model-value="form.values.currentPassword"
+      :label="t('currentPassword')"
+      name="currentPassword"
+      rules="required"
+    />
+    <FormInputPassword
+      v-model:model-value="form.values.newPassword"
+      :label="t('newPassword')"
+      name="newPassword"
+      rules="required"
+    />
+  </LayoutAccountFormModal>
 </template>
 
 <i18n lang="json">
@@ -53,19 +45,10 @@ const emit = defineEmits<{
   (e: 'update:open', isModalVisible: boolean): void
 }>()
 
-const errorMessage = ref('')
+const error = ref()
 
-const changePasswordForm = useForm({
+const form = useForm({
   initialValues: { currentPassword: '', newPassword: '' },
-})
-
-const onSubmit = changePasswordForm.handleSubmit(async () => {
-  try {
-    await heseya.UserProfile.changePassword(changePasswordForm.values)
-    emit('update:open', false)
-  } catch (e: any) {
-    errorMessage.value = e.response.data.error.message
-  }
 })
 
 const isModalVisible = computed({
@@ -76,36 +59,18 @@ const isModalVisible = computed({
     emit('update:open', value)
   },
 })
+
+const onSubmit = form.handleSubmit(async () => {
+  try {
+    await heseya.UserProfile.changePassword(form.values)
+    isModalVisible.value = false
+  } catch (e: any) {
+    error.value = e
+  }
+})
 </script>
 
 <style lang="scss" scoped>
-.edit-password-modal {
-  &__form {
-    display: grid;
-    padding: 20px;
-    gap: 20px;
-    background-color: $gray-color-100;
-  }
-
-  &__actions {
-    display: flex;
-    justify-content: center;
-    gap: 30px;
-  }
-
-  &__button {
-    width: 200px;
-
-    &--cancel {
-      background-color: $white-color;
-      color: $text-color;
-    }
-  }
-
-  &__error {
-    color: $error-color;
-    font-weight: bold;
-    text-align: center;
-  }
+.account-form-modal {
 }
 </style>
