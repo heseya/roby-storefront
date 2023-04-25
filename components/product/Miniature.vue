@@ -22,6 +22,7 @@
       <ProductPrice v-if="showPrice" class="product-miniature__price" :product="product" />
       <LayoutButton v-else class="product-miniature__btn"> {{ t('askForPrice') }} </LayoutButton>
 
+      <ProductFavouriteButton class="product-miniature__wishlist-btn" :product="product" />
       <slot />
     </div>
   </NuxtLink>
@@ -86,6 +87,7 @@ const showPrice = computed(() => {
     max-height: 200px;
     border: solid 1px $gray-color-300;
     position: relative;
+    // overflow: hidden;
   }
 
   &__content {
@@ -105,6 +107,11 @@ const showPrice = computed(() => {
     display: block;
     aspect-ratio: 1/1;
     padding: 4px;
+    transition: 0.3s;
+  }
+
+  &:hover &__cover {
+    transform: scale(1.02);
   }
 
   &--horizontal &__cover {
@@ -148,6 +155,18 @@ const showPrice = computed(() => {
 
   &:hover &__name {
     color: var(--primary-color);
+  }
+
+  &__wishlist-btn {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    opacity: 0;
+  }
+
+  &:hover &__wishlist-btn,
+  &--horizontal &__wishlist-btn {
+    opacity: 1;
   }
 }
 </style>

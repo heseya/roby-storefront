@@ -11,7 +11,7 @@ export const useWishlistStore = defineStore('wishlist', {
 
   getters: {
     quantity(): number {
-      return this.userWishlist.length + (this.pagination?.total || 0)
+      return this.localWishlist.length + (this.pagination?.total || 0)
     },
 
     products(): ProductList[] {

@@ -4,8 +4,15 @@
     :variant="isInWishlist ? 'gray' : 'white'"
     @click.prevent="toggle"
   >
-    <FilledHeartIcon class="favorite-btn__icon" />
-    <HeartIcon class="favorite-btn__icon favorite-btn__icon--hover" />
+    <template v-if="isInWishlist">
+      <HeartIcon class="favorite-btn__icon favorite-btn__icon--hover" />
+      <FilledHeartIcon class="favorite-btn__icon" />
+    </template>
+
+    <template v-else>
+      <HeartIcon class="favorite-btn__icon" />
+      <FilledHeartIcon class="favorite-btn__icon favorite-btn__icon--hover" />
+    </template>
   </button>
 </template>
 
