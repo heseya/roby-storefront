@@ -7,6 +7,7 @@
     </BaseContainer>
     <BaseContainer class="rent-page__content">
       <RentSteps />
+      <RentAdvantages />
     </BaseContainer>
   </div>
 </template>
