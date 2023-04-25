@@ -454,7 +454,7 @@
   dependencies:
     "@jridgewell/trace-mapping" "0.3.9"
 
-"@directus/sdk@^10.3.3-dev-3":
+"@directus/sdk@^10.3.3":
   version "10.3.3"
   resolved "https://registry.yarnpkg.com/@directus/sdk/-/sdk-10.3.3.tgz#c78e2dd3babb2c1d5c1ef1ac41e5189e3f6ab8b4"
   integrity sha512-58gw+QjkuIr0lJFRx5HwSp1ewAf7rjfV++eJqAmC13p7vif9wfJEcWcJwqXstYdvtJVUg+nB4O/CE0OBEtp5HQ==

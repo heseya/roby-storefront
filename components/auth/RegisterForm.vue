@@ -8,14 +8,14 @@
         name="name"
         :label="t('form.name')"
         rules="required"
-        :disabled="consentsError"
+        :disabled="consentsListError"
       />
       <FormInput
         v-model="form.values.surname"
         name="surname"
         :label="t('form.surname')"
         rules="required"
-        :disabled="consentsError"
+        :disabled="consentsListError"
       />
     </div>
     <div class="register-form__container">
@@ -24,7 +24,7 @@
         name="email"
         :label="t('form.email')"
         rules="required|email"
-        :disabled="consentsError"
+        :disabled="consentsListError"
       />
     </div>
     <div class="register-form__container">
@@ -32,27 +32,31 @@
         v-model="form.values.password"
         :label="t('form.password')"
         name="password"
-        :disabled="consentsError"
+        :disabled="consentsListError"
       />
       <FormInputPassword
         v-model="form.values.confirmPassword"
         :label="t('form.confirmPassword')"
         rules="confirmedPassword:@password"
         name="confirmPassword"
-        :disabled="consentsError"
+        :disabled="consentsListError"
       />
     </div>
     <AccountConsentsList
       v-if="form.values.consents"
       v-model:userConsents="form.values.consents"
-      @error-occurred="(e) => (errorMessage = formatError(e))"
+      @error="(e) => (consentsListError = formatError(e))"
     />
-    <LayoutInfoBox v-if="errorMessage || consentsError" type="danger" class="register-form__error">
-      {{ errorMessage || consentsError }}
+    <LayoutInfoBox
+      v-if="errorMessage || consentsListError"
+      type="danger"
+      class="register-form__error"
+    >
+      {{ errorMessage || consentsListError }}
     </LayoutInfoBox>
     <div class="register-form__btn-container">
       <LayoutButton
-        :disabled="consentsError"
+        :disabled="consentsListError"
         html-type="submit"
         class="register-form__btn"
         :label="t('form.register')"
@@ -87,20 +91,11 @@ const formatError = useErrorMessage()
 
 const isLoading = ref(false)
 const errorMessage = ref('')
-const consentsError = ref()
+const consentsListError = ref()
 
 const emit = defineEmits<{
   (event: 'registered', value: User): void
 }>()
-
-const { data: consents } = useAsyncData('consents', async () => {
-  try {
-    const consents = await heseya.Consents.get()
-    return consents.data
-  } catch (e: any) {
-    errorMessage.value = formatError(e)
-  }
-})
 
 const form = useForm({
   initialValues: {
@@ -117,14 +112,7 @@ const registerForm = computed<UserRegisterDto>(() => ({
   name: `${form.values.name} ${form.values.surname}`,
   email: form.values.email,
   password: form.values.password,
-  consents:
-    consents.value?.reduce(
-      (acc, consent) => ({
-        ...acc,
-        [consent.id]: form.values.consents[consent.id] || false,
-      }),
-      {},
-    ) || {},
+  consents: {},
   roles: [],
 }))
 

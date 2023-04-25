@@ -24,8 +24,8 @@
     <div v-if="userConsentsDto">
       <AccountConsentsList
         v-model:userConsents="userConsentsDto"
-        :disabled="true"
-        @error-occurred="(e) => formatError(e)"
+        :disabled-accepted-required-consents="true"
+        @error="(e) => formatError(e)"
       />
       <LayoutButton class="settings-card__button" @click="saveConsent">{{
         t('saveConsent')
@@ -40,7 +40,7 @@
     {{ errorMessage }}
   </LayoutInfoBox>
 
-  <AccountEditNameModal v-if="user" v-model:open="isEditNameModalVisible" :user="user" />
+  <AccountEditNameModal v-model:open="isEditNameModalVisible" />
   <AccountChangePasswordModal v-model:open="isChangePasswordModalVisible" />
   <AccountDeleteAccountModal v-model:open="isDeleteAccountModalVisible" />
 </template>
@@ -77,15 +77,10 @@ const isEditNameModalVisible = ref<boolean>(false)
 const isChangePasswordModalVisible = ref<boolean>(false)
 const isDeleteAccountModalVisible = ref<boolean>(false)
 
-const userConsentsDto: UserConsentDto =
-  user.value?.consents.reduce(
-    (acc, item) => ({ ...acc, [item.id]: item.value }),
-    {} as UserConsentDto,
-  ) || {}
-
+const userConsentsDto = ref<UserConsentDto>({})
 const saveConsent = async () => {
   try {
-    const user = await heseya.UserProfile.update({ consents: userConsentsDto })
+    const user = await heseya.UserProfile.update({ consents: userConsentsDto.value })
     userStore.setUser(user)
     notify({
       title: t('sucessUpdate'),
@@ -95,6 +90,14 @@ const saveConsent = async () => {
     errorMessage.value = formatError(e)
   }
 }
+
+onMounted(() => {
+  userConsentsDto.value =
+    user.value?.consents.reduce(
+      (acc, item) => ({ ...acc, [item.id]: item.value }),
+      {} as UserConsentDto,
+    ) || {}
+})
 </script>
 <style lang="scss" scoped>
 .settings-card {

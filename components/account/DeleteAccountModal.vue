@@ -3,8 +3,9 @@
     v-model:open="isModalVisible"
     :form="form"
     :header="t('header')"
-    :on-submit="onSubmit"
     :error="error"
+    :ok-text="t('deleteAccount')"
+    @submit="onSubmit"
   >
     <p class="delete-account-modal__question">{{ t('question') }}</p>
     <FormInputPassword
@@ -21,15 +22,20 @@
   "pl": {
     "header": "Usuwanie konta",
     "question": "Czy napewno chcesz usunąć konto ?",
-    "currentPassword": "Aktualne hasło"
+    "currentPassword": "Aktualne hasło",
+    "sucessUpdate": "Usunięto konto użytkownika.",
+    "deleteAccount": "Usuń konto"
   }
 }
 </i18n>
 
 <script setup lang="ts">
 import { useForm } from 'vee-validate'
+import { useAuthStore } from '@/store/auth'
 const t = useLocalI18n()
 const heseya = useHeseya()
+const { notify } = useNotify()
+const auth = useAuthStore()
 
 const props = defineProps<{
   open: boolean
@@ -48,7 +54,7 @@ const isModalVisible = computed({
   },
 })
 
-const error = ref()
+const error = ref<Error | null>(null)
 
 const form = useForm({
   initialValues: { currentPassword: '' },
@@ -58,6 +64,11 @@ const onSubmit = form.handleSubmit(async () => {
   try {
     await heseya.Users.deleteSelf(form.values.currentPassword)
     isModalVisible.value = false
+    notify({
+      title: t('sucessUpdate'),
+      type: 'success',
+    })
+    await auth.logout()
   } catch (e: any) {
     error.value = e
   }

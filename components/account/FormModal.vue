@@ -1,6 +1,6 @@
 <template>
   <LayoutModal :open="open" :closeable="false" class="account-form-modal">
-    <form class="account-form-modal__form" @submit.prevent="onSubmit">
+    <form class="account-form-modal__form" @submit.prevent="emit('update:submit')">
       <h1>{{ header }}</h1>
       <slot></slot>
       <LayoutInfoBox v-if="error" type="danger" class="account-form-modal__error">
@@ -13,7 +13,7 @@
           >{{ t('cancel') }}</LayoutButton
         >
         <LayoutButton class="account-form-modal__button" html-type="submit">{{
-          t('save')
+          okText || t('save')
         }}</LayoutButton>
       </div>
     </form>
@@ -38,12 +38,13 @@ defineProps<{
   open: boolean
   form: FormContext<any>
   header: string
-  onSubmit: () => void
+  okText?: string
   error: any
 }>()
 
 const emit = defineEmits<{
   (e: 'update:open', isModalVisible: boolean): void
+  (e: 'update:submit'): void
 }>()
 </script>
 

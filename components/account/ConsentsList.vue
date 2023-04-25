@@ -5,7 +5,7 @@
     :model-value="userConsents[consent.id] || false"
     :name="consent.name"
     :rules="consent.required ? 'required' : ''"
-    :disabled="consent.required && disabled"
+    :disabled="consent.required && disabledAcceptedRequiredConsents"
     @update:model-value="(v) => setConsentValue(consent.id, v)"
   >
     <span v-html="consent.description_html"></span>
@@ -18,11 +18,11 @@ const heseya = useHeseya()
 
 const props = defineProps<{
   userConsents: UserConsentDto
-  disabled?: boolean
+  disabledAcceptedRequiredConsents?: boolean
 }>()
 
 const emit = defineEmits<{
-  (e: 'error-occurred', error: any): void
+  (e: 'error', error: any): void
   (e: 'update:userConsents', value: UserConsentDto): void
 }>()
 
@@ -31,13 +31,11 @@ const { data: consents } = useAsyncData('consents', async () => {
     const consents = await heseya.Consents.get()
     return consents.data
   } catch (e: any) {
-    emit('error-occurred', e)
+    emit('error', e)
   }
 })
 
 const setConsentValue = (consentId: string, value: boolean) => {
-  const updatedConsents = Object.assign(props.userConsents)
-  updatedConsents[consentId] = value
-  emit('update:userConsents', updatedConsents)
+  emit('update:userConsents', { ...props.userConsents, [consentId]: value })
 }
 </script>

@@ -3,8 +3,8 @@
     v-model:open="isModalVisible"
     :form="form"
     :header="t('header')"
-    :on-submit="onSubmit"
     :error="error"
+    @submit="onSubmit"
   >
     <FormInputPassword
       v-model:model-value="form.values.currentPassword"
@@ -26,7 +26,8 @@
   "pl": {
     "header": "Zmiana hasła",
     "currentPassword": "Aktualne hasło",
-    "newPassword": "Nowe hasło"
+    "newPassword": "Nowe hasło",
+    "sucessUpdate": "Hasło zostało zmienione."
   }
 }
 </i18n>
@@ -36,6 +37,7 @@ import { useForm } from 'vee-validate'
 
 const t = useLocalI18n()
 const heseya = useHeseya()
+const { notify } = useNotify()
 
 const props = defineProps<{
   open: boolean
@@ -45,7 +47,7 @@ const emit = defineEmits<{
   (e: 'update:open', isModalVisible: boolean): void
 }>()
 
-const error = ref()
+const error = ref<Error | null>(null)
 
 const form = useForm({
   initialValues: { currentPassword: '', newPassword: '' },
@@ -63,6 +65,10 @@ const isModalVisible = computed({
 const onSubmit = form.handleSubmit(async () => {
   try {
     await heseya.UserProfile.changePassword(form.values)
+    notify({
+      title: t('sucessUpdate'),
+      type: 'success',
+    })
     isModalVisible.value = false
   } catch (e: any) {
     error.value = e
