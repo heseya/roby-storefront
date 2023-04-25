@@ -1,6 +1,6 @@
 <template>
-  <div class="forgot-password-content">
-    <form v-if="!formStatus.sent" class="forgot-password-content__form" @submit.prevent="onSubmit">
+  <form class="forgot-password-content" @submit.prevent="onSubmit">
+    <div class="forgot-password-content__form">
       <h2 class="forgot-password-content__header">{{ t('form.header') }}</h2>
       <span class="forgot-password-content__description">{{ t('form.description') }}</span>
       <FormInput
@@ -9,23 +9,19 @@
         :label="t('form.email')"
         rules="required|email"
       />
-      <LayoutInfoBox v-if="errorMessage" type="danger" class="login-form__error">
-        {{ errorMessage }}
-      </LayoutInfoBox>
-      <LayoutButton
-        class="forgot-password-content__button"
-        :label="t('form.send')"
-        html-type="submit"
-      />
-    </form>
-
-    <div v-else>
-      {{ t('message') }} <b>{{ formStatus.email }}</b
-      >{{ t('message2') }}
+      <div class="forgot-password-content__btn-container">
+        <LayoutButton
+          class="forgot-password-content__btn"
+          :label="t('form.send')"
+          html-type="submit"
+        />
+      </div>
+      <span v-if="errorMessage" class="forgot-password-content__error">{{ errorMessage }}</span>
+      <NuxtLink :to="'/login'" class="forgot-password-content__nav">
+        &lt; Wróć do logowania</NuxtLink
+      >
     </div>
-
-    <NuxtLink :to="'/login'" class="forgot-password-content__nav"> &lt; Wróć do logowania</NuxtLink>
-  </div>
+  </form>
 </template>
 
 <i18n lang="json">
@@ -37,9 +33,7 @@
       "header": "Przypomnij hasło",
       "description": "Jeżeli ten adres e-mail został zarejestrowany w naszym serwisie, otrzymasz link do zrestartowania hasła.",
       "send": "Wyślij"
-    },
-    "message": "Jeżeli istnieje konto powiązane z podanym adresem",
-    "message2": ", wysłaliśmy e-mail z linkiem do resetowania hasła."
+    }
   }
 }
 </i18n>
@@ -57,22 +51,17 @@ const form = useForm({
   },
 })
 
-const formStatus = ref({
-  sent: false,
-  email: '',
-})
-
 const errorMessage = ref('')
 
 const onSubmit = form.handleSubmit(async (values) => {
   try {
     const { appHost } = useRuntimeConfig()
 
-    await heseya.Auth.requestResetPassword(values.email, `${appHost}/reset-password`)
-    formStatus.value = {
-      sent: true,
-      email: form.values.email,
-    }
+    // TODO: Change to corrent link
+
+    await heseya.Auth.requestResetPassword(values.email, `${appHost}\\new-password`)
+
+    // TODO: Add a message if mail was sent correctly
   } catch (e: any) {
     errorMessage.value = formatApiError(e).text
   }
@@ -81,10 +70,11 @@ const onSubmit = form.handleSubmit(async (values) => {
 
 <style lang="scss" scoped>
 .forgot-password-content {
+  width: 100%;
+  height: 100%;
   padding: 16px;
   margin-top: 50px;
   display: flex;
-  flex-direction: column;
   align-items: center;
 
   @media ($viewport-11) {
@@ -111,14 +101,10 @@ const onSubmit = form.handleSubmit(async (values) => {
     font-weight: 800;
   }
 
-  &__button {
-    width: 100%;
-    padding: 11px 24px;
-    margin-top: 10px;
+  &__btn {
   }
 
-  &__description {
-    margin-bottom: 10px;
+  &__button {
     font-size: 13px;
 
     @media ($viewport-11) {
