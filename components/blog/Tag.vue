@@ -1,5 +1,5 @@
 <template>
-  <nuxt-link :to="`${localePath(`/blog`)}?tag=${translatedTag.id}`" class="blog-tag">
+  <nuxt-link :to="`${localePath(`/blog`)}?tag=${tag.id ?? tag.BlogTags_id.id}`" class="blog-tag">
     <div class="blog-tag__tag">
       {{ translatedTag.name }}
     </div>
@@ -33,6 +33,12 @@ const translatedTag = computed(() =>
     transition: 0.2s;
 
     &:hover {
+      border: 1px solid var(--primary-color);
+    }
+  }
+
+  &--active {
+    .blog-tag__tag {
       border: 1px solid var(--primary-color);
     }
   }

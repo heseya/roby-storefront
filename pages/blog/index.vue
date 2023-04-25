@@ -4,50 +4,70 @@
     <h1 class="blog__title">Blog</h1>
     <div class="blog">
       <div class="blog__tags">
-        <BlogTag v-for="tag in tags.data" :key="tag.id" :tag="tag" />
+        <BlogTag
+          v-for="tag in tags?.data ?? []"
+          :key="tag.id"
+          :tag="tag"
+          :class="tag.id == route.query.tag ? 'blog-tag--active' : ''"
+        />
       </div>
-      <div class="blog__articles">
+      <div v-if="articles?.data?.length > 0" class="blog__articles">
         <BlogArticleTile
-          v-for="article in articles.data"
+          v-for="article in articles?.data ?? []"
           :key="article.id"
           :article="article"
         ></BlogArticleTile>
       </div>
     </div>
+    <Pagination
+      v-if="articles?.data?.length > 0"
+      :current="page"
+      :total="lastPage"
+      @go="(page) => changePage(page)"
+    />
   </BaseContainer>
 </template>
 
 <script setup lang="ts">
-const { params } = useRoute()
+const route = useRoute()
+const router = useRouter()
 const directus = useDirectus()
-const { data: articles, pending } = useAsyncData(
-  `blog-articles-${params.page}-${params.tag}`,
-  () => {
-    return directus.items('Articles').readByQuery({
-      fields: [
-        'id',
-        'slug',
-        'date_created',
-        'image.filename_disk',
-        'translations.title',
-        'translations.description',
-        'translations.languages_code',
-      ],
-      page: (params.page as number) ?? 1,
-      limit: 12,
-      filter: {
-        status: 'published',
-        tags: params.tag
-          ? {
-              BlogTags_id: {
-                _eq: params.tag,
-              },
-            }
-          : undefined,
-      } as any, // this any exists because of directus weird typing
-    })
-  },
-)
+
+const limit = 6
+const page = computed(() => Number(route.query.page ?? 1))
+const lastPage = computed(() => Math.ceil((articles.value?.meta?.filter_count ?? 1) / limit))
+
+const {
+  data: articles,
+  pending,
+  refresh,
+} = useAsyncData(`blog-articles-${route.query.page}-${route.query.tag}`, () => {
+  return directus.items('Articles').readByQuery({
+    fields: [
+      'id',
+      'slug',
+      'date_created',
+      'image.filename_disk',
+      'translations.title',
+      'translations.description',
+      'translations.languages_code',
+      'tags.BlogTags_id.translations.*',
+    ],
+    meta: ['filter_count'] as any,
+    page: page.value,
+    limit,
+    filter: {
+      status: 'published',
+      tags: route.query.tag
+        ? {
+            BlogTags_id: {
+              _eq: route.query.tag,
+            },
+          }
+        : undefined,
+    } as any, // this any exists because of directus weird typing
+  })
+})
 
 const { data: tags } = useAsyncData(`blog-tags`, () => {
   return directus.items('BlogTags').readByQuery({
@@ -55,11 +75,27 @@ const { data: tags } = useAsyncData(`blog-tags`, () => {
   })
 })
 
+const changePage = (page: number | string) => {
+  router.push({
+    name: route.name!,
+    params: route.params,
+    query: {
+      ...route.query,
+      page,
+    },
+  })
+}
+
 useHead({
   title: 'Blog',
 })
 
 useBreadcrumbs([{ label: 'Blog', link: `/blog` }])
+
+watch(
+  () => route.query,
+  () => refresh(),
+)
 </script>
 
 <style lang="scss" scoped>
@@ -68,6 +104,7 @@ useBreadcrumbs([{ label: 'Blog', link: `/blog` }])
   display: grid;
   grid-template-columns: 1fr 3fr;
   grid-gap: 25px;
+  margin-bottom: 30px;
 
   &__title {
     margin-bottom: 25px;
