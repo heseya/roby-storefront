@@ -112,7 +112,7 @@ const registerForm = computed<UserRegisterDto>(() => ({
   name: `${form.values.name} ${form.values.surname}`,
   email: form.values.email,
   password: form.values.password,
-  consents: {},
+  consents: form.values.consents,
   roles: [],
 }))
 
