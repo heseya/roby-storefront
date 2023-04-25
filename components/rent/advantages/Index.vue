@@ -47,6 +47,11 @@ const items: AdvantageProps[] = [
     font-size: rem(30);
     text-align: left;
     margin-bottom: 30px;
+
+    @media ($max-viewport-9) {
+      margin-bottom: 15px;
+      font-size: rem(22);
+    }
   }
 
   &__content {
@@ -55,6 +60,11 @@ const items: AdvantageProps[] = [
     row-gap: 30px;
 
     grid-template-columns: 1fr 1fr;
+
+    @media ($max-viewport-9) {
+      grid-template-columns: 1fr;
+      row-gap: 10px;
+    }
   }
 }
 </style>

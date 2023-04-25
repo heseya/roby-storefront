@@ -1,7 +1,7 @@
 <template>
   <div class="item">
-    <div class="item__icon">
-      <LayoutIcon :icon="item.icon" :size="35" />
+    <div class="item__icon-container">
+      <LayoutIcon :icon="item.icon" size="35" class="item__icon" />
     </div>
     <div class="item__content">
       <LayoutHeader variant="black" class="item__title">{{ item.title }}</LayoutHeader>
@@ -30,9 +30,15 @@ defineProps<{ item: AdvantageProps }>()
   border-radius: 4px;
 
   @include flex-row;
+  align-items: center;
   gap: 20px;
 
-  &__icon {
+  @media ($max-viewport-9) {
+    padding: 16px;
+    gap: 16px;
+  }
+
+  &__icon-container {
     height: 67px;
     width: 67px;
 
@@ -44,11 +50,27 @@ defineProps<{ item: AdvantageProps }>()
     @include flex-row;
     justify-content: center;
     align-items: center;
+
+    @media ($max-viewport-9) {
+      height: 44px;
+      width: 44px;
+    }
+  }
+
+  &__icon {
+    @media ($max-viewport-9) {
+      height: 22px;
+      width: 22px;
+    }
   }
 
   &__title {
     font-size: rem(20);
     text-align: left;
+
+    @media ($max-viewport-9) {
+      font-size: rem(16);
+    }
   }
 
   &__content {
@@ -56,6 +78,10 @@ defineProps<{ item: AdvantageProps }>()
     gap: 5px;
 
     font-size: rem(16);
+
+    @media ($max-viewport-9) {
+      font-size: rem(14);
+    }
   }
 }
 </style>
