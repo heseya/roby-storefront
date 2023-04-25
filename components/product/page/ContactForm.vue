@@ -35,6 +35,17 @@
       label-uppercase
     />
 
+    <small class="product-contact-form__recaptcha">
+      {{ t('recaptcha.message') }} -
+      <a href="https://policies.google.com/privacy" target="_blank" rel="nofollow noopener">
+        {{ t('recaptcha.privacy') }}
+      </a>
+      |
+      <a href="https://policies.google.com/terms" target="_blank" rel="nofollow noopener">
+        {{ t('recaptcha.conditions') }}
+      </a>
+    </small>
+
     <FormCheckbox v-model="form.values.consent" name="consent" rules="required">
       {{ t('consent', { companyName: COMPANY_NAME }) }}
     </FormCheckbox>
@@ -54,7 +65,12 @@
     "message": "Wiadomość",
     "consent": "Zgadzam się na kontakt w celach przedstawienia oferty handlowej firmy {companyName}",
     "actionText": "Zapytaj o cenę",
-    "successMessage": "Dziękujemy za wysłanie zapytania. Wkrótce się z Tobą skontaktujemy."
+    "successMessage": "Dziękujemy za wysłanie zapytania. Wkrótce się z Tobą skontaktujemy.",
+    "recaptcha": {
+      "message": "Ta strona korzysta z zabezpieczenia Google reCAPTCHa",
+      "privacy": "Prywatność",
+      "conditions": "Warunki"
+    }
   }
 }
 </i18n>
@@ -146,6 +162,25 @@ const onSubmit = form.handleSubmit(async (values) => {
 
   &__btn {
     margin-left: auto;
+  }
+
+  &__recaptcha {
+    display: block;
+    width: 100%;
+    text-align: right;
+    font-size: 0.7em;
+    margin-bottom: 4px;
+    color: $gray-color-600;
+
+    a {
+      color: var(--primary-color);
+      text-decoration: none;
+      transition: 0.3s;
+
+      &:hover {
+        color: var(--secondary-color-alt);
+      }
+    }
   }
 }
 </style>
