@@ -8,7 +8,7 @@
       </div>
       <div class="blog-page__info">
         <div class="blog-page__tags">
-          <BlogTag v-for="tag in article.tags" :key="tag.name" :tag="tag" />
+          <BlogTranslatedTag v-for="tag in article?.tags ?? []" :key="tag.id" :tag="tag" />
         </div>
         <div class="blog-page__date">{{ dateCreated }}</div>
       </div>
@@ -25,7 +25,7 @@
 import { BlogArticle } from '~/interfaces/BlogArticle'
 
 const { params } = useRoute()
-const { data: article, pending } = useAsyncData(`article-${params.id}`, async () => {
+const { data: article, pending } = useAsyncData(`blog-article-${params.slug}`, async () => {
   const directus = useDirectus()
   const response = await directus.items('Articles').readByQuery({
     fields: [
@@ -37,6 +37,7 @@ const { data: article, pending } = useAsyncData(`article-${params.id}`, async ()
       'translations.description',
       'translations.languages_code',
       'translations.content',
+      'tags.BlogTags_id.id',
       'tags.BlogTags_id.translations.*',
     ],
     limit: 1,
@@ -67,7 +68,7 @@ useHead({
 
 useBreadcrumbs([
   { label: 'Blog', link: `/blog` },
-  { label: translatedArticle.value?.title || '', link: `/blog/${article.value?.slug}` },
+  { label: translatedArticle.value?.title ?? '', link: `/blog/${article.value?.slug}` },
 ])
 </script>
 
