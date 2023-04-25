@@ -10,9 +10,11 @@
       <AccountItemsList :header="t('wishList')" :link="`wishlist`">
         <div class="account__wishlist">
           <div v-for="item in wishlist.localWishlist" :key="item.id">
-            <NuxtLink :to="`/product/${item.slug}`">
-              <img :src="item.cover?.url" class="account__img" :alt="item.slug" />
-            </NuxtLink>
+            <div class="account__container">
+              <NuxtLink :to="`/product/${item.slug}`">
+                <Media object-fit="cover" width="63" height="63" :media="item.cover" />
+              </NuxtLink>
+            </div>
           </div>
         </div>
       </AccountItemsList>
@@ -65,13 +67,10 @@ const wishlist = useWishlistStore()
     gap: 10px;
   }
 
-  &__img {
-    object-fit: cover;
-    height: 75px;
-    width: 75px;
+  &__container {
     border: 1px solid $gray-color-300;
+    height: 100%;
     padding: 5px;
-    cursor: pointer;
   }
 }
 </style>
