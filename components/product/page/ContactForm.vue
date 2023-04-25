@@ -1,5 +1,7 @@
 <template>
   <form class="product-contact-form" @submit.prevent="onSubmit">
+    <LayoutLoading :active="isLoading" />
+
     <p class="product-contact-form__text">
       {{ t('text') }}
     </p>
@@ -37,7 +39,7 @@
       {{ t('consent', { companyName: COMPANY_NAME }) }}
     </FormCheckbox>
 
-    <LayoutButton html-type="submit" class="product-contact-form__btn">
+    <LayoutButton :disabled="isLoading" html-type="submit" class="product-contact-form__btn">
       {{ actionText || t('actionText') }}
     </LayoutButton>
   </form>
@@ -51,18 +53,22 @@
     "email": "Adres email",
     "message": "Wiadomość",
     "consent": "Zgadzam się na kontakt w celach przedstawienia oferty handlowej firmy {companyName}",
-    "actionText": "Zapytaj o cenę"
+    "actionText": "Zapytaj o cenę",
+    "successMessage": "Dziękujemy za wysłanie zapytania. Wkrótce się z Tobą skontaktujemy."
   }
 }
 </i18n>
 
 <script setup lang="ts">
+import { ProductList } from '@heseya/store-core'
+import axios from 'axios'
 import { useForm } from 'vee-validate'
 
-withDefaults(
+const props = withDefaults(
   defineProps<{
-    productId: string
+    product: ProductList
     actionText?: string
+    type: 'price' | 'renting'
   }>(),
   {
     actionText: '',
@@ -70,7 +76,9 @@ withDefaults(
 )
 
 const t = useLocalI18n()
+const { notify } = useNotify()
 
+const isLoading = ref(false)
 const form = useForm({
   initialValues: {
     name: '',
@@ -83,15 +91,30 @@ const form = useForm({
 // TODO: This should not be hardcoded
 const COMPANY_NAME = '***REMOVED*** s.c.'
 
-const onSubmit = form.handleSubmit((values) => {
-  // TODO: send this form somewhere
-  console.log(values)
+const onSubmit = form.handleSubmit(async (values) => {
+  isLoading.value = true
+  try {
+    // TODO: send this form somewhere
+    await axios.post('/api/contact', { ...values, type: props.type, product: props.product })
+
+    notify({
+      type: 'success',
+      text: t('successMessage'),
+    })
+  } catch (e: any) {
+    notify({
+      type: 'error',
+      text: e.response?.data?.message || e.message,
+    })
+  }
+  isLoading.value = false
 })
 </script>
 
 <style lang="scss" scoped>
 .product-contact-form {
   display: flex;
+  position: relative;
   flex-direction: column;
 
   > *:not(:last-child) {
