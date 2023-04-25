@@ -13,9 +13,7 @@
         horizontal
         :product="product"
         class="wishlist-page__item"
-      >
-        <ProductPageSmallFavouriteButton class="wishlist-page__btn" :product="product" />
-      </ProductMiniature>
+      />
     </div>
   </div>
 </template>
@@ -68,12 +66,6 @@ useHead({
 
   &__item {
     padding-right: 32px;
-  }
-
-  &__btn {
-    position: absolute;
-    top: 0;
-    right: 0;
   }
 }
 </style>
