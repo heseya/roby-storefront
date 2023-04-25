@@ -18,6 +18,7 @@
           :article="article"
         ></BlogArticleTile>
       </div>
+      <LayoutEmpty v-else>{{ t('empty') }}</LayoutEmpty>
     </div>
     <Pagination
       v-if="articles?.data?.length > 0"
@@ -28,10 +29,20 @@
   </BaseContainer>
 </template>
 
+<i18n lang="json">
+{
+  "pl": {
+    "empty": "Brak postów do wyświetlenia",
+    "prev": "Poprzednia"
+  }
+}
+</i18n>
+
 <script setup lang="ts">
 const route = useRoute()
 const router = useRouter()
 const directus = useDirectus()
+const t = useLocalI18n()
 
 const limit = 6
 const page = computed(() => Number(route.query.page ?? 1))
