@@ -25,7 +25,7 @@
 import { BlogArticle } from '~/interfaces/BlogArticle'
 
 const { params } = useRoute()
-const { data: article, pending } = useAsyncData(`article-${params.id}`, async () => {
+const { data: article, pending } = useAsyncData(`blog-article-${params.id}`, async () => {
   const directus = useDirectus()
   const response = await directus.items('Articles').readByQuery({
     fields: [

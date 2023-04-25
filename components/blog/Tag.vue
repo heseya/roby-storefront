@@ -14,7 +14,11 @@ const props = defineProps<{
   tag: BlogTag
 }>()
 
-const translatedTag = computed(() => getTranslated(props.tag.BlogTags_id.translations, 'PL-pl'))
+const translatedTag = computed(() =>
+  props.tag.BlogTags_id
+    ? getTranslated(props.tag.BlogTags_id.translations, 'PL-pl')
+    : getTranslated(props.tag.translations, 'PL-pl'),
+)
 </script>
 
 <style lang="scss" scoped>

@@ -28,7 +28,7 @@
 
 <script lang="ts" setup>
 const directus = useDirectus()
-const { data: articles } = useAsyncData('articles', () => {
+const { data: articles } = useAsyncData('home-blog-articles', () => {
   return directus.items('Articles').readByQuery({
     fields: [
       'id',
@@ -39,7 +39,6 @@ const { data: articles } = useAsyncData('articles', () => {
       'translations.description',
       'translations.languages_code',
     ],
-    page: 1,
     limit: 4,
     filter: {
       status: 'published',
