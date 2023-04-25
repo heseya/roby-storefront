@@ -42,7 +42,7 @@ const props = defineProps<{
 
 const userStore = useUserStore()
 
-const error = ref<any>(null)
+const error = ref<Error | null>(null)
 
 const form = useForm<UserProfileUpdateDto>()
 
@@ -68,7 +68,7 @@ const onSubmit = form.handleSubmit(async () => {
       title: t('sucessUpdate'),
       type: 'success',
     })
-  } catch (e) {
+  } catch (e: any) {
     error.value = e
   }
 })

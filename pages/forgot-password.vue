@@ -18,7 +18,7 @@
       </div>
       <span v-if="errorMessage" class="forgot-password-content__error">{{ errorMessage }}</span>
       <NuxtLink :to="'/login'" class="forgot-password-content__nav">
-        &lt; Wróć do logowania</NuxtLink
+        &lt; {{ t('backToLogin') }}</NuxtLink
       >
     </div>
   </form>
@@ -32,7 +32,8 @@
       "email": "Adres e-mail",
       "header": "Przypomnij hasło",
       "description": "Jeżeli ten adres e-mail został zarejestrowany w naszym serwisie, otrzymasz link do zrestartowania hasła.",
-      "send": "Wyślij"
+      "send": "Wyślij",
+      "backToLogin": "Wróć do logowania"
     }
   }
 }

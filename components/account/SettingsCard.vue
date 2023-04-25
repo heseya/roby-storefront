@@ -24,8 +24,8 @@
     <div v-if="userConsentsDto">
       <AccountConsentsList
         v-model:userConsents="userConsentsDto"
-        :disabled-accepted-required-consents="true"
-        @error="(e) => formatError(e)"
+        :force-required="true"
+        @error="(e) => (errorMessage = formatError(e))"
       />
       <LayoutButton class="settings-card__button" @click="saveConsent">{{
         t('saveConsent')
