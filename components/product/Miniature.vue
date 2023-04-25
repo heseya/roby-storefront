@@ -87,7 +87,6 @@ const showPrice = computed(() => {
     max-height: 200px;
     border: solid 1px $gray-color-300;
     position: relative;
-    // overflow: hidden;
   }
 
   &__content {
