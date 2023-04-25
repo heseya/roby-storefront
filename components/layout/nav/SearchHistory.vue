@@ -4,17 +4,19 @@
       <span class="search-history__header">{{ t('lastSearch') }}</span>
       <button class="search-history__button" @click="handleClear">{{ t('clear') }}</button>
     </div>
-    <div class="search-history__link-list">
-      <NuxtLink
-        v-for="(query, index) in searchHistory.queries"
-        :key="index"
-        :to="`/search/${query}`"
-        class="search-history__link"
-      >
-        <LayoutIcon :icon="HistoryIcon" size="sm" class="search-history__icon" />
-        <span>{{ query }}</span>
-      </NuxtLink>
-    </div>
+    <LazyClientOnly>
+      <div class="search-history__link-list">
+        <NuxtLink
+          v-for="(query, index) in searchHistory.queries"
+          :key="index"
+          :to="`/search/${query}`"
+          class="search-history__link"
+        >
+          <LayoutIcon :icon="HistoryIcon" size="sm" class="search-history__icon" />
+          <span>{{ query }}</span>
+        </NuxtLink>
+      </div>
+    </LazyClientOnly>
   </div>
 </template>
 
