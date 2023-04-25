@@ -1,9 +1,8 @@
 <template>
-  <nuxt-link :to="`${localePath(`/blog`)}?tag=${tag.id ?? tag.BlogTags_id.id}`" class="blog-tag">
-    <div class="blog-tag__tag">
-      {{ translatedTag.name }}
-    </div>
-  </nuxt-link>
+  <BlogCustomTag
+    :name="translatedTag.name"
+    :link="`${localePath(`/blog`)}?tag=${tag.id ?? tag.BlogTags_id.id}`"
+  />
 </template>
 
 <script lang="ts" setup>
@@ -20,27 +19,3 @@ const translatedTag = computed(() =>
     : getTranslated(props.tag.translations, 'PL-pl'),
 )
 </script>
-
-<style lang="scss" scoped>
-.blog-tag {
-  text-decoration: none;
-  color: $text-color;
-
-  &__tag {
-    border: 1px solid $gray-color-300;
-    padding: 10px 14px;
-    border-radius: 5px;
-    transition: 0.2s;
-
-    &:hover {
-      border: 1px solid var(--primary-color);
-    }
-  }
-
-  &--active {
-    .blog-tag__tag {
-      border: 1px solid var(--primary-color);
-    }
-  }
-}
-</style>

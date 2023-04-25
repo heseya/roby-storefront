@@ -1,9 +1,14 @@
 <template>
   <BaseContainer>
     <LayoutLoading :active="pending" />
-    <h1 class="blog__title">Blog</h1>
+    <h1 class="blog__title">{{ t('blog') }}</h1>
     <div class="blog">
       <div class="blog__tags">
+        <BlogCustomTag
+          :name="t('all')"
+          :link="localePath(`/blog`)"
+          :class="route.query.tag ? '' : 'blog-tag--active'"
+        />
         <BlogTag
           v-for="tag in tags?.data ?? []"
           :key="tag.id"
@@ -32,8 +37,9 @@
 <i18n lang="json">
 {
   "pl": {
+    "blog": "Blog",
     "empty": "Brak postów do wyświetlenia",
-    "prev": "Poprzednia"
+    "all": "Wszystkie"
   }
 }
 </i18n>
@@ -98,10 +104,10 @@ const changePage = (page: number | string) => {
 }
 
 useHead({
-  title: 'Blog',
+  title: t('blog'),
 })
 
-useBreadcrumbs([{ label: 'Blog', link: `/blog` }])
+useBreadcrumbs([{ label: t('blog'), link: `/blog` }])
 
 watch(
   () => route.query,
