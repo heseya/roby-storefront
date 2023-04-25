@@ -1,7 +1,7 @@
 <template>
   <div class="product-sale">
     <div class="product-sale__title">{{ sale.name }}</div>
-    <div class="product-sale__content">TODO: Sales does not have wysiwyg description yet</div>
+    <div class="product-sale__content hs-html-content" v-html="sale.description_html"></div>
   </div>
 </template>
 
