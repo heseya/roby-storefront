@@ -1,5 +1,6 @@
 import { ProductList } from '@heseya/store-core'
 import { createTransport, SendMailOptions, SentMessageInfo } from 'nodemailer'
+import { verifyRecaptchToken } from '../utils/recaptcha'
 
 interface ContactForm {
   name: string
@@ -7,6 +8,7 @@ interface ContactForm {
   message: string
   type: 'renting' | 'price'
   product: ProductList
+  recaptchaToken: string
 }
 
 const { MAIL_HOST, MAIL_USER, MAIL_PASSWORD, MAIL_RECEIVER, APP_HOST } = process.env
@@ -30,12 +32,19 @@ const sendMail = (options: SendMailOptions): Promise<SentMessageInfo> =>
   })
 
 export default defineEventHandler(async (event) => {
-  const { name, email, message, type, product } = await readBody<ContactForm>(event)
+  const { name, email, message, type, product, recaptchaToken } = await readBody<ContactForm>(event)
 
-  if (!name || !email || !message || !type || !product)
+  if (!name || !email || !message || !type || !product || !recaptchaToken)
     throw createError({
       statusCode: 422,
       statusMessage: 'Missing required fields',
+    })
+
+  const isTokenValid = await verifyRecaptchToken(recaptchaToken)
+  if (!isTokenValid)
+    throw createError({
+      statusCode: 422,
+      statusMessage: 'Invalid Recaptcha token',
     })
 
   try {

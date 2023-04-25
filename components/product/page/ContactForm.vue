@@ -77,6 +77,9 @@ const props = withDefaults(
 
 const t = useLocalI18n()
 const { notify } = useNotify()
+const {
+  public: { recaptchaPublic },
+} = useRuntimeConfig()
 
 const isLoading = ref(false)
 const form = useForm({
@@ -94,8 +97,14 @@ const COMPANY_NAME = '***REMOVED*** s.c.'
 const onSubmit = form.handleSubmit(async (values) => {
   isLoading.value = true
   try {
-    // TODO: send this form somewhere
-    await axios.post('/api/contact', { ...values, type: props.type, product: props.product })
+    const recaptchaToken = await getRecaptchaToken(recaptchaPublic)
+
+    await axios.post('/api/contact', {
+      ...values,
+      type: props.type,
+      product: props.product,
+      recaptchaToken,
+    })
 
     notify({
       type: 'success',
