@@ -4,12 +4,10 @@
     <h1 class="blog__title">{{ t('blog') }}</h1>
     <div class="blog">
       <div class="blog__tags">
-        <BlogCustomTag
-          :name="t('all')"
-          :link="localePath(`/blog`)"
-          :class="route.query.tag ? '' : 'blog-tag--active'"
-        />
-        <BlogTag
+        <BlogTag :link="localePath(`/blog`)" :class="route.query.tag ? '' : 'blog-tag--active'">
+          {{ t('all') }}
+        </BlogTag>
+        <BlogTranslatedTag
           v-for="tag in tags?.data ?? []"
           :key="tag.id"
           :tag="tag"
@@ -29,7 +27,7 @@
       v-if="articles?.data?.length > 0"
       :current="page"
       :total="lastPage"
-      @go="(page) => changePage(page)"
+      @go="changePage"
     />
   </BaseContainer>
 </template>

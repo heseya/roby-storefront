@@ -8,7 +8,7 @@
       </div>
       <div class="blog-page__info">
         <div class="blog-page__tags">
-          <BlogTag v-for="tag in article?.tags ?? []" :key="tag.id" :tag="tag" />
+          <BlogTranslatedTag v-for="tag in article?.tags ?? []" :key="tag.id" :tag="tag" />
         </div>
         <div class="blog-page__date">{{ dateCreated }}</div>
       </div>

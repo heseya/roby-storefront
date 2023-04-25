@@ -1,21 +1,28 @@
 <template>
-  <BlogCustomTag
-    :name="translatedTag.name"
-    :link="`${localePath(`/blog`)}?tag=${tag.id ?? tag.BlogTags_id.id}`"
-  />
+  <nuxt-link :to="link" class="blog-tag">
+    <slot />
+  </nuxt-link>
 </template>
 
 <script lang="ts" setup>
-import { BlogTag } from '~/interfaces/BlogTag'
-
-const localePath = useLocalePath()
-const props = defineProps<{
-  tag: BlogTag
+defineProps<{
+  link: string
 }>()
-
-const translatedTag = computed(() =>
-  props.tag.BlogTags_id
-    ? getTranslated(props.tag.BlogTags_id.translations, 'PL-pl')
-    : getTranslated(props.tag.translations, 'PL-pl'),
-)
 </script>
+
+<style lang="scss" scoped>
+.blog-tag {
+  text-decoration: none;
+  display: block;
+  color: $text-color;
+  border: 1px solid $gray-color-300;
+  padding: 10px 14px;
+  border-radius: 5px;
+  transition: 0.2s;
+
+  &--active,
+  &:hover {
+    border: 1px solid var(--primary-color);
+  }
+}
+</style>
