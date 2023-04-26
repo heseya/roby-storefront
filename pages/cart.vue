@@ -32,7 +32,12 @@
       </div>
     </div>
 
-    <CartSuggestedProducts v-if="!isCartEmpty" class="cart-page__suggested" />
+    <ProductSimpleCarousel
+      v-if="!isCartEmpty"
+      class="cart-page__suggested"
+      :query="suggestedQuery"
+      :title="t('cart.suggested')"
+    />
   </BaseContainer>
 </template>
 
@@ -41,7 +46,8 @@
   "pl": {
     "cart": {
       "title": "Koszyk",
-      "summary": "Podsumowanie"
+      "summary": "Podsumowanie",
+      "suggested": "Może Cię zainteresować"
     }
   }
 }
@@ -54,6 +60,13 @@ const cart = useCartStore()
 const t = useLocalI18n()
 
 const isCartEmpty = computed(() => cart.length === 0)
+
+const suggestedQuery = computed(() => ({
+  // TODO: maybe smarter?
+  page: Math.ceil(Math.random() * 6),
+  limit: 8,
+  available: true,
+}))
 
 useHead({
   title: t('cart.title'),

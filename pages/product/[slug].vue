@@ -84,6 +84,14 @@
         <LazyProductPageSale v-for="sale in product?.sales || []" :key="sale.id" :sale="sale" />
       </div>
     </template>
+
+    <ProductSimpleCarousel
+      v-for="set in product?.related_sets || []"
+      :key="set.id"
+      class="product-page__related-products"
+      :title="set.name"
+      :query="{ sets: [set.slug] }"
+    />
   </BaseContainer>
 </template>
 
@@ -182,6 +190,10 @@ const showPrice = computed(() => {
     width: 100%;
     overflow: auto;
     padding-bottom: 8px;
+  }
+
+  &__related-products {
+    margin-top: 32px;
   }
 }
 
