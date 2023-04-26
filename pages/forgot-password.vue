@@ -46,6 +46,11 @@ import { useForm } from 'vee-validate'
 const t = useLocalI18n()
 const heseya = useHeseya()
 
+useBreadcrumbs([
+  { label: 'Rejestracja', link: '/register' },
+  { label: 'Przypomnij hasło', link: '/forgot-password' },
+])
+
 const form = useForm({
   initialValues: {
     email: '',
