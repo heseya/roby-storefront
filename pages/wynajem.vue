@@ -9,6 +9,7 @@
       <RentSteps />
       <RentAdvantages />
     </BaseContainer>
+    <RentBanner class="rent-page__banner" />
   </div>
 </template>
 
@@ -43,6 +44,10 @@ useHead({
   &__content {
     @include flex-column;
     gap: 80px;
+  }
+
+  &__banner {
+    margin: 80px 0;
   }
 }
 </style>
