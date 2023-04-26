@@ -9,7 +9,7 @@
     <div class="blog-articles__list-container">
       <div class="blog-articles__list">
         <BlogArticleTile
-          v-for="(article, index) in articles.data"
+          v-for="(article, index) in articles?.data || []"
           :key="index"
           :article="article"
         />
