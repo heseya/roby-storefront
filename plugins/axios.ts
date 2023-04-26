@@ -10,6 +10,8 @@ export default defineNuxtPlugin((nuxt) => {
   const identityToken = useIdentityToken()
   const refreshToken = useRefreshToken()
 
+  const pathsWithAuth = ['auth', 'product-sets/favourites', 'orders', 'cart/process']
+
   enhanceAxiosWithAuthTokenRefreshing(ax, {
     heseyaUrl: baseURL,
     getAccessToken: () => accessToken.value,
@@ -17,9 +19,7 @@ export default defineNuxtPlugin((nuxt) => {
     setIdentityToken: (token) => (identityToken.value = token),
     getRefreshToken: () => refreshToken.value,
     setRefreshToken: (token) => (refreshToken.value = token),
-    shouldIncludeAuthorizationHeader: (req) => {
-      return req.url?.includes('auth') || req.url?.includes('product-sets/favourites') || false
-    },
+    shouldIncludeAuthorizationHeader: (req) => pathsWithAuth.some((url) => req.url?.includes(url)),
     onTokenRefreshError: (error) => {
       // TODO: Handle token refresh error, basicly logout user?
       // eslint-disable-next-line no-console
