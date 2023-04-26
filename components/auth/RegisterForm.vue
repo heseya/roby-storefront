@@ -42,17 +42,18 @@
         :disabled="isFormDisabled"
       />
     </div>
-    <FormCheckbox
-      v-for="consent in consents"
-      :key="consent.id"
-      :model-value="form.values.consents[consent.id] || false"
-      :name="consent.name"
-      :rules="consent.required ? 'required' : ''"
-      @update:model-value="(v) => setConsentValue(consent.id, v)"
+    <AccountConsentsList
+      v-if="form.values.consents"
+      v-model:userConsents="form.values.consents"
+      @error="(e) => (consentsListError = formatError(e))"
+    />
+    <LayoutInfoBox
+      v-if="errorMessage || consentsListError"
+      type="danger"
+      class="register-form__error"
     >
-      <span v-html="consent.description_html"></span>
-    </FormCheckbox>
-    <span v-if="errorMessage" class="register-form__error">{{ errorMessage }}</span>
+      {{ errorMessage || consentsListError }}
+    </LayoutInfoBox>
     <div class="register-form__btn-container">
       <LayoutButton
         :disabled="isFormDisabled"
@@ -81,30 +82,20 @@
 </i18n>
 
 <script setup lang="ts">
-import { formatApiError, User, UserConsentDto, UserRegisterDto } from '@heseya/store-core'
+import { User, UserConsentDto, UserRegisterDto } from '@heseya/store-core'
 import { useForm } from 'vee-validate'
 
 const t = useLocalI18n()
 const heseya = useHeseya()
+const formatError = useErrorMessage()
 
 const isLoading = ref(false)
 const errorMessage = ref('')
+const consentsListError = ref<string>('')
 
 const emit = defineEmits<{
   (event: 'registered', value: User): void
 }>()
-
-const { data: consents } = useAsyncData('consents', async () => {
-  try {
-    const consents = await heseya.Consents.get()
-    return consents.data
-  } catch (e: any) {
-    // TODO after merging, change to final version with error translation
-    errorMessage.value = formatApiError(e).text
-  }
-})
-
-const isFormDisabled = computed(() => !consents)
 
 const form = useForm({
   initialValues: {
@@ -117,24 +108,15 @@ const form = useForm({
   },
 })
 
+const isFormDisabled = computed(() => !!consentsListError.value)
+
 const registerForm = computed<UserRegisterDto>(() => ({
   name: `${form.values.name} ${form.values.surname}`,
   email: form.values.email,
   password: form.values.password,
-  consents:
-    consents.value?.reduce(
-      (acc, consent) => ({
-        ...acc,
-        [consent.id]: form.values.consents[consent.id] || false,
-      }),
-      {},
-    ) || {},
+  consents: form.values.consents,
   roles: [],
 }))
-
-const setConsentValue = (consentId: string, value: boolean) => {
-  form.values.consents[consentId] = value
-}
 
 const onSubmit = form.handleSubmit(async () => {
   isLoading.value = true
@@ -143,8 +125,7 @@ const onSubmit = form.handleSubmit(async () => {
     const user = await heseya.Auth.register(registerForm.value)
     user && emit('registered', user)
   } catch (e: any) {
-    // TODO after merging, change to final version with error translation
-    errorMessage.value = formatApiError(e).text
+    errorMessage.value = formatError(e)
   } finally {
     isLoading.value = false
   }
