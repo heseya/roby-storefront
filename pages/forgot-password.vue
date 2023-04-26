@@ -1,27 +1,28 @@
 <template>
-  <form class="forgot-password-content" @submit.prevent="onSubmit">
-    <div class="forgot-password-content__form">
-      <h2 class="forgot-password-content__header">{{ t('form.header') }}</h2>
-      <span class="forgot-password-content__description">{{ t('form.description') }}</span>
+  <div class="forgot-password" @submit.prevent="onSubmit">
+    <form v-if="!formStatus.send" class="forgot-password__form">
+      <h2 class="forgot-password__header">{{ t('form.header') }}</h2>
+      <span class="forgot-password__description">{{ t('form.description') }}</span>
       <FormInput
         v-model="form.values.email"
         name="email"
         :label="t('form.email')"
         rules="required|email"
       />
-      <div class="forgot-password-content__btn-container">
-        <LayoutButton
-          class="forgot-password-content__btn"
-          :label="t('form.send')"
-          html-type="submit"
-        />
-      </div>
-      <span v-if="errorMessage" class="forgot-password-content__error">{{ errorMessage }}</span>
-      <NuxtLink :to="'/login'" class="forgot-password-content__nav">
-        &lt; {{ t('backToLogin') }}</NuxtLink
-      >
+      <LayoutButton class="forgot-password__btn" :label="t('form.send')" html-type="submit" />
+
+      <span v-if="errorMessage" class="forgot-password__error">{{ errorMessage }}</span>
+    </form>
+    <div v-else>
+      <p>
+        {{ t('message') }}<b>{{ formStatus.email }}</b
+        >{{ t('message2') }}
+      </p>
     </div>
-  </form>
+    <NuxtLink :to="'/login'" class="forgot-password__nav">
+      &lt; {{ t('form.backToLogin') }}</NuxtLink
+    >
+  </div>
 </template>
 
 <i18n lang="json">
@@ -34,17 +35,19 @@
       "description": "Jeżeli ten adres e-mail został zarejestrowany w naszym serwisie, otrzymasz link do zrestartowania hasła.",
       "send": "Wyślij",
       "backToLogin": "Wróć do logowania"
-    }
+    },
+    "message": "Jeżeli istnieje konto powiązane z podanym adresem ",
+    "message2": ", wysłaliśmy e-mail z linkiem do resetowania hasła."
   }
 }
 </i18n>
 
 <script setup lang="ts">
-import { formatApiError } from '@heseya/store-core'
 import { useForm } from 'vee-validate'
 
 const t = useLocalI18n()
 const heseya = useHeseya()
+const formatError = useErrorMessage()
 
 useBreadcrumbs([
   { label: 'Rejestracja', link: '/register' },
@@ -57,31 +60,34 @@ const form = useForm({
   },
 })
 
-const errorMessage = ref('')
+const formStatus = ref<{ send: boolean; email: string }>({
+  send: false,
+  email: '',
+})
+
+const errorMessage = ref<string | null>(null)
 
 const onSubmit = form.handleSubmit(async (values) => {
   try {
     const { appHost } = useRuntimeConfig()
 
-    // TODO: Change to corrent link
-
-    await heseya.Auth.requestResetPassword(values.email, `${appHost}\\new-password`)
-
-    // TODO: Add a message if mail was sent correctly
+    await heseya.Auth.requestResetPassword(values.email, `${appHost}/reset-password`)
+    formStatus.value = {
+      send: true,
+      email: form.values.email,
+    }
   } catch (e: any) {
-    errorMessage.value = formatApiError(e).text
+    errorMessage.value = formatError(e)
   }
 })
 </script>
 
 <style lang="scss" scoped>
-.forgot-password-content {
-  width: 100%;
-  height: 100%;
+.forgot-password {
   padding: 16px;
   margin-top: 50px;
-  display: flex;
-  align-items: center;
+  display: grid;
+  justify-items: center;
 
   @media ($viewport-11) {
     justify-content: center;
@@ -90,15 +96,13 @@ const onSubmit = form.handleSubmit(async (values) => {
   &__form {
     display: grid;
     gap: 12px;
-    height: 100%;
-    width: 100%;
 
     @media ($viewport-11) {
       width: 66%;
     }
 
-    @media ($viewport-16) {
-      width: 20%;
+    @media ($viewport-14) {
+      width: 55%;
     }
   }
 
@@ -108,10 +112,8 @@ const onSubmit = form.handleSubmit(async (values) => {
   }
 
   &__btn {
-  }
-
-  &__button {
     font-size: 13px;
+    width: 100%;
 
     @media ($viewport-11) {
       font-size: 14px;
