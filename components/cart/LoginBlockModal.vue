@@ -3,11 +3,7 @@
     <div class="login-block">
       <div>
         <h2 class="login-block__header">{{ t('block.login') }}</h2>
-        <AuthLoginForm
-          class="login-block__login"
-          :is-form-in-modal="true"
-          redirect-link="checkout"
-        />
+        <AuthLoginForm class="login-block__login" @login="router.push('/checkout')" />
       </div>
 
       <LayoutSpacer />
@@ -52,6 +48,7 @@
 
 <script setup lang="ts">
 const t = useLocalI18n()
+const router = useRouter()
 
 const props = defineProps<{
   open: boolean
