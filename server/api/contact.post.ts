@@ -13,6 +13,12 @@ interface ContactForm {
 
 const { MAIL_HOST, MAIL_USER, MAIL_PASSWORD, MAIL_RECEIVER, APP_HOST } = process.env
 
+if (!MAIL_HOST || !MAIL_USER || !MAIL_PASSWORD || !MAIL_RECEIVER || !APP_HOST)
+  // eslint-disable-next-line no-console
+  console.warn(
+    '[Contact Form] Missing required env variables: MAIL_HOST, MAIL_USER, MAIL_PASSWORD, MAIL_RECEIVER, APP_HOST',
+  )
+
 const mailer = createTransport({
   host: MAIL_HOST,
   port: 587,
