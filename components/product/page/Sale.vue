@@ -6,10 +6,10 @@
 </template>
 
 <script setup lang="ts">
-import { Sale } from '@heseya/store-core'
+import { ProductSale } from '@heseya/store-core'
 
 defineProps<{
-  sale: Sale
+  sale: ProductSale
 }>()
 </script>
 
