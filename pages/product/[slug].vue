@@ -62,7 +62,13 @@
     >
       <template #description>
         <div class="product-page__description-wrapper">
-          <BaseWysiwygContent :content="product?.description_html" />
+          <div>
+            <BaseWysiwygContent :content="product?.description_html" />
+            <ProductPageAttachments
+              v-if="product?.attachments.length"
+              :attachments="product?.attachments"
+            />
+          </div>
 
           <ProductPageAttributeCard v-if="product" :product="product" />
         </div>
