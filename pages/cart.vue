@@ -32,7 +32,7 @@
       </div>
     </div>
 
-    <div v-if="!isCartEmpty" class="cart-page__suggested">TODO: Sugerowane produkty</div>
+    <CartSuggestedProducts v-if="!isCartEmpty" class="cart-page__suggested" />
   </BaseContainer>
 </template>
 
@@ -109,16 +109,6 @@ useHead({
   }
 
   &__suggested {
-    margin-top: 40px;
-    width: 100%;
-    padding: 24px;
-    background-color: $gray-color-100;
-    text-align: center;
-    color: $gray-color-400;
-
-    @media ($viewport-12) {
-      margin-top: 90px;
-    }
   }
 
   &__empty {
