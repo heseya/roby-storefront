@@ -8,14 +8,14 @@
         name="name"
         :label="t('form.name')"
         rules="required"
-        :disabled="consentsListError"
+        :disabled="isFormDisabled"
       />
       <FormInput
         v-model="form.values.surname"
         name="surname"
         :label="t('form.surname')"
         rules="required"
-        :disabled="consentsListError"
+        :disabled="isFormDisabled"
       />
     </div>
     <div class="register-form__container">
@@ -24,7 +24,7 @@
         name="email"
         :label="t('form.email')"
         rules="required|email"
-        :disabled="consentsListError"
+        :disabled="isFormDisabled"
       />
     </div>
     <div class="register-form__container">
@@ -32,14 +32,14 @@
         v-model="form.values.password"
         :label="t('form.password')"
         name="password"
-        :disabled="consentsListError"
+        :disabled="isFormDisabled"
       />
       <FormInputPassword
         v-model="form.values.confirmPassword"
         :label="t('form.confirmPassword')"
         rules="confirmedPassword:@password"
         name="confirmPassword"
-        :disabled="consentsListError"
+        :disabled="isFormDisabled"
       />
     </div>
     <AccountConsentsList
@@ -56,7 +56,7 @@
     </LayoutInfoBox>
     <div class="register-form__btn-container">
       <LayoutButton
-        :disabled="consentsListError"
+        :disabled="isFormDisabled"
         html-type="submit"
         class="register-form__btn"
         :label="t('form.register')"
@@ -91,7 +91,7 @@ const formatError = useErrorMessage()
 
 const isLoading = ref(false)
 const errorMessage = ref('')
-const consentsListError = ref()
+const consentsListError = ref<string>('')
 
 const emit = defineEmits<{
   (event: 'registered', value: User): void
@@ -108,11 +108,13 @@ const form = useForm({
   },
 })
 
+const isFormDisabled = computed(() => !!consentsListError.value)
+
 const registerForm = computed<UserRegisterDto>(() => ({
   name: `${form.values.name} ${form.values.surname}`,
   email: form.values.email,
   password: form.values.password,
-  consents: {},
+  consents: form.values.consents,
   roles: [],
 }))
 

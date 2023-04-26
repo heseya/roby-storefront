@@ -1,6 +1,6 @@
 <template>
   <LayoutModal :open="open" :closeable="false" class="account-form-modal">
-    <form class="account-form-modal__form" @submit.prevent="emit('update:submit')">
+    <form class="account-form-modal__form" @submit.prevent="emit('submit')">
       <h1>{{ header }}</h1>
       <slot></slot>
       <LayoutInfoBox v-if="error" type="danger" class="account-form-modal__error">
@@ -44,7 +44,7 @@ defineProps<{
 
 const emit = defineEmits<{
   (e: 'update:open', isModalVisible: boolean): void
-  (e: 'update:submit'): void
+  (e: 'submit'): void
 }>()
 </script>
 

@@ -5,7 +5,7 @@
     :model-value="userConsents[consent.id] || false"
     :name="consent.name"
     :rules="consent.required ? 'required' : ''"
-    :disabled="consent.required && disabledAcceptedRequiredConsents"
+    :disabled="consent.required && forceRequired"
     @update:model-value="(v) => setConsentValue(consent.id, v)"
   >
     <span v-html="consent.description_html"></span>
@@ -18,7 +18,7 @@ const heseya = useHeseya()
 
 const props = defineProps<{
   userConsents: UserConsentDto
-  disabledAcceptedRequiredConsents?: boolean
+  forceRequired?: boolean
 }>()
 
 const emit = defineEmits<{
