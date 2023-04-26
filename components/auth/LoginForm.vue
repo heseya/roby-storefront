@@ -51,6 +51,11 @@ const t = useLocalI18n()
 const getErrorMessage = useErrorMessage()
 const auth = useAuthStore()
 const { notify } = useNotify()
+const router = useRouter()
+
+const props = defineProps<{
+  redirectLink?: string
+}>()
 
 const emit = defineEmits<{
   (event: 'login'): void
@@ -76,6 +81,9 @@ const onSubmit = form.handleSubmit(async ({ email, password }) => {
       type: 'success',
     })
     emit('login')
+    if (props.redirectLink) {
+      router.push(props.redirectLink)
+    }
   }
 })
 </script>

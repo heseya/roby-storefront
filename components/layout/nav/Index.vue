@@ -39,16 +39,16 @@
             />
           </NuxtLink>
           <div v-if="auth.isLogged" class="nav-link-button__list">
-            <NuxtLink class="nav-link-button__list-item" :to="localePath('/profile/orders')">
+            <NuxtLink class="nav-link-button__list-item" :to="localePath('/account/orders')">
               {{ t('orders') }}
             </NuxtLink>
-            <NuxtLink class="nav-link-button__list-item" :to="localePath('/profile/settings')">
+            <NuxtLink class="nav-link-button__list-item" :to="localePath('/account/settings')">
               {{ t('accountSettings') }}
             </NuxtLink>
-            <NuxtLink class="nav-link-button__list-item" :to="localePath('/profile/address')">
+            <NuxtLink class="nav-link-button__list-item" :to="localePath('/account/address')">
               {{ t('address') }}
             </NuxtLink>
-            <NuxtLink class="nav-link-button__list-item" :to="localePath('/wishlist')">
+            <NuxtLink class="nav-link-button__list-item" :to="localePath('/account/wishlist')">
               {{ t('wishlist') }}
             </NuxtLink>
             <button

@@ -3,7 +3,11 @@
     <div class="login-block">
       <div>
         <h2 class="login-block__header">{{ t('block.login') }}</h2>
-        <AuthLoginForm class="login-block__login" :is-form-in-modal="true" />
+        <AuthLoginForm
+          class="login-block__login"
+          :is-form-in-modal="true"
+          redirect-link="checkout"
+        />
       </div>
 
       <LayoutSpacer />
