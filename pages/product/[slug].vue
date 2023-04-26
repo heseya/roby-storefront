@@ -51,15 +51,7 @@
       </div>
     </div>
 
-    <LayoutTabs
-      class="product-page__main"
-      :tabs="[
-        { key: 'description', label: t('tabs.description') },
-        { key: 'additionalInfo', label: t('tabs.additionalInfo') },
-        { key: 'paperAndInk', label: t('tabs.paperAndInk') },
-        { key: 'serviceAndApps', label: t('tabs.serviceAndApps') },
-      ]"
-    >
+    <LayoutTabs class="product-page__main" :tabs="productTabs">
       <template #description>
         <div class="product-page__description-wrapper">
           <div>
@@ -67,25 +59,25 @@
             <ProductPageAttachments
               v-if="product?.attachments.length"
               :attachments="product?.attachments"
+              class="product-page__attachments"
             />
           </div>
 
           <ProductPageAttributeCard v-if="product" :product="product" />
         </div>
       </template>
+
       <template #additionalInfo>
-        <BaseWysiwygContent :content="product?.description_html" />
+        <ProductPageAttributes v-if="product" :product="product" />
       </template>
-      <template #paperAndInk>
-        <BaseWysiwygContent :content="product?.description_html" />
-      </template>
-      <template #serviceAndApps>
-        <BaseWysiwygContent :content="product?.description_html" />
+
+      <template v-for="page in globalPages" :key="page.id" #[page.slug]>
+        <BaseWysiwygContent :content="page?.content_html" />
       </template>
     </LayoutTabs>
 
     <template v-if="product?.sales.length">
-      <h2 class="primary-text">Aktualne promocje</h2>
+      <h2 class="primary-text">{{ t('salesTitle') }}</h2>
       <div class="product-page__sales">
         <LazyProductPageSale v-for="sale in product?.sales || []" :key="sale.id" :sale="sale" />
       </div>
@@ -102,10 +94,9 @@
       "renting": "Zapytaj o wynajem",
       "pricing": "Zapytaj o cenę",
       "description": "Opis",
-      "additionalInfo": "Dodatkowe informacje",
-      "paperAndInk": "Papier i tusze",
-      "serviceAndApps": "Serwis i aplikacje"
-    }
+      "additionalInfo": "Dodatkowe informacje"
+    },
+    "salesTitle": "Aktualne promocje"
   }
 }
 </i18n>
@@ -128,8 +119,21 @@ const { data: product } = useAsyncData(`product-${route.params.slug}`, async () 
   }
 })
 
+const { data: globalPages } = useAsyncData('globalPages', async () => {
+  const { data } = await heseya.Pages.get({ metadata: { show_near_products: true } })
+  return Promise.all(data.map((p) => heseya.Pages.getOne(p.id)))
+})
+
 const category = computed(() => {
   return product.value?.sets[0]
+})
+
+const productTabs = computed(() => {
+  return [
+    { key: 'description', label: t('tabs.description') },
+    { key: 'additionalInfo', label: t('tabs.additionalInfo') },
+    ...(globalPages.value?.map((p) => ({ key: p.slug, label: p.name })) || []),
+  ]
 })
 
 useBreadcrumbs([
@@ -188,6 +192,10 @@ const showPrice = computed(() => {
     width: 100%;
     overflow: auto;
     padding-bottom: 8px;
+  }
+
+  &__attachments {
+    margin-top: 24px;
   }
 }
 
