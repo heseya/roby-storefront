@@ -31,6 +31,7 @@ const config = useConfigStore()
   color: $white-color;
   background-color: var(--primary-color);
   font-size: rem(12);
+  padding: 0 3px;
 
   @media ($viewport-6) {
     font-size: 1rem;
