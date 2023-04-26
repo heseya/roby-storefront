@@ -1,24 +1,22 @@
 <template>
-  <div class="account">
-    <div class="account__content">
-      <div class="account__header">
-        <h1>{{ t('welcome') }}{{ user?.name }}</h1>
-        <p>{{ t('message') }}</p>
-      </div>
-      <AccountItemsList :header="t('lastOrder')" :link="`todo`"> todo </AccountItemsList>
+  <div class="account-page">
+    <div class="account-page__header">
+      <h1>{{ t('welcome') }}{{ user?.name }}</h1>
+      <p>{{ t('message') }}</p>
+    </div>
+    <AccountItemsList :header="t('lastOrder')" :link="`todo`"> todo </AccountItemsList>
 
-      <AccountItemsList :header="t('wishList')" :link="`wishlist`">
-        <div class="account__wishlist">
-          <div v-for="item in wishlist.localWishlist" :key="item.id">
-            <div class="account__container">
-              <NuxtLink :to="`/product/${item.slug}`">
-                <Media object-fit="cover" width="63" height="63" :media="item.cover" />
-              </NuxtLink>
-            </div>
+    <AccountItemsList :header="t('wishList')" :link="`wishlist`">
+      <div class="account-page__wishlist">
+        <div v-for="item in wishlist.localWishlist" :key="item.id">
+          <div class="account-page__container">
+            <NuxtLink :to="`/product/${item.slug}`">
+              <Media object-fit="cover" width="63" height="63" :media="item.cover" />
+            </NuxtLink>
           </div>
         </div>
-      </AccountItemsList>
-    </div>
+      </div>
+    </AccountItemsList>
   </div>
 </template>
 
@@ -47,16 +45,7 @@ const wishlist = useWishlistStore()
 </script>
 
 <style lang="scss" scoped>
-.account {
-  display: flex;
-  justify-content: center;
-
-  &__content {
-    padding: 20px;
-    width: 50%;
-    height: 100%;
-  }
-
+.account-page {
   &__header {
     display: grid;
     gap: 15px;

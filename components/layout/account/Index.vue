@@ -14,9 +14,6 @@
 
 <style lang="scss" scoped>
 .account-layout {
-  display: flex;
-  justify-content: center;
-
   &__header {
     font-weight: bold;
     font-size: 22px;
@@ -29,10 +26,7 @@
   &__content {
     display: grid;
     gap: 5px;
-
-    @media ($viewport-11) {
-      width: 35%;
-    }
+    margin: 0px 20px;
   }
 }
 </style>
