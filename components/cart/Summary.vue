@@ -110,7 +110,7 @@ const processCheckout = () => {
   if (!auth.isLogged) {
     isAuthenticationModalVisible.value = true
   } else {
-    router.push('checkout')
+    router.push('/checkout')
   }
 }
 </script>
