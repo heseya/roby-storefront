@@ -34,6 +34,10 @@ useHead({
     text-align: left;
     margin-bottom: 30px;
     font-size: rem(45);
+
+    @media ($max-viewport-9) {
+      font-size: rem(25);
+    }
   }
 
   &__content {

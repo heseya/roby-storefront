@@ -3,11 +3,13 @@
     <div class="steps__content">
       <div class="steps__element">
         <div class="steps__number">1</div>
-        <LayoutHeader variant="black"> Powiedz nam, czego potrzebujesz</LayoutHeader>
+        <LayoutHeader class="steps__title" variant="black">
+          Powiedz nam, czego potrzebujesz</LayoutHeader
+        >
       </div>
       <div class="steps__element">
         <div class="steps__line-container">
-          <div class="steps__line"></div>
+          <div class="steps__line" />
         </div>
         <div class="steps__content">
           <span
@@ -20,11 +22,11 @@
       </div>
       <div class="steps__element">
         <div class="steps__number">2</div>
-        <LayoutHeader variant="black">Przedstawimy Ci ofertę</LayoutHeader>
+        <LayoutHeader class="steps__title" variant="black">Przedstawimy Ci ofertę</LayoutHeader>
       </div>
       <div class="steps__element">
         <div class="steps__line-container">
-          <div class="steps__line"></div>
+          <div class="steps__line" />
         </div>
         <span
           >Skontaktujemy się z Tobą najszybciej jak to możliwe. Przedstawimy Ci najatrakcyjniejsze
@@ -33,7 +35,9 @@
       </div>
       <div class="steps__element">
         <div class="steps__number">3</div>
-        <LayoutHeader variant="black">Zrealizujemy Twoje zamówienie</LayoutHeader>
+        <LayoutHeader class="steps__title" variant="black"
+          >Zrealizujemy Twoje zamówienie</LayoutHeader
+        >
       </div>
     </div>
     <div class="steps__image-container">
@@ -52,12 +56,21 @@
   @include flex-row;
   gap: 26px;
 
+  @media ($max-viewport-9) {
+    flex-direction: column;
+    gap: 30px;
+  }
+
   &__content {
     flex: 1;
 
     @include flex-column;
     gap: 12px;
     font-size: rem(16);
+
+    @media ($max-viewport-9) {
+      font-size: rem(14);
+    }
   }
 
   &__element {
@@ -85,6 +98,10 @@
   &__title {
     font-size: rem(20);
     text-align: left;
+
+    @media ($max-viewport-9) {
+      font-size: rem(18);
+    }
   }
 
   &__line-container {
@@ -108,6 +125,7 @@
   &__image-container {
     flex: 1;
     position: relative;
+    min-height: 200px;
   }
 
   &__image {
