@@ -39,8 +39,12 @@ const t = useLocalI18n()
 useHead({
   title: t('title'),
 })
-
+const orders = ref()
 const user = useUser()
+const heseya = useHeseya()
+const getUserOrders = async () => {
+  orders.value = await heseya.Orders.get()
+}
 const wishlist = useWishlistStore()
 </script>
 

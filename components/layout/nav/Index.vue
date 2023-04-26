@@ -45,7 +45,7 @@
             <NuxtLink class="nav-link-button__list-item" :to="localePath('/account/settings')">
               {{ t('accountSettings') }}
             </NuxtLink>
-            <NuxtLink class="nav-link-button__list-item" :to="localePath('/account/address')">
+            <NuxtLink class="nav-link-button__list-item" :to="localePath('/account/addresses')">
               {{ t('address') }}
             </NuxtLink>
             <NuxtLink class="nav-link-button__list-item" :to="localePath('/account/wishlist')">
