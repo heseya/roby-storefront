@@ -33,7 +33,8 @@
           <template #renting>
             <ProductPageContactForm
               v-if="product"
-              :product-id="product?.id"
+              :product="product"
+              type="renting"
               :action-text="t('tabs.renting')"
             />
           </template>
@@ -42,7 +43,8 @@
         <div v-else class="product-header__form">
           <ProductPageContactForm
             v-if="product"
-            :product-id="product?.id"
+            :product="product"
+            type="price"
             :action-text="t('tabs.pricing')"
           />
         </div>

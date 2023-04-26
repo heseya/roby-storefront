@@ -161,6 +161,10 @@ const showPrice = computed(() => {
     top: 4px;
     right: 4px;
     opacity: 0;
+
+    @media (pointer: coarse) {
+      opacity: 1;
+    }
   }
 
   &:hover &__wishlist-btn,

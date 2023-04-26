@@ -1,5 +1,7 @@
 <template>
   <form class="product-contact-form" @submit.prevent="onSubmit">
+    <LayoutLoading :active="isLoading" />
+
     <p class="product-contact-form__text">
       {{ t('text') }}
     </p>
@@ -33,11 +35,22 @@
       label-uppercase
     />
 
+    <small class="product-contact-form__recaptcha">
+      {{ t('recaptcha.message') }} -
+      <a href="https://policies.google.com/privacy" target="_blank" rel="nofollow noopener">
+        {{ t('recaptcha.privacy') }}
+      </a>
+      |
+      <a href="https://policies.google.com/terms" target="_blank" rel="nofollow noopener">
+        {{ t('recaptcha.conditions') }}
+      </a>
+    </small>
+
     <FormCheckbox v-model="form.values.consent" name="consent" rules="required">
       {{ t('consent', { companyName: COMPANY_NAME }) }}
     </FormCheckbox>
 
-    <LayoutButton html-type="submit" class="product-contact-form__btn">
+    <LayoutButton :disabled="isLoading" html-type="submit" class="product-contact-form__btn">
       {{ actionText || t('actionText') }}
     </LayoutButton>
   </form>
@@ -51,18 +64,27 @@
     "email": "Adres email",
     "message": "Wiadomość",
     "consent": "Zgadzam się na kontakt w celach przedstawienia oferty handlowej firmy {companyName}",
-    "actionText": "Zapytaj o cenę"
+    "actionText": "Zapytaj o cenę",
+    "successMessage": "Dziękujemy za wysłanie zapytania. Wkrótce się z Tobą skontaktujemy.",
+    "recaptcha": {
+      "message": "Ta strona korzysta z zabezpieczenia Google reCAPTCHa",
+      "privacy": "Prywatność",
+      "conditions": "Warunki"
+    }
   }
 }
 </i18n>
 
 <script setup lang="ts">
+import { ProductList } from '@heseya/store-core'
+import axios from 'axios'
 import { useForm } from 'vee-validate'
 
-withDefaults(
+const props = withDefaults(
   defineProps<{
-    productId: string
+    product: ProductList
     actionText?: string
+    type: 'price' | 'renting'
   }>(),
   {
     actionText: '',
@@ -70,7 +92,12 @@ withDefaults(
 )
 
 const t = useLocalI18n()
+const { notify } = useNotify()
+const {
+  public: { recaptchaPublic },
+} = useRuntimeConfig()
 
+const isLoading = ref(false)
 const form = useForm({
   initialValues: {
     name: '',
@@ -83,15 +110,36 @@ const form = useForm({
 // TODO: This should not be hardcoded
 const COMPANY_NAME = '***REMOVED*** s.c.'
 
-const onSubmit = form.handleSubmit((values) => {
-  // TODO: send this form somewhere
-  console.log(values)
+const onSubmit = form.handleSubmit(async (values) => {
+  isLoading.value = true
+  try {
+    const recaptchaToken = await getRecaptchaToken(recaptchaPublic)
+
+    await axios.post('/api/contact', {
+      ...values,
+      type: props.type,
+      product: props.product,
+      recaptchaToken,
+    })
+
+    notify({
+      type: 'success',
+      text: t('successMessage'),
+    })
+  } catch (e: any) {
+    notify({
+      type: 'error',
+      text: e.response?.data?.message || e.message,
+    })
+  }
+  isLoading.value = false
 })
 </script>
 
 <style lang="scss" scoped>
 .product-contact-form {
   display: flex;
+  position: relative;
   flex-direction: column;
 
   > *:not(:last-child) {
@@ -114,6 +162,25 @@ const onSubmit = form.handleSubmit((values) => {
 
   &__btn {
     margin-left: auto;
+  }
+
+  &__recaptcha {
+    display: block;
+    width: 100%;
+    text-align: right;
+    font-size: 0.7em;
+    margin-bottom: 4px;
+    color: $gray-color-600;
+
+    a {
+      color: var(--primary-color);
+      text-decoration: none;
+      transition: 0.3s;
+
+      &:hover {
+        color: var(--secondary-color-alt);
+      }
+    }
   }
 }
 </style>
