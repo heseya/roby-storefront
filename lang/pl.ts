@@ -3,6 +3,11 @@ export default {
     home: 'Strona główna',
   },
 
+  wishlist: {
+    added: 'Produkt został dodany do listy życzeń.',
+    removed: 'Produkt został usunięty z listy życzeń.',
+  },
+
   errors: {
     CLIENT_INVALID_CREDENTIALS: 'Nieprawidłowy login lub hasło.',
     CLIENT_INVALID_PASSWORD: 'Nieprawidłowe aktualne hasło.',

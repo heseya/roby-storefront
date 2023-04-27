@@ -6,6 +6,7 @@ export const useWishlist = (product: ProductList) => {
   const auth = useAuthStore()
   const wishlist = useWishlistStore()
   const { notify } = useNotify()
+  const { t } = useI18n({ useScope: 'global' })
 
   const isInWishlist = ref(false)
 
@@ -16,13 +17,13 @@ export const useWishlist = (product: ProductList) => {
   const add = async () => {
     await wishlist.add(product)
     isInWishlist.value = true
-    notify({ text: 'Product added to wishlist', type: 'success' })
+    notify({ text: t('wishlist.added'), type: 'success' })
   }
 
   const remove = async () => {
     await wishlist.remove(product.id)
     isInWishlist.value = false
-    notify({ text: 'Product removed from wishlist', type: 'success' })
+    notify({ text: t('wishlist.removed'), type: 'success' })
   }
 
   const toggle = () => {
