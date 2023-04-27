@@ -1,6 +1,8 @@
 export default {
   breadcrumbs: {
     home: 'Strona główna',
+    account: 'Moje konto',
+    blog: 'Blog',
   },
 
   errors: {

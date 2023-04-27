@@ -1,20 +1,20 @@
-type BreadcrumbLink = { link: string; label: string }
+import { BreadcrumbLink, BreadcrumbsDto } from '~/interfaces/Breadcrumbs'
 
 const BREADCRUMPS = ref([] as BreadcrumbLink[])
 
-export const useBreadcrumbs = (currentPageLinks?: Array<BreadcrumbLink | null>) => {
+export const useBreadcrumbs = () => {
   const { t } = useI18n({ useScope: 'global' })
 
   const HOME_LINK = { link: '/', label: t('breadcrumbs.home') }
 
-  if (currentPageLinks) {
-    BREADCRUMPS.value = [HOME_LINK, ...currentPageLinks].filter(Boolean) as BreadcrumbLink[]
+  const setBreadcrumbs = (links?: BreadcrumbsDto) => {
+    const filtered = (links?.filter(Boolean) || []) as BreadcrumbLink[]
+    if (filtered.length) BREADCRUMPS.value = [HOME_LINK, ...filtered] as BreadcrumbLink[]
+    else BREADCRUMPS.value = []
   }
 
-  // Clear links when route changes
-  onBeforeRouteLeave(() => {
-    BREADCRUMPS.value = []
-  })
-
-  return BREADCRUMPS
+  return {
+    breadcrumbs: computed(() => BREADCRUMPS.value),
+    set: setBreadcrumbs,
+  }
 }

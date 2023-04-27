@@ -1,10 +1,11 @@
 <template>
   <BaseContainer>
+    <LayoutBreadcrumpsProvider :breadcrumbs="breadcrumbs" />
     <LayoutLoading :active="pending" />
     <div class="blog-page">
-      <h1 class="blog-page__title">{{ translatedArticle.title }}</h1>
+      <h1 class="blog-page__title">{{ translatedArticle?.title }}</h1>
       <div class="blog-page__img">
-        <img :src="imageUrl" :alt="translatedArticle.description" />
+        <img :src="imageUrl" :alt="translatedArticle?.description" />
       </div>
       <div class="blog-page__info">
         <div class="blog-page__tags">
@@ -13,7 +14,7 @@
         <div class="blog-page__date">{{ dateCreated }}</div>
       </div>
       <div
-        v-if="translatedArticle.content"
+        v-if="translatedArticle?.content"
         class="hs-html-content"
         v-html="translatedArticle.content"
       ></div>
@@ -25,6 +26,7 @@
 import { BlogArticle } from '~/interfaces/BlogArticle'
 
 const { params } = useRoute()
+const { t } = useI18n({ useScope: 'global' })
 const { data: article, pending } = useAsyncData(`blog-article-${params.slug}`, async () => {
   const directus = useDirectus()
   const response = await directus.items('Articles').readByQuery({
@@ -47,16 +49,16 @@ const { data: article, pending } = useAsyncData(`blog-article-${params.slug}`, a
     } as any, // this any exists because of directus weird typing
   })
 
-  if (!response.data[0]) {
+  if (!response.data?.[0]) {
     showError({ statusCode: 404 })
   }
 
-  return response.data[0] as BlogArticle
+  return response.data?.[0] as BlogArticle
 })
 
 const imageUrl = computed(() => getImageUrl(article.value?.image))
 const translatedArticle = computed(() =>
-  article.value ? getTranslated(article.value.translations, 'PL-pl') : '',
+  article.value ? getTranslated(article.value.translations, 'PL-pl') : null,
 )
 const dateCreated = computed(() =>
   article.value ? formatDate(article.value.date_created, 'dd LLLL yyyy') : '',
@@ -66,8 +68,8 @@ useHead({
   title: computed(() => translatedArticle.value?.title || ''),
 })
 
-useBreadcrumbs([
-  { label: 'Blog', link: `/blog` },
+const breadcrumbs = computed(() => [
+  { label: t('breadcrumbs.blog'), link: `/blog` },
   { label: translatedArticle.value?.title ?? '', link: `/blog/${article.value?.slug}` },
 ])
 </script>

@@ -7,10 +7,7 @@
       class="site__content"
       :class="{ 'site__content--with-notification': config.env.top_site_text }"
     >
-      <!-- Temporary hydration fix: -->
-      <ClientOnly>
-        <LayoutBreadcrumps />
-      </ClientOnly>
+      <LayoutBreadcrumps />
       <slot></slot>
     </div>
     <div class="site__footer">

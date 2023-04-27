@@ -1,6 +1,8 @@
 <template>
   <BaseContainer>
+    <LayoutBreadcrumpsProvider :breadcrumbs="[{ label: $t('breadcrumbs.blog'), link: `/blog` }]" />
     <LayoutLoading :active="pending" />
+
     <h1 class="blog__title">{{ t('blog') }}</h1>
     <div class="blog">
       <div class="blog__tags">
@@ -47,6 +49,8 @@ const route = useRoute()
 const router = useRouter()
 const directus = useDirectus()
 const t = useLocalI18n()
+const { t: $t } = useI18n({ useScope: 'global' })
+const localePath = useLocalePath()
 
 const limit = 6
 const page = computed(() => Number(route.query.page ?? 1))
@@ -104,8 +108,6 @@ const changePage = (page: number | string) => {
 useHead({
   title: t('blog'),
 })
-
-useBreadcrumbs([{ label: t('blog'), link: `/blog` }])
 
 watch(
   () => route.query,
