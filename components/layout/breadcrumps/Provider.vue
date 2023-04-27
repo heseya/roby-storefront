@@ -24,10 +24,6 @@ watch(
   { deep: true, immediate: true },
 )
 
-onBeforeMount(() => {
-  set(props.breadcrumbs)
-})
-
 // Clear links when route changes
 onUnmounted(() => {
   set([])

@@ -12,11 +12,12 @@
 </template>
 
 <script setup lang="ts">
-const { breadcrumbs } = useBreadcrumbs()
+const breadcrumbs = useBreadcrumbsState()
 </script>
 
 <style lang="scss" scoped>
 .breadcrumps {
+  width: 100%;
   display: flex;
   align-items: center;
   padding-top: 22px;
