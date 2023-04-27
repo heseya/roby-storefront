@@ -16,8 +16,9 @@
 
 <script lang="ts" setup>
 import { Banner, BannerMedia } from '@heseya/store-core'
+import { SwiperOptions } from 'swiper/types'
 
-const breakpoints = {
+const breakpoints: Record<number, SwiperOptions> = {
   320: { slidesPerView: 1 },
   480: { slidesPerView: 2 },
   640: { slidesPerView: 'auto', spaceBetween: 50 },
