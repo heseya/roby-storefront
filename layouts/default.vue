@@ -37,8 +37,8 @@ const config = useConfigStore()
 
   &__content {
     display: flex;
-    justify-content: stretch;
-    align-items: stretch;
+    justify-content: flex-end;
+    align-items: strech;
     /**
     * Nuxt renders components "from top to bottom", so this inverts the order to match visually.
     * Page content must render before the breadcrumps on SSR, and this the simples to achieve that.

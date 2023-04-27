@@ -3,7 +3,7 @@
 </template>
 
 <script setup lang="ts">
-import { BreadcrumbsDto } from '~/interfaces/Breadcrumbs'
+import { BreadcrumbLink, BreadcrumbsDto } from '~/interfaces/Breadcrumbs'
 
 const props = withDefaults(
   defineProps<{
@@ -14,18 +14,27 @@ const props = withDefaults(
   },
 )
 
-const { set } = useBreadcrumbs()
+const { t } = useI18n({ useScope: 'global' })
+const state = useBreadcrumbsState()
+
+const HOME_LINK = { link: '/', label: t('breadcrumbs.home') }
+
+const setBreadcrumbs = (links?: BreadcrumbsDto) => {
+  const filtered = (links?.filter(Boolean) || []) as BreadcrumbLink[]
+  if (filtered.length) state.value = [HOME_LINK, ...filtered] as BreadcrumbLink[]
+  else state.value = []
+}
 
 watch(
   () => props.breadcrumbs,
   (breadcrumbs) => {
-    set(breadcrumbs)
+    setBreadcrumbs(breadcrumbs)
   },
   { deep: true, immediate: true },
 )
 
 // Clear links when route changes
-onUnmounted(() => {
-  set([])
+onBeforeRouteLeave(() => {
+  setBreadcrumbs([])
 })
 </script>
