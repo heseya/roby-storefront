@@ -33,4 +33,7 @@ export default {
     BAD_REQUEST: 'Nieprawidłowe zapytanie.',
     BAD_GATEWAY: 'Błąd bramy serwera.',
   },
+  statuses: {
+    NEW: 'Nowy',
+  },
 }

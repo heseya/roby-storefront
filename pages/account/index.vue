@@ -1,23 +1,66 @@
 <template>
-  <div class="account-page">
-    <div class="account-page__header">
-      <h1>{{ t('welcome') }}{{ user?.name }}</h1>
-      <p>{{ t('message') }}</p>
-    </div>
-    <AccountItemsList :header="t('lastOrder')" :link="`todo`"> todo </AccountItemsList>
+  <LayoutAccountNav>
+    <template #header>
+      <div class="account-page__header">
+        <h1 class="account-page__header--text">{{ t('welcome') }}{{ user?.name }}</h1>
+        <p>{{ t('message') }}</p>
+      </div>
+    </template>
+    <div v-if="!errorMessage && user" class="account-page">
+      <AccountProductsList :header="t('lastOrder')" :link="`orders`">
+        <div v-if="userLastOrder" class="account-page__info">
+          <div class="account-page__details">
+            <p>
+              <b>{{ t('orderNumber') }}: </b>
+              <NuxtLink :to="`/order/${userLastOrder.code}`" class="account-page__link"
+                >{{ userLastOrder.code }}
+              </NuxtLink>
+            </p>
+            <p>
+              <b>{{ t('orderCreatingDate') }}</b
+              >: {{ formatDate(userLastOrder.created_at, 'dd.MM.yyyy HH:MM') }}
+            </p>
+          </div>
+          <div>
+            <b> {{ t('status') }}:</b>
 
-    <AccountItemsList :header="t('wishList')" :link="`wishlist`">
-      <div class="account-page__wishlist">
-        <div v-for="item in wishlist.localWishlist" :key="item.id">
-          <div class="account-page__container">
-            <NuxtLink :to="`/product/${item.slug}`">
-              <Media object-fit="cover" width="63" height="63" :media="item.cover" />
+            <LayoutButton
+              class="account-page__status-btn"
+              :style="{ 'background-color': `#${userLastOrder.status.color}` }"
+            >
+              {{ tGlobal(`statuses.${userLastOrder.status.name.toUpperCase()}`) }}
+            </LayoutButton>
+          </div>
+        </div>
+        <div v-if="userLastOrder?.products" class="account-page__items">
+          <div class="account-page__items-list">
+            <div v-for="{ product } in userLastOrder.products" :key="product.id">
+              <AccountListItem :product="product" />
+            </div>
+          </div>
+          <div class="account-page__actions">
+            <NuxtLink :to="`/order/${userLastOrder.code}`">
+              <LayoutButton class="account-page__details-btn">
+                {{ t('orderDetails') }}
+                <LayoutIcon :icon="GoNextIcon" :size="8" />
+              </LayoutButton>
             </NuxtLink>
           </div>
         </div>
-      </div>
-    </AccountItemsList>
-  </div>
+      </AccountProductsList>
+
+      <AccountProductsList :header="t('wishList')" :link="`wishlist`">
+        <div v-if="wishlist?.localWishlist" class="account-page__items-list">
+          <div v-for="product in wishlist?.localWishlist" :key="product.id">
+            <AccountListItem :product="product" />
+          </div>
+        </div>
+      </AccountProductsList>
+    </div>
+    <LayoutInfoBox v-else type="danger">
+      {{ errorMessage }}
+    </LayoutInfoBox></LayoutAccountNav
+  >
 </template>
 
 <i18n lang="json">
@@ -27,43 +70,131 @@
     "welcome": "Witaj, ",
     "message": "Tutaj możesz zarządzać swoimi zamówieniami oraz ustawieniami konta.",
     "lastOrder": "Ostatnie zamówienie",
-    "wishList": "Lista życzeń"
+    "wishList": "Lista życzeń",
+    "orderNumber": "Numer zamówienia",
+    "orderCreatingDate": "Data złożenia zamówienia",
+    "status": "Status",
+    "orderDetails": "Szczegóły Zamówienia"
   }
 }
 </i18n>
 
 <script setup lang="ts">
+import { Order } from '@heseya/store-core'
 import { useWishlistStore } from '@/store/wishlist'
+import GoNextIcon from '@/assets/icons/navigate-next.svg?component'
+
 const t = useLocalI18n()
+const { t: tGlobal } = useI18n({ useScope: 'global' })
 
 useHead({
   title: t('title'),
 })
-const orders = ref()
+
 const user = useUser()
 const heseya = useHeseya()
-const getUserOrders = async () => {
-  orders.value = await heseya.Orders.get()
-}
 const wishlist = useWishlistStore()
+const formatError = useErrorMessage()
+
+const errorMessage = ref('')
+const userLastOrder = ref<Order>()
+
+const getUserOrders = async () => {
+  try {
+    const orders = (await heseya.UserProfile.Orders.get()).data
+    if (orders.length) {
+      userLastOrder.value = await heseya.UserProfile.Orders.getOneByCode(orders[0].code)
+    }
+  } catch (e: any) {
+    errorMessage.value = formatError(e)
+  }
+}
+
+onMounted(async () => await getUserOrders())
 </script>
 
 <style lang="scss" scoped>
 .account-page {
+  padding: 16px;
+  display: grid;
+  gap: 30px;
+
   &__header {
     display: grid;
     gap: 15px;
+
+    @media ($max-viewport-12) {
+      gap: 8px;
+    }
+
+    &--text {
+      @media ($max-viewport-12) {
+        font-size: 20px;
+      }
+    }
   }
 
-  &__wishlist {
+  &__info,
+  &__items {
+    display: flex;
+    flex-direction: column;
+
+    @media ($max-viewport-12) {
+      justify-content: space-between;
+    }
+  }
+
+  &__info {
+    margin-bottom: 15px;
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  &__status-btn {
+    margin-left: 10px;
+    padding: 4px 6px;
+    margin-top: 5px;
+  }
+
+  &__details-btn {
+    height: fit-content;
+    padding: 8px 18px;
+    background-color: $gray-color-300;
+    color: $text-color;
+    border-radius: 5px;
+    margin-right: 5px;
+
+    &:hover {
+      background-color: $gray-color-400 !important;
+    }
+  }
+
+  &__details {
+    display: grid;
+    gap: 5px;
+
+    @media ($viewport-12) {
+      display: flex;
+      gap: 55px;
+    }
+  }
+
+  &__items-list {
     display: flex;
     gap: 10px;
   }
 
-  &__container {
-    border: 1px solid $gray-color-300;
-    height: 100%;
-    padding: 5px;
+  &__link {
+    text-decoration: none;
+    color: $blue-color;
+  }
+
+  &__icon {
+    margin-left: 4px;
   }
 }
 </style>

@@ -169,6 +169,7 @@ const onLogout = async () => {
     title: t('message.logout'),
     type: 'success',
   })
+  router.push('/')
 }
 
 const { data: navLinks } = useAsyncData<NavLink[]>('nav-pages', async () => {
