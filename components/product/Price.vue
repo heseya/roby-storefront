@@ -48,6 +48,8 @@ const isDiscounted = computed(() => {
 <style lang="scss" scoped>
 .product-price {
   &__price {
+    line-height: 1.1em;
+
     &--discounted {
       color: var(--primary-color);
     }
@@ -55,6 +57,7 @@ const isDiscounted = computed(() => {
     &--original {
       color: $gray-color-600;
       margin-left: 4px;
+      font-size: 0.8em;
       text-decoration: line-through;
     }
   }

@@ -7,7 +7,12 @@
 
     <ProductPageOmnibus class="product-purchase-panel__omnibus" />
 
-    <div v-if="product.has_schemas" class="product-purchase-panel__schemas">TODO Schemas</div>
+    <ProductPageSchemas
+      v-model:value="schemaValue"
+      i-if="product.has_schemas"
+      class="product-purchase-panel__schemas"
+      :product="product"
+    />
 
     <ProductQuantityInput v-model:quantity="quantity" class="product-purchase-panel__quantity" />
 
@@ -48,7 +53,7 @@
 </i18n>
 
 <script setup lang="ts">
-import { Product } from '@heseya/store-core'
+import { CartItemSchema, Product, parseSchemasToValues } from '@heseya/store-core'
 
 import DeliveryIcon from '@/assets/icons/delivery.svg?component'
 import { useCartStore } from '@/store/cart'
@@ -64,6 +69,7 @@ const router = useRouter()
 const t = useLocalI18n()
 
 const quantity = ref(1)
+const schemaValue = ref<CartItemSchema[]>(parseSchemasToValues(props.product.schemas))
 
 const availability = computed(() => {
   if (!props.product.available) return t('availability.unavailable')
@@ -93,8 +99,8 @@ const addToCart = () => {
 
   cart.add({
     product: props.product,
-    schemas: [],
-    schemaValue: [],
+    schemas: props.product.schemas,
+    schemaValue: schemaValue.value,
     quantity: Number(quantity.value) || 1,
   })
 
@@ -170,8 +176,6 @@ const addToCart = () => {
   }
 
   &__schemas {
-    background-color: #fff;
-    padding: 8px;
     grid-area: schemas;
   }
 }
