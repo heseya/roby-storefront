@@ -24,10 +24,8 @@
           v-if="showPrice"
           class="product-header__tabs"
           type="gray"
-          :tabs="[
-            { key: 'buy', label: t('tabs.buy') },
-            { key: 'renting', label: t('tabs.renting') },
-          ]"
+          hide-single-tab
+          :tabs="productPurchaseTabs"
         >
           <template #buy> <ProductPagePurchasePanel v-if="product" :product="product" /> </template>
           <template #renting>
@@ -51,7 +49,7 @@
       </div>
     </div>
 
-    <LayoutTabs class="product-page__main" :tabs="productTabs">
+    <LayoutTabs class="product-page__main" :tabs="productDescriptionTabs">
       <template #description>
         <div class="product-page__description-wrapper">
           <div>
@@ -104,6 +102,7 @@
 <script setup lang="ts">
 import { PRODUCT_SUBTEXT_ATTRIBUTE_NAME } from '@/consts/subtextAttribute'
 import { ASK_FOR_PRICE_KEY } from '@/consts/metadataKeys'
+import { Tab } from '~/components/layout/Tabs.vue'
 
 const heseya = useHeseya()
 const route = useRoute()
@@ -126,13 +125,19 @@ const { data: globalPages } = useAsyncData('globalPages', async () => {
 
 const category = computed(() => product.value?.sets[0])
 
-const productTabs = computed(() => {
-  return [
-    { key: 'description', label: t('tabs.description') },
-    { key: 'additionalInfo', label: t('tabs.additionalInfo') },
-    ...(globalPages.value?.map((p) => ({ key: p.slug, label: p.name })) || []),
-  ]
-})
+const productPurchaseTabs = computed(
+  () =>
+    [
+      { key: 'buy', label: t('tabs.buy') },
+      product.value?.metadata.allow_renting ? { key: 'renting', label: t('tabs.renting') } : null,
+    ].filter(Boolean) as Tab[],
+)
+
+const productDescriptionTabs = computed<Tab[]>(() => [
+  { key: 'description', label: t('tabs.description') },
+  { key: 'additionalInfo', label: t('tabs.additionalInfo') },
+  ...(globalPages.value?.map((p) => ({ key: p.slug, label: p.name })) || []),
+])
 
 useBreadcrumbs([
   category.value
