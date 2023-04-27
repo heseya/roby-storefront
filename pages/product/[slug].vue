@@ -124,9 +124,7 @@ const { data: globalPages } = useAsyncData('globalPages', async () => {
   return Promise.all(data.map((p) => heseya.Pages.getOne(p.id)))
 })
 
-const category = computed(() => {
-  return product.value?.sets[0]
-})
+const category = computed(() => product.value?.sets[0])
 
 const productTabs = computed(() => {
   return [
