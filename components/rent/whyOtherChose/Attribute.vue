@@ -1,6 +1,6 @@
 <template>
   <div class="attribute">
-    <LayoutIcon class="attribute__icon" :icon="CheckIcon" :size="20" />
+    <LayoutIcon class="attribute__icon" :icon="CheckIcon" :size="14" />
     <span class="attribute__text">{{ text }}</span>
   </div>
 </template>
@@ -16,12 +16,28 @@ defineProps<{
 <style lang="scss" scoped>
 .attribute {
   @include flex-row;
-  gap: 20px;
+  gap: 8px;
   align-items: center;
 
+  @media ($viewport-9) {
+    gap: 20px;
+  }
+
+  &__icon {
+    flex-shrink: 0;
+
+    @media ($viewport-9) {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
   &__text {
-    font-size: rem(20);
     font-weight: $font-weight-medium;
+
+    @media ($viewport-9) {
+      font-size: rem(20);
+    }
   }
 }
 </style>

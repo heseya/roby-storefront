@@ -27,10 +27,19 @@
   align-items: stretch;
   gap: 26px;
 
+  @media ($max-viewport-9) {
+    flex-direction: column;
+    gap: 16px;
+  }
+
   &__reason {
     flex: 1;
     @include flex-column;
     gap: 32px;
+
+    @media ($max-viewport-9) {
+      gap: 16px;
+    }
   }
 
   &__attributes {
@@ -41,15 +50,26 @@
 
     @include flex-column;
     justify-content: space-between;
+    gap: 12px;
+
+    @media ($max-viewport-9) {
+      padding: 16px;
+    }
   }
 
   &__title {
     text-align: left;
-    font-size: rem(45);
+    font-size: rem(22);
+
+    @media ($viewport-9) {
+      font-size: rem(45);
+    }
   }
 
   &__text {
-    font-size: rem(18);
+    @media ($viewport-9) {
+      font-size: rem(18);
+    }
   }
 }
 </style>
