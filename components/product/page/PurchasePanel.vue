@@ -15,9 +15,11 @@
       {{ t('actions.addToCart') }}
     </LayoutButton>
 
-    <LayoutButton variant="gray" class="product-purchase-panel__lease-btn" @click="lease">
-      {{ t('actions.lease') }}
-    </LayoutButton>
+    <a :href="$leaslink(product.name, product.price_min, false, product.vat_rate)">
+      <LayoutButton variant="gray" class="product-purchase-panel__lease-btn">
+        {{ t('actions.lease') }}
+      </LayoutButton>
+    </a>
 
     <div class="product-purchase-panel__detail"><DeliveryIcon /> {{ availability }}</div>
   </div>
@@ -90,11 +92,6 @@ const addToCart = () => {
   })
 
   router.push('/cart')
-}
-
-const lease = () => {
-  // TODO
-  console.log('lease')
 }
 </script>
 
