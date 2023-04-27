@@ -1,5 +1,6 @@
 <template>
   <div class="forgot-password" @submit.prevent="onSubmit">
+    <LayoutBreadcrumpsProvider :breadcrumbs="[{ label: t('title'), link: '/forgot-password' }]" />
     <form v-if="!formStatus.send" class="forgot-password__form">
       <h2 class="forgot-password__header">{{ t('form.header') }}</h2>
       <span class="forgot-password__description">{{ t('form.description') }}</span>
@@ -48,11 +49,6 @@ import { useForm } from 'vee-validate'
 const t = useLocalI18n()
 const heseya = useHeseya()
 const formatError = useErrorMessage()
-
-useBreadcrumbs([
-  { label: 'Rejestracja', link: '/register' },
-  { label: 'Przypomnij hasło', link: '/forgot-password' },
-])
 
 const form = useForm({
   initialValues: {

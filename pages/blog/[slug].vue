@@ -13,11 +13,7 @@
         </div>
         <div class="blog-page__date">{{ dateCreated }}</div>
       </div>
-      <div
-        v-if="translatedArticle?.content"
-        class="hs-html-content"
-        v-html="translatedArticle.content"
-      ></div>
+      <BaseWysiwygContent v-if="translatedArticle?.content" :content="translatedArticle.content" />
     </div>
   </BaseContainer>
 </template>
