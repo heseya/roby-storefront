@@ -1,7 +1,10 @@
 <template>
-  <BaseContainer class="wishlist-page">
-    <WishlistView class="wishlist-page__content" />
-  </BaseContainer>
+  <LayoutAccount>
+    <template #header>
+      {{ t('title') }}
+    </template>
+    <WishlistView class="wishlist-page__content" small />
+  </LayoutAccount>
 </template>
 
 <i18n lang="json">
@@ -21,7 +24,7 @@ const auth = useAuthStore()
 watch(
   () => auth.isLogged,
   () => {
-    if (auth.isLogged) navigateTo('/account/wishlist')
+    if (!auth.isLogged) navigateTo('/wishlist')
   },
   { immediate: true },
 )
@@ -30,20 +33,13 @@ useHead({
   title: t('title'),
 })
 
-// TODO: breadcrumps
+// TODO: breadcrumbs
 </script>
 
 <style lang="scss" scoped>
 .wishlist-page {
-  margin-bottom: 50px;
-
-  @media ($viewport-10) {
-    margin-top: 60px;
-  }
-
-  &__title {
-    text-align: left;
-    margin-bottom: 24px;
+  &__content {
+    margin-top: 24px;
   }
 }
 </style>

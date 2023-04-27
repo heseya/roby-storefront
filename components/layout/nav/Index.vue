@@ -59,7 +59,10 @@
             </button>
           </div>
         </div>
-        <NuxtLink class="nav-link-button" :to="localePath('/wishlist')">
+        <NuxtLink
+          class="nav-link-button"
+          :to="localePath(auth.isLogged ? '/account/wishlist' : '/wishlist')"
+        >
           <LayoutIconButton
             class="nav-link-button__button"
             :icon="Favorite"
