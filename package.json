@@ -7,7 +7,7 @@
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare && yarn husky install",
     "lint:eslint": "eslint --ext .ts,.js,.vue .",
-    "lint:vtsc": "vue-tsc --noEmit",
+    "lint:vue": "vue-tsc --noEmit",
     "lint": "yarn lint:eslint && yarn lint:vtsc"
   },
   "dependencies": {
