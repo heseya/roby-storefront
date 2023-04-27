@@ -6,6 +6,7 @@ const {
   ENVIRONMENT = 'development',
   APP_HOST,
   RECAPTCHA_PUBLIC,
+  CENEO_GUID,
 } = process.env
 
 const isProduction = ENVIRONMENT === 'production'
@@ -53,6 +54,7 @@ export default defineNuxtConfig({
       appHost: APP_HOST,
       isProduction,
       recaptchaPublic: RECAPTCHA_PUBLIC,
+      ceneoGuid: CENEO_GUID,
     },
   },
 
