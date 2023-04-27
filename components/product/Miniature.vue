@@ -100,6 +100,7 @@ const showPrice = computed(() => {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    z-index: 2;
   }
 
   &__cover {
