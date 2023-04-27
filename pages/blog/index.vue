@@ -116,25 +116,38 @@ watch(
 <style lang="scss" scoped>
 .blog {
   width: 100%;
-  display: grid;
-  grid-template-columns: 1fr 3fr;
-  grid-gap: 25px;
   margin-bottom: 30px;
+
+  @media ($viewport-8) {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    grid-gap: 25px;
+  }
 
   &__title {
     margin-bottom: 25px;
   }
 
   &__tags {
-    display: flex;
-    flex-direction: column;
     gap: 8px;
+    display: flex;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    overflow-y: auto;
+
+    @media ($viewport-8) {
+      flex-direction: column;
+    }
   }
 
   &__articles {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-gap: 25px;
+    grid-gap: 10px;
+
+    @media ($viewport-8) {
+      grid-gap: 25px;
+    }
   }
 }
 </style>
