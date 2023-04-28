@@ -43,12 +43,13 @@ import CrossIcon from '@/assets/icons/cross.svg?component'
 
 const props = defineProps<{
   media: CdnMedia[]
+  defaultMedia: CdnMedia | null
 }>()
 const emit = defineEmits<{
   (e: 'close'): void
 }>()
 
-const active = ref<CdnMedia | null>(props.media[0] || null)
+const active = ref<CdnMedia | null>(props.defaultMedia || props.media[0] || null)
 
 const setActive = (image: CdnMedia) => {
   active.value = image
