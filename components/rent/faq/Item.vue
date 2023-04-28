@@ -42,7 +42,9 @@ const toggleOpen = () => {
   }
 
   &__question {
-    font-size: rem(16);
+    @media ($viewport-9) {
+      font-size: rem(16);
+    }
   }
 
   &__arrow {
@@ -56,13 +58,14 @@ const toggleOpen = () => {
 
   &__answer {
     padding-top: 20px;
-    font-size: rem(16);
-
     text-align: left;
     text-decoration: none;
     color: $gray-color-900;
-
     transition: all 200ms ease-in-out;
+
+    @media ($viewport-9) {
+      font-size: rem(16);
+    }
 
     &--hide {
       opacity: 0;

@@ -1,7 +1,7 @@
 <template>
   <div class="faq">
     <div class="faq__content">
-      <LayoutHeader variant="black">Obsługa wynajmu urządzeń</LayoutHeader>
+      <LayoutHeader variant="black" class="faq__title">Obsługa wynajmu urządzeń</LayoutHeader>
       <RentFaqItem
         v-for="({ question, answer }, index) in technicalFaq"
         :key="index"
@@ -10,7 +10,7 @@
       />
     </div>
     <div class="faq__content">
-      <LayoutHeader variant="black">Umowa i formalności</LayoutHeader>
+      <LayoutHeader variant="black" class="faq__title">Umowa i formalności</LayoutHeader>
       <RentFaqItem
         v-for="({ question, answer }, index) in formalFaq"
         :key="index"
@@ -79,6 +79,12 @@ const formalFaq = [
 
   &__content {
     flex: 1;
+  }
+
+  &__title {
+    @media ($max-viewport-9) {
+      font-size: rem(22);
+    }
   }
 }
 </style>
