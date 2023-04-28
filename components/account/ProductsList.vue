@@ -1,6 +1,5 @@
 <template>
   <div>
-    <LayoutBreadcrumpsProvider :breadcrumbs="[{ label: t('myAccount'), link: '/account' }]" />
     <div class="products-list">
       <div class="products-list__header">
         <h3 class="products-list__text">{{ header }}</h3>
