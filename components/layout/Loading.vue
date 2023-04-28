@@ -33,7 +33,7 @@ withDefaults(defineProps<{ active: boolean }>(), { active: false })
   transition: 0.2s;
   background-color: rgba($gray-color-300, 0.6);
   backdrop-filter: blur(4px);
-  border-radius: 24px;
+  border-radius: 8px;
 
   &--active {
     opacity: 1;

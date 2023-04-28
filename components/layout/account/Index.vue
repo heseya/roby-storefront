@@ -14,9 +14,6 @@
 
 <style lang="scss" scoped>
 .account-layout {
-  display: flex;
-  justify-content: center;
-
   &__header {
     font-weight: bold;
     font-size: 22px;
@@ -30,6 +27,7 @@
     width: 100%;
     display: grid;
     gap: 5px;
+    margin: 0px 20px;
   }
 }
 </style>

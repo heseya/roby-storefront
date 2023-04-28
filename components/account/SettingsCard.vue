@@ -106,6 +106,7 @@ onMounted(() => {
 
   &__header {
     margin-top: 10px;
+    font-size: 16px;
   }
 
   &__button {
