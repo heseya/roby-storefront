@@ -1,5 +1,5 @@
 <template>
-  <div class="account-layout">
+  <BaseContainer class="account-layout">
     <div class="account-layout__content">
       <div class="account-layout__header">
         <slot name="header"></slot>
@@ -7,7 +7,7 @@
 
       <slot></slot>
     </div>
-  </div>
+  </BaseContainer>
 </template>
 
 <script setup lang="ts"></script>
@@ -27,12 +27,9 @@
   }
 
   &__content {
+    width: 100%;
     display: grid;
     gap: 5px;
-
-    @media ($viewport-11) {
-      width: 35%;
-    }
   }
 }
 </style>
