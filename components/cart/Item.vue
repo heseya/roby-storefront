@@ -3,7 +3,12 @@
     <Media width="120" class="cart-item__cover" :media="item.coverMedia" />
 
     <div class="cart-item__content">
-      <div class="cart-item__name">{{ item.name }}</div>
+      <div class="cart-item__main">
+        <span class="cart-item__name">{{ item.name }}</span>
+        <span v-for="[name, value] in item.variant" :key="name" class="cart-item__schema">
+          {{ name }}: <b>{{ value }}</b>
+        </span>
+      </div>
 
       <ProductQuantityInput
         show-label
@@ -77,9 +82,21 @@ const removeFromCart = () => {
     }
   }
 
+  &__main {
+    display: flex;
+    flex-direction: column;
+  }
+
   &__name {
     font-weight: 600;
     font-size: rem(16);
+    margin-bottom: 4px;
+  }
+
+  &__schema {
+    font-size: rem(10);
+    line-height: 1.2em;
+    color: $gray-color-600;
   }
 
   &__quantity {

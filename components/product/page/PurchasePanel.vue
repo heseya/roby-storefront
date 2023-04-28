@@ -3,11 +3,24 @@
     class="product-purchase-panel"
     :class="{ 'product-purchase-panel--no-schemas': !product.has_schemas }"
   >
-    <ProductPrice :product="product" class="product-purchase-panel__price" />
+    <div class="product-purchase-panel__price">
+      <LayoutLoading :active="pending" />
+      <span class="product-price">
+        {{ formatAmount(price) }}
+      </span>
+      <span v-if="price !== originalPrice" class="product-price product-price--discounted">
+        {{ formatAmount(originalPrice) }}
+      </span>
+    </div>
 
     <ProductPageOmnibus class="product-purchase-panel__omnibus" />
 
-    <div v-if="product.has_schemas" class="product-purchase-panel__schemas">TODO Schemas</div>
+    <ProductPageSchemas
+      v-model:value="schemaValue"
+      i-if="product.has_schemas"
+      class="product-purchase-panel__schemas"
+      :product="product"
+    />
 
     <ProductQuantityInput v-model:quantity="quantity" class="product-purchase-panel__quantity" />
 
@@ -48,7 +61,7 @@
 </i18n>
 
 <script setup lang="ts">
-import { Product } from '@heseya/store-core'
+import { CartItemSchema, Product, parseSchemasToValues } from '@heseya/store-core'
 
 import DeliveryIcon from '@/assets/icons/delivery.svg?component'
 import { useCartStore } from '@/store/cart'
@@ -64,6 +77,8 @@ const router = useRouter()
 const t = useLocalI18n()
 
 const quantity = ref(1)
+const schemaValue = ref<CartItemSchema[]>(parseSchemasToValues(props.product.schemas))
+const { price, originalPrice, pending } = useProductPrice(props.product, schemaValue)
 
 const availability = computed(() => {
   if (!props.product.available) return t('availability.unavailable')
@@ -93,8 +108,8 @@ const addToCart = () => {
 
   cart.add({
     product: props.product,
-    schemas: [],
-    schemaValue: [],
+    schemas: props.product.schemas,
+    schemaValue: schemaValue.value,
     quantity: Number(quantity.value) || 1,
   })
 
@@ -133,8 +148,11 @@ const addToCart = () => {
 
   &__price {
     font-size: rem(20);
+    line-height: rem(28);
     font-weight: 600;
     grid-area: price;
+    color: var(--primary-color);
+    position: relative;
 
     @media ($viewport-5) {
       font-size: rem(26);
@@ -170,9 +188,18 @@ const addToCart = () => {
   }
 
   &__schemas {
-    background-color: #fff;
-    padding: 8px;
     grid-area: schemas;
+  }
+}
+
+.product-price {
+  color: var(--primary-color);
+
+  &--discounted {
+    color: $gray-color-600;
+    margin-left: 4px;
+    font-size: 0.8em;
+    text-decoration: line-through;
   }
 }
 </style>

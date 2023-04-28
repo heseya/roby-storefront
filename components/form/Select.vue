@@ -10,7 +10,7 @@
 </template>
 
 <script setup lang="ts">
-type SelectValue = number | string | undefined | null
+type SelectValue = number | string | undefined | null | boolean | object
 
 const props = withDefaults(
   defineProps<{
