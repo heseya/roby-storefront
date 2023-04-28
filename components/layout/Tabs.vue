@@ -1,6 +1,6 @@
 <template>
   <div class="tabs" :class="`tabs--${type}`">
-    <div class="tabs__header">
+    <div v-if="showHeaders" class="tabs__header">
       <button
         v-for="tab in tabs"
         :key="tab.key"
@@ -18,7 +18,7 @@
 </template>
 
 <script setup lang="ts">
-interface Tab {
+export interface Tab {
   label: string
   key: string
 }
@@ -27,13 +27,17 @@ const props = withDefaults(
   defineProps<{
     tabs: Tab[]
     type?: 'default' | 'gray'
+    hideSingleTab?: boolean
   }>(),
   {
     type: 'default',
+    hideSingleTab: false,
   },
 )
 
 const activeTabKey = ref(props.tabs[0]?.key)
+
+const showHeaders = computed(() => props.tabs.length > 1 || !props.hideSingleTab)
 </script>
 
 <style lang="scss" scoped>

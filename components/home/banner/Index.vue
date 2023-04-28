@@ -23,7 +23,7 @@
 </template>
 
 <script lang="ts" setup>
-import { Banner } from '@heseya/store-core'
+import { Banner, BannerMedia } from '@heseya/store-core'
 
 const props = defineProps<{
   banner: Banner
@@ -31,7 +31,7 @@ const props = defineProps<{
 
 const mainImage = computed(() => props.banner?.banner_media[0])
 
-const remainingImages = computed(() => props.banner?.banner_media.slice(1)) as Banner[]
+const remainingImages = computed(() => props.banner?.banner_media.slice(1) as BannerMedia[])
 </script>
 
 <style lang="scss" scoped>
