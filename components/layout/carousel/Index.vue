@@ -46,7 +46,7 @@ withDefaults(
 .carousel {
   @include flex-column;
   align-items: center;
-  padding: 0 36px;
+  padding-right: 36px;
   overflow: hidden;
 
   &--without-button {
@@ -59,7 +59,6 @@ withDefaults(
     overflow: visible;
     width: fit-content;
     max-width: 100%;
-    padding: 0 26px;
     margin: 0;
 
     &--without-button {
@@ -74,7 +73,7 @@ withDefaults(
   &__button {
     position: absolute;
     top: calc(50% - 18px);
-    right: -36px;
+    right: -18px;
     z-index: 10;
   }
 

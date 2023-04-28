@@ -2,7 +2,10 @@
   <NuxtLink
     :to="localePath(`/product/${product.slug}`)"
     class="product-miniature"
-    :class="{ 'product-miniature--horizontal': horizontal }"
+    :class="{
+      'product-miniature--horizontal': horizontal,
+      'product-miniature--force-size': forceSize,
+    }"
   >
     <div class="product-miniature__header">
       <div class="product-miniature__tags">
@@ -47,6 +50,7 @@ const t = useLocalI18n()
 const props = defineProps<{
   product: ProductList
   horizontal?: boolean
+  forceSize?: boolean
 }>()
 
 const productSubtext = computed(() => {
@@ -71,6 +75,10 @@ const showPrice = computed(() => {
   max-width: 200px;
   color: $text-color;
   position: relative;
+
+  &--force-size {
+    min-width: 200px;
+  }
 
   &--horizontal {
     flex-direction: row;
