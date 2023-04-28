@@ -9,7 +9,7 @@
     </nuxt-link>
     <div class="blog-article__date">
       <div>{{ dateCreated }}</div>
-      <div class="blog-article__tags">
+      <div>
         <BlogSimpleTag v-for="tag in article.tags" :key="tag.id" :tag="tag" />
       </div>
     </div>
@@ -82,14 +82,6 @@ const dateCreated = computed(() => formatDate(props.article.date_created, 'dd LL
     color: $gray-color-600;
     display: flex;
     justify-content: space-between;
-  }
-
-  &__tags {
-    display: none;
-
-    @media ($viewport-8) {
-      display: block;
-    }
   }
 }
 </style>
