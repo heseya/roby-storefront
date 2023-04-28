@@ -25,10 +25,6 @@
 <script setup lang="ts">
 import { useWishlistStore } from '@/store/wishlist'
 
-defineProps<{
-  title?: string
-}>()
-
 const t = useLocalI18n()
 const wishlist = useWishlistStore()
 </script>
