@@ -14,6 +14,7 @@ import {
 import { isAfter } from 'date-fns'
 import cloneDeep from 'lodash/cloneDeep'
 import { defineStore } from 'pinia'
+import isEqual from 'lodash/isEqual'
 import { useCheckoutStore } from './checkout'
 
 export type CartCoupon = Coupon & { effective_value?: number }
@@ -177,7 +178,9 @@ export const useCartStore = defineStore('cart', {
     }) {
       const ev = useHeseyaEventBus()
       const newCartItem = new CartItem(product, quantity, schemas, schemaValue)
-      const existingCartItem = this.items.find((item) => item.id === newCartItem.id)
+      const existingCartItem = this.items.find(
+        (item) => item.id === newCartItem.id && isEqual(item.schemas, newCartItem.schemas),
+      )
 
       if (!existingCartItem) {
         ev.emit(HeseyaEvent.AddToCart, newCartItem)

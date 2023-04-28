@@ -1,30 +1,18 @@
 <template>
   <div class="product-schemas">
-    <FormSelect
+    <ProductPageSchemasSelect
       v-for="schema in shownSchemas"
       :key="schema.id"
       class="product-schemas__schema"
-      :name="schema.id"
-      :model-value="getValue(schema.id)"
-      :label="schema.name"
-      @update:model-value="(v) => setValue(schema.id, v)"
-    >
-      <option
-        v-for="option in schema.options"
-        :key="option.id"
-        :value="option.id"
-        :disabled="option.disabled"
-        class="product-schemas__option"
-      >
-        {{ option.name }}
-        <span v-if="option.price > 0"> (+{{ formatAmount(option.price) }}) </span>
-      </option>
-    </FormSelect>
+      :schema="schema"
+      :value="getValue(schema.id)"
+      @update:value="(v) => setValue(schema.id, v)"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
-import { CartItemSchema, Product, SchemaType } from '@heseya/store-core'
+import { CartItemSchema, Product, Schema, SchemaType } from '@heseya/store-core'
 
 const props = defineProps<{
   product: Product
@@ -36,8 +24,11 @@ const emit = defineEmits<{
 }>()
 
 // TODO: support more schemas
-const shownSchemas = computed(() =>
-  props.product.schemas.filter((schema) => schema.type === SchemaType.Select),
+const shownSchemas = computed(
+  () =>
+    props.product.schemas.filter((schema) => schema.type === SchemaType.Select) as (Schema & {
+      type: SchemaType.Select
+    })[],
 )
 
 const getValue = (schemaId: string) => {
