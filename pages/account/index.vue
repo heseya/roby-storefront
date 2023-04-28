@@ -2,12 +2,12 @@
   <LayoutAccountNav class="account-page">
     <template v-if="!errorMessage" #header>
       <div class="account-page__header">
-        <h1 class="account-page__header--text">{{ t('welcome') }}{{ user?.name }}</h1>
+        <h1 class="account-page__header-text">{{ t('welcome') }}{{ user?.name }}</h1>
         <p>{{ t('message') }}</p>
       </div>
     </template>
     <div v-if="!errorMessage" class="account-page__container">
-      <AccountProductsList :header="t('lastOrder')" :link="`orders`">
+      <AccountProductsList :header="t('lastOrder')" :link="`/account/orders`">
         <div v-if="userLastOrder" class="account-page__info">
           <div class="account-page__details">
             <div class="account-page__details-box">
@@ -27,7 +27,7 @@
               class="account-page__status-btn"
               :style="{ 'background-color': `#${userLastOrder.status.color}` }"
             >
-              {{ $t(`statuses.${userLastOrder.status.name.toLowerCase()}`) }}
+              {{ userLastOrder.status.name }}
             </LayoutButton>
           </div>
         </div>
@@ -48,7 +48,7 @@
         </div>
       </AccountProductsList>
 
-      <AccountProductsList :header="t('wishList')" :link="`wishlist`">
+      <AccountProductsList :header="t('wishList')" :link="`/account/wishlist`">
         <div v-if="wishlist?.userWishlist" class="account-page__items-list">
           <div v-for="{ product } in wishlist.userWishlist" :key="product.id">
             <AccountListItem :product="product" />
@@ -79,12 +79,10 @@
 </i18n>
 
 <script setup lang="ts">
-import { Order } from '@heseya/store-core'
 import { useWishlistStore } from '@/store/wishlist'
 import GoNextIcon from '@/assets/icons/navigate-next.svg?component'
 
 const t = useLocalI18n()
-const { t: $t } = useI18n({ useScope: 'global' })
 
 useHead({
   title: t('title'),
@@ -97,20 +95,17 @@ const wishlist = useWishlistStore()
 const formatError = useErrorMessage()
 
 const errorMessage = ref('')
-const userLastOrder = ref<Order>()
 
-const getUserOrders = async () => {
+const { data: userLastOrder } = useAsyncData(`userOrders`, async () => {
   try {
-    const orders = (await heseya.UserProfile.Orders.get()).data
-    if (orders.length) {
-      userLastOrder.value = await heseya.UserProfile.Orders.getOneByCode(orders[0].code)
+    const { data } = await heseya.UserProfile.Orders.get()
+    if (data.length) {
+      return await heseya.UserProfile.Orders.getOneByCode(data[0].code)
     }
   } catch (e: any) {
     errorMessage.value = formatError(e)
   }
-}
-
-onMounted(async () => await getUserOrders())
+})
 </script>
 
 <style lang="scss" scoped>
@@ -132,13 +127,13 @@ onMounted(async () => await getUserOrders())
     @media ($max-viewport-12) {
       gap: 8px;
     }
+  }
 
-    &--text {
-      font-size: 26px;
+  &-text {
+    font-size: 26px;
 
-      @media ($max-viewport-12) {
-        font-size: 20px;
-      }
+    @media ($max-viewport-12) {
+      font-size: 20px;
     }
   }
 
