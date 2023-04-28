@@ -5,7 +5,7 @@
         <Media width="100" class="cart-preview-item__cover" :media="item.coverMedia" />
         <div class="cart-preview-item__content">
           <span class="cart-preview-item__name">{{ item.name }}</span>
-          <span class="cart-preview-item__brand">{{ item.name }}</span>
+          <span class="cart-preview-item__brand">{{ getProductSubtext(item) }}</span>
           <div class="cart-preview-item__summary">
             <span class="cart-preview-item__quantity">{{ t('quantity') }} {{ item.qty }}</span>
             <span class="cart-preview-item__price">
@@ -42,6 +42,7 @@
 <script setup lang="ts">
 import CrossIcon from '@/assets/icons/cross.svg?component'
 import { useCartStore } from '@/store/cart'
+import { getProductSubtext } from '@/utils/product'
 
 const t = useLocalI18n()
 const cart = useCartStore()
@@ -83,6 +84,7 @@ const handleRemove = (id: string) => {
   gap: 10px;
 
   border-bottom: solid 1px $gray-color-400;
+
   &:last-child {
     border-bottom-color: transparent;
   }

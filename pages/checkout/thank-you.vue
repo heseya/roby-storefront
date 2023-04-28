@@ -14,10 +14,12 @@
       </span>
     </div>
     <div v-if="route.query.code" class="checkout-container__nav">
-      <NuxtLink :to="`/checkout/status/${route.query.code}`">
+      <NuxtLink :to="`/checkout/status/${orderCode}`">
         <LayoutButton class="checkout-container__btn"> {{ t('container.btn') }}</LayoutButton>
       </NuxtLink>
     </div>
+
+    <CheckoutTraditionalPaymentDetails v-if="isTraditionalPayment" :code="orderCode" />
   </div>
 </template>
 
@@ -46,6 +48,10 @@ const route = useRoute()
 const auth = useAuthStore()
 
 const t = useLocalI18n()
+
+const orderCode = computed(() => route.query.code as string)
+
+const isTraditionalPayment = computed(() => route.query.payment === 'traditional')
 
 useHead({
   title: t('container.header'),

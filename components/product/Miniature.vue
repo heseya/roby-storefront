@@ -21,7 +21,7 @@
       <span class="product-miniature__name">
         {{ product.name }}
       </span>
-      <span class="product-miniature__subtext"> {{ productSubtext }} </span>
+      <span class="product-miniature__subtext"> {{ getProductSubtext(product) }} </span>
       <ProductPrice v-if="showPrice" class="product-miniature__price" :product="product" />
       <LayoutButton v-else class="product-miniature__btn"> {{ t('askForPrice') }} </LayoutButton>
 
@@ -41,10 +41,9 @@
 
 <script lang="ts" setup>
 import { ProductList } from '@heseya/store-core'
-import { PRODUCT_SUBTEXT_ATTRIBUTE_NAME } from '@/consts/subtextAttribute'
+import { getProductSubtext } from '@/utils/product'
 import { ASK_FOR_PRICE_KEY } from '@/consts/metadataKeys'
 
-const localePath = useLocalePath()
 const t = useLocalI18n()
 
 const props = defineProps<{
@@ -52,12 +51,6 @@ const props = defineProps<{
   horizontal?: boolean
   forceSize?: boolean
 }>()
-
-const productSubtext = computed(() => {
-  // TODO: do not attribute from fixed string
-  return props.product?.attributes.find((a) => a.name === PRODUCT_SUBTEXT_ATTRIBUTE_NAME)
-    ?.selected_options[0]?.name
-})
 
 const showPrice = computed(() => {
   return !props.product?.metadata?.[ASK_FOR_PRICE_KEY] ?? true
