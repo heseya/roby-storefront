@@ -1,5 +1,7 @@
 <template>
   <BaseContainer class="product-page">
+    <LayoutBreadcrumpsProvider :breadcrumbs="breadcrumbs" />
+
     <div class="product-page__header product-header">
       <ProductPageCover class="product-header__gallery" :media="product?.gallery || []" />
 
@@ -139,7 +141,7 @@ const productDescriptionTabs = computed<Tab[]>(() => [
   ...(globalPages.value?.map((p) => ({ key: p.slug, label: p.name })) || []),
 ])
 
-useBreadcrumbs([
+const breadcrumbs = computed(() => [
   category.value
     ? { label: category.value.name || '', link: `/category/${category.value.slug}` }
     : null,

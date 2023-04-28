@@ -1,5 +1,6 @@
 <template>
   <div class="register-content">
+    <LayoutBreadcrumpsProvider :breadcrumbs="[{ label: t('title'), link: '/register' }]" />
     <AuthRegisterForm @registered="() => $router.push('/login')" />
   </div>
 </template>
@@ -15,7 +16,6 @@
 <script setup lang="ts">
 const t = useLocalI18n()
 
-useBreadcrumbs([{ label: 'Rejestracja', link: '/register' }])
 useHead({
   title: t('title'),
 })

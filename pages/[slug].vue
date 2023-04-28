@@ -1,8 +1,9 @@
 <template>
   <BaseContainer>
+    <LayoutBreadcrumpsProvider :breadcrumbs="[{ label: page?.name || '', link: route.fullPath }]" />
     <LayoutLoading :active="pending" />
     <div class="page">
-      <div class="hs-html-content" v-html="page.content_html"></div>
+      <BaseWysiwygContent :content="page?.content_html" />
     </div>
   </BaseContainer>
 </template>
@@ -22,15 +23,13 @@ const { data: page, pending } = useAsyncData(`page-${route.params.slug}`, async 
   }
 })
 
-useBreadcrumbs([{ label: page.value?.name || '', link: route.fullPath }])
-
 useHead({
-  title: computed(() => page.value?.seo.title || page.value?.name || ''),
+  title: computed(() => page.value?.seo?.title || page.value?.name || ''),
   meta: [
     {
       hid: 'description',
       name: 'description',
-      content: computed(() => page.value?.seo.description || ''),
+      content: computed(() => page.value?.seo?.description || ''),
     },
   ],
 })
