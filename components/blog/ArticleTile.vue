@@ -1,12 +1,19 @@
 <template>
-  <nuxt-link :to="localePath(`/blog/${article.slug}`)" class="blog-article">
-    <div class="blog-article__image-container">
-      <img :src="imageUrl" :alt="translatedArticle.title" />
-      <div class="blog-article__floating-title">{{ translatedArticle.title }}</div>
+  <div class="blog-article">
+    <nuxt-link :to="localePath(`/blog/${article.slug}`)" class="blog-article__link">
+      <div class="blog-article__image-container">
+        <img :src="imageUrl" :alt="translatedArticle.title" />
+        <div class="blog-article__floating-title">{{ translatedArticle.title }}</div>
+      </div>
+      <div class="blog-article__title">{{ translatedArticle.description }}</div>
+    </nuxt-link>
+    <div class="blog-article__date">
+      <div>{{ dateCreated }}</div>
+      <div class="blog-article__tags">
+        <BlogSimpleTag v-for="tag in article.tags" :key="tag.id" :tag="tag" />
+      </div>
     </div>
-    <div class="blog-article__title">{{ translatedArticle.description }}</div>
-    <div class="blog-article__date">{{ dateCreated }}</div>
-  </nuxt-link>
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -27,7 +34,9 @@ const dateCreated = computed(() => formatDate(props.article.date_created, 'dd LL
 
 <style lang="scss" scoped>
 .blog-article {
-  text-decoration: none;
+  &__link {
+    text-decoration: none;
+  }
 
   &__image-container {
     width: 100%;
@@ -71,6 +80,16 @@ const dateCreated = computed(() => formatDate(props.article.date_created, 'dd LL
   &__date {
     margin-top: 5px;
     color: $gray-color-600;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__tags {
+    display: none;
+
+    @media ($viewport-8) {
+      display: block;
+    }
   }
 }
 </style>

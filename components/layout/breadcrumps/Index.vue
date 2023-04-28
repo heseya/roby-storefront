@@ -1,7 +1,7 @@
 <template>
   <BaseContainer class="breadcrumps">
     <NuxtLink
-      v-for="{ link, label } in breadcrumps"
+      v-for="{ link, label } in breadcrumbs"
       :key="link"
       :to="link"
       class="breadcrumps__item"
@@ -12,11 +12,12 @@
 </template>
 
 <script setup lang="ts">
-const breadcrumps = useBreadcrumbs()
+const breadcrumbs = useBreadcrumbsState()
 </script>
 
 <style lang="scss" scoped>
 .breadcrumps {
+  width: 100%;
   display: flex;
   align-items: center;
   padding-top: 22px;

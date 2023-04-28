@@ -17,6 +17,7 @@
         :name="name"
         :placeholder="placeholder"
         :disabled="disabled"
+        :inputmode="htmlType === 'phone' ? 'tel' : undefined"
         @keydown.stop
       />
       <slot></slot>

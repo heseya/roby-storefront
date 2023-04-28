@@ -15,9 +15,14 @@
       {{ t('actions.addToCart') }}
     </LayoutButton>
 
-    <LayoutButton variant="gray" class="product-purchase-panel__lease-btn" @click="lease">
-      {{ t('actions.lease') }}
-    </LayoutButton>
+    <a
+      v-if="isLeaseable"
+      :href="$leaslink(product.name, product.price_min, false, product.vat_rate)"
+    >
+      <LayoutButton variant="gray" class="product-purchase-panel__lease-btn">
+        {{ t('actions.lease') }}
+      </LayoutButton>
+    </a>
 
     <div class="product-purchase-panel__detail"><DeliveryIcon /> {{ availability }}</div>
   </div>
@@ -79,6 +84,10 @@ const availability = computed(() => {
   return props.product.available ? t('availability.available') : t('availability.unavailable')
 })
 
+const isLeaseable = computed(() => {
+  return !!props.product.metadata.allow_lease
+})
+
 const addToCart = () => {
   if (!props.product.available) return
 
@@ -90,11 +99,6 @@ const addToCart = () => {
   })
 
   router.push('/cart')
-}
-
-const lease = () => {
-  // TODO
-  console.log('lease')
 }
 </script>
 

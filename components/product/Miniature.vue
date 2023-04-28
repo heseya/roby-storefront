@@ -108,6 +108,7 @@ const showPrice = computed(() => {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    z-index: 2;
   }
 
   &__cover {
@@ -125,7 +126,7 @@ const showPrice = computed(() => {
     min-height: 100px;
 
     @media ($viewport-10) {
-      min-height: 200px;
+      min-height: 160px;
     }
   }
   &--horizontal &__header {
@@ -133,8 +134,8 @@ const showPrice = computed(() => {
     max-height: 100px;
 
     @media ($viewport-10) {
-      max-width: 200px;
-      max-height: 200px;
+      max-width: 160px;
+      max-height: 160px;
     }
   }
 

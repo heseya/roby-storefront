@@ -1,5 +1,7 @@
 <template>
   <LayoutAccount>
+    <LayoutBreadcrumpsProvider :breadcrumbs="breadcrumbs" />
+
     <template #header>
       {{ t('title') }}
     </template>
@@ -20,14 +22,15 @@
 <script setup lang="ts">
 import { UserSavedAddress } from '@heseya/store-core'
 const t = useLocalI18n()
+const { t: $t } = useI18n({ useScope: 'global' })
 
 useHead({
   title: t('title'),
 })
 
-useBreadcrumbs([
-  { label: 'Moje konto', link: '/account' },
-  { label: 'Adresy', link: '/addresses' },
+const breadcrumbs = computed(() => [
+  { label: $t('breadcrumbs.account'), link: '/account' },
+  { label: t('title'), link: '/addresses' },
 ])
 
 const deliveryAddresses = ref<UserSavedAddress[]>([
