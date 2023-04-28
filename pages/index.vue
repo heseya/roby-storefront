@@ -37,6 +37,8 @@
           :banner="banner"
           :title="banner.name"
           :gray-filter="!!banner.metadata.gray_filter"
+          :image-height="banner.metadata.image_height"
+          :image-width="banner.metadata.image_width"
         />
       </LazyHydrate>
     </BaseContainer>
