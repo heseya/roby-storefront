@@ -6,7 +6,7 @@
           <div>
             <ul class="account-nav__list">
               <li v-for="(target, index) in navList" :key="index" class="account-nav__list-item">
-                <NuxtLink :to="`account/${target}`" class="account-nav__text">{{
+                <NuxtLink :to="`/account/${target}`" class="account-nav__text">{{
                   t(target)
                 }}</NuxtLink>
                 <LayoutIcon :icon="GoNextIcon" :size="12" class="account-nav__icon" />
@@ -40,12 +40,12 @@
 </i18n>
 
 <script setup lang="ts">
-import { notify } from '@kyvg/vue3-notification'
 import { useAuthStore } from '@/store/auth'
 import GoNextIcon from '@/assets/icons/navigate-next.svg?component'
 const t = useLocalI18n()
 const auth = useAuthStore()
 const router = useRouter()
+const { notify } = useNotify()
 
 const navList = ref<string[]>(['orders', 'settings', 'addresses', 'wishlist'])
 
