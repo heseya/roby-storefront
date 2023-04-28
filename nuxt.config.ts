@@ -5,6 +5,9 @@ const {
   DIRECTUS_URL = 'https://cms.heseya.com',
   ENVIRONMENT = 'development',
   APP_HOST,
+  RECAPTCHA_PUBLIC,
+  CENEO_GUID,
+  LEASLINK_ID,
 } = process.env
 
 const isProduction = ENVIRONMENT === 'production'
@@ -35,6 +38,11 @@ export default defineNuxtConfig({
           href: 'https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap',
         },
       ],
+      script: [
+        {
+          src: `https://www.google.com/recaptcha/api.js?render=${RECAPTCHA_PUBLIC}`,
+        },
+      ],
     },
   },
 
@@ -46,6 +54,9 @@ export default defineNuxtConfig({
       directusUrl: DIRECTUS_URL,
       appHost: APP_HOST,
       isProduction,
+      recaptchaPublic: RECAPTCHA_PUBLIC,
+      ceneoGuid: CENEO_GUID,
+      leaslinkId: LEASLINK_ID,
     },
   },
 

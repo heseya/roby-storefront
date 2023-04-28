@@ -4,7 +4,7 @@
     :variant="isInWishlist ? 'gray' : 'white'"
     @click="toggle"
   >
-    <HeartIcon class="favorite-btn__icon" />
+    <LayoutIcon :size="16" :icon="HeartIcon" class="favorite-btn__icon" />
     <span class="favorite-btn__text">
       {{ isInWishlist ? t('removeFromFavorites') : t('addToFavorites') }}
     </span>

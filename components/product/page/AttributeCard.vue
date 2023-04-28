@@ -12,8 +12,8 @@
       </li>
     </ul>
 
-    <div class="product-attribute-card__exposed-value">490</div>
-    <div class="product-attribute-card__exposed-label">mililitrów tuszu startowego</div>
+    <!-- <div class="product-attribute-card__exposed-value">490</div>
+    <div class="product-attribute-card__exposed-label">mililitrów tuszu startowego</div> -->
   </div>
 </template>
 

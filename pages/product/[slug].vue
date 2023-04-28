@@ -1,5 +1,7 @@
 <template>
   <BaseContainer class="product-page">
+    <LayoutBreadcrumpsProvider :breadcrumbs="breadcrumbs" />
+
     <div class="product-page__header product-header">
       <ProductPageCover class="product-header__gallery" :media="product?.gallery || []" />
 
@@ -24,16 +26,15 @@
           v-if="showPrice"
           class="product-header__tabs"
           type="gray"
-          :tabs="[
-            { key: 'buy', label: t('tabs.buy') },
-            { key: 'renting', label: t('tabs.renting') },
-          ]"
+          hide-single-tab
+          :tabs="productPurchaseTabs"
         >
           <template #buy> <ProductPagePurchasePanel v-if="product" :product="product" /> </template>
           <template #renting>
             <ProductPageContactForm
               v-if="product"
-              :product-id="product?.id"
+              :product="product"
+              type="renting"
               :action-text="t('tabs.renting')"
             />
           </template>
@@ -42,46 +43,58 @@
         <div v-else class="product-header__form">
           <ProductPageContactForm
             v-if="product"
-            :product-id="product?.id"
+            :product="product"
+            type="price"
             :action-text="t('tabs.pricing')"
           />
         </div>
       </div>
     </div>
 
-    <LayoutTabs
-      class="product-page__main"
-      :tabs="[
-        { key: 'description', label: t('tabs.description') },
-        { key: 'additionalInfo', label: t('tabs.additionalInfo') },
-        { key: 'paperAndInk', label: t('tabs.paperAndInk') },
-        { key: 'serviceAndApps', label: t('tabs.serviceAndApps') },
-      ]"
-    >
+    <LayoutTabs class="product-page__main" :tabs="productDescriptionTabs">
       <template #description>
         <div class="product-page__description-wrapper">
-          <BaseWysiwygContent :content="product?.description_html" />
+          <div>
+            <BaseWysiwygContent :content="product?.description_html" />
+            <ProductPageAttachments
+              v-if="product?.attachments.length"
+              :attachments="product?.attachments"
+              class="product-page__attachments"
+            />
+          </div>
 
           <ProductPageAttributeCard v-if="product" :product="product" />
         </div>
       </template>
+
       <template #additionalInfo>
-        <BaseWysiwygContent :content="product?.description_html" />
+        <ProductPageAttributes v-if="product" :product="product" />
       </template>
-      <template #paperAndInk>
-        <BaseWysiwygContent :content="product?.description_html" />
-      </template>
-      <template #serviceAndApps>
-        <BaseWysiwygContent :content="product?.description_html" />
+
+      <template v-for="page in globalPages" :key="page.id" #[page.slug]>
+        <BaseWysiwygContent :content="page?.content_html" />
       </template>
     </LayoutTabs>
 
     <template v-if="product?.sales.length">
-      <h2 class="primary-text">Aktualne promocje</h2>
+      <h2 class="primary-text">
+        {{ t('salesTitle') }}
+        <span class="gray-600-text" :style="{ fontWeight: 400 }">
+          ({{ product?.sales.length }})
+        </span>
+      </h2>
       <div class="product-page__sales">
         <LazyProductPageSale v-for="sale in product?.sales || []" :key="sale.id" :sale="sale" />
       </div>
     </template>
+
+    <ProductSimpleCarousel
+      v-for="set in product?.related_sets || []"
+      :key="set.id"
+      class="product-page__related-products"
+      :title="set.name"
+      :query="{ sets: [set.slug] }"
+    />
   </BaseContainer>
 </template>
 
@@ -94,16 +107,16 @@
       "renting": "Zapytaj o wynajem",
       "pricing": "Zapytaj o cenę",
       "description": "Opis",
-      "additionalInfo": "Dodatkowe informacje",
-      "paperAndInk": "Papier i tusze",
-      "serviceAndApps": "Serwis i aplikacje"
-    }
+      "additionalInfo": "Dodatkowe informacje"
+    },
+    "salesTitle": "Aktualne promocje"
   }
 }
 </i18n>
 
 <script setup lang="ts">
 import { ASK_FOR_PRICE_KEY } from '@/consts/metadataKeys'
+import { Tab } from '@/components/layout/Tabs.vue'
 import { getProductSubtext } from '@/utils/product'
 
 const heseya = useHeseya()
@@ -120,11 +133,28 @@ const { data: product } = useAsyncData(`product-${route.params.slug}`, async () 
   }
 })
 
-const category = computed(() => {
-  return product.value?.sets[0]
+const { data: globalPages } = useAsyncData('globalPages', async () => {
+  const { data } = await heseya.Pages.get({ metadata: { show_near_products: true } })
+  return Promise.all(data.map((p) => heseya.Pages.getOne(p.id)))
 })
 
-useBreadcrumbs([
+const category = computed(() => product.value?.sets[0])
+
+const productPurchaseTabs = computed(
+  () =>
+    [
+      { key: 'buy', label: t('tabs.buy') },
+      product.value?.metadata.allow_renting ? { key: 'renting', label: t('tabs.renting') } : null,
+    ].filter(Boolean) as Tab[],
+)
+
+const productDescriptionTabs = computed<Tab[]>(() => [
+  { key: 'description', label: t('tabs.description') },
+  { key: 'additionalInfo', label: t('tabs.additionalInfo') },
+  ...(globalPages.value?.map((p) => ({ key: p.slug, label: p.name })) || []),
+])
+
+const breadcrumbs = computed(() => [
   category.value
     ? { label: category.value.name || '', link: `/category/${category.value.slug}` }
     : null,
@@ -174,6 +204,14 @@ const showPrice = computed(() => {
     width: 100%;
     overflow: auto;
     padding-bottom: 8px;
+  }
+
+  &__related-products {
+    margin-top: 32px;
+  }
+
+  &__attachments {
+    margin-top: 24px;
   }
 }
 

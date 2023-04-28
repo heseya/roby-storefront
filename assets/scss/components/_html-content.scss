@@ -310,13 +310,15 @@
   h5,
   h6 {
     font-family: $headerFont;
-    font-weight: 300;
+    font-weight: 500;
     font-style: normal;
     font-size: 16px;
     line-height: 1.5;
     color: var(--c-heading-default);
     text-rendering: optimizeLegibility;
     letter-spacing: -0.01em;
+    margin-top: 16px;
+    margin-bottom: 6px;
   }
   h1 a,
   h2 a,

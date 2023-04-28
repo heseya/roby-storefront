@@ -34,6 +34,11 @@ html {
   --text-font-family: #{$textFont};
 }
 
+// Hide global reCaptcha badge
+.grecaptcha-badge {
+  visibility: hidden;
+}
+
 .hr {
   border: none;
   border-top: 1px solid $gray-color-400;
@@ -56,4 +61,7 @@ h2 {
 }
 .secondary-text {
   color: var(--secondary-color);
+}
+.gray-600-text {
+  color: $gray-color-600;
 }

@@ -27,6 +27,7 @@
     <ProductPageGallery
       v-if="isBigGalleryOpen"
       :media="props.media"
+      :default-media="active"
       @close="isBigGalleryOpen = false"
     />
   </div>
@@ -81,7 +82,7 @@ watch(
   &__main {
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
   }
 
   &__item {

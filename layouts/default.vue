@@ -5,10 +5,13 @@
     </div>
     <div
       class="site__content"
-      :class="{ 'site__content--with-notification': notificationBar.isOpen }"
+      :class="{ 'site__content--with-notification': config.env.top_site_text }"
     >
+      <div class="site__main">
+        <slot></slot>
+      </div>
+
       <LayoutBreadcrumps />
-      <slot></slot>
     </div>
     <div class="site__footer">
       <BaseFooter />
@@ -17,9 +20,14 @@
 </template>
 
 <script lang="ts" setup>
-import { useNavNotificationBarStore } from '@/store/notificationBar'
+import { useConfigStore } from '~/store/config'
 
-const notificationBar = useNavNotificationBarStore()
+const config = useConfigStore()
+
+// TODO load notification without hydration & layout shift problem
+// import { useNavNotificationBarStore } from '@/store/navNotificationBar'
+//
+// const notificationBar = useNavNotificationBarStore()
 </script>
 
 <style lang="scss">
@@ -28,6 +36,15 @@ const notificationBar = useNavNotificationBarStore()
   min-height: 100vh;
 
   &__content {
+    display: flex;
+    justify-content: flex-end;
+    align-items: strech;
+    /**
+    * Nuxt renders components "from top to bottom", so this inverts the order to match visually.
+    * Page content must render before the breadcrumps on SSR, and this the simples to achieve that.
+    * https://github.com/nuxt/nuxt/discussions/18451
+    */
+    flex-direction: column-reverse;
     flex: 1;
     padding-top: 185px;
     padding-bottom: 100px;
@@ -45,6 +62,10 @@ const notificationBar = useNavNotificationBarStore()
         padding-top: 100px;
       }
     }
+  }
+
+  &__main {
+    width: 100%;
   }
 }
 </style>

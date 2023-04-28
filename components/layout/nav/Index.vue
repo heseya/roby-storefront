@@ -39,16 +39,16 @@
             />
           </NuxtLink>
           <div v-if="auth.isLogged" class="nav-link-button__list">
-            <NuxtLink class="nav-link-button__list-item" :to="localePath('/profile/orders')">
+            <NuxtLink class="nav-link-button__list-item" :to="localePath('/account/orders')">
               {{ t('orders') }}
             </NuxtLink>
-            <NuxtLink class="nav-link-button__list-item" :to="localePath('/profile/settings')">
+            <NuxtLink class="nav-link-button__list-item" :to="localePath('/account/settings')">
               {{ t('accountSettings') }}
             </NuxtLink>
-            <NuxtLink class="nav-link-button__list-item" :to="localePath('/profile/address')">
+            <NuxtLink class="nav-link-button__list-item" :to="localePath('/account/addresses')">
               {{ t('address') }}
             </NuxtLink>
-            <NuxtLink class="nav-link-button__list-item" :to="localePath('/wishlist')">
+            <NuxtLink class="nav-link-button__list-item" :to="localePath('/account/wishlist')">
               {{ t('wishlist') }}
             </NuxtLink>
             <button
@@ -59,7 +59,10 @@
             </button>
           </div>
         </div>
-        <NuxtLink class="nav-link-button" :to="localePath('/wishlist')">
+        <NuxtLink
+          class="nav-link-button"
+          :to="localePath(auth.isLogged ? '/account/wishlist' : '/wishlist')"
+        >
           <LayoutIconButton
             class="nav-link-button__button"
             :icon="Favorite"
@@ -169,6 +172,7 @@ const onLogout = async () => {
     title: t('message.logout'),
     type: 'success',
   })
+  router.push('/')
 }
 
 const { data: navLinks } = useAsyncData<NavLink[]>('nav-pages', async () => {

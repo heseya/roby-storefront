@@ -1,5 +1,6 @@
 <template>
   <div class="login-content">
+    <LayoutBreadcrumpsProvider :breadcrumbs="[{ label: t('form.login'), link: '/login' }]" />
     <div class="login-content__container">
       <div>
         <h2 class="login-content__header">{{ t('form.login') }}</h2>
@@ -50,8 +51,6 @@
 import Check from '@/assets/icons/check-2.svg?component'
 import { useAuthStore } from '@/store/auth'
 
-useBreadcrumbs([{ label: 'Logowanie', link: '/login' }])
-
 const t = useLocalI18n()
 const router = useRouter()
 const route = useRoute()
@@ -66,6 +65,10 @@ const handleLogin = () => {
 
 onBeforeMount(() => {
   if (auth.isLogged) router.push('/')
+})
+
+useHead({
+  title: t('form.login'),
 })
 </script>
 

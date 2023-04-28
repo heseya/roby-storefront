@@ -1,15 +1,15 @@
 <template>
   <div class="product-sale">
     <div class="product-sale__title">{{ sale.name }}</div>
-    <div class="product-sale__content">TODO: Sales does not have wysiwyg description yet</div>
+    <BaseWysiwygContent class="product-sale__content" :content="sale.description_html" />
   </div>
 </template>
 
 <script setup lang="ts">
-import { Sale } from '@heseya/store-core'
+import { ProductSale } from '@heseya/store-core'
 
 defineProps<{
-  sale: Sale
+  sale: ProductSale
 }>()
 </script>
 

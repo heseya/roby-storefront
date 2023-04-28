@@ -2,7 +2,10 @@
   <NuxtLink
     :to="localePath(`/product/${product.slug}`)"
     class="product-miniature"
-    :class="{ 'product-miniature--horizontal': horizontal }"
+    :class="{
+      'product-miniature--horizontal': horizontal,
+      'product-miniature--force-size': forceSize,
+    }"
   >
     <div class="product-miniature__header">
       <div class="product-miniature__tags">
@@ -22,6 +25,7 @@
       <ProductPrice v-if="showPrice" class="product-miniature__price" :product="product" />
       <LayoutButton v-else class="product-miniature__btn"> {{ t('askForPrice') }} </LayoutButton>
 
+      <ProductFavouriteButton class="product-miniature__wishlist-btn" :product="product" />
       <slot />
     </div>
   </NuxtLink>
@@ -45,6 +49,7 @@ const t = useLocalI18n()
 const props = defineProps<{
   product: ProductList
   horizontal?: boolean
+  forceSize?: boolean
 }>()
 
 const showPrice = computed(() => {
@@ -63,6 +68,10 @@ const showPrice = computed(() => {
   max-width: 200px;
   color: $text-color;
   position: relative;
+
+  &--force-size {
+    min-width: 200px;
+  }
 
   &--horizontal {
     flex-direction: row;
@@ -92,19 +101,25 @@ const showPrice = computed(() => {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    z-index: 2;
   }
 
   &__cover {
     display: block;
     aspect-ratio: 1/1;
     padding: 4px;
+    transition: 0.3s;
+  }
+
+  &:hover &__cover {
+    transform: scale(1.02);
   }
 
   &--horizontal &__cover {
     min-height: 100px;
 
     @media ($viewport-10) {
-      min-height: 200px;
+      min-height: 160px;
     }
   }
   &--horizontal &__header {
@@ -112,8 +127,8 @@ const showPrice = computed(() => {
     max-height: 100px;
 
     @media ($viewport-10) {
-      max-width: 200px;
-      max-height: 200px;
+      max-width: 160px;
+      max-height: 160px;
     }
   }
 
@@ -141,6 +156,22 @@ const showPrice = computed(() => {
 
   &:hover &__name {
     color: var(--primary-color);
+  }
+
+  &__wishlist-btn {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    opacity: 0;
+
+    @media (pointer: coarse) {
+      opacity: 1;
+    }
+  }
+
+  &:hover &__wishlist-btn,
+  &--horizontal &__wishlist-btn {
+    opacity: 1;
   }
 }
 </style>

@@ -83,6 +83,8 @@ onKeyStroke('Escape', () => close())
   transition: 0.3s;
   box-shadow: 0px 15px 25px #00000029;
   overflow-y: auto;
+  display: flex;
+  align-items: stretch;
 
   @media ($viewport-6) {
     width: auto;
