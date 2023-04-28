@@ -8,7 +8,7 @@
     "postinstall": "nuxt prepare && yarn husky install",
     "lint:eslint": "eslint --ext .ts,.js,.vue .",
     "lint:vue": "vue-tsc --noEmit",
-    "lint": "yarn lint:eslint && yarn lint:vtsc"
+    "lint": "yarn lint:eslint && yarn lint:vue"
   },
   "dependencies": {
     "@directus/sdk": "^10.3.3",
