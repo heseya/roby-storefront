@@ -60,9 +60,18 @@ const onSubmit = form.handleSubmit((values) => {
 
   background-color: $gray-color-100;
 
+  @media ($max-viewport-9) {
+    max-width: 100%;
+    border-radius: 0 0 4px 4px;
+  }
+
   &__button {
     align-self: flex-end;
-    max-width: 110px;
+    width: 110px;
+
+    @media ($max-viewport-9) {
+      width: 200px;
+    }
   }
 }
 </style>

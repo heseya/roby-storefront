@@ -24,6 +24,10 @@ import DoubleIcon from '@/assets/icons/double-chevron.svg?component'
   @include flex-row;
   justify-content: center;
 
+  @media ($max-viewport-9) {
+    flex-direction: column;
+  }
+
   &__header {
     margin: 60px 0;
     padding: 55px 30px 30px 36px;
@@ -31,11 +35,21 @@ import DoubleIcon from '@/assets/icons/double-chevron.svg?component'
     @include flex-column;
     background: transparent linear-gradient(90deg, $gray-color-100 0%, $gray-color-300 100%)
       padding-box;
+
+    @media ($max-viewport-9) {
+      min-height: 200px;
+      margin-bottom: 0;
+      border-radius: 4px 4px 0 0;
+    }
   }
 
   &__title {
-    padding-right: 64px;
     text-align: left;
+
+    @media ($viewport-9) {
+      padding-right: 64px;
+      font-size: rem(38);
+    }
 
     &--color {
       color: var(--secondary-color-alt);
@@ -50,6 +64,9 @@ import DoubleIcon from '@/assets/icons/double-chevron.svg?component'
 
   &__icon {
     color: $gray-color-600;
+    @media ($max-viewport-9) {
+      width: 21px;
+    }
   }
 }
 </style>
