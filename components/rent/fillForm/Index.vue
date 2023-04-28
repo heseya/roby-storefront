@@ -11,7 +11,7 @@
         <LayoutIcon class="fill-form__icon" :icon="DoubleIcon" :size="28" />
       </div>
     </div>
-    <RentFillFormBoxForm />
+    <ProductPageContactForm class="fill-form__contact-form" type="renting" action-text="Wyślij" />
   </div>
 </template>
 
@@ -38,7 +38,7 @@ import DoubleIcon from '@/assets/icons/double-chevron.svg?component'
 
     @media ($max-viewport-9) {
       min-height: 200px;
-      margin-bottom: 0;
+      margin: 0;
       border-radius: 4px 4px 0 0;
     }
   }
@@ -66,6 +66,19 @@ import DoubleIcon from '@/assets/icons/double-chevron.svg?component'
     color: $gray-color-600;
     @media ($max-viewport-9) {
       width: 21px;
+    }
+  }
+
+  &__contact-form {
+    max-width: 500px;
+    padding: 25px;
+    border-radius: 4px;
+
+    background-color: $gray-color-100;
+
+    @media ($max-viewport-9) {
+      max-width: 100%;
+      border-radius: 0 0 4px 4px;
     }
   }
 }

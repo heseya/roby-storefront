@@ -1,7 +1,7 @@
 <template>
   <div class="faq">
     <div class="faq__content">
-      <LayoutHeader variant="black">Obsługa wynajmu rządzeń</LayoutHeader>
+      <LayoutHeader variant="black">Obsługa wynajmu urządzeń</LayoutHeader>
       <RentFaqItem
         v-for="({ question, answer }, index) in technicalFaq"
         :key="index"
@@ -10,7 +10,7 @@
       />
     </div>
     <div class="faq__content">
-      <LayoutHeader variant="black">Obsługa wynajmu rządzeń</LayoutHeader>
+      <LayoutHeader variant="black">Umowa i formalności</LayoutHeader>
       <RentFaqItem
         v-for="({ question, answer }, index) in formalFaq"
         :key="index"
