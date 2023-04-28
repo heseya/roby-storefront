@@ -38,7 +38,7 @@ withDefaults(
 
   &--prev {
     transform: rotate(180deg);
-    left: -36px;
+    left: 36px;
   }
 }
 </style>

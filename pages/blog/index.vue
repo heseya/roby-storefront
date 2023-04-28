@@ -1,6 +1,8 @@
 <template>
   <BaseContainer>
+    <LayoutBreadcrumpsProvider :breadcrumbs="[{ label: $t('breadcrumbs.blog'), link: `/blog` }]" />
     <LayoutLoading :active="pending" />
+
     <h1 class="blog__title">{{ t('blog') }}</h1>
     <div class="blog">
       <div class="blog__tags">
@@ -47,6 +49,8 @@ const route = useRoute()
 const router = useRouter()
 const directus = useDirectus()
 const t = useLocalI18n()
+const { t: $t } = useI18n({ useScope: 'global' })
+const localePath = useLocalePath()
 
 const limit = 6
 const page = computed(() => Number(route.query.page ?? 1))
@@ -105,8 +109,6 @@ useHead({
   title: t('blog'),
 })
 
-useBreadcrumbs([{ label: t('blog'), link: `/blog` }])
-
 watch(
   () => route.query,
   () => refresh(),
@@ -116,25 +118,38 @@ watch(
 <style lang="scss" scoped>
 .blog {
   width: 100%;
-  display: grid;
-  grid-template-columns: 1fr 3fr;
-  grid-gap: 25px;
   margin-bottom: 30px;
+
+  @media ($viewport-8) {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    grid-gap: 25px;
+  }
 
   &__title {
     margin-bottom: 25px;
   }
 
   &__tags {
-    display: flex;
-    flex-direction: column;
     gap: 8px;
+    display: flex;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    overflow-y: auto;
+
+    @media ($viewport-8) {
+      flex-direction: column;
+    }
   }
 
   &__articles {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-gap: 25px;
+    grid-gap: 10px;
+
+    @media ($viewport-8) {
+      grid-gap: 25px;
+    }
   }
 }
 </style>

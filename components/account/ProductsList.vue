@@ -1,5 +1,6 @@
 <template>
   <div>
+    <LayoutBreadcrumpsProvider :breadcrumbs="[{ label: t('myAccount'), link: '/account' }]" />
     <div class="products-list">
       <div class="products-list__header">
         <h3 class="products-list__text">{{ header }}</h3>
@@ -20,7 +21,8 @@
 <i18n lang="json">
 {
   "pl": {
-    "showAll": "Pokaż wszystkie"
+    "showAll": "Pokaż wszystkie",
+    "myAccount": "Moje konto"
   }
 }
 </i18n>
@@ -28,8 +30,6 @@
 <script setup lang="ts">
 import GoNextIcon from '@/assets/icons/navigate-next.svg?component'
 const t = useLocalI18n()
-
-useBreadcrumbs([{ label: 'Moje konto', link: '/account' }])
 
 defineProps<{
   header: string

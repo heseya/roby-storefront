@@ -49,8 +49,8 @@
       </AccountProductsList>
 
       <AccountProductsList :header="t('wishList')" :link="`wishlist`">
-        <div v-if="wishlist?.localWishlist" class="account-page__items-list">
-          <div v-for="product in wishlist?.localWishlist" :key="product.id">
+        <div v-if="wishlist?.userWishlist" class="account-page__items-list">
+          <div v-for="{ product } in wishlist.userWishlist" :key="product.id">
             <AccountListItem :product="product" />
           </div>
         </div>
@@ -93,6 +93,7 @@ useHead({
 const user = useUser()
 const heseya = useHeseya()
 const wishlist = useWishlistStore()
+
 const formatError = useErrorMessage()
 
 const errorMessage = ref('')

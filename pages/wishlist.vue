@@ -1,37 +1,32 @@
 <template>
-  <div class="wishlist-page">
-    <LayoutHeader variant="black" tag="h1" class="wishlist-page__title">
-      {{ t('title') }}
-    </LayoutHeader>
+  <BaseContainer class="wishlist-page">
+    <LayoutBreadcrumpsProvider :breadcrumbs="[{ label: t('title'), link: '/wishlist' }]" />
 
-    <LayoutEmpty v-if="wishlist.products.length === 0"> {{ t('empty') }} </LayoutEmpty>
-
-    <div v-if="wishlist.products.length > 0" class="wishlist-page__items">
-      <ProductMiniature
-        v-for="product in wishlist.products"
-        :key="product.id"
-        horizontal
-        :product="product"
-        class="wishlist-page__item"
-      />
-    </div>
-  </div>
+    <WishlistView class="wishlist-page__content" />
+  </BaseContainer>
 </template>
 
 <i18n lang="json">
 {
   "pl": {
-    "title": "Lista życzeń",
-    "empty": "Nie masz żadnego produktu dodanego do listy życzeń"
+    "title": "Lista życzeń"
   }
 }
 </i18n>
 
 <script setup lang="ts">
-import { useWishlistStore } from '@/store/wishlist'
+import { useAuthStore } from '~/store/auth'
 
 const t = useLocalI18n()
-const wishlist = useWishlistStore()
+
+const auth = useAuthStore()
+watch(
+  () => auth.isLogged,
+  () => {
+    if (auth.isLogged) navigateTo('/account/wishlist')
+  },
+  { immediate: true },
+)
 
 useHead({
   title: t('title'),
@@ -40,32 +35,15 @@ useHead({
 
 <style lang="scss" scoped>
 .wishlist-page {
-  max-width: $container-width;
-  padding: 0 $container-padding;
-  margin: 0 auto;
   margin-bottom: 50px;
 
   @media ($viewport-10) {
-    margin-top: 90px;
+    margin-top: 60px;
   }
 
   &__title {
     text-align: left;
     margin-bottom: 24px;
-  }
-
-  &__items {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-gap: 20px;
-
-    @media ($viewport-6) {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-
-  &__item {
-    padding-right: 32px;
   }
 }
 </style>

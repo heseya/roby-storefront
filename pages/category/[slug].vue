@@ -1,5 +1,7 @@
 <template>
   <BaseContainer class="categories-page">
+    <LayoutBreadcrumpsProvider :breadcrumbs="breadcrumbs" />
+
     <ProductListPage :title="category?.name" :sets="[route.params.slug as string]">
       <template #aside>
         <SubcategoriesLinks v-if="category" :category="category" />
@@ -43,7 +45,7 @@ useHead({
   title: category.value?.name,
 })
 
-useBreadcrumbs([
+const breadcrumbs = computed(() => [
   category.value?.parent
     ? {
         label: category.value?.parent?.name || '',

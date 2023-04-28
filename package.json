@@ -6,11 +6,13 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare && yarn husky install",
-    "lint": "eslint --ext .ts,.js,.vue ."
+    "lint:eslint": "eslint --ext .ts,.js,.vue .",
+    "lint:vue": "vue-tsc --noEmit",
+    "lint": "yarn lint:eslint && yarn lint:vtsc"
   },
   "dependencies": {
     "@directus/sdk": "^10.3.3",
-    "@heseya/store-core": "5.0.0-dev.7",
+    "@heseya/store-core": "5.1.0-dev.1",
     "@kyvg/vue3-notification": "^2.9.0",
     "@pinia-plugin-persistedstate/nuxt": "1.1.1",
     "@pinia/nuxt": "^0.4.7",
@@ -42,6 +44,7 @@
     "prettier": "^2.8.4",
     "sass": "^1.59.3",
     "typescript": "^5.0.2",
-    "vite-svg-loader": "^4.0.0"
+    "vite-svg-loader": "^4.0.0",
+    "vue-tsc": "^1.6.0"
   }
 }
