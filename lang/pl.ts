@@ -1,6 +1,13 @@
 export default {
   breadcrumbs: {
     home: 'Strona główna',
+    account: 'Moje konto',
+    blog: 'Blog',
+  },
+
+  wishlist: {
+    added: 'Produkt został dodany do listy życzeń.',
+    removed: 'Produkt został usunięty z listy życzeń.',
   },
 
   errors: {
@@ -22,6 +29,7 @@ export default {
     VALIDATION_REQUIRED: 'Pole jest wymagane.',
     VALIDATION_REQUIRED_CONSENTS: 'Nie zostały zaakcepowane wszystkie wymagane zgody.',
     VALIDATION_PASSWORD_LENGTH: 'Hasło musi mieć przynajmniej 12 znaków.',
+    VALIDATION_UNIQUE: 'Podany adres e-mail został już zarejestrowany w systemie.',
 
     UNPROCESSABLE_ENTITY: 'Błąd walidacji.',
 

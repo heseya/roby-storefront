@@ -1,5 +1,6 @@
 <template>
   <BaseContainer>
+    <LayoutBreadcrumpsProvider :breadcrumbs="breadcrumbs" />
     <ProductListPage
       :title="t('searchResultFor') + route.params.query"
       :sets="preparedSets"
@@ -23,14 +24,14 @@ const t = useLocalI18n()
 
 const preparedSets = computed(() => {
   if (!route.query.set) return
-  return Array.isArray(route.query.set) ? route.query.set : [route.query.set]
+  return (Array.isArray(route.query.set) ? route.query.set : [route.query.set]) as string[]
 })
 
 useHead({
   title: t('searchResult'),
 })
 
-useBreadcrumbs([
+const breadcrumbs = computed(() => [
   {
     label: t('searchResultFor') + route.params.query,
     link: ``,

@@ -30,7 +30,7 @@
       variant="primary"
       class="cart-summary__button"
       :disabled="disabled"
-      @click="isAuthenticationModalVisible = true"
+      @click="processCheckout"
     >
       {{ t('summary.submit') }}
     </LayoutButton>
@@ -70,6 +70,7 @@
 import { PaymentMethod } from '@heseya/store-core'
 import { useCartStore } from '@/store/cart'
 import PayuIcon from '@/assets/images/payu.png'
+import { useAuthStore } from '@/store/auth'
 
 withDefaults(
   defineProps<{
@@ -82,6 +83,8 @@ withDefaults(
 
 const cart = useCartStore()
 const t = useLocalI18n()
+const auth = useAuthStore()
+const router = useRouter()
 
 // TODO: get from API
 const cheapestShippingMethodPrice = 7.99
@@ -102,6 +105,14 @@ const paymentMethods: PaymentMethod[] = [
 // TODO: get from API
 const isTraditionalTransfer = true
 const isAuthenticationModalVisible = ref<boolean>(false)
+
+const processCheckout = () => {
+  if (!auth.isLogged) {
+    isAuthenticationModalVisible.value = true
+  } else {
+    router.push('/checkout')
+  }
+}
 </script>
 
 <style lang="scss" scoped>

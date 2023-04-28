@@ -53,6 +53,7 @@ const radioValue = computed({
   background-color: #fff;
   border-radius: 5px;
   flex-direction: column;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 
   &__button {
     all: unset;

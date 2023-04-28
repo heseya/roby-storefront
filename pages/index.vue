@@ -1,6 +1,8 @@
 <template>
   <div class="index-page">
-    <HomeBanner v-if="data?.mainBanner" class="index-page__banner" :banner="data?.mainBanner" />
+    <LazyHydrate when-idle>
+      <HomeBanner v-if="data?.mainBanner" class="index-page__banner" :banner="data?.mainBanner" />
+    </LazyHydrate>
 
     <template
       v-for="section in sections"
@@ -10,24 +12,33 @@
         class="index-page__content"
         :class="{ 'index-page__content--wide': section.type === 'box' }"
       >
-        <HomeProductCarousel v-if="section.type === 'set'" :category="section.data" />
+        <LazyHydrate when-idle>
+          <HomeProductCarousel v-if="section.type === 'set'" :category="section.data" />
 
-        <HomeLinkBox v-if="section.type === 'box'" :link="section.data" />
+          <HomeLinkBox v-if="section.type === 'box'" :link="section.data" />
+        </LazyHydrate>
       </BaseContainer>
     </template>
 
-    <BaseContainer class="index-page__content">
+    <LazyHydrate when-visible>
       <HomeBlogArticlesList />
-      <HomeWhyUs />
+    </LazyHydrate>
 
-      <HomeImageCarousel
-        v-for="banner in data?.homepageBanners"
-        :key="banner.id"
-        class="index-page__image-carousel"
-        :banner="banner"
-        :title="banner.name"
-        :gray-filter="banner.metadata.gray_filter"
-      />
+    <BaseContainer class="index-page__content">
+      <LazyHydrate when-visible>
+        <HomeWhyUs />
+      </LazyHydrate>
+
+      <LazyHydrate when-visible>
+        <HomeImageCarousel
+          v-for="banner in data?.homepageBanners"
+          :key="banner.id"
+          class="index-page__image-carousel"
+          :banner="banner"
+          :title="banner.name"
+          :gray-filter="!!banner.metadata.gray_filter"
+        />
+      </LazyHydrate>
     </BaseContainer>
   </div>
 </template>
