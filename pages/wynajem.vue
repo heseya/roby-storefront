@@ -13,6 +13,7 @@
     <BaseContainer class="rent-page__content">
       <RentWhyOtherChose />
       <RentFillForm />
+      <RentFaq />
     </BaseContainer>
   </div>
 </template>
