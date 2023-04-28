@@ -4,6 +4,8 @@ export const useProductPrice = (product: Product, schemaValue: Ref<CartItemSchem
   const heseya = useHeseya()
 
   const pending = ref(false)
+  const price = ref(product.price_min)
+  const originalPrice = ref(product.price_min_initial)
 
   const calc = async () => {
     const cartItem = new CartItem(product, 1, product.schemas, schemaValue.value)
@@ -16,10 +18,18 @@ export const useProductPrice = (product: Product, schemaValue: Ref<CartItemSchem
     if (cart.items.length !== 1)
       throw new Error(`[ID: ${product.id}] Invalid cart items count while calculating price`)
 
-    return cart.items[0].price_discounted
+    const item = cart.items[0]
+
+    price.value = item.price_discounted
+    originalPrice.value = item.price
+
+    return {
+      price: item.price_discounted,
+      originalPrice: item.price,
+    }
   }
 
-  const price = computedAsync(() => calc(), product.price_min, pending)
+  computedAsync(() => calc(), null, pending)
 
-  return { price, calc, pending }
+  return { price, originalPrice, calc, pending }
 }

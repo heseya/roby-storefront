@@ -4,9 +4,13 @@
     :class="{ 'product-purchase-panel--no-schemas': !product.has_schemas }"
   >
     <div class="product-purchase-panel__price">
-      <!-- <ProductPrice :product="product" /> -->
-      {{ formatAmount(price) }}
       <LayoutLoading :active="pending" />
+      <span class="product-price">
+        {{ formatAmount(price) }}
+      </span>
+      <span v-if="price !== originalPrice" class="product-price product-price--discounted">
+        {{ formatAmount(originalPrice) }}
+      </span>
     </div>
 
     <ProductPageOmnibus class="product-purchase-panel__omnibus" />
@@ -74,7 +78,7 @@ const t = useLocalI18n()
 
 const quantity = ref(1)
 const schemaValue = ref<CartItemSchema[]>(parseSchemasToValues(props.product.schemas))
-const { price, pending } = useProductPrice(props.product, schemaValue)
+const { price, originalPrice, pending } = useProductPrice(props.product, schemaValue)
 
 const availability = computed(() => {
   if (!props.product.available) return t('availability.unavailable')
@@ -144,6 +148,7 @@ const addToCart = () => {
 
   &__price {
     font-size: rem(20);
+    line-height: rem(28);
     font-weight: 600;
     grid-area: price;
     color: var(--primary-color);
@@ -184,6 +189,17 @@ const addToCart = () => {
 
   &__schemas {
     grid-area: schemas;
+  }
+}
+
+.product-price {
+  color: var(--primary-color);
+
+  &--discounted {
+    color: $gray-color-600;
+    margin-left: 4px;
+    font-size: 0.8em;
+    text-decoration: line-through;
   }
 }
 </style>
