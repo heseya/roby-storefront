@@ -1,5 +1,7 @@
 <template>
   <BaseContainer class="wishlist-page">
+    <LayoutBreadcrumpsProvider :breadcrumbs="[{ label: t('title'), link: '/wishlist' }]" />
+
     <WishlistView class="wishlist-page__content" />
   </BaseContainer>
 </template>
@@ -29,8 +31,6 @@ watch(
 useHead({
   title: t('title'),
 })
-
-// TODO: breadcrumps
 </script>
 
 <style lang="scss" scoped>

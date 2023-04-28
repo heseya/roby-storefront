@@ -1,5 +1,7 @@
 <template>
   <LayoutAccount>
+    <LayoutBreadcrumpsProvider :breadcrumbs="breadcrumbs" />
+
     <template #header>
       {{ t('title') }}
     </template>
@@ -19,6 +21,7 @@
 import { useAuthStore } from '~/store/auth'
 
 const t = useLocalI18n()
+const { t: $t } = useI18n({ useScope: 'global' })
 
 const auth = useAuthStore()
 watch(
@@ -33,7 +36,10 @@ useHead({
   title: t('title'),
 })
 
-// TODO: breadcrumbs
+const breadcrumbs = computed(() => [
+  { label: $t('breadcrumbs.account'), link: '/account' },
+  { label: t('title'), link: '/account/wishlist' },
+])
 </script>
 
 <style lang="scss" scoped>
