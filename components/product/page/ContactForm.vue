@@ -26,7 +26,7 @@
       />
     </div>
 
-    <FormInput
+    <FormTextarea
       v-model="form.values.message"
       name="message"
       class="product-contact-form__input"
@@ -82,12 +82,13 @@ import { useForm } from 'vee-validate'
 
 const props = withDefaults(
   defineProps<{
-    product: ProductList
+    product?: ProductList
     actionText?: string
     type: 'price' | 'renting'
   }>(),
   {
     actionText: '',
+    product: undefined,
   },
 )
 
@@ -146,9 +147,6 @@ const onSubmit = form.handleSubmit(async (values) => {
     margin-bottom: 16px;
   }
 
-  &__text {
-  }
-
   &__row {
     display: grid;
     grid-template-columns: 1fr;
@@ -161,6 +159,7 @@ const onSubmit = form.handleSubmit(async (values) => {
   }
 
   &__btn {
+    min-width: 200px;
     margin-left: auto;
   }
 
