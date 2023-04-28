@@ -1,34 +1,33 @@
 <template>
-  <LayoutAccountNav>
-    <template #header>
+  <LayoutAccountNav class="account-page">
+    <template v-if="!errorMessage" #header>
       <div class="account-page__header">
         <h1 class="account-page__header--text">{{ t('welcome') }}{{ user?.name }}</h1>
         <p>{{ t('message') }}</p>
       </div>
     </template>
-    <div v-if="!errorMessage && user" class="account-page">
+    <div v-if="!errorMessage" class="account-page__container">
       <AccountProductsList :header="t('lastOrder')" :link="`orders`">
         <div v-if="userLastOrder" class="account-page__info">
           <div class="account-page__details">
-            <p>
+            <div class="account-page__details-box">
               <b>{{ t('orderNumber') }}: </b>
               <NuxtLink :to="`/order/${userLastOrder.code}`" class="account-page__link"
                 >{{ userLastOrder.code }}
               </NuxtLink>
-            </p>
-            <p>
-              <b>{{ t('orderCreatingDate') }}</b
-              >: {{ formatDate(userLastOrder.created_at, 'dd.MM.yyyy HH:MM') }}
-            </p>
+            </div>
+            <div class="account-page__details-box">
+              <b>{{ t('orderCreatingDate') }}:</b>
+              {{ formatDate(userLastOrder.created_at, 'dd.MM.yyyy HH:MM') }}
+            </div>
           </div>
           <div>
             <b> {{ t('status') }}:</b>
-
             <LayoutButton
               class="account-page__status-btn"
               :style="{ 'background-color': `#${userLastOrder.status.color}` }"
             >
-              {{ tGlobal(`statuses.${userLastOrder.status.name.toUpperCase()}`) }}
+              {{ $t(`statuses.${userLastOrder.status.name.toLowerCase()}`) }}
             </LayoutButton>
           </div>
         </div>
@@ -59,8 +58,8 @@
     </div>
     <LayoutInfoBox v-else type="danger">
       {{ errorMessage }}
-    </LayoutInfoBox></LayoutAccountNav
-  >
+    </LayoutInfoBox>
+  </LayoutAccountNav>
 </template>
 
 <i18n lang="json">
@@ -72,7 +71,7 @@
     "lastOrder": "Ostatnie zamówienie",
     "wishList": "Lista życzeń",
     "orderNumber": "Numer zamówienia",
-    "orderCreatingDate": "Data złożenia zamówienia",
+    "orderCreatingDate": "Data złożenia",
     "status": "Status",
     "orderDetails": "Szczegóły Zamówienia"
   }
@@ -85,7 +84,7 @@ import { useWishlistStore } from '@/store/wishlist'
 import GoNextIcon from '@/assets/icons/navigate-next.svg?component'
 
 const t = useLocalI18n()
-const { t: tGlobal } = useI18n({ useScope: 'global' })
+const { t: $t } = useI18n({ useScope: 'global' })
 
 useHead({
   title: t('title'),
@@ -115,19 +114,27 @@ onMounted(async () => await getUserOrders())
 
 <style lang="scss" scoped>
 .account-page {
-  padding: 16px;
-  display: grid;
-  gap: 30px;
+  &__container {
+    padding: 16px;
+    display: grid;
+    gap: 30px;
+
+    @media ($viewport-11) {
+      padding: 0px;
+    }
+  }
 
   &__header {
     display: grid;
-    gap: 15px;
+    gap: 12px;
 
     @media ($max-viewport-12) {
       gap: 8px;
     }
 
     &--text {
+      font-size: 26px;
+
       @media ($max-viewport-12) {
         font-size: 20px;
       }
@@ -138,14 +145,20 @@ onMounted(async () => await getUserOrders())
   &__items {
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
 
-    @media ($max-viewport-12) {
-      justify-content: space-between;
+    @media ($viewport-12) {
+      flex-direction: row;
     }
   }
 
   &__info {
     margin-bottom: 15px;
+
+    @media ($viewport-12) {
+      flex-direction: row;
+      justify-content: space-between;
+    }
   }
 
   &__actions {
@@ -158,18 +171,28 @@ onMounted(async () => await getUserOrders())
     margin-left: 10px;
     padding: 4px 6px;
     margin-top: 5px;
+
+    @media ($viewport-12) {
+      margin-top: 0px;
+    }
   }
 
   &__details-btn {
     height: fit-content;
     padding: 8px 18px;
+    margin-right: 5px;
+    margin-top: 20px;
     background-color: $gray-color-300;
     color: $text-color;
     border-radius: 5px;
-    margin-right: 5px;
 
     &:hover {
       background-color: $gray-color-400 !important;
+    }
+
+    @media ($viewport-12) {
+      margin-top: 0;
+      padding: 6px 18px;
     }
   }
 
@@ -180,6 +203,14 @@ onMounted(async () => await getUserOrders())
     @media ($viewport-12) {
       display: flex;
       gap: 55px;
+    }
+  }
+
+  &__details-box {
+    @media ($viewport-12) {
+      display: flex;
+      align-items: center;
+      gap: 5px;
     }
   }
 

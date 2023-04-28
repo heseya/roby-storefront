@@ -34,6 +34,6 @@ export default {
     BAD_GATEWAY: 'Błąd bramy serwera.',
   },
   statuses: {
-    NEW: 'Nowy',
+    new: 'Nowy',
   },
 }

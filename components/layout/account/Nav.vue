@@ -1,8 +1,8 @@
 <template>
   <div>
     <div class="account-nav">
-      <div class="account-nav__box">
-        <div class="account-nav__container">
+      <div class="account-nav__container">
+        <div class="account-nav__nav">
           <div>
             <ul class="account-nav__list">
               <li v-for="(target, index) in navList" :key="index" class="account-nav__list-item">
@@ -67,7 +67,7 @@ const logout = async () => {
     padding: 0;
   }
 
-  &__box {
+  &__container {
     display: grid;
     gap: 20px;
     grid-template-areas:
@@ -79,23 +79,28 @@ const logout = async () => {
       grid-template-columns: 0.2fr 0.8fr;
       grid-template-areas:
         'nav header'
-        '. content';
+        'nav content';
       width: 66%;
     }
   }
 
-  &__container {
+  &__nav {
     margin-top: 14px;
     grid-area: nav;
 
     @media ($viewport-12) {
       display: flex;
       justify-content: flex-end;
+      margin-top: 0;
     }
   }
 
   &__content {
     grid-area: content;
+
+    @media ($viewport-12) {
+      margin-top: 20px;
+    }
   }
 
   &__header {

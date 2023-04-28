@@ -1,13 +1,14 @@
 <template>
   <div>
     <div class="products-list">
-      <div class="products-list__header-bar">
-        <h3 class="products-list__header">{{ header }}</h3>
+      <div class="products-list__header">
+        <h3 class="products-list__text">{{ header }}</h3>
         <NuxtLink :to="link">
-          <LayoutButton class="products-list__button">
+          <LayoutButton class="products-list__btn">
             {{ t('showAll') }}
-            <LayoutIcon :icon="GoNextIcon" :size="8" /> </LayoutButton
-        ></NuxtLink>
+            <LayoutIcon :icon="GoNextIcon" :size="8" />
+          </LayoutButton>
+        </NuxtLink>
       </div>
     </div>
     <div class="products-list__content">
@@ -40,16 +41,30 @@ defineProps<{
 .products-list {
   &__content {
     border: 1px solid $gray-color-300;
-    padding: 15px 10px;
+    padding: 20px;
+
+    @media ($viewport-11) {
+      padding: 15px 10px;
+    }
   }
 
-  &__header-bar {
+  &__header {
     display: flex;
     justify-content: space-between;
     margin-bottom: 15px;
+
+    @media ($viewport-11) {
+      margin-bottom: 11px;
+    }
   }
 
-  &__button {
+  &__text {
+    @media ($viewport-11) {
+      font-size: 16px;
+    }
+  }
+
+  &__btn {
     padding: 4px 7px;
     background-color: $gray-color-300;
     color: $text-color;
