@@ -1,7 +1,7 @@
 <template>
   <div class="reason">
     <div class="reason__icon-container">
-      <LayoutIcon :icon="icon" class="reason__icon" size="34" />
+      <LayoutIcon :icon="icon" class="reason__icon" :size="34" />
     </div>
     <span class="reason__title">{{ title }}</span>
     <span class="reason__description">{{ description }}</span>
