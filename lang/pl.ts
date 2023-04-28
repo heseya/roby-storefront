@@ -1,6 +1,13 @@
 export default {
   breadcrumbs: {
     home: 'Strona główna',
+    account: 'Moje konto',
+    blog: 'Blog',
+  },
+
+  wishlist: {
+    added: 'Produkt został dodany do listy życzeń.',
+    removed: 'Produkt został usunięty z listy życzeń.',
   },
 
   errors: {
