@@ -6,7 +6,9 @@
           <div>
             <ul class="account-nav__list">
               <li v-for="(target, index) in navList" :key="index" class="account-nav__list-item">
-                <NuxtLink :to="target" class="account-nav__text">{{ t(target) }}</NuxtLink>
+                <NuxtLink :to="`account/${target}`" class="account-nav__text">{{
+                  t(target)
+                }}</NuxtLink>
                 <LayoutIcon :icon="GoNextIcon" :size="12" class="account-nav__icon" />
               </li>
             </ul>
