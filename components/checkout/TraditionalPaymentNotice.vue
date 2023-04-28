@@ -28,6 +28,7 @@
 </i18n>
 
 <script setup lang="ts">
+// TODO: get company details from API
 const t = useLocalI18n()
 </script>
 
