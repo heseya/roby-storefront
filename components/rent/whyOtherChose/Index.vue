@@ -46,6 +46,7 @@
     flex: 1;
     margin-top: 20px;
     padding: 20px;
+    border-radius: 4px;
     border: 1px solid $gray-color-300;
 
     @include flex-column;

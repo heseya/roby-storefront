@@ -12,6 +12,7 @@
     <RentBanner class="rent-page__banner" />
     <BaseContainer class="rent-page__content">
       <RentWhyOtherChose />
+      <RentFillForm />
     </BaseContainer>
   </div>
 </template>
