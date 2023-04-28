@@ -23,7 +23,7 @@
 <style lang="scss" scoped>
 .banner {
   width: 100%;
-  background-image: url('https://cdn-dev.heseya.com/demo/AU2d5Ig8NY8KQ9AfemmLyCAQMHsv4KpU2jYWv1M4.png');
+  background-image: url('@/assets/images/banner-bgr.png');
   @include background-image-basic;
 
   &__gray-filter {

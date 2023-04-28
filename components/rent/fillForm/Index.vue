@@ -3,9 +3,7 @@
     <div class="fill-form__header">
       <LayoutHeader tag="h2" variant="black" class="fill-form__title">
         Wypełnij formularz i
-      </LayoutHeader>
-      <LayoutHeader tag="h2" variant="black" class="fill-form__title fill-form__title--color">
-        zapytaj o wynajem
+        <span class="fill-form__title--color">zapytaj o wynajem</span>
       </LayoutHeader>
       <div class="fill-form__icon-container">
         <LayoutIcon class="fill-form__icon" :icon="DoubleIcon" :size="28" />
@@ -44,6 +42,7 @@ import DoubleIcon from '@/assets/icons/double-chevron.svg?component'
   }
 
   &__title {
+    @include flex-column;
     text-align: left;
 
     @media ($viewport-9) {

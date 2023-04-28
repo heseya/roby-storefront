@@ -41,10 +41,7 @@
       </div>
     </div>
     <div class="steps__image-container">
-      <img
-        class="steps__image"
-        src="https://***REMOVED***.pl/wp-content/uploads/2023/04/5816C002_imageprograf_TC-20M_2.webp"
-      />
+      <img class="steps__image" src="@/assets/images/rent.png" />
     </div>
   </div>
 </template>

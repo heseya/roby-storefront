@@ -1,9 +1,12 @@
 <template>
   <div class="rent-page">
     <BaseContainer class="rent-page__content">
-      <LayoutHeader variant="black" tag="h1" class="rent-page__title">
-        {{ t('title') }}
-      </LayoutHeader>
+      <div>
+        <LayoutBreadcrumpsProvider :breadcrumbs="breadcrumb" />
+        <LayoutHeader variant="black" tag="h1" class="rent-page__title">
+          {{ t('title') }}
+        </LayoutHeader>
+      </div>
     </BaseContainer>
     <BaseContainer class="rent-page__content">
       <RentSteps />
@@ -32,6 +35,13 @@ const t = useLocalI18n()
 useHead({
   title: t('title'),
 })
+
+const breadcrumb = [
+  {
+    label: 'Wynajem',
+    link: '/wynajem',
+  },
+]
 </script>
 
 <style lang="scss" scoped>
