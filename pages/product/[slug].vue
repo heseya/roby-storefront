@@ -77,7 +77,12 @@
     </LayoutTabs>
 
     <template v-if="product?.sales.length">
-      <h2 class="primary-text">{{ t('salesTitle') }}</h2>
+      <h2 class="primary-text">
+        {{ t('salesTitle') }}
+        <span class="gray-600-text" :style="{ fontWeight: 400 }">
+          ({{ product?.sales.length }})
+        </span>
+      </h2>
       <div class="product-page__sales">
         <LazyProductPageSale v-for="sale in product?.sales || []" :key="sale.id" :sale="sale" />
       </div>
