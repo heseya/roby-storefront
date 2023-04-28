@@ -30,9 +30,10 @@
 
     <a
       v-if="isLeaseable"
+      class="product-purchase-panel__lease-btn"
       :href="$leaslink(product.name, product.price_min, false, product.vat_rate)"
     >
-      <LayoutButton variant="gray" class="product-purchase-panel__lease-btn">
+      <LayoutButton variant="gray" :style="{ width: '100%' }">
         {{ t('actions.lease') }}
       </LayoutButton>
     </a>
