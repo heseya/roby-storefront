@@ -1,7 +1,7 @@
 <template>
   <div class="product-list-item">
     <NuxtLink :to="`/product/${product.slug}`">
-      <Media object-fit="cover" width="63" height="63" :media="product.cover" />
+      <Media object-fit="cover" :media="product.cover" />
     </NuxtLink>
   </div>
 </template>
@@ -19,5 +19,7 @@ defineProps<{
   border: 1px solid $gray-color-300;
   height: 100%;
   padding: 5px;
+  width: 75px;
+  height: 75px;
 }
 </style>

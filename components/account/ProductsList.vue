@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="products-list">
+    <div v-if="header" class="products-list">
       <div class="products-list__header">
         <h3 class="products-list__text">{{ header }}</h3>
         <NuxtLink :to="link">
