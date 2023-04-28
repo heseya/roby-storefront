@@ -1,6 +1,6 @@
 <template>
   <div class="why-us">
-    <LayoutHeader class="why-us__header" variant="'black">Dlaczego ***REMOVED***?</LayoutHeader>
+    <LayoutHeader class="why-us__header" variant="black">Dlaczego ***REMOVED***?</LayoutHeader>
     <div class="why-us__reasons">
       <HomeWhyUsReson
         v-for="(reason, index) in reasonList"
@@ -13,7 +13,7 @@
     <div class="why-us__partner">
       <img class="partner__image" src="@/assets/images/gold-partner.jpg?url" alt="gold partner" />
       <div class="partner__description">
-        <LayoutHeader class="why-us__header" variant="'black"
+        <LayoutHeader class="why-us__header" variant="black"
           >Jesteśmy autoryzowanym dystrybutorem produktów Canon
         </LayoutHeader>
         <span

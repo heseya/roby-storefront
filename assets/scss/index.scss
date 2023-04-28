@@ -27,6 +27,7 @@ html {
   // Fallback colors to SCSS variables, but they should be declared somewhere in root html element
   --primary-color: #{$primary-color};
   --secondary-color-alt: #{$secondary-color-alt};
+  --secondary-color-alt-semi-transparent: #{$secondary-color-alt-semi-transparent};
   --secondary-color: #{$secondary-color};
   --error-color: #{$error-color};
 
