@@ -23,13 +23,13 @@
 
     <div v-if="userConsentsDto">
       <AccountConsentsList
-        v-model:userConsents="userConsentsDto"
+        v-model:userConsentsDto="userConsentsDto"
+        :user-consents="user?.consents"
         :force-required="true"
+        :save="true"
         @error="(e) => (errorMessage = formatError(e))"
+        @save:consents="saveConsent"
       />
-      <LayoutButton class="settings-card__button" @click="saveConsent">{{
-        t('saveConsent')
-      }}</LayoutButton>
     </div>
     <div class="settings-card__delete-account" @click="isDeleteAccountModalVisible = true">
       {{ t('deleteAccount') }}
@@ -51,7 +51,6 @@
     "myData": "Moje dane",
     "password": "Hasło",
     "changePassword": "Zmień hasło",
-    "saveConsent": "Zapisz zgody",
     "deleteAccount": "Usuń konto",
     "sucessUpdate": "Zaktualizowano zgody użytkownika."
   }
@@ -106,11 +105,6 @@ onMounted(() => {
 
   &__header {
     font-size: 16px;
-    margin-bottom: 5px;
-  }
-
-  &__button {
-    width: max-content;
   }
 
   &__container {

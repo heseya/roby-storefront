@@ -44,7 +44,7 @@
     </div>
     <AccountConsentsList
       v-if="form.values.consents"
-      v-model:userConsents="form.values.consents"
+      v-model:userConsentsDto="form.values.consents"
       @error="(e) => (consentsListError = formatError(e))"
     />
     <LayoutInfoBox
