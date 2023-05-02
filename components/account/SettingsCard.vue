@@ -105,8 +105,8 @@ onMounted(() => {
   gap: 10px;
 
   &__header {
-    margin-top: 10px;
     font-size: 16px;
+    margin-bottom: 5px;
   }
 
   &__button {
@@ -128,6 +128,10 @@ onMounted(() => {
 
     &:hover {
       opacity: 0.7;
+    }
+
+    @media ($max-viewport-12) {
+      font-size: 16px;
     }
   }
 

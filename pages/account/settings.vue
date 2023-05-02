@@ -1,10 +1,11 @@
 <template>
-  <LayoutAccount>
+  <LayoutAccount class="account-settings">
     <LayoutBreadcrumpsProvider :breadcrumbs="breadcrumbs" />
 
     <template #header>
       {{ t('title') }}
     </template>
+
     <AccountSettingsCard />
   </LayoutAccount>
 </template>

@@ -1,13 +1,13 @@
 <template>
-  <LayoutAccount>
+  <LayoutAccount class="account-addresses">
     <LayoutBreadcrumpsProvider :breadcrumbs="breadcrumbs" />
-
     <template #header>
       {{ t('title') }}
     </template>
-
-    <AccountAddressList :address-list="deliveryAddresses" />
-    <AccountAddressList :address-list="billingAddresses" :is-billing-address="true" />
+    <div class="account-addresses__container">
+      <AccountAddressList :address-list="deliveryAddresses" />
+      <AccountAddressList :address-list="billingAddresses" :is-billing-address="true" />
+    </div>
   </LayoutAccount>
 </template>
 
@@ -83,4 +83,11 @@ const billingAddresses = ref<UserSavedAddress[]>([
 ])
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.account-addresses {
+  &__container {
+    display: grid;
+    gap: 30px;
+  }
+}
+</style>

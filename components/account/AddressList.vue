@@ -54,11 +54,6 @@ const selectedAddress = ref({})
 .address-list {
   display: grid;
   gap: 10px;
-  margin-top: 5px;
-
-  @media ($viewport-11) {
-    margin-top: 15px;
-  }
 
   &__button {
     border: none;

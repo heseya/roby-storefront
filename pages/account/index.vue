@@ -1,31 +1,31 @@
 <template>
-  <LayoutBreadcrumpsProvider :breadcrumbs="breadcrumbs" />
-  <LayoutAccountNav class="account-page">
-    <template v-if="!errorMessage" #header>
-      <div class="account-page__header">
-        <h1 class="account-page__header-text">{{ t('welcome') }}{{ user?.name }}</h1>
-        <p>{{ t('message') }}</p>
-      </div>
-    </template>
-    <div v-if="!errorMessage" class="account-page__container">
-      <AccountOrderCard
-        v-if="userLastOrder"
-        :code="userLastOrder.code"
-        link="/account/orders"
-        :header="t('lastOrder')"
-      />
-      <AccountProductsList :header="t('wishList')" :link="`/account/wishlist`">
-        <div v-if="wishlist?.userWishlist" class="account-page__items-list">
-          <div v-for="{ product } in wishlist.userWishlist" :key="product.id">
-            <AccountListItem :product="product" />
+  <div class="account-page">
+    <LayoutBreadcrumpsProvider :breadcrumbs="breadcrumbs" />
+    <LayoutAccount :mobile="true">
+      <template v-if="!errorMessage" #header> {{ t('welcome') }}{{ user?.name }} </template>
+      <template #text>
+        {{ t('message') }}
+      </template>
+      <div v-if="!errorMessage" class="account-page__container">
+        <AccountOrderCard
+          v-if="userLastOrder"
+          :code="userLastOrder.code"
+          link="/account/orders"
+          :header="t('lastOrder')"
+        />
+        <AccountProductsList :header="t('wishList')" :link="`/account/wishlist`">
+          <div v-if="wishlist?.userWishlist" class="account-page__items-list">
+            <div v-for="{ product } in wishlist.userWishlist" :key="product.id">
+              <AccountListItem :product="product" />
+            </div>
           </div>
-        </div>
-      </AccountProductsList>
-    </div>
-    <LayoutInfoBox v-else type="danger">
-      {{ errorMessage }}
-    </LayoutInfoBox>
-  </LayoutAccountNav>
+        </AccountProductsList>
+      </div>
+      <LayoutInfoBox v-else type="danger">
+        {{ errorMessage }}
+      </LayoutInfoBox>
+    </LayoutAccount>
+  </div>
 </template>
 
 <i18n lang="json">
@@ -73,29 +73,12 @@ const { data: userLastOrder } = useAsyncData(`userLastOrder`, async () => {
 <style lang="scss" scoped>
 .account-page {
   &__container {
-    padding: 16px;
+    padding: 16px 0;
     display: grid;
     gap: 30px;
 
     @media ($viewport-11) {
       padding: 0px;
-    }
-  }
-
-  &__header {
-    display: grid;
-    gap: 12px;
-
-    @media ($max-viewport-12) {
-      gap: 8px;
-    }
-  }
-
-  &-text {
-    font-size: 26px;
-
-    @media ($max-viewport-12) {
-      font-size: 20px;
     }
   }
 
