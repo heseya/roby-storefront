@@ -53,11 +53,11 @@ withDefaults(
     flex-shrink: 0;
 
     &--gray-filter {
-      filter: grayscale(100%);
+      filter: grayscale(100%) brightness(150%);
       transition: all 200ms ease-in-out;
 
       &:hover {
-        filter: grayscale(0);
+        filter: grayscale(0) brightness(100%);
       }
     }
   }
