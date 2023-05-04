@@ -1,5 +1,5 @@
 <template>
-  <div class="account-page">
+  <BaseContainer>
     <LayoutBreadcrumpsProvider :breadcrumbs="breadcrumbs" />
     <LayoutAccount>
       <LayoutAccountNav class="account-page__nav" />
@@ -26,7 +26,7 @@
         {{ errorMessage }}
       </LayoutInfoBox>
     </LayoutAccount>
-  </div>
+  </BaseContainer>
 </template>
 
 <i18n lang="json">
@@ -73,16 +73,6 @@ const { data: userLastOrder } = useAsyncData(`userLastOrder`, async () => {
 
 <style lang="scss" scoped>
 .account-page {
-  &__container {
-    padding: 16px 0;
-    display: grid;
-    gap: 30px;
-
-    @media ($viewport-11) {
-      padding: 0px;
-    }
-  }
-
   &__items-list {
     display: flex;
     gap: 10px;

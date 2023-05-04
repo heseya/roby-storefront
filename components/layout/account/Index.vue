@@ -1,19 +1,21 @@
 <template>
-  <div class="account">
-    <div class="account__container">
-      <LayoutAccountNav class="account__nav" />
-      <div class="account__header-container">
-        <div class="account__header">
-          <slot name="header"></slot>
-        </div>
+  <BaseContainer>
+    <div class="account">
+      <div class="account__container">
+        <LayoutAccountNav class="account__nav" />
+        <div class="account__header-container">
+          <div class="account__header">
+            <slot name="header"></slot>
+          </div>
 
-        <slot name="text"></slot>
-      </div>
-      <div class="account__content">
-        <slot></slot>
+          <slot name="text"></slot>
+        </div>
+        <div class="account__content">
+          <slot></slot>
+        </div>
       </div>
     </div>
-  </div>
+  </BaseContainer>
 </template>
 
 <script setup lang="ts"></script>
@@ -31,6 +33,7 @@
   &__container {
     display: grid;
     gap: 10px;
+    width: 100%;
 
     grid-template-areas:
       'header'
@@ -42,7 +45,6 @@
       grid-template-areas:
         'nav header'
         'nav content';
-      width: 66%;
       gap: 25px;
     }
   }

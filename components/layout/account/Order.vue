@@ -1,19 +1,17 @@
 <template>
-  <div>
-    <div v-if="header" class="account-order">
-      <div class="account-order__header">
-        <h3 class="account-order__text">{{ header }}</h3>
-        <NuxtLink :to="link">
-          <LayoutButton class="account-order__btn">
-            {{ t('showAll') }}
-            <LayoutIcon :icon="GoNextIcon" :size="8" />
-          </LayoutButton>
-        </NuxtLink>
-      </div>
+  <div v-if="header" class="account-order">
+    <div class="account-order__header">
+      <h3 class="account-order__text">{{ header }}</h3>
+      <NuxtLink :to="link">
+        <LayoutButton class="account-order__btn">
+          {{ t('showAll') }}
+          <LayoutIcon :icon="GoNextIcon" :size="8" />
+        </LayoutButton>
+      </NuxtLink>
     </div>
-    <div class="account-order__content">
-      <slot></slot>
-    </div>
+  </div>
+  <div class="account-order__content">
+    <slot></slot>
   </div>
 </template>
 

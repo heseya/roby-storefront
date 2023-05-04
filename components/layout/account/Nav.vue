@@ -2,12 +2,7 @@
   <div class="account-nav">
     <div>
       <ul class="account-nav__list">
-        <li
-          v-for="(target, index) in navList"
-          :key="index"
-          class="account-nav__list-item"
-          :class="{ 'account-nav__list-item--active': '' }"
-        >
+        <li v-for="(target, index) in navList" :key="index" class="account-nav__list-item">
           <NuxtLink :to="`/account/${target}`" class="account-nav__text">{{ t(target) }} </NuxtLink>
           <LayoutIcon :icon="GoNextIcon" :size="12" class="account-nav__icon" />
         </li>
@@ -76,6 +71,11 @@ const logout = async () => {
     @media ($viewport-12) {
       width: 250px;
     }
+
+    & > .router-link-active {
+      color: var(--primary-color);
+      font-weight: bold;
+    }
   }
 
   &__text {
@@ -98,10 +98,5 @@ const logout = async () => {
       color: $white-color;
     }
   }
-}
-
-.router-link-active {
-  color: var(--primary-color);
-  font-weight: bold;
 }
 </style>

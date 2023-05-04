@@ -25,9 +25,9 @@
       <AccountConsentsList
         :value="userConsentsDto"
         :force-required="true"
-        :save="true"
+        :show-save-btn="true"
         @error="(e) => (errorMessage = formatError(e))"
-        @submit="(values) => saveConsent(values)"
+        @submit="saveConsent"
       />
     </div>
     <div class="settings-card__delete-account" @click="isDeleteAccountModalVisible = true">

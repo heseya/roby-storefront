@@ -2,7 +2,7 @@
   <div>
     <LayoutAccountOrder
       v-if="order && !errorMessage"
-      :header="t(header)"
+      :header="header"
       :link="link"
       class="account-order-card"
     >

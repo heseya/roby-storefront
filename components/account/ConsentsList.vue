@@ -12,12 +12,7 @@
       <BaseWysiwygContent :content="consent.description_html" />
     </FormCheckbox>
 
-    <LayoutButton
-      v-if="save"
-      :disabled="!!errorMessage || !!Object.keys(form.errors.value).length"
-      :label="t('saveConsent')"
-      html-type="submit"
-    />
+    <LayoutButton v-if="showSaveBtn" :label="t('saveConsent')" html-type="submit" />
   </form>
 
   <LayoutInfoBox v-if="errorMessage" type="danger">
@@ -45,7 +40,7 @@ const errorMessage = ref('')
 const props = defineProps<{
   value: UserConsentDto
   forceRequired?: boolean
-  save?: boolean
+  showSaveBtn?: boolean
 }>()
 
 const emit = defineEmits<{
