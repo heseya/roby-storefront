@@ -1,5 +1,11 @@
 <template>
   <form class="login-form" @submit.prevent="onSubmit">
+    <LazyClientOnly>
+      <LayoutInfoBox v-if="showAccountMigrationInfo" class="login-form__info" type="info">
+        {{ t('accountMigrationInfo') }}
+      </LayoutInfoBox>
+    </LazyClientOnly>
+
     <div class="login-form__form">
       <FormInput
         v-model="form.values.email"
@@ -37,7 +43,8 @@
     },
     "message": {
       "success": "Zalogowano pomyślnie"
-    }
+    },
+    "accountMigrationInfo": "W związku z aktualizacją bezpieczeństwa, przed pierwszym logowaniem, skorzystaj z opcji \"przypomnij hasło\"."
   }
 }
 </i18n>
@@ -45,12 +52,21 @@
 <script setup lang="ts">
 import { useForm } from 'vee-validate'
 import { useAuthStore } from '@/store/auth'
+import { useConfigStore } from '~/store/config'
+import { LOGGED_IN_THE_PAST_KEY } from '@/consts/localstorageKeys'
 
 const t = useLocalI18n()
 
 const getErrorMessage = useErrorMessage()
 const auth = useAuthStore()
+const config = useConfigStore()
 const { notify } = useNotify()
+
+const wasLoggedInPast = useLocalStorage(LOGGED_IN_THE_PAST_KEY, false)
+
+const showAccountMigrationInfo = computed(() => {
+  return config.env.show_account_migration_info === '1' && !wasLoggedInPast.value
+})
 
 const emit = defineEmits<{
   (event: 'login'): void
@@ -86,6 +102,11 @@ const onSubmit = form.handleSubmit(async ({ email, password }) => {
     justify-content: flex-end;
     align-items: baseline;
     margin: 1rem 0;
+  }
+
+  &__info {
+    font-size: rem(12);
+    line-height: rem(16);
   }
 
   &__forgot-password {
