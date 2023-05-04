@@ -11,7 +11,7 @@
 
         <ClientOnly>
           <div v-if="!isCartEmpty" class="cart-page__list">
-            <CartItem
+            <LazyCartItem
               v-for="item in cart.items"
               :key="item.id"
               :item="item"
@@ -19,7 +19,7 @@
             />
           </div>
 
-          <CartEmpty v-else class="cart-page__empty" />
+          <LazyCartEmpty v-else class="cart-page__empty" />
         </ClientOnly>
       </div>
 

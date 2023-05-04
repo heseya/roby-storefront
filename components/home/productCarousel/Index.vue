@@ -4,7 +4,7 @@
       <LayoutHeader class="product-carousel__title" variant="black">
         {{ label || category.name }}
       </LayoutHeader>
-      <HomeShowAllButton :path="`/categories/${category.slug}`" />
+      <HomeShowAllButton :path="`/category/${category.slug}`" />
     </div>
     <LayoutCarousel
       v-if="subcategories?.length && !withoutSubcategories"
@@ -26,8 +26,7 @@
 </template>
 
 <script lang="ts" setup>
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { ProductList, ProductSetList } from '@heseya/store-core'
+import { ProductSetList } from '@heseya/store-core'
 import { useCategoriesStore } from '@/store/categories'
 
 const props = withDefaults(

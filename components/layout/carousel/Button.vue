@@ -11,7 +11,6 @@
 </template>
 
 <script lang="ts" setup>
-import { useSwiper } from 'swiper/vue'
 import ArrowNext from '@/assets/icons/chevron.svg?component'
 import IconButton from '~/components/layout/IconButton.vue'
 

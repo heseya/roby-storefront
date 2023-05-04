@@ -31,7 +31,7 @@
         >
           <template #buy> <ProductPagePurchasePanel v-if="product" :product="product" /> </template>
           <template #renting>
-            <ProductPageContactForm
+            <LazyProductPageContactForm
               v-if="product"
               :product="product"
               type="renting"
@@ -41,7 +41,7 @@
         </LayoutTabs>
 
         <div v-else class="product-header__form">
-          <ProductPageContactForm
+          <LazyProductPageContactForm
             v-if="product"
             :product="product"
             type="price"
@@ -55,24 +55,24 @@
       <template #description>
         <div class="product-page__description-wrapper">
           <div>
-            <BaseWysiwygContent :content="product?.description_html" />
-            <ProductPageAttachments
+            <LazyBaseWysiwygContent :content="product?.description_html" />
+            <LazyProductPageAttachments
               v-if="product?.attachments.length"
               :attachments="product?.attachments"
               class="product-page__attachments"
             />
           </div>
 
-          <ProductPageAttributeCard v-if="product" :product="product" />
+          <LazyProductPageAttributeCard v-if="product" :product="product" />
         </div>
       </template>
 
       <template #additionalInfo>
-        <ProductPageAttributes v-if="product" :product="product" />
+        <LazyProductPageAttributes v-if="product" :product="product" />
       </template>
 
       <template v-for="page in globalPages" :key="page.id" #[page.slug]>
-        <BaseWysiwygContent :content="page?.content_html" />
+        <LazyBaseWysiwygContent :content="page?.content_html" />
       </template>
     </LayoutTabs>
 

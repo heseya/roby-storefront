@@ -30,7 +30,7 @@
       </LazyHydrate>
 
       <LazyHydrate when-visible>
-        <HomeImageCarousel
+        <LazyHomeImageCarousel
           v-for="banner in data?.homepageBanners"
           :key="banner.id"
           class="index-page__image-carousel"
@@ -56,6 +56,7 @@
 <script setup lang="ts">
 import { ProductSetList } from '@heseya/store-core'
 import { LinkBox } from '~~/components/home/LinkBox.vue'
+import BgImagePath from '@/assets/images/banner-bgr-grayed.jpg'
 
 const t = useLocalI18n()
 const heseya = useHeseya()
@@ -83,13 +84,13 @@ const { data } = useAsyncData('main-banner', async () => {
 const LINK_BOXES: LinkBox[] = [
   {
     text: 'Zapytaj o wynajem',
-    src: 'https://***REMOVED***.pl/wp-content/uploads/2017/06/dummy-wood-title.jpg',
+    src: BgImagePath,
     link: '/rent',
     linkText: 'Zapytaj',
   },
   {
     text: 'Zapytaj o indywidualną ofertę',
-    src: 'https://***REMOVED***.pl/wp-content/uploads/2017/06/dummy-wood-title.jpg',
+    src: BgImagePath,
     link: '/rent',
     linkText: 'Zapytaj',
   },

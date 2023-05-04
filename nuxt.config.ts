@@ -30,19 +30,8 @@ export default defineNuxtConfig({
           content: isProduction ? 'index, follow' : 'noindex, nowfollow',
         },
       ],
-      link: [
-        { rel: 'icon', type: 'image/x-icon', href: '/favicon.png' },
-        { rel: 'preconnect', href: 'https://fonts.gstatic.com' },
-        {
-          rel: 'stylesheet',
-          href: 'https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap',
-        },
-      ],
-      script: [
-        {
-          src: `https://www.google.com/recaptcha/api.js?render=${RECAPTCHA_PUBLIC}`,
-        },
-      ],
+      link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.png' }],
+      script: [],
     },
   },
 
@@ -60,7 +49,21 @@ export default defineNuxtConfig({
     },
   },
 
-  modules: ['@pinia/nuxt', '@pinia-plugin-persistedstate/nuxt', '@nuxtjs/i18n', '@vueuse/nuxt'],
+  modules: [
+    '@nuxtjs/google-fonts',
+    '@pinia/nuxt',
+    '@pinia-plugin-persistedstate/nuxt',
+    '@nuxtjs/i18n',
+    '@vueuse/nuxt',
+    'nuxt-swiper',
+    'nuxt-delay-hydration',
+  ],
+
+  googleFonts: {
+    families: {
+      Roboto: [300, 400, 500, 600, 700],
+    },
+  },
 
   i18n: {
     locales: [{ code: 'pl', iso: 'pl-PL', file: 'pl.ts' }],
@@ -71,6 +74,12 @@ export default defineNuxtConfig({
 
   piniaPersistedstate: {
     storage: 'localStorage',
+  },
+
+  delayHydration: {
+    mode: 'mount',
+    // enables nuxt-delay-hydration in dev mode for testing
+    debug: process.env.NODE_ENV === 'development',
   },
 
   vite: {

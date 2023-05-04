@@ -24,6 +24,7 @@
     "date-fns": "^2.29.3",
     "lodash": "^4.17.21",
     "nodemailer": "^6.9.1",
+    "nuxt-swiper": "^1.1.0",
     "swiper": "^9.2.0",
     "vee-validate": "^4.8.6",
     "vue3-lazy-hydration": "^1.2.1"
@@ -32,6 +33,7 @@
     "@commitlint/cli": "^17.4.4",
     "@commitlint/config-conventional": "^17.4.4",
     "@nuxtjs/eslint-config-typescript": "^12.0.0",
+    "@nuxtjs/google-fonts": "^3.0.0",
     "@nuxtjs/i18n": "^8.0.0-beta.11",
     "@types/lodash": "^4.14.191",
     "@types/nodemailer": "^6.4.7",
@@ -41,6 +43,7 @@
     "eslint-plugin-prettier": "^4.2.1",
     "husky": "^8.0.3",
     "nuxt": "^3.4.2",
+    "nuxt-delay-hydration": "^1.1.4",
     "prettier": "^2.8.4",
     "sass": "^1.59.3",
     "typescript": "^5.0.2",

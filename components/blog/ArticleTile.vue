@@ -27,7 +27,9 @@ const props = defineProps<{
 }>()
 
 const localePath = useLocalePath()
-const imageUrl = computed(() => getImageUrl(props.article.image))
+const imageUrl = computed(
+  () => `${getImageUrl(props.article.image)}?width=300&height=200&fit=cover`,
+)
 const translatedArticle = computed(() => getTranslated(props.article.translations, 'PL-pl'))
 const dateCreated = computed(() => formatDate(props.article.date_created, 'dd LLLL yyyy'))
 </script>

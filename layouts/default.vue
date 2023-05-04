@@ -11,10 +11,12 @@
         <slot></slot>
       </div>
 
-      <LayoutBreadcrumps />
+      <LazyLayoutBreadcrumps />
     </div>
     <div class="site__footer">
-      <BaseFooter />
+      <LazyHydrate never>
+        <BaseFooter />
+      </LazyHydrate>
     </div>
   </div>
 </template>
