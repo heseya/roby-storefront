@@ -97,7 +97,7 @@ const { data: tags } = useAsyncData(`blog-tags`, () => {
 
 const changePage = (page: number | string) => {
   router.push({
-    name: route.name!,
+    name: route.name! as any,
     params: route.params,
     query: {
       ...route.query,
