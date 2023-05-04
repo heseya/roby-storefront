@@ -11,7 +11,9 @@
         <slot></slot>
       </div>
 
-      <LayoutBreadcrumps />
+      <LazyHydrate never>
+        <LazyLayoutBreadcrumps />
+      </LazyHydrate>
     </div>
     <div class="site__footer">
       <BaseFooter />
