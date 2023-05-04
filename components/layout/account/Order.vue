@@ -1,17 +1,17 @@
 <template>
   <div>
-    <div v-if="header" class="products-list">
-      <div class="products-list__header">
-        <h3 class="products-list__text">{{ header }}</h3>
+    <div v-if="header" class="account-order">
+      <div class="account-order__header">
+        <h3 class="account-order__text">{{ header }}</h3>
         <NuxtLink :to="link">
-          <LayoutButton class="products-list__btn">
+          <LayoutButton class="account-order__btn">
             {{ t('showAll') }}
             <LayoutIcon :icon="GoNextIcon" :size="8" />
           </LayoutButton>
         </NuxtLink>
       </div>
     </div>
-    <div class="products-list__content">
+    <div class="account-order__content">
       <slot></slot>
     </div>
   </div>
@@ -37,7 +37,7 @@ defineProps<{
 </script>
 
 <style lang="scss" scoped>
-.products-list {
+.account-order {
   &__content {
     border: 1px solid $gray-color-300;
     padding: 20px;

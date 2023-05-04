@@ -1,5 +1,5 @@
 <template>
-  <div class="account-nav" :class="{ 'account-nav--mobile': mobile }">
+  <div class="account-nav">
     <div>
       <ul class="account-nav__list">
         <li
@@ -34,10 +34,6 @@
 import GoNextIcon from '@/assets/icons/navigate-next.svg?component'
 import { useAuthStore } from '@/store/auth'
 
-defineProps<{
-  mobile?: Boolean
-}>()
-
 const t = useLocalI18n()
 const auth = useAuthStore()
 const router = useRouter()
@@ -58,17 +54,6 @@ const logout = async () => {
 <style lang="scss">
 .account-nav {
   grid-area: nav;
-  display: none;
-
-  &--mobile {
-    display: block;
-  }
-
-  @media ($viewport-12) {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 0;
-  }
 
   &__list {
     list-style-type: none;

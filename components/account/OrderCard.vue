@@ -1,6 +1,6 @@
 <template>
   <div>
-    <AccountProductsList
+    <LayoutAccountOrder
       v-if="order && !errorMessage"
       :header="t(header)"
       :link="link"
@@ -44,7 +44,7 @@
           </NuxtLink>
         </div>
       </div>
-    </AccountProductsList>
+    </LayoutAccountOrder>
     <LayoutInfoBox v-else-if="errorMessage" type="danger">
       {{ errorMessage }}
     </LayoutInfoBox>

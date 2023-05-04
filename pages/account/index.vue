@@ -1,7 +1,8 @@
 <template>
   <div class="account-page">
     <LayoutBreadcrumpsProvider :breadcrumbs="breadcrumbs" />
-    <LayoutAccount :mobile="true">
+    <LayoutAccount>
+      <LayoutAccountNav class="account-page__nav" />
       <template v-if="!errorMessage" #header> {{ t('welcome') }}{{ user?.name }} </template>
       <template #text>
         {{ t('message') }}
@@ -13,13 +14,13 @@
           link="/account/orders"
           :header="t('lastOrder')"
         />
-        <AccountProductsList :header="t('wishList')" :link="`/account/wishlist`">
+        <LayoutAccountOrder :header="t('wishList')" :link="`/account/wishlist`">
           <div v-if="wishlist?.userWishlist" class="account-page__items-list">
             <div v-for="product in wishlist.products" :key="product.id">
               <AccountProductCard :product="product" />
             </div>
           </div>
-        </AccountProductsList>
+        </LayoutAccountOrder>
       </div>
       <LayoutInfoBox v-else type="danger">
         {{ errorMessage }}
@@ -85,6 +86,12 @@ const { data: userLastOrder } = useAsyncData(`userLastOrder`, async () => {
   &__items-list {
     display: flex;
     gap: 10px;
+  }
+
+  &__nav {
+    @media ($viewport-12) {
+      display: none;
+    }
   }
 }
 </style>

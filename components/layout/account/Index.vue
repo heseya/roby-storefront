@@ -1,7 +1,7 @@
 <template>
   <div class="account">
     <div class="account__container">
-      <LayoutAccountNav :mobile="mobileNav" />
+      <LayoutAccountNav class="account__nav" />
       <div class="account__header-container">
         <div class="account__header">
           <slot name="header"></slot>
@@ -16,11 +16,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
-defineProps<{
-  mobileNav?: Boolean
-}>()
-</script>
+<script setup lang="ts"></script>
 
 <style lang="scss">
 .account {
@@ -66,6 +62,16 @@ defineProps<{
 
     @media ($max-viewport-12) {
       font-size: 20px;
+    }
+  }
+
+  &__nav {
+    display: none;
+
+    @media ($viewport-12) {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 0;
     }
   }
 }
