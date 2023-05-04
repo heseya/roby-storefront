@@ -2,6 +2,7 @@ import { AuthProviderKey, HeseyaEvent, UserRegisterDto } from '@heseya/store-cor
 import { defineStore } from 'pinia'
 
 import { useUserStore } from './user'
+import { useWishlistStore } from './wishlist'
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
@@ -85,6 +86,7 @@ export const useAuthStore = defineStore('auth', {
 
     async logout() {
       const heseya = useHeseya()
+      const wishlish = useWishlistStore()
 
       try {
         await heseya.Auth.logout()
@@ -94,6 +96,8 @@ export const useAuthStore = defineStore('auth', {
         console.error('Logout in API failed', e)
       } finally {
         this.clearAuth()
+        // Clear local wishlist after logout
+        wishlish.$reset()
       }
     },
 

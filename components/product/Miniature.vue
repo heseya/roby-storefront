@@ -76,6 +76,7 @@ const showPrice = computed(() => {
   &--horizontal {
     flex-direction: row;
     gap: 12px;
+    padding-right: 48px;
     max-width: 100%;
 
     @media ($viewport-7) {

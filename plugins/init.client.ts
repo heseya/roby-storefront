@@ -16,8 +16,6 @@ export default defineNuxtPlugin(async (nuxtApp) => {
       if (authStore.isLogged) {
         await wishlistStore.syncLocal()
         await wishlistStore.fetch()
-      } else {
-        wishlistStore.$reset()
       }
     },
     { immediate: true },

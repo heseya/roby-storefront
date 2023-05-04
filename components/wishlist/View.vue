@@ -42,9 +42,5 @@ const wishlist = useWishlistStore()
       grid-template-columns: repeat(2, 1fr);
     }
   }
-
-  &__item {
-    padding-right: 32px;
-  }
 }
 </style>

@@ -4,23 +4,8 @@
     :variant="isInWishlist ? 'gray' : 'white'"
     @click.prevent="toggle"
   >
-    <template v-if="isInWishlist">
-      <LayoutIcon
-        :size="16"
-        :icon="HeartIcon"
-        class="favorite-btn__icon favorite-btn__icon--hover"
-      />
-      <LayoutIcon :size="16" :icon="FilledHeartIcon" class="favorite-btn__icon" />
-    </template>
-
-    <template v-else>
-      <LayoutIcon :size="16" :icon="HeartIcon" class="favorite-btn__icon" />
-      <LayoutIcon
-        :size="16"
-        :icon="FilledHeartIcon"
-        class="favorite-btn__icon favorite-btn__icon--hover"
-      />
-    </template>
+    <LayoutIcon v-if="isInWishlist" :size="14" :icon="FilledHeartIcon" class="favorite-btn__icon" />
+    <LayoutIcon v-else :size="14" :icon="HeartIcon" class="favorite-btn__icon" />
   </button>
 </template>
 
@@ -47,29 +32,19 @@ const { isInWishlist, toggle } = useWishlist(props.product)
   background-color: #fff;
   cursor: pointer;
   transition: 0.3s;
+  padding: 0 !important;
 
   &__icon {
     color: $gray-color-600;
     margin: 0 auto;
 
-    &--hover {
-      display: none;
-    }
-
-    @media (pointer: coarse) {
-      transform: scale(1.6);
-    }
+    // @media (pointer: coarse) {
+    //   transform: scale(1.6);
+    // }
   }
 
-  &:hover:not(:focus) {
+  &:hover {
     background-color: $gray-color-100;
-  }
-
-  &:hover:not(:focus) &__icon:not(&__icon--hover) {
-    display: none;
-  }
-  &:hover:not(:focus) &__icon--hover {
-    display: block;
   }
 }
 </style>
