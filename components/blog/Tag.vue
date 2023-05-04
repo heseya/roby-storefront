@@ -19,6 +19,7 @@ defineProps<{
   padding: 10px 14px;
   border-radius: 5px;
   transition: 0.2s;
+  white-space: nowrap;
 
   &--active,
   &:hover {

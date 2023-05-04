@@ -26,5 +26,6 @@ const translatedTag = computed(() =>
 .simple-blog-tag {
   color: $gray-color-900;
   margin-left: 10px;
+  white-space: nowrap;
 }
 </style>

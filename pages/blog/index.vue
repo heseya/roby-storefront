@@ -70,6 +70,7 @@ const {
       'translations.title',
       'translations.description',
       'translations.languages_code',
+      'tags.BlogTags_id.id',
       'tags.BlogTags_id.translations.*',
     ],
     meta: ['filter_count'] as any,
@@ -144,11 +145,10 @@ watch(
 
   &__articles {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-gap: 10px;
+    grid-gap: 25px;
 
     @media ($viewport-8) {
-      grid-gap: 25px;
+      grid-template-columns: 1fr 1fr;
     }
   }
 }
