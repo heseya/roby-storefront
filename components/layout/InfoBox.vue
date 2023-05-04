@@ -28,5 +28,10 @@ withDefaults(
     color: $error-color;
     border-color: $error-color;
   }
+
+  &--info {
+    color: $blue-color;
+    border-color: $blue-color;
+  }
 }
 </style>

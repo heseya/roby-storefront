@@ -3,6 +3,7 @@ import { defineStore } from 'pinia'
 
 import { useUserStore } from './user'
 import { useWishlistStore } from './wishlist'
+import { LOGGED_IN_THE_PAST_KEY } from '~/consts/localstorageKeys'
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
@@ -44,6 +45,7 @@ export const useAuthStore = defineStore('auth', {
       const heseya = useHeseya()
       const ev = useHeseyaEventBus()
       const userStore = useUserStore()
+      const wasLoggedInPast = useLocalStorage(LOGGED_IN_THE_PAST_KEY, false)
 
       const isPasswordLogin = 'email' in payload
 
@@ -56,7 +58,7 @@ export const useAuthStore = defineStore('auth', {
 
         this.setTokens(tokens)
         ev.emit(HeseyaEvent.Login, user)
-
+        wasLoggedInPast.value = true
         return { success: true }
       } catch (error) {
         this.error = error
