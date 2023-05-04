@@ -27,9 +27,7 @@
 </template>
 
 <script lang="ts" setup>
-import { Swiper, SwiperSlide } from 'swiper/vue'
 import { SwiperOptions } from 'swiper/types'
-import 'swiper/css'
 
 withDefaults(
   defineProps<{

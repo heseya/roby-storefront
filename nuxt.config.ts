@@ -60,7 +60,13 @@ export default defineNuxtConfig({
     },
   },
 
-  modules: ['@pinia/nuxt', '@pinia-plugin-persistedstate/nuxt', '@nuxtjs/i18n', '@vueuse/nuxt'],
+  modules: [
+    '@pinia/nuxt',
+    '@pinia-plugin-persistedstate/nuxt',
+    '@nuxtjs/i18n',
+    '@vueuse/nuxt',
+    'nuxt-swiper',
+  ],
 
   i18n: {
     locales: [{ code: 'pl', iso: 'pl-PL', file: 'pl.ts' }],
