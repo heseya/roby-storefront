@@ -10,7 +10,7 @@
       v-model:model-value="form.values.name"
       :label="t('nameSurname')"
       name="name"
-      rules="alphaCharacters"
+      rules="alpha"
     />
     <FormInput
       :label="t('email')"

@@ -42,9 +42,10 @@
         :disabled="isFormDisabled"
       />
     </div>
+
     <AccountConsentsList
       v-if="form.values.consents"
-      v-model:userConsentsDto="form.values.consents"
+      v-model:value="form.values.consents"
       @error="(e) => (consentsListError = formatError(e))"
     />
     <LayoutInfoBox

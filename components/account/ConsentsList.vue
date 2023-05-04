@@ -1,24 +1,28 @@
 <template>
-  <div>
+  <form @submit.prevent="onSubmit">
     <FormCheckbox
       v-for="consent in consents"
       :key="consent.id"
-      :model-value="userConsentsDto[consent.id] || false"
+      v-model:model-value="form.values[consent.id]"
       :name="consent.name"
       :rules="consent.required ? 'required' : ''"
-      :disabled="userConsentsDto[consent.id] && consent.required && forceRequired"
+      :disabled="value[consent.id] && consent.required && forceRequired"
       @update:model-value="(v) => setConsentValue(consent.id, v)"
     >
-      <span v-html="consent.description_html"></span>
+      <BaseWysiwygContent :content="consent.description_html" />
     </FormCheckbox>
 
     <LayoutButton
-      v-if="!onlyAcceptedRequiredConsents() && save && consents?.length"
-      @click="emit('save:consents')"
-    >
-      {{ t('saveConsent') }}
-    </LayoutButton>
-  </div>
+      v-if="save"
+      :disabled="!!errorMessage || !!Object.keys(form.errors.value).length"
+      :label="t('saveConsent')"
+      html-type="submit"
+    />
+  </form>
+
+  <LayoutInfoBox v-if="errorMessage" type="danger">
+    {{ errorMessage }}
+  </LayoutInfoBox>
 </template>
 
 <i18n lang="json">
@@ -30,48 +34,55 @@
 </i18n>
 
 <script setup lang="ts">
-import { UserConsent, UserConsentDto } from '@heseya/store-core'
+import { UserConsentDto } from '@heseya/store-core'
+import { useForm } from 'vee-validate'
 const t = useLocalI18n()
 const heseya = useHeseya()
+const formatError = useErrorMessage()
+
+const errorMessage = ref('')
 
 const props = defineProps<{
-  userConsentsDto: UserConsentDto
-  userConsents?: UserConsent[]
+  value: UserConsentDto
   forceRequired?: boolean
   save?: boolean
 }>()
 
 const emit = defineEmits<{
   (e: 'error', error: any): void
-  (e: 'update:userConsentsDto', value: UserConsentDto): void
-  (e: 'save:consents'): void
+  (e: 'update:value', value: UserConsentDto): void
+  (e: 'submit', value: UserConsentDto): void
 }>()
+
+const setConsentValue = (consentId: string, value: boolean) => {
+  emit('update:value', { ...form.values, [consentId]: value })
+}
 
 const { data: consents } = useAsyncData('consents', async () => {
   try {
     const consents = await heseya.Consents.get()
     return consents.data
   } catch (e: any) {
-    emit('error', e)
+    errorMessage.value = formatError(e)
   }
 })
 
-const setConsentValue = (consentId: string, value: boolean) => {
-  emit('update:userConsentsDto', { ...props.userConsentsDto, [consentId]: value })
-}
+const form = useForm({
+  initialValues: {},
+})
 
-const onlyAcceptedRequiredConsents = (): boolean => {
-  // Check if the user has all consents added
-  if (props.userConsents?.length !== consents.value?.length) {
-    return false
+const onSubmit = form.handleSubmit(() => {
+  try {
+    emit('submit', form.values)
+  } catch (e: any) {
+    errorMessage.value = formatError(e)
   }
+})
 
-  // Check if the user has other consents than required
-  if (consents.value?.filter((consent) => consent.required).length !== consents.value?.length) {
-    return false
-  }
-
-  // Return true if user consents are only required and accepted
-  return props.userConsents?.filter(({ value }) => value).length === consents.value?.length
-}
+watch(
+  () => props.value,
+  () => {
+    form.values = props.value
+  },
+)
 </script>

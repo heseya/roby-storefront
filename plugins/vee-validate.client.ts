@@ -7,7 +7,7 @@ export default defineNuxtPlugin((_nuxt) => {
   defineRule('required', required)
   defineRule('password', (password: string) => password?.trim().length >= 12)
   defineRule('confirmedPassword', confirmed)
-  defineRule('alphaCharacters', alpha)
+  defineRule('alpha', alpha)
 
   configure({
     generateMessage: localize({
@@ -17,7 +17,7 @@ export default defineNuxtPlugin((_nuxt) => {
           email: 'To pole musi być poprawnym adresem email',
           password: 'Hasło musi mieć co najmniej 12 znaków',
           confirmedPassword: 'Hasła nie są takie same.',
-          alphaCharacters: 'To pole może składać się tylko z liter.',
+          alpha: 'To pole może składać się tylko z liter.',
         },
       },
     }),

@@ -15,8 +15,8 @@
         />
         <AccountProductsList :header="t('wishList')" :link="`/account/wishlist`">
           <div v-if="wishlist?.userWishlist" class="account-page__items-list">
-            <div v-for="{ product } in wishlist.userWishlist" :key="product.id">
-              <AccountListItem :product="product" />
+            <div v-for="product in wishlist.products" :key="product.id">
+              <AccountProductCard :product="product" />
             </div>
           </div>
         </AccountProductsList>

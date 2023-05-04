@@ -1,7 +1,7 @@
 <template>
   <div class="account">
     <div class="account__container">
-      <LayoutAccountNav :mobile="mobile" />
+      <LayoutAccountNav :mobile="mobileNav" />
       <div class="account__header-container">
         <div class="account__header">
           <slot name="header"></slot>
@@ -18,7 +18,7 @@
 
 <script setup lang="ts">
 defineProps<{
-  mobile?: Boolean
+  mobileNav?: Boolean
 }>()
 </script>
 

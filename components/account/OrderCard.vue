@@ -1,44 +1,54 @@
 <template>
-  <AccountProductsList v-if="order" :header="t(header)" :link="link" class="account-order-card">
-    <div v-if="order" class="account-order-card__info">
-      <div class="account-order-card__details">
-        <div class="account-order-card__details-box">
-          <b>{{ t('orderNumber') }}: </b>
-          <NuxtLink :to="`/order/${order.code}`" class="account-order-card__link"
-            >{{ order.code }}
+  <div>
+    <AccountProductsList
+      v-if="order && !errorMessage"
+      :header="t(header)"
+      :link="link"
+      class="account-order-card"
+    >
+      <div class="account-order-card__info">
+        <div class="account-order-card__details">
+          <div class="account-order-card__details-box">
+            <b>{{ t('orderNumber') }}: </b>
+            <NuxtLink :to="`/accounts/order/${order.code}`" class="account-order-card__link"
+              >{{ order.code }}
+            </NuxtLink>
+          </div>
+          <div class="account-order-card__details-box">
+            <b>{{ t('orderCreatingDate') }}:</b>
+            {{ formatDate(order.created_at, 'dd.MM.yyyy HH:MM') }}
+          </div>
+        </div>
+        <div>
+          <b> {{ t('status') }}:</b>
+          <LayoutButton
+            class="account-order-card__status-btn"
+            :style="{ 'background-color': `#${order.status.color}` }"
+          >
+            {{ order.status.name }}
+          </LayoutButton>
+        </div>
+      </div>
+      <div v-if="order?.products" class="account-order-card__items">
+        <div class="account-order-card__items-list">
+          <div v-for="{ product } in order.products" :key="product.id">
+            <AccountProductCard :product="product" />
+          </div>
+        </div>
+        <div class="account-order-card__actions">
+          <NuxtLink :to="`/order/${order.code}`">
+            <LayoutButton class="account-order-card__details-btn">
+              {{ t('orderDetails') }}
+              <LayoutIcon :icon="GoNextIcon" :size="8" />
+            </LayoutButton>
           </NuxtLink>
         </div>
-        <div class="account-order-card__details-box">
-          <b>{{ t('orderCreatingDate') }}:</b>
-          {{ formatDate(order.created_at, 'dd.MM.yyyy HH:MM') }}
-        </div>
       </div>
-      <div>
-        <b> {{ t('status') }}:</b>
-        <LayoutButton
-          class="account-order-card__status-btn"
-          :style="{ 'background-color': `#${order.status.color}` }"
-        >
-          {{ order.status.name }}
-        </LayoutButton>
-      </div>
-    </div>
-    <div v-if="order?.products" class="account-order-card__items">
-      <div class="account-order-card__items-list">
-        <div v-for="{ product } in order.products" :key="product.id">
-          <AccountListItem :product="product" />
-        </div>
-      </div>
-      <div class="account-order-card__actions">
-        <NuxtLink :to="`/order/${order.code}`">
-          <LayoutButton class="account-order-card__details-btn">
-            {{ t('orderDetails') }}
-            <LayoutIcon :icon="GoNextIcon" :size="8" />
-          </LayoutButton>
-        </NuxtLink>
-      </div>
-    </div>
-  </AccountProductsList>
+    </AccountProductsList>
+    <LayoutInfoBox v-else-if="errorMessage" type="danger">
+      {{ errorMessage }}
+    </LayoutInfoBox>
+  </div>
 </template>
 
 <i18n lang="json">
@@ -58,6 +68,8 @@ import GoNextIcon from '@/assets/icons/navigate-next.svg?component'
 const t = useLocalI18n()
 
 const heseya = useHeseya()
+const formatError = useErrorMessage()
+const errorMessage = ref('')
 
 const props = withDefaults(
   defineProps<{
@@ -74,7 +86,9 @@ const props = withDefaults(
 const { data: order } = useAsyncData(`account/order/${props.code}`, async () => {
   try {
     return await heseya.UserProfile.Orders.getOneByCode(props.code)
-  } catch {}
+  } catch (e: any) {
+    errorMessage.value = formatError(e)
+  }
 })
 </script>
 

@@ -23,12 +23,11 @@
 
     <div v-if="userConsentsDto">
       <AccountConsentsList
-        v-model:userConsentsDto="userConsentsDto"
-        :user-consents="user?.consents"
+        :value="userConsentsDto"
         :force-required="true"
         :save="true"
         @error="(e) => (errorMessage = formatError(e))"
-        @save:consents="saveConsent"
+        @submit="(values) => saveConsent(values)"
       />
     </div>
     <div class="settings-card__delete-account" @click="isDeleteAccountModalVisible = true">
@@ -77,10 +76,11 @@ const isChangePasswordModalVisible = ref<boolean>(false)
 const isDeleteAccountModalVisible = ref<boolean>(false)
 
 const userConsentsDto = ref<UserConsentDto>({})
-const saveConsent = async () => {
+const saveConsent = async (consents: UserConsentDto) => {
   try {
-    const user = await heseya.UserProfile.update({ consents: userConsentsDto.value })
+    const user = await heseya.UserProfile.update({ consents })
     userStore.setUser(user)
+    userConsentsDto.value = consents
     notify({
       title: t('sucessUpdate'),
       type: 'success',
