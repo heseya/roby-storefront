@@ -34,6 +34,7 @@
 import { useCheckoutStore } from '@/store/checkout'
 import { RadioGroupOption } from '@/components/form/RadioGroup.vue'
 import { useConfigStore } from '~/store/config'
+import { TRADITIONAL_PAYMENT_KEY } from '~/consts/traditionalPayment'
 
 const t = useLocalI18n()
 const checkout = useCheckoutStore()
@@ -75,8 +76,8 @@ watch(
 )
 
 const TRADITIONAL_TRANSFER: RadioGroupOption = {
-  key: 'traditional',
-  value: 'traditional',
+  key: TRADITIONAL_PAYMENT_KEY,
+  value: TRADITIONAL_PAYMENT_KEY,
   label: t('paymentMethods.traditional'),
 }
 

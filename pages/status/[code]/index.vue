@@ -26,7 +26,7 @@
       </b>
     </div>
 
-    <StatusPaymentMethods v-if="isPaymentMode" class="status-page__payment" />
+    <StatusPaymentMethods v-if="isPaymentMode" :code="orderCode" class="status-page__payment" />
 
     <LayoutButton v-else-if="isPayable" class="status-page__btn" @click="isPaymentMode = true">
       {{ t('payBtn') }}

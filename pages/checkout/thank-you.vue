@@ -14,7 +14,7 @@
       </span>
     </div>
     <div v-if="route.query.code" class="checkout-container__nav">
-      <NuxtLink :to="`/checkout/status/${orderCode}`">
+      <NuxtLink :to="`/status/${orderCode}`">
         <LayoutButton class="checkout-container__btn"> {{ t('container.btn') }}</LayoutButton>
       </NuxtLink>
     </div>
@@ -39,6 +39,7 @@
 
 <script setup lang="ts">
 import ShoppingBag from '@/assets/icons/shopping-bag.svg?component'
+import { TRADITIONAL_PAYMENT_KEY } from '~/consts/traditionalPayment'
 import { useAuthStore } from '~/store/auth'
 definePageMeta({
   layout: 'checkout',
@@ -51,7 +52,7 @@ const t = useLocalI18n()
 
 const orderCode = computed(() => route.query.code as string)
 
-const isTraditionalPayment = computed(() => route.query.payment === 'traditional')
+const isTraditionalPayment = computed(() => route.query.payment === TRADITIONAL_PAYMENT_KEY)
 
 useHead({
   title: t('container.header'),
