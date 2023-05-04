@@ -30,7 +30,7 @@
       </LazyHydrate>
 
       <LazyHydrate when-visible>
-        <HomeImageCarousel
+        <LazyHomeImageCarousel
           v-for="banner in data?.homepageBanners"
           :key="banner.id"
           class="index-page__image-carousel"

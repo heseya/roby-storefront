@@ -26,8 +26,7 @@
 </template>
 
 <script lang="ts" setup>
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { ProductList, ProductSetList } from '@heseya/store-core'
+import { ProductSetList } from '@heseya/store-core'
 import { useCategoriesStore } from '@/store/categories'
 
 const props = withDefaults(
