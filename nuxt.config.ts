@@ -30,14 +30,7 @@ export default defineNuxtConfig({
           content: isProduction ? 'index, follow' : 'noindex, nowfollow',
         },
       ],
-      link: [
-        { rel: 'icon', type: 'image/x-icon', href: '/favicon.png' },
-        { rel: 'preconnect', href: 'https://fonts.gstatic.com' },
-        {
-          rel: 'stylesheet',
-          href: 'https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap',
-        },
-      ],
+      link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.png' }],
       script: [
         {
           src: `https://www.google.com/recaptcha/api.js?render=${RECAPTCHA_PUBLIC}`,
@@ -61,12 +54,19 @@ export default defineNuxtConfig({
   },
 
   modules: [
+    '@nuxtjs/google-fonts',
     '@pinia/nuxt',
     '@pinia-plugin-persistedstate/nuxt',
     '@nuxtjs/i18n',
     '@vueuse/nuxt',
     'nuxt-swiper',
   ],
+
+  googleFonts: {
+    families: {
+      Roboto: [300, 400, 500, 600, 700],
+    },
+  },
 
   i18n: {
     locales: [{ code: 'pl', iso: 'pl-PL', file: 'pl.ts' }],
