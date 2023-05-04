@@ -56,6 +56,7 @@
 
 <script setup lang="ts">
 import { useCartStore } from '@/store/cart'
+import { TRADITIONAL_PAYMENT_KEY } from '~/consts/traditionalPayment'
 import { useCheckoutStore } from '~/store/checkout'
 
 const t = useLocalI18n()
@@ -72,17 +73,14 @@ const createOrder = async () => {
     const order = await checkout.createOrder()
     checkout.reset()
 
-    // TODO: move 'traditional' to some const
-    if (paymentId === 'traditional') {
-      router.push(`/checkout/thank-you?code=${order.code}&payment=traditional`)
+    if (paymentId === TRADITIONAL_PAYMENT_KEY) {
+      router.push(`/checkout/thank-you?code=${order.code}&payment=${TRADITIONAL_PAYMENT_KEY}`)
       return
     }
 
     const paymentUrl = await checkout.createOrderPayment(order.code, paymentId)
     window.location.href = paymentUrl
   } catch (error) {
-    // eslint-disable-next-line no-console
-    console.error('🚀 ~ file: Summary.vue:84 ~ createOrder ~ error:', error)
     notify({
       title: formatError(error),
       type: 'error',

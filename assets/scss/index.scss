@@ -63,6 +63,15 @@ h2 {
 .secondary-text {
   color: var(--secondary-color);
 }
+.blue-text {
+  color: $blue-color;
+}
+.green-text {
+  color: $green-color;
+}
+.error-text {
+  color: $error-color;
+}
 .gray-600-text {
   color: $gray-color-600;
 }

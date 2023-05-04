@@ -5,7 +5,7 @@
         <img class="checkout__logo-img" :src="config.storeLogoUrl" :alt="config.storeName" />
       </NuxtLink>
     </div>
-    <div class="checkout__bar">
+    <div v-if="activeStep" class="checkout__bar">
       <div class="checkout__bar-container">
         <div class="checkout__bar-item checkout__bar-item--filled">
           {{ t('cart') }}
@@ -60,7 +60,8 @@ enum CheckoutStep {
 
 const activeStep = computed(() => {
   if (route.path === '/checkout') return CheckoutStep.Checkout
-  return CheckoutStep.Finished
+  if (route.path === '/checkout/thank-you') return CheckoutStep.Finished
+  return null
 })
 </script>
 <style lang="scss">
