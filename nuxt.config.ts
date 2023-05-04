@@ -60,6 +60,7 @@ export default defineNuxtConfig({
     '@nuxtjs/i18n',
     '@vueuse/nuxt',
     'nuxt-swiper',
+    'nuxt-delay-hydration',
   ],
 
   googleFonts: {
@@ -77,6 +78,12 @@ export default defineNuxtConfig({
 
   piniaPersistedstate: {
     storage: 'localStorage',
+  },
+
+  delayHydration: {
+    mode: 'mount',
+    // enables nuxt-delay-hydration in dev mode for testing
+    debug: process.env.NODE_ENV === 'development',
   },
 
   vite: {
