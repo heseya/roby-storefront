@@ -28,8 +28,8 @@ watch(
   { immediate: true },
 )
 
-useHead({
-  title: t('title'),
+useSeoMeta({
+  title: () => t('title'),
 })
 </script>
 

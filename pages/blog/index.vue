@@ -106,8 +106,8 @@ const changePage = (page: number | string) => {
   })
 }
 
-useHead({
-  title: t('blog'),
+useSeoMeta({
+  title: () => t('blog'),
 })
 
 watch(

@@ -53,8 +53,8 @@ const orderCode = computed(() => route.query.code as string)
 
 const isTraditionalPayment = computed(() => route.query.payment === 'traditional')
 
-useHead({
-  title: t('container.header'),
+useSeoMeta({
+  title: () => t('container.header'),
 })
 </script>
 

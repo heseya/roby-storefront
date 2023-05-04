@@ -84,8 +84,8 @@ import GoNextIcon from '@/assets/icons/navigate-next.svg?component'
 
 const t = useLocalI18n()
 
-useHead({
-  title: t('title'),
+useSeoMeta({
+  title: () => t('title'),
 })
 
 const user = useUser()

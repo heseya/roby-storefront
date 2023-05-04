@@ -68,8 +68,8 @@ const suggestedQuery = computed(() => ({
   available: true,
 }))
 
-useHead({
-  title: t('cart.title'),
+useSeoMeta({
+  title: () => t('cart.title'),
 })
 </script>
 

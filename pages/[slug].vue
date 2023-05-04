@@ -23,15 +23,12 @@ const { data: page, pending } = useAsyncData(`page-${route.params.slug}`, async 
   }
 })
 
-useHead({
-  title: computed(() => page.value?.seo?.title || page.value?.name || ''),
-  meta: [
-    {
-      hid: 'description',
-      name: 'description',
-      content: computed(() => page.value?.seo?.description || ''),
-    },
-  ],
+useSeoMeta({
+  title: () => page.value?.seo?.title || page.value?.name || '',
+  description: () => page.value?.seo?.description || '',
+  ogImage: () => page.value?.seo?.og_image?.url || '',
+  twitterCard: () => page.value?.seo?.twitter_card || 'summary',
+  robots: () => (page.value?.seo?.no_index ? 'no_index' : 'index'),
 })
 </script>
 

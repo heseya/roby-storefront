@@ -21,8 +21,8 @@
 const t = useLocalI18n()
 const { t: $t } = useI18n({ useScope: 'global' })
 
-useHead({
-  title: t('title'),
+useSeoMeta({
+  title: () => t('title'),
 })
 
 const breadcrumbs = computed(() => [

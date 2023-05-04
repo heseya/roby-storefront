@@ -63,8 +63,8 @@ const heseya = useHeseya()
 
 type Section = { type: 'set'; data: ProductSetList } | { type: 'box'; data: LinkBox }
 
-useHead({
-  title: t('title'),
+useSeoMeta({
+  title: () => t('title'),
 })
 
 const { data } = useAsyncData('main-banner', async () => {

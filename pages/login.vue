@@ -67,8 +67,8 @@ onBeforeMount(() => {
   if (auth.isLogged) router.push('/')
 })
 
-useHead({
-  title: t('form.login'),
+useSeoMeta({
+  title: () => t('form.login'),
 })
 </script>
 

@@ -60,8 +60,8 @@ const dateCreated = computed(() =>
   article.value ? formatDate(article.value.date_created, 'dd LLLL yyyy') : '',
 )
 
-useHead({
-  title: computed(() => translatedArticle.value?.title || ''),
+useSeoMeta({
+  title: () => translatedArticle.value?.title || '',
 })
 
 const breadcrumbs = computed(() => [

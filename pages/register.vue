@@ -16,8 +16,8 @@
 <script setup lang="ts">
 const t = useLocalI18n()
 
-useHead({
-  title: t('title'),
+useSeoMeta({
+  title: () => t('title'),
 })
 </script>
 
