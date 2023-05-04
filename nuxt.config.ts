@@ -31,11 +31,7 @@ export default defineNuxtConfig({
         },
       ],
       link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.png' }],
-      script: [
-        {
-          src: `https://www.google.com/recaptcha/api.js?render=${RECAPTCHA_PUBLIC}`,
-        },
-      ],
+      script: [],
     },
   },
 

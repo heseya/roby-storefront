@@ -8,6 +8,8 @@ declare global {
 }
 
 export const getRecaptchaToken = (publicToken: string): Promise<string> => {
+  if (!window.grecaptcha) return Promise.reject(new Error('Recaptcha not loaded'))
+
   return new Promise((resolve, reject) => {
     window.grecaptcha.ready(function () {
       window.grecaptcha

@@ -35,16 +35,7 @@
       label-uppercase
     />
 
-    <small class="product-contact-form__recaptcha">
-      {{ t('recaptcha.message') }} -
-      <a href="https://policies.google.com/privacy" target="_blank" rel="nofollow noopener">
-        {{ t('recaptcha.privacy') }}
-      </a>
-      |
-      <a href="https://policies.google.com/terms" target="_blank" rel="nofollow noopener">
-        {{ t('recaptcha.conditions') }}
-      </a>
-    </small>
+    <LayoutRecaptchaBadge class="product-contact-form__recaptcha" />
 
     <FormCheckbox v-model="form.values.consent" name="consent" rules="required">
       {{ t('consent', { companyName: COMPANY_NAME }) }}
@@ -161,25 +152,6 @@ const onSubmit = form.handleSubmit(async (values) => {
   &__btn {
     min-width: 200px;
     margin-left: auto;
-  }
-
-  &__recaptcha {
-    display: block;
-    width: 100%;
-    text-align: right;
-    font-size: 0.7em;
-    margin-bottom: 4px;
-    color: $gray-color-600;
-
-    a {
-      color: var(--primary-color);
-      text-decoration: none;
-      transition: 0.3s;
-
-      &:hover {
-        color: var(--secondary-color-alt);
-      }
-    }
   }
 }
 </style>
