@@ -9,7 +9,7 @@
           :icon="Menu"
           @click="isOpenCategories = true"
         />
-        <NuxtLink to="/">
+        <NuxtLink to="/" class="nav-items__logo-link">
           <img class="nav-items__logo" :src="config.storeLogoUrl" :alt="config.storeName" />
         </NuxtLink>
         <LayoutNavSearch
@@ -228,10 +228,20 @@ const { data: navLinks } = useAsyncData<NavLink[]>('nav-pages', async () => {
     gap: 40px;
   }
 
+  &__logo-link {
+    display: flex;
+    align-items: center;
+  }
+
   &__logo {
+    display: block;
     height: 38px;
+    width: 175px;
+    object-fit: contain;
+
     @media ($max-viewport-12) {
       height: 20px;
+      width: 125px;
     }
 
     @media ($max-viewport-3) {
