@@ -54,7 +54,6 @@ export default defineNuxtConfig({
   },
 
   modules: [
-    'nuxt-typed-router',
     '@nuxtjs/google-fonts',
     '@pinia/nuxt',
     '@pinia-plugin-persistedstate/nuxt',

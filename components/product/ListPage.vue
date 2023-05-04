@@ -147,7 +147,7 @@ const changeRouteQuery = (query: Record<string, any>) => {
   }
 
   router.push({
-    name: route.name! as any,
+    name: route.name!,
     params: route.params,
     query: {
       ...route.query,
