@@ -1,14 +1,40 @@
 <template>
   <div class="status-page">
-    <h1 class="status-page__title">{{ t('title') }} {{ orderCode }}</h1>
+    <h1 class="status-page__title">{{ t('title') }}</h1>
 
-    {{ order }}
+    <div class="status-page__field">
+      <span class="status-page__field-label">{{ t('fields.number') }}:</span>
+      <span class="status-page__field-value blue-text">{{ orderCode }}</span>
+    </div>
+    <div class="status-page__field">
+      <span class="status-page__field-label">{{ t('fields.status') }}:</span>
+      <span class="status-page__field-value" :style="{ color: `#${order?.status.color}` }">
+        {{ order?.status.name }}
+      </span>
+    </div>
+    <div class="status-page__field">
+      <span class="status-page__field-label">{{ t('fields.payment') }}:</span>
+      <b v-if="order?.paid" class="status-page__field-value green-text">
+        {{ t('payment.paid') }}
+      </b>
+      <b v-else class="status-page__field-value error-text"> {{ t('payment.notPaid') }} </b>
+    </div>
+    <div class="status-page__field">
+      <span class="status-page__field-label">{{ t('fields.value') }}:</span>
+      <b class="status-page__field-value">
+        {{ formatAmount(order?.summary || 0) }}
+      </b>
+    </div>
 
-    <LayoutButton v-if="isPayable" class="status-page__btn">Opłać zamówienie</LayoutButton>
+    <StatusPaymentMethods v-if="isPaymentMode" class="status-page__payment" />
+
+    <LayoutButton v-else-if="isPayable" class="status-page__btn" @click="isPaymentMode = true">
+      {{ t('payBtn') }}
+    </LayoutButton>
 
     <NuxtLink class="status-page__link" to="/">
       <LayoutButton class="status-page__btn" :variant="isPayable ? 'gray' : 'primary'">
-        Przejdź na stronę główną
+        {{ t('cancelBtn') }}
       </LayoutButton>
     </NuxtLink>
   </div>
@@ -18,7 +44,19 @@
 {
   "pl": {
     "title": "Status zamówienia",
-    "notFoundError": "Zamówienie o tym numerze nie istnieje"
+    "notFoundError": "Zamówienie o tym numerze nie istnieje",
+    "fields": {
+      "number": "Numer",
+      "status": "Status",
+      "payment": "Płatność",
+      "value": "Wartość"
+    },
+    "payment": {
+      "paid": "Opłacono",
+      "notPaid": "Nieopłacono"
+    },
+    "payBtn": "Opłać zamówienie",
+    "cancelBtn": "Przejdź na stronę główną"
   }
 }
 </i18n>
@@ -42,6 +80,8 @@ const { data: order } = useAsyncData(`order-summary-${orderCode}`, async () => {
 
 const isPayable = computed(() => order.value?.payable || false)
 
+const isPaymentMode = ref(false)
+
 definePageMeta({
   layout: 'checkout',
 })
@@ -55,8 +95,15 @@ useHead({
   max-width: 400px;
   width: 100%;
   padding: 24px;
+  margin: 0 8px;
   background-color: #fff;
   margin-top: 40px;
+
+  &__field {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0;
+  }
 
   &__title {
     font-size: rem(20);
@@ -70,6 +117,14 @@ useHead({
   &__btn {
     width: 100%;
     margin-top: 8px;
+  }
+
+  &__payment {
+    margin-top: 16px;
+  }
+
+  &__payment-methods {
+    margin: 8px 0;
   }
 }
 </style>
