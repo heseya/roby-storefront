@@ -44,7 +44,7 @@
     "message": {
       "success": "Zalogowano pomyślnie"
     },
-    "accountMigrationInfo": "W związku z aktualizacją bezpieczeństwa, przed pierwszym logowaniem, skorzystaj z opcji \"przypomnij hasło\"."
+    "accountMigrationInfo": "W związku z aktualizacją bezpieczeństwa, przed pierwszym logowaniem, skorzystaj z opcji \"Nie pamiętasz hasła?\"."
   }
 }
 </i18n>

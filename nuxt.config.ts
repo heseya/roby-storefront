@@ -81,14 +81,14 @@ export default defineNuxtConfig({
   },
 
   routeRules: {
-    '/account/**': { swr: true },
+    // '/account/**': { swr: true },
     '/blog/**': { swr: true },
     '/category/**': { swr: true },
     '/checkout/**': { swr: true },
     '/product/**': { swr: true },
     '/search/**': { swr: true },
     '/status/**': { swr: true },
-    '/**': { swr: true },
+    // '/**': { swr: true },
     '/cart': { swr: true },
     '/forgot-password': { static: true },
     '/': { swr: true },
