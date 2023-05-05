@@ -23,13 +23,12 @@
 
     <div v-if="userConsentsDto">
       <AccountConsentsList
-        v-model:userConsents="userConsentsDto"
+        :value="userConsentsDto"
         :force-required="true"
+        :show-save-btn="true"
         @error="(e) => (errorMessage = formatError(e))"
+        @submit="saveConsent"
       />
-      <LayoutButton class="settings-card__button" @click="saveConsent">{{
-        t('saveConsent')
-      }}</LayoutButton>
     </div>
     <div class="settings-card__delete-account" @click="isDeleteAccountModalVisible = true">
       {{ t('deleteAccount') }}
@@ -51,7 +50,6 @@
     "myData": "Moje dane",
     "password": "Hasło",
     "changePassword": "Zmień hasło",
-    "saveConsent": "Zapisz zgody",
     "deleteAccount": "Usuń konto",
     "sucessUpdate": "Zaktualizowano zgody użytkownika."
   }
@@ -78,10 +76,11 @@ const isChangePasswordModalVisible = ref<boolean>(false)
 const isDeleteAccountModalVisible = ref<boolean>(false)
 
 const userConsentsDto = ref<UserConsentDto>({})
-const saveConsent = async () => {
+const saveConsent = async (consents: UserConsentDto) => {
   try {
-    const user = await heseya.UserProfile.update({ consents: userConsentsDto.value })
+    const user = await heseya.UserProfile.update({ consents })
     userStore.setUser(user)
+    userConsentsDto.value = consents
     notify({
       title: t('sucessUpdate'),
       type: 'success',
@@ -105,12 +104,7 @@ onMounted(() => {
   gap: 10px;
 
   &__header {
-    margin-top: 10px;
     font-size: 16px;
-  }
-
-  &__button {
-    width: max-content;
   }
 
   &__container {
@@ -128,6 +122,10 @@ onMounted(() => {
 
     &:hover {
       opacity: 0.7;
+    }
+
+    @media ($max-viewport-12) {
+      font-size: 16px;
     }
   }
 

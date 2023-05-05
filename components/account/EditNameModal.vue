@@ -6,7 +6,12 @@
     :error="error"
     @submit="onSubmit"
   >
-    <FormInput v-model:model-value="form.values.name" :label="t('nameSurname')" name="name" />
+    <FormInput
+      v-model:model-value="form.values.name"
+      :label="t('nameSurname')"
+      name="name"
+      rules="alpha"
+    />
     <FormInput
       :label="t('email')"
       :model-value="userStore.user?.email"
@@ -21,7 +26,7 @@
   "pl": {
     "header": "Moje dane",
     "nameSurname": "Imię i Nazwisko",
-    "email": "Adres Email",
+    "email": "Adres e-mail",
     "sucessUpdate": "Zaktualizowane dane użytkownika."
   }
 }
@@ -79,6 +84,6 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
-.account-form-modal {
+.account-edit-name {
 }
 </style>

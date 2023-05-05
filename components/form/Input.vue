@@ -12,6 +12,7 @@
         :id="id"
         v-model="inputValue"
         class="input__input"
+        :class="{ 'input__input--disabled': disabled }"
         :type="htmlType"
         :autocomplete="autocomplete"
         :name="name"

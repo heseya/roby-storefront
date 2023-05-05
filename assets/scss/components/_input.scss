@@ -31,6 +31,11 @@
     &::placeholder {
       color: $gray-color-600;
     }
+
+    &--disabled {
+      background-color: $gray-color-100;
+      cursor: not-allowed;
+    }
   }
 
   &__label {

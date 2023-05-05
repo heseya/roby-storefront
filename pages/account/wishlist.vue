@@ -1,11 +1,12 @@
 <template>
-  <LayoutAccount>
+  <LayoutAccount class="account-wishlist">
     <LayoutBreadcrumpsProvider :breadcrumbs="breadcrumbs" />
 
     <template #header>
       {{ t('title') }}
     </template>
-    <WishlistView class="wishlist-page__content" small />
+
+    <WishlistView small />
   </LayoutAccount>
 </template>
 
@@ -42,10 +43,4 @@ const breadcrumbs = computed(() => [
 ])
 </script>
 
-<style lang="scss" scoped>
-.wishlist-page {
-  &__content {
-    margin-top: 24px;
-  }
-}
-</style>
+<style lang="scss" scoped></style>
