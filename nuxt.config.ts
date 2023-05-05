@@ -91,7 +91,7 @@ export default defineNuxtConfig({
     '/**': { swr: true },
     '/cart': { swr: true },
     '/forgot-password': { static: true },
-    '/index': { swr: true },
+    '/': { swr: true },
     '/login': { static: true },
     '/register': { swr: true },
     '/wishlist': { swr: true },
