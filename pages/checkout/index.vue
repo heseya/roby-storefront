@@ -83,8 +83,12 @@ const t = useLocalI18n()
 definePageMeta({
   layout: 'checkout',
 })
+
+useSeoMeta({
+  title: () => t('title'),
+})
+
 useHead({
-  title: t('title'),
   // Import of Inpost map widget
   link: [{ rel: 'stylesheet', href: 'https://geowidget.easypack24.net/css/easypack.css' }],
   script: [{ src: 'https://geowidget.easypack24.net/js/sdk-for-javascript.js', async: true }],

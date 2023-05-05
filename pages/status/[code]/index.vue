@@ -85,8 +85,9 @@ const isPaymentMode = ref(false)
 definePageMeta({
   layout: 'checkout',
 })
-useHead({
-  title: t('title'),
+
+useSeoMeta({
+  title: () => t('title'),
 })
 </script>
 

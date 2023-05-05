@@ -43,8 +43,8 @@ useAsyncData(`order-summary-${orderCode}`, async () => {
   }
 })
 
-useHead({
-  title: t('container.header'),
+useSeoMeta({
+  title: () => t('container.header'),
 })
 </script>
 

@@ -120,7 +120,11 @@ export const useCheckoutStore = defineStore('checkout', {
 
       const order = await heseya.Orders.create(this.orderDto)
 
-      ev.emit(HeseyaEvent.Purchase, { order, items: cart.items as CartItem[] })
+      ev.emit(HeseyaEvent.Purchase, {
+        order,
+        items: cart.items as CartItem[],
+        email: this.orderDto.email,
+      })
 
       return order
     },

@@ -713,10 +713,10 @@
   resolved "https://registry.yarnpkg.com/@eslint/js/-/js-8.38.0.tgz#73a8a0d8aa8a8e6fe270431c5e72ae91b5337892"
   integrity sha512-IoD2MfUnOV58ghIHCiil01PcohxjbYR/qCxsoC+xNgUwh1EY8jOOrYmu3d3a71+tJJ23uscEV4X2HJWMsPJu4g==
 
-"@heseya/store-core@5.1.0-dev.1":
-  version "5.1.0-dev.1"
-  resolved "https://registry.yarnpkg.com/@heseya/store-core/-/store-core-5.1.0-dev.1.tgz#101dd2cf16b8495c199e10ac81333e7b6460cd07"
-  integrity sha512-LQBvddmygLfjVZNGqKIP1EhhoKKdYC9/4t3fk4DT1RAUPl3MCgiXGND6yViEakLYoKYbYNJl4NMjoYHS7VHcuw==
+"@heseya/store-core@5.0.0-rc.2":
+  version "5.0.0-rc.2"
+  resolved "https://registry.yarnpkg.com/@heseya/store-core/-/store-core-5.0.0-rc.2.tgz#84f16d2564148ca8660af0bab8fe2116f01e827e"
+  integrity sha512-9kb+kdn5S/WsMCnPcbVZJC5xlUUXJCBP4ExxDJTWJAGs6hxdYyJqX6z7M0aWYwjytt5SIGWrHTujY/lj9hcWlQ==
   dependencies:
     "@types/flat" "^5.0.2"
     array-to-tree "^3.3.2"
