@@ -80,6 +80,24 @@ export default defineNuxtConfig({
     debug: process.env.NODE_ENV === 'development',
   },
 
+  routeRules: {
+    '/account/**': { swr: true },
+    '/blog/**': { swr: true },
+    '/category/**': { swr: true },
+    '/checkout/**': { swr: true },
+    '/product/**': { swr: true },
+    '/search/**': { swr: true },
+    '/status/**': { swr: true },
+    '/**': { swr: true },
+    '/cart': { swr: true },
+    '/forgot-password': { static: true },
+    '/index': { swr: true },
+    '/login': { static: true },
+    '/register': { swr: true },
+    '/wishlist': { swr: true },
+    '/wynajem': { static: true },
+  },
+
   vite: {
     plugins: [svgLoader({ defaultImport: 'url' })],
     css: {
