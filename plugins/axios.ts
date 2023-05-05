@@ -1,10 +1,37 @@
 import axios from 'axios'
 import { enhanceAxiosWithAuthTokenRefreshing } from '@heseya/store-core'
+import { cacheAdapterEnhancer } from 'axios-extensions'
+import { LRUCache } from 'lru-cache'
+
+import { useAuthStore } from '~/store/auth'
 
 export default defineNuxtPlugin((nuxt) => {
-  const baseURL = nuxt.$config.public.apiUrl
+  const { public: config } = useRuntimeConfig()
+  const baseURL = config.apiUrl
 
   const ax = axios.create({ baseURL })
+
+  // ? --------------------------------------------------------------------------------------------
+  // ? Cache
+  //   TODO: this does not work
+  // ? --------------------------------------------------------------------------------------------
+
+  const defaultCache = process.server
+    ? // @ts-ignore // Shared cache on whole ServerSide
+      nuxt.$axCache
+    : new LRUCache({ ttl: Number(config.clientCacheTtl), max: 50 })
+
+  // @ts-ignore
+  ax.defaults.adapter = cacheAdapterEnhancer(axios.defaults.adapter!, {
+    enabledByDefault: false,
+    defaultCache,
+  })
+
+  // ? --------------------------------------------------------------------------------------------
+  // ? Auth
+  // ? --------------------------------------------------------------------------------------------
+  const auth = useAuthStore()
+  const router = useRouter()
 
   const accessToken = useAccessToken()
   const identityToken = useIdentityToken()
@@ -24,8 +51,8 @@ export default defineNuxtPlugin((nuxt) => {
       // TODO: Handle token refresh error, basicly logout user?
       // eslint-disable-next-line no-console
       console.error('Auth Error', error.message)
-      // auth.clearAuth()
-      // router.replace('/')
+      auth.clearAuth()
+      router.replace('/')
     },
   })
 
