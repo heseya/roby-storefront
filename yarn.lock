@@ -5201,7 +5201,7 @@ nuxt-swiper@^1.1.0:
     "@nuxt/kit" "^3.3.3"
     swiper "^9.2.0"
 
-nuxt@^3.4.3:
+nuxt@^3.4.2:
   version "3.4.3"
   resolved "https://registry.yarnpkg.com/nuxt/-/nuxt-3.4.3.tgz#0db58e3a70afa3c06744868cd6a13e5f0d83dbf1"
   integrity sha512-rOEdhHRH33m3L7aJDO7N8C+NC2vSa2mC/0hH/ePmg2S03qkzS0bVg1pIWW9ESDV5UVPFtfhOGoDTEkLJqvE18A==
