@@ -1,9 +1,10 @@
-import { SettingsRecord } from '@heseya/store-core'
+import { SeoMetadata, SettingsRecord } from '@heseya/store-core'
 import { defineStore } from 'pinia'
 
 export const useConfigStore = defineStore('config', {
   state: () => ({
     env: {} as SettingsRecord,
+    seo: {} as SeoMetadata,
   }),
 
   getters: {
@@ -19,6 +20,10 @@ export const useConfigStore = defineStore('config', {
     async fetchConfig() {
       const heseya = useHeseya()
       this.env = await heseya.Settings.get({ array: true })
+    },
+    async fetchSeo() {
+      const heseya = useHeseya()
+      this.seo = await heseya.GlobalSeo.get()
     },
   },
 })

@@ -38,7 +38,7 @@
     <LayoutRecaptchaBadge class="product-contact-form__recaptcha" />
 
     <FormCheckbox v-model="form.values.consent" name="consent" rules="required">
-      {{ t('consent', { companyName: COMPANY_NAME }) }}
+      {{ t('consent', { companyName }) }}
     </FormCheckbox>
 
     <LayoutButton :disabled="isLoading" html-type="submit" class="product-contact-form__btn">
@@ -70,6 +70,7 @@
 import { ProductList } from '@heseya/store-core'
 import axios from 'axios'
 import { useForm } from 'vee-validate'
+import { useConfigStore } from '~/store/config'
 
 const props = withDefaults(
   defineProps<{
@@ -88,6 +89,7 @@ const { notify } = useNotify()
 const {
   public: { recaptchaPublic },
 } = useRuntimeConfig()
+const config = useConfigStore()
 
 const isLoading = ref(false)
 const form = useForm({
@@ -99,8 +101,7 @@ const form = useForm({
   },
 })
 
-// TODO: This should not be hardcoded
-const COMPANY_NAME = '***REMOVED*** s.c.'
+const companyName = computed(() => config.env.company_name)
 
 const onSubmit = form.handleSubmit(async (values) => {
   isLoading.value = true

@@ -14,9 +14,7 @@
       <LazyLayoutBreadcrumps />
     </div>
     <div class="site__footer">
-      <LazyHydrate never>
-        <BaseFooter />
-      </LazyHydrate>
+      <LazyBaseFooter />
     </div>
   </div>
 </template>

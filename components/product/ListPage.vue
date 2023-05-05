@@ -231,7 +231,6 @@ onMounted(() => emitViewEvent())
 <style lang="scss" scoped>
 .product-list-page {
   max-width: $container-width;
-  padding: $container-padding;
   margin: 0 auto;
   position: relative;
 

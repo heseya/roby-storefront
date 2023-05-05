@@ -40,7 +40,7 @@
     "form": {
       "login": "Zaloguj się",
       "register": "Zarejestruj się",
-      "benefits-header": "Mając konto w sklepie ***REMOVED*** możesz:",
+      "benefits-header": "Mając konto w sklepie możesz:",
       "no-account": "Nie masz konta?"
     }
   }

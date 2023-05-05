@@ -13,16 +13,16 @@
     <div class="why-us__partner">
       <img class="partner__image" src="@/assets/images/gold-partner.jpg?url" alt="gold partner" />
       <div class="partner__description">
-        <LayoutHeader class="why-us__header" variant="black"
-          >Jesteśmy autoryzowanym dystrybutorem produktów Canon
+        <LayoutHeader class="why-us__header" variant="black">
+          Jesteśmy autoryzowanym dystrybutorem produktów Canon
         </LayoutHeader>
-        <span
-          >Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
+        <span>
+          Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
           invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et
           accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata
           sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing
-          elitr, sed diam nonumy eirmod.</span
-        >
+          elitr, sed diam nonumy eirmod.
+        </span>
       </div>
     </div>
   </div>

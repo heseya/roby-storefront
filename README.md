@@ -1,4 +1,4 @@
-# ***REMOVED*** Web
+# Roby Storefront Web template
 
 ## IDE
 

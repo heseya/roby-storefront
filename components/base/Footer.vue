@@ -10,7 +10,7 @@
       >
         <NuxtLink
           v-for="page in getSectionPages(section)"
-          :key="page.id"
+          :key="`${section}/${page.id}`"
           :to="localePath(`/${page.slug}`)"
         >
           {{ page.name }}
@@ -82,7 +82,7 @@ const localePath = useLocalePath()
 
 const SECTIONS_COUNT = 4
 
-// TODO: footer logo should also come from the config
+// TODO: [template] footer logo should also come from the config
 const footerLogoPath = FooterLogo
 
 const getFromConfig = (key: string) => (config.env[key] ? String(config.env[key]) : null)
@@ -105,9 +105,7 @@ const { data: sections } = useAsyncData('footer-pages', async () => {
   return pages.map((section) => section.data)
 })
 
-const getSectionPages = (section: number) => {
-  return sections.value?.[section - 1] || []
-}
+const getSectionPages = (section: number) => sections.value?.[section - 1] || []
 
 const getSectionName = (section: number) => String(config.env[`footer_section_name${section}`])
 </script>

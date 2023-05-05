@@ -12,6 +12,7 @@ export default defineNuxtPlugin(async (nuxtApp) => {
 
   await config.fetchConfig()
   await Promise.all([
+    config.fetchSeo(),
     categories.fetchRootCategories(),
     auth.isLogged ? user.fetchProfile() : Promise.resolve(),
   ])
