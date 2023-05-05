@@ -1,13 +1,15 @@
 <template>
-  <LayoutAccount class="account-settings">
+  <NuxtLayout>
     <LayoutBreadcrumpsProvider :breadcrumbs="breadcrumbs" />
 
-    <template #header>
-      {{ t('title') }}
-    </template>
+    <LayoutAccount class="account-settings">
+      <template #header>
+        {{ t('title') }}
+      </template>
 
-    <AccountSettingsCard />
-  </LayoutAccount>
+      <AccountSettingsCard />
+    </LayoutAccount>
+  </NuxtLayout>
 </template>
 
 <i18n lang="json">

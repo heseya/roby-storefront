@@ -1,21 +1,27 @@
 <template>
-  <BaseContainer>
+  <NuxtLayout>
     <LayoutBreadcrumpsProvider :breadcrumbs="breadcrumbs" />
-    <LayoutLoading :active="pending" />
-    <div class="blog-page">
-      <h1 class="blog-page__title">{{ translatedArticle?.title }}</h1>
-      <div class="blog-page__img">
-        <img :src="imageUrl" :alt="translatedArticle?.description" />
-      </div>
-      <div class="blog-page__info">
-        <div class="blog-page__tags">
-          <BlogTranslatedTag v-for="tag in article?.tags ?? []" :key="tag.id" :tag="tag" />
+
+    <BaseContainer>
+      <LayoutLoading :active="pending" />
+      <div class="blog-page">
+        <h1 class="blog-page__title">{{ translatedArticle?.title }}</h1>
+        <div class="blog-page__img">
+          <img :src="imageUrl" :alt="translatedArticle?.description" />
         </div>
-        <div class="blog-page__date">{{ dateCreated }}</div>
+        <div class="blog-page__info">
+          <div class="blog-page__tags">
+            <BlogTranslatedTag v-for="tag in article?.tags ?? []" :key="tag.id" :tag="tag" />
+          </div>
+          <div class="blog-page__date">{{ dateCreated }}</div>
+        </div>
+        <BaseWysiwygContent
+          v-if="translatedArticle?.content"
+          :content="translatedArticle.content"
+        />
       </div>
-      <BaseWysiwygContent v-if="translatedArticle?.content" :content="translatedArticle.content" />
-    </div>
-  </BaseContainer>
+    </BaseContainer>
+  </NuxtLayout>
 </template>
 
 <script setup lang="ts">

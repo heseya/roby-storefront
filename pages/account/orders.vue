@@ -1,7 +1,8 @@
 <template>
-  <div v-if="orders">
-    <LayoutAccount class="account-orders">
-      <LayoutBreadcrumpsProvider :breadcrumbs="breadcrumbs" />
+  <NuxtLayout>
+    <LayoutBreadcrumpsProvider :breadcrumbs="breadcrumbs" />
+
+    <LayoutAccount v-if="orders" class="account-orders">
       <template #header>
         {{ t('title') }}
       </template>
@@ -15,7 +16,7 @@
         @go="changePage"
       />
     </LayoutAccount>
-  </div>
+  </NuxtLayout>
 </template>
 
 <i18n lang="json">

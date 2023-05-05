@@ -1,9 +1,9 @@
 <template>
   <div>
-    <NuxtLayout>
-      <NuxtLoadingIndicator />
-      <NuxtPage />
-    </NuxtLayout>
+    <NuxtLoadingIndicator />
+
+    <NuxtPage />
+
     <ClientOnly>
       <Notifications position="bottom right" />
     </ClientOnly>

@@ -1,9 +1,11 @@
 <template>
-  <BaseContainer class="wishlist-page">
+  <NuxtLayout>
     <LayoutBreadcrumpsProvider :breadcrumbs="[{ label: t('title'), link: '/wishlist' }]" />
 
-    <WishlistView class="wishlist-page__content" />
-  </BaseContainer>
+    <BaseContainer class="wishlist-page">
+      <WishlistView class="wishlist-page__content" />
+    </BaseContainer>
+  </NuxtLayout>
 </template>
 
 <i18n lang="json">

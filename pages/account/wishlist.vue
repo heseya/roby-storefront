@@ -1,13 +1,15 @@
 <template>
-  <LayoutAccount class="account-wishlist">
+  <NuxtLayout>
     <LayoutBreadcrumpsProvider :breadcrumbs="breadcrumbs" />
 
-    <template #header>
-      {{ t('title') }}
-    </template>
+    <LayoutAccount class="account-wishlist">
+      <template #header>
+        {{ t('title') }}
+      </template>
 
-    <WishlistView small />
-  </LayoutAccount>
+      <WishlistView small />
+    </LayoutAccount>
+  </NuxtLayout>
 </template>
 
 <i18n lang="json">

@@ -1,24 +1,27 @@
 <template>
-  <div class="rent-page">
-    <BaseContainer class="rent-page__content">
-      <div>
-        <LayoutBreadcrumpsProvider :breadcrumbs="breadcrumb" />
-        <LayoutHeader variant="black" tag="h1" class="rent-page__title">
-          {{ t('title') }}
-        </LayoutHeader>
-      </div>
-    </BaseContainer>
-    <BaseContainer class="rent-page__content">
-      <RentSteps />
-      <RentAdvantages />
-    </BaseContainer>
-    <RentBanner class="rent-page__banner" />
-    <BaseContainer class="rent-page__content">
-      <RentWhyOtherChose />
-      <RentFillForm />
-      <RentFaq />
-    </BaseContainer>
-  </div>
+  <NuxtLayout>
+    <LayoutBreadcrumpsProvider :breadcrumbs="breadcrumb" />
+
+    <div class="rent-page">
+      <BaseContainer class="rent-page__content">
+        <div>
+          <LayoutHeader variant="black" tag="h1" class="rent-page__title">
+            {{ t('title') }}
+          </LayoutHeader>
+        </div>
+      </BaseContainer>
+      <BaseContainer class="rent-page__content">
+        <RentSteps />
+        <RentAdvantages />
+      </BaseContainer>
+      <RentBanner class="rent-page__banner" />
+      <BaseContainer class="rent-page__content">
+        <RentWhyOtherChose />
+        <RentFillForm />
+        <RentFaq />
+      </BaseContainer>
+    </div>
+  </NuxtLayout>
 </template>
 
 <i18n lang="json">

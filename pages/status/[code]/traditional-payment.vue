@@ -1,7 +1,9 @@
 <template>
-  <div class="checkout-container">
-    <CheckoutTraditionalPaymentDetails :code="orderCode" />
-  </div>
+  <NuxtLayout name="checkout">
+    <div class="checkout-container">
+      <CheckoutTraditionalPaymentDetails :code="orderCode" />
+    </div>
+  </NuxtLayout>
 </template>
 
 <i18n lang="json">
@@ -14,10 +16,6 @@
 </i18n>
 
 <script setup lang="ts">
-definePageMeta({
-  layout: 'checkout',
-})
-
 const route = useRoute()
 const router = useRouter()
 const { notify } = useNotify()

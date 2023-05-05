@@ -1,11 +1,14 @@
 <template>
-  <BaseContainer>
+  <NuxtLayout>
     <LayoutBreadcrumpsProvider :breadcrumbs="[{ label: page?.name || '', link: route.fullPath }]" />
-    <LayoutLoading :active="pending" />
-    <div class="page">
-      <BaseWysiwygContent :content="page?.content_html" />
-    </div>
-  </BaseContainer>
+
+    <BaseContainer>
+      <LayoutLoading :active="pending" />
+      <div class="page">
+        <BaseWysiwygContent :content="page?.content_html" />
+      </div>
+    </BaseContainer>
+  </NuxtLayout>
 </template>
 
 <i18n lang="json">
@@ -23,7 +26,8 @@ const t = useLocalI18n()
 
 const { data: page, pending } = useAsyncData(`page-${route.params.slug}`, async () => {
   try {
-    return await heseya.Pages.getOneBySlug(route.params.slug as string)
+    const page = await heseya.Pages.getOneBySlug(route.params.slug as string)
+    return page
   } catch (e: any) {
     if (e?.response?.status === 404) showError({ message: t('notFoundError'), statusCode: 404 })
     else showError({ message: e.statusCode, statusCode: 500 })

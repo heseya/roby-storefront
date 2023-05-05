@@ -1,44 +1,46 @@
 <template>
-  <BaseContainer class="cart-page">
-    <div class="cart-page__content">
-      <div class="cart-page__cart">
-        <h1 class="cart-page__title">
-          {{ t('cart.title') }}
+  <NuxtLayout>
+    <BaseContainer class="cart-page">
+      <div class="cart-page__content">
+        <div class="cart-page__cart">
+          <h1 class="cart-page__title">
+            {{ t('cart.title') }}
+            <ClientOnly>
+              <span class="cart-page__subtext">({{ cart.length }})</span>
+            </ClientOnly>
+          </h1>
+
           <ClientOnly>
-            <span class="cart-page__subtext">({{ cart.length }})</span>
+            <div v-if="!isCartEmpty" class="cart-page__list">
+              <LazyCartItem
+                v-for="item in cart.items"
+                :key="item.id"
+                :item="item"
+                class="cart-page__item"
+              />
+            </div>
+
+            <LazyCartEmpty v-else class="cart-page__empty" />
           </ClientOnly>
-        </h1>
+        </div>
 
-        <ClientOnly>
-          <div v-if="!isCartEmpty" class="cart-page__list">
-            <LazyCartItem
-              v-for="item in cart.items"
-              :key="item.id"
-              :item="item"
-              class="cart-page__item"
-            />
-          </div>
+        <div class="cart-page__summary">
+          <h2 class="cart-page__title cart-page__title--hideable">{{ t('cart.summary') }}</h2>
 
-          <LazyCartEmpty v-else class="cart-page__empty" />
-        </ClientOnly>
+          <ClientOnly>
+            <CartSummary class="cart-page__summary-box" :disabled="isCartEmpty" />
+          </ClientOnly>
+        </div>
       </div>
 
-      <div class="cart-page__summary">
-        <h2 class="cart-page__title cart-page__title--hideable">{{ t('cart.summary') }}</h2>
-
-        <ClientOnly>
-          <CartSummary class="cart-page__summary-box" :disabled="isCartEmpty" />
-        </ClientOnly>
-      </div>
-    </div>
-
-    <ProductSimpleCarousel
-      v-if="!isCartEmpty"
-      class="cart-page__suggested"
-      :query="suggestedQuery"
-      :title="t('cart.suggested')"
-    />
-  </BaseContainer>
+      <ProductSimpleCarousel
+        v-if="!isCartEmpty"
+        class="cart-page__suggested"
+        :query="suggestedQuery"
+        :title="t('cart.suggested')"
+      />
+    </BaseContainer>
+  </NuxtLayout>
 </template>
 
 <i18n lang="json">

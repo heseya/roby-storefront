@@ -1,101 +1,105 @@
 <template>
-  <BaseContainer class="product-page">
+  <NuxtLayout>
     <LayoutBreadcrumpsProvider :breadcrumbs="breadcrumbs" />
 
-    <div class="product-page__header product-header">
-      <ProductPageCover class="product-header__gallery" :media="product?.gallery || []" />
+    <BaseContainer class="product-page">
+      <div class="product-page__header product-header">
+        <ProductPageCover class="product-header__gallery" :media="product?.gallery || []" />
 
-      <div class="product-header__summary">
-        <ClientOnly>
-          <ProductPageFavouriteButton
-            v-if="product"
-            class="product-header__fav-btn"
-            :product="product"
-          />
-        </ClientOnly>
+        <div class="product-header__summary">
+          <ClientOnly>
+            <ProductPageFavouriteButton
+              v-if="product"
+              class="product-header__fav-btn"
+              :product="product"
+            />
+          </ClientOnly>
 
-        <h1 class="product-header__title">{{ product?.name }}</h1>
-        <span class="product-header__subtitle"> {{ getProductSubtext(product) }} </span>
-        <div class="product-header__sales">
-          <ProductTag v-for="sale in product?.sales || []" :key="sale.id" type="sale">
-            {{ sale.name }}
-          </ProductTag>
-        </div>
+          <h1 class="product-header__title">{{ product?.name }}</h1>
+          <span class="product-header__subtitle"> {{ getProductSubtext(product) }} </span>
+          <div class="product-header__sales">
+            <ProductTag v-for="sale in product?.sales || []" :key="sale.id" type="sale">
+              {{ sale.name }}
+            </ProductTag>
+          </div>
 
-        <LayoutTabs
-          v-if="showPrice"
-          class="product-header__tabs"
-          type="gray"
-          hide-single-tab
-          :tabs="productPurchaseTabs"
-        >
-          <template #buy> <ProductPagePurchasePanel v-if="product" :product="product" /> </template>
-          <template #renting>
+          <LayoutTabs
+            v-if="showPrice"
+            class="product-header__tabs"
+            type="gray"
+            hide-single-tab
+            :tabs="productPurchaseTabs"
+          >
+            <template #buy>
+              <ProductPagePurchasePanel v-if="product" :product="product" />
+            </template>
+            <template #renting>
+              <LazyProductPageContactForm
+                v-if="product"
+                :product="product"
+                type="renting"
+                :action-text="t('tabs.renting')"
+              />
+            </template>
+          </LayoutTabs>
+
+          <div v-else class="product-header__form">
             <LazyProductPageContactForm
               v-if="product"
               :product="product"
-              type="renting"
-              :action-text="t('tabs.renting')"
-            />
-          </template>
-        </LayoutTabs>
-
-        <div v-else class="product-header__form">
-          <LazyProductPageContactForm
-            v-if="product"
-            :product="product"
-            type="price"
-            :action-text="t('tabs.pricing')"
-          />
-        </div>
-      </div>
-    </div>
-
-    <LayoutTabs class="product-page__main" :tabs="productDescriptionTabs">
-      <template #description>
-        <div class="product-page__description-wrapper">
-          <div>
-            <LazyBaseWysiwygContent :content="product?.description_html" />
-            <LazyProductPageAttachments
-              v-if="product?.attachments.length"
-              :attachments="product?.attachments"
-              class="product-page__attachments"
+              type="price"
+              :action-text="t('tabs.pricing')"
             />
           </div>
+        </div>
+      </div>
 
-          <LazyProductPageAttributeCard v-if="product" :product="product" />
+      <LayoutTabs class="product-page__main" :tabs="productDescriptionTabs">
+        <template #description>
+          <div class="product-page__description-wrapper">
+            <div>
+              <LazyBaseWysiwygContent :content="product?.description_html" />
+              <LazyProductPageAttachments
+                v-if="product?.attachments.length"
+                :attachments="product?.attachments"
+                class="product-page__attachments"
+              />
+            </div>
+
+            <LazyProductPageAttributeCard v-if="product" :product="product" />
+          </div>
+        </template>
+
+        <template #additionalInfo>
+          <LazyProductPageAttributes v-if="product" :product="product" />
+        </template>
+
+        <template v-for="page in globalPages" :key="page.id" #[page.slug]>
+          <LazyBaseWysiwygContent :content="page?.content_html" />
+        </template>
+      </LayoutTabs>
+
+      <template v-if="product?.sales.length">
+        <h2 class="primary-text">
+          {{ t('salesTitle') }}
+          <span class="gray-600-text" :style="{ fontWeight: 400 }">
+            ({{ product?.sales.length }})
+          </span>
+        </h2>
+        <div class="product-page__sales">
+          <LazyProductPageSale v-for="sale in product?.sales || []" :key="sale.id" :sale="sale" />
         </div>
       </template>
 
-      <template #additionalInfo>
-        <LazyProductPageAttributes v-if="product" :product="product" />
-      </template>
-
-      <template v-for="page in globalPages" :key="page.id" #[page.slug]>
-        <LazyBaseWysiwygContent :content="page?.content_html" />
-      </template>
-    </LayoutTabs>
-
-    <template v-if="product?.sales.length">
-      <h2 class="primary-text">
-        {{ t('salesTitle') }}
-        <span class="gray-600-text" :style="{ fontWeight: 400 }">
-          ({{ product?.sales.length }})
-        </span>
-      </h2>
-      <div class="product-page__sales">
-        <LazyProductPageSale v-for="sale in product?.sales || []" :key="sale.id" :sale="sale" />
-      </div>
-    </template>
-
-    <ProductSimpleCarousel
-      v-for="set in product?.related_sets || []"
-      :key="set.id"
-      class="product-page__related-products"
-      :title="set.name"
-      :query="{ sets: [set.slug] }"
-    />
-  </BaseContainer>
+      <ProductSimpleCarousel
+        v-for="set in product?.related_sets || []"
+        :key="set.id"
+        class="product-page__related-products"
+        :title="set.name"
+        :query="{ sets: [set.slug] }"
+      />
+    </BaseContainer>
+  </NuxtLayout>
 </template>
 
 <i18n lang="json">

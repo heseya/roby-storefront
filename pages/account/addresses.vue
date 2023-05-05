@@ -1,14 +1,17 @@
 <template>
-  <LayoutAccount class="account-addresses">
+  <NuxtLayout>
     <LayoutBreadcrumpsProvider :breadcrumbs="breadcrumbs" />
-    <template #header>
-      {{ t('title') }}
-    </template>
-    <div class="account-addresses__container">
-      <AccountAddressList :address-list="deliveryAddresses" />
-      <AccountAddressList :address-list="billingAddresses" :is-billing-address="true" />
-    </div>
-  </LayoutAccount>
+
+    <LayoutAccount class="account-addresses">
+      <template #header>
+        {{ t('title') }}
+      </template>
+      <div class="account-addresses__container">
+        <AccountAddressList :address-list="deliveryAddresses" />
+        <AccountAddressList :address-list="billingAddresses" :is-billing-address="true" />
+      </div>
+    </LayoutAccount>
+  </NuxtLayout>
 </template>
 
 <i18n lang="json">

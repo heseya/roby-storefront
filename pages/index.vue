@@ -1,48 +1,50 @@
 <template>
-  <div class="index-page">
-    <LazyHydrate when-idle>
-      <HomeBanner v-if="data?.mainBanner" class="index-page__banner" :banner="data?.mainBanner" />
-    </LazyHydrate>
+  <NuxtLayout>
+    <div class="index-page">
+      <LazyHydrate when-idle>
+        <HomeBanner v-if="data?.mainBanner" class="index-page__banner" :banner="data?.mainBanner" />
+      </LazyHydrate>
 
-    <template
-      v-for="section in sections"
-      :key="section.type === 'box' ? section.data.text : section.data.id"
-    >
-      <BaseContainer
-        class="index-page__content"
-        :class="{ 'index-page__content--wide': section.type === 'box' }"
+      <template
+        v-for="section in sections"
+        :key="section.type === 'box' ? section.data.text : section.data.id"
       >
-        <LazyHydrate when-idle>
-          <HomeProductCarousel v-if="section.type === 'set'" :category="section.data" />
+        <BaseContainer
+          class="index-page__content"
+          :class="{ 'index-page__content--wide': section.type === 'box' }"
+        >
+          <LazyHydrate when-idle>
+            <HomeProductCarousel v-if="section.type === 'set'" :category="section.data" />
 
-          <HomeLinkBox v-if="section.type === 'box'" :link="section.data" />
+            <HomeLinkBox v-if="section.type === 'box'" :link="section.data" />
+          </LazyHydrate>
+        </BaseContainer>
+      </template>
+
+      <LazyHydrate when-visible>
+        <HomeBlogArticlesList />
+      </LazyHydrate>
+
+      <BaseContainer class="index-page__content">
+        <LazyHydrate when-visible>
+          <HomeWhyUs />
+        </LazyHydrate>
+
+        <LazyHydrate when-visible>
+          <LazyHomeImageCarousel
+            v-for="banner in data?.homepageBanners"
+            :key="banner.id"
+            class="index-page__image-carousel"
+            :banner="banner"
+            :title="banner.name"
+            :gray-filter="!!banner.metadata.gray_filter"
+            :image-height="banner.metadata.image_height"
+            :image-width="banner.metadata.image_width"
+          />
         </LazyHydrate>
       </BaseContainer>
-    </template>
-
-    <LazyHydrate when-visible>
-      <HomeBlogArticlesList />
-    </LazyHydrate>
-
-    <BaseContainer class="index-page__content">
-      <LazyHydrate when-visible>
-        <HomeWhyUs />
-      </LazyHydrate>
-
-      <LazyHydrate when-visible>
-        <LazyHomeImageCarousel
-          v-for="banner in data?.homepageBanners"
-          :key="banner.id"
-          class="index-page__image-carousel"
-          :banner="banner"
-          :title="banner.name"
-          :gray-filter="!!banner.metadata.gray_filter"
-          :image-height="banner.metadata.image_height"
-          :image-width="banner.metadata.image_width"
-        />
-      </LazyHydrate>
-    </BaseContainer>
-  </div>
+    </div>
+  </NuxtLayout>
 </template>
 
 <i18n lang="json">

@@ -10,8 +10,9 @@
       <div class="site__main">
         <slot></slot>
       </div>
-
-      <LazyLayoutBreadcrumps />
+      <LazyHydrate when-idle>
+        <LayoutBreadcrumps />
+      </LazyHydrate>
     </div>
     <div class="site__footer">
       <BaseFooter />

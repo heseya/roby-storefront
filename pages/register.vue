@@ -1,8 +1,11 @@
 <template>
-  <div class="register-content">
+  <NuxtLayout>
     <LayoutBreadcrumpsProvider :breadcrumbs="[{ label: t('title'), link: '/register' }]" />
-    <AuthRegisterForm @registered="() => $router.push('/login')" />
-  </div>
+
+    <div class="register-content">
+      <AuthRegisterForm @registered="() => $router.push('/login')" />
+    </div>
+  </NuxtLayout>
 </template>
 
 <i18n lang="json">

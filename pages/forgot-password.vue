@@ -1,29 +1,31 @@
 <template>
-  <div class="forgot-password" @submit.prevent="onSubmit">
-    <LayoutBreadcrumpsProvider :breadcrumbs="[{ label: t('title'), link: '/forgot-password' }]" />
-    <form v-if="!formStatus.send" class="forgot-password__form">
-      <h2 class="forgot-password__header">{{ t('form.header') }}</h2>
-      <span class="forgot-password__description">{{ t('form.description') }}</span>
-      <FormInput
-        v-model="form.values.email"
-        name="email"
-        :label="t('form.email')"
-        rules="required|email"
-      />
-      <LayoutButton class="forgot-password__btn" :label="t('form.send')" html-type="submit" />
+  <NuxtLayout>
+    <div class="forgot-password" @submit.prevent="onSubmit">
+      <LayoutBreadcrumpsProvider :breadcrumbs="[{ label: t('title'), link: '/forgot-password' }]" />
+      <form v-if="!formStatus.send" class="forgot-password__form">
+        <h2 class="forgot-password__header">{{ t('form.header') }}</h2>
+        <span class="forgot-password__description">{{ t('form.description') }}</span>
+        <FormInput
+          v-model="form.values.email"
+          name="email"
+          :label="t('form.email')"
+          rules="required|email"
+        />
+        <LayoutButton class="forgot-password__btn" :label="t('form.send')" html-type="submit" />
 
-      <span v-if="errorMessage" class="forgot-password__error">{{ errorMessage }}</span>
-    </form>
-    <div v-else>
-      <p>
-        {{ t('message') }}<b>{{ formStatus.email }}</b
-        >{{ t('message2') }}
-      </p>
+        <span v-if="errorMessage" class="forgot-password__error">{{ errorMessage }}</span>
+      </form>
+      <div v-else>
+        <p>
+          {{ t('message') }}<b>{{ formStatus.email }}</b
+          >{{ t('message2') }}
+        </p>
+      </div>
+      <NuxtLink :to="'/login'" class="forgot-password__nav">
+        &lt; {{ t('form.backToLogin') }}</NuxtLink
+      >
     </div>
-    <NuxtLink :to="'/login'" class="forgot-password__nav">
-      &lt; {{ t('form.backToLogin') }}</NuxtLink
-    >
-  </div>
+  </NuxtLayout>
 </template>
 
 <i18n lang="json">

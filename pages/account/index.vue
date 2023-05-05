@@ -1,32 +1,35 @@
 <template>
-  <BaseContainer>
+  <NuxtLayout>
     <LayoutBreadcrumpsProvider :breadcrumbs="breadcrumbs" />
-    <LayoutAccount>
-      <LayoutAccountNav class="account-page__nav" />
-      <template v-if="!errorMessage" #header> {{ t('welcome') }}{{ user?.name }} </template>
-      <template #text>
-        {{ t('message') }}
-      </template>
-      <div v-if="!errorMessage" class="account-page__container">
-        <AccountOrderCard
-          v-if="userLastOrder"
-          :code="userLastOrder.code"
-          link="/account/orders"
-          :header="t('lastOrder')"
-        />
-        <LayoutAccountOrder :header="t('wishList')" :link="`/account/wishlist`">
-          <div v-if="wishlist?.userWishlist" class="account-page__items-list">
-            <div v-for="product in wishlist.products" :key="product.id">
-              <AccountProductCard :product="product" />
+
+    <BaseContainer>
+      <LayoutAccount>
+        <LayoutAccountNav class="account-page__nav" />
+        <template v-if="!errorMessage" #header> {{ t('welcome') }}{{ user?.name }} </template>
+        <template #text>
+          {{ t('message') }}
+        </template>
+        <div v-if="!errorMessage" class="account-page__container">
+          <AccountOrderCard
+            v-if="userLastOrder"
+            :code="userLastOrder.code"
+            link="/account/orders"
+            :header="t('lastOrder')"
+          />
+          <LayoutAccountOrder :header="t('wishList')" :link="`/account/wishlist`">
+            <div v-if="wishlist?.userWishlist" class="account-page__items-list">
+              <div v-for="product in wishlist.products" :key="product.id">
+                <AccountProductCard :product="product" />
+              </div>
             </div>
-          </div>
-        </LayoutAccountOrder>
-      </div>
-      <LayoutInfoBox v-else type="danger">
-        {{ errorMessage }}
-      </LayoutInfoBox>
-    </LayoutAccount>
-  </BaseContainer>
+          </LayoutAccountOrder>
+        </div>
+        <LayoutInfoBox v-else type="danger">
+          {{ errorMessage }}
+        </LayoutInfoBox>
+      </LayoutAccount>
+    </BaseContainer>
+  </NuxtLayout>
 </template>
 
 <i18n lang="json">

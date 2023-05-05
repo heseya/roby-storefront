@@ -1,43 +1,45 @@
 <template>
-  <div class="status-page">
-    <h1 class="status-page__title">{{ t('title') }}</h1>
+  <NuxtLayout name="checkout">
+    <div class="status-page">
+      <h1 class="status-page__title">{{ t('title') }}</h1>
 
-    <div class="status-page__field">
-      <span class="status-page__field-label">{{ t('fields.number') }}:</span>
-      <span class="status-page__field-value blue-text">{{ orderCode }}</span>
-    </div>
-    <div class="status-page__field">
-      <span class="status-page__field-label">{{ t('fields.status') }}:</span>
-      <span class="status-page__field-value" :style="{ color: `#${order?.status.color}` }">
-        {{ order?.status.name }}
-      </span>
-    </div>
-    <div class="status-page__field">
-      <span class="status-page__field-label">{{ t('fields.payment') }}:</span>
-      <b v-if="order?.paid" class="status-page__field-value green-text">
-        {{ t('payment.paid') }}
-      </b>
-      <b v-else class="status-page__field-value error-text"> {{ t('payment.notPaid') }} </b>
-    </div>
-    <div class="status-page__field">
-      <span class="status-page__field-label">{{ t('fields.value') }}:</span>
-      <b class="status-page__field-value">
-        {{ formatAmount(order?.summary || 0) }}
-      </b>
-    </div>
+      <div class="status-page__field">
+        <span class="status-page__field-label">{{ t('fields.number') }}:</span>
+        <span class="status-page__field-value blue-text">{{ orderCode }}</span>
+      </div>
+      <div class="status-page__field">
+        <span class="status-page__field-label">{{ t('fields.status') }}:</span>
+        <span class="status-page__field-value" :style="{ color: `#${order?.status.color}` }">
+          {{ order?.status.name }}
+        </span>
+      </div>
+      <div class="status-page__field">
+        <span class="status-page__field-label">{{ t('fields.payment') }}:</span>
+        <b v-if="order?.paid" class="status-page__field-value green-text">
+          {{ t('payment.paid') }}
+        </b>
+        <b v-else class="status-page__field-value error-text"> {{ t('payment.notPaid') }} </b>
+      </div>
+      <div class="status-page__field">
+        <span class="status-page__field-label">{{ t('fields.value') }}:</span>
+        <b class="status-page__field-value">
+          {{ formatAmount(order?.summary || 0) }}
+        </b>
+      </div>
 
-    <StatusPaymentMethods v-if="isPaymentMode" :code="orderCode" class="status-page__payment" />
+      <StatusPaymentMethods v-if="isPaymentMode" :code="orderCode" class="status-page__payment" />
 
-    <LayoutButton v-else-if="isPayable" class="status-page__btn" @click="isPaymentMode = true">
-      {{ t('payBtn') }}
-    </LayoutButton>
-
-    <NuxtLink class="status-page__link" to="/">
-      <LayoutButton class="status-page__btn" :variant="isPayable ? 'gray' : 'primary'">
-        {{ t('cancelBtn') }}
+      <LayoutButton v-else-if="isPayable" class="status-page__btn" @click="isPaymentMode = true">
+        {{ t('payBtn') }}
       </LayoutButton>
-    </NuxtLink>
-  </div>
+
+      <NuxtLink class="status-page__link" to="/">
+        <LayoutButton class="status-page__btn" :variant="isPayable ? 'gray' : 'primary'">
+          {{ t('cancelBtn') }}
+        </LayoutButton>
+      </NuxtLink>
+    </div>
+  </NuxtLayout>
 </template>
 
 <i18n lang="json">
@@ -81,10 +83,6 @@ const { data: order } = useAsyncData(`order-summary-${orderCode}`, async () => {
 const isPayable = computed(() => order.value?.payable || false)
 
 const isPaymentMode = ref(false)
-
-definePageMeta({
-  layout: 'checkout',
-})
 
 useSeoMeta({
   title: () => t('title'),

@@ -1,13 +1,15 @@
 <template>
-  <BaseContainer class="categories-page">
+  <NuxtLayout>
     <LayoutBreadcrumpsProvider :breadcrumbs="breadcrumbs" />
 
-    <ProductListPage :title="category?.name" :sets="[route.params.slug as string]">
-      <template #aside>
-        <SubcategoriesLinks v-if="category" :category="category" />
-      </template>
-    </ProductListPage>
-  </BaseContainer>
+    <BaseContainer class="categories-page">
+      <ProductListPage :title="category?.name" :sets="[route.params.slug as string]">
+        <template #aside>
+          <SubcategoriesLinks v-if="category" :category="category" />
+        </template>
+      </ProductListPage>
+    </BaseContainer>
+  </NuxtLayout>
 </template>
 
 <i18n lang="json">

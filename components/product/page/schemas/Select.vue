@@ -8,7 +8,7 @@
       class="schema-select__option"
     >
       {{ option.name }}
-      <span v-if="option.price > 0"> (+{{ formatAmount(option.price) }}) </span>
+      <template v-if="option.price > 0"> (+{{ formatAmount(option.price) }}) </template>
     </option>
   </FormSelect>
 </template>
