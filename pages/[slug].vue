@@ -31,13 +31,7 @@ const { data: page, pending } = useAsyncData(`page-${route.params.slug}`, async 
   }
 })
 
-useSeoMeta({
-  title: () => page.value?.seo?.title || page.value?.name || '',
-  description: () => page.value?.seo?.description || '',
-  ogImage: () => page.value?.seo?.og_image?.url || '',
-  twitterCard: () => page.value?.seo?.twitter_card || 'summary',
-  robots: () => (page.value?.seo?.no_index ? 'no_index' : 'index'),
-})
+useSeo(() => [page.value?.seo, { title: page.value?.name }])
 </script>
 
 <style lang="scss" scoped>

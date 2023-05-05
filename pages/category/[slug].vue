@@ -41,13 +41,7 @@ const { data: category } = useAsyncData(`category-${route.params.slug}`, async (
   }
 })
 
-useSeoMeta({
-  title: () => category.value?.seo?.title || category.value?.name || '',
-  description: () => category.value?.seo?.description || '',
-  ogImage: () => category.value?.seo?.og_image?.url || '',
-  twitterCard: () => category.value?.seo?.twitter_card || 'summary',
-  robots: () => (category.value?.seo?.no_index ? 'no_index' : 'index'),
-})
+useSeo(() => [category.value?.seo, { title: category.value?.name }])
 
 const breadcrumbs = computed(() => [
   category.value?.parent

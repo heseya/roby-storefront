@@ -5,6 +5,10 @@ export default {
     blog: 'Blog',
   },
 
+  seo: {
+    loading: 'Wczytywanie...',
+  },
+
   wishlist: {
     added: 'Produkt został dodany do listy życzeń.',
     removed: 'Produkt został usunięty z listy życzeń.',

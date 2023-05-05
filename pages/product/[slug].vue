@@ -161,13 +161,7 @@ const breadcrumbs = computed(() => [
   { label: product.value?.name || '', link: route.fullPath },
 ])
 
-useSeoMeta({
-  title: () => product.value?.seo?.title || product.value?.name || '',
-  description: () => product.value?.seo?.description || product.value?.description_short || '',
-  ogImage: () => product.value?.seo?.og_image?.url || '',
-  twitterCard: () => product.value?.seo?.twitter_card || 'summary',
-  robots: () => (product.value?.seo?.no_index ? 'no_index' : 'index'),
-})
+useSeo(() => [product.value?.seo, { title: product.value?.name }])
 
 const showPrice = computed(() => {
   return !product.value?.metadata?.[ASK_FOR_PRICE_KEY] ?? true

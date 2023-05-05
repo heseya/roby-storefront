@@ -60,9 +60,7 @@ const dateCreated = computed(() =>
   article.value ? formatDate(article.value.date_created, 'dd LLLL yyyy') : '',
 )
 
-useSeoMeta({
-  title: () => translatedArticle.value?.title || '',
-})
+useSeo(() => [{ title: translatedArticle.value?.title }])
 
 const breadcrumbs = computed(() => [
   { label: t('breadcrumbs.blog'), link: `/blog` },
