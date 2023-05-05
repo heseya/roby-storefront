@@ -106,7 +106,9 @@ const emit = defineEmits<{
   (event: 'update:address', value: AddressDto): void
 }>()
 
-const { data: countries } = useAsyncData('countries', () => heseya.ShippingMethods.getCountries())
+const { data: countries } = useLazyAsyncData('countries', () =>
+  heseya.ShippingMethods.getCountries(),
+)
 
 const update = (key: keyof AddressDto, value: string) => {
   emit('update:address', { ...props.address, [key]: value })

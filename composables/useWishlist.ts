@@ -10,7 +10,7 @@ export const useWishlist = (product: ProductList) => {
 
   const isInWishlist = ref(false)
 
-  const { refresh } = useAsyncData(`is-in-wishlist-${product.id}`, async () => {
+  const { refresh } = useLazyAsyncData(`is-in-wishlist-${product.id}`, async () => {
     isInWishlist.value = await wishlist.isInWishlist(product.id)
   })
 

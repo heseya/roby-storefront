@@ -56,7 +56,7 @@ const heseya = useHeseya()
 const cart = useCartStore()
 const checkout = useCheckoutStore()
 
-const { data: shippingMethods } = useAsyncData(
+const { data: shippingMethods } = useLazyAsyncData(
   `shipping-methods-for-value`,
   async () => {
     const methods = await heseya.ShippingMethods.get({ cart_value: cart.totalValue })

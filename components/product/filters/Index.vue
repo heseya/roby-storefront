@@ -80,7 +80,7 @@ const emit = defineEmits<{
 const heseya = useHeseya()
 const t = useLocalI18n()
 
-const { data: attributes } = useAsyncData(async () => {
+const { data: attributes } = useLazyAsyncData(async () => {
   // TODO: add support for date and number attributes
   const attrs = await heseya.Products.getFilters({ sets: props.sets })
   return attrs.filter(

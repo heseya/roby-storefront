@@ -92,7 +92,7 @@ const {
   })
 })
 
-const { data: tags } = useAsyncData(`blog-tags`, () => {
+const { data: tags } = useLazyAsyncData(`blog-tags`, () => {
   return directus.items('BlogTags').readByQuery({
     fields: ['id', 'translations.*'],
   })

@@ -63,7 +63,7 @@ const value = computed<string | null>({
   },
 })
 
-const { data: paymentMethods, refresh } = useAsyncData('payment-methods-select', async () => {
+const { data: paymentMethods, refresh } = useLazyAsyncData('payment-methods-select', async () => {
   const { data } = await heseya.PaymentMethods.get({
     shipping_method_id: checkout.shippingMethod?.id,
   })

@@ -35,7 +35,7 @@ const emit = defineEmits<{
 
 const heseya = useHeseya()
 
-const { data: options } = useAsyncData(`options-${props.attribute.id}`, async () => {
+const { data: options } = useLazyAsyncData(`options-${props.attribute.id}`, async () => {
   const { data } = await heseya.Attributes.getOptions(props.attribute.id)
   return data
 })
