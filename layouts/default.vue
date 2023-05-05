@@ -14,7 +14,7 @@
       <LazyLayoutBreadcrumps />
     </div>
     <div class="site__footer">
-      <LazyBaseFooter />
+      <BaseFooter />
     </div>
   </div>
 </template>

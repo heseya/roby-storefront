@@ -13,7 +13,7 @@
 <i18n lang="json">
 {
   "pl": {
-    "notFoundError": "Podany produkt nie istnieje"
+    "notFoundError": "Podana kategoria nie istnieje"
   }
 }
 </i18n>

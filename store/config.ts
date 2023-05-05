@@ -18,12 +18,22 @@ export const useConfigStore = defineStore('config', {
 
   actions: {
     async fetchConfig() {
-      const heseya = useHeseya()
-      this.env = await heseya.Settings.get({ array: true })
+      try {
+        const heseya = useHeseya()
+        this.env = await heseya.Settings.get({ array: true })
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.warn('[CONFIG] Failed to fetch', error)
+      }
     },
     async fetchSeo() {
-      const heseya = useHeseya()
-      this.seo = await heseya.GlobalSeo.get()
+      try {
+        const heseya = useHeseya()
+        this.seo = await heseya.GlobalSeo.get()
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.warn('[SEO] Failed to fetch', error)
+      }
     },
   },
 })

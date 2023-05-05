@@ -8,6 +8,14 @@
   </BaseContainer>
 </template>
 
+<i18n lang="json">
+{
+  "pl": {
+    "notFoundError": "Nie znaleziono strony o podanym adresie"
+  }
+}
+</i18n>
+
 <script setup lang="ts">
 const heseya = useHeseya()
 const route = useRoute()

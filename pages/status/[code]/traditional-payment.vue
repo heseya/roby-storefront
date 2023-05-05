@@ -7,7 +7,8 @@
 <i18n lang="json">
 {
   "pl": {
-    "alreadyPaid": "Zamówienie zostało już opłacone"
+    "alreadyPaid": "Zamówienie zostało już opłacone",
+    "notFoundError": "Nie znaleziono zamówienia o podanym kodzie"
   }
 }
 </i18n>
