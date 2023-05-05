@@ -9,7 +9,7 @@ export default defineEventHandler((event) => {
   setResponseHeader(event, 'Is-Auth', isAuthRequest.toString())
 
   if (isAuthRequest) {
-    setResponseHeader(event, 'Cache-Control', 'no-store, max-age=0')
+    setResponseHeader(event, 'Cache-Control', 'private, no-cache, no-store, max-age=0')
   } else {
     setResponseHeader(event, 'Cache-Control', 's-maxage=15, stale-while-revalidate')
   }
