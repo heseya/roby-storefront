@@ -11,6 +11,7 @@ export default defineEventHandler((event) => {
   if (isAuthRequest) {
     setResponseHeader(event, 'Cache-Control', 'private, no-cache, no-store, max-age=0')
   } else {
-    setResponseHeader(event, 'Cache-Control', 's-maxage=15, stale-while-revalidate')
+    // setResponseHeader(event, 'Cache-Control', 's-maxage=15, stale-while-revalidate')
+    setResponseHeader(event, 'Cache-Control', 'private, no-cache, no-store, max-age=0')
   }
 })
