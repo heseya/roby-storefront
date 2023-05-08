@@ -38,9 +38,7 @@ const t = useLocalI18n()
 const checkout = useCheckoutStore()
 
 const canCopyFromShippingAddress = computed(
-  () =>
-    checkout.shippingMethod?.shipping_type === ShippingType.Address &&
-    isAddressValid(checkout.shippingAddress),
+  () => checkout.shippingMethod?.shipping_type === ShippingType.Address,
 )
 
 const copyFromShippingAddress = () => {
