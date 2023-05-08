@@ -5,6 +5,7 @@
     <NuxtPage />
 
     <ClientOnly>
+      <CartUnavailableModal />
       <Notifications position="bottom right" />
     </ClientOnly>
   </div>
