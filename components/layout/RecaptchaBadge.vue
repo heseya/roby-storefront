@@ -26,12 +26,12 @@
 <script setup lang="ts">
 const t = useLocalI18n()
 
-const { public: config } = useRuntimeConfig()
+const { recaptchaPublic } = usePublicRuntimeConfig()
 
 useHead({
   script: [
     {
-      src: `https://www.google.com/recaptcha/api.js?render=${config.recaptchaPublic}`,
+      src: `https://www.google.com/recaptcha/api.js?render=${recaptchaPublic}`,
     },
   ],
 })

@@ -86,9 +86,7 @@ const props = withDefaults(
 
 const t = useLocalI18n()
 const { notify } = useNotify()
-const {
-  public: { recaptchaPublic },
-} = useRuntimeConfig()
+const { recaptchaPublic } = usePublicRuntimeConfig()
 const config = useConfigStore()
 
 const isLoading = ref(false)
