@@ -13,7 +13,7 @@
       </span>
     </div>
 
-    <ProductPageOmnibus class="product-purchase-panel__omnibus" />
+    <ProductPageOmnibus :product="product" class="product-purchase-panel__omnibus" />
 
     <ProductPageSchemas
       v-model:value="schemaValue"
@@ -31,7 +31,7 @@
     <a
       v-if="isLeaseable"
       class="product-purchase-panel__lease-btn"
-      :href="$leaslink(product.name, product.price_min, false, product.vat_rate)"
+      :href="$leaslink(product.name, price, false, product.vat_rate)"
     >
       <LayoutButton variant="gray" :style="{ width: '100%' }">
         {{ t('actions.lease') }}
