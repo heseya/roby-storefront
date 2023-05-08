@@ -3,9 +3,7 @@ import { DirectusTranslated } from '~/interfaces/DirectusTranslated'
 
 export const getImageUrl = (file?: DirectusImage): string => {
   if (!file) return ''
-  const {
-    public: { directusUrl },
-  } = useRuntimeConfig()
+  const { directusUrl } = usePublicRuntimeConfig()
   return `${directusUrl}/assets/${file.filename_disk}`
 }
 

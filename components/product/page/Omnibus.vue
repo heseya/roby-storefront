@@ -31,12 +31,12 @@ const t = useLocalI18n()
 
 const { data: price, pending } = useAsyncData(async () => {
   try {
-    const { public: config } = useRuntimeConfig()
+    const { priceTrackerUrl } = usePublicRuntimeConfig()
 
     const { data } = await axios.get<{ data?: { price_min: number } }>(
       `/products/${props.product.id}?current_price_min=${props.product.price_min}`,
       {
-        baseURL: config.priceTrackerUrl,
+        baseURL: priceTrackerUrl,
       },
     )
 
