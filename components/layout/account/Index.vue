@@ -3,15 +3,19 @@
     <div class="account">
       <div class="account__container">
         <LayoutAccountNav class="account__nav" />
-        <div class="account__header-container">
+        <div class="account__content-container">
           <div class="account__header">
             <slot name="header"></slot>
           </div>
-
-          <slot name="text"></slot>
+          <div class="account__text">
+            <slot name="text"></slot>
+          </div>
+          <div class="account__content">
+            <slot> </slot>
+          </div>
         </div>
-        <div class="account__content">
-          <slot></slot>
+        <div class="account__additional">
+          <slot name="additional"></slot>
         </div>
       </div>
     </div>
@@ -22,8 +26,6 @@
 
 <style lang="scss">
 .account {
-  padding: 0px 16px;
-
   @media ($viewport-12) {
     display: flex;
     justify-content: center;
@@ -32,35 +34,39 @@
 
   &__container {
     display: grid;
-    gap: 10px;
     width: 100%;
 
     grid-template-areas:
-      'header'
+      'content'
       'nav'
-      'content';
+      'additional';
 
     @media ($viewport-12) {
       grid-template-columns: 0.2fr 0.8fr;
       grid-template-areas:
-        'nav header'
-        'nav content';
-      gap: 25px;
+        'nav content'
+        'nav additional';
+      gap: 40px;
     }
   }
 
-  &__content {
+  &__additional {
+    grid-area: additional;
+    margin-top: 14px;
+  }
+
+  &__content-container {
     grid-area: content;
   }
 
-  &__header-container {
-    grid-area: header;
+  &__text {
+    margin: 14px 0;
   }
 
   &__header {
     font-size: 26px;
     font-weight: bold;
-    margin-bottom: 12px;
+    margin: 12px 0;
 
     @media ($max-viewport-12) {
       font-size: 20px;

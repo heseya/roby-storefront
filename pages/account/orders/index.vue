@@ -7,7 +7,11 @@
         {{ t('title') }}
       </template>
       <div class="account-orders__content">
-        <AccountOrderCard v-for="order in orders.data" :key="order.id" :code="order.code" />
+        <AccountOrderSimpleDetailsCard
+          v-for="order in orders.data"
+          :key="order.id"
+          :code="order.code"
+        />
       </div>
       <Pagination
         v-if="orders.data.length > 0"
@@ -45,7 +49,7 @@ const lastPage = computed(() => Math.ceil((orders.value?.pagination.total ?? 1) 
 
 const breadcrumbs = computed(() => [
   { label: $t('breadcrumbs.account'), link: '/account' },
-  { label: t('title'), link: '/orders' },
+  { label: t('title'), link: 'orders' },
 ])
 
 const errorMessage = ref('')

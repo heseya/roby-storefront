@@ -2,12 +2,13 @@
   <NuxtLayout>
     <LayoutBreadcrumpsProvider :breadcrumbs="breadcrumbs" />
 
-    <LayoutAccount class="account-wishlist">
+    <LayoutAccount>
       <template #header>
         {{ t('title') }}
       </template>
-
-      <WishlistView small />
+      <div class="account-wishlist">
+        <WishlistView small />
+      </div>
     </LayoutAccount>
   </NuxtLayout>
 </template>
@@ -45,4 +46,8 @@ const breadcrumbs = computed(() => [
 ])
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.account-wishlist {
+  margin-top: 20px;
+}
+</style>
