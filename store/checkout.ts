@@ -131,7 +131,7 @@ export const useCheckoutStore = defineStore('checkout', {
 
     async createOrderPayment(orderCode: string, paymentMethodId: string) {
       const heseya = useHeseya()
-      const { appHost } = useRuntimeConfig()
+      const { appHost } = usePublicRuntimeConfig()
 
       const { order, paymentMethods } = await heseya.Orders.getPaymentMethods(orderCode)
 
