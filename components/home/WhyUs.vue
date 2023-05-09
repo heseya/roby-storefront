@@ -73,6 +73,10 @@ const reasonList: ReasonProps[] = [
 
   &__header {
     text-align: left;
+
+    @media ($max-viewport-9) {
+      font-size: rem(18);
+    }
   }
 
   &__reasons {

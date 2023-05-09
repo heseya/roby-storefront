@@ -95,6 +95,7 @@ const setNewCategory = (categorySlug: string) => {
     @media ($max-viewport-8) {
       padding: 0;
       text-align: left;
+      font-size: rem(18);
     }
 
     @media ($max-viewport-3) {
