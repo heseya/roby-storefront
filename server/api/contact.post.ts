@@ -62,6 +62,7 @@ export default defineEventHandler(async (event) => {
       from: `${name} <${MAIL_USER}>`,
       to: MAIL_RECEIVER,
       subject: `${subject} | ${APP_HOST}`,
+      replyTo: email,
       text: `
       Wiadomość od ${name} \n
       Email: ${email || '-'}\n
