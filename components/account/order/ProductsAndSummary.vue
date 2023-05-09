@@ -5,13 +5,15 @@
       <div class="products-and-summary__product-list">
         <div v-for="{ id, product, name, quantity, price } in order.products" :key="id">
           <div class="products-and-summary__product">
-            <div class="products-and-summary__product-name">
+            <div class="products-and-summary__product-img">
               <AccountProductCard :product="product" />
-              {{ name }}
             </div>
-            <div class="products-and-summary__product-price">
-              <div>{{ quantity }} {{ t('quantity') }}</div>
-              <div>{{ showPrice(price) }}</div>
+            <div class="products-and-summary__product-box">
+              <div class="products-and-summary__product-name">{{ name }}</div>
+              <div class="products-and-summary__product-price">
+                <div>{{ quantity }} {{ t('quantity') }}</div>
+                <div>{{ showPrice(price) }}</div>
+              </div>
             </div>
           </div>
         </div>
@@ -21,6 +23,7 @@
       <div class="products-and-summary__summary">
         <div class="products-and-summary__summary-box" :style="{ 'margin-bottom': '6px' }">
           <div>{{ t('productsPrice') }}</div>
+
           <div>{{ showPrice(productsPrice) }}</div>
         </div>
         <div class="products-and-summary__summary-box">
@@ -32,7 +35,7 @@
         <div class="products-and-summary__summary-box" :style="{ 'margin-top': '6px' }">
           <div>{{ t('totalAmount') }}</div>
           <div class="products-and-summary__summary-total">
-            {{ showPrice(productsPrice + order.shipping_price) }}
+            {{ showPrice(Number(productsPrice) + order.shipping_price) }}
           </div>
         </div>
       </div>
@@ -61,7 +64,7 @@ const props = defineProps<{
   order: Order
 }>()
 
-const showPrice = (price: number) => `${String(price).replace(/\./g, ',')} ${t('currency')}`
+const showPrice = (price: number) => `${price.toFixed(2).replace(/\./g, ',')} ${t('currency')}`
 
 const productsPrice = computed(() => props.order.products.reduce((acc, cur) => acc + cur.price, 0))
 </script>
@@ -70,6 +73,7 @@ const productsPrice = computed(() => props.order.products.reduce((acc, cur) => a
 .products-and-summary {
   display: grid;
   align-content: space-between;
+  padding-left: 4px;
 
   &__header {
     font-weight: bold;
@@ -78,19 +82,32 @@ const productsPrice = computed(() => props.order.products.reduce((acc, cur) => a
   }
 
   &__product,
-  &__summary-box {
+  &__summary-box,
+  &__product-box {
     display: flex;
     justify-content: space-between;
   }
 
-  &__product-name,
-  &__product-price {
-    display: flex;
+  &__product-box {
+    margin-left: 10px;
     align-items: center;
+    flex-wrap: wrap;
   }
 
   &__product-name {
-    gap: 16px;
+    width: 66%;
+  }
+
+  &__product-price {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    width: 66%;
+
+    @media ($viewport-12) {
+      justify-content: flex-end;
+    }
   }
 
   &__product-price {
@@ -104,7 +121,7 @@ const productsPrice = computed(() => props.order.products.reduce((acc, cur) => a
 
   &__summary {
     border-top: 1px solid $gray-color-300;
-    margin-top: 6px;
+
     padding: 6px 0px;
   }
 

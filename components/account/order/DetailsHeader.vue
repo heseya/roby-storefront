@@ -13,7 +13,7 @@
       </div>
     </div>
     <div class="account-order-details-header__status">
-      <b v-if="statusLabel"> {{ t('status') }}:</b>
+      <b> {{ t('status') }}:</b>
       <LayoutButton
         class="account-order-details-header__status-btn"
         :style="{ 'background-color': `#${color}` }"
@@ -40,7 +40,6 @@ defineProps<{
   createdAt: string
   color: string
   name: string
-  statusLabel?: boolean
 }>()
 </script>
 

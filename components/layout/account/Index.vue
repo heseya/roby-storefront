@@ -42,7 +42,7 @@
       'additional';
 
     @media ($viewport-12) {
-      grid-template-columns: 0.2fr 0.8fr;
+      grid-template-columns: 0.2fr 1fr;
       grid-template-areas:
         'nav content'
         'nav additional';

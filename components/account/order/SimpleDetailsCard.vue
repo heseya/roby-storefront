@@ -9,9 +9,8 @@
       <AccountOrderDetailsHeader
         :code="order.code"
         :color="order.status.color"
-        :created_at="order.created_at"
+        :created-at="order.created_at"
         :name="order.status.name"
-        :status-label="true"
       />
 
       <div v-if="order?.products" class="account-order-card__items">

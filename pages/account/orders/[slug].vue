@@ -1,7 +1,7 @@
 <template>
-  <NuxtLayout v-if="order">
+  <NuxtLayout>
     <LayoutBreadcrumpsProvider :breadcrumbs="breadcrumbs" />
-    <LayoutAccount class="account-order">
+    <LayoutAccount v-if="order" class="account-order">
       <template #header>
         {{ t('title') }}
       </template>
@@ -15,6 +15,9 @@
       </template>
       <AccountOrderFullDetailsCard class="account-order__content" :order="order" />
     </LayoutAccount>
+    <LayoutInfoBox v-else type="danger">
+      {{ errorMessage }}
+    </LayoutInfoBox>
   </NuxtLayout>
 </template>
 <i18n lang="json">
@@ -46,7 +49,7 @@ const errorMessage = ref('')
 const breadcrumbs = computed(() => [
   { label: $t('breadcrumbs.account'), link: '/account' },
   { label: t('orders'), link: '/account/orders' },
-  { label: `${t('route')}${orderNumber.value}`, link: `${orderNumber.value}` },
+  { label: `${t('route')}${orderNumber.value}`, link: `/account/orders/${orderNumber.value}` },
 ])
 
 const { data: order } = useAsyncData(`account/orders/${orderNumber}`, async () => {
@@ -57,8 +60,3 @@ const { data: order } = useAsyncData(`account/orders/${orderNumber}`, async () =
   }
 })
 </script>
-
-<style lang="scss" scoped>
-.account-order {
-}
-</style>
