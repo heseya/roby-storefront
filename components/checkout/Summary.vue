@@ -26,7 +26,7 @@
     <div class="checkout-summary-item">
       <span class="checkout-summary-item__text">{{ t('summary.total') }}</span>
       <span class="checkout-summary-item__text checkout-summary-item__text--big">
-        {{ formatAmount(cart.totalValue) }}
+        {{ formatAmount(cart.summary) }}
       </span>
     </div>
 
