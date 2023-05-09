@@ -82,7 +82,7 @@ const checkboxValue = computed({
   &__label {
     display: block;
     font-size: rem(14);
-    line-height: rem(14);
+    line-height: rem(16);
   }
 
   &__text {
