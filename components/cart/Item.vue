@@ -12,6 +12,7 @@
 
       <ProductQuantityInput
         show-label
+        :disabled="static"
         class="cart-item__quantity"
         :quantity="item.qty"
         @update:quantity="updateQuantity"
@@ -25,7 +26,7 @@
       </div>
     </div>
 
-    <div class="cart-item__actions">
+    <div v-if="!static" class="cart-item__actions">
       <LayoutIconButton :icon="CrossIcon" icon-size="sm" @click="removeFromCart" />
     </div>
   </div>
@@ -36,9 +37,15 @@ import { CartItem } from '@heseya/store-core'
 import CrossIcon from '@/assets/icons/cross.svg?component'
 import { useCartStore } from '@/store/cart'
 
-const props = defineProps<{
-  item: CartItem
-}>()
+const props = withDefaults(
+  defineProps<{
+    item: CartItem
+    static?: boolean
+  }>(),
+  {
+    static: false,
+  },
+)
 
 const cart = useCartStore()
 
