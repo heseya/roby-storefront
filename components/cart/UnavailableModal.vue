@@ -61,11 +61,10 @@ const t = useLocalI18n()
 const items = computed(() => cart.unavailableItems)
 const isOpen = computed(() => items.value.length > 0)
 
-const cartAge = computed(() => {
-  return (
-    Date.now() - items.value.reduce((maxAge, item) => Math.max(maxAge, item.toJSON().createdAt), 0)
-  )
-})
+const cartAge = computed(
+  () =>
+    Date.now() - items.value.reduce((maxAge, item) => Math.max(maxAge, item.toJSON().createdAt), 0),
+)
 
 const close = () => {
   cart.unavailableItems = []
