@@ -9,6 +9,7 @@
 <i18n lang="json">
 {
   "pl": {
+    "title": "Przelew tradycyjny",
     "alreadyPaid": "Zamówienie zostało już opłacone",
     "notFoundError": "Nie znaleziono zamówienia o podanym kodzie"
   }
@@ -42,7 +43,7 @@ useAsyncData(`order-summary-${orderCode}`, async () => {
 })
 
 useSeoMeta({
-  title: () => t('container.header'),
+  title: () => t('title'),
 })
 </script>
 

@@ -27,11 +27,11 @@
         </b>
       </div>
 
-      <StatusPaymentMethods v-if="isPaymentMode" :code="orderCode" class="status-page__payment" />
-
-      <LayoutButton v-else-if="isPayable" class="status-page__btn" @click="isPaymentMode = true">
-        {{ t('payBtn') }}
-      </LayoutButton>
+      <NuxtLink class="status-page__link" :to="`/pay/${orderCode}`">
+        <LayoutButton class="status-page__btn">
+          {{ t('payBtn') }}
+        </LayoutButton>
+      </NuxtLink>
 
       <NuxtLink class="status-page__link" to="/">
         <LayoutButton class="status-page__btn" :variant="isPayable ? 'gray' : 'primary'">
@@ -81,8 +81,6 @@ const { data: order } = useAsyncData(`order-summary-${orderCode}`, async () => {
 })
 
 const isPayable = computed(() => order.value?.payable || false)
-
-const isPaymentMode = ref(false)
 
 useSeoMeta({
   title: () => t('title'),
