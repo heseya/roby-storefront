@@ -117,6 +117,8 @@ const onSubmit = form.handleSubmit(async (values) => {
       type: 'success',
       text: t('successMessage'),
     })
+
+    form.resetForm()
   } catch (e: any) {
     notify({
       type: 'error',
