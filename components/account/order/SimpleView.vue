@@ -112,6 +112,7 @@ const { data: order } = useAsyncData(`account/orders/${props.code}`, async () =>
 
   &__items-list {
     display: flex;
+    flex-wrap: wrap;
     gap: 10px;
   }
 }
