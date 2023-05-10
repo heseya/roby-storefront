@@ -82,6 +82,7 @@ const { data: userLastOrder } = useAsyncData(`userLastOrder`, async () => {
 .account-page {
   &__items-list {
     display: flex;
+    flex-wrap: wrap;
     gap: 10px;
   }
 
