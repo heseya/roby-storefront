@@ -24,7 +24,6 @@
 <script lang="ts" setup>
 import Linkedin from '@/assets/icons/linkedin.svg?component'
 
-import Avatar from '@/assets/images/avatars/robert.png?url'
 export interface PersonCardProps {
   name: string
   email: string
