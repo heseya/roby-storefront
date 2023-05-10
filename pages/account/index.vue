@@ -2,33 +2,37 @@
   <NuxtLayout>
     <LayoutBreadcrumpsProvider :breadcrumbs="breadcrumbs" />
 
-    <BaseContainer>
-      <LayoutAccount>
-        <LayoutAccountNav class="account-page__nav" />
-        <template v-if="!errorMessage" #header> {{ t('welcome') }}{{ user?.name }} </template>
-        <template #text>
-          {{ t('message') }}
-        </template>
+    <LayoutAccount>
+      <LayoutAccountNav class="account-page__nav" />
+      <template v-if="!errorMessage" #header> {{ t('welcome') }}{{ user?.name }} </template>
+      <template #text>
+        {{ t('message') }}
+      </template>
+      <template #additional>
         <div v-if="!errorMessage" class="account-page__container">
-          <AccountOrderCard
+          <AccountOrderSimpleView
             v-if="userLastOrder"
             :code="userLastOrder.code"
             link="/account/orders"
             :header="t('lastOrder')"
           />
-          <LayoutAccountOrder :header="t('wishList')" :link="`/account/wishlist`">
-            <div v-if="wishlist?.userWishlist" class="account-page__items-list">
-              <div v-for="product in wishlist.products" :key="product.id">
-                <AccountProductCard :product="product" />
-              </div>
-            </div>
-          </LayoutAccountOrder>
         </div>
         <LayoutInfoBox v-else type="danger">
           {{ errorMessage }}
         </LayoutInfoBox>
-      </LayoutAccount>
-    </BaseContainer>
+        <LayoutAccountOrder
+          :header="t('wishList')"
+          :link="`/account/wishlist`"
+          class="account-page__wishlist"
+        >
+          <div v-if="wishlist?.userWishlist" class="account-page__items-list">
+            <div v-for="product in wishlist.products" :key="product.id">
+              <AccountProductCard :product="product" />
+            </div>
+          </div>
+        </LayoutAccountOrder>
+      </template>
+    </LayoutAccount>
   </NuxtLayout>
 </template>
 
@@ -85,6 +89,15 @@ const { data: userLastOrder } = useAsyncData(`userLastOrder`, async () => {
     @media ($viewport-12) {
       display: none;
     }
+  }
+
+  &__container {
+    display: grid;
+    gap: 15px;
+  }
+
+  &__wishlist {
+    margin-top: 40px;
   }
 }
 </style>

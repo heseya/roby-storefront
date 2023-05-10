@@ -9,12 +9,14 @@
       <div class="account-form-modal__actions">
         <LayoutButton
           class="account-form-modal__button account-form-modal__button--cancel"
+          :label="t('cancel')"
           @click="emit('update:open', false)"
-          >{{ t('cancel') }}</LayoutButton
-        >
-        <LayoutButton class="account-form-modal__button" html-type="submit">{{
-          okText || t('save')
-        }}</LayoutButton>
+        />
+        <LayoutButton
+          class="account-form-modal__button"
+          html-type="submit"
+          :label="okText || t('save')"
+        />
       </div>
     </form>
   </LayoutModal>
