@@ -13,17 +13,75 @@
           <ContactInfoCard v-for="(data, index) in contacts" :key="index" :data="data" />
         </div>
       </div>
+
+      <div>
+        <LayoutHeader class="contact__subtitle" variant="black" tag="h2">
+          Dział handlowy
+        </LayoutHeader>
+        <div class="contact__persons">
+          <ContactPersonCard v-for="(person, index) in persons" :key="index" :data="person" />
+        </div>
+      </div>
+      <div>
+        <LayoutHeader class="contact__subtitle" variant="black" tag="h2">
+          Dział serwisu
+        </LayoutHeader>
+        <div class="contact__persons">
+          <ContactPersonCard
+            v-for="(person, index) in servicePersons"
+            :key="index"
+            :data="person"
+          />
+        </div>
+      </div>
     </BaseContainer>
   </NuxtLayout>
 </template>
 
 <script setup lang="ts">
 import { InfoCardProps } from '~/components/contact/InfoCard.vue'
+import { PersonCardProps } from '~/components/contact/PersonCard.vue'
 
 const breadcrumb = [
   {
     label: 'Kontakt',
     link: '/kontakt',
+  },
+]
+
+const persons: PersonCardProps[] = [
+  {
+    name: 'Robert Jastrzębski',
+    email: 'biuro@***REMOVED***.pl',
+    phone: 'tel.: +48 604 858 045',
+    description:
+      'Urządzenia wielofunkcyjne, urządzenia wielkoformatowe/plotery, urządzenia wysokonakładowe',
+    link: 'www.soofar.com',
+  },
+  {
+    name: 'Marcin Wiśniewski',
+    email: 'mwisniewski@***REMOVED***.pl',
+    phone: 'tel.: +48 509 612 945',
+    description:
+      'Doradztwo techniczne i handlowe, plotery, kopiarki, drukarki, niszczarki, sprzedaż i wynajem urządzeń',
+    link: 'www.soofar.com',
+  },
+  {
+    name: 'Arkadiusz Wiśniewski',
+    email: 'arkadiusz@***REMOVED***.pl',
+    phone: 'tel.: +48 795 581 936',
+    description:
+      'Obsługa umów dzierżaw/wynajmu, papiery, media do ploterów, materiały eksploatacyjne, plotery, wynajem urządzeń',
+    link: 'www.soofar.com',
+  },
+]
+
+const servicePersons: PersonCardProps[] = [
+  {
+    name: 'Jacek Frąszczak',
+    email: 'serwis@***REMOVED***.pl',
+    phone: 'tel.: +48 602 527 397',
+    description: 'Zarządzanie serwisem, obsługa zleceń serwisowych',
   },
 ]
 
@@ -70,6 +128,25 @@ const contacts: InfoCardProps[] = [
 
     @media ($max-viewport-9) {
       flex-direction: column;
+    }
+  }
+
+  &__subtitle {
+    margin-bottom: 12px;
+
+    text-align: left;
+    font-size: rem(20);
+  }
+
+  &__persons {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+    row-gap: 10px;
+    column-gap: 12px;
+
+    @media ($max-viewport-9) {
+      grid-template-columns: 1fr;
     }
   }
 }
