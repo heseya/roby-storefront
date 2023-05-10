@@ -23,6 +23,7 @@ useSeoMeta({
   description: () => seo.value.description,
   ogImage: () => seo.value.og_image?.url,
   twitterCard: () => seo.value.twitter_card,
+  robots: 'index, follow',
 })
 </script>
 

@@ -24,9 +24,9 @@ export default defineNuxtConfig({
           content: 'width=device-width,initial-scale=1,maximum-scale=1',
         },
         {
-          hid: 'robots',
+          hid: isProduction ? 'robots' : 'force-robots',
           name: 'robots',
-          content: isProduction ? 'index, follow' : 'noindex, nowfollow',
+          content: isProduction ? 'index, follow' : 'noindex, nofollow',
         },
       ],
       link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.svg' }],
