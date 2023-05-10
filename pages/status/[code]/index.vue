@@ -27,7 +27,7 @@
         </b>
       </div>
 
-      <NuxtLink class="status-page__link" :to="`/pay/${orderCode}`">
+      <NuxtLink v-if="isPayable" class="status-page__link" :to="`/pay/${orderCode}`">
         <LayoutButton class="status-page__btn">
           {{ t('payBtn') }}
         </LayoutButton>
