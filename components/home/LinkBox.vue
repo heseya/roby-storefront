@@ -1,6 +1,6 @@
 <template>
   <div class="link-box" :style="{ backgroundImage: `url(${link.src})` }">
-    <LayoutHeader>{{ link.text }}</LayoutHeader>
+    <LayoutHeader class="link-box__header">{{ link.text }}</LayoutHeader>
     <NuxtLink :to="link.link">
       <LayoutButton class="link-box__btn" :label="link.linkText" variant="secondary" />
     </NuxtLink>
@@ -34,6 +34,17 @@ defineProps<{
     width: 200px;
   }
 
+  &__header {
+    text-shadow: 0 4px 6px #0000001a;
+    @media ($max-viewport-9) {
+      font-size: rem(16);
+    }
+  }
+
   @include background-image-basic;
+
+  @media ($max-viewport-9) {
+    height: 200px;
+  }
 }
 </style>

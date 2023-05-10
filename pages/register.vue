@@ -1,6 +1,6 @@
 <template>
   <NuxtLayout>
-    <LayoutBreadcrumpsProvider :breadcrumbs="[{ label: t('title'), link: '/register' }]" />
+    <LayoutBreadcrumpsProvider :breadcrumbs="breadcrumbs" />
 
     <div class="register-content">
       <AuthRegisterForm @registered="() => $router.push('/login')" />
@@ -22,6 +22,8 @@ const t = useLocalI18n()
 useSeoMeta({
   title: () => t('title'),
 })
+
+const breadcrumbs = computed(() => [{ label: t('title'), link: '/register' }])
 </script>
 
 <style lang="scss" scoped>

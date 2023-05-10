@@ -46,6 +46,10 @@ withDefaults(
 
   &__title {
     text-align: left;
+
+    @media ($max-viewport-9) {
+      font-size: rem(18);
+    }
   }
 
   &__picture {

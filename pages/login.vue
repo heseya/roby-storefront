@@ -1,6 +1,6 @@
 <template>
   <NuxtLayout>
-    <LayoutBreadcrumpsProvider :breadcrumbs="[{ label: t('form.login'), link: '/login' }]" />
+    <LayoutBreadcrumpsProvider :breadcrumbs="breadcrumbs" />
 
     <div class="login-content">
       <div class="login-content__container">
@@ -73,6 +73,8 @@ onBeforeMount(() => {
 useSeoMeta({
   title: () => t('form.login'),
 })
+
+const breadcrumbs = computed(() => [{ label: t('form.login'), link: '/login' }])
 </script>
 
 <style lang="scss" scoped>

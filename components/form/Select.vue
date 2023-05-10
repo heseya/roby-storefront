@@ -3,7 +3,14 @@
     <FormInputLabel v-if="label" :uppercase="labelUppercase" :for="name" class="input__label">
       {{ label }}
     </FormInputLabel>
-    <select :id="name" v-model="innerValue" :name="name" class="input__input">
+    <select
+      :id="name"
+      v-model="innerValue"
+      :name="name"
+      class="input__input"
+      :class="{ 'input__input--disabled': disabled }"
+      :disabled="disabled"
+    >
       <slot />
     </select>
   </div>
@@ -18,12 +25,14 @@ const props = withDefaults(
     name: string
     label?: string
     type?: 'default' | 'gray'
+    disabled?: boolean
     labelUppercase?: boolean
   }>(),
   {
     modelValue: undefined,
     label: '',
     type: 'default',
+    disabled: false,
     labelUppercase: false,
   },
 )

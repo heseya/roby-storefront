@@ -2,7 +2,7 @@
   <div class="blog-articles">
     <BaseContainer>
       <div class="blog-articles__header">
-        <LayoutHeader variant="black">{{ t('blog') }}</LayoutHeader>
+        <LayoutHeader class="blog-articles__title" variant="black">{{ t('blog') }}</LayoutHeader>
         <HomeShowAllButton path="/blog" />
       </div>
     </BaseContainer>
@@ -57,6 +57,12 @@ const t = useLocalI18n()
     display: flex;
     justify-content: space-between;
     align-items: center;
+  }
+
+  &__title {
+    @media ($max-viewport-8) {
+      font-size: rem(18);
+    }
   }
 
   &__list-container {

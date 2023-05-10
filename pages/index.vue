@@ -38,8 +38,8 @@
             :banner="banner"
             :title="banner.name"
             :gray-filter="!!banner.metadata.gray_filter"
-            :image-height="banner.metadata.image_height"
-            :image-width="banner.metadata.image_width"
+            :image-height="(banner.metadata.image_height as any)"
+            :image-width="(banner.metadata.image_width as any)"
           />
         </LazyHydrate>
       </BaseContainer>
@@ -58,7 +58,7 @@
 <script setup lang="ts">
 import { ProductSetList } from '@heseya/store-core'
 import { LinkBox } from '~~/components/home/LinkBox.vue'
-import BgImagePath from '@/assets/images/banner-bgr-grayed.jpg'
+import BgImagePath from '@/assets/images/link-box-bgr.png'
 
 const t = useLocalI18n()
 const heseya = useHeseya()

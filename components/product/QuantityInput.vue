@@ -5,6 +5,7 @@
       :model-value="quantity"
       label-uppercase
       name="quantity"
+      :disabled="disabled"
       class="quantity-input__quantity"
       @update:model-value="(v) => emit('update:quantity', Number(v))"
     >
@@ -26,10 +27,12 @@ withDefaults(
   defineProps<{
     quantity: number
     showLabel?: boolean
+    disabled?: boolean
   }>(),
   {
     quantity: 1,
     showLabel: false,
+    disabled: false,
   },
 )
 

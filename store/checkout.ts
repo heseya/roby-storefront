@@ -42,7 +42,9 @@ export const useCheckoutStore = defineStore('checkout', {
       return {
         email: this.email,
         comment: this.comment,
-        shipping_place: this.orderShippingPlace,
+        shipping_place: this.isInpostShippingMethod
+          ? `${this.orderShippingPlace as string} | tel.: ${this.shippingAddress.phone}`
+          : this.orderShippingPlace,
         items: cart.orderItems,
         shipping_method_id: this.shippingMethod?.id,
         digital_shipping_method_id: this.digitalShippingMethod?.id,
@@ -55,6 +57,7 @@ export const useCheckoutStore = defineStore('checkout', {
         metadata: this.isInpostShippingMethod
           ? {
               inpost_phone: this.shippingAddress.phone,
+              inpost_point: this.orderShippingPlace as string,
             }
           : {},
       }

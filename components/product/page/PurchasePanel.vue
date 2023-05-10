@@ -24,8 +24,12 @@
 
     <ProductQuantityInput v-model:quantity="quantity" class="product-purchase-panel__quantity" />
 
-    <LayoutButton class="product-purchase-panel__cart-btn" @click="addToCart">
-      {{ t('actions.addToCart') }}
+    <LayoutButton
+      :disabled="!product.available"
+      class="product-purchase-panel__cart-btn"
+      @click="addToCart"
+    >
+      {{ product.available ? t('actions.addToCart') : t('actions.notAvailable') }}
     </LayoutButton>
 
     <a
@@ -47,6 +51,7 @@
   "pl": {
     "actions": {
       "addToCart": "Dodaj do koszyka",
+      "notAvailable": "Niedostępny",
       "lease": "Zapytaj o leasing"
     },
     "availability": {

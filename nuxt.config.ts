@@ -2,7 +2,7 @@ import svgLoader from 'vite-svg-loader'
 
 const {
   API_URL = 'https://demo-***REMOVED***.***REMOVED***',
-  DIRECTUS_URL = 'https://cms.heseya.com',
+  DIRECTUS_URL = 'https://blog-***REMOVED***.heseya.pl',
   PRICE_TRACKER_URL = 'https://main-price-tracker.app.***REMOVED***',
   ENVIRONMENT = 'development',
   APP_HOST,
@@ -24,9 +24,9 @@ export default defineNuxtConfig({
           content: 'width=device-width,initial-scale=1,maximum-scale=1',
         },
         {
-          hid: 'robots',
+          hid: isProduction ? 'robots' : 'force-robots',
           name: 'robots',
-          content: isProduction ? 'index, follow' : 'noindex, nowfollow',
+          content: isProduction ? 'index, follow' : 'noindex, nofollow',
         },
       ],
       link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.svg' }],
