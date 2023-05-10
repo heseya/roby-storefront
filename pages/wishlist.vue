@@ -1,6 +1,6 @@
 <template>
   <NuxtLayout>
-    <LayoutBreadcrumpsProvider :breadcrumbs="[{ label: t('title'), link: '/wishlist' }]" />
+    <LayoutBreadcrumpsProvider :breadcrumbs="breadcrumbs" />
 
     <BaseContainer class="wishlist-page">
       <WishlistView class="wishlist-page__content" />
@@ -33,6 +33,8 @@ watch(
 useSeoMeta({
   title: () => t('title'),
 })
+
+const breadcrumbs = computed(() => [{ label: t('title'), link: '/wishlist' }])
 </script>
 
 <style lang="scss" scoped>

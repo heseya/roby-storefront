@@ -1,6 +1,6 @@
 <template>
   <NuxtLayout>
-    <LayoutBreadcrumpsProvider :breadcrumbs="[{ label: $t('breadcrumbs.blog'), link: `/blog` }]" />
+    <LayoutBreadcrumpsProvider :breadcrumbs="breadcrumbs" />
 
     <BaseContainer>
       <LayoutLoading :active="pending" />
@@ -112,6 +112,8 @@ const changePage = (page: number | string) => {
 useSeoMeta({
   title: () => t('blog'),
 })
+
+const breadcrumbs = computed(() => [{ label: $t('breadcrumbs.blog'), link: `/blog` }])
 
 watch(
   () => route.query,

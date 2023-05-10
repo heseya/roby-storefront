@@ -1,7 +1,7 @@
 <template>
   <NuxtLayout>
     <div class="forgot-password" @submit.prevent="onSubmit">
-      <LayoutBreadcrumpsProvider :breadcrumbs="[{ label: t('title'), link: '/forgot-password' }]" />
+      <LayoutBreadcrumpsProvider :breadcrumbs="breadcrumbs" />
       <form v-if="!formStatus.send" class="forgot-password__form">
         <h2 class="forgot-password__header">{{ t('form.header') }}</h2>
         <span class="forgot-password__description">{{ t('form.description') }}</span>
@@ -78,6 +78,8 @@ const onSubmit = form.handleSubmit(async (values) => {
     errorMessage.value = formatError(e)
   }
 })
+
+const breadcrumbs = computed(() => [{ label: t('title'), link: '/forgot-password' }])
 </script>
 
 <style lang="scss" scoped>

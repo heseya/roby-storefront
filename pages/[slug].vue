@@ -1,6 +1,6 @@
 <template>
   <NuxtLayout>
-    <LayoutBreadcrumpsProvider :breadcrumbs="[{ label: page?.name || '', link: route.fullPath }]" />
+    <LayoutBreadcrumpsProvider :breadcrumbs="breadcrumbs" />
 
     <BaseContainer>
       <LayoutLoading :active="pending" />
@@ -36,6 +36,10 @@ const { data: page, pending } = useAsyncData(`page-${route.params.slug}`, async 
 })
 
 useSeo(() => [page.value?.seo, { title: page.value?.name }])
+
+const breadcrumbs = computed(() => [
+  { label: page.value?.name || '', link: `/${page.value?.slug}` },
+])
 </script>
 
 <style lang="scss" scoped>
