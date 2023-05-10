@@ -7,14 +7,14 @@
         v-model="form.values.name"
         name="name"
         :label="t('form.name')"
-        rules="required"
+        rules="required|alpha"
         :disabled="isFormDisabled"
       />
       <FormInput
         v-model="form.values.surname"
         name="surname"
         :label="t('form.surname')"
-        rules="required"
+        rules="required|alpha"
         :disabled="isFormDisabled"
       />
     </div>
