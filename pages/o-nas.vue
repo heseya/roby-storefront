@@ -10,6 +10,9 @@
       </BaseContainer>
 
       <AboutBanner class="about-page__banner" />
+      <BaseContainer>
+        <AboutTeam />
+      </BaseContainer>
 
       <RentBanner class="about-page__banner" />
     </div>

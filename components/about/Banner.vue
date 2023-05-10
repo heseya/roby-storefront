@@ -26,6 +26,7 @@
   &__text {
     width: 80%;
     font-size: rem(30);
+
     @media ($max-viewport-9) {
       font-size: rem(20);
     }
