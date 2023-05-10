@@ -25,7 +25,8 @@
         <div class="checkout-page__area">
           <h2 class="checkout-page__title">{{ t('billing') }}</h2>
           <ClientOnly>
-            <CheckoutBillingAddress />
+            <CheckoutFormLoggedBillingAddress v-if="hasBillingAddresses" />
+            <CheckoutBillingAddress v-else />
 
             <template #placeholder>
               <div class="checkout-page__placeholder" style="height: 80px"></div>
@@ -82,6 +83,11 @@
 
 <script setup lang="ts">
 const t = useLocalI18n()
+
+const hasBillingAddresses = computed(() => {
+  const { addresses } = useUserBillingAddresses()
+  return addresses.value.length > 0
+})
 
 useSeoMeta({
   title: () => t('title'),

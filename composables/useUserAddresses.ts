@@ -8,6 +8,8 @@ export const useUserAddreses = (type: 'billing' | 'shipping') => {
 
   const addresses = computed(() => user.value?.[valueKey] || [])
 
+  const defaultAddress = computed(() => addresses.value.find((address) => address.default) || null)
+
   const addAddress = async (payload: UserSavedAddressCreateDto) => {
     const heseya = useHeseya()
     try {
@@ -49,6 +51,7 @@ export const useUserAddreses = (type: 'billing' | 'shipping') => {
 
   return {
     addresses,
+    defaultAddress,
     add: addAddress,
     edit: editAddress,
     remove: removeAddress,
