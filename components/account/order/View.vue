@@ -34,7 +34,7 @@
       </div>
       <NuxtLink :to="`/pay/${order.code}`">
         <LayoutButton
-          v-if="paymentStatus.status.value === PaymentStatus.Failed"
+          v-if="order.payable"
           class="account-order-view__payment-button"
           :label="t('goToPayment')"
         />

@@ -14,7 +14,7 @@
       <div class="view-summary__container">
         <div>{{ t('totalAmount') }}</div>
         <div class="view-summary__total">
-          {{ formatAmount(order.cart_total + order.shipping_price) }}
+          {{ formatAmount(order.summary) }}
         </div>
       </div>
     </div>

@@ -13,7 +13,8 @@ const props = defineProps<{
 
 const shippingPlace = computed((): string[] => {
   switch (props.order.shipping_method?.shipping_type) {
-    case ShippingType.Address || ShippingType.Point: {
+    case ShippingType.Address:
+    case ShippingType.Point: {
       const shippingPlace = props.order.shipping_place as Address
       return [
         shippingPlace.name,
