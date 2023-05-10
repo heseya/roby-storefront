@@ -10,7 +10,7 @@
       </template>
       <template #additional>
         <div v-if="!errorMessage" class="account-page__container">
-          <AccountOrderSimpleDetailsCard
+          <AccountOrderSimpleView
             v-if="userLastOrder"
             :code="userLastOrder.code"
             link="/account/orders"

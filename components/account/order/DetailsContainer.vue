@@ -1,7 +1,7 @@
 <template>
-  <div class="account-order-details-box">
-    <div class="account-order-details-box__header">{{ header }}</div>
-    <div class="account-order-details-box__content">
+  <div class="account-order-details-container">
+    <div class="account-order-details-container__header">{{ header }}</div>
+    <div class="account-order-details-container__content">
       <slot></slot>
     </div>
   </div>
@@ -14,7 +14,7 @@ defineProps<{
 </script>
 
 <style lang="scss" scoped>
-.account-order-details-box {
+.account-order-details-container {
   margin-bottom: 20px;
 
   &__header {

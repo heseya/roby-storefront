@@ -1,61 +1,47 @@
 <template>
-  <div class="account-order-details-card">
-    <div class="account-order-details-card__details-box">
-      <AccountOrderDetailsBox :header="t('delivery')">
+  <div class="account-order-view">
+    <div class="account-order-view__section">
+      <AccountOrderDetailsContainer :header="t('delivery')">
         {{ order.shipping_method?.name }}
-      </AccountOrderDetailsBox>
+      </AccountOrderDetailsContainer>
 
-      <AccountOrderDetailsBox
-        v-if="typeof order.shipping_place === 'string'"
-        :header="t('deliveryAddress')"
-      >
-        {{ order.shipping_method?.name }}
-      </AccountOrderDetailsBox>
+      <AccountOrderDetailsContainer :header="t('deliveryAddress')">
+        <AccountOrderDeliveryAddress :order="order" />
+      </AccountOrderDetailsContainer>
 
-      <AccountOrderDetailsBox v-else :header="t('deliveryAddress')">
-        <div>{{ order.shipping_place?.name }}</div>
-        <div>{{ order.shipping_place?.phone }}</div>
-        <div>{{ order.shipping_place?.address }}</div>
-        <div>{{ order.shipping_place?.zip }} {{ order.shipping_place?.city }}</div>
-      </AccountOrderDetailsBox>
-
-      <AccountOrderDetailsBox :header="t('billing')">
+      <AccountOrderDetailsContainer :header="t('billing')">
         <div>{{ order.billing_address.name }}</div>
         <div>{{ order.billing_address.vat }}</div>
         <div>{{ order.billing_address.phone }}</div>
         <div>{{ order.billing_address.address }}</div>
         <div>{{ order.billing_address.zip }} {{ order.billing_address.city }}</div>
-      </AccountOrderDetailsBox>
+      </AccountOrderDetailsContainer>
 
-      <div v-if="paymentStatus">
-        <div class="account-order-details-card__payment-status-box">
-          <div class="account-order-details-card__header">
+      <div>
+        <div class="account-order-view__payment-status-box">
+          <div class="account-order-view__header">
             {{ t('payment') }}
           </div>
 
-          <div class="account-order-details-card__payment-status" :class="paymentStatus.class">
-            <LayoutIcon
-              :icon="paymentStatus.icon"
-              :size="12"
-              class="account-order-details-card__icon"
-            />
-            <div>{{ paymentStatus.status }}</div>
+          <div class="account-order-view__payment-status" :class="paymentStatus.class">
+            <LayoutIcon :icon="paymentStatus.icon" :size="12" class="account-order-view__icon" />
+            <div>{{ paymentStatus.status.text }}</div>
           </div>
         </div>
-        <div class="account-order-details-card__text">
+        <div class="account-order-view__text">
           {{ paymentStatus?.method }}
         </div>
       </div>
       <NuxtLink :to="`/pay/${order.code}`">
         <LayoutButton
-          v-if="paymentStatus.status === t('failed')"
-          class="account-order-details-card__payment-button"
+          v-if="paymentStatus.status.value === PaymentStatus.Failed"
+          class="account-order-view__payment-button"
           :label="t('goToPayment')"
         />
       </NuxtLink>
     </div>
 
-    <AccountOrderProductsAndSummary v-if="order" :order="order" />
+    <AccountOrderViewProducts v-if="order" :order="order" />
   </div>
 </template>
 
@@ -98,22 +84,31 @@ const paymentStatus = computed(() => {
     case PaymentStatus.Successful:
       return {
         icon: Successful,
-        class: 'account-order-details-card__payment-status--successful',
-        status: t('paid'),
+        class: 'account-order-view__payment-status--successful',
+        status: {
+          text: t('paid'),
+          value: PaymentStatus.Successful,
+        },
         method: payment.method,
       }
     case PaymentStatus.Pending:
       return {
         icon: Pending,
-        class: 'account-order-details-card__payment-status--pending',
-        status: t('pending'),
+        class: 'account-order-view__payment-status--pending',
+        status: {
+          text: t('pending'),
+          value: PaymentStatus.Pending,
+        },
         method: payment.method,
       }
     default:
       return {
         icon: Failed,
-        class: 'account-order-details-card__payment-status--failed',
-        status: t('failed'),
+        class: 'account-order-view__payment-status--failed',
+        status: {
+          text: t('failed'),
+          value: PaymentStatus.Failed,
+        },
         method: payment?.method || '',
       }
   }
@@ -121,7 +116,7 @@ const paymentStatus = computed(() => {
 </script>
 
 <style lang="scss" scoped>
-.account-order-details-card {
+.account-order-view {
   width: 100%;
   border: 1px solid $gray-color-300;
   display: grid;
@@ -132,7 +127,7 @@ const paymentStatus = computed(() => {
     grid-template-columns: 0.4fr 1fr;
   }
 
-  &__details-box {
+  &__section {
     border-bottom: 1px solid $gray-color-300;
     padding-bottom: 26px;
     display: grid;

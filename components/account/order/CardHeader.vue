@@ -1,24 +1,26 @@
 <template>
-  <div class="account-order-details-header">
-    <div class="account-order-details-header__content">
-      <div class="account-order-details-header__box">
+  <div class="account-order-card-header">
+    <div class="account-order-card-header__content">
+      <div class="account-order-card-header__box">
         <b>{{ t('orderNumber') }}: </b>
-        <NuxtLink :to="`/account/orders/${code}`" class="account-order-details-header__link">
+        <NuxtLink :to="`/account/orders/${code}`" class="account-order-card-header__link">
           {{ code }}
         </NuxtLink>
       </div>
-      <div class="account-order-details-header__box">
+      <div class="account-order-card-header__box">
         <b>{{ t('orderCreatingDate') }}:</b>
-        {{ formatDate(createdAt, 'dd.MM.yyyy HH:MM') }}
+        {{ formatDate(createdAt, DAY_MONTH_YEAR_HOUR_MINUTE_PATTERN) }}
       </div>
     </div>
-    <div class="account-order-details-header__status">
+    <div class="account-order-card-header__status">
       <b> {{ t('status') }}:</b>
-      <LayoutButton
-        class="account-order-details-header__status-btn"
+
+      <div
+        class="account-order-card-header__status-btn"
         :style="{ 'background-color': `#${color}` }"
-        :label="name"
-      />
+      >
+        {{ name }}
+      </div>
     </div>
   </div>
 </template>
@@ -44,7 +46,7 @@ defineProps<{
 </script>
 
 <style lang="scss" scoped>
-.account-order-details-header {
+.account-order-card-header {
   display: flex;
   flex-direction: column;
   margin-bottom: 15px;
@@ -77,10 +79,17 @@ defineProps<{
     color: $blue-color;
   }
 
+  &__status {
+    display: flex;
+    align-items: baseline;
+    gap: 5px;
+  }
+
   &__status-btn {
-    margin-left: 10px;
     padding: 4px 6px;
     margin-top: 5px;
+    color: $white-color;
+    border-radius: 5px;
 
     @media ($viewport-12) {
       margin-top: 0px;

@@ -6,7 +6,7 @@
       :link="link"
       class="account-order-card"
     >
-      <AccountOrderDetailsHeader
+      <AccountOrderCardHeader
         :code="order.code"
         :color="order.status.color"
         :created-at="order.created_at"

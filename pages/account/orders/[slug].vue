@@ -6,14 +6,14 @@
         {{ t('title') }}
       </template>
       <template #text>
-        <AccountOrderDetailsHeader
+        <AccountOrderCardHeader
           :code="order.code"
           :color="order.status.color"
           :created-at="order.created_at"
           :name="order.status.name"
         />
       </template>
-      <AccountOrderFullDetailsCard class="account-order__content" :order="order" />
+      <AccountOrderView class="account-order__content" :order="order" />
     </LayoutAccount>
     <LayoutInfoBox v-else type="danger">
       {{ errorMessage }}

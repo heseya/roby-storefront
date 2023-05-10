@@ -6,3 +6,5 @@ export const formatDate = (date: string | number | Date | null, pattern = 'dd.MM
   if (!date) return null
   return format(new Date(date), pattern, { locale: pl })
 }
+
+export const DAY_MONTH_YEAR_HOUR_MINUTE_PATTERN = 'dd.MM.yyyy HH:MM'
