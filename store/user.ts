@@ -1,4 +1,9 @@
-import { MetadataUpdateDto, User, UserProfileUpdateDto } from '@heseya/store-core'
+import {
+  MetadataUpdateDto,
+  User,
+  UserProfileUpdateDto,
+  UserSavedAddressCreateDto,
+} from '@heseya/store-core'
 import { defineStore } from 'pinia'
 
 export const useUserStore = defineStore('user', {
@@ -51,6 +56,26 @@ export const useUserStore = defineStore('user', {
         return { success: true }
       } catch (e) {
         this.error = e
+        return { success: false, error: e }
+      }
+    },
+
+    async saveShippingAddress(payload: UserSavedAddressCreateDto) {
+      const heseya = useHeseya()
+      try {
+        const address = await heseya.UserProfile.saveShippingAddress(payload)
+        this.user?.shipping_addresses.push(...address)
+      } catch (e) {
+        return { success: false, error: e }
+      }
+    },
+
+    async saveBillingAddress(payload: UserSavedAddressCreateDto) {
+      const heseya = useHeseya()
+      try {
+        const address = await heseya.UserProfile.saveBillingAddress(payload)
+        this.user?.billing_addresses.push(...address)
+      } catch (e) {
         return { success: false, error: e }
       }
     },
