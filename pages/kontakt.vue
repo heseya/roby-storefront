@@ -42,6 +42,10 @@
 import { InfoCardProps } from '~/components/contact/InfoCard.vue'
 import { PersonCardProps } from '~/components/contact/PersonCard.vue'
 
+import AvatarRobert from '@/assets/images/avatars/robert.png?url'
+import AvatarMarcin from '@/assets/images/avatars/marcin.jpeg?url'
+import AvatarArkadiusz from '@/assets/images/avatars/arkadiusz.png?url'
+
 const breadcrumb = [
   {
     label: 'Kontakt',
@@ -56,7 +60,8 @@ const persons: PersonCardProps[] = [
     phone: 'tel.: +48 604 858 045',
     description:
       'Urządzenia wielofunkcyjne, urządzenia wielkoformatowe/plotery, urządzenia wysokonakładowe',
-    link: 'www.soofar.com',
+    link: 'https://www.linkedin.com/in/robert-jastrz%C4%99bski-30a9a371/',
+    avatar: AvatarRobert,
   },
   {
     name: 'Marcin Wiśniewski',
@@ -64,7 +69,8 @@ const persons: PersonCardProps[] = [
     phone: 'tel.: +48 509 612 945',
     description:
       'Doradztwo techniczne i handlowe, plotery, kopiarki, drukarki, niszczarki, sprzedaż i wynajem urządzeń',
-    link: 'www.soofar.com',
+    link: 'https://www.linkedin.com/in/marcin-wi%C5%9Bniewski1/',
+    avatar: AvatarMarcin,
   },
   {
     name: 'Arkadiusz Wiśniewski',
@@ -72,7 +78,8 @@ const persons: PersonCardProps[] = [
     phone: 'tel.: +48 795 581 936',
     description:
       'Obsługa umów dzierżaw/wynajmu, papiery, media do ploterów, materiały eksploatacyjne, plotery, wynajem urządzeń',
-    link: 'www.soofar.com',
+    link: 'https://www.linkedin.com/in/arkadiusz-wi%C5%9Bniewski-3a06b6131/',
+    avatar: AvatarArkadiusz,
   },
 ]
 

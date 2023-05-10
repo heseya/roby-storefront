@@ -1,13 +1,15 @@
 <template>
   <div class="person-card">
     <div class="person-card__info-container">
-      <img class="person-card__avatar" src="@/assets/images/gold-partner.jpg?url" :alt="name" />
+      <div class="person-card__avatar-container">
+        <img v-show="data.avatar" class="person-card__avatar" :src="data.avatar" :alt="data.name" />
+      </div>
       <div class="person-card__contact">
         <div class="person-card__name-container">
           <span class="person-card__name">{{ data.name }}</span>
-          <NuxtLink v-show="data.link" :to="data.link">
+          <a v-show="data.link" :href="data.link" target="_blank" rel="nofollow noopener">
             <LayoutIconButton class="person-card__social" :icon="Linkedin" :icon-size="16" />
-          </NuxtLink>
+          </a>
         </div>
         <div class="person-card__contact-data">
           <span class="person-card__email">{{ data.email }}</span>
@@ -15,14 +17,14 @@
         </div>
       </div>
     </div>
-    <span>
-      Urządzenia wielofunkcyjne, urządzenia wielkoformatowe/plotery, urządzenia wysokonakładowe
-    </span>
+    <span>{{ data.description }}</span>
   </div>
 </template>
 
 <script lang="ts" setup>
 import Linkedin from '@/assets/icons/linkedin.svg?component'
+
+import Avatar from '@/assets/images/avatars/robert.png?url'
 export interface PersonCardProps {
   name: string
   email: string
@@ -53,11 +55,18 @@ defineProps<{ data: PersonCardProps }>()
     justify-content: space-between;
   }
 
-  &__avatar {
+  &__avatar-container {
     height: 70px;
     width: 70px;
-
+    overflow: hidden;
     border-radius: 50%;
+
+    background-color: $gray-color-300;
+  }
+
+  &__avatar {
+    width: 100%;
+    height: 100%;
     object-fit: cover;
   }
 
