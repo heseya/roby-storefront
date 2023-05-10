@@ -14,7 +14,7 @@
         <AboutTeam />
       </BaseContainer>
 
-      <RentBanner class="about-page__banner" />
+      <AboutImageBanner />
     </div>
   </NuxtLayout>
 </template>
