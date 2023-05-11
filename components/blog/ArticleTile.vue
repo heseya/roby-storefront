@@ -1,6 +1,6 @@
 <template>
   <div class="blog-article">
-    <nuxt-link :to="localePath(`/blog/${article.slug}`)" class="blog-article__link">
+    <nuxt-link :to="localePath(`/${article.slug}`)" class="blog-article__link">
       <div class="blog-article__image-container">
         <img :src="imageUrl" :alt="translatedArticle.title" />
         <div class="blog-article__floating-title">{{ translatedArticle.title }}</div>
@@ -10,7 +10,7 @@
     <div class="blog-article__date">
       <div>{{ dateCreated }}</div>
       <div>
-        <BlogSimpleTag v-for="tag in article.tags" :key="tag.id" :tag="tag" />
+        <BlogSimpleTag v-for="tag in article.tags" :key="tag.id" :tag="(tag as any)" />
       </div>
     </div>
   </div>
@@ -20,10 +20,7 @@
 import { BlogArticle } from '~/interfaces/BlogArticle'
 
 const props = defineProps<{
-  article: {
-    type: BlogArticle
-    required: true
-  }
+  article: BlogArticle
 }>()
 
 const localePath = useLocalePath()

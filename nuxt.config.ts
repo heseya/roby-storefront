@@ -84,7 +84,6 @@ export default defineNuxtConfig({
 
   // routeRules: {
   //   // '/account/**': { swr: true },
-  //   '/blog/**': { swr: true },
   //   '/category/**': { swr: true },
   //   '/checkout/**': { swr: true },
   //   '/product/**': { swr: true },
