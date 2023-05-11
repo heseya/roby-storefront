@@ -1,5 +1,5 @@
 <template>
-  <CheckoutAddressCard :address="address" @edit="handleEdit" />
+  <AddressCard :address="address" :is-selected="true" @edit="handleEdit" />
 </template>
 
 <script setup lang="ts">

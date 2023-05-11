@@ -7,8 +7,24 @@
         {{ t('title') }}
       </template>
       <div class="account-addresses__container">
-        <AccountAddressList :address-list="deliveryAddresses" />
-        <AccountAddressList :address-list="billingAddresses" :is-billing-address="true" />
+        <div class="account-addresses__list">
+          <div class="account-addresses__header">{{ t('shippingAddress.title') }}</div>
+          <div>{{ t('shippingAddress.description') }}</div>
+          <AddressList
+            v-model:value="defaultShippingAddress"
+            type="shipping"
+            @update:value="updateDefaultAddress"
+          />
+        </div>
+        <div class="account-addresses__list">
+          <div class="account-addresses__header">{{ t('billingAddress.title') }}</div>
+          <div>{{ t('billingAddress.description') }}</div>
+          <AddressList
+            type="billing"
+            :value="defaultBillingAddress"
+            @update:value="updateDefaultAddress"
+          />
+        </div>
       </div>
     </LayoutAccount>
   </NuxtLayout>
@@ -17,13 +33,22 @@
 <i18n lang="json">
 {
   "pl": {
-    "title": "Adresy"
+    "title": "Adresy",
+    "shippingAddress": {
+      "title": "Adresy dostawy",
+      "description": "Zaznaczony adres jest domyślnym adresem dostawy."
+    },
+    "billingAddress": {
+      "title": "Dane do rachunku",
+      "description": "Zaznaczone dane są domyślnymi danymi do rachunku."
+    }
   }
 }
 </i18n>
 
 <script setup lang="ts">
 import { UserSavedAddress } from '@heseya/store-core'
+
 const t = useLocalI18n()
 const { t: $t } = useI18n({ useScope: 'global' })
 
@@ -33,57 +58,17 @@ useSeoMeta({
 
 const breadcrumbs = computed(() => [
   { label: $t('breadcrumbs.account'), link: '/account' },
-  { label: t('title'), link: '/addresses' },
+  { label: t('title'), link: '/account/addresses' },
 ])
 
-const deliveryAddresses = ref<UserSavedAddress[]>([
-  {
-    id: '1',
-    default: true,
-    name: 'Pierwszy adres',
-    address: {
-      address: 'ul. Wrocławska 160/12',
-      city: 'Warszawa',
-      country: 'PL',
-      country_name: 'Poland',
-      name: 'Jan Kowalski',
-      phone: '+48622790907',
-      zip: '00-002',
-    },
-  },
-  {
-    id: '2',
-    default: false,
-    name: 'Drugi adres',
-    address: {
-      address: 'ul. Polna 10',
-      city: 'Kraków',
-      country: 'PL',
-      country_name: 'Poland',
-      name: 'Jan Kowalski',
-      phone: '+48622790907',
-      zip: '31-923',
-    },
-  },
-])
+const { defaultAddress: defaultShippingAddress } = useUserShippingAddresses()
+const { defaultAddress: defaultBillingAddress } = useUserBillingAddresses()
 
-const billingAddresses = ref<UserSavedAddress[]>([
-  {
-    id: '1',
-    default: false,
-    name: 'Pierwszy Adres',
-    address: {
-      address: 'ul. Wrocławska 160/12',
-      city: 'Warszawa',
-      country: 'PL',
-      country_name: 'Poland',
-      name: 'Przykładowa Firma',
-      vat: '2293774000',
-      phone: '+48228960722',
-      zip: '00-002',
-    },
-  },
-])
+const updateDefaultAddress = (value: UserSavedAddress | null) => {
+  if (value) {
+    useUserShippingAddresses().edit(value.id, value)
+  }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -91,6 +76,17 @@ const billingAddresses = ref<UserSavedAddress[]>([
   &__container {
     display: grid;
     gap: 30px;
+    margin-top: 18px;
+  }
+
+  &__list {
+    display: grid;
+    gap: 4px;
+  }
+
+  &__header {
+    font-size: 16px;
+    font-weight: bold;
   }
 }
 </style>
