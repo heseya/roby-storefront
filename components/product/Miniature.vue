@@ -45,6 +45,7 @@ import { getProductSubtext } from '@/utils/product'
 import { ASK_FOR_PRICE_KEY } from '@/consts/metadataKeys'
 
 const t = useLocalI18n()
+const localePath = useLocalePath()
 
 const props = defineProps<{
   product: ProductList

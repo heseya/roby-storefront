@@ -23,7 +23,12 @@
       </template>
 
       <template v-for="method in shippingMethods" :key="method.id" v-slot:[method.id]>
-        <CheckoutFormShippingAddress v-if="method.shipping_type === ShippingType.Address" />
+        <CheckoutFormShippingAddress
+          v-if="method.shipping_type === ShippingType.Address && !hasShippingAddresses"
+        />
+        <CheckoutFormLoggedShippingAddress
+          v-if="method.shipping_type === ShippingType.Address && hasShippingAddresses"
+        />
         <CheckoutInpostSelect
           v-if="method.shipping_type === ShippingType.PointExternal && method.metadata.paczkomat"
         />
@@ -64,6 +69,11 @@ const { data: shippingMethods } = useLazyAsyncData(
   },
   { server: false, default: () => [] as ShippingMethod[] },
 )
+
+const hasShippingAddresses = computed(() => {
+  const { addresses } = useUserShippingAddresses()
+  return addresses.value.length > 0
+})
 
 const shippingOptions = computed(() => {
   return (shippingMethods.value || []).map((method) => ({

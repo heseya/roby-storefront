@@ -49,7 +49,8 @@
       "shipping": "Dostawa",
       "total": "Łączna kwota",
       "submit": "Potwierdzam i płacę"
-    }
+    },
+    "defaultAddress": "Adres domyślny"
   }
 }
 </i18n>
@@ -66,11 +67,35 @@ const formatError = useErrorMessage()
 const { notify } = useNotify()
 const router = useRouter()
 
+const saveUserAddresses = async () => {
+  const { addresses: shipping, add: addShipping } = useUserShippingAddresses()
+  const { addresses: billing, add: addBilling } = useUserBillingAddresses()
+
+  if (shipping.value.length === 0) {
+    await addShipping({
+      name: t('defaultAddress'),
+      default: true,
+      address: checkout.shippingAddress,
+    })
+  }
+  if (billing.value.length === 0) {
+    await addBilling({
+      name: t('defaultAddress'),
+      default: true,
+      address: checkout.billingAddress,
+    })
+  }
+}
+
 const createOrder = async () => {
   try {
     // paymentMethodId must exist at this point, it is validated before
     const paymentId = checkout.paymentMethodId!
     const order = await checkout.createOrder()
+
+    // save user addresses if they don't exist
+    await saveUserAddresses()
+
     checkout.reset()
 
     if (paymentId === TRADITIONAL_PAYMENT_KEY) {

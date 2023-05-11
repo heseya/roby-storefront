@@ -1,13 +1,15 @@
 <template>
-  <div class="account-nav">
+  <div class="layout-account-nav">
     <div>
-      <ul class="account-nav__list">
-        <li v-for="(target, index) in navList" :key="index" class="account-nav__list-item">
-          <NuxtLink :to="`/account/${target}`" class="account-nav__text">{{ t(target) }} </NuxtLink>
-          <LayoutIcon :icon="GoNextIcon" :size="12" class="account-nav__icon" />
+      <ul class="layout-account-nav__list">
+        <li v-for="(target, index) in navList" :key="index" class="layout-account-nav__list-item">
+          <NuxtLink :to="`/account/${target}`" class="layout-account-nav__text"
+            >{{ t(target) }}
+          </NuxtLink>
+          <LayoutIcon :icon="GoNextIcon" :size="12" class="layout-account-nav__icon" />
         </li>
       </ul>
-      <div class="account-nav__logout" @click="logout">{{ t('logout') }}</div>
+      <div class="layout-account-nav__logout" @click="logout">{{ t('logout') }}</div>
     </div>
   </div>
 </template>
@@ -47,7 +49,7 @@ const logout = async () => {
 </script>
 
 <style lang="scss">
-.account-nav {
+.layout-account-nav {
   grid-area: nav;
 
   &__list {
@@ -88,7 +90,7 @@ const logout = async () => {
     text-decoration: underline;
     cursor: pointer;
 
-    margin: 35px 0px;
+    margin: 22px 0px;
   }
 
   &__icon {

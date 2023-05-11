@@ -14,9 +14,10 @@
         <AccountAddressCard :user-address="address" :is-selected="selectedAddress === address" />
       </div>
     </div>
-    <LayoutButton class="address-list__button">{{
-      isBillingAddress ? t('billingAddress.addData') : t('deliveryAddress.addAddress')
-    }}</LayoutButton>
+    <LayoutButton
+      class="address-list__button"
+      :label="isBillingAddress ? t('billingAddress.addData') : t('deliveryAddress.addAddress')"
+    />
   </div>
 </template>
 
