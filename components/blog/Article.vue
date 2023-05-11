@@ -1,22 +1,31 @@
 <template>
-  <LayoutBreadcrumpsProvider :breadcrumbs="breadcrumbs" />
+  <div>
+    <LayoutBreadcrumpsProvider :breadcrumbs="breadcrumbs" />
 
-  <BaseContainer>
-    <LayoutLoading :active="pending" />
-    <div class="blog-page">
-      <h1 class="blog-page__title">{{ translatedArticle?.title }}</h1>
-      <div class="blog-page__img">
-        <img :src="imageUrl" :alt="translatedArticle?.description" />
-      </div>
-      <div class="blog-page__info">
-        <div class="blog-page__tags">
-          <BlogTranslatedTag v-for="tag in article?.tags ?? []" :key="tag.id" :tag="(tag as any)" />
+    <BaseContainer>
+      <LayoutLoading :active="pending" />
+      <div class="blog-page">
+        <h1 class="blog-page__title">{{ translatedArticle?.title }}</h1>
+        <div class="blog-page__img">
+          <img :src="imageUrl" :alt="translatedArticle?.description" />
         </div>
-        <div class="blog-page__date">{{ dateCreated }}</div>
+        <div class="blog-page__info">
+          <div class="blog-page__tags">
+            <BlogTranslatedTag
+              v-for="tag in article?.tags ?? []"
+              :key="tag.id"
+              :tag="(tag as any)"
+            />
+          </div>
+          <div class="blog-page__date">{{ dateCreated }}</div>
+        </div>
+        <BaseWysiwygContent
+          v-if="translatedArticle?.content"
+          :content="translatedArticle.content"
+        />
       </div>
-      <BaseWysiwygContent v-if="translatedArticle?.content" :content="translatedArticle.content" />
-    </div>
-  </BaseContainer>
+    </BaseContainer>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -79,6 +88,7 @@ const breadcrumbs = computed(() => [
 
   &__title {
     margin-bottom: 20px;
+    line-height: 1.2em;
 
     @media ($viewport-8) {
       margin: 25px 0;

@@ -5,7 +5,7 @@
 
       <template v-if="!pending">
         <LazyStaticArticle v-if="page" :page="page" />
-        <LazyBlogArticle v-else :slug="slug" />
+        <BlogArticle v-else :slug="slug" />
       </template>
     </div>
   </NuxtLayout>

@@ -1,11 +1,13 @@
 <template>
-  <LayoutBreadcrumpsProvider :breadcrumbs="breadcrumbs" />
+  <div>
+    <LayoutBreadcrumpsProvider :breadcrumbs="breadcrumbs" />
 
-  <BaseContainer>
-    <div class="page">
-      <BaseWysiwygContent :content="page?.content_html" />
-    </div>
-  </BaseContainer>
+    <BaseContainer>
+      <div class="page">
+        <BaseWysiwygContent :content="page?.content_html" />
+      </div>
+    </BaseContainer>
+  </div>
 </template>
 
 <i18n lang="json">
