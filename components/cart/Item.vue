@@ -6,7 +6,7 @@
       <div class="cart-item__main">
         <span class="cart-item__name">{{ item.name }}</span>
         <span v-for="[name, value] in item.variant" :key="name" class="cart-item__schema">
-          {{ name }}: <b>{{ value }}</b>
+          {{ name }}: <b>{{ formatSchemaValue(value) }}</b>
         </span>
       </div>
 
@@ -37,6 +37,8 @@ import { CartItem } from '@heseya/store-core'
 import CrossIcon from '@/assets/icons/cross.svg?component'
 import { useCartStore } from '@/store/cart'
 
+const { t } = useI18n()
+
 const props = withDefaults(
   defineProps<{
     item: CartItem
@@ -55,6 +57,12 @@ const updateQuantity = (newQty: number) => {
 
 const removeFromCart = () => {
   cart.remove(props.item.id)
+}
+
+const formatSchemaValue = (value: string | undefined) => {
+  if (value === 'true') return t('common.yes')
+  if (value === 'false') return t('common.false')
+  return value
 }
 </script>
 
