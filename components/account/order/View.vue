@@ -29,7 +29,7 @@
           </div>
         </div>
         <div class="account-order-view__text">
-          {{ paymentStatus?.method }}
+          {{ paymentStatus?.method === 'offline' ? 'Przelew tradycyjny' : paymentStatus?.method }}
         </div>
       </div>
       <NuxtLink :to="`/pay/${order.code}`">
