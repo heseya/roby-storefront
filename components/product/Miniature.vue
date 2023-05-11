@@ -59,6 +59,7 @@ const showPrice = computed(() => {
 
 <style lang="scss" scoped>
 .product-miniature {
+  height: 100%;
   display: flex;
   flex-direction: column;
   gap: 14px;

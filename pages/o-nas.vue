@@ -10,8 +10,9 @@
       </BaseContainer>
 
       <AboutBanner class="about-page__banner" />
-      <BaseContainer>
+      <BaseContainer class="about-page__content">
         <AboutTeam />
+        <AboutPartnerCarousel />
       </BaseContainer>
 
       <AboutImageBanner />
