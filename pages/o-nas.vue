@@ -44,13 +44,24 @@ const breadcrumb = [
     @include flex-column;
     gap: 80px;
 
+    @media ($max-viewport-9) {
+      gap: 40px;
+    }
     &--narrow {
       gap: 30px;
+
+      @media ($max-viewport-9) {
+        gap: 14px;
+      }
     }
   }
 
   &__banner {
     margin: 80px 0;
+
+    @media ($max-viewport-9) {
+      margin: 40px 0;
+    }
   }
 }
 </style>

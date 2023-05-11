@@ -17,9 +17,13 @@
 
 <style lang="scss" scoped>
 .banner {
-  margin-top: 70px;
+  margin-top: 80px;
   background-image: url('@/assets/images/banner-bgr.png');
   @include background-image-basic;
+
+  @media ($max-viewport-9) {
+    margin-top: 40px;
+  }
 
   &__gray-filter {
     background-color: $gray-filter;

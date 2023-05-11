@@ -18,22 +18,27 @@
 </template>
 
 <script lang="ts" setup>
+import AvatarRobert from '@/assets/images/avatars/robert.png?url'
+import AvatarMarcin from '@/assets/images/avatars/marcin.jpeg?url'
+import AvatarArkadiusz from '@/assets/images/avatars/arkadiusz.png?url'
+import AvatarLukasz from '@/assets/images/avatars/lukasz.png?url'
+
 const persons = [
   {
     name: 'Robert Jastrzębski',
-    avatar: 'AvatarRobert',
+    avatar: AvatarRobert,
   },
   {
     name: 'Marcin Wiśniewski',
-    avatar: 'AvatarMarcin',
+    avatar: AvatarMarcin,
   },
   {
     name: 'Arkadiusz Wiśniewski',
-    avatar: 'AvatarArkadiusz',
+    avatar: AvatarArkadiusz,
   },
   {
     name: 'Łukasz Zielonka',
-    avatar: 'AvatarLukasz',
+    avatar: AvatarLukasz,
   },
   {
     name: 'Marcin Brętkowski',
