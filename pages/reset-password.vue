@@ -1,16 +1,22 @@
 <template>
   <BaseContainer>
     <div class="reset-password" @submit.prevent="onSubmit">
-      <LayoutBreadcrumpsProvider :breadcrumbs="[]" />
       <form class="reset-password__form">
-        <h2 class="reset-password__header">{{ t('title') }}</h2>
-        <FormInputPassword v-model="form.values.password" :label="t('password')" name="password" />
-        <FormInputPassword
-          v-model="form.values.confirmPassword"
-          :label="t('confirmPassword')"
-          rules="confirmedPassword:@password"
-          name="confirmPassword"
-        />
+        <div class="reset-password__header">{{ t('title') }}</div>
+        <div class="reset-password__inputs">
+          <FormInputPassword
+            v-model="form.values.password"
+            :label="t('password')"
+            name="password"
+          />
+          <FormInputPassword
+            v-model="form.values.confirmPassword"
+            :label="t('confirmPassword')"
+            rules="confirmedPassword:@password"
+            name="confirmPassword"
+          />
+        </div>
+
         <LayoutButton class="reset-password__btn" :label="t('send')" html-type="submit" />
       </form>
     </div>
@@ -34,11 +40,18 @@ import { useForm } from 'vee-validate'
 const t = useLocalI18n()
 const heseya = useHeseya()
 const route = useRoute()
-const router = useRouter()
 
-const query = ref({
+const query = computed(() => ({
   token: route.query.token as string,
   email: route.query.email as string,
+}))
+
+useAsyncData(`reset-password`, async () => {
+  try {
+    await heseya.Auth.verifyResetPasswordToken(query.value.token, query.value.email)
+  } catch {
+    navigateTo('/')
+  }
 })
 
 const form = useForm({
@@ -56,15 +69,7 @@ const onSubmit = form.handleSubmit(async (values) => {
       password: values.password,
     })
   } finally {
-    router.push('/')
-  }
-})
-
-onBeforeMount(async () => {
-  try {
-    await heseya.Auth.verifyResetPasswordToken(query.value.token, query.value.email)
-  } catch {
-    router.push('/')
+    navigateTo('/')
   }
 })
 </script>
@@ -74,19 +79,36 @@ onBeforeMount(async () => {
   display: flex;
   justify-content: center;
   align-items: center;
+  gap: 10px;
 
   &__form {
     margin-top: 50px;
     display: grid;
-    height: 100%;
-    width: 50%;
+    justify-items: center;
     gap: 10px;
+
+    @media ($viewport-11) {
+      width: 25%;
+    }
   }
 
   &__btn {
     justify-self: center;
     margin-top: 20px;
-    width: 50%;
+    width: 100%;
+  }
+
+  &__inputs {
+    display: grid;
+    gap: 10px;
+    width: 100%;
+  }
+
+  &__header {
+    font-size: 25px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    width: 100%;
   }
 }
 </style>
