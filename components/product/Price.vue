@@ -13,7 +13,7 @@
         - {{ formatAmount(product.price_max) }}
       </template> -->
     </component>
-
+    {{ ' ' }}
     <component
       :is="tag"
       v-if="isDiscounted"
@@ -63,8 +63,12 @@ const isDiscounted = computed(() => {
 
 <style lang="scss" scoped>
 .product-price {
+  display: flex;
+  flex-wrap: wrap;
+
   &__price {
     line-height: 1.1em;
+    white-space: nowrap;
 
     &--discounted {
       color: var(--primary-color);
