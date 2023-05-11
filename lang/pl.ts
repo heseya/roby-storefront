@@ -5,6 +5,11 @@ export default {
     blog: 'Blog',
   },
 
+  common: {
+    save: 'Zapisz',
+    cancel: 'Anuluj',
+  },
+
   seo: {
     loading: 'Wczytywanie...',
   },

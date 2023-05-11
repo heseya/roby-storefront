@@ -1,5 +1,11 @@
 <template>
   <CheckoutAddressCard :title="t('title')" :address="address" @edit="handleEdit" />
+
+  <CheckoutAddressModal
+    :title="t('title')"
+    :open="isEditOpen"
+    @update:open="(v) => (isEditOpen = v)"
+  ></CheckoutAddressModal>
 </template>
 
 <i18n lang="json">
@@ -20,6 +26,8 @@ const { defaultAddress } = useUserShippingAddresses()
 
 const address = computed(() => checkout.shippingAddress)
 
+const isEditOpen = ref(false)
+
 watch(
   () => defaultAddress,
   () => {
@@ -29,9 +37,7 @@ watch(
 )
 
 const handleEdit = () => {
-  // TODO: handle edit
-  // eslint-disable-next-line no-console
-  console.log('edit')
+  isEditOpen.value = true
 }
 </script>
 
