@@ -6,7 +6,7 @@
 
     <ClientOnly>
       <CartUnavailableModal />
-      <Notifications position="bottom right" />
+      <Notifications class="notifications" position="bottom right" />
     </ClientOnly>
   </div>
 </template>
@@ -27,4 +27,8 @@ useSeoMeta({
 })
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.notifications {
+  z-index: 99999999;
+}
+</style>
