@@ -1,5 +1,5 @@
 <template>
-  <AddressList v-model:value="selectedAddress" type="billing" />
+  <AddressList v-model:value="selectedSavedAddress" type="billing" />
 </template>
 
 <script setup lang="ts">
@@ -17,8 +17,9 @@ const emit = defineEmits<{
 
 const { addresses } = useUserAddreses(props.type)
 
-const selectedAddress = computed({
+const selectedSavedAddress = computed({
   get() {
+    // We need to map the Address in checkout to UserSavedAddress interface that comes from API
     return addresses.value.find((a) => a.address.id === props.address?.id) || null
   },
   set(value) {
