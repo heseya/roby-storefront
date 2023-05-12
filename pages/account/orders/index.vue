@@ -33,16 +33,15 @@
 </i18n>
 
 <script setup lang="ts">
+import { useAuthMiddleware } from '~/composables/useAuthMiddleware'
+
+useAuthMiddleware()
 const t = useLocalI18n()
 const formatError = useErrorMessage()
 const router = useRouter()
 const route = useRoute()
 const heseya = useHeseya()
 const { t: $t } = useI18n({ useScope: 'global' })
-
-definePageMeta({
-  middleware: 'auth',
-})
 
 useSeoMeta({
   title: () => t('title'),
