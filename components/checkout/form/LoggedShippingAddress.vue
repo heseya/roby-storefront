@@ -1,5 +1,5 @@
 <template>
-  <CheckoutAddressCard :address="address" @edit="handleEdit" />
+  <CheckoutAddressCard :title="t('title')" :address="address" @edit="handleEdit" />
 </template>
 
 <i18n lang="json">

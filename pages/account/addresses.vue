@@ -13,7 +13,7 @@
           <AddressList
             v-model:value="defaultShippingAddress"
             type="shipping"
-            @update:value="updateDefaultAddress"
+            @update:value="(value) => updateDefaultAddress(value, 'shipping')"
           />
         </div>
         <div class="account-addresses__list">
@@ -22,7 +22,7 @@
           <AddressList
             type="billing"
             :value="defaultBillingAddress"
-            @update:value="updateDefaultAddress"
+            @update:value="(value) => updateDefaultAddress(value, 'billing')"
           />
         </div>
       </div>
@@ -61,12 +61,15 @@ const breadcrumbs = computed(() => [
   { label: t('title'), link: '/account/addresses' },
 ])
 
-const { defaultAddress: defaultShippingAddress } = useUserShippingAddresses()
-const { defaultAddress: defaultBillingAddress } = useUserBillingAddresses()
+const { defaultAddress: defaultShippingAddress, edit: editShippingAddress } =
+  useUserShippingAddresses()
+const { defaultAddress: defaultBillingAddress, edit: editBillingAddress } =
+  useUserBillingAddresses()
 
-const updateDefaultAddress = (value: UserSavedAddress | null) => {
+const updateDefaultAddress = (value: UserSavedAddress | null, type: 'billing' | 'shipping') => {
   if (value) {
-    useUserShippingAddresses().edit(value.id, value)
+    value.default = true
+    type === 'billing' ? editBillingAddress(value.id, value) : editShippingAddress(value.id, value)
   }
 }
 </script>
