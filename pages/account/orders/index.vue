@@ -6,7 +6,11 @@
       <template #header>
         {{ t('title') }}
       </template>
-      <div class="account-orders__content">
+      <LayoutEmpty v-if="orders.data.length === 0" class="account-order-card__empty">
+        {{ t('empty') }}
+      </LayoutEmpty>
+
+      <div v-else class="account-orders__content">
         <AccountOrderSimpleView v-for="order in orders.data" :key="order.id" :code="order.code" />
       </div>
       <Pagination
@@ -22,7 +26,8 @@
 <i18n lang="json">
 {
   "pl": {
-    "title": "Zamówienia"
+    "title": "Zamówienia",
+    "empty": "Nie masz żadnego zamówienia"
   }
 }
 </i18n>

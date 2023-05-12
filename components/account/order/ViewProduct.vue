@@ -33,7 +33,10 @@ defineProps<{
 <style lang="scss" scoped>
 .account-order-product-view {
   display: flex;
-  justify-content: space-between;
+
+  @media ($viewport-12) {
+    justify-content: space-between;
+  }
 
   &__container {
     display: flex;
@@ -41,11 +44,11 @@ defineProps<{
     margin-left: 10px;
     align-items: center;
     flex-wrap: wrap;
+    width: 100%;
 
     @media ($viewport-12) {
       justify-content: flex-end;
       flex-wrap: nowrap;
-      width: 100%;
     }
   }
 
@@ -64,10 +67,9 @@ defineProps<{
     justify-content: space-between;
     flex-wrap: nowrap;
     width: 66%;
-    gap: 44px;
 
     @media ($viewport-12) {
-      justify-content: flex-end;
+      width: 40%;
     }
   }
 }

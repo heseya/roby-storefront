@@ -29,16 +29,16 @@
           </div>
         </div>
         <div class="account-order-view__text">
-          {{ paymentStatus?.method }}
+          {{ paymentStatus?.method === 'offline' ? 'Przelew tradycyjny' : paymentStatus?.method }}
         </div>
+        <NuxtLink :to="`/pay/${order.code}`">
+          <LayoutButton
+            v-if="order.payable"
+            class="account-order-view__payment-button"
+            :label="t('goToPayment')"
+          />
+        </NuxtLink>
       </div>
-      <NuxtLink :to="`/pay/${order.code}`">
-        <LayoutButton
-          v-if="order.payable"
-          class="account-order-view__payment-button"
-          :label="t('goToPayment')"
-        />
-      </NuxtLink>
     </div>
 
     <AccountOrderViewProducts v-if="order" :order="order" />
@@ -120,6 +120,7 @@ const paymentStatus = computed(() => {
   width: 100%;
   border: 1px solid $gray-color-300;
   display: grid;
+  align-items: flex-start;
   padding: 21px 20px;
   gap: 20px;
 
@@ -129,9 +130,8 @@ const paymentStatus = computed(() => {
 
   &__section {
     border-bottom: 1px solid $gray-color-300;
-    padding-bottom: 26px;
     display: grid;
-    align-items: space-between;
+    gap: 20px;
 
     @media ($viewport-12) {
       border-right: 1px solid $gray-color-300;

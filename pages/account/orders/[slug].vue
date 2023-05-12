@@ -25,9 +25,7 @@
   "pl": {
     "title": "Szczegóły Zamówienia",
     "orders": "Zamówienia",
-    "route": "Zamówienie nr ",
-    "orderNumber": "Numer Zamówienia:",
-    "orderCreatingDate": "Data złożenia"
+    "route": "Zamówienie nr "
   }
 }
 </i18n>

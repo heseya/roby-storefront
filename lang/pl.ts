@@ -8,6 +8,8 @@ export default {
   common: {
     save: 'Zapisz',
     cancel: 'Anuluj',
+    yes: 'Tak',
+    no: 'Nie',
   },
 
   seo: {

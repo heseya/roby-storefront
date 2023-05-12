@@ -7,4 +7,4 @@ export const formatDate = (date: string | number | Date | null, pattern = 'dd.MM
   return format(new Date(date), pattern, { locale: pl })
 }
 
-export const DAY_MONTH_YEAR_HOUR_MINUTE_PATTERN = 'dd.MM.yyyy HH:MM'
+export const DAY_MONTH_YEAR_HOUR_MINUTE_PATTERN = 'dd.MM.yyyy HH:mm'
