@@ -87,6 +87,11 @@ const saveUserAddresses = async () => {
   }
 }
 
+onMounted(() => {
+  // @ts-ignore
+  window.heseya = useHeseya()
+})
+
 const createOrder = async () => {
   try {
     // paymentMethodId must exist at this point, it is validated before

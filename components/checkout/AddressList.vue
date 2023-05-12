@@ -1,5 +1,5 @@
 <template>
-  <AddressList v-model:value="selectedSavedAddress" type="billing" />
+  <AddressList v-model:value="selectedSavedAddress" :type="type" />
 </template>
 
 <script setup lang="ts">

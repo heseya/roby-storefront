@@ -5,9 +5,9 @@
     :title="t('title')"
     :open="isEditOpen"
     @update:open="(v) => (isEditOpen = v)"
-    @save="isEditOpen = false"
+    @save="onSave"
   >
-    <CheckoutAddressList v-model:address="checkout.shippingAddress" type="shipping" />
+    <CheckoutAddressList v-model:address="selectedAddress" type="shipping" />
   </CheckoutAddressModal>
 </template>
 
@@ -28,17 +28,26 @@ const checkout = useCheckoutStore()
 const { defaultAddress } = useUserShippingAddresses()
 
 const isEditOpen = ref(false)
+const selectedAddress = ref(defaultAddress.value?.address || null)
 
 watch(
   () => defaultAddress,
   () => {
-    if (defaultAddress.value) checkout.shippingAddress = clone(defaultAddress.value.address)
+    if (defaultAddress.value) {
+      checkout.shippingAddress = clone(defaultAddress.value.address)
+      selectedAddress.value = defaultAddress.value?.address || null
+    }
   },
   { immediate: true },
 )
 
 const handleEdit = () => {
   isEditOpen.value = true
+}
+
+const onSave = () => {
+  if (selectedAddress.value) checkout.shippingAddress = clone(selectedAddress.value)
+  isEditOpen.value = false
 }
 </script>
 
