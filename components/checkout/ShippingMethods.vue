@@ -71,8 +71,8 @@ const { data: shippingMethods } = useLazyAsyncData(
 )
 
 const hasShippingAddresses = computed(() => {
-  const { addresses } = useUserShippingAddresses()
-  return addresses.value.length > 0
+  const { defaultAddress } = useUserShippingAddresses()
+  return !!defaultAddress.value
 })
 
 const shippingOptions = computed(() => {

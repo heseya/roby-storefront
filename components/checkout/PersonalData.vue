@@ -40,23 +40,6 @@ watch(
   },
   { immediate: true },
 )
-
-watch(
-  () => user,
-  () => {
-    if (user) {
-      // TODO: remove debug logs
-      console.info('[Checkout] User is logged')
-      console.info(`[Checkout] User has ${user.value?.billing_addresses?.length} billing addresses`)
-      console.info(
-        `[Checkout] User has ${user.value?.shipping_addresses?.length} shipping addresses`,
-      )
-    } else {
-      console.info('[Checkout] User is not logged')
-    }
-  },
-  { immediate: true },
-)
 </script>
 
 <style lang="scss" scoped>

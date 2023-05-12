@@ -1,5 +1,5 @@
 <template>
-  <LayoutModal :open="isOpen" @update:open="close">
+  <LayoutModal :open="isOpen" hide-close @update:open="close">
     <div class="unavailable-modal">
       <template v-if="cartAge > MAX_CART_AGE">
         <span class="unavailable-modal__title">{{ t('cartAged.title') }}</span>

@@ -1,5 +1,14 @@
 <template>
-  <CheckoutAddressCard :title="t('title')" :address="address" @edit="handleEdit" />
+  <CheckoutAddressCard :title="t('title')" :address="checkout.shippingAddress" @edit="handleEdit" />
+
+  <CheckoutAddressModal
+    :title="t('title')"
+    :open="isEditOpen"
+    @update:open="(v) => (isEditOpen = v)"
+    @save="onSave"
+  >
+    <CheckoutAddressList v-model:address="selectedAddress" type="shipping" />
+  </CheckoutAddressModal>
 </template>
 
 <i18n lang="json">
@@ -18,20 +27,27 @@ const t = useLocalI18n()
 const checkout = useCheckoutStore()
 const { defaultAddress } = useUserShippingAddresses()
 
-const address = computed(() => checkout.shippingAddress)
+const isEditOpen = ref(false)
+const selectedAddress = ref(defaultAddress.value?.address || null)
 
 watch(
   () => defaultAddress,
   () => {
-    if (defaultAddress.value) checkout.shippingAddress = clone(defaultAddress.value.address)
+    if (defaultAddress.value) {
+      checkout.shippingAddress = clone(defaultAddress.value.address)
+      selectedAddress.value = defaultAddress.value?.address || null
+    }
   },
   { immediate: true },
 )
 
 const handleEdit = () => {
-  // TODO: handle edit
-  // eslint-disable-next-line no-console
-  console.log('edit')
+  isEditOpen.value = true
+}
+
+const onSave = () => {
+  if (selectedAddress.value) checkout.shippingAddress = clone(selectedAddress.value)
+  isEditOpen.value = false
 }
 </script>
 

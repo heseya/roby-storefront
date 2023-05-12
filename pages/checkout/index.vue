@@ -25,7 +25,7 @@
         <div class="checkout-page__area">
           <h2 class="checkout-page__title">{{ t('billing') }}</h2>
           <ClientOnly>
-            <CheckoutFormLoggedBillingAddress v-if="hasBillingAddresses" />
+            <CheckoutFormLoggedBillingAddress v-if="defaultBillingAddress" />
             <CheckoutBillingAddress v-else />
 
             <template #placeholder>
@@ -82,12 +82,36 @@
 </i18n>
 
 <script setup lang="ts">
+import clone from 'lodash/clone'
+import { EMPTY_ADDRESS } from '~/consts/address'
+import { useCheckoutStore } from '~/store/checkout'
+
 const t = useLocalI18n()
 
-const hasBillingAddresses = computed(() => {
-  const { addresses } = useUserBillingAddresses()
-  return addresses.value.length > 0
-})
+const checkout = useCheckoutStore()
+const user = useUser()
+const { defaultAddress: defaultBillingAddress } = useUserBillingAddresses()
+
+// Autofill billing address if user is logged in
+watch(
+  () => defaultBillingAddress,
+  () => {
+    if (defaultBillingAddress.value)
+      checkout.billingAddress = clone(defaultBillingAddress.value.address)
+    else checkout.billingAddress = clone(EMPTY_ADDRESS)
+  },
+  { immediate: true },
+)
+
+// Autofill email if user is logged in
+watch(
+  () => user,
+  () => {
+    if (user.value) checkout.email = user.value.email
+    else checkout.email = ''
+  },
+  { immediate: true },
+)
 
 useSeoMeta({
   title: () => t('title'),
