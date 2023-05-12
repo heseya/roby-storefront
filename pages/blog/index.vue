@@ -79,6 +79,7 @@ const {
     meta: ['filter_count'] as any,
     page: page.value,
     limit,
+    sort: ['-date_created'],
     filter: {
       status: 'published',
       tags: route.query.tag

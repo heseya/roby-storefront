@@ -1,25 +1,25 @@
 <template>
   <div
-    class="address-cart"
+    class="address-card"
     :class="{
-      'address-cart--selected': isSelected,
+      'address-card--selected': isSelected,
     }"
   >
-    <div class="address-cart__select" />
+    <div class="address-card__select" />
     <div>
-      <p :class="{ 'address-cart__header': !userAddress.address.vat }">
-        {{ userAddress.address.name }}
+      <p :class="{ 'address-card__header': !address.vat }">
+        {{ address.name }}
       </p>
-      <p v-if="userAddress.address.vat">{{ t('vatNumber') }} {{ userAddress.address.vat }}</p>
-      <p>{{ userAddress.address.phone }}</p>
+      <p v-if="address.vat">{{ t('vatNumber') }} {{ address.vat }}</p>
+      <p>{{ address.phone }}</p>
     </div>
     <div>
-      <p>{{ userAddress.address.address }}</p>
-      <p>{{ userAddress.address.zip }} {{ userAddress.address.city }}</p>
+      <p>{{ address.address }}</p>
+      <p>{{ address.zip }} {{ address.city }}</p>
     </div>
-    <div class="address-cart__actions">
-      <LayoutIcon class="address-cart__icon" :size="14" :icon="Trash" @click="editAddress" />
-      <LayoutIcon class="address-cart__icon" :size="14" :icon="PencilLine" @click="deleteAddress" />
+    <div class="address-card__actions">
+      <LayoutIcon class="address-card__icon" :size="14" :icon="Trash" @click="editAddress" />
+      <LayoutIcon class="address-card__icon" :size="14" :icon="PencilLine" @click="deleteAddress" />
     </div>
   </div>
 </template>
@@ -33,35 +33,36 @@
 </i18n>
 
 <script setup lang="ts">
-import { UserSavedAddress } from '@heseya/store-core'
+import { Address } from '@heseya/store-core'
 import Trash from '@/assets/icons/trash.svg?component'
 import PencilLine from '@/assets/icons/pencil-line-filled.svg?component'
 
 const t = useLocalI18n()
 
 const props = defineProps<{
-  userAddress: UserSavedAddress
   isSelected: boolean
+  address: Address
 }>()
 
 const editAddress = () => {
   // TODO add logic
-  console.log(props.userAddress)
+  console.log(props.address)
 }
 const deleteAddress = () => {
   // TODO add logic
-  console.log(props.userAddress)
+  console.log(props.address)
 }
 </script>
 
 <style lang="scss" scoped>
-.address-cart {
+.address-card {
   display: grid;
   position: relative;
   align-content: space-between;
-  gap: 15px;
-  padding: 10px 10px 10px 36px;
+  gap: 20px;
+  padding: 10px 0px 10px 46px;
   border: 1px solid $gray-color-300;
+  max-width: 660px;
 
   &__header {
     font-weight: 600;

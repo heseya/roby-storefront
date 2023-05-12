@@ -1,26 +1,28 @@
 <template>
-  <BaseContainer>
-    <div class="reset-password" @submit.prevent="onSubmit">
-      <form class="reset-password__form">
-        <div class="reset-password__header">{{ t('title') }}</div>
-        <div class="reset-password__inputs">
-          <FormInputPassword
-            v-model="form.values.password"
-            :label="t('password')"
-            name="password"
-          />
-          <FormInputPassword
-            v-model="form.values.confirmPassword"
-            :label="t('confirmPassword')"
-            rules="confirmedPassword:@password"
-            name="confirmPassword"
-          />
-        </div>
+  <NuxtLayout>
+    <BaseContainer>
+      <div class="reset-password" @submit.prevent="onSubmit">
+        <form class="reset-password__form">
+          <div class="reset-password__header">{{ t('title') }}</div>
+          <div class="reset-password__inputs">
+            <FormInputPassword
+              v-model="form.values.password"
+              :label="t('password')"
+              name="password"
+            />
+            <FormInputPassword
+              v-model="form.values.confirmPassword"
+              :label="t('confirmPassword')"
+              rules="confirmedPassword:@password"
+              name="confirmPassword"
+            />
+          </div>
 
-        <LayoutButton class="reset-password__btn" :label="t('send')" html-type="submit" />
-      </form>
-    </div>
-  </BaseContainer>
+          <LayoutButton class="reset-password__btn" :label="t('send')" html-type="submit" />
+        </form>
+      </div>
+    </BaseContainer>
+  </NuxtLayout>
 </template>
 
 <i18n lang="json">

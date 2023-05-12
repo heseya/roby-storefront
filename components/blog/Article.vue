@@ -1,5 +1,5 @@
 <template>
-  <NuxtLayout>
+  <div>
     <LayoutBreadcrumpsProvider :breadcrumbs="breadcrumbs" />
 
     <BaseContainer>
@@ -11,7 +11,11 @@
         </div>
         <div class="blog-page__info">
           <div class="blog-page__tags">
-            <BlogTranslatedTag v-for="tag in article?.tags ?? []" :key="tag.id" :tag="tag" />
+            <BlogTranslatedTag
+              v-for="tag in article?.tags ?? []"
+              :key="tag.id"
+              :tag="(tag as any)"
+            />
           </div>
           <div class="blog-page__date">{{ dateCreated }}</div>
         </div>
@@ -21,15 +25,18 @@
         />
       </div>
     </BaseContainer>
-  </NuxtLayout>
+  </div>
 </template>
 
 <script setup lang="ts">
 import { BlogArticle } from '~/interfaces/BlogArticle'
 
-const { params } = useRoute()
+const props = defineProps<{
+  slug: string
+}>()
+
 const { t } = useI18n({ useScope: 'global' })
-const { data: article, pending } = useAsyncData(`blog-article-${params.slug}`, async () => {
+const { data: article, pending } = useAsyncData(`blog-article-${props.slug}`, async () => {
   const directus = useDirectus()
   const response = await directus.items('Articles').readByQuery({
     fields: [
@@ -46,13 +53,13 @@ const { data: article, pending } = useAsyncData(`blog-article-${params.slug}`, a
     ],
     limit: 1,
     filter: {
-      slug: params.slug,
+      slug: props.slug,
       status: 'published' as const,
     } as any, // this any exists because of directus weird typing
   })
 
   if (!response.data?.[0]) {
-    showError({ statusCode: 404 })
+    showError({ message: t('errors.NOT_FOUND'), statusCode: 404 })
   }
 
   return response.data?.[0] as BlogArticle
@@ -70,7 +77,7 @@ useSeo(() => [{ title: translatedArticle.value?.title }])
 
 const breadcrumbs = computed(() => [
   { label: t('breadcrumbs.blog'), link: `/blog` },
-  { label: translatedArticle.value?.title ?? '', link: `/blog/${article.value?.slug}` },
+  { label: translatedArticle.value?.title ?? '', link: `/${article.value?.slug}` },
 ])
 </script>
 
@@ -81,6 +88,7 @@ const breadcrumbs = computed(() => [
 
   &__title {
     margin-bottom: 20px;
+    line-height: 1.2em;
 
     @media ($viewport-8) {
       margin: 25px 0;

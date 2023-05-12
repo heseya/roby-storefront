@@ -57,7 +57,7 @@
             :href="companyLinkedin"
             rel="nofollow noreferrer"
           >
-            <LinkedinIcon />
+            <LayoutIcon :icon="LinkedinIcon" size="sm" />
           </a>
         </div>
       </div>
