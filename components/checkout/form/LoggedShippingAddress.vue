@@ -1,11 +1,14 @@
 <template>
-  <CheckoutAddressCard :title="t('title')" :address="address" @edit="handleEdit" />
+  <CheckoutAddressCard :title="t('title')" :address="checkout.shippingAddress" @edit="handleEdit" />
 
   <CheckoutAddressModal
     :title="t('title')"
     :open="isEditOpen"
     @update:open="(v) => (isEditOpen = v)"
-  ></CheckoutAddressModal>
+    @save="isEditOpen = false"
+  >
+    <CheckoutAddressList v-model:address="checkout.shippingAddress" type="shipping" />
+  </CheckoutAddressModal>
 </template>
 
 <i18n lang="json">
@@ -23,8 +26,6 @@ import { useCheckoutStore } from '~/store/checkout'
 const t = useLocalI18n()
 const checkout = useCheckoutStore()
 const { defaultAddress } = useUserShippingAddresses()
-
-const address = computed(() => checkout.shippingAddress)
 
 const isEditOpen = ref(false)
 

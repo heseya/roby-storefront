@@ -1,11 +1,14 @@
 <template>
-  <CheckoutAddressCard :address="address" @edit="handleEdit" />
+  <CheckoutAddressCard :address="checkout.billingAddress" @edit="handleEdit" />
 
   <CheckoutAddressModal
     :title="t('title')"
     :open="isEditOpen"
     @update:open="(v) => (isEditOpen = v)"
-  ></CheckoutAddressModal>
+    @save="isEditOpen = false"
+  >
+    <CheckoutAddressList v-model:address="checkout.billingAddress" type="billing" />
+  </CheckoutAddressModal>
 </template>
 
 <i18n lang="json">
@@ -21,8 +24,6 @@ import { useCheckoutStore } from '~/store/checkout'
 
 const t = useLocalI18n()
 const checkout = useCheckoutStore()
-
-const address = computed(() => checkout.billingAddress)
 
 const isEditOpen = ref(false)
 

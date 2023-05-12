@@ -39,6 +39,8 @@ const { t } = useI18n({ useScope: 'global' })
 <style lang="scss" scoped>
 .address-modal {
   :deep(.modal) {
+    width: 100%;
+    max-width: 700px;
     background-color: $gray-color-100;
   }
 
