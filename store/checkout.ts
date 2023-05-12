@@ -12,6 +12,7 @@ import { useCartStore } from './cart'
 
 import { Paczkomat } from '@/interfaces/Paczkomat'
 import { EMPTY_ADDRESS } from '@/consts/address'
+import { joinUrl } from '~/utils/joinUrl'
 
 export const useCheckoutStore = defineStore('checkout', {
   state: () => ({
@@ -147,7 +148,7 @@ export const useCheckoutStore = defineStore('checkout', {
       return await heseya.Orders.pay(
         orderCode,
         paymentMethods[0].id,
-        `${appHost}/checkout/thank-you?code=${orderCode}&t=${orderShippingType}`,
+        joinUrl(`/checkout/thank-you?code=${orderCode}&t=${orderShippingType}`, appHost),
       )
     },
   },

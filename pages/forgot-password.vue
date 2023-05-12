@@ -47,6 +47,7 @@
 
 <script setup lang="ts">
 import { useForm } from 'vee-validate'
+import { joinUrl } from '~/utils/joinUrl'
 
 const t = useLocalI18n()
 const heseya = useHeseya()
@@ -67,7 +68,9 @@ const errorMessage = ref<string | null>(null)
 
 const onSubmit = form.handleSubmit(async (values) => {
   try {
-    await heseya.Auth.requestResetPassword(values.email, createSublink('reset-password'))
+    const { appHost } = usePublicRuntimeConfig()
+
+    await heseya.Auth.requestResetPassword(values.email, joinUrl('reset-password', appHost))
     formStatus.value = {
       send: true,
       email: form.values.email,
