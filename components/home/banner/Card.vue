@@ -6,7 +6,7 @@
       <LayoutHeader v-if="showSubtitle" class="card__subtitle">
         {{ subtitle }}
       </LayoutHeader>
-      <LayoutHeader class="card__title"> {{ title }} </LayoutHeader>
+      <LayoutHeader class="card__title" :tag="titleTag"> {{ title }} </LayoutHeader>
     </div>
   </NuxtLink>
 </template>
@@ -17,6 +17,7 @@ import { CdnMedia } from '@heseya/store-core'
 const props = withDefaults(
   defineProps<{
     title: string | null
+    titleTag?: string
     subtitle?: string | null
     media: {
       min_screen_width: number
@@ -25,7 +26,7 @@ const props = withDefaults(
     link: string
     centered?: boolean
   }>(),
-  { subtitle: '' },
+  { titleTag: 'span', subtitle: '' },
 )
 
 // Temporary fix, as subtitle is required in API

@@ -4,6 +4,7 @@
 
     <BaseContainer>
       <div class="page">
+        <h1 class="page__title">{{ page.name }}</h1>
         <BaseWysiwygContent :content="page?.content_html" />
       </div>
     </BaseContainer>
@@ -36,5 +37,11 @@ const breadcrumbs = computed(() => [
 .page {
   max-width: $content-width;
   margin: auto;
+
+  &__title {
+    font-size: rem(26);
+    line-height: rem(34);
+    margin-bottom: 24px;
+  }
 }
 </style>
