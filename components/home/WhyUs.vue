@@ -29,7 +29,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ReasonProps } from '~/components/home/WhyUsReson.vue'
+import { ReasonProps } from '@/components/home/WhyUsReson.vue'
 
 import Warranty from '@/assets/icons/warranty.svg?component'
 import Support from '@/assets/icons/support.svg?component'

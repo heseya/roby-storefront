@@ -12,7 +12,7 @@
 
 <script lang="ts" setup>
 import ArrowNext from '@/assets/icons/chevron.svg?component'
-import IconButton from '~/components/layout/IconButton.vue'
+import IconButton from '@/components/layout/IconButton.vue'
 
 const swiper = useSwiper()
 
