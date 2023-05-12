@@ -67,9 +67,7 @@ const errorMessage = ref<string | null>(null)
 
 const onSubmit = form.handleSubmit(async (values) => {
   try {
-    const { appHost } = usePublicRuntimeConfig()
-
-    await heseya.Auth.requestResetPassword(values.email, `${appHost}/reset-password`)
+    await heseya.Auth.requestResetPassword(values.email, createSublink('reset-password'))
     formStatus.value = {
       send: true,
       email: form.values.email,
