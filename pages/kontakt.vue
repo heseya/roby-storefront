@@ -39,8 +39,8 @@
 </template>
 
 <script setup lang="ts">
-import { InfoCardProps } from '~/components/contact/InfoCard.vue'
-import { PersonCardProps } from '~/components/contact/PersonCard.vue'
+import { InfoCardProps } from '@/components/contact/InfoCard.vue'
+import { PersonCardProps } from '@/components/contact/PersonCard.vue'
 
 import AvatarRobert from '@/assets/images/avatars/robert.png?url'
 import AvatarMarcin from '@/assets/images/avatars/marcin.jpeg?url'
