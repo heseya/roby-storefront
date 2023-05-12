@@ -33,9 +33,6 @@
 </i18n>
 
 <script setup lang="ts">
-import { useAuthMiddleware } from '~/composables/useAuthMiddleware'
-
-useAuthMiddleware()
 const t = useLocalI18n()
 const formatError = useErrorMessage()
 const router = useRouter()
@@ -45,6 +42,10 @@ const { t: $t } = useI18n({ useScope: 'global' })
 
 useSeoMeta({
   title: () => t('title'),
+})
+
+definePageMeta({
+  middleware: 'auth',
 })
 
 const limit = 3

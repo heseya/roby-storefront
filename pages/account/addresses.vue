@@ -48,14 +48,16 @@
 
 <script setup lang="ts">
 import { UserSavedAddress } from '@heseya/store-core'
-import { useAuthMiddleware } from '~/composables/useAuthMiddleware'
 
-useAuthMiddleware()
 const t = useLocalI18n()
 const { t: $t } = useI18n({ useScope: 'global' })
 
 useSeoMeta({
   title: () => t('title'),
+})
+
+definePageMeta({
+  middleware: 'auth',
 })
 
 const breadcrumbs = computed(() => [
