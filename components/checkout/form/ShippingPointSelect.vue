@@ -62,6 +62,10 @@ const selectShippingPoint = (point: Address) => {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 14px;
+
+    @media ($max-viewport-6) {
+      grid-template-columns: 1fr;
+    }
   }
 }
 
