@@ -1,22 +1,18 @@
 <template>
   <div class="item">
-    <img class="item__image" :src="data.image" :alt="data.name" />
+    <img class="item__image" :src="partner.image" :alt="partner.name" />
     <div>
-      <span class="item__name">{{ data?.name }}</span>
-      <span class="item__subname">{{ data?.subname ?? ' ' }}</span>
+      <span class="item__name">{{ partner?.name }}</span>
+      <span class="item__subname">{{ partner?.subname ?? ' ' }}</span>
     </div>
-    <span class="item__description"> {{ data.description }} </span>
+    <span class="item__description"> {{ partner.description }} </span>
   </div>
 </template>
 
 <script lang="ts" setup>
-export interface PartnerProps {
-  name: string
-  subname?: string
-  description: string
-  image: string
-}
-defineProps<{ data: PartnerProps }>()
+import { AboutPartner } from '@/interfaces/AboutPartner'
+
+defineProps<{ partner: AboutPartner }>()
 </script>
 
 <style lang="scss" scoped>

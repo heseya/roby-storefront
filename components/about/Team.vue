@@ -18,12 +18,13 @@
 </template>
 
 <script lang="ts" setup>
+import { AboutPerson } from '@/interfaces/AboutPartner'
 import AvatarRobert from '@/assets/images/avatars/robert.png?url'
 import AvatarMarcin from '@/assets/images/avatars/marcin.jpeg?url'
 import AvatarArkadiusz from '@/assets/images/avatars/arkadiusz.png?url'
 import AvatarLukasz from '@/assets/images/avatars/lukasz.png?url'
 
-const persons = [
+const persons: AboutPerson[] = [
   {
     name: 'Robert Jastrzębski',
     avatar: AvatarRobert,
@@ -42,15 +43,12 @@ const persons = [
   },
   {
     name: 'Marcin Brętkowski',
-    avatar: '',
   },
   {
     name: 'Maciej Marciniak',
-    avatar: '',
   },
   {
     name: 'Marian Maćkowiak',
-    avatar: '',
   },
 ]
 </script>

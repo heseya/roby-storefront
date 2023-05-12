@@ -5,8 +5,8 @@
     </LayoutHeader>
 
     <LayoutCarousel :items="partners" :breakpoints="breakpoints">
-      <template #item="partner: PartnerProps">
-        <AboutPartnerCarouselItem :data="partner" />
+      <template #item="partner: AboutPartner">
+        <AboutPartnerCarouselItem :partner="partner" />
       </template>
     </LayoutCarousel>
   </div>
@@ -14,7 +14,7 @@
 
 <script lang="ts" setup>
 import { SwiperOptions } from 'swiper/types'
-import { PartnerProps } from '@/components/about/partnerCarousel/Item.vue'
+import { AboutPartner } from '@/interfaces/AboutPartner'
 
 import Canon from '@/assets/images/gold-partner.jpg?url'
 import Sharp from '@/assets/images/partners/sharp-logo.png?url'
@@ -22,7 +22,7 @@ import Asarto from '@/assets/images/partners/asarto-logo.png?url'
 import Hsm from '@/assets/images/partners/hsm-logo.png?url'
 import Lexmark from '@/assets/images/partners/lexmark-logo.png?url'
 
-const partners: PartnerProps[] = [
+const partners: AboutPartner[] = [
   {
     name: 'Canon',
     subname: 'Gold Partner',
