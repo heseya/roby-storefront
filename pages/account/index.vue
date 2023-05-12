@@ -59,6 +59,10 @@ useSeoMeta({
   title: () => t('title'),
 })
 
+definePageMeta({
+  middleware: 'auth',
+})
+
 const user = useUser()
 const heseya = useHeseya()
 const wishlist = useWishlistStore()

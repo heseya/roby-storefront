@@ -24,6 +24,10 @@
 const t = useLocalI18n()
 const { t: $t } = useI18n({ useScope: 'global' })
 
+definePageMeta({
+  middleware: 'auth',
+})
+
 useSeoMeta({
   title: () => t('title'),
 })
