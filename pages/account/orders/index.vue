@@ -44,6 +44,10 @@ useSeoMeta({
   title: () => t('title'),
 })
 
+definePageMeta({
+  middleware: 'auth',
+})
+
 const limit = 3
 const page = computed(() => Number(route.query.page ?? 1))
 const lastPage = computed(() => Math.ceil((orders.value?.pagination.total ?? 1) / limit))

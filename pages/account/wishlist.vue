@@ -27,6 +27,10 @@ import { useAuthStore } from '~/store/auth'
 const t = useLocalI18n()
 const { t: $t } = useI18n({ useScope: 'global' })
 
+definePageMeta({
+  middleware: 'auth',
+})
+
 const auth = useAuthStore()
 watch(
   () => auth.isLogged,

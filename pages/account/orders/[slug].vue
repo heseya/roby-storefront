@@ -38,6 +38,10 @@ const route = useRoute()
 
 const orderNumber = ref<string>(route.params.slug as string)
 
+definePageMeta({
+  middleware: 'auth',
+})
+
 useSeoMeta({
   title: () => t('title'),
 })

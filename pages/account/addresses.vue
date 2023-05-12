@@ -56,6 +56,10 @@ useSeoMeta({
   title: () => t('title'),
 })
 
+definePageMeta({
+  middleware: 'auth',
+})
+
 const breadcrumbs = computed(() => [
   { label: $t('breadcrumbs.account'), link: '/account' },
   { label: t('title'), link: '/account/addresses' },
