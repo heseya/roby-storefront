@@ -1,19 +1,26 @@
 <template>
   <div class="address-list">
-    <div>
-      <div
-        v-for="userAddress in addresses.value"
+    <div class="address-list__container">
+      <AddressCard
+        v-for="userAddress in addresses"
         :key="userAddress.id"
-        class="address-list__container"
-      >
-        <AddressCard
-          :address="userAddress.address"
-          :is-selected="selectedAddress?.id === value?.id"
-          @click="selectedAddress = userAddress"
-        />
-      </div>
+        :address="userAddress"
+        :is-selected="userAddress?.id === value?.id"
+        :type="type"
+        @update:default="(v) => (selectedAddress = v)"
+      />
     </div>
-    <LayoutButton class="address-list__button" :label="t(`${type}`)" />
+    <LayoutButton
+      class="address-list__button"
+      :label="t(`${type}`)"
+      @click="isAddAddressModalVisible = true"
+    />
+    <AddressAddModal
+      :type="type"
+      :open="isAddAddressModalVisible"
+      :addressType="type"
+      @update:open="(value) => (isAddAddressModalVisible = value)"
+    />
   </div>
 </template>
 
@@ -36,11 +43,13 @@ const props = defineProps<{
   type: 'billing' | 'shipping'
 }>()
 
+const isAddAddressModalVisible = ref(false)
+
 const emit = defineEmits<{
   (e: 'update:value', value: UserSavedAddress | null): void
 }>()
 
-const addresses = computed(() => useUserAddreses(props.type).addresses)
+const { addresses } = computed(() => useUserAddreses(props.type)).value
 
 const selectedAddress = computed({
   get() {

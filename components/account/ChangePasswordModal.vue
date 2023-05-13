@@ -1,5 +1,5 @@
 <template>
-  <AccountFormModal
+  <FormModal
     v-model:open="isModalVisible"
     :form="form"
     :header="t('header')"
@@ -18,16 +18,13 @@
       name="newPassword"
       rules="required"
     />
-  </AccountFormModal>
+  </FormModal>
 </template>
 
 <i18n lang="json">
 {
   "pl": {
-    "header": "Zmiana hasła",
-    "currentPassword": "Aktualne hasło",
-    "newPassword": "Nowe hasło",
-    "sucessUpdate": "Hasło zostało zmienione."
+    "header": "Zmiana hasła"
   }
 }
 </i18n>

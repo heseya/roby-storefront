@@ -1,5 +1,5 @@
 <template>
-  <AccountFormModal
+  <FormModal
     v-model:open="isModalVisible"
     :form="form"
     :header="t('header')"
@@ -18,7 +18,7 @@
       :disabled="true"
       name="email"
     />
-  </AccountFormModal>
+  </FormModal>
 </template>
 
 <i18n lang="json">

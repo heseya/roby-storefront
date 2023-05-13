@@ -4,24 +4,38 @@
     :class="{
       'address-card--selected': isSelected,
     }"
+    @click="emit('update:default', address)"
   >
     <div class="address-card__select" />
     <div>
-      <p :class="{ 'address-card__header': !address.vat }">
+      <p :class="{ 'address-card__header': !address.address.vat }">
         {{ address.name }}
       </p>
-      <p v-if="address.vat">{{ t('vatNumber') }} {{ address.vat }}</p>
-      <p>{{ address.phone }}</p>
+      <p>{{ address.address.name }}</p>
+      <p v-if="address.address.vat">{{ t('vatNumber') }} {{ address.address.vat }}</p>
+      <p>{{ address.address.phone }}</p>
     </div>
     <div>
-      <p>{{ address.address }}</p>
-      <p>{{ address.zip }} {{ address.city }}</p>
+      <p>{{ address.address.address }}</p>
+      <p>{{ address.address.zip }} {{ address.address.city }}</p>
     </div>
     <div class="address-card__actions">
-      <LayoutIcon class="address-card__icon" :size="14" :icon="Trash" @click="editAddress" />
-      <LayoutIcon class="address-card__icon" :size="14" :icon="PencilLine" @click="deleteAddress" />
+      <LayoutIcon
+        class="address-card__icon"
+        :size="14"
+        :icon="Trash"
+        @click.stop="isDeleteAddressModalVisible = true"
+      />
+      <LayoutIcon
+        class="address-card__icon"
+        :size="14"
+        :icon="PencilLine"
+        @click.stop="isEditAddressModalVisible = true"
+      />
     </div>
   </div>
+  <AddressEditModal v-model:open="isEditAddressModalVisible" :value="address" :type="type" />
+  <AddressDeleteModal v-model:open="isDeleteAddressModalVisible" :value="address" :type="type" />
 </template>
 
 <i18n lang="json">
@@ -33,25 +47,24 @@
 </i18n>
 
 <script setup lang="ts">
-import { Address } from '@heseya/store-core'
+import { UserSavedAddress } from '@heseya/store-core'
 import Trash from '@/assets/icons/trash.svg?component'
 import PencilLine from '@/assets/icons/pencil-line-filled.svg?component'
 
 const t = useLocalI18n()
 
-const props = defineProps<{
+defineProps<{
   isSelected: boolean
-  address: Address
+  address: UserSavedAddress
+  type: 'billing' | 'shipping'
 }>()
 
-const editAddress = () => {
-  // TODO add logic
-  console.log(props.address)
-}
-const deleteAddress = () => {
-  // TODO add logic
-  console.log(props.address)
-}
+const emit = defineEmits<{
+  (e: 'update:default', value: UserSavedAddress): void
+}>()
+
+const isEditAddressModalVisible = ref(false)
+const isDeleteAddressModalVisible = ref(false)
 </script>
 
 <style lang="scss" scoped>
@@ -59,7 +72,7 @@ const deleteAddress = () => {
   display: grid;
   position: relative;
   align-content: space-between;
-  gap: 20px;
+  gap: 26px;
   padding: 10px 0px 10px 46px;
   border: 1px solid $gray-color-300;
   max-width: 660px;

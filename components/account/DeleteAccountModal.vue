@@ -1,5 +1,5 @@
 <template>
-  <AccountFormModal
+  <FormModal
     v-model:open="isModalVisible"
     :form="form"
     :header="t('header')"
@@ -14,7 +14,7 @@
       name="currentPassword"
       rules="required"
     />
-  </AccountFormModal>
+  </FormModal>
 </template>
 
 <i18n lang="json">

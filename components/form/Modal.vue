@@ -1,21 +1,21 @@
 <template>
-  <LayoutModal :open="open" :closeable="false" class="account-form-modal">
-    <form class="account-form-modal__form" @submit.prevent="emit('submit')">
+  <LayoutModal :open="open" :closeable="false" class="form-modal">
+    <form class="form-modal__form">
       <h1>{{ header }}</h1>
       <slot></slot>
-      <LayoutInfoBox v-if="error" type="danger" class="account-form-modal__error">
+      <LayoutInfoBox v-if="error" type="danger" class="form-modal__error">
         {{ formatError(error) }}
       </LayoutInfoBox>
-      <div class="account-form-modal__actions">
+      <div class="form-modal__actions">
         <LayoutButton
-          class="account-form-modal__button account-form-modal__button--cancel"
+          class="form-modal__button form-modal__button--cancel"
           :label="t('cancel')"
           @click="emit('update:open', false)"
         />
         <LayoutButton
-          class="account-form-modal__button"
-          html-type="submit"
+          class="form-modal__button"
           :label="okText || t('save')"
+          @click.prevent="emit('submit')"
         />
       </div>
     </form>
@@ -51,7 +51,7 @@ const emit = defineEmits<{
 </script>
 
 <style lang="scss" scoped>
-.account-form-modal {
+.form-modal {
   &__form {
     display: grid;
     padding: 20px;
