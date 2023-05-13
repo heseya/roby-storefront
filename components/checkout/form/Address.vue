@@ -5,8 +5,8 @@
       name="address.name"
       :label="invoice ? t('companyName') : t('name')"
       rules="required"
-      @update:model-value="update('name', $event as string)"
       :disabled="disabled"
+      @update:model-value="update('name', $event as string)"
     />
     <FormInput
       v-if="invoice"
@@ -14,8 +14,8 @@
       name="address.vat"
       rules="required"
       :label="t('vatNumber')"
-      @update:model-value="update('vat', $event as string)"
       :disabled="disabled"
+      @update:model-value="update('vat', $event as string)"
     />
 
     <div class="address-form__row">
@@ -24,8 +24,8 @@
         name="address.country"
         rules="required"
         :label="t('country')"
-        @update:model-value="update('country', $event as string)"
         :disabled="disabled"
+        @update:model-value="update('country', $event as string)"
       >
         <option v-for="country in countries" :key="country.code" :value="country.code">
           {{ country.name }}
@@ -36,8 +36,8 @@
         name="address.address"
         rules="required"
         :label="t('address')"
-        @update:model-value="update('address', $event as string)"
         :disabled="disabled"
+        @update:model-value="update('address', $event as string)"
       />
     </div>
     <div class="address-form__row">
@@ -46,16 +46,16 @@
         name="address.postalCode"
         rules="required"
         :label="t('postalCode')"
-        @update:model-value="update('zip', $event as string)"
         :disabled="disabled"
+        @update:model-value="update('zip', $event as string)"
       />
       <FormInput
         :model-value="address.city"
         name="address.city"
         rules="required"
         :label="t('city')"
-        @update:model-value="update('city', $event as string)"
         :disabled="disabled"
+        @update:model-value="update('city', $event as string)"
       />
     </div>
     <FormInput
@@ -64,11 +64,11 @@
       html-type="phone"
       rules="required"
       :label="t('phone')"
-      @update:model-value="update('phone', $event as string)"
       :disabled="disabled"
+      @update:model-value="update('phone', $event as string)"
     />
 
-    <div class="address-form__info" v-if="!disabled">
+    <div v-if="!disabled" class="address-form__info">
       <span class="address-form__info-star">*</span>
       - {{ t('info') }}
     </div>

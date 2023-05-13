@@ -15,10 +15,10 @@
       :label="t(`${type}`)"
       @click="isAddAddressModalVisible = true"
     />
-    <AddressAddModal
-      :type="type"
-      :open="isAddAddressModalVisible"
-      :addressType="type"
+    <AddressModal
+      v-model:open="isAddAddressModalVisible"
+      type="create"
+      :address-type="type"
       @update:open="(value) => (isAddAddressModalVisible = value)"
     />
   </div>

@@ -40,7 +40,6 @@ const { defaultAddress, edit } = computed(() => {
 }).value
 
 const updateDefaultAddress = (value: UserSavedAddress | null) => {
-
   if (value && value !== defaultAddress.value) {
     value.default = true
     edit(value.id, value)

@@ -34,8 +34,20 @@
       />
     </div>
   </div>
-  <AddressEditModal v-model:open="isEditAddressModalVisible" :value="address" :type="type" />
-  <AddressDeleteModal v-model:open="isDeleteAddressModalVisible" :value="address" :type="type" />
+  <AddressModal
+    v-if="isEditAddressModalVisible"
+    v-model:open="isEditAddressModalVisible"
+    :address="address"
+    type="edit"
+    :address-type="type"
+  />
+  <AddressModal
+    v-if="isDeleteAddressModalVisible"
+    v-model:open="isDeleteAddressModalVisible"
+    :address="address"
+    type="delete"
+    :address-type="type"
+  />
 </template>
 
 <i18n lang="json">
