@@ -88,13 +88,15 @@ const isDeleteAddressModalVisible = ref(false)
   padding: 10px 0px 10px 46px;
   border: 1px solid $gray-color-300;
   max-width: 660px;
+  background-color: $white-color;
+  transition: 0.3s;
 
   &__header {
     font-weight: 600;
   }
 
   &:hover {
-    background-color: $gray-color-100;
+    background-color: $gray-color-050;
     cursor: pointer;
   }
 

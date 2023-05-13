@@ -11,8 +11,7 @@
       <template #additional>
         <div v-if="!errorMessage" class="account-page__container">
           <AccountOrderSimpleView
-            v-if="userLastOrder"
-            :code="userLastOrder.code"
+            :code="userLastOrder?.code"
             link="/account/orders"
             :header="t('lastOrder')"
           />
@@ -25,11 +24,12 @@
           :link="`/account/wishlist`"
           class="account-page__wishlist"
         >
-          <div v-if="wishlist?.userWishlist" class="account-page__items-list">
+          <div v-if="wishlist?.userWishlist.length" class="account-page__items-list">
             <div v-for="product in wishlist.products" :key="product.id">
               <AccountProductCard :product="product" />
             </div>
           </div>
+          <LayoutEmpty v-else class="account-page__empty"> {{ t('empty') }} </LayoutEmpty>
         </LayoutAccountOrder>
       </template>
     </LayoutAccount>
@@ -43,7 +43,8 @@
     "welcome": "Witaj, ",
     "message": "Tutaj możesz zarządzać swoimi zamówieniami oraz ustawieniami konta.",
     "lastOrder": "Ostatnie zamówienie",
-    "wishList": "Lista życzeń"
+    "wishList": "Lista życzeń",
+    "empty": "Nie masz żadnego produktu dodanego do listy życzeń"
   }
 }
 </i18n>
@@ -56,6 +57,10 @@ const { t: $t } = useI18n({ useScope: 'global' })
 
 useSeoMeta({
   title: () => t('title'),
+})
+
+definePageMeta({
+  middleware: 'auth',
 })
 
 const user = useUser()
@@ -99,6 +104,10 @@ const { data: userLastOrder } = useAsyncData(`userLastOrder`, async () => {
 
   &__wishlist {
     margin-top: 40px;
+  }
+
+  &__empty {
+    font-size: 13px;
   }
 }
 </style>

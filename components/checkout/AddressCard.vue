@@ -70,10 +70,12 @@ const emit = defineEmits<{
     right: 10px;
     border: none;
     cursor: pointer;
-  }
-
-  &__edit-btn-icon {
+    transition: 0.3s;
     color: $blue-color;
+
+    &:hover {
+      color: $secondary-color-alt;
+    }
   }
 }
 </style>

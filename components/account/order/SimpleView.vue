@@ -1,33 +1,37 @@
 <template>
   <div>
     <LayoutAccountOrder
-      v-if="order && !errorMessage"
+      v-if="!errorMessage"
       :header="header"
       :link="link"
       class="account-order-card"
     >
-      <AccountOrderCardHeader
-        :code="order.code"
-        :color="order.status.color"
-        :created-at="order.created_at"
-        :name="order.status.name"
-      />
+      <div v-if="order">
+        <AccountOrderCardHeader
+          :code="order.code"
+          :color="order.status.color"
+          :created-at="order.created_at"
+          :name="order.status.name"
+        />
 
-      <div v-if="order?.products" class="account-order-card__items">
-        <div class="account-order-card__items-list">
-          <div v-for="{ product } in order.products" :key="product.id">
-            <AccountProductCard :product="product" />
+        <div v-if="order?.products" class="account-order-card__items">
+          <div class="account-order-card__items-list">
+            <div v-for="{ product } in order.products" :key="product.id">
+              <AccountProductCard :product="product" />
+            </div>
+          </div>
+          <div class="account-order-card__actions">
+            <NuxtLink :to="`/account/orders/${order.code}`">
+              <LayoutButton class="account-order-card__details-btn">
+                {{ t('orderDetails') }}
+                <LayoutIcon :icon="GoNextIcon" :size="8" />
+              </LayoutButton>
+            </NuxtLink>
           </div>
         </div>
-        <div class="account-order-card__actions">
-          <NuxtLink :to="`/account/orders/${order.code}`">
-            <LayoutButton class="account-order-card__details-btn">
-              {{ t('orderDetails') }}
-              <LayoutIcon :icon="GoNextIcon" :size="8" />
-            </LayoutButton>
-          </NuxtLink>
-        </div>
       </div>
+
+      <LayoutEmpty v-else class="account-order-card__empty"> {{ t('empty') }} </LayoutEmpty>
     </LayoutAccountOrder>
     <LayoutInfoBox v-else-if="errorMessage" type="danger">
       {{ errorMessage }}
@@ -38,7 +42,8 @@
 <i18n lang="json">
 {
   "pl": {
-    "orderDetails": "Szczegóły Zamówienia"
+    "orderDetails": "Szczegóły Zamówienia",
+    "empty": "Nie masz żadnego zamówienia"
   }
 }
 </i18n>
@@ -54,19 +59,20 @@ const errorMessage = ref('')
 
 const props = withDefaults(
   defineProps<{
-    code: string
+    code?: string
     link?: string
     header?: string
   }>(),
   {
     link: '',
     header: '',
+    code: '',
   },
 )
 
 const { data: order } = useAsyncData(`account/orders/${props.code}`, async () => {
   try {
-    return await heseya.UserProfile.Orders.getOneByCode(props.code)
+    if (props.code) return await heseya.UserProfile.Orders.getOneByCode(props.code)
   } catch (e: any) {
     errorMessage.value = formatError(e)
   }
@@ -114,6 +120,10 @@ const { data: order } = useAsyncData(`account/orders/${props.code}`, async () =>
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
+  }
+
+  &__empty {
+    font-size: 13px;
   }
 }
 </style>

@@ -10,9 +10,8 @@
       <div class="site__main">
         <slot></slot>
       </div>
-      <LazyHydrate when-idle>
-        <LayoutBreadcrumps />
-      </LazyHydrate>
+
+      <LayoutBreadcrumps />
     </div>
     <div class="site__footer">
       <BaseFooter />
@@ -38,14 +37,16 @@ const config = useConfigStore()
 
   &__content {
     display: flex;
-    justify-content: flex-end;
     align-items: strech;
+
     /**
     * Nuxt renders components "from top to bottom", so this inverts the order to match visually.
     * Page content must render before the breadcrumps on SSR, and this the simples to achieve that.
     * https://github.com/nuxt/nuxt/discussions/18451
     */
     flex-direction: column-reverse;
+    justify-content: flex-end;
+
     flex: 1;
     padding-top: 185px;
     padding-bottom: 100px;

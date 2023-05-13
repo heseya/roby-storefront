@@ -25,9 +25,7 @@
   "pl": {
     "title": "Szczegóły Zamówienia",
     "orders": "Zamówienia",
-    "route": "Zamówienie nr ",
-    "orderNumber": "Numer Zamówienia:",
-    "orderCreatingDate": "Data złożenia"
+    "route": "Zamówienie nr "
   }
 }
 </i18n>
@@ -39,6 +37,10 @@ const formatError = useErrorMessage()
 const route = useRoute()
 
 const orderNumber = ref<string>(route.params.slug as string)
+
+definePageMeta({
+  middleware: 'auth',
+})
 
 useSeoMeta({
   title: () => t('title'),

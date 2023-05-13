@@ -61,7 +61,7 @@ const removeFromCart = () => {
 
 const formatSchemaValue = (value: string | undefined) => {
   if (value === 'true') return t('common.yes')
-  if (value === 'false') return t('common.false')
+  if (value === 'false') return t('common.no')
   return value
 }
 </script>

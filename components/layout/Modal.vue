@@ -2,7 +2,12 @@
   <div>
     <div class="modal-bg" :class="{ 'modal--open': open }" @click="close" />
     <div class="modal" :class="{ 'modal--open': open, 'modal--box': box }">
-      <button v-if="closeable" class="modal__close-btn" aria-label="Zamknij modal" @click="close" />
+      <button
+        v-if="closeable && !hideClose"
+        class="modal__close-btn"
+        aria-label="Zamknij modal"
+        @click="close"
+      />
 
       <slot v-if="open" />
     </div>
@@ -16,10 +21,12 @@ const props = withDefaults(
   defineProps<{
     open: boolean
     closeable?: boolean
+    hideClose?: boolean
     box?: boolean
   }>(),
   {
     closeable: true,
+    hideClose: false,
   },
 )
 const emit = defineEmits<{
