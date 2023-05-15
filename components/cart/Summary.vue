@@ -67,7 +67,7 @@
 </i18n>
 
 <script setup lang="ts">
-import { PaymentMethod } from '@heseya/store-core'
+import { PaymentMethod, ShippingType } from '@heseya/store-core'
 import { useCartStore } from '@/store/cart'
 import PayuIcon from '@/assets/images/payu.png'
 import { useAuthStore } from '@/store/auth'
@@ -87,12 +87,11 @@ const auth = useAuthStore()
 const router = useRouter()
 const heseya = useHeseya()
 
-// TODO: remove personal pickup from the cheapest delivery price
-
 const { data: cheapestShippingMethodPrice } = useAsyncData(`shippingMethodPrice`, async () => {
   const { data } = await heseya.ShippingMethods.get()
-  const prices = data.map((m) => m.price || 0)
-  return prices.length && Math.min(...prices)
+  // TODO: ShippingType.Point can also have own price? Maybe ignore free shipping?
+  const prices = data.filter((m) => m.shipping_type !== ShippingType.Point).map((m) => m.price || 0)
+  return prices.length ? Math.min(...prices) : 0
 })
 
 // TODO: get from API
