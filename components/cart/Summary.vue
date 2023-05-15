@@ -87,17 +87,12 @@ const auth = useAuthStore()
 const router = useRouter()
 const heseya = useHeseya()
 
+// TODO: remove personal pickup from the cheapest delivery price
+
 const { data: cheapestShippingMethodPrice } = useAsyncData(`shippingMethodPrice`, async () => {
   const { data } = await heseya.ShippingMethods.get()
-  return data.reduce((lowestPriceMethod, currentMethod) => {
-    if (!lowestPriceMethod.price) {
-      return currentMethod
-    }
-
-    return currentMethod.price !== null && currentMethod.price < lowestPriceMethod.price
-      ? currentMethod
-      : lowestPriceMethod
-  })
+  const prices = data.map((m) => m.price || 0)
+  return prices.length && Math.min(...prices)
 })
 
 // TODO: get from API
