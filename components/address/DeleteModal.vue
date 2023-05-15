@@ -1,7 +1,8 @@
 <template>
   <FormModal
     v-model:open="isModalVisible"
-    :form="useForm()"
+    :values="{}"
+    :error="errorMessage"
     :header="t(`${type}.header`)"
     :ok-text="t(`${type}.delete`)"
     @submit="onSubmit"
@@ -16,29 +17,26 @@
     "billing": {
       "header": "Usuwanie rachunku",
       "delete": "Usuń rachunek",
-      "confirmDelete": "Czy napewno chcesz usunąć rachunek ?",
-      "sucessUpdate": "Pomyślnie usunięto rachunek.",
-      "failedUpdate": "Nie można usunąć domyślnego rachunku"
+      "confirmDelete": "Czy napewno chcesz usunąć rachunek?",
+      "sucessUpdate": "Pomyślnie usunięto rachunek."
     },
     "shipping": {
       "header": "Usuwanie adresu",
       "delete": "Usuń adres",
-      "confirmDelete": "Czy napewno chcesz usunąć adres ?",
-      "sucessUpdate": "Pomyślnie usunięto adres.",
-      "failedUpdate": "Nie można usunąć domyślnego adresu"
+      "confirmDelete": "Czy napewno chcesz usunąć adres?",
+      "sucessUpdate": "Pomyślnie usunięto adres."
     }
   }
 }
 </i18n>
 
 <script setup lang="ts">
-import { useForm } from 'vee-validate'
 import { UserSavedAddress } from '@heseya/store-core'
 
 const props = defineProps<{
   open: boolean
   type: 'billing' | 'shipping'
-  address?: UserSavedAddress
+  address: UserSavedAddress
 }>()
 
 const emit = defineEmits<{
@@ -46,28 +44,30 @@ const emit = defineEmits<{
 }>()
 
 const t = useLocalI18n()
+const formatError = useErrorMessage()
 const { notify } = useNotify()
 const { remove } = useUserAddreses(props.type)
 
 const isModalVisible = computed({
-  get() {
-    return props.open
-  },
-  set(value) {
-    emit('update:open', value)
-  },
+  get: () => props.open,
+  set: (value) => emit('update:open', value),
 })
 
-const onSubmit = async () => {
-  const response = !props.address?.default && props.address ? await remove(props.address.id) : null
+const errorMessage = ref()
 
-  notify({
-    title:
-      response && response.success
-        ? t(`${props.type}.sucessUpdate`)
-        : t(`${props.type}.failedUpdate`),
-    type: response && response.success ? 'success' : 'error',
-  })
+const onSubmit = async () => {
+  const { success, error } = await remove(props.address.id)
+
+  if (!success) {
+    errorMessage.value = formatError(error)
+  } else {
+    notify({
+      title: t(`${props.type}.sucessUpdate`),
+      type: 'success',
+    })
+
+    isModalVisible.value = false
+  }
 }
 </script>
 

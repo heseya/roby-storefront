@@ -1,7 +1,7 @@
 <template>
   <FormModal
     v-model:open="isModalVisible"
-    :form="form"
+    :values="form.values"
     :header="t('header')"
     :error="error"
     @submit="onSubmit"

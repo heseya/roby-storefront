@@ -43,7 +43,7 @@
     <div class="address-form__row">
       <FormInput
         :model-value="address.zip"
-        name="address_postalCode"
+        name="address_postal_code"
         rules="required"
         :label="t('postalCode')"
         :disabled="disabled"

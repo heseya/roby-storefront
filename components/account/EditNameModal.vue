@@ -1,7 +1,7 @@
 <template>
   <FormModal
     v-model:open="isModalVisible"
-    :form="form"
+    :values="form.values"
     :header="t('header')"
     :error="error"
     @submit="onSubmit"
@@ -56,12 +56,8 @@ const emit = defineEmits<{
 }>()
 
 const isModalVisible = computed({
-  get() {
-    return props.open
-  },
-  set(value) {
-    emit('update:open', value)
-  },
+  get: () => props.open,
+  set: (value) => emit('update:open', value),
 })
 
 const onSubmit = form.handleSubmit(async () => {

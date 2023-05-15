@@ -12,13 +12,14 @@
     </div>
     <LayoutButton
       class="address-list__button"
-      :label="t(`${type}`)"
+      :label="t(`${type}.button`)"
       @click="isAddAddressModalVisible = true"
     />
-    <AddressCreateAndEditModal
+    <AddressFormModal
       v-model:open="isAddAddressModalVisible"
-      type="create"
-      :address-type="type"
+      :type="type"
+      :success-update-message="t(`${type}.sucessUpdate`)"
+      :header="t(`${type}.header`)"
     />
   </div>
 </template>
@@ -26,8 +27,16 @@
 <i18n lang="json">
 {
   "pl": {
-    "billing": "+ Dodaj dane",
-    "shipping": "+ Dodaj adres"
+    "billing": {
+      "header": "Dodawanie danych rachunku",
+      "button": "+ Dodaj dane",
+      "sucessUpdate": "Pomyślnie dodano rachunek."
+    },
+    "shipping": {
+      "header": "Dodawanie adresu dostawy",
+      "button": "+ Dodaj adres",
+      "sucessUpdate": "Pomyślnie dodano adres."
+    }
   }
 }
 </i18n>
@@ -51,12 +60,8 @@ const emit = defineEmits<{
 const { addresses } = useUserAddreses(props.type)
 
 const selectedAddress = computed({
-  get() {
-    return props.value
-  },
-  set(value) {
-    emit('update:value', value)
-  },
+  get: () => props.value,
+  set: (value) => emit('update:value', value),
 })
 </script>
 

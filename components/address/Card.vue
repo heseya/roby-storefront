@@ -24,7 +24,7 @@
         class="address-card__icon"
         :size="14"
         :icon="Trash"
-        @click.stop="isDeleteAddressModalVisible = true"
+        @click.stop="openDeleteAddressModal"
       />
       <LayoutIcon
         class="address-card__icon"
@@ -34,25 +34,31 @@
       />
     </div>
   </div>
-  <AddressCreateAndEditModal
+  <AddressFormModal
     v-if="isEditAddressModalVisible"
     v-model:open="isEditAddressModalVisible"
     :address="address"
-    type="edit"
-    :address-type="type"
-  />
-  <AddressDeleteModal
-    v-if="isDeleteAddressModalVisible"
-    v-model:open="isDeleteAddressModalVisible"
-    :address="address"
     :type="type"
+    :success-update-message="t(`${type}.sucessUpdate`)"
+    :header="t(`${type}.header`)"
   />
+  <AddressDeleteModal v-model:open="isDeleteAddressModalVisible" :address="address" :type="type" />
 </template>
 
 <i18n lang="json">
 {
   "pl": {
-    "vatNumber": "NIP"
+    "vatNumber": "NIP",
+    "billing": {
+      "header": "Edytowanie adresu",
+      "sucessUpdate": "Pomyślnie edytowano rachunek.",
+      "default": "Nie można usunąć domyślnego rachunku"
+    },
+    "shipping": {
+      "header": "Edytowanie adresu",
+      "sucessUpdate": "Pomyślnie edytowano adres.",
+      "default": "Nie można usunąć domyślnego adresu"
+    }
   }
 }
 </i18n>
@@ -62,9 +68,10 @@ import { UserSavedAddress } from '@heseya/store-core'
 import Trash from '@/assets/icons/trash.svg?component'
 import PencilLine from '@/assets/icons/pencil-line-filled.svg?component'
 
+const { notify } = useNotify()
 const t = useLocalI18n()
 
-defineProps<{
+const props = defineProps<{
   selected: boolean
   address: UserSavedAddress
   type: 'billing' | 'shipping'
@@ -76,6 +83,17 @@ const emit = defineEmits<{
 
 const isEditAddressModalVisible = ref(false)
 const isDeleteAddressModalVisible = ref(false)
+
+const openDeleteAddressModal = () => {
+  if (props.address.default) {
+    notify({
+      title: t(`${props.type}.default`),
+      type: 'error',
+    })
+  } else {
+    isDeleteAddressModalVisible.value = true
+  }
+}
 </script>
 
 <style lang="scss" scoped>
