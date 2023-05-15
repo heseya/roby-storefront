@@ -2,7 +2,7 @@
   <div class="drop-down-container">
     <div
       :style="{
-        maxHeight: (showButton && isExpand ? slotRef.clientHeight : minExpandHeight) + 'px',
+        maxHeight: (showButton && isExpand ? slotRef?.clientHeight : minExpandHeight) + 'px',
       }"
       class="drop-down-container__slot"
     >
@@ -44,7 +44,7 @@ const isExpand = ref(false)
 
 const slotRef = ref<HTMLElement>()
 
-const showButton = computed(() => slotRef.value?.clientHeight > props.minExpandHeight)
+const showButton = computed(() => (slotRef.value?.clientHeight ?? 0) > props.minExpandHeight)
 
 const props = withDefaults(defineProps<{ minExpandHeight?: number }>(), { minExpandHeight: 700 })
 </script>
