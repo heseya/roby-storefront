@@ -13,7 +13,7 @@
     <div class="cart-summary__item">
       <div class="cart-summary__label">{{ t('summary.shipping') }}</div>
       <div class="cart-summary__value">
-        {{ t('summary.from') }} {{ formatAmount(cheapestShippingMethodPrice) }}
+        {{ t('summary.from') }} {{ formatAmount(cheapestShippingMethodPrice?.price || 0) }}
       </div>
     </div>
 
@@ -85,9 +85,20 @@ const cart = useCartStore()
 const t = useLocalI18n()
 const auth = useAuthStore()
 const router = useRouter()
+const heseya = useHeseya()
 
-// TODO: get from API
-const cheapestShippingMethodPrice = 7.99
+const { data: cheapestShippingMethodPrice } = useAsyncData(`shippingMethodPrice`, async () => {
+  const { data } = await heseya.ShippingMethods.get()
+  return data.reduce((lowestPriceMethod, currentMethod) => {
+    if (!lowestPriceMethod.price) {
+      return currentMethod
+    }
+
+    return currentMethod.price !== null && currentMethod.price < lowestPriceMethod.price
+      ? currentMethod
+      : lowestPriceMethod
+  })
+})
 
 // TODO: get from API
 const paymentMethods: PaymentMethod[] = [
