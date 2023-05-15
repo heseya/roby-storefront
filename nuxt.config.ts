@@ -10,6 +10,7 @@ const {
   GOOGLE_ANALYTICS_ID,
   CENEO_GUID,
   LEASLINK_ID,
+  COLOR_THEME_PICKER,
 } = process.env
 
 const isProduction = ENVIRONMENT === 'production'
@@ -48,6 +49,7 @@ export default defineNuxtConfig({
       googleAnalyticsId: GOOGLE_ANALYTICS_ID,
       ceneoGuid: CENEO_GUID,
       leaslinkId: LEASLINK_ID,
+      showColorThemePicker: COLOR_THEME_PICKER === '1',
     },
   },
 
