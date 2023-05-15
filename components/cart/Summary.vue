@@ -13,7 +13,7 @@
     <div class="cart-summary__item">
       <div class="cart-summary__label">{{ t('summary.shipping') }}</div>
       <div class="cart-summary__value">
-        {{ t('summary.from') }} {{ formatAmount(cheapestShippingMethodPrice?.price || 0) }}
+        {{ t('summary.from') }} {{ formatAmount(cheapestShippingMethodPrice || 0) }}
       </div>
     </div>
 
