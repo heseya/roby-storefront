@@ -1,17 +1,22 @@
 <template>
   <div class="drop-down-container">
     <div
+      :style="{
+        maxHeight: (showButton && isExpand ? slotRef.clientHeight : minExpandHeight) + 'px',
+      }"
       class="drop-down-container__slot"
-      :class="{ 'drop-down-container__slot--expand': isExpand }"
     >
-      <slot />
+      <div ref="slotRef">
+        <slot />
+      </div>
     </div>
     <button
+      v-show="showButton"
       class="drop-down-container__button"
       :class="{ 'drop-down-container__button--expand': isExpand }"
       @click="isExpand = !isExpand"
     >
-      {{ isExpand ? 'Zwiń' : 'Rozwiń' }}
+      {{ isExpand ? t('collapse') : t('expand') }}
       <LayoutIcon
         class="drop-down-container__button-icon"
         :class="{ 'drop-down-container__button-icon--expand': isExpand }"
@@ -19,32 +24,39 @@
         :size="8"
       />
     </button>
-    <button @click="handle">log</button>
   </div>
 </template>
 
+<i18n lang="json">
+{
+  "pl": {
+    "expand": "Rozwiń",
+    "collapse": "Zwiń"
+  }
+}
+</i18n>
+
 <script lang="ts" setup>
 import Chevron from '@/assets/icons/chevron.svg?component'
-import Button from '~/components/layout/nav/Button.vue'
+const t = useLocalI18n()
 
 const isExpand = ref(false)
+
+const slotRef = ref<HTMLElement>()
+
+const showButton = computed(() => slotRef.value?.clientHeight > props.minExpandHeight)
+
+const props = withDefaults(defineProps<{ minExpandHeight?: number }>(), { minExpandHeight: 700 })
 </script>
 
 <style lang="scss" scoped>
 .drop-down-container {
-  height: 100%;
   &__slot {
     overflow: hidden;
-    max-height: 700px;
-
     transition: max-height 500ms ease-in-out;
 
-    &--expand {
-      max-height: 5000px;
-    }
-
     @media ($viewport-8) {
-      max-height: 100%;
+      max-height: 100% !important;
     }
   }
 
