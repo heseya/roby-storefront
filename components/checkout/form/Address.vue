@@ -2,7 +2,7 @@
   <div class="address-form">
     <FormInput
       :model-value="address.name"
-      name="address.name"
+      name="address_name"
       :label="invoice ? t('companyName') : t('name')"
       rules="required"
       :disabled="disabled"
@@ -11,7 +11,7 @@
     <FormInput
       v-if="invoice"
       :model-value="address.vat"
-      name="address.vat"
+      name="address_vat"
       rules="required"
       :label="t('vatNumber')"
       :disabled="disabled"
@@ -21,7 +21,7 @@
     <div class="address-form__row">
       <FormSelect
         :model-value="address.country"
-        name="address.country"
+        name="address_country"
         rules="required"
         :label="t('country')"
         :disabled="disabled"
@@ -33,7 +33,7 @@
       </FormSelect>
       <FormInput
         :model-value="address.address"
-        name="address.address"
+        name="address_address"
         rules="required"
         :label="t('address')"
         :disabled="disabled"
@@ -43,7 +43,7 @@
     <div class="address-form__row">
       <FormInput
         :model-value="address.zip"
-        name="address.postalCode"
+        name="address_postalCode"
         rules="required"
         :label="t('postalCode')"
         :disabled="disabled"
@@ -51,7 +51,7 @@
       />
       <FormInput
         :model-value="address.city"
-        name="address.city"
+        name="address_city"
         rules="required"
         :label="t('city')"
         :disabled="disabled"
@@ -60,7 +60,7 @@
     </div>
     <FormInput
       :model-value="address.phone"
-      name="address.phone"
+      name="address_phone"
       html-type="phone"
       rules="required"
       :label="t('phone')"

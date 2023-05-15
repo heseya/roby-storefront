@@ -41,7 +41,7 @@ defineProps<{
   form: FormContext<any>
   header: string
   okText?: string
-  error: any
+  error?: any
 }>()
 
 const emit = defineEmits<{

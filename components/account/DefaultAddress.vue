@@ -15,12 +15,14 @@
     "shipping": {
       "title": "Adresy dostawy",
       "description": "Zaznaczony adres jest domyślnym adresem dostawy.",
-      "sucessUpdate": "Zmieniono domyślny adres dostawy"
+      "sucessUpdate": "Zmieniono domyślny adres dostawy",
+      "failedUpdate": "Nie udało się zmienić domyślnego adresu"
     },
     "billing": {
       "title": "Dane do rachunku",
       "description": "Zaznaczone dane są domyślnymi danymi do rachunku.",
-      "sucessUpdate": "Zmieniono domyślne dane do rachunku"
+      "sucessUpdate": "Zmieniono domyślne dane do rachunku",
+      "failedUpdate": "Nie udało się zmienić domyślnego rachunku"
     }
   }
 }
@@ -35,18 +37,15 @@ const props = defineProps<{
   type: 'billing' | 'shipping'
 }>()
 
-const { defaultAddress, edit } = computed(() => {
-  return props.type === 'billing' ? useUserBillingAddresses() : useUserShippingAddresses()
-}).value
+const { defaultAddress, edit } = useUserAddreses(props.type)
 
-const updateDefaultAddress = (value: UserSavedAddress | null) => {
+const updateDefaultAddress = async (value: UserSavedAddress | null) => {
   if (value && value !== defaultAddress.value) {
-    value.default = true
-    edit(value.id, value)
+    const { success } = await edit(value.id, { ...value, default: true })
 
     notify({
-      title: t(`${props.type}.sucessUpdate`),
-      type: 'success',
+      title: success ? t(`${props.type}.sucessUpdate`) : t(`${props.type}.failedUpdate`),
+      type: success ? 'success' : 'failed',
     })
   }
 }

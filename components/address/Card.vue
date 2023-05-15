@@ -2,9 +2,9 @@
   <div
     class="address-card"
     :class="{
-      'address-card--selected': isSelected,
+      'address-card--selected': selected,
     }"
-    @click="emit('update:default', address)"
+    @click="emit('update:selected', address)"
   >
     <div class="address-card__select" />
     <div>
@@ -34,19 +34,18 @@
       />
     </div>
   </div>
-  <AddressModal
+  <AddressCreateAndEditModal
     v-if="isEditAddressModalVisible"
     v-model:open="isEditAddressModalVisible"
     :address="address"
     type="edit"
     :address-type="type"
   />
-  <AddressModal
+  <AddressDeleteModal
     v-if="isDeleteAddressModalVisible"
     v-model:open="isDeleteAddressModalVisible"
     :address="address"
-    type="delete"
-    :address-type="type"
+    :type="type"
   />
 </template>
 
@@ -66,13 +65,13 @@ import PencilLine from '@/assets/icons/pencil-line-filled.svg?component'
 const t = useLocalI18n()
 
 defineProps<{
-  isSelected: boolean
+  selected: boolean
   address: UserSavedAddress
   type: 'billing' | 'shipping'
 }>()
 
 const emit = defineEmits<{
-  (e: 'update:default', value: UserSavedAddress): void
+  (e: 'update:selected', value: UserSavedAddress): void
 }>()
 
 const isEditAddressModalVisible = ref(false)

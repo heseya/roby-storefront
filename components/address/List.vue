@@ -5,9 +5,9 @@
         v-for="userAddress in addresses"
         :key="userAddress.id"
         :address="userAddress"
-        :is-selected="userAddress?.id === value?.id"
+        :selected="userAddress?.id === value?.id"
         :type="type"
-        @update:default="(v) => (selectedAddress = v)"
+        @update:selected="(v) => (selectedAddress = v)"
       />
     </div>
     <LayoutButton
@@ -15,11 +15,10 @@
       :label="t(`${type}`)"
       @click="isAddAddressModalVisible = true"
     />
-    <AddressModal
+    <AddressCreateAndEditModal
       v-model:open="isAddAddressModalVisible"
       type="create"
       :address-type="type"
-      @update:open="(value) => (isAddAddressModalVisible = value)"
     />
   </div>
 </template>
@@ -49,7 +48,7 @@ const emit = defineEmits<{
   (e: 'update:value', value: UserSavedAddress | null): void
 }>()
 
-const { addresses } = computed(() => useUserAddreses(props.type)).value
+const { addresses } = useUserAddreses(props.type)
 
 const selectedAddress = computed({
   get() {
