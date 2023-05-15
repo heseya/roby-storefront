@@ -47,7 +47,6 @@
 
 <script setup lang="ts">
 import { useForm } from 'vee-validate'
-import { joinUrl } from '~/utils/joinUrl'
 
 const t = useLocalI18n()
 const heseya = useHeseya()

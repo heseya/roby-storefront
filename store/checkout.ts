@@ -12,7 +12,6 @@ import { useCartStore } from './cart'
 
 import { Paczkomat } from '@/interfaces/Paczkomat'
 import { EMPTY_ADDRESS } from '@/consts/address'
-import { joinUrl } from '~/utils/joinUrl'
 
 export const useCheckoutStore = defineStore('checkout', {
   state: () => ({
