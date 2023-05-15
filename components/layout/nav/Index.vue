@@ -2,7 +2,7 @@
   <nav class="nav-bar">
     <LayoutNavNotification class="nav-bar__notification" />
 
-    <div class="nav-items">
+    <div class="nav-items" :class="{ 'nav-items--small': scrollY > 100 }">
       <div class="nav-items__left">
         <LayoutIconButton
           class="nav-items__menu-btn"
@@ -158,6 +158,8 @@ const searchHistory = useSearchHistoryStore()
 const isOpenCategories = ref(false)
 const isOpenSearch = ref(false)
 
+const { y: scrollY } = useWindowScroll()
+
 const handleSearch = ({ query, category }: SearchValues) => {
   if (query !== '') {
     searchHistory.addNewQuery(query)
@@ -203,14 +205,19 @@ const { data: navLinks } = useAsyncData<NavLink[]>('nav-pages', async () => {
 }
 
 .nav-items {
-  position: relative;
-  height: 130px;
-  padding: 0 42px;
-
   @include flex-row;
+
+  position: relative;
+  padding: 42px 42px;
   justify-content: space-between;
   align-items: center;
   gap: 40px;
+  transition: padding 0.2s;
+
+  &--small {
+    padding: 12px 42px;
+  }
+
   @media ($max-viewport-12) {
     height: 60px;
     padding: 0 18px;
@@ -309,7 +316,7 @@ const { data: navLinks } = useAsyncData<NavLink[]>('nav-pages', async () => {
 .nav-link-button {
   display: inline-block;
   text-decoration: none;
-  padding: 20px 0;
+  padding: 0;
 
   &__button {
     color: #8d8d8d;
