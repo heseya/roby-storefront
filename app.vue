@@ -8,11 +8,15 @@
       <CartUnavailableModal />
       <Notifications class="notifications" position="bottom right" />
     </ClientOnly>
+
+    <LazyColorThemePicker v-if="showColorThemePicker" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { useConfigStore } from './store/config'
+
+const { showColorThemePicker } = usePublicRuntimeConfig()
 
 const config = useConfigStore()
 const seo = toRef(config, 'seo')

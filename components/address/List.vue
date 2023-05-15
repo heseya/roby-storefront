@@ -1,19 +1,16 @@
 <template>
   <div class="address-list">
-    <div>
-      <div
-        v-for="userAddress in addresses.value"
+    <div class="address-list__container">
+      <AddressCard
+        v-for="userAddress in addresses"
         :key="userAddress.id"
-        class="address-list__container"
-      >
-        <AddressCard
-          :address="userAddress.address"
-          :is-selected="selectedAddress?.id === value?.id"
-          @click="selectedAddress = userAddress"
-        />
-      </div>
+        class="address-list__card"
+        :address="userAddress.address"
+        :is-selected="selectedAddress?.id === userAddress?.id"
+        @click="selectedAddress = userAddress"
+      />
     </div>
-    <LayoutButton class="address-list__button" :label="t(`${type}`)" />
+    <LayoutButton class="address-list__button" :label="t(type)" />
   </div>
 </template>
 
@@ -40,7 +37,7 @@ const emit = defineEmits<{
   (e: 'update:value', value: UserSavedAddress | null): void
 }>()
 
-const addresses = computed(() => useUserAddreses(props.type).addresses)
+const { addresses } = useUserAddreses(props.type)
 
 const selectedAddress = computed({
   get() {

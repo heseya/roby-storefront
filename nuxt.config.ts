@@ -7,8 +7,10 @@ const {
   ENVIRONMENT = 'development',
   APP_HOST,
   RECAPTCHA_PUBLIC,
+  GOOGLE_ANALYTICS_ID,
   CENEO_GUID,
   LEASLINK_ID,
+  COLOR_THEME_PICKER,
 } = process.env
 
 const isProduction = ENVIRONMENT === 'production'
@@ -44,8 +46,10 @@ export default defineNuxtConfig({
       appHost: APP_HOST,
       isProduction,
       recaptchaPublic: RECAPTCHA_PUBLIC,
+      googleAnalyticsId: GOOGLE_ANALYTICS_ID,
       ceneoGuid: CENEO_GUID,
       leaslinkId: LEASLINK_ID,
+      showColorThemePicker: COLOR_THEME_PICKER === '1',
     },
   },
 
@@ -66,10 +70,16 @@ export default defineNuxtConfig({
   },
 
   i18n: {
+    baseUrl: APP_HOST,
     locales: [{ code: 'pl', iso: 'pl-PL', file: 'pl.ts' }],
     defaultLocale: 'pl',
     langDir: 'lang',
     strategy: 'prefix_except_default',
+    detectBrowserLanguage: {
+      useCookie: true,
+      cookieKey: 'i18n_redirected',
+      redirectOn: 'root',
+    },
   },
 
   piniaPersistedstate: {

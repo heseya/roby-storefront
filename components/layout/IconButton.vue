@@ -15,7 +15,7 @@
 <script lang="ts" setup>
 import isNumber from 'lodash/isNumber'
 import { FunctionalComponent } from 'vue'
-import { IconSize } from '~/components/layout/Icon.vue'
+import { IconSize } from '@/components/layout/Icon.vue'
 
 withDefaults(
   defineProps<{

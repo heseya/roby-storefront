@@ -66,6 +66,7 @@ withDefaults(
   }
 
   .swiper-slide {
+    height: unset;
     width: fit-content;
   }
 
@@ -77,6 +78,7 @@ withDefaults(
   }
 
   &__content-container {
+    height: 100%;
     @include flex-column;
     justify-content: center;
     align-items: center;

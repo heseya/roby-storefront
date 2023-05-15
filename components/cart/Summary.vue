@@ -13,7 +13,7 @@
     <div class="cart-summary__item">
       <div class="cart-summary__label">{{ t('summary.shipping') }}</div>
       <div class="cart-summary__value">
-        {{ t('summary.from') }} {{ formatAmount(cheapestShippingMethodPrice) }}
+        {{ t('summary.from') }} {{ formatAmount(cheapestShippingMethodPrice || 0) }}
       </div>
     </div>
 
@@ -67,7 +67,7 @@
 </i18n>
 
 <script setup lang="ts">
-import { PaymentMethod } from '@heseya/store-core'
+import { PaymentMethod, ShippingType } from '@heseya/store-core'
 import { useCartStore } from '@/store/cart'
 import PayuIcon from '@/assets/images/payu.png'
 import { useAuthStore } from '@/store/auth'
@@ -85,9 +85,14 @@ const cart = useCartStore()
 const t = useLocalI18n()
 const auth = useAuthStore()
 const router = useRouter()
+const heseya = useHeseya()
 
-// TODO: get from API
-const cheapestShippingMethodPrice = 7.99
+const { data: cheapestShippingMethodPrice } = useAsyncData(`shippingMethodPrice`, async () => {
+  const { data } = await heseya.ShippingMethods.get()
+  // TODO: ShippingType.Point can also have own price? Maybe ignore free shipping?
+  const prices = data.filter((m) => m.shipping_type !== ShippingType.Point).map((m) => m.price || 0)
+  return prices.length ? Math.min(...prices) : 0
+})
 
 // TODO: get from API
 const paymentMethods: PaymentMethod[] = [
