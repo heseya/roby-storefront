@@ -24,13 +24,12 @@ const title = computed(() => seo.value.title || 'Store')
 
 const { env } = useConfigStore()
 
-const colorStyles = computed(
-  () =>
-    `--primary-color: ${env.primary_color};
-    --secondary-color: ${env.secondary_color};
-    --primary-color-alt: ${env.primary_color_alt};
-    --error_color: ${env.error_color};`,
-)
+const colorStyles = computed(() => ({
+  '--primary-color': env.primary_color,
+  '--secondary_color': env.secondary_color,
+  '--primary_color_alt': env.primary_color_alt,
+  '--error_color': env.error_color,
+}))
 
 useSeoMeta({
   titleTemplate: (titleChunk) => (titleChunk ? `${titleChunk} - ${title.value}` : title.value),
