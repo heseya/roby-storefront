@@ -35,7 +35,6 @@
     </div>
   </div>
   <AddressFormModal
-    v-if="isEditAddressModalVisible"
     v-model:open="isEditAddressModalVisible"
     :address="value"
     :type="type"

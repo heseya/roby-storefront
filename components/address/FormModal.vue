@@ -58,7 +58,10 @@ const emit = defineEmits<{
 
 const isModalVisible = computed({
   get: () => props.open,
-  set: (value) => emit('update:open', value),
+  set: (value) => {
+    if (!value) form.handleReset()
+    emit('update:open', value)
+  },
 })
 
 const { add, edit } = useUserAddreses(props.type)

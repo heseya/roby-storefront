@@ -16,7 +16,6 @@
       @click="isAddAddressModalVisible = true"
     />
     <AddressFormModal
-      v-if="isAddAddressModalVisible"
       v-model:open="isAddAddressModalVisible"
       :type="type"
       :success-update-message="t(`${type}.sucessUpdate`)"

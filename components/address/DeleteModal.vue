@@ -53,7 +53,7 @@ const isModalVisible = computed({
   set: (value) => emit('update:open', value),
 })
 
-const errorMessage = ref()
+const errorMessage = ref<string>('')
 
 const onSubmit = async () => {
   const { success, error } = await remove(props.address.id)
