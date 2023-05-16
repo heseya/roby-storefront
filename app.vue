@@ -1,5 +1,5 @@
 <template>
-  <div :style="colorStyles">
+  <LayoutThemeContext>
     <NuxtLoadingIndicator />
 
     <NuxtPage />
@@ -10,7 +10,7 @@
     </ClientOnly>
 
     <LazyColorThemePicker v-if="showColorThemePicker" />
-  </div>
+  </LayoutThemeContext>
 </template>
 
 <script setup lang="ts">
@@ -21,15 +21,6 @@ const { showColorThemePicker } = usePublicRuntimeConfig()
 const config = useConfigStore()
 const seo = toRef(config, 'seo')
 const title = computed(() => seo.value.title || 'Store')
-
-const { env } = useConfigStore()
-
-const colorStyles = computed(() => ({
-  '--primary-color': env.primary_color,
-  '--secondary_color': env.secondary_color,
-  '--primary_color_alt': env.primary_color_alt,
-  '--error_color': env.error_color,
-}))
 
 useSeoMeta({
   titleTemplate: (titleChunk) => (titleChunk ? `${titleChunk} - ${title.value}` : title.value),
