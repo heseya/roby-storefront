@@ -95,7 +95,7 @@ const companyAddress = computed(() => getFromConfig('company_address'))
 const companyPhone = computed(() => getFromConfig('company_phone'))
 const companyEmail = computed(() => getFromConfig('company_email'))
 
-const { data: sections } = useLazyAsyncData('footer-pages', async () => {
+const { data: sections } = useAsyncData('footer-pages', async () => {
   const pages = await Promise.all([
     heseya.Pages.get({ metadata: { footer_section: '1' } }),
     heseya.Pages.get({ metadata: { footer_section: '2' } }),
