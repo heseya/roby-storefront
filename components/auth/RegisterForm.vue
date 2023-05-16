@@ -185,7 +185,7 @@ const onSubmit = form.handleSubmit(async () => {
   }
 
   &__policy-agreement {
-    color: $primary-color;
+    color: $secondary-color;
   }
 
   &__error {

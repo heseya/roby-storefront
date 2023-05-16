@@ -71,11 +71,11 @@ const showHeaders = computed(() => props.tabs.length > 1 || !props.hideSingleTab
 
     &:hover,
     &--active {
-      color: var(--primary-color);
+      color: var(--secondary-color);
     }
 
     &--active::before {
-      border-color: var(--primary-color);
+      border-color: var(--secondary-color);
     }
   }
 
@@ -96,7 +96,7 @@ const showHeaders = computed(() => props.tabs.length > 1 || !props.hideSingleTab
   }
 
   &--gray &__button {
-    color: var(--primary-color);
+    color: var(--secondary-color);
     background-color: #fff;
     text-transform: uppercase;
     width: 100%;

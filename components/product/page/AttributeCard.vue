@@ -67,7 +67,7 @@ const parsedAttributes = computed(() => {
   &__exposed-value {
     font-size: rem(30);
     line-height: rem(39);
-    color: var(--primary-color);
+    color: var(--secondary-color);
     font-weight: 600;
     text-align: center;
   }

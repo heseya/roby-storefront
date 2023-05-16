@@ -38,10 +38,10 @@ withDefaults(
 
   &--primary {
     color: $white-color;
-    background-color: var(--secondary-color-alt);
+    background-color: var(--primary-color-alt);
 
     &:not([disabled]):hover {
-      background-color: var(--secondary-color);
+      background-color: var(--primary-color);
     }
   }
 
