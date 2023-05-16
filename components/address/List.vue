@@ -51,13 +51,13 @@ const props = defineProps<{
   type: 'billing' | 'shipping'
 }>()
 
-const isAddAddressModalVisible = ref(false)
-
 const emit = defineEmits<{
   (e: 'update:value', value: UserSavedAddress | null): void
 }>()
 
 const { addresses } = useUserAddreses(props.type)
+
+const isAddAddressModalVisible = ref(false)
 
 const selectedAddress = computed({
   get: () => props.value,

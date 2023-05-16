@@ -7,12 +7,7 @@
     :ok-text="t('save')"
     @submit="onSubmit"
   >
-    <FormInput
-      v-model:model-value="form.values.name"
-      rules="required"
-      :label="t('name')"
-      name="name"
-    />
+    <FormInput v-model="form.values.name" rules="required" :label="t('name')" name="name" />
     <AddressForm v-model:address="form.values.address" :invoice="isInvoice" />
 
     <FormCheckbox v-model="isInvoice" name="invoice" :label="t('invoice')" />
@@ -61,6 +56,13 @@ const emit = defineEmits<{
   (e: 'update:submit', value: UserSavedAddress | UserSavedAddressCreateDto): void
 }>()
 
+const isModalVisible = computed({
+  get: () => props.open,
+  set: (value) => emit('update:open', value),
+})
+
+const { add, edit } = useUserAddreses(props.type)
+
 const errorMessage = ref()
 
 const isInvoice = ref<boolean>(!!props.address?.address.vat)
@@ -83,13 +85,6 @@ const form = useForm<UserSavedAddressCreateDto | UserSavedAddressUpdateDto>({
         },
       },
 })
-
-const isModalVisible = computed({
-  get: () => props.open,
-  set: (value) => emit('update:open', value),
-})
-
-const { add, edit } = useUserAddreses(props.type)
 
 const onSubmit = async () => {
   const { success, error } = props.address

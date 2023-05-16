@@ -24,7 +24,9 @@
 <i18n lang="json">
 {
   "pl": {
-    "header": "Zmiana hasła"
+    "header": "Zmiana hasła",
+    "currentPassword": "Aktualne hasło",
+    "newPassword": "Nowe hasło"
   }
 }
 </i18n>
@@ -73,7 +75,4 @@ const onSubmit = form.handleSubmit(async () => {
 })
 </script>
 
-<style lang="scss" scoped>
-.account-form-modal {
-}
-</style>
+<style lang="scss" scoped></style>
