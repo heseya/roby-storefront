@@ -36,7 +36,6 @@ const t = useLocalI18n()
 const heseya = useHeseya()
 const { notify } = useNotify()
 const auth = useAuthStore()
-const router = useRouter()
 
 const props = defineProps<{
   open: boolean
@@ -70,7 +69,6 @@ const onSubmit = form.handleSubmit(async () => {
       type: 'success',
     })
     await auth.logout()
-    router.push('/')
   } catch (e: any) {
     error.value = e
   }
