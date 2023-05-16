@@ -18,13 +18,13 @@
       "header": "Usuwanie rachunku",
       "delete": "Usuń rachunek",
       "confirmDelete": "Czy napewno chcesz usunąć rachunek?",
-      "sucessUpdate": "Pomyślnie usunięto rachunek."
+      "sucessUpdate": "Pomyślnie usunięto rachunek"
     },
     "shipping": {
       "header": "Usuwanie adresu",
       "delete": "Usuń adres",
       "confirmDelete": "Czy napewno chcesz usunąć adres?",
-      "sucessUpdate": "Pomyślnie usunięto adres."
+      "sucessUpdate": "Pomyślnie usunięto adres"
     }
   }
 }

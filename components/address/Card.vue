@@ -51,12 +51,12 @@
     "vatNumber": "NIP",
     "billing": {
       "header": "Edytowanie adresu",
-      "sucessUpdate": "Pomyślnie edytowano rachunek.",
+      "sucessUpdate": "Pomyślnie edytowano rachunek",
       "default": "Nie można usunąć domyślnego rachunku"
     },
     "shipping": {
       "header": "Edytowanie adresu",
-      "sucessUpdate": "Pomyślnie edytowano adres.",
+      "sucessUpdate": "Pomyślnie edytowano adres",
       "default": "Nie można usunąć domyślnego adresu"
     }
   }

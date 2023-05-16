@@ -16,6 +16,7 @@
       @click="isAddAddressModalVisible = true"
     />
     <AddressFormModal
+      v-if="isAddAddressModalVisible"
       v-model:open="isAddAddressModalVisible"
       :type="type"
       :success-update-message="t(`${type}.sucessUpdate`)"
@@ -30,12 +31,12 @@
     "billing": {
       "header": "Dodawanie danych rachunku",
       "button": "+ Dodaj dane",
-      "sucessUpdate": "Pomyślnie dodano rachunek."
+      "sucessUpdate": "Pomyślnie dodano rachunek"
     },
     "shipping": {
       "header": "Dodawanie adresu dostawy",
       "button": "+ Dodaj adres",
-      "sucessUpdate": "Pomyślnie dodano adres."
+      "sucessUpdate": "Pomyślnie dodano adres"
     }
   }
 }
