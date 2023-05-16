@@ -58,10 +58,7 @@ const emit = defineEmits<{
 
 const isModalVisible = computed({
   get: () => props.open,
-  set: (value) => {
-    if (!value) form.handleReset()
-    emit('update:open', value)
-  },
+  set: (value) => emit('update:open', value),
 })
 
 const { add, edit } = useUserAddreses(props.type)
@@ -105,4 +102,11 @@ const onSubmit = async () => {
     isModalVisible.value = false
   }
 }
+
+watch(
+  () => props.open,
+  () => {
+    if (!props.open) form.handleReset()
+  },
+)
 </script>
