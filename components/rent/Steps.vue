@@ -86,7 +86,7 @@
     align-items: center;
     color: var(--primary-color-alt);
     font-weight: $font-weight-bold;
-    background-color: var(--primary-color);
+    background-color: rgba($primary-color-alt, 0.15);
     border: 1px solid var(--primary-color-alt);
     border-radius: 50%;
   }

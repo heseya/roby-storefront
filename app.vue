@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div :style="colorStyles">
     <NuxtLoadingIndicator />
 
     <NuxtPage />
@@ -22,12 +22,15 @@ const config = useConfigStore()
 const seo = toRef(config, 'seo')
 const title = computed(() => seo.value.title || 'Store')
 
-const { primary_color, secondary_color, primary_color_alt, error_color } = useConfigStore().env
+const { env } = useConfigStore()
 
-document.documentElement.style.setProperty('--primary-color', primary_color as string)
-document.documentElement.style.setProperty('--primary-color-alt', primary_color_alt as string)
-document.documentElement.style.setProperty('--secondary-color', secondary_color as string)
-document.documentElement.style.setProperty('--error_color', error_color as string)
+const colorStyles = computed(
+  () =>
+    `--primary-color: ${env.primary_color};
+    --secondary-color: ${env.secondary_color};
+    --primary-color-alt: ${env.primary_color_alt};
+    --error_color: ${env.error_color};`,
+)
 
 useSeoMeta({
   titleTemplate: (titleChunk) => (titleChunk ? `${titleChunk} - ${title.value}` : title.value),
