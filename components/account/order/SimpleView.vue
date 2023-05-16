@@ -1,6 +1,6 @@
 <template>
   <div>
-    <LayoutAccountOrder
+    <LayoutAccountSection
       v-if="!errorMessage"
       :header="header"
       :link="link"
@@ -32,7 +32,7 @@
       </div>
 
       <LayoutEmpty v-else class="account-order-card__empty"> {{ t('empty') }} </LayoutEmpty>
-    </LayoutAccountOrder>
+    </LayoutAccountSection>
     <LayoutInfoBox v-else-if="errorMessage" type="danger">
       {{ errorMessage }}
     </LayoutInfoBox>
@@ -59,20 +59,19 @@ const errorMessage = ref('')
 
 const props = withDefaults(
   defineProps<{
-    code?: string
+    code: string
     link?: string
     header?: string
   }>(),
   {
     link: '',
     header: '',
-    code: '',
   },
 )
 
 const { data: order } = useAsyncData(`account/orders/${props.code}`, async () => {
   try {
-    if (props.code) return await heseya.UserProfile.Orders.getOneByCode(props.code)
+    return await heseya.UserProfile.Orders.getOneByCode(props.code)
   } catch (e: any) {
     errorMessage.value = formatError(e)
   }

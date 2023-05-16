@@ -9,28 +9,38 @@
         {{ t('message') }}
       </template>
       <template #additional>
-        <div v-if="!errorMessage" class="account-page__container">
+        <div v-if="userLastOrder" class="account-page__container">
           <AccountOrderSimpleView
-            :code="userLastOrder?.code"
+            :code="userLastOrder.code"
             link="/account/orders"
             :header="t('lastOrder')"
           />
         </div>
-        <LayoutInfoBox v-else type="danger">
+        <LayoutInfoBox v-else-if="errorMessage" type="danger">
           {{ errorMessage }}
         </LayoutInfoBox>
-        <LayoutAccountOrder
-          :header="t('wishList')"
+
+        <LayoutAccountSection
+          :header="t('wishlist.title')"
           :link="`/account/wishlist`"
           class="account-page__wishlist"
         >
-          <div v-if="wishlist?.userWishlist.length" class="account-page__items-list">
-            <div v-for="product in wishlist.products" :key="product.id">
-              <AccountProductCard :product="product" />
+          <ClientOnly>
+            <div v-if="wishlist.products.length" class="account-page__items-list">
+              <div v-for="product in wishlist.products" :key="product.id">
+                <AccountProductCard :product="product" />
+              </div>
             </div>
-          </div>
-          <LayoutEmpty v-else class="account-page__empty"> {{ t('empty') }} </LayoutEmpty>
-        </LayoutAccountOrder>
+
+            <LayoutEmpty v-else class="account-page__empty">
+              {{ t('wishlist.empty') }}
+            </LayoutEmpty>
+
+            <template #fallback>
+              <p class="account-page__loading">{{ t('wishlist.loading') }}</p>
+            </template>
+          </ClientOnly>
+        </LayoutAccountSection>
       </template>
     </LayoutAccount>
   </NuxtLayout>
@@ -43,8 +53,11 @@
     "welcome": "Witaj, ",
     "message": "Tutaj możesz zarządzać swoimi zamówieniami oraz ustawieniami konta.",
     "lastOrder": "Ostatnie zamówienie",
-    "wishList": "Lista życzeń",
-    "empty": "Nie masz żadnego produktu dodanego do listy życzeń"
+    "wishlist": {
+      "title": "Lista życzeń",
+      "empty": "Nie masz żadnego produktu dodanego do listy życzeń",
+      "loading": "Ładowanie listy życzeń..."
+    }
   }
 }
 </i18n>
@@ -73,7 +86,7 @@ const errorMessage = ref('')
 
 const breadcrumbs = computed(() => [{ label: $t('breadcrumbs.account'), link: '/account' }])
 
-const { data: userLastOrder } = useAsyncData(`userLastOrder`, async () => {
+const { data: userLastOrder } = useAsyncData(`recent-order`, async () => {
   try {
     const { data } = await heseya.UserProfile.Orders.get()
     return data[0]
@@ -108,6 +121,10 @@ const { data: userLastOrder } = useAsyncData(`userLastOrder`, async () => {
 
   &__empty {
     font-size: 13px;
+  }
+
+  &__loading {
+    text-align: center;
   }
 }
 </style>
