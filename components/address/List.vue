@@ -4,7 +4,7 @@
       <AddressCard
         v-for="userAddress in addresses"
         :key="userAddress.id"
-        :address="userAddress"
+        :value="userAddress"
         :selected="userAddress?.id === value?.id"
         :type="type"
         @update:selected="(v) => (selectedAddress = v)"

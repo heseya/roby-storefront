@@ -26,7 +26,8 @@
   "pl": {
     "header": "Zmiana hasła",
     "currentPassword": "Aktualne hasło",
-    "newPassword": "Nowe hasło"
+    "newPassword": "Nowe hasło",
+    "sucessUpdate": "Hasło zostało zmienione"
   }
 }
 </i18n>

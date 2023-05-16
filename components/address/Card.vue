@@ -4,20 +4,20 @@
     :class="{
       'address-card--selected': selected,
     }"
-    @click="emit('update:selected', address)"
+    @click="emit('update:selected', value)"
   >
     <div class="address-card__select" />
     <div>
-      <p :class="{ 'address-card__header': !address.address.vat }">
-        {{ address.name }}
+      <p :class="{ 'address-card__header': !value.address.vat }">
+        {{ value.name }}
       </p>
-      <p>{{ address.address.name }}</p>
-      <p v-if="address.address.vat">{{ t('vatNumber') }} {{ address.address.vat }}</p>
-      <p>{{ address.address.phone }}</p>
+      <p>{{ value.address.name }}</p>
+      <p v-if="value.address.vat">{{ t('vatNumber') }} {{ value.address.vat }}</p>
+      <p>{{ value.address.phone }}</p>
     </div>
     <div>
-      <p>{{ address.address.address }}</p>
-      <p>{{ address.address.zip }} {{ address.address.city }}</p>
+      <p>{{ value.address.address }}</p>
+      <p>{{ value.address.zip }} {{ value.address.city }}</p>
     </div>
     <div class="address-card__actions">
       <LayoutIcon
@@ -37,12 +37,12 @@
   <AddressFormModal
     v-if="isEditAddressModalVisible"
     v-model:open="isEditAddressModalVisible"
-    :address="address"
+    :address="value"
     :type="type"
     :success-update-message="t(`${type}.sucessUpdate`)"
     :header="t(`${type}.header`)"
   />
-  <AddressDeleteModal v-model:open="isDeleteAddressModalVisible" :address="address" :type="type" />
+  <AddressDeleteModal v-model:open="isDeleteAddressModalVisible" :address="value" :type="type" />
 </template>
 
 <i18n lang="json">
@@ -73,7 +73,7 @@ const t = useLocalI18n()
 
 const props = defineProps<{
   selected: boolean
-  address: UserSavedAddress
+  value: UserSavedAddress
   type: 'billing' | 'shipping'
 }>()
 
@@ -85,7 +85,7 @@ const isEditAddressModalVisible = ref(false)
 const isDeleteAddressModalVisible = ref(false)
 
 const openDeleteAddressModal = () => {
-  if (props.address.default) {
+  if (props.value.default) {
     notify({
       title: t(`${props.type}.default`),
       type: 'error',
