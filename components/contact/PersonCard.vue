@@ -12,7 +12,7 @@
           </a>
         </div>
         <div class="person-card__contact-data">
-          <span class="person-card__email">{{ data.email }}</span>
+          <a class="person-card__email" :href="`mailto:${data.email}`">{{ data.email }}</a>
           <span>{{ data.phone }}</span>
         </div>
       </div>
@@ -95,6 +95,7 @@ defineProps<{ data: PersonCardProps }>()
 
   &__email {
     color: var(--secondary-color);
+    text-decoration: none;
   }
 }
 </style>
