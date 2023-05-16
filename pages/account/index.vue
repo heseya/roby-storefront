@@ -9,9 +9,9 @@
         {{ t('message') }}
       </template>
       <template #additional>
-        <div v-if="userLastOrder" class="account-page__container">
+        <div v-if="recentOrder" class="account-page__container">
           <AccountOrderSimpleView
-            :code="userLastOrder.code"
+            :code="recentOrder.code"
             link="/account/orders"
             :header="t('lastOrder')"
           />
@@ -86,7 +86,7 @@ const errorMessage = ref('')
 
 const breadcrumbs = computed(() => [{ label: $t('breadcrumbs.account'), link: '/account' }])
 
-const { data: userLastOrder } = useAsyncData(`recent-order`, async () => {
+const { data: recentOrder } = useAsyncData(`recent-order`, async () => {
   try {
     const { data } = await heseya.UserProfile.Orders.get()
     return data[0]
