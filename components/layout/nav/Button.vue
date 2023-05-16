@@ -83,7 +83,7 @@ const localePath = useLocalePath()
       transition: color 200ms ease-in-out;
 
       &:hover {
-        color: var(--primary-color);
+        color: var(--secondary-color);
       }
     }
 
@@ -98,12 +98,12 @@ const localePath = useLocalePath()
 
   &--special {
     .category-btn__link {
-      color: var(--primary-color);
+      color: var(--secondary-color);
     }
 
     &:hover {
       .category-btn__link {
-        border-bottom-color: var(--primary-color);
+        border-bottom-color: var(--secondary-color);
       }
     }
   }

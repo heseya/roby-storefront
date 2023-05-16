@@ -157,11 +157,11 @@ const paymentStatus = computed(() => {
     }
 
     &--pending {
-      color: $secondary-color-alt;
+      color: $primary-color-alt;
     }
 
     &--failed {
-      color: $primary-color;
+      color: $secondary-color;
       font-weight: bold;
     }
   }

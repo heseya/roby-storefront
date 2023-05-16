@@ -44,7 +44,7 @@ const breadcrumbs = useBreadcrumbsState()
       margin-right: 1em;
 
       &:hover {
-        color: var(--primary-color);
+        color: var(--secondary-color);
       }
 
       &:after {

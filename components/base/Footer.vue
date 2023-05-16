@@ -162,7 +162,7 @@ const getSectionName = (section: number) => String(config.env[`footer_section_na
       transition: 0.3s;
 
       &:hover {
-        color: var(--primary-color);
+        color: var(--secondary-color);
       }
     }
   }

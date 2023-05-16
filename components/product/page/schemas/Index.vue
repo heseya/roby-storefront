@@ -66,7 +66,7 @@ const setValue = (schemaId: string, value: any) => {
   }
 
   &__option-price {
-    color: var(--primary-color);
+    color: var(--secondary-color);
     font-weight: 500;
   }
 }

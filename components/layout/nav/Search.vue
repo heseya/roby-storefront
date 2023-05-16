@@ -114,7 +114,7 @@ defineProps<{
     height: 46px;
     width: 46px;
     border-radius: 50%;
-    background-color: var(--secondary-color);
+    background-color: var(--primary-color);
   }
 
   &__history {

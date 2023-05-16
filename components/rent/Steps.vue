@@ -84,11 +84,10 @@
     @include flex-column;
     justify-content: center;
     align-items: center;
-    color: var(--secondary-color-alt);
+    color: var(--primary-color-alt);
     font-weight: $font-weight-bold;
-
-    background-color: var(--secondary-color-alt-semi-transparent);
-    border: 1px solid var(--secondary-color-alt);
+    background-color: var(--primary-color);
+    border: 1px solid var(--primary-color-alt);
     border-radius: 50%;
   }
 
@@ -112,7 +111,7 @@
 
   &__line {
     height: 100%;
-    border-left: 1px dashed var(--secondary-color-alt);
+    border-left: 1px dashed var(--primary-color-alt);
   }
 
   &__button {

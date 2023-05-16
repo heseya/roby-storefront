@@ -30,7 +30,7 @@ defineProps<{ data: InfoCardProps }>()
   }
 
   &__email {
-    color: var(--primary-color);
+    color: var(--secondary-color);
   }
 }
 </style>

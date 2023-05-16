@@ -74,7 +74,7 @@ const emit = defineEmits<{
     color: $blue-color;
 
     &:hover {
-      color: $secondary-color-alt;
+      color: $primary-color-alt;
     }
   }
 }

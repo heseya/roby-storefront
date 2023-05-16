@@ -323,7 +323,7 @@ const { data: navLinks } = useAsyncData<NavLink[]>('nav-pages', async () => {
   }
 
   &:hover {
-    color: var(--primary-color);
+    color: var(--secondary-color);
   }
 
   &__list {
@@ -346,7 +346,7 @@ const { data: navLinks } = useAsyncData<NavLink[]>('nav-pages', async () => {
       transition: color 200ms ease-in-out;
 
       &:hover {
-        color: var(--primary-color);
+        color: var(--secondary-color);
         cursor: pointer;
       }
 

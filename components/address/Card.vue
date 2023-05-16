@@ -105,7 +105,7 @@ const deleteAddress = () => {
   }
 
   &--selected > &__select {
-    border: 1px solid $secondary-color-alt;
+    border: 1px solid $primary-color-alt;
 
     &::before {
       content: '';
@@ -116,7 +116,7 @@ const deleteAddress = () => {
       height: 8px;
       width: 8px;
       border-radius: 50%;
-      background-color: $secondary-color-alt;
+      background-color: $primary-color-alt;
     }
   }
 }

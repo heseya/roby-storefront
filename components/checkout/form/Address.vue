@@ -135,7 +135,7 @@ const update = (key: keyof AddressDto, value: string) => {
     font-size: rem(12);
   }
   &__info-star {
-    color: var(--primary-color);
+    color: var(--secondary-color);
   }
 }
 </style>

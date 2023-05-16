@@ -26,8 +26,8 @@ html {
 :root {
   // Fallback colors to SCSS variables, but they should be declared somewhere in root html element
   --primary-color: #{$primary-color};
-  --secondary-color-alt: #{$secondary-color-alt};
-  --secondary-color-alt-semi-transparent: #{$secondary-color-alt-semi-transparent};
+  --primary-color-alt: #{$primary-color-alt};
+  --primary-color-alt-semi-transparent: #{$primary-color-alt-semi-transparent}22;
   --secondary-color: #{$secondary-color};
   --error-color: #{$error-color};
 
@@ -58,10 +58,10 @@ h2 {
 }
 
 .primary-text {
-  color: var(--primary-color);
+  color: var(--secondary-color);
 }
 .secondary-text {
-  color: var(--secondary-color);
+  color: var(--primary-color);
 }
 .blue-text {
   color: $blue-color;
