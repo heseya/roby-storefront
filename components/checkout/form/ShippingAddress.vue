@@ -1,7 +1,7 @@
 <template>
   <div class="shipping-address-form">
     <h2 class="shipping-address-form__title">{{ t('title') }}</h2>
-    <CheckoutFormAddress v-model:address="checkout.shippingAddress" />
+    <AddressForm v-model:address="checkout.shippingAddress" />
   </div>
 </template>
 

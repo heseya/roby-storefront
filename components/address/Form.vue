@@ -2,26 +2,29 @@
   <div class="address-form">
     <FormInput
       :model-value="address.name"
-      name="name"
+      name="address_name"
       :label="invoice ? t('companyName') : t('name')"
       rules="required"
+      :disabled="disabled"
       @update:model-value="update('name', $event as string)"
     />
     <FormInput
       v-if="invoice"
       :model-value="address.vat"
-      name="vat"
+      name="address_vat"
       rules="required"
       :label="t('vatNumber')"
+      :disabled="disabled"
       @update:model-value="update('vat', $event as string)"
     />
 
     <div class="address-form__row">
       <FormSelect
         :model-value="address.country"
-        name="country"
+        name="address_country"
         rules="required"
         :label="t('country')"
+        :disabled="disabled"
         @update:model-value="update('country', $event as string)"
       >
         <option v-for="country in countries" :key="country.code" :value="country.code">
@@ -30,38 +33,42 @@
       </FormSelect>
       <FormInput
         :model-value="address.address"
-        name="address"
+        name="address_address"
         rules="required"
         :label="t('address')"
+        :disabled="disabled"
         @update:model-value="update('address', $event as string)"
       />
     </div>
     <div class="address-form__row">
       <FormInput
         :model-value="address.zip"
-        name="postalCode"
+        name="address_postal_code"
         rules="required"
         :label="t('postalCode')"
+        :disabled="disabled"
         @update:model-value="update('zip', $event as string)"
       />
       <FormInput
         :model-value="address.city"
-        name="city"
+        name="address_city"
         rules="required"
         :label="t('city')"
+        :disabled="disabled"
         @update:model-value="update('city', $event as string)"
       />
     </div>
     <FormInput
       :model-value="address.phone"
-      name="phone"
+      name="address_phone"
       html-type="phone"
       rules="required"
       :label="t('phone')"
+      :disabled="disabled"
       @update:model-value="update('phone', $event as string)"
     />
 
-    <div class="address-form__info">
+    <div v-if="!disabled" class="address-form__info">
       <span class="address-form__info-star">*</span>
       - {{ t('info') }}
     </div>
@@ -95,10 +102,12 @@ const props = withDefaults(
   defineProps<{
     address?: AddressDto
     invoice?: boolean
+    disabled?: boolean
   }>(),
   {
     address: () => ({ ...EMPTY_ADDRESS }),
     invoice: false,
+    disabled: false,
   },
 )
 

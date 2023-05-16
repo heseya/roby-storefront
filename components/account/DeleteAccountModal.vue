@@ -1,7 +1,7 @@
 <template>
-  <AccountFormModal
+  <FormModal
     v-model:open="isModalVisible"
-    :form="form"
+    :values="form.values"
     :header="t('header')"
     :error="error"
     :ok-text="t('deleteAccount')"
@@ -14,7 +14,7 @@
       name="currentPassword"
       rules="required"
     />
-  </AccountFormModal>
+  </FormModal>
 </template>
 
 <i18n lang="json">
@@ -32,9 +32,10 @@
 <script setup lang="ts">
 import { useForm } from 'vee-validate'
 import { useAuthStore } from '@/store/auth'
+
+const { notify } = useNotify()
 const t = useLocalI18n()
 const heseya = useHeseya()
-const { notify } = useNotify()
 const auth = useAuthStore()
 
 const props = defineProps<{
@@ -46,12 +47,8 @@ const emit = defineEmits<{
 }>()
 
 const isModalVisible = computed({
-  get() {
-    return props.open
-  },
-  set(value) {
-    emit('update:open', value)
-  },
+  get: () => props.open,
+  set: (value) => emit('update:open', value),
 })
 
 const error = ref<Error | null>(null)
