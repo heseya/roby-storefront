@@ -13,7 +13,7 @@
       rules="alpha"
     />
     <FormInput
-      :label="t('email')"
+      :label="$t('form.email')"
       :model-value="userStore.user?.email"
       :disabled="true"
       name="email"
@@ -26,7 +26,6 @@
   "pl": {
     "header": "Moje dane",
     "nameSurname": "Imię i Nazwisko",
-    "email": "Adres e-mail",
     "sucessUpdate": "Zaktualizowane dane użytkownika."
   }
 }
@@ -39,6 +38,7 @@ import { useUserStore } from '@/store/user'
 const { notify } = useNotify()
 
 const t = useLocalI18n()
+const { t: $t } = useI18n({ useScope: 'global' })
 const heseya = useHeseya()
 
 const props = defineProps<{

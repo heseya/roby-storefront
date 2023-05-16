@@ -10,6 +10,15 @@ export default {
     cancel: 'Anuluj',
     yes: 'Tak',
     no: 'Nie',
+    name: 'Nazwa',
+  },
+
+  form: {
+    send: 'Wyślij',
+    email: 'Adres e-mail',
+    password: 'Hasło',
+    confirmPassword: 'Powtórz Hasło',
+    backToLogin: 'Wróć do logowania',
   },
 
   seo: {
