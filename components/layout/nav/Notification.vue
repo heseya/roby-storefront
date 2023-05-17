@@ -29,7 +29,7 @@ const config = useConfigStore()
   justify-content: space-between;
   align-items: center;
   color: $white-color;
-  background-color: var(--primary-color);
+  background-color: var(--secondary-color);
   font-size: rem(12);
   padding: 0 3px;
 

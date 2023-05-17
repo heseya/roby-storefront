@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <LayoutThemeContext>
     <NuxtLoadingIndicator />
 
     <NuxtPage />
@@ -10,7 +10,7 @@
     </ClientOnly>
 
     <LazyColorThemePicker v-if="showColorThemePicker" />
-  </div>
+  </LayoutThemeContext>
 </template>
 
 <script setup lang="ts">

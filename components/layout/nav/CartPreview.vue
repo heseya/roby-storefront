@@ -135,7 +135,7 @@ const handleRemove = (id: string) => {
   &__total {
     font-weight: bold;
     font-size: rem(16);
-    color: var(--primary-color);
+    color: var(--secondary-color);
   }
 }
 </style>

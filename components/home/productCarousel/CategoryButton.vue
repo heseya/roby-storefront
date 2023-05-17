@@ -28,11 +28,11 @@ defineProps<{
   }
 
   &--chosen {
-    color: var(--primary-color);
-    border-bottom-color: var(--primary-color);
+    color: var(--secondary-color);
+    border-bottom-color: var(--secondary-color);
 
     &:hover {
-      border-bottom-color: var(--primary-color);
+      border-bottom-color: var(--secondary-color);
     }
   }
 }

@@ -1,7 +1,7 @@
 <template>
   <div class="info-card">
     <span class="info-card__title">{{ data.name }}</span>
-    <span class="info-card__email">{{ data.email }}</span>
+    <a class="info-card__email" :href="`mailto:${data.email}`">{{ data.email }}</a>
     <span v-for="(number, index) in data.phones" :key="index">{{ number }}</span>
   </div>
 </template>
@@ -30,7 +30,8 @@ defineProps<{ data: InfoCardProps }>()
   }
 
   &__email {
-    color: var(--primary-color);
+    color: var(--secondary-color);
+    text-decoration: none;
   }
 }
 </style>

@@ -135,7 +135,7 @@ const formatSchemaValue = (value: string | undefined) => {
   }
 
   &__price-initial + &__price-current {
-    color: var(--primary-color);
+    color: var(--secondary-color);
   }
 
   &__btn {

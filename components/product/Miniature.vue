@@ -158,7 +158,7 @@ const showPrice = computed(() => {
   }
 
   &:hover &__name {
-    color: var(--primary-color);
+    color: var(--secondary-color);
   }
 
   &__wishlist-btn {

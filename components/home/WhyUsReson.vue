@@ -36,7 +36,7 @@ defineProps<ReasonProps>()
   }
 
   &__icon {
-    color: var(--primary-color);
+    color: var(--secondary-color);
   }
 
   &__icon-container {

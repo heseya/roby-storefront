@@ -22,7 +22,7 @@
       <FormInput
         v-model="form.values.email"
         name="email"
-        :label="t('form.email')"
+        :label="$t('form.email')"
         rules="required|email"
         :disabled="isFormDisabled"
       />
@@ -30,13 +30,13 @@
     <div class="register-form__container">
       <FormInputPassword
         v-model="form.values.password"
-        :label="t('form.password')"
+        :label="$t('form.password')"
         name="password"
         :disabled="isFormDisabled"
       />
       <FormInputPassword
         v-model="form.values.confirmPassword"
-        :label="t('form.confirmPassword')"
+        :label="$t('form.confirmPassword')"
         rules="confirmedPassword:@password"
         name="confirmPassword"
         :disabled="isFormDisabled"
@@ -70,13 +70,10 @@
 {
   "pl": {
     "form": {
-      "email": "Adres e-mail",
       "header": "Rejestracja",
       "register": "Zarejestruj się",
       "name": "Imię",
-      "surname": "Nazwisko",
-      "password": "Hasło",
-      "confirmPassword": "Powtórz hasło"
+      "surname": "Nazwisko"
     }
   }
 }
@@ -87,6 +84,7 @@ import { User, UserConsentDto, UserRegisterDto } from '@heseya/store-core'
 import { useForm } from 'vee-validate'
 
 const t = useLocalI18n()
+const { t: $t } = useI18n({ useScope: 'global' })
 const heseya = useHeseya()
 const formatError = useErrorMessage()
 
@@ -185,7 +183,7 @@ const onSubmit = form.handleSubmit(async () => {
   }
 
   &__policy-agreement {
-    color: $primary-color;
+    color: $secondary-color;
   }
 
   &__error {

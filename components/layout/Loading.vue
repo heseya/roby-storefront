@@ -48,7 +48,7 @@ withDefaults(defineProps<{ active: boolean }>(), { active: false })
     width: 32px;
     height: 32px;
     border-radius: 50%;
-    border: solid 4px var(--primary-color);
+    border: solid 4px var(--secondary-color);
     border-top-color: $transparent;
     animation: spin 0.6s ease-in-out infinite;
   }

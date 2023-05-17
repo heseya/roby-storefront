@@ -32,7 +32,7 @@
     }
 
     &--color {
-      color: var(--secondary-color-alt);
+      color: var(--primary-color-alt);
     }
   }
 }
