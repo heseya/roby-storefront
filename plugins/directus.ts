@@ -8,7 +8,10 @@ export type DirectusCollections = {
 
 export default defineNuxtPlugin((nuxtApp) => {
   const directus = new Directus<DirectusCollections>(nuxtApp.$config.public.directusUrl)
-  return {
-    provide: { directus },
+
+  if (directus.url) {
+    return {
+      provide: { directus },
+    }
   }
 })

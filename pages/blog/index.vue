@@ -42,7 +42,8 @@
   "pl": {
     "blog": "Blog",
     "empty": "Brak postów do wyświetlenia",
-    "all": "Wszystkie"
+    "all": "Wszystkie",
+    "error": "Nie udało się pobrać artykułów"
   }
 }
 </i18n>
@@ -50,14 +51,21 @@
 <script setup lang="ts">
 const route = useRoute()
 const router = useRouter()
-const directus = useDirectus()
 const t = useLocalI18n()
 const { t: $t } = useI18n({ useScope: 'global' })
 const localePath = useLocalePath()
+const directus = useDirectus()
 
 const limit = 6
 const page = computed(() => Number(route.query.page ?? 1))
 const lastPage = computed(() => Math.ceil((articles.value?.meta?.filter_count ?? 1) / limit))
+
+useAsyncData(() => {
+  if (!directus) {
+    showError({ message: t('error'), statusCode: 500 })
+    return [] as any
+  }
+})
 
 const {
   data: articles,

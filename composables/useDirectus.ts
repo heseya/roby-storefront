@@ -3,5 +3,5 @@ import { DirectusCollections } from '~/plugins/directus'
 
 export const useDirectus = (): Directus<DirectusCollections, Auth> | null => {
   const { $directus } = useNuxtApp()
-  return $directus.url ? $directus : null
+  return $directus
 }
