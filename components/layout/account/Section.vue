@@ -3,10 +3,10 @@
     <div v-if="header" class="layout-account-section__header">
       <h3 class="layout-account-section__text">{{ header }}</h3>
       <NuxtLink :to="link">
-        <LayoutButton class="layout-account-section__btn">
+        <button class="layout-account-section__btn">
           {{ t('showAll') }}
           <LayoutIcon :icon="GoNextIcon" :size="8" />
-        </LayoutButton>
+        </button>
       </NuxtLink>
     </div>
     <div class="layout-account-section__content">
@@ -62,12 +62,14 @@ defineProps<{
   }
 
   &__btn {
+    cursor: pointer;
     padding: 4px 7px;
     background-color: $gray-color-300;
     color: $text-color;
     text-transform: uppercase;
     border-radius: 20px;
     font-size: 12px;
+    border: none;
 
     &:hover {
       background-color: $gray-color-400 !important;

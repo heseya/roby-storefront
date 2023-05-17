@@ -4,8 +4,15 @@ import { Pinia } from '@pinia/nuxt/dist/runtime/composables'
 
 import { useAuthStore } from '~/store/auth'
 
+declare module 'axios' {
+  interface AxiosRequestConfig {
+    _beginTime?: number
+    _endTime?: number
+  }
+}
+
 export default defineNuxtPlugin((nuxt) => {
-  const baseURL = nuxt.$config.public.apiUrl
+  const { apiUrl: baseURL, isProduction } = usePublicRuntimeConfig()
 
   const ax = axios.create({ baseURL })
   const auth = useAuthStore(nuxt.$pinia as Pinia)
@@ -14,7 +21,14 @@ export default defineNuxtPlugin((nuxt) => {
   const identityToken = useIdentityToken()
   const refreshToken = useRefreshToken()
 
-  const pathsWithAuth = ['auth', 'product-sets/favourites', 'orders', 'cart/process', 'wishlist']
+  const pathsWithAuth = [
+    'auth',
+    'product-sets/favourites',
+    'orders',
+    'cart/process',
+    'wishlist',
+    'users/self-remove',
+  ]
 
   enhanceAxiosWithAuthTokenRefreshing(ax, {
     heseyaUrl: baseURL,
@@ -31,6 +45,22 @@ export default defineNuxtPlugin((nuxt) => {
       auth.clearAuth()
       navigateTo('/', { replace: true })
     },
+  })
+
+  ax.interceptors.request.use((config) => {
+    config._beginTime = Date.now()
+    return config
+  })
+
+  ax.interceptors.response.use((response) => {
+    const config = response.config
+    config._endTime = Date.now()
+    if (!isProduction) {
+      const time = `${config._endTime - config._beginTime!}ms`
+      // eslint-disable-next-line no-console
+      console.log(`[${config.method}] (`, time, ')', `${config.baseURL}${config.url}`)
+    }
+    return response
   })
 
   return {

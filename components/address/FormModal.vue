@@ -4,10 +4,10 @@
     :values="form.values"
     :header="header"
     :error="errorMessage"
-    :ok-text="t('save')"
+    :ok-text="$t('common.save')"
     @submit="onSubmit"
   >
-    <FormInput v-model="form.values.name" rules="required" :label="t('name')" name="name" />
+    <FormInput v-model="form.values.name" rules="required" :label="$t('common.name')" name="name" />
     <AddressForm v-model:address="form.values.address" :invoice="isInvoice" />
 
     <FormCheckbox v-model="isInvoice" name="invoice" :label="t('invoice')" />
@@ -24,9 +24,7 @@
 <i18n lang="json">
 {
   "pl": {
-    "save": "Zapisz",
     "default": "Ustaw jako domyślny",
-    "name": "Nazwa",
     "invoice": "Chce otrzymać fakture VAT"
   }
 }
@@ -40,6 +38,7 @@ import {
   UserSavedAddressUpdateDto,
 } from '@heseya/store-core'
 const t = useLocalI18n()
+const { t: $t } = useI18n({ useScope: 'global' })
 const formatError = useErrorMessage()
 const { notify } = useNotify()
 
@@ -63,7 +62,7 @@ const isModalVisible = computed({
 
 const { add, edit } = useUserAddreses(props.type)
 
-const errorMessage = ref()
+const errorMessage = ref<string>()
 
 const isInvoice = ref<boolean>(!!props.address?.address.vat)
 

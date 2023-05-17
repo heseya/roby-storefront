@@ -10,12 +10,12 @@
       <FormInput
         v-model="form.values.email"
         name="email"
-        :label="t('form.email')"
+        :label="$t('form.email')"
         rules="required|email"
       />
       <FormInputPassword
         v-model="form.values.password"
-        :label="t('form.password')"
+        :label="$t('form.password')"
         name="password"
         rules="required"
       />
@@ -37,9 +37,7 @@
   "pl": {
     "form": {
       "login": "Zaloguj się",
-      "email": "Adres e-mail",
-      "forgot-password": "Nie pamiętasz hasła?",
-      "password": "Hasło"
+      "forgot-password": "Nie pamiętasz hasła?"
     },
     "message": {
       "success": "Zalogowano pomyślnie"
@@ -56,7 +54,7 @@ import { useConfigStore } from '~/store/config'
 import { LOGGED_IN_THE_PAST_KEY } from '@/consts/localstorageKeys'
 
 const t = useLocalI18n()
-
+const { t: $t } = useI18n({ useScope: 'global' })
 const getErrorMessage = useErrorMessage()
 const auth = useAuthStore()
 const config = useConfigStore()

@@ -81,15 +81,13 @@ const TRADITIONAL_TRANSFER: RadioGroupOption = {
   label: t('paymentMethods.traditional'),
 }
 
-const isTraditionalTransfer = computed(() => config.env.allow_traditional_transfer === '1')
-
 const optionGroups = computed<RadioGroupOption[]>(() => [
   ...(paymentMethods.value?.map((method) => ({
     key: method.alias,
     value: method.id,
     label: method.name,
   })) || []),
-  ...(isTraditionalTransfer.value ? [TRADITIONAL_TRANSFER] : []),
+  ...(config.isTraditionalTransfer ? [TRADITIONAL_TRANSFER] : []),
 ])
 </script>
 
