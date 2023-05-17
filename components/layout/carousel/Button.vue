@@ -1,7 +1,7 @@
 <template>
   <div class="carousel-button" :class="{ 'carousel-button--prev': type === 'prev' }">
     <IconButton
-      v-show="type === 'next' ? !swiper.isEnd : !swiper.isBeginning"
+      v-show="firstTimeAllVisible ? false : type === 'next' ? !swiper.isEnd : !swiper.isBeginning"
       class="carousel-button__icon"
       :icon="ArrowNext"
       :icon-size="12"
@@ -15,6 +15,16 @@ import ArrowNext from '@/assets/icons/chevron.svg?component'
 import IconButton from '@/components/layout/IconButton.vue'
 
 const swiper = useSwiper()
+const firstTime = ref(true)
+
+const firstTimeAllVisible = computed(() => {
+  if (firstTime.value && swiper.value.visibleSlides) {
+    firstTime.value = false
+    return swiper.value.slides.length === swiper.value.visibleSlides?.length
+  }
+
+  return false
+})
 
 withDefaults(
   defineProps<{
