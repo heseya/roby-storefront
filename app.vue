@@ -29,6 +29,10 @@ useSeoMeta({
   twitterCard: () => seo.value.twitter_card,
   robots: 'index, follow',
 })
+
+useHead({
+  link: [{ rel: 'icon', type: 'image/x-icon', href: config.faviconUrl }],
+})
 </script>
 
 <style lang="scss" scoped>
