@@ -71,7 +71,7 @@ const isDiscounted = computed(() => {
     white-space: nowrap;
 
     &--discounted {
-      color: var(--primary-color);
+      color: var(--secondary-color);
     }
 
     &--original {

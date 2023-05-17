@@ -60,7 +60,7 @@ useSeoMeta({
     font-size: rem(80);
     line-height: rem(160);
     margin: 24px 0;
-    color: var(--primary-color);
+    color: var(--secondary-color);
 
     &::first-letter {
       margin-left: 0;

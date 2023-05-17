@@ -137,7 +137,7 @@ const createOrder = async () => {
     &--big {
       font-size: rem(20);
       font-weight: 600;
-      color: var(--primary-color);
+      color: var(--secondary-color);
     }
 
     &--green {

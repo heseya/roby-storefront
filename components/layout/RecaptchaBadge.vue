@@ -47,12 +47,12 @@ useHead({
   color: $gray-color-600;
 
   a {
-    color: var(--primary-color);
+    color: var(--secondary-color);
     text-decoration: none;
     transition: 0.3s;
 
     &:hover {
-      color: var(--secondary-color-alt);
+      color: var(--primary-color-alt);
     }
   }
 }

@@ -1,7 +1,7 @@
 <template>
-  <AccountFormModal
+  <FormModal
     v-model:open="isModalVisible"
-    :form="form"
+    :values="form.values"
     :header="t('header')"
     :error="error"
     @submit="onSubmit"
@@ -18,7 +18,7 @@
       name="newPassword"
       rules="required"
     />
-  </AccountFormModal>
+  </FormModal>
 </template>
 
 <i18n lang="json">
@@ -27,7 +27,7 @@
     "header": "Zmiana hasła",
     "currentPassword": "Aktualne hasło",
     "newPassword": "Nowe hasło",
-    "sucessUpdate": "Hasło zostało zmienione."
+    "sucessUpdate": "Hasło zostało zmienione"
   }
 }
 </i18n>
@@ -76,7 +76,4 @@ const onSubmit = form.handleSubmit(async () => {
 })
 </script>
 
-<style lang="scss" scoped>
-.account-form-modal {
-}
-</style>
+<style lang="scss" scoped></style>

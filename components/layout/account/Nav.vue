@@ -33,7 +33,7 @@ import { useAuthStore } from '@/store/auth'
 
 const t = useLocalI18n()
 const auth = useAuthStore()
-const router = useRouter()
+
 const { notify } = useNotify()
 
 const navList = ref<string[]>(['orders', 'settings', 'addresses', 'wishlist'])
@@ -44,7 +44,6 @@ const logout = async () => {
     title: t('logoutText'),
     type: 'success',
   })
-  router.push('/')
 }
 </script>
 
@@ -75,7 +74,7 @@ const logout = async () => {
     }
 
     & > .router-link-active {
-      color: var(--primary-color);
+      color: var(--secondary-color);
       font-weight: bold;
     }
   }

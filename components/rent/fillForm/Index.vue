@@ -51,7 +51,7 @@ import DoubleIcon from '@/assets/icons/double-chevron.svg?component'
     }
 
     &--color {
-      color: var(--secondary-color-alt);
+      color: var(--primary-color-alt);
     }
   }
   &__icon-container {

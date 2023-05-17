@@ -2,55 +2,96 @@
   <div
     class="address-card"
     :class="{
-      'address-card--selected': isSelected,
+      'address-card--selected': selected,
     }"
+    @click="emit('update:selected', value)"
   >
     <div class="address-card__select" />
     <div>
-      <p :class="{ 'address-card__header': !address.vat }">
-        {{ address.name }}
+      <p :class="{ 'address-card__header': !value.address.vat }">
+        {{ value.name }}
       </p>
-      <p v-if="address.vat">{{ t('vatNumber') }} {{ address.vat }}</p>
-      <p>{{ address.phone }}</p>
+      <p>{{ value.address.name }}</p>
+      <p v-if="value.address.vat">{{ t('vatNumber') }} {{ value.address.vat }}</p>
+      <p>{{ value.address.phone }}</p>
     </div>
     <div>
-      <p>{{ address.address }}</p>
-      <p>{{ address.zip }} {{ address.city }}</p>
+      <p>{{ value.address.address }}</p>
+      <p>{{ value.address.zip }} {{ value.address.city }}</p>
     </div>
     <div class="address-card__actions">
-      <LayoutIcon class="address-card__icon" :size="14" :icon="Trash" @click="editAddress" />
-      <LayoutIcon class="address-card__icon" :size="14" :icon="PencilLine" @click="deleteAddress" />
+      <LayoutIcon
+        class="address-card__icon"
+        :size="14"
+        :icon="Trash"
+        @click.stop="openDeleteAddressModal"
+      />
+      <LayoutIcon
+        class="address-card__icon"
+        :size="14"
+        :icon="PencilLine"
+        @click.stop="isEditAddressModalVisible = true"
+      />
     </div>
   </div>
+  <AddressFormModal
+    v-model:open="isEditAddressModalVisible"
+    :address="value"
+    :type="type"
+    :success-update-message="t(`${type}.sucessUpdate`)"
+    :header="t(`${type}.header`)"
+  />
+  <AddressDeleteModal v-model:open="isDeleteAddressModalVisible" :address="value" :type="type" />
 </template>
 
 <i18n lang="json">
 {
   "pl": {
-    "vatNumber": "NIP"
+    "vatNumber": "NIP",
+    "billing": {
+      "header": "Edytowanie adresu",
+      "sucessUpdate": "Pomyślnie edytowano rachunek",
+      "default": "Nie można usunąć domyślnego rachunku"
+    },
+    "shipping": {
+      "header": "Edytowanie adresu",
+      "sucessUpdate": "Pomyślnie edytowano adres",
+      "default": "Nie można usunąć domyślnego adresu"
+    }
   }
 }
 </i18n>
 
 <script setup lang="ts">
-import { Address } from '@heseya/store-core'
+import { UserSavedAddress } from '@heseya/store-core'
 import Trash from '@/assets/icons/trash.svg?component'
 import PencilLine from '@/assets/icons/pencil-line-filled.svg?component'
 
+const { notify } = useNotify()
 const t = useLocalI18n()
 
 const props = defineProps<{
-  isSelected: boolean
-  address: Address
+  selected: boolean
+  value: UserSavedAddress
+  type: 'billing' | 'shipping'
 }>()
 
-const editAddress = () => {
-  // TODO add logic
-  console.log(props.address)
-}
-const deleteAddress = () => {
-  // TODO add logic
-  console.log(props.address)
+const emit = defineEmits<{
+  (e: 'update:selected', value: UserSavedAddress): void
+}>()
+
+const isEditAddressModalVisible = ref(false)
+const isDeleteAddressModalVisible = ref(false)
+
+const openDeleteAddressModal = () => {
+  if (props.value.default) {
+    notify({
+      title: t(`${props.type}.default`),
+      type: 'error',
+    })
+  } else {
+    isDeleteAddressModalVisible.value = true
+  }
 }
 </script>
 
@@ -59,7 +100,7 @@ const deleteAddress = () => {
   display: grid;
   position: relative;
   align-content: space-between;
-  gap: 20px;
+  gap: 26px;
   padding: 10px 0px 10px 46px;
   border: 1px solid $gray-color-300;
   max-width: 660px;
@@ -105,7 +146,7 @@ const deleteAddress = () => {
   }
 
   &--selected > &__select {
-    border: 1px solid $secondary-color-alt;
+    border: 1px solid $primary-color-alt;
 
     &::before {
       content: '';
@@ -116,7 +157,7 @@ const deleteAddress = () => {
       height: 8px;
       width: 8px;
       border-radius: 50%;
-      background-color: $secondary-color-alt;
+      background-color: $primary-color-alt;
     }
   }
 }

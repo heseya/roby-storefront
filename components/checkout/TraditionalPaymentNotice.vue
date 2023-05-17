@@ -2,10 +2,10 @@
   <div class="traditional-payment-notice">
     <p class="traditional-payment-notice__text">{{ t('notice.title') }}</p>
     <p class="traditional-payment-notice__text">
-      ROBICAN s.c. R.Jastrzębski i Wspólnicy <br />
-      ul. Zakopiańska 190, 60-467 Poznań <br />
-      PKO BP XII ODDZIAŁ POZNAŃ <br />
-      27 1020 4027 0000 1602 0444 4675
+      {{ config.env.bank_transfer_name }} <br />
+      {{ config.env.bank_transfer_address }} <br />
+      {{ config.env.bank_transfer_bank_name }} <br />
+      {{ config.env.bank_transfer_account }}
     </p>
     <p class="traditional-payment-notice__text">
       <span class="primary-text"> {{ t('notice.text1') }} </span>
@@ -28,8 +28,10 @@
 </i18n>
 
 <script setup lang="ts">
-// TODO: get company details from API
+import { useConfigStore } from '~/store/config'
+
 const t = useLocalI18n()
+const config = useConfigStore()
 </script>
 
 <style lang="scss" scoped>

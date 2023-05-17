@@ -1,13 +1,23 @@
 <template>
   <div class="color-theme-picker">
     <div class="color-theme-picker__input">
-      <input id="primary_color" v-model="colors.primaryColor" type="color" />
-      <label for="primary_color"> Primary Color </label>
+      <input id="primaryColor" v-model="colors.primaryColor" type="color" />
+      <label for="primaryColor"> Primary Color </label>
     </div>
 
     <div class="color-theme-picker__input">
-      <input id="secondary_color" v-model="colors.secondaryColor" type="color" />
-      <label for="secondary_color"> Secondary Color </label>
+      <input id="primaryColorAlt" v-model="colors.primaryColorAlt" type="color" />
+      <label for="primaryColorAlt"> Primary Color Alt </label>
+    </div>
+
+    <div class="color-theme-picker__input">
+      <input id="secondaryColor" v-model="colors.secondaryColor" type="color" />
+      <label for="secondaryColor"> Secondary Color </label>
+    </div>
+
+    <div class="color-theme-picker__input">
+      <input id="errorColor" v-model="colors.errorColor" type="color" />
+      <label for="errorColor"> Error Color </label>
     </div>
 
     <button
@@ -24,17 +34,23 @@
 const { notify } = useNotify()
 
 const defaultColors = {
-  primaryColor: '#c63225',
-  secondaryColor: '#ffca2b',
+  primaryColor: '#ffca2b',
+  secondaryColor: '#c63225',
+  primaryColorAlt: '#e1a044',
+  errorColor: '#f05454',
 }
+
+const parentEl = useParentElement()
 
 const colors = useLocalStorage('colors', { ...defaultColors })
 
 watchEffect(() => {
   if (process.server) return
 
-  document.documentElement.style.setProperty('--primary-color', colors.value.primaryColor)
-  document.documentElement.style.setProperty('--secondary-color', colors.value.secondaryColor)
+  parentEl.value?.style.setProperty('--primary-color', colors.value.primaryColor)
+  parentEl.value?.style.setProperty('--secondary-color', colors.value.secondaryColor)
+  parentEl.value?.style.setProperty('--primary-color-alt', colors.value.primaryColorAlt)
+  parentEl.value?.style.setProperty('--error-color', colors.value.errorColor)
 })
 
 const restoreDefaultColors = () => {

@@ -171,14 +171,14 @@ const activeStep = computed(() => {
     &--filled {
       &::before,
       &:not(:last-child)::after {
-        background-color: var(--secondary-color-alt);
+        background-color: var(--primary-color-alt);
         border: none;
       }
     }
 
     &--active {
       &::before {
-        border-color: var(--secondary-color-alt);
+        border-color: var(--primary-color-alt);
       }
     }
   }

@@ -14,6 +14,10 @@ export const useConfigStore = defineStore('config', {
     storeName(): string {
       return this.env.store_name as string
     },
+
+    isTraditionalTransfer(): boolean {
+      return this.env.allow_traditional_transfer === '1'
+    },
   },
 
   actions: {

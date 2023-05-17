@@ -159,7 +159,7 @@ const addToCart = () => {
     line-height: rem(28);
     font-weight: 600;
     grid-area: price;
-    color: var(--primary-color);
+    color: var(--secondary-color);
     position: relative;
 
     @media ($viewport-5) {
@@ -201,7 +201,7 @@ const addToCart = () => {
 }
 
 .product-price {
-  color: var(--primary-color);
+  color: var(--secondary-color);
 
   &--discounted {
     color: $gray-color-600;

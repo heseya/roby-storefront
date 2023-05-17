@@ -37,7 +37,7 @@ const innerValue = computed({
 <style lang="scss" scoped>
 .schema-boolean {
   &__price {
-    color: var(--primary-color);
+    color: var(--secondary-color);
     font-weight: 600;
   }
 }

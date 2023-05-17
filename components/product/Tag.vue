@@ -36,7 +36,7 @@ const isDarkText = computed(() => {
 
 <style lang="scss" scoped>
 .tag {
-  background-color: var(--secondary-color);
+  background-color: var(--primary-color);
   padding: 2px 9px;
   font-size: rem(10);
   text-transform: uppercase;

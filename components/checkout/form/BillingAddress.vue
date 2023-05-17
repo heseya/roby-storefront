@@ -1,7 +1,7 @@
 <template>
   <form class="billing-form" @submit.prevent="onSave">
     <h2 class="billing-form__title">{{ t('billingAddress.formTitle') }}</h2>
-    <CheckoutFormAddress v-model:address="form.address" :invoice="form.invoice" />
+    <AddressForm v-model:address="form.address" :invoice="form.invoice" />
 
     <FormCheckbox v-model="form.invoice" name="invoice">
       {{ t('billingAddress.invoice') }}

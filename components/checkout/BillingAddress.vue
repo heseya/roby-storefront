@@ -9,10 +9,7 @@
   </LayoutButton>
 
   <div class="checkout-billing-address">
-    <CheckoutFormAddress
-      v-model:address="checkout.billingAddress"
-      :invoice="checkout.invoiceRequested"
-    />
+    <AddressForm v-model:address="checkout.billingAddress" :invoice="checkout.invoiceRequested" />
     <FormCheckbox v-model="checkout.invoiceRequested" name="is_invoice" style="margin-top: 16px">
       {{ t('billingAddress.invoice') }}
     </FormCheckbox>

@@ -67,7 +67,7 @@ withDefaults(
     font-size: rem(10);
 
     color: $gray-color-900;
-    background-color: var(--secondary-color);
+    background-color: var(--primary-color);
   }
 
   &__label {
@@ -82,7 +82,7 @@ withDefaults(
   }
 
   &:hover &__label {
-    color: var(--primary-color);
+    color: var(--secondary-color);
   }
 }
 </style>

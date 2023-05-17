@@ -61,7 +61,7 @@ import Chevron from '@/assets/icons/chevron.svg?component'
     flex-shrink: 0;
     margin-top: 4px;
 
-    color: var(--secondary-color-alt);
+    color: var(--primary-color-alt);
   }
 
   &__image-container {
