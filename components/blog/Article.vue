@@ -38,9 +38,8 @@ const props = defineProps<{
 const { t } = useI18n({ useScope: 'global' })
 const { data: article, pending } = useAsyncData(`blog-article-${props.slug}`, async () => {
   const directus = useDirectus()
-  if (!directus.url) return null
 
-  const response = await directus.items('Articles').readByQuery({
+  const response = await directus?.items('Articles').readByQuery({
     fields: [
       'id',
       'slug',
@@ -60,11 +59,11 @@ const { data: article, pending } = useAsyncData(`blog-article-${props.slug}`, as
     } as any, // this any exists because of directus weird typing
   })
 
-  if (!response.data?.[0]) {
+  if (!response?.data?.[0]) {
     showError({ message: t('errors.NOT_FOUND'), statusCode: 404 })
   }
 
-  return response.data?.[0] as BlogArticle
+  return response?.data?.[0] as BlogArticle
 })
 
 const imageUrl = computed(() => getImageUrl(article.value?.image))

@@ -64,9 +64,7 @@ const {
   pending,
   refresh,
 } = useAsyncData(`blog-articles-${route.query.page}-${route.query.tag}`, async () => {
-  if (!directus.url) return null
-
-  return await directus.items('Articles').readByQuery({
+  return await directus?.items('Articles').readByQuery({
     fields: [
       'id',
       'slug',
@@ -96,9 +94,7 @@ const {
 })
 
 const { data: tags } = useLazyAsyncData(`blog-tags`, async () => {
-  if (!directus.url) return null
-
-  return await directus.items('BlogTags').readByQuery({
+  return await directus?.items('BlogTags').readByQuery({
     fields: ['id', 'translations.*'],
   })
 })

@@ -177,11 +177,11 @@ const onLogout = async () => {
 }
 
 const { data: navLinks } = useAsyncData<NavLink[]>('nav-pages', async () => {
-  const { url } = useDirectus()
+  const directus = useDirectus()
   const { data } = await heseya.Pages.get({ metadata: { nav: true } })
 
   return data
-    .filter((p) => !(!url && p.slug === 'blog'))
+    .filter((p) => !(!directus && p.slug === 'blog'))
     .map((p) => ({ text: p.name, path: p.slug }))
 })
 </script>
