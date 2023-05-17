@@ -27,8 +27,12 @@
 </i18n>
 
 <script lang="ts" setup>
-const directus = useDirectus()
-const { data: articles } = useAsyncData('home-blog-articles', () => {
+const t = useLocalI18n()
+
+const { data: articles } = useAsyncData('home-blog-articles', async () => {
+  const directus = useDirectus()
+  if (!directus.url) return null
+
   return directus.items('Articles').readByQuery({
     fields: [
       'id',
@@ -45,8 +49,6 @@ const { data: articles } = useAsyncData('home-blog-articles', () => {
     } as any, // this any exists because of directus weird typing
   })
 })
-
-const t = useLocalI18n()
 </script>
 
 <style lang="scss" scoped>

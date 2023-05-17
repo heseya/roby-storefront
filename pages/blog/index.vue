@@ -50,7 +50,6 @@
 <script setup lang="ts">
 const route = useRoute()
 const router = useRouter()
-const directus = useDirectus()
 const t = useLocalI18n()
 const { t: $t } = useI18n({ useScope: 'global' })
 const localePath = useLocalePath()
@@ -63,7 +62,10 @@ const {
   data: articles,
   pending,
   refresh,
-} = useAsyncData(`blog-articles-${route.query.page}-${route.query.tag}`, () => {
+} = useAsyncData(`blog-articles-${route.query.page}-${route.query.tag}`, async () => {
+  const directus = useDirectus()
+  if (!directus.url) return null
+
   return directus.items('Articles').readByQuery({
     fields: [
       'id',
@@ -93,7 +95,10 @@ const {
   })
 })
 
-const { data: tags } = useLazyAsyncData(`blog-tags`, () => {
+const { data: tags } = useLazyAsyncData(`blog-tags`, async () => {
+  const directus = useDirectus()
+  if (!directus.url) return null
+
   return directus.items('BlogTags').readByQuery({
     fields: ['id', 'translations.*'],
   })
