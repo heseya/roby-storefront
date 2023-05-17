@@ -4,7 +4,7 @@
 
     <BaseContainer>
       <LayoutLoading :active="pending" />
-      <div class="blog-page">
+      <div v-if="article" class="blog-page">
         <h1 class="blog-page__title">{{ translatedArticle?.title }}</h1>
         <div class="blog-page__img">
           <img :src="imageUrl" :alt="translatedArticle?.description" />

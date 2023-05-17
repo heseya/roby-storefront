@@ -1,5 +1,5 @@
 <template>
-  <div class="blog-articles">
+  <div v-if="articles" class="blog-articles">
     <BaseContainer>
       <div class="blog-articles__header">
         <LayoutHeader class="blog-articles__title" variant="black">{{ t('blog') }}</LayoutHeader>
@@ -33,7 +33,7 @@ const { data: articles } = useAsyncData('home-blog-articles', async () => {
   const directus = useDirectus()
   if (!directus.url) return null
 
-  return directus.items('Articles').readByQuery({
+  return await directus.items('Articles').readByQuery({
     fields: [
       'id',
       'slug',
