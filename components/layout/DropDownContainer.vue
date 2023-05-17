@@ -2,7 +2,7 @@
   <div class="drop-down-container">
     <div
       :style="{
-        maxHeight: (showButton && isExpand ? slotRef?.clientHeight : minExpandHeight) + 'px',
+        maxHeight: (showButton && isExpanded ? slotHeight : minExpandHeight) + 'px',
       }"
       class="drop-down-container__slot"
     >
@@ -13,13 +13,13 @@
     <button
       v-show="showButton"
       class="drop-down-container__button"
-      :class="{ 'drop-down-container__button--expand': isExpand }"
-      @click="isExpand = !isExpand"
+      :class="{ 'drop-down-container__button--expand': isExpanded }"
+      @click="isExpanded = !isExpanded"
     >
-      {{ isExpand ? t('collapse') : t('expand') }}
+      {{ isExpanded ? t('collapse') : t('expand') }}
       <LayoutIcon
         class="drop-down-container__button-icon"
-        :class="{ 'drop-down-container__button-icon--expand': isExpand }"
+        :class="{ 'drop-down-container__button-icon--expand': isExpanded }"
         :icon="Chevron"
         :size="8"
       />
@@ -40,13 +40,12 @@
 import Chevron from '@/assets/icons/chevron.svg?component'
 const t = useLocalI18n()
 
-const isExpand = ref(false)
-
-const slotRef = ref<HTMLElement>()
-
-const showButton = computed(() => (slotRef.value?.clientHeight ?? 0) > props.minExpandHeight)
-
 const props = withDefaults(defineProps<{ minExpandHeight?: number }>(), { minExpandHeight: 700 })
+
+const isExpanded = ref(false)
+const slotRef = ref<HTMLElement>()
+const { height: slotHeight } = useElementSize(slotRef)
+const showButton = computed(() => (slotHeight.value ?? 0) > props.minExpandHeight)
 </script>
 
 <style lang="scss" scoped>
