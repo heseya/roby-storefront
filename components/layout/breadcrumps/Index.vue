@@ -13,6 +13,11 @@
 
 <script setup lang="ts">
 const breadcrumbs = useBreadcrumbsState()
+
+// Clear links when route changes
+onBeforeRouteLeave(() => {
+  breadcrumbs.value = []
+})
 </script>
 
 <style lang="scss" scoped>

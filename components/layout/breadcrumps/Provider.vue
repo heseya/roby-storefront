@@ -30,9 +30,4 @@ watch(
   (breadcrumbs) => setBreadcrumbs(breadcrumbs),
   { deep: true, immediate: true },
 )
-
-// Clear links when route changes
-onBeforeRouteLeave(() => {
-  setBreadcrumbs([])
-})
 </script>
