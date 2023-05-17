@@ -21,7 +21,14 @@ export default defineNuxtPlugin((nuxt) => {
   const identityToken = useIdentityToken()
   const refreshToken = useRefreshToken()
 
-  const pathsWithAuth = ['auth', 'product-sets/favourites', 'orders', 'cart/process', 'wishlist']
+  const pathsWithAuth = [
+    'auth',
+    'product-sets/favourites',
+    'orders',
+    'cart/process',
+    'wishlist',
+    'users/self-remove',
+  ]
 
   enhanceAxiosWithAuthTokenRefreshing(ax, {
     heseyaUrl: baseURL,
