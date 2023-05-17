@@ -5,22 +5,22 @@
       <div class="payment-details__row">
         <span class="payment-details__label"> {{ t('notice.recipient') }}: </span>
         <span class="payment-details__value">
-          ROBICAN s.c. R.Jastrzębski i Wspólnicy <br />
-          ul. Zakopiańska 190, 60-467 Poznań
+          {{ config.env.bank_transfer_name }} <br />
+          {{ config.env.bank_transfer_address }}
         </span>
       </div>
 
       <div class="payment-details__row">
         <span class="payment-details__label"> {{ t('notice.bank') }}: </span>
-        <span class="payment-details__value"> PKO BP XII ODDZIAŁ POZNAŃ </span>
+        <span class="payment-details__value"> {{ config.env.bank_transfer_bank_name }} </span>
       </div>
       <div class="payment-details__row">
         <span class="payment-details__label"> {{ t('notice.bankAccount') }}: </span>
-        <span class="payment-details__value"> 27 1020 4027 0000 1602 0444 4675 </span>
+        <span class="payment-details__value"> {{ config.env.bank_transfer_account }} </span>
       </div>
       <div class="payment-details__row">
         <span class="payment-details__label"> {{ t('notice.transferTitle') }}: </span>
-        <span class="payment-details__value"> Zamówienie {{ code }} </span>
+        <span class="payment-details__value"> {{ t('orderNumber') }} {{ code }} </span>
       </div>
     </div>
     <p class="payment-details__text">
@@ -38,15 +38,19 @@
       "bank": "Bank",
       "bankAccount": "Numer rachunku",
       "transferTitle": "Tytuł przelewu",
-      "text": "Twoje zamówienie zostanie zrealizowane po zaksięgowaniu wpłaty na naszym koncie."
+      "text": "Twoje zamówienie zostanie zrealizowane po zaksięgowaniu wpłaty na naszym koncie.",
+      "orderNumber": "Zamówienie"
     }
   }
 }
 </i18n>
 
 <script setup lang="ts">
-// TODO: get company details from API
+import { useConfigStore } from '~/store/config'
+
 const t = useLocalI18n()
+const config = useConfigStore()
+
 defineProps({
   code: {
     type: String,
