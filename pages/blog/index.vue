@@ -60,10 +60,9 @@ const limit = 6
 const page = computed(() => Number(route.query.page ?? 1))
 const lastPage = computed(() => Math.ceil((articles.value?.meta?.filter_count ?? 1) / limit))
 
-useAsyncData(() => {
+useAsyncData(async () => {
   if (!directus) {
     showError({ message: t('error'), statusCode: 500 })
-    return [] as any
   }
 })
 
