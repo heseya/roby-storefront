@@ -11,7 +11,7 @@
       />
     </div>
     <div class="settings-card__container">
-      <p>{{ t('password') }}</p>
+      <p>{{ $t('form.password') }}</p>
       <p>{{ '*'.repeat(12) }}</p>
       <p
         class="settings-card__action settings-card__action--text"
@@ -48,7 +48,6 @@
 {
   "pl": {
     "myData": "Moje dane",
-    "password": "Hasło",
     "changePassword": "Zmień hasło",
     "deleteAccount": "Usuń konto",
     "sucessUpdate": "Zaktualizowano zgody użytkownika."
@@ -62,6 +61,7 @@ import PencilLine from '@/assets/icons/pencil-line-filled.svg?component'
 import { useUserStore } from '@/store/user'
 
 const t = useLocalI18n()
+const { t: $t } = useI18n({ useScope: 'global' })
 const formatError = useErrorMessage()
 const { notify } = useNotify()
 const heseya = useHeseya()

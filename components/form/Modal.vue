@@ -9,27 +9,22 @@
       <div class="form-modal__actions">
         <LayoutButton
           class="form-modal__button form-modal__button--cancel"
-          :label="t('cancel')"
+          :label="$t('common.cancel')"
           @click="emit('update:open', false)"
         />
-        <LayoutButton class="form-modal__button" :label="okText || t('save')" html-type="submit" />
+        <LayoutButton
+          class="form-modal__button"
+          :label="okText || $t('common.save')"
+          html-type="submit"
+        />
       </div>
     </form>
   </LayoutModal>
 </template>
 
-<i18n lang="json">
-{
-  "pl": {
-    "save": "Zapisz",
-    "cancel": "Anuluj"
-  }
-}
-</i18n>
-
 <script setup lang="ts">
 import { useForm } from 'vee-validate'
-const t = useLocalI18n()
+const { t: $t } = useI18n({ useScope: 'global' })
 const formatError = useErrorMessage()
 
 const props = defineProps<{
