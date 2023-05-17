@@ -22,7 +22,7 @@
           </div>
           <div class="account-order-card__actions">
             <NuxtLink :to="`/account/orders/${order.code}`">
-              <LayoutButton class="account-order-card__details-btn">
+              <LayoutButton variant="gray">
                 {{ t('orderDetails') }}
                 <LayoutIcon :icon="GoNextIcon" :size="8" />
               </LayoutButton>
@@ -94,24 +94,10 @@ const { data: order } = useAsyncData(`account/orders/${props.code}`, async () =>
     display: flex;
     align-items: center;
     justify-content: flex-end;
-  }
-
-  &__details-btn {
-    height: fit-content;
-    padding: 8px 18px;
-    margin-right: 5px;
     margin-top: 20px;
-    background-color: $gray-color-300;
-    color: $text-color;
-    border-radius: 5px;
-
-    &:hover {
-      background-color: $gray-color-400 !important;
-    }
 
     @media ($viewport-12) {
       margin-top: 0;
-      padding: 6px 18px;
     }
   }
 
