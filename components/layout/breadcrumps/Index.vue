@@ -14,8 +14,9 @@
 <script setup lang="ts">
 const breadcrumbs = useBreadcrumbsState()
 
-// Clear links when route changes
-onBeforeRouteLeave(() => {
+const router = useRouter()
+
+router.beforeEach(() => {
   breadcrumbs.value = []
 })
 </script>
