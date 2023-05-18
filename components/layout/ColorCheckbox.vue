@@ -16,7 +16,7 @@ defineProps<{
 
   border-radius: 50%;
   background-color: $white-color;
-  outline: 1px solid $gray-color-400;
+  box-shadow: 0 0 0 1px $gray-color-400;
   transition: all 200ms ease-in-out;
 
   &:hover {
@@ -26,7 +26,7 @@ defineProps<{
 
   &--active {
     border: 4px solid $white-color;
-    outline-color: var(--primary-color-alt);
+    box-shadow: 0 0 0 1px var(--primary-color-alt);
     background-color: var(--primary-color-alt);
 
     &:hover {
