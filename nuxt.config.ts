@@ -2,7 +2,7 @@ import svgLoader from 'vite-svg-loader'
 
 const {
   API_URL = 'https://demo-***REMOVED***.***REMOVED***',
-  DIRECTUS_URL = '',
+  DIRECTUS_URL = 'https://blog-***REMOVED***.heseya.pl',
   PRICE_TRACKER_URL = 'https://main-price-tracker.app.***REMOVED***',
   ENVIRONMENT = 'development',
   APP_HOST,
