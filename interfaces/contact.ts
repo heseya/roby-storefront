@@ -1,8 +1,19 @@
 import { ID } from '@directus/sdk'
-import { DirectusImage } from './DirectusImage'
 import { DirectusTranslated } from './DirectusTranslated'
+import { DirectusImage } from './DirectusImage'
 
-export interface Person {
+export interface ContactDepartment {
+  id: ID
+  email?: string
+  phone_mobile?: string
+  phone_stationery?: string
+
+  translations: DirectusTranslated<{
+    name?: string
+  }>
+}
+
+export interface ContactPerson {
   id: ID
   name: string
   email?: string

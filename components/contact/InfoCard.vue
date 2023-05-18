@@ -1,19 +1,22 @@
 <template>
   <div class="info-card">
-    <span class="info-card__title">{{ data.name }}</span>
+    <span class="info-card__title">{{ name }}</span>
     <a class="info-card__email" :href="`mailto:${data.email}`">{{ data.email }}</a>
-    <span v-for="(number, index) in data.phones" :key="index">{{ number }}</span>
+    <span v-if="data.phone_mobile"> {{ $t('phonePrefix.mobile') }} {{ data.phone_mobile }} </span>
+    <span v-if="data.phone_stationery">
+      {{ $t('phonePrefix.default') }} {{ data.phone_stationery }}
+    </span>
   </div>
 </template>
 
 <script lang="ts" setup>
-export interface InfoCardProps {
-  name: string
-  email: string
-  phones: string[]
-}
+import { ContactDepartment } from '~/interfaces/contact'
 
-defineProps<{ data: InfoCardProps }>()
+const $t = useGlobalI18n()
+
+const props = defineProps<{ data: ContactDepartment }>()
+
+const name = computed(() => getTranslated(props.data.translations, 'name')?.name || '')
 </script>
 
 <style lang="scss" scoped>

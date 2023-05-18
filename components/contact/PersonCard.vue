@@ -21,7 +21,7 @@
             {{ person.email }}
           </a>
           <span v-if="person.phone" class="person-card__phone">
-            {{ t('phonePrefix') }} {{ person.phone }}
+            {{ $t('phonePrefix.default') }} {{ person.phone }}
           </span>
         </div>
       </div>
@@ -30,21 +30,13 @@
   </div>
 </template>
 
-<i18n lang="json">
-{
-  "pl": {
-    "phonePrefix": "tel.:"
-  }
-}
-</i18n>
-
 <script lang="ts" setup>
 import Linkedin from '@/assets/icons/linkedin.svg?component'
-import { Person } from '~/interfaces/Person'
+import { ContactPerson } from '~/interfaces/contact'
 
-const t = useLocalI18n()
+const $t = useGlobalI18n()
 
-const props = defineProps<{ person: Person }>()
+const props = defineProps<{ person: ContactPerson }>()
 
 const avatarUrl = computed(() => getImageUrl(props.person.avatar))
 const description = computed(

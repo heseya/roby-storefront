@@ -9,8 +9,13 @@
           </LayoutHeader>
           <span class="contact__subtitle">{{ config.env.company_address }}</span>
         </div>
+
         <div class="contact__info">
-          <ContactInfoCard v-for="(data, index) in contacts" :key="index" :data="data" />
+          <ContactInfoCard
+            v-for="department in departments"
+            :key="department.id"
+            :data="department"
+          />
         </div>
       </div>
 
@@ -36,9 +41,8 @@
 
 <script setup lang="ts">
 import groupBy from 'lodash/groupBy'
-import { InfoCardProps } from '@/components/contact/InfoCard.vue'
 import { useConfigStore } from '~/store/config'
-import { Person } from '~/interfaces/Person'
+import { ContactDepartment, ContactPerson } from '~/interfaces/contact'
 
 const config = useConfigStore()
 const t = useLocalI18n()
@@ -54,20 +58,20 @@ useSeoMeta({
   title: t('title'),
 })
 
-// TODO: move to Directus
-const contacts: InfoCardProps[] = [
-  { name: 'Biuro', email: 'biuro@***REMOVED***.pl', phones: ['tel.: +48 604 858 045'] },
-  {
-    name: 'Serwis',
-    email: 'serwis@***REMOVED***.pl',
-    phones: ['tel.: +48 61 842-53-00 w.106', 'tel. kom. 604 858 045'],
-  },
-  {
-    name: 'SIECI TELEINFORMATYCZNE',
-    email: 'teleinfo@***REMOVED***.pl',
-    phones: ['tel. kom. 601 777 319'],
-  },
-]
+const { data: departments } = useAsyncData('contact-departments', async () => {
+  const directus = useDirectus()
+  const { data } = await directus.items('Departments').readByQuery({
+    fields: [
+      'id',
+      'email',
+      'phone_mobile',
+      'phone_stationery',
+      'translations.name',
+      'translations.languages_code',
+    ],
+  })
+  return data as ContactDepartment[]
+})
 
 const { data: allPersons } = useAsyncData('contact-persons', async () => {
   const directus = useDirectus()
@@ -87,7 +91,7 @@ const { data: allPersons } = useAsyncData('contact-persons', async () => {
       'translations.languages_code',
     ],
   })
-  return data as Person[]
+  return data as ContactPerson[]
 })
 
 const personGroups = computed(() =>
