@@ -30,25 +30,23 @@
 const t = useLocalI18n()
 const directus = useDirectus()
 
-const { data: articles } = useAsyncData(
-  'home-blog-articles',
-  async () =>
-    await directus?.items('Articles').readByQuery({
-      fields: [
-        'id',
-        'slug',
-        'date_created',
-        'image.filename_disk',
-        'translations.title',
-        'translations.description',
-        'translations.languages_code',
-      ],
-      limit: 4,
-      filter: {
-        status: 'published',
-      } as any, // this any exists because of directus weird typing
-    }),
-)
+const { data: articles } = useAsyncData('home-blog-articles', async () => {
+  return await directus?.items('Articles').readByQuery({
+    fields: [
+      'id',
+      'slug',
+      'date_created',
+      'image.filename_disk',
+      'translations.title',
+      'translations.description',
+      'translations.languages_code',
+    ],
+    limit: 4,
+    filter: {
+      status: 'published',
+    } as any, // this any exists because of directus weird typing
+  })
+})
 </script>
 
 <style lang="scss" scoped>

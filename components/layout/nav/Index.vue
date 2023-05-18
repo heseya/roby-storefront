@@ -178,7 +178,6 @@ const onLogout = async () => {
 
 const { data: navLinks } = useAsyncData<NavLink[]>('nav-pages', async () => {
   const { data } = await heseya.Pages.get({ metadata: { nav: true } })
-
   return data.map((p) => ({ text: p.name, path: p.slug }))
 })
 </script>
