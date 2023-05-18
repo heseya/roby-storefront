@@ -1,6 +1,6 @@
 <template>
   <div class="team">
-    <LayoutHeader class="team__title" variant="black" tag="h2">Poznaj nasz zespół</LayoutHeader>
+    <LayoutHeader class="team__title" variant="black" tag="h2">{{ title }}</LayoutHeader>
     <div class="team__person-container">
       <div v-for="(person, index) in persons" :key="index" class="team-person-card">
         <div class="team-person-card__avatar-container">
@@ -18,6 +18,10 @@
 </template>
 
 <script lang="ts" setup>
+defineProps<{
+  title: string
+}>()
+
 const { data: persons } = useAsyncData('team-persons', async () => {
   const directus = useDirectus()
   const { data } = await directus.items('Person').readByQuery({

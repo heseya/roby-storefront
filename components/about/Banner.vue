@@ -2,15 +2,19 @@
   <div class="banner">
     <BaseContainer class="banner__text-container">
       <LayoutHeader tag="h2" class="banner__text">
-        Naszą największą siłą jest
-        <span class="banner__text banner__text--color"> doświadczony i zgrany zespół </span>
-        który realizuje zadania z pasją i profesjonalizmem.
+        {{ parts[0] }}
+        <span class="banner__text banner__text--color"> {{ parts[1] }} </span>
+        {{ parts[2] }}
       </LayoutHeader>
     </BaseContainer>
   </div>
 </template>
 
-<script></script>
+<script setup lang="ts">
+const props = defineProps<{ text: string }>()
+
+const parts = computed(() => props.text.split('|'))
+</script>
 
 <style lang="scss" scoped>
 .banner {

@@ -32,7 +32,7 @@
 
 <script lang="ts" setup>
 import Linkedin from '@/assets/icons/linkedin.svg?component'
-import { ContactPerson } from '~/interfaces/contact'
+import { ContactPerson } from '~/interfaces/contactPage'
 
 const $t = useGlobalI18n()
 

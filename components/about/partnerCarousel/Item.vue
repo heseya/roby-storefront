@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts" setup>
-import { AboutPartner } from '@/interfaces/AboutPartner'
+import { AboutPartner } from '~/interfaces/aboutPage'
 
 defineProps<{ partner: AboutPartner }>()
 </script>

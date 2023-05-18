@@ -4,18 +4,28 @@
     <div class="about-page">
       <BaseContainer class="about-page__content about-page__content--narrow">
         <LayoutHeader variant="black" tag="h1" class="about-page__title">
-          Dowiedz się więcej o naszym zespole
+          {{ aboutPage?.title }}
         </LayoutHeader>
-        <AboutDescription />
+        <AboutDescription
+          :text="aboutPage?.text"
+          :point1="aboutPage?.point_1"
+          :point2="aboutPage?.point_2"
+          :image-url="mainImageUrl"
+        />
       </BaseContainer>
 
-      <AboutBanner class="about-page__banner" />
+      <AboutBanner class="about-page__banner" :text="aboutPage?.catching_text" />
+
       <BaseContainer class="about-page__content">
-        <AboutTeam />
-        <AboutPartnerCarousel />
+        <AboutTeam :title="aboutPage?.persons_title" />
+        <AboutPartnerCarousel :title="aboutPage?.slider_title" />
       </BaseContainer>
 
-      <AboutImageBanner />
+      <AboutImageBanner
+        :title="aboutPage?.banner_title"
+        :text="aboutPage?.banner_text"
+        :image-url="bannerImageUrl"
+      />
     </div>
   </NuxtLayout>
 </template>
@@ -41,6 +51,18 @@ const breadcrumbs = [
 useSeoMeta({
   title: t('title'),
 })
+
+const { data: aboutPage } = useAsyncData('about-page', async () => {
+  const directus = useDirectus()
+  const data = await directus.items('AboutPage').readOne(1, {
+    // @ts-ignore directus typing is wrong
+    fields: ['translations.*', 'translations.main_image.*', 'translations.banner_image.*'],
+  })
+  return getTranslated(data!.translations!, 'pl-PL')
+})
+
+const mainImageUrl = computed(() => getImageUrl(aboutPage.value?.main_image))
+const bannerImageUrl = computed(() => getImageUrl(aboutPage.value?.banner_image))
 </script>
 
 <style lang="scss" scoped>

@@ -1,12 +1,14 @@
 import { Directus } from '@directus/sdk'
 
 import { BlogArticle } from '~/interfaces/BlogArticle'
-import { ContactDepartment, ContactPerson } from '~/interfaces/contact'
+import { AboutPage } from '~/interfaces/aboutPage'
+import { ContactDepartment, ContactPerson } from '~/interfaces/contactPage'
 
 export type DirectusCollections = {
   Articles: BlogArticle
   Person: ContactPerson
   Departments: ContactDepartment
+  AboutPage: AboutPage
 }
 
 export default defineNuxtPlugin((nuxtApp) => {

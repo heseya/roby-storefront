@@ -42,7 +42,7 @@
 <script setup lang="ts">
 import groupBy from 'lodash/groupBy'
 import { useConfigStore } from '~/store/config'
-import { ContactDepartment, ContactPerson } from '~/interfaces/contact'
+import { ContactDepartment, ContactPerson } from '~/interfaces/contactPage'
 
 const config = useConfigStore()
 const t = useLocalI18n()

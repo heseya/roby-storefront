@@ -1,24 +1,27 @@
 <template>
-  <div class="banner">
+  <div class="banner" :style="{ backgroundImage: `url(${imageUrl})` }">
     <div class="banner__gray-filter">
       <BaseContainer class="banner__content">
-        <LayoutHeader tag="h2" class="banner__title"> Rozwijaj z nami Twój biznes! </LayoutHeader>
+        <LayoutHeader tag="h2" class="banner__title"> {{ title }} </LayoutHeader>
         <span class="banner__text">
-          Traktujemy rozwój biznesu naszych klientów, jak osobisty sukces. Działamy tak, aby
-          współpraca przynosiła realne efekty w postaci większej sprawności, optymalizacji kosztów,
-          czy rozwiniętej funkcjonalności. SKLEP INTERNETOWY
+          {{ text }}
         </span>
       </BaseContainer>
     </div>
   </div>
 </template>
 
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+defineProps<{
+  title: string
+  text: string
+  imageUrl: string
+}>()
+</script>
 
 <style lang="scss" scoped>
 .banner {
   margin-top: 80px;
-  background-image: url('@/assets/images/banner-bgr.png');
   @include background-image-basic;
 
   @media ($max-viewport-9) {

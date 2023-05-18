@@ -1,7 +1,7 @@
 <template>
   <div class="partner-carousel">
     <LayoutHeader class="partner-carousel__title" variant="black" tag="h2">
-      Zaufanie i współpraca
+      {{ title }}
     </LayoutHeader>
 
     <LayoutCarousel :items="partners" :breakpoints="breakpoints">
@@ -14,13 +14,17 @@
 
 <script lang="ts" setup>
 import { SwiperOptions } from 'swiper/types'
-import { AboutPartner } from '@/interfaces/AboutPartner'
+import { AboutPartner } from '~/interfaces/aboutPage'
 
 import Canon from '@/assets/images/gold-partner.jpg?url'
 import Sharp from '@/assets/images/partners/sharp-logo.png?url'
 import Asarto from '@/assets/images/partners/asarto-logo.png?url'
 import Hsm from '@/assets/images/partners/hsm-logo.png?url'
 import Lexmark from '@/assets/images/partners/lexmark-logo.png?url'
+
+defineProps<{
+  title: string
+}>()
 
 const partners: AboutPartner[] = [
   {
