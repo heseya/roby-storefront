@@ -37,12 +37,6 @@ const props = defineProps<{
 
 const directus = useDirectus()
 
-useAsyncData(async () => {
-  if (!directus) {
-    await showError({ message: t('error'), statusCode: 500 })
-  }
-})
-
 const { t } = useI18n({ useScope: 'global' })
 const { data: article, pending } = useAsyncData(`blog-article-${props.slug}`, async () => {
   const response = await directus.items('Articles').readByQuery({
