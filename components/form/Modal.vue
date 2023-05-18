@@ -1,24 +1,29 @@
 <template>
   <LayoutModal :open="open" :closeable="false" class="form-modal">
-    <form class="form-modal__form" @submit.prevent="onSubmit">
-      <h1>{{ header }}</h1>
-      <slot></slot>
-      <LayoutInfoBox v-if="error" type="danger" class="form-modal__error">
-        {{ formatError(error) }}
-      </LayoutInfoBox>
-      <div class="form-modal__actions">
-        <LayoutButton
-          class="form-modal__button form-modal__button--cancel"
-          :label="$t('common.cancel')"
-          @click="emit('update:open', false)"
-        />
-        <LayoutButton
-          class="form-modal__button"
-          :label="okText || $t('common.save')"
-          html-type="submit"
-        />
-      </div>
-    </form>
+    <div class="form-modal__container">
+      <form class="form-modal__form" @submit.prevent="onSubmit">
+        <div class="form-modal__header">{{ header }}</div>
+        <div class="form-modal__content">
+          <slot></slot>
+        </div>
+
+        <LayoutInfoBox v-if="error" type="danger" class="form-modal__error">
+          {{ formatError(error) }}
+        </LayoutInfoBox>
+        <div class="form-modal__actions">
+          <LayoutButton
+            class="form-modal__button form-modal__button--cancel"
+            :label="$t('common.cancel')"
+            @click="emit('update:open', false)"
+          />
+          <LayoutButton
+            class="form-modal__button"
+            :label="okText || $t('common.save')"
+            html-type="submit"
+          />
+        </div>
+      </form>
+    </div>
   </LayoutModal>
 </template>
 
@@ -47,11 +52,39 @@ const onSubmit = form.handleSubmit(() => emit('submit'))
 
 <style lang="scss" scoped>
 .form-modal {
+  &__container {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    background-color: $gray-color-100;
+    padding: 10px 0px;
+  }
+
+  &__header {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+
   &__form {
     display: grid;
-    padding: 20px;
-    gap: 20px;
-    background-color: $gray-color-100;
+    height: 100%;
+    padding: 10px 20px;
+    height: fit-content;
+  }
+
+  &__form,
+  &__content {
+    display: grid;
+    gap: 5px;
+
+    @media ($viewport-11) {
+      gap: 20px;
+    }
+  }
+
+  &__content {
+    margin: 10px 0px;
   }
 
   &__actions {
@@ -61,7 +94,11 @@ const onSubmit = form.handleSubmit(() => emit('submit'))
   }
 
   &__button {
-    width: 200px;
+    width: 120px;
+
+    @media ($viewport-8) {
+      width: 200px;
+    }
 
     &--cancel {
       background-color: $white-color;

@@ -63,8 +63,8 @@ onKeyStroke('Escape', () => close())
   position: fixed;
   left: 0;
   top: 0;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   background-color: #00000044;
   z-index: 1000;
   opacity: 0;
@@ -79,10 +79,15 @@ onKeyStroke('Escape', () => close())
 
 .modal {
   position: fixed;
-  left: 0;
-  top: 0;
-  width: 100vw;
-  height: 100vh;
+  width: auto;
+  height: auto;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  min-width: 22vw;
+  min-height: 20vh;
+  max-width: calc(100vw - 32px);
+  max-height: calc(100vh - 32px);
   background-color: $white-color;
   z-index: 1001;
   opacity: 0;
@@ -92,18 +97,6 @@ onKeyStroke('Escape', () => close())
   overflow-y: auto;
   display: flex;
   align-items: stretch;
-
-  @media ($viewport-6) {
-    width: auto;
-    height: auto;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    min-width: 22vw;
-    min-height: 30vh;
-    max-width: calc(100vw - 32px);
-    max-height: calc(100vh - 32px);
-  }
 
   &--open {
     opacity: 1;

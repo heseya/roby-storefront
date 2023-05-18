@@ -5,9 +5,10 @@
     :error="errorMessage"
     :header="t(`${type}.header`)"
     :ok-text="t(`${type}.delete`)"
+    class="address-delete-modal"
     @submit="onSubmit"
   >
-    <h3>{{ t(`${type}.confirmDelete`) }}</h3>
+    <div class="address-delete-modal__content">{{ t(`${type}.confirmDelete`) }}</div>
   </FormModal>
 </template>
 
@@ -73,25 +74,8 @@ const onSubmit = async () => {
 
 <style lang="scss" scoped>
 .address-delete-modal {
-  &__actions {
-    display: flex;
-    justify-content: center;
-    gap: 30px;
-  }
-
-  &__button {
-    width: 200px;
-
-    &--cancel {
-      background-color: $white-color;
-      color: $text-color;
-    }
-  }
-
-  &__error {
-    color: $error-color;
-    font-weight: bold;
-    text-align: center;
+  &__content {
+    margin: 15px 0px;
   }
 }
 </style>
