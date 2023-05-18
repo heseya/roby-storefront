@@ -57,14 +57,14 @@
       <LayoutTabs class="product-page__main" :tabs="productDescriptionTabs">
         <template #description>
           <div class="product-page__description-wrapper">
-            <div>
+            <LayoutDropDownContainer>
               <LazyBaseWysiwygContent :content="product?.description_html" />
               <LazyProductPageAttachments
                 v-if="product?.attachments.length"
                 :attachments="product?.attachments"
                 class="product-page__attachments"
               />
-            </div>
+            </LayoutDropDownContainer>
 
             <LazyProductPageAttributeCard v-if="product" :product="product" />
           </div>
