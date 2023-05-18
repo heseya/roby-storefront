@@ -7,7 +7,6 @@ export interface ContactDepartment {
   email?: string
   phone_mobile?: string
   phone_stationery?: string
-
   translations: DirectusTranslated<{
     name?: string
   }>
@@ -23,7 +22,6 @@ export interface ContactPerson {
   part_of_team: boolean
   avatar: DirectusImage
   date_created: string
-
   translations: DirectusTranslated<{
     description?: string
   }>
