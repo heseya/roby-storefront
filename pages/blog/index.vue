@@ -60,18 +60,12 @@ const limit = 6
 const page = computed(() => Number(route.query.page ?? 1))
 const lastPage = computed(() => Math.ceil((articles.value?.meta?.filter_count ?? 1) / limit))
 
-useAsyncData(async () => {
-  if (!directus) {
-    await showError({ message: t('error'), statusCode: 404 })
-  }
-})
-
 const {
   data: articles,
   pending,
   refresh,
-} = useAsyncData(`blog-articles-${route.query.page}-${route.query.tag}`, async () => {
-  return await directus?.items('Articles').readByQuery({
+} = useAsyncData(`blog-articles-${route.query.page}-${route.query.tag}`, () => {
+  return directus.items('Articles').readByQuery({
     fields: [
       'id',
       'slug',
@@ -100,8 +94,8 @@ const {
   })
 })
 
-const { data: tags } = useLazyAsyncData(`blog-tags`, async () => {
-  return await directus?.items('BlogTags').readByQuery({
+const { data: tags } = useLazyAsyncData(`blog-tags`, () => {
+  return directus.items('BlogTags').readByQuery({
     fields: ['id', 'translations.*'],
   })
 })
