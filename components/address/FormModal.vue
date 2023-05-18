@@ -37,6 +37,7 @@ import {
   UserSavedAddressCreateDto,
   UserSavedAddressUpdateDto,
 } from '@heseya/store-core'
+
 const t = useLocalI18n()
 const { t: $t } = useI18n({ useScope: 'global' })
 const formatError = useErrorMessage()
@@ -66,24 +67,7 @@ const errorMessage = ref<string>()
 
 const isInvoice = ref<boolean>(!!props.address?.address.vat)
 
-const form = useForm<UserSavedAddressCreateDto | UserSavedAddressUpdateDto>({
-  initialValues: props.address
-    ? { ...props.address }
-    : {
-        default: false,
-        name: '',
-        address: {
-          address: '',
-          city: '',
-          country: '',
-          country_name: '',
-          name: '',
-          phone: '',
-          zip: '',
-          vat: '',
-        },
-      },
-})
+const form = useForm<UserSavedAddressCreateDto | UserSavedAddressUpdateDto>()
 
 const onSubmit = async () => {
   const { success, error } = props.address
@@ -105,7 +89,22 @@ const onSubmit = async () => {
 watch(
   () => props.open,
   () => {
-    if (!props.open) form.handleReset()
+    if (props.open) {
+      form.values = props.address ?? {
+        default: false,
+        name: '',
+        address: {
+          address: '',
+          city: '',
+          country: '',
+          country_name: '',
+          name: '',
+          phone: '',
+          zip: '',
+          vat: '',
+        },
+      }
+    }
   },
 )
 </script>

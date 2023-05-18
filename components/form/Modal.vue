@@ -60,9 +60,13 @@ const onSubmit = form.handleSubmit(() => emit('submit'))
   height: fit-content;
 
   &__header {
-    font-size: 24px;
+    font-size: 20px;
     font-weight: bold;
     margin-bottom: 5px;
+
+    @media ($viewport-11) {
+      font-size: 24px;
+    }
   }
 
   &__form {
