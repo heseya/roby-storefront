@@ -12,14 +12,6 @@
   </div>
 </template>
 
-<i18n lang="json">
-{
-  "pl": {
-    "title": "Może Cię zainteresować"
-  }
-}
-</i18n>
-
 <script setup lang="ts">
 const heseya = useHeseya()
 
