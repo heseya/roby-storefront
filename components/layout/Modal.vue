@@ -1,20 +1,29 @@
 <template>
-  <div>
+  <Teleport to="body">
     <div class="modal-bg" :class="{ 'modal--open': open }" @click="close" />
     <div class="modal" :class="{ 'modal--open': open, 'modal--box': box }">
       <button
         v-if="closeable && !hideClose"
         class="modal__close-btn"
-        aria-label="Zamknij modal"
+        :aria-label="t('close')"
         @click="close"
       />
 
       <slot v-if="open" />
     </div>
-  </div>
+  </Teleport>
 </template>
 
+<i18n lang="json">
+{
+  "pl": {
+    "close": "Zamknij modal"
+  }
+}
+</i18n>
+
 <script setup lang="ts">
+const t = useLocalI18n()
 const NO_SCROLL_CLASS = 'no-scroll'
 
 const props = withDefaults(

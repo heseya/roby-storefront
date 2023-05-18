@@ -1,6 +1,6 @@
 <template>
-  <LayoutModal :open="open" :closeable="false" class="form-modal">
-    <div class="form-modal__container">
+  <LayoutModal :open="open" :closeable="false">
+    <div class="form-modal">
       <form class="form-modal__form" @submit.prevent="onSubmit">
         <div class="form-modal__header">{{ header }}</div>
         <div class="form-modal__content">
@@ -52,13 +52,12 @@ const onSubmit = form.handleSubmit(() => emit('submit'))
 
 <style lang="scss" scoped>
 .form-modal {
-  &__container {
-    display: flex;
-    flex-direction: column;
-    align-content: center;
-    background-color: $gray-color-100;
-    padding: 10px 0px;
-  }
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  background-color: $gray-color-100;
+  padding: 10px 0px;
+  height: fit-content;
 
   &__header {
     font-size: 24px;
