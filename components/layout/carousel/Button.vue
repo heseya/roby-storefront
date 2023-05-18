@@ -16,7 +16,7 @@ import IconButton from '@/components/layout/IconButton.vue'
 
 const swiper = useSwiper()
 const firstTime = ref(true)
-
+// values from useSwiper aren't reactive, on first load it checks how many elements are visible
 const firstTimeAllVisible = computed(() => {
   if (firstTime.value && swiper.value.visibleSlides) {
     firstTime.value = false
