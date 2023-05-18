@@ -2,38 +2,54 @@
   <div class="person-card">
     <div class="person-card__info-container">
       <div class="person-card__avatar-container">
-        <img v-show="data.avatar" class="person-card__avatar" :src="data.avatar" :alt="data.name" />
+        <img v-show="avatarUrl" class="person-card__avatar" :src="avatarUrl" :alt="person.name" />
       </div>
       <div class="person-card__contact">
         <div class="person-card__name-container">
-          <span class="person-card__name">{{ data.name }}</span>
-          <a v-show="data.link" :href="data.link" target="_blank" rel="nofollow noopener">
+          <span class="person-card__name">{{ person.name }}</span>
+          <a
+            v-show="person.linkedin_url"
+            :href="person.linkedin_url"
+            target="_blank"
+            rel="nofollow noopener"
+          >
             <LayoutIconButton class="person-card__social" :icon="Linkedin" :icon-size="16" />
           </a>
         </div>
-        <div class="person-card__contact-data">
-          <a class="person-card__email" :href="`mailto:${data.email}`">{{ data.email }}</a>
-          <span>{{ data.phone }}</span>
+        <div class="person-card__details">
+          <a v-if="person.email" class="person-card__email" :href="`mailto:${person.email}`">
+            {{ person.email }}
+          </a>
+          <span v-if="person.phone" class="person-card__phone">
+            {{ t('phonePrefix') }} {{ person.phone }}
+          </span>
         </div>
       </div>
     </div>
-    <span>{{ data.description }}</span>
+    <span>{{ description }}</span>
   </div>
 </template>
 
+<i18n lang="json">
+{
+  "pl": {
+    "phonePrefix": "tel.:"
+  }
+}
+</i18n>
+
 <script lang="ts" setup>
 import Linkedin from '@/assets/icons/linkedin.svg?component'
+import { Person } from '~/interfaces/Person'
 
-export interface PersonCardProps {
-  name: string
-  email: string
-  phone: string
-  description: string
-  link?: string
-  avatar?: string
-}
+const t = useLocalI18n()
 
-defineProps<{ data: PersonCardProps }>()
+const props = defineProps<{ person: Person }>()
+
+const avatarUrl = computed(() => getImageUrl(props.person.avatar))
+const description = computed(
+  () => getTranslated(props.person.translations, 'description')?.description || '',
+)
 </script>
 
 <style lang="scss" scoped>
@@ -78,6 +94,11 @@ defineProps<{ data: PersonCardProps }>()
   &__name {
     text-transform: uppercase;
     font-weight: bold;
+  }
+
+  &__details {
+    display: flex;
+    flex-direction: column;
   }
 
   &__social {

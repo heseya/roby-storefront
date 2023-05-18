@@ -1,9 +1,11 @@
 import { Directus } from '@directus/sdk'
 
 import { BlogArticle } from '~/interfaces/BlogArticle'
+import { Person } from '~/interfaces/Person'
 
 export type DirectusCollections = {
-  Article: BlogArticle
+  Articles: BlogArticle
+  Person: Person
 }
 
 export default defineNuxtPlugin((nuxtApp) => {
