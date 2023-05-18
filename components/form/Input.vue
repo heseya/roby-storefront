@@ -11,7 +11,6 @@
       <input
         :id="id"
         v-model="inputValue"
-        rules="alpha"
         class="input__input"
         :class="{ 'input__input--disabled': disabled }"
         :type="htmlType"
