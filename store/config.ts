@@ -11,8 +11,18 @@ export const useConfigStore = defineStore('config', {
     storeLogoUrl(): string {
       return this.env.store_logo as string
     },
+    footerLogoUrl(): string {
+      return this.env.footer_store_logo as string
+    },
+    faviconUrl(): string {
+      return this.env.favicon_url as string
+    },
     storeName(): string {
       return this.env.store_name as string
+    },
+
+    isTraditionalTransfer(): boolean {
+      return this.env.allow_traditional_transfer === '1'
     },
   },
 

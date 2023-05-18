@@ -43,7 +43,7 @@
       <select
         class="pagination__button pagination__button--select"
         :value="current"
-        @input="(ev) => go(parseInt((ev.target as HTMLSelectElement)?.value || '1'))"
+        @input="(ev: Event) => go(parseInt((ev.target as HTMLSelectElement)?.value || '1'))"
       >
         <option v-for="page in allPages" :key="page" :value="page">{{ page }}</option>
       </select>
@@ -166,6 +166,7 @@ const last = () => go(props.total)
     justify-content: center;
     gap: 8px;
     text-align: center;
+    text-align: -webkit-center;
 
     &:hover {
       border-color: $text-color;
@@ -187,7 +188,7 @@ const last = () => go(props.total)
     }
 
     &--select {
-      width: 60px;
+      padding: 0 25px;
     }
 
     &--active {

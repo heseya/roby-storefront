@@ -31,7 +31,7 @@ export default defineNuxtConfig({
           content: isProduction ? 'index, follow' : 'noindex, nofollow',
         },
       ],
-      link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.svg' }],
+      link: [],
       script: [],
     },
   },

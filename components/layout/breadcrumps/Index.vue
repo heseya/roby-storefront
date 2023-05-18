@@ -13,6 +13,12 @@
 
 <script setup lang="ts">
 const breadcrumbs = useBreadcrumbsState()
+
+const router = useRouter()
+
+router.beforeEach(() => {
+  breadcrumbs.value = []
+})
 </script>
 
 <style lang="scss" scoped>

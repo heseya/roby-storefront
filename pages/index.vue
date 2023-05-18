@@ -21,11 +21,11 @@
         </BaseContainer>
       </template>
 
-      <LazyHydrate when-visible>
-        <HomeBlogArticlesList />
-      </LazyHydrate>
-
       <BaseContainer class="index-page__content">
+        <LazyHydrate when-visible>
+          <HomeBlogArticlesList />
+        </LazyHydrate>
+
         <LazyHydrate when-visible>
           <HomeWhyUs />
         </LazyHydrate>
@@ -59,6 +59,7 @@
 import { ProductSetList } from '@heseya/store-core'
 import { LinkBox } from '~~/components/home/LinkBox.vue'
 import BgImagePath from '@/assets/images/link-box-bgr.png'
+import BgImage2Path from '@/assets/images/link-box-bgr-2.png'
 
 const t = useLocalI18n()
 const heseya = useHeseya()
@@ -87,13 +88,13 @@ const LINK_BOXES: LinkBox[] = [
   {
     text: 'Zapytaj o wynajem',
     src: BgImagePath,
-    link: '/rent',
+    link: '/wynajem',
     linkText: 'Zapytaj',
   },
   {
     text: 'Zapytaj o indywidualną ofertę',
-    src: BgImagePath,
-    link: '/rent',
+    src: BgImage2Path,
+    link: '/kontakt',
     linkText: 'Zapytaj',
   },
 ]

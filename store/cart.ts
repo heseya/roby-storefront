@@ -130,6 +130,7 @@ export const useCartStore = defineStore('cart', {
         // Side effect: fetch the shipping method
         // dispatch('shippingMethods/fetch', state.totalValue, { root: true })
       } catch (e) {
+        // TODO: handle if process cart fails
         this.error = e
       }
       this.isProcessing = false
