@@ -35,10 +35,10 @@ const props = defineProps<{
   slug: string
 }>()
 
+const directus = useDirectus()
+
 const { t } = useI18n({ useScope: 'global' })
 const { data: article, pending } = useAsyncData(`blog-article-${props.slug}`, async () => {
-  const directus = useDirectus()
-
   const response = await directus?.items('Articles').readByQuery({
     fields: [
       'id',

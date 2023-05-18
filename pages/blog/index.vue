@@ -70,35 +70,37 @@ const {
   data: articles,
   pending,
   refresh,
-} = useAsyncData(`blog-articles-${route.query.page}-${route.query.tag}`, async () => {
-  return await directus?.items('Articles').readByQuery({
-    fields: [
-      'id',
-      'slug',
-      'date_created',
-      'image.filename_disk',
-      'translations.title',
-      'translations.description',
-      'translations.languages_code',
-      'tags.BlogTags_id.id',
-      'tags.BlogTags_id.translations.*',
-    ],
-    meta: ['filter_count'] as any,
-    page: page.value,
-    limit,
-    sort: ['-date_created'],
-    filter: {
-      status: 'published',
-      tags: route.query.tag
-        ? {
-            BlogTags_id: {
-              _eq: route.query.tag,
-            },
-          }
-        : undefined,
-    } as any, // this any exists because of directus weird typing
-  })
-})
+} = useAsyncData(
+  `blog-articles-${route.query.page}-${route.query.tag}`,
+  async () =>
+    await directus?.items('Articles').readByQuery({
+      fields: [
+        'id',
+        'slug',
+        'date_created',
+        'image.filename_disk',
+        'translations.title',
+        'translations.description',
+        'translations.languages_code',
+        'tags.BlogTags_id.id',
+        'tags.BlogTags_id.translations.*',
+      ],
+      meta: ['filter_count'] as any,
+      page: page.value,
+      limit,
+      sort: ['-date_created'],
+      filter: {
+        status: 'published',
+        tags: route.query.tag
+          ? {
+              BlogTags_id: {
+                _eq: route.query.tag,
+              },
+            }
+          : undefined,
+      } as any, // this any exists because of directus weird typing
+    }),
+)
 
 const { data: tags } = useLazyAsyncData(`blog-tags`, async () => {
   return await directus?.items('BlogTags').readByQuery({
