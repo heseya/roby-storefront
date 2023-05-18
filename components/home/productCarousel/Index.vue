@@ -10,7 +10,7 @@
       v-if="subcategories?.length && !withoutSubcategories"
       class="product-carousel__categories"
       :items="subcategories"
-      :space-between="20"
+      :space-between="12"
       hide-nav
     >
       <template #item="set: ProductSetList">
