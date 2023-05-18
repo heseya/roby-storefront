@@ -4,7 +4,7 @@
 
     <BaseContainer>
       <LayoutLoading :active="pending" />
-      <div v-if="article" class="blog-page">
+      <div class="blog-page">
         <h1 class="blog-page__title">{{ translatedArticle?.title }}</h1>
         <div class="blog-page__img">
           <img :src="imageUrl" :alt="translatedArticle?.description" />
@@ -37,9 +37,15 @@ const props = defineProps<{
 
 const directus = useDirectus()
 
+useAsyncData(async () => {
+  if (!directus) {
+    await showError({ message: t('error'), statusCode: 500 })
+  }
+})
+
 const { t } = useI18n({ useScope: 'global' })
 const { data: article, pending } = useAsyncData(`blog-article-${props.slug}`, async () => {
-  const response = await directus?.items('Articles').readByQuery({
+  const response = await directus.items('Articles').readByQuery({
     fields: [
       'id',
       'slug',
@@ -59,11 +65,11 @@ const { data: article, pending } = useAsyncData(`blog-article-${props.slug}`, as
     } as any, // this any exists because of directus weird typing
   })
 
-  if (!response?.data?.[0]) {
+  if (!response.data?.[0]) {
     showError({ message: t('errors.NOT_FOUND'), statusCode: 404 })
   }
 
-  return response?.data?.[0] as BlogArticle
+  return response.data?.[0] as BlogArticle
 })
 
 const imageUrl = computed(() => getImageUrl(article.value?.image))

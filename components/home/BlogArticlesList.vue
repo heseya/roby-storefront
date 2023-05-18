@@ -31,7 +31,7 @@ const t = useLocalI18n()
 const directus = useDirectus()
 
 const { data: articles } = useAsyncData('home-blog-articles', async () => {
-  return await directus?.items('Articles').readByQuery({
+  return await directus.items('Articles').readByQuery({
     fields: [
       'id',
       'slug',

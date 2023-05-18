@@ -1,8 +1,9 @@
+import { NuxtPage } from 'nuxt/schema'
 import svgLoader from 'vite-svg-loader'
 
 const {
   API_URL = 'https://demo-***REMOVED***.***REMOVED***',
-  DIRECTUS_URL = 'https://blog-***REMOVED***.heseya.pl',
+  DIRECTUS_URL,
   PRICE_TRACKER_URL = 'https://main-price-tracker.app.***REMOVED***',
   ENVIRONMENT = 'development',
   APP_HOST,
@@ -62,6 +63,28 @@ export default defineNuxtConfig({
     'nuxt-swiper',
     'nuxt-delay-hydration',
   ],
+
+  hooks: {
+    'pages:extend'(pages) {
+      const removePagesMatching = (name: string, pages: NuxtPage[] = []) => {
+        const pagesToRemove = []
+        for (const page of pages) {
+          page.name === name ? pagesToRemove.push(page) : removePagesMatching(name, page.children)
+        }
+        for (const page of pagesToRemove) {
+          pages.splice(pages.indexOf(page), 1)
+        }
+      }
+
+      const pageNamesToDeleted = []
+
+      if (!DIRECTUS_URL) pageNamesToDeleted.push('blog')
+
+      for (const condition of pageNamesToDeleted) {
+        removePagesMatching(condition, pages)
+      }
+    },
+  },
 
   googleFonts: {
     families: {

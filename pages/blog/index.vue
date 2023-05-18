@@ -43,7 +43,7 @@
     "blog": "Blog",
     "empty": "Brak postów do wyświetlenia",
     "all": "Wszystkie",
-    "error": "Nie udało się pobrać artykułów"
+    "error": "Nie udało się pobrać blogów"
   }
 }
 </i18n>
@@ -62,7 +62,7 @@ const lastPage = computed(() => Math.ceil((articles.value?.meta?.filter_count ??
 
 useAsyncData(async () => {
   if (!directus) {
-    await showError({ message: t('error'), statusCode: 500 })
+    await showError({ message: t('error'), statusCode: 404 })
   }
 })
 
