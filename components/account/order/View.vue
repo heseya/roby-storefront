@@ -1,15 +1,15 @@
 <template>
   <div class="account-order-view">
     <div class="account-order-view__section">
-      <AccountOrderDetailsContainer :header="t('delivery')">
+      <AccountOrderDetailsContainer :header="$t('custom.delivery')">
         {{ order.shipping_method?.name }}
       </AccountOrderDetailsContainer>
 
-      <AccountOrderDetailsContainer :header="t('deliveryAddress')">
+      <AccountOrderDetailsContainer :header="$t('custom.deliveryAddress')">
         <AccountOrderDeliveryAddress :order="order" />
       </AccountOrderDetailsContainer>
 
-      <AccountOrderDetailsContainer :header="t('billing')">
+      <AccountOrderDetailsContainer :header="$t('custom.billingAddress')">
         <div>{{ order.billing_address.name }}</div>
         <div>{{ order.billing_address.vat }}</div>
         <div>{{ order.billing_address.phone }}</div>
@@ -20,7 +20,7 @@
       <div>
         <div class="account-order-view__payment-status-box">
           <div class="account-order-view__header">
-            {{ t('payment') }}
+            {{ $t('custom.payment') }}
           </div>
 
           <div class="account-order-view__payment-status" :class="paymentStatus.class">
@@ -29,7 +29,11 @@
           </div>
         </div>
         <div class="account-order-view__text">
-          {{ paymentStatus?.method === 'offline' ? 'Przelew tradycyjny' : paymentStatus?.method }}
+          {{
+            paymentStatus?.method === 'offline'
+              ? $t('custom.tratidionalTransfer')
+              : paymentStatus?.method
+          }}
         </div>
         <NuxtLink :to="`/pay/${order.code}`">
           <LayoutButton
@@ -48,13 +52,7 @@
 <i18n lang="json">
 {
   "pl": {
-    "delivery": "Dostawa",
-    "deliveryAddress": "Adres dostawy",
-    "billing": "Dane do rachunku",
-    "payment": "Płatność",
-    "paid": "Opłacono",
     "pending": "W trakcie",
-    "failed": "Nie opłacono",
     "goToPayment": "Przejdź do płatności"
   }
 }
@@ -66,6 +64,7 @@ import Successful from '@/assets/icons/mark-circle.svg?component'
 import Failed from '@/assets/icons/x-mark-circle.svg?component'
 import Pending from '@/assets/icons/pending.svg?component'
 const t = useLocalI18n()
+const { t: $t } = useI18n({ useScope: 'global' })
 
 const props = defineProps<{
   order: Order
@@ -86,7 +85,7 @@ const paymentStatus = computed(() => {
         icon: Successful,
         class: 'account-order-view__payment-status--successful',
         status: {
-          text: t('paid'),
+          text: $t('csutom.paid'),
           value: PaymentStatus.Successful,
         },
         method: payment.method,
@@ -106,7 +105,7 @@ const paymentStatus = computed(() => {
         icon: Failed,
         class: 'account-order-view__payment-status--failed',
         status: {
-          text: t('failed'),
+          text: $t('custom.notPaid'),
           value: PaymentStatus.Failed,
         },
         method: payment?.method || '',

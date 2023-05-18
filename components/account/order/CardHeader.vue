@@ -13,7 +13,7 @@
       </div>
     </div>
     <div class="account-order-card-header__status">
-      <b> {{ t('status') }}:</b>
+      <b> {{ $t('custom.status') }}:</b>
 
       <div
         class="account-order-card-header__status-btn"
@@ -29,14 +29,15 @@
 {
   "pl": {
     "orderNumber": "Numer zamówienia",
-    "orderCreatingDate": "Data złożenia",
-    "status": "Status"
+    "orderCreatingDate": "Data złożenia"
   }
 }
 </i18n>
 
 <script setup lang="ts">
 const t = useLocalI18n()
+const { t: $t } = useI18n({ useScope: 'global' })
+
 defineProps<{
   code: string
   createdAt: string

@@ -28,7 +28,7 @@
     <LayoutInfoBox v-if="errorMessage" type="danger" class="login-form__error">
       {{ errorMessage }}
     </LayoutInfoBox>
-    <LayoutButton class="login-form__btn" :label="t('form.login')" html-type="submit" />
+    <LayoutButton class="login-form__btn" :label="$t('custom.login')" html-type="submit" />
   </form>
 </template>
 
@@ -36,7 +36,6 @@
 {
   "pl": {
     "form": {
-      "login": "Zaloguj się",
       "forgot-password": "Nie pamiętasz hasła?"
     },
     "message": {

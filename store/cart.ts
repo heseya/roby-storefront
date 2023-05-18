@@ -20,6 +20,8 @@ import { useCheckoutStore } from './checkout'
 
 export type CartCoupon = Coupon & { effective_value?: number }
 
+const { t: $t } = useI18n({ useScope: 'global' })
+
 export const useCartStore = defineStore('cart', {
   state: () => ({
     items: [] as CartItem[],
@@ -68,13 +70,14 @@ export const useCartStore = defineStore('cart', {
     },
 
     shippingTimeDescription(): string {
-      // TODO: multilanguage
       if (this.shippingDate && isAfter(new Date(this.shippingDate), new Date())) {
-        return `od ${formatDate(new Date(this.shippingDate))}`
+        return `${$t('common.from')} ${formatDate(new Date(this.shippingDate))}`
       }
       if (this.shippingTime) {
         const hours = Math.round(this.shippingTime * 24)
-        return `w ${hours <= 72 ? `${hours}h` : `${this.shippingTime} dni roboczych`}`
+        return `${$t('common.in')} ${
+          hours <= 72 ? `${hours}h` : `${this.shippingTime} ${$t('custom.workingDays')}`
+        }`
       }
       return ''
     },

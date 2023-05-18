@@ -1,6 +1,6 @@
 <template>
   <div v-if="!errorMessage" class="settings-card">
-    <h4 class="settings-card__header">{{ t('myData') }}</h4>
+    <h4 class="settings-card__header">{{ $t('custom.myData') }}</h4>
     <div class="settings-card__container">
       <p>{{ user?.name }}</p>
       <p>{{ user?.email }}</p>
@@ -31,7 +31,7 @@
       />
     </div>
     <div class="settings-card__delete-account" @click="isDeleteAccountModalVisible = true">
-      {{ t('deleteAccount') }}
+      {{ $t('custom.deleteAccount') }}
     </div>
   </div>
 
@@ -47,9 +47,7 @@
 <i18n lang="json">
 {
   "pl": {
-    "myData": "Moje dane",
     "changePassword": "Zmień hasło",
-    "deleteAccount": "Usuń konto",
     "sucessUpdate": "Zaktualizowano zgody użytkownika."
   }
 }

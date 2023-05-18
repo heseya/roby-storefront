@@ -23,7 +23,7 @@
           <div class="account-order-card__actions">
             <NuxtLink :to="`/account/orders/${order.code}`">
               <LayoutButton variant="gray">
-                {{ t('orderDetails') }}
+                {{ $t('custom.orderDetails') }}
                 <LayoutIcon :icon="GoNextIcon" :size="8" />
               </LayoutButton>
             </NuxtLink>
@@ -42,7 +42,6 @@
 <i18n lang="json">
 {
   "pl": {
-    "orderDetails": "Szczegóły Zamówienia",
     "empty": "Nie masz żadnego zamówienia"
   }
 }
@@ -52,7 +51,7 @@
 import GoNextIcon from '@/assets/icons/navigate-next.svg?component'
 
 const t = useLocalI18n()
-
+const { t: $t } = useI18n({ useScope: 'global' })
 const heseya = useHeseya()
 const formatError = useErrorMessage()
 const errorMessage = ref('')

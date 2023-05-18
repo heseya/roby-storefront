@@ -8,7 +8,7 @@
   >
     <FormInputPassword
       v-model:model-value="form.values.currentPassword"
-      :label="t('currentPassword')"
+      :label="$t('form.currentPassword')"
       name="currentPassword"
       rules="required"
     />
@@ -25,7 +25,6 @@
 {
   "pl": {
     "header": "Zmiana hasła",
-    "currentPassword": "Aktualne hasło",
     "newPassword": "Nowe hasło",
     "sucessUpdate": "Hasło zostało zmienione"
   }
@@ -36,6 +35,7 @@
 import { useForm } from 'vee-validate'
 
 const t = useLocalI18n()
+const { t: $t } = useI18n({ useScope: 'global' })
 const heseya = useHeseya()
 const { notify } = useNotify()
 

@@ -20,7 +20,7 @@
         name="email"
         html-type="email"
         class="product-contact-form__input"
-        :label="t('email')"
+        :label="$t('form.email')"
         rules="required|email"
         label-uppercase
       />
@@ -52,16 +52,10 @@
   "pl": {
     "text": "Wypełnienie formularza zajmie tylko chwilę, a dzięki temu otrzymasz od nas wsparcie w wyborze urządzenia i ofertę dopasowaną do Twoich potrzeb.",
     "name": "Imię lub nazwa firmy",
-    "email": "Adres email",
     "message": "Wiadomość",
     "consent": "Zgadzam się na kontakt w celach przedstawienia oferty handlowej firmy {companyName}",
     "actionText": "Zapytaj o cenę",
-    "successMessage": "Dziękujemy za wysłanie zapytania. Wkrótce się z Tobą skontaktujemy.",
-    "recaptcha": {
-      "message": "Ta strona korzysta z zabezpieczenia Google reCAPTCHa",
-      "privacy": "Prywatność",
-      "conditions": "Warunki"
-    }
+    "successMessage": "Dziękujemy za wysłanie zapytania. Wkrótce się z Tobą skontaktujemy."
   }
 }
 </i18n>
@@ -85,6 +79,7 @@ const props = withDefaults(
 )
 
 const t = useLocalI18n()
+const { t: $t } = useI18n({ useScope: 'global' })
 const { notify } = useNotify()
 const { recaptchaPublic } = usePublicRuntimeConfig()
 const config = useConfigStore()

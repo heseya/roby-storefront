@@ -2,11 +2,11 @@
   <p class="recaptcha-badge">
     {{ t('recaptcha.message') }} -
     <a href="https://policies.google.com/privacy" target="_blank" rel="nofollow noopener">
-      {{ t('recaptcha.privacy') }}
+      {{ $t('custom.privacy') }}
     </a>
     |
     <a href="https://policies.google.com/terms" target="_blank" rel="nofollow noopener">
-      {{ t('recaptcha.conditions') }}
+      {{ $t('custom.conditions') }}
     </a>
   </p>
 </template>
@@ -15,9 +15,7 @@
 {
   "pl": {
     "recaptcha": {
-      "message": "Ta strona korzysta z zabezpieczenia Google reCAPTCHa",
-      "privacy": "Prywatność",
-      "conditions": "Warunki"
+      "message": "Ta strona korzysta z zabezpieczenia Google reCAPTCHa"
     }
   }
 }
@@ -25,6 +23,7 @@
 
 <script setup lang="ts">
 const t = useLocalI18n()
+const { t: $t } = useI18n({ useScope: 'global' })
 
 const { recaptchaPublic } = usePublicRuntimeConfig()
 

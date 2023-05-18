@@ -7,7 +7,7 @@
       <span>{{ address.phone }}</span>
       <span>{{ address.address }}</span>
       <span>{{ address.zip }} {{ address.city }}</span>
-      <span v-if="address.vat">{{ t('vat') }}: {{ address.vat }}</span>
+      <span v-if="address.vat">{{ $t('custom.vat') }}: {{ address.vat }}</span>
       <span>{{ address.country_name }}</span>
     </div>
 
@@ -17,19 +17,11 @@
   </div>
 </template>
 
-<i18n lang="json">
-{
-  "pl": {
-    "vat": "NIP"
-  }
-}
-</i18n>
-
 <script setup lang="ts">
 import { Address } from '@heseya/store-core'
 import PencilLine from '@/assets/icons/pencil-line-filled.svg?component'
 
-const t = useLocalI18n()
+const { t: $t } = useI18n({ useScope: 'global' })
 
 defineProps<{
   address: Address

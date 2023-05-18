@@ -3,7 +3,7 @@
     <FormInput
       :model-value="address.name"
       name="address_name"
-      :label="invoice ? t('companyName') : t('name')"
+      :label="invoice ? t('companyName') : $t('form.nameAndSurname')"
       rules="required"
       :disabled="disabled"
       @update:model-value="update('name', $event as string)"
@@ -13,7 +13,7 @@
       :model-value="address.vat"
       name="address_vat"
       rules="required"
-      :label="t('vatNumber')"
+      :label="$t('custom.vat')"
       :disabled="disabled"
       @update:model-value="update('vat', $event as string)"
     />
@@ -78,9 +78,7 @@
 <i18n lang="json">
 {
   "pl": {
-    "name": "Imię i nazwisko",
     "companyName": "Nazwa firmy",
-    "vatNumber": "NIP",
     "address": "Adres",
     "city": "Miasto",
     "postalCode": "Kod pocztowy",

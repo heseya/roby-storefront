@@ -8,22 +8,14 @@
   </NuxtLayout>
 </template>
 
-<i18n lang="json">
-{
-  "pl": {
-    "title": "Rejestracja"
-  }
-}
-</i18n>
-
 <script setup lang="ts">
-const t = useLocalI18n()
+const { t: $t } = useI18n({ useScope: 'global' })
 
 useSeoMeta({
-  title: () => t('title'),
+  title: () => $t('custom.registerTitle'),
 })
 
-const breadcrumbs = computed(() => [{ label: t('title'), link: '/register' }])
+const breadcrumbs = computed(() => [{ label: $t('custom.registerTitle'), link: '/register' }])
 </script>
 
 <style lang="scss" scoped>

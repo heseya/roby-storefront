@@ -9,7 +9,6 @@
 <i18n lang="json">
 {
   "pl": {
-    "title": "Przelew tradycyjny",
     "alreadyPaid": "Zamówienie zostało już opłacone",
     "notFoundError": "Nie znaleziono zamówienia o podanym kodzie"
   }
@@ -22,6 +21,7 @@ const router = useRouter()
 const { notify } = useNotify()
 
 const t = useLocalI18n()
+const { t: $t } = useI18n({ useScope: 'global' })
 
 const orderCode = computed(() => route.params.code as string)
 
@@ -43,7 +43,7 @@ useAsyncData(`order-summary-${orderCode}`, async () => {
 })
 
 useSeoMeta({
-  title: () => t('title'),
+  title: () => $t('custom.tratidionalTransfer'),
 })
 </script>
 

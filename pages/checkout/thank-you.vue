@@ -10,7 +10,7 @@
         <span v-if="auth.isLogged">
           {{ t('container.text2') }}&nbsp;
           <b>
-            <u>{{ t('container.my-account') }}</u>
+            <u>{{ $t('breadcrumbs.account') }}</u>
           </b>
         </span>
       </div>
@@ -32,7 +32,6 @@
       "header": "Dziękujemy za zakupy!",
       "text": "Na Twojego maila zostanie wysłane potwierdzenie zakupu.",
       "text2": "Szczegóły zamówienia znajdziesz również w",
-      "my-account": "Moje konto",
       "btn": "Sprawdź szczegóły zamówienia"
     }
   }
@@ -51,6 +50,7 @@ const route = useRoute()
 const auth = useAuthStore()
 
 const t = useLocalI18n()
+const { t: $t } = useI18n({ useScope: 'global' })
 
 const orderCode = computed(() => route.query.code as string)
 

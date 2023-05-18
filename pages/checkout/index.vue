@@ -3,7 +3,7 @@
     <BaseContainer class="checkout-page">
       <section class="checkout-page__section">
         <div class="checkout-page__area">
-          <h2 class="checkout-page__title">{{ t('personalData') }}</h2>
+          <h2 class="checkout-page__title">{{ $t('custom.myData') }}</h2>
           <ClientOnly>
             <CheckoutPersonalData />
 
@@ -13,7 +13,7 @@
           </ClientOnly>
         </div>
         <div class="checkout-page__area">
-          <h2 class="checkout-page__title">{{ t('shipping') }}</h2>
+          <h2 class="checkout-page__title">{{ $t('custom.delivery') }}</h2>
           <ClientOnly>
             <CheckoutShippingMethods />
 
@@ -23,7 +23,7 @@
           </ClientOnly>
         </div>
         <div class="checkout-page__area">
-          <h2 class="checkout-page__title">{{ t('billing') }}</h2>
+          <h2 class="checkout-page__title">{{ $t('custom.billingAddress') }}</h2>
           <ClientOnly>
             <CheckoutFormLoggedBillingAddress v-if="defaultBillingAddress" />
             <CheckoutBillingAddress v-else />
@@ -72,10 +72,7 @@
 {
   "pl": {
     "title": "Podsumowanie zamówienia",
-    "personalData": "Moje dane",
     "createAccount": "Załóż konto",
-    "shipping": "Dostawa",
-    "billing": "Dane do rachunku",
     "payment": "Metoda płatności"
   }
 }
@@ -87,6 +84,7 @@ import { EMPTY_ADDRESS } from '~/consts/address'
 import { useCheckoutStore } from '~/store/checkout'
 
 const t = useLocalI18n()
+const { t: $t } = useI18n({ useScope: 'global' })
 
 const checkout = useCheckoutStore()
 const user = useUser()

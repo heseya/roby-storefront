@@ -10,7 +10,7 @@
       :disabled="!selectedPaymentMethodId"
       @click="pay"
     >
-      {{ t('btn') }}
+      {{ $t('custom.confirmAndPay') }}
     </LayoutButton>
   </div>
 </template>
@@ -18,8 +18,7 @@
 <i18n lang="json">
 {
   "pl": {
-    "title": "Wybierz metodę płatności",
-    "btn": "Potwierdzam i płacę"
+    "title": "Wybierz metodę płatności"
   }
 }
 </i18n>
@@ -36,6 +35,7 @@ const props = withDefaults(
 )
 
 const t = useLocalI18n()
+const { t: $t } = useI18n({ useScope: 'global' })
 const { notify } = useNotify()
 const formatError = useErrorMessage()
 const selectedPaymentMethodId = ref<string | null>(null)

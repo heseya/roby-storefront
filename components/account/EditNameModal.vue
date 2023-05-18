@@ -2,13 +2,13 @@
   <FormModal
     v-model:open="isModalVisible"
     :values="form.values"
-    :header="t('header')"
+    :header="$t('custom.myData')"
     :error="error"
     @submit="onSubmit"
   >
     <FormInput
       v-model:model-value="form.values.name"
-      :label="t('nameSurname')"
+      :label="$t('form.nameSurname')"
       name="name"
       rules="alpha"
     />
@@ -24,8 +24,6 @@
 <i18n lang="json">
 {
   "pl": {
-    "header": "Moje dane",
-    "nameSurname": "Imię i Nazwisko",
     "sucessUpdate": "Zaktualizowane dane użytkownika."
   }
 }

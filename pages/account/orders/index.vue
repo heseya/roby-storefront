@@ -4,7 +4,7 @@
 
     <LayoutAccount v-if="orders" class="account-orders">
       <template #header>
-        {{ t('title') }}
+        {{ $t('custom.orders') }}
       </template>
       <LayoutEmpty v-if="orders.data.length === 0" class="account-order-card__empty">
         {{ t('empty') }}
@@ -26,7 +26,6 @@
 <i18n lang="json">
 {
   "pl": {
-    "title": "Zamówienia",
     "empty": "Nie masz żadnego zamówienia"
   }
 }

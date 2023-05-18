@@ -49,7 +49,6 @@
 <i18n lang="json">
 {
   "pl": {
-    "title": "Moje konto",
     "welcome": "Witaj, ",
     "message": "Tutaj możesz zarządzać swoimi zamówieniami oraz ustawieniami konta.",
     "lastOrder": "Ostatnie zamówienie",
@@ -69,7 +68,7 @@ const t = useLocalI18n()
 const { t: $t } = useI18n({ useScope: 'global' })
 
 useSeoMeta({
-  title: () => t('title'),
+  title: () => $t('breadcrumbs.account'),
 })
 
 definePageMeta({

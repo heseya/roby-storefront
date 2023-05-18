@@ -4,14 +4,14 @@
     <AddressForm v-model:address="form.address" :invoice="form.invoice" />
 
     <FormCheckbox v-model="form.invoice" name="invoice">
-      {{ t('billingAddress.invoice') }}
+      {{ $t('custom.needInvoice') }}
     </FormCheckbox>
 
     <div class="billing-form__btns">
       <LayoutButton variant="white" html-type="button" @click="cancel">
-        {{ t('cancel') }}
+        {{ $t('custom.cancel') }}
       </LayoutButton>
-      <LayoutButton html-type="submit"> {{ t('save') }} </LayoutButton>
+      <LayoutButton html-type="submit"> {{ $t('common.save') }} </LayoutButton>
     </div>
   </form>
 </template>
@@ -20,11 +20,8 @@
 {
   "pl": {
     "billingAddress": {
-      "formTitle": "Wprowadź dane do rachunku",
-      "invoice": "Potrzebuje fakturę VAT"
-    },
-    "save": "Zapisz",
-    "cancel": "Anuluj"
+      "formTitle": "Wprowadź dane do rachunku"
+    }
   }
 }
 </i18n>
@@ -47,6 +44,7 @@ const props = defineProps<{
 }>()
 
 const t = useLocalI18n()
+const { t: $t } = useI18n({ useScope: 'global' })
 
 const { handleSubmit } = useForm()
 const form = reactive({

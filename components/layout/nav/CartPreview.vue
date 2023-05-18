@@ -22,19 +22,17 @@
       </div>
     </div>
     <div class="cart-preview-summary">
-      <span>{{ t('totalAmount') }}</span>
+      <span>{{ $t('custom.totalAmount') }}</span>
       <span class="cart-preview-summary__total">{{ formatAmount(cart.totalValue) }}</span>
     </div>
   </div>
-  <div v-else class="cart-preview cart-preview--empty">{{ t('emptyCart') }}</div>
+  <div v-else class="cart-preview cart-preview--empty">{{ $t('custom.emptyCart') }}</div>
 </template>
 
 <i18n lang="json">
 {
   "pl": {
-    "quantity": "Ilość:",
-    "totalAmount": "Łączna kwota",
-    "emptyCart": "Twój koszyk jest pusty"
+    "quantity": "Ilość:"
   }
 }
 </i18n>
@@ -45,6 +43,7 @@ import { useCartStore } from '@/store/cart'
 import { getProductSubtext } from '@/utils/product'
 
 const t = useLocalI18n()
+const { t: $t } = useI18n({ useScope: 'global' })
 const cart = useCartStore()
 
 const handleRemove = (id: string) => {

@@ -1,22 +1,14 @@
 <template>
   <div class="shipping-address-form">
-    <h2 class="shipping-address-form__title">{{ t('title') }}</h2>
+    <h2 class="shipping-address-form__title">{{ $t('custom.deliveryAddress') }}</h2>
     <AddressForm v-model:address="checkout.shippingAddress" />
   </div>
 </template>
 
-<i18n lang="json">
-{
-  "pl": {
-    "title": "Adres dostawy"
-  }
-}
-</i18n>
-
 <script setup lang="ts">
 import { useCheckoutStore } from '~/store/checkout'
 
-const t = useLocalI18n()
+const { t: $t } = useI18n({ useScope: 'global' })
 const checkout = useCheckoutStore()
 </script>
 
