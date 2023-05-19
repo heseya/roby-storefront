@@ -19,4 +19,8 @@
   outline: none;
   background: none;
   border: none;
+
+  &:hover {
+    cursor: pointer;
+  }
 }
