@@ -35,7 +35,6 @@
 </i18n>
 
 <script setup lang="ts">
-import Button from '~/components/layout/nav/Button.vue'
 const t = useLocalI18n()
 const heseya = useHeseya()
 
@@ -61,7 +60,7 @@ const { data: page, pending } = useAsyncData(`static-regulamin`, async () => {
   }
 })
 
-const headers: HTMLElement[] = computed(() => {
+const headers: ComputedRef<HTMLHeadingElement[]> = computed(() => {
   if (!content.value) {
     return []
   }
