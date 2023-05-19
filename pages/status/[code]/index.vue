@@ -14,11 +14,11 @@
         </span>
       </div>
       <div class="status-page__field">
-        <span class="status-page__field-label">{{ $t('custom.payment') }}:</span>
+        <span class="status-page__field-label">{{ $t('payments.payment') }}:</span>
         <b v-if="order?.paid" class="status-page__field-value green-text">
-          {{ $t('custom.paid') }}
+          {{ $t('payments.paid') }}
         </b>
-        <b v-else class="status-page__field-value error-text"> {{ $t('custom.notPaid') }} </b>
+        <b v-else class="status-page__field-value error-text"> {{ $t('payments.notPaid') }} </b>
       </div>
       <div class="status-page__field">
         <span class="status-page__field-label">{{ t('fields.value') }}:</span>
@@ -29,13 +29,13 @@
 
       <NuxtLink v-if="isPayable" class="status-page__link" :to="`/pay/${orderCode}`">
         <LayoutButton class="status-page__btn">
-          {{ t('payBtn') }}
+          {{ $t('payments.payForOrder') }}
         </LayoutButton>
       </NuxtLink>
 
       <NuxtLink class="status-page__link" to="/">
         <LayoutButton class="status-page__btn" :variant="isPayable ? 'gray' : 'primary'">
-          {{ t('cancelBtn') }}
+          {{ $t('nav.goToMainPage') }}
         </LayoutButton>
       </NuxtLink>
     </div>
@@ -45,13 +45,10 @@
 <i18n lang="json">
 {
   "pl": {
-    "notFoundError": "Zamówienie o tym numerze nie istnieje",
     "fields": {
       "number": "Numer",
       "value": "Wartość"
-    },
-    "payBtn": "Opłać zamówienie",
-    "cancelBtn": "Przejdź na stronę główną"
+    }
   }
 }
 </i18n>
@@ -70,7 +67,7 @@ const { data: order } = useAsyncData(`order-summary-${orderCode}`, async () => {
     return order
   } catch (e: any) {
     const code = e?.response?.status
-    showError({ message: t('notFoundError'), statusCode: code })
+    showError({ message: $t('errors.ORDER_WITH_THIS_NUMBER_DOESNT_EXIST'), statusCode: code })
   }
 })
 

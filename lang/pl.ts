@@ -14,6 +14,19 @@ export default {
     error: 'Bład',
     in: 'w',
     from: 'od',
+    to: 'do',
+    message: 'Wiadomość',
+  },
+
+  payments: {
+    deliveryAddress: 'Adres dostawy',
+    billingAddress: 'Dane do rachunku',
+    payment: 'Płatność',
+    paid: 'Opłacono',
+    notPaid: 'Nie opłacono',
+    confirmAndPay: 'Potwierdzam i płacę',
+    traditionalTransfer: 'Przelew tradycyjny',
+    payForOrder: 'Opłać zamówienie',
   },
 
   custom: {
@@ -21,14 +34,9 @@ export default {
     deleteAccount: 'Usuń konto',
     status: 'Status',
     delivery: 'Dostawa',
-    deliveryAddress: 'Adres dostawy',
-    billingAddress: 'Dane do rachunku',
-    payment: 'Płatność',
-    paid: 'Opłacono',
-    notPaid: 'Nie opłacono',
     totalAmount: 'Łączna kwota',
     productsPrice: 'Cena produktów',
-    vat: 'NIP',
+    wishlist: 'Lista życzeń',
     addresses: 'Adresy',
     login: 'Zaloguj się',
     register: 'Zarejestruj się',
@@ -36,10 +44,8 @@ export default {
     emptyCart: 'Twój koszyk jest pusty',
     noAccount: 'Nie masz konta?',
     discount: 'Oszczędzasz',
-    tratidionalTransfer: 'Przelew tradycyjny',
     needInvoice: 'Potrzebuje fakturę VAT',
     workingDays: 'dni roboczych',
-    confirmAndPay: 'Potwierdzam i płacę',
     showAll: 'Pokaż wszystkie',
     conditions: 'Warunki',
     privacy: 'Prywatność',
@@ -47,16 +53,26 @@ export default {
     orderDetails: 'Szczegóły Zamówienia',
     logout: 'Wyloguj się',
     cart: 'Koszyk',
+    renting: 'Zapytaj o wynajem',
+    pricing: 'Zapytaj o cenę',
+    settings: 'Ustawienia konta',
+    quantity: 'Ilość:',
+    search: 'Czego szukasz?',
   },
 
   form: {
     send: 'Wyślij',
     email: 'Adres e-mail',
+    vat: 'NIP',
     password: 'Hasło',
     confirmPassword: 'Powtórz Hasło',
     backToLogin: 'Wróć do logowania',
     currentPassword: 'Aktualne hasło',
     nameAndSurname: 'Imię i nazwisko',
+  },
+
+  nav: {
+    goToMainPage: 'Przejdź na stronę główną',
   },
 
   seo: {
@@ -66,6 +82,7 @@ export default {
   wishlist: {
     added: 'Produkt został dodany do listy życzeń.',
     removed: 'Produkt został usunięty z listy życzeń.',
+    empty: 'Nie masz żadnego produktu dodanego do listy życzeń',
   },
 
   errors: {
@@ -79,6 +96,8 @@ export default {
     CLIENT_TFA_REQUIRED: 'Do zalogowania potrzebne jest wpisanie kodu z podwójnej autoryzacji.',
     CLIENT_TFA_INVALID_TOKEN: 'Nieprawidłowy token podwójnej autoryzacji.',
     CLIENT_NO_ACCESS: 'Nie posiadasz dostępu do tego miejsca.',
+
+    ORDER_WITH_THIS_NUMBER_DOESNT_EXIST: 'Zamówienie o tym numerze nie istnieje',
 
     VALIDATION_ERROR: 'Błąd walidacji.',
     VALIDATION_PASSWORD_COMPROMISED:

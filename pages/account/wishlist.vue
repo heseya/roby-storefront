@@ -4,7 +4,7 @@
 
     <LayoutAccount>
       <template #header>
-        {{ t('title') }}
+        {{ $t('custom.wishlist') }}
       </template>
       <div class="account-wishlist">
         <WishlistView small />
@@ -13,18 +13,11 @@
   </NuxtLayout>
 </template>
 
-<i18n lang="json">
-{
-  "pl": {
-    "title": "Lista życzeń"
-  }
-}
-</i18n>
+
 
 <script setup lang="ts">
 import { useAuthStore } from '~/store/auth'
 
-const t = useLocalI18n()
 const { t: $t } = useI18n({ useScope: 'global' })
 
 definePageMeta({
@@ -41,12 +34,12 @@ watch(
 )
 
 useSeoMeta({
-  title: () => t('title'),
+  title: () => $t('custom.wishlist'),
 })
 
 const breadcrumbs = computed(() => [
   { label: $t('breadcrumbs.account'), link: '/account' },
-  { label: t('title'), link: '/account/wishlist' },
+  { label: $t('custom.wishlist'), link: '/account/wishlist' },
 ])
 </script>
 

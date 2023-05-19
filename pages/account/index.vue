@@ -21,7 +21,7 @@
         </LayoutInfoBox>
 
         <LayoutAccountSection
-          :header="t('wishlist.title')"
+          :header="$t('custom.wishlist')"
           :link="`/account/wishlist`"
           class="account-page__wishlist"
         >
@@ -33,7 +33,7 @@
             </div>
 
             <LayoutEmpty v-else class="account-page__empty">
-              {{ t('wishlist.empty') }}
+              {{ $t('wishlist.empty') }}
             </LayoutEmpty>
 
             <template #fallback>
@@ -53,8 +53,6 @@
     "message": "Tutaj możesz zarządzać swoimi zamówieniami oraz ustawieniami konta.",
     "lastOrder": "Ostatnie zamówienie",
     "wishlist": {
-      "title": "Lista życzeń",
-      "empty": "Nie masz żadnego produktu dodanego do listy życzeń",
       "loading": "Ładowanie listy życzeń..."
     }
   }

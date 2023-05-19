@@ -5,7 +5,7 @@
         ref="inputRef"
         v-model="formCtx.values.query"
         class="search__input search__input--query"
-        :placeholder="t('search')"
+        :placeholder="$t('custom.search')"
         name="query"
         autocomplete="off"
       />
@@ -29,7 +29,6 @@
 <i18n lang="json">
 {
   "pl": {
-    "search": "Czego szukasz?",
     "allCategories": "Wszystkie kategorie"
   }
 }
@@ -48,6 +47,7 @@ export interface SearchValues {
 }
 
 const t = useLocalI18n()
+const { t: $t } = useI18n({ useScope: 'global' })
 const searchHistory = useSearchHistoryStore()
 
 const historyRef = ref(null)

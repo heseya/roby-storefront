@@ -8,7 +8,7 @@
   >
     <FormInput
       v-model:model-value="form.values.name"
-      :label="$t('form.nameSurname')"
+      :label="$t('form.nameAndSurname')"
       name="name"
       rules="alpha"
     />

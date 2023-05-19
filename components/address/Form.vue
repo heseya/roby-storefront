@@ -13,7 +13,7 @@
       :model-value="address.vat"
       name="address_vat"
       rules="required"
-      :label="$t('custom.vat')"
+      :label="$t('form.vat')"
       :disabled="disabled"
       @update:model-value="update('vat', $event as string)"
     />

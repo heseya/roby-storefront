@@ -30,7 +30,7 @@
       v-model="form.values.message"
       name="message"
       class="product-contact-form__input"
-      :label="t('message')"
+      :label="$t('common.message')"
       rules="required"
       label-uppercase
     />
@@ -42,7 +42,7 @@
     </FormCheckbox>
 
     <LayoutButton :disabled="isLoading" html-type="submit" class="product-contact-form__btn">
-      {{ actionText || t('actionText') }}
+      {{ actionText || $t('custom.pricing') }}
     </LayoutButton>
   </form>
 </template>
@@ -52,9 +52,7 @@
   "pl": {
     "text": "Wypełnienie formularza zajmie tylko chwilę, a dzięki temu otrzymasz od nas wsparcie w wyborze urządzenia i ofertę dopasowaną do Twoich potrzeb.",
     "name": "Imię lub nazwa firmy",
-    "message": "Wiadomość",
     "consent": "Zgadzam się na kontakt w celach przedstawienia oferty handlowej firmy {companyName}",
-    "actionText": "Zapytaj o cenę",
     "successMessage": "Dziękujemy za wysłanie zapytania. Wkrótce się z Tobą skontaktujemy."
   }
 }

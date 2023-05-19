@@ -1,12 +1,12 @@
 <template>
   <CheckoutAddressCard
-    :title="$t('custom.deliveryAddress')"
+    :title="$t('payments.deliveryAddress')"
     :address="checkout.shippingAddress"
     @edit="handleEdit"
   />
 
   <CheckoutAddressModal
-    :title="$t('custom.deliveryAddress')"
+    :title="$t('payments.deliveryAddress')"
     :open="isEditOpen"
     @update:open="(v) => (isEditOpen = v)"
     @save="onSave"

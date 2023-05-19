@@ -3,12 +3,12 @@
     <div class="forgot-password" @submit.prevent="onSubmit">
       <LayoutBreadcrumpsProvider :breadcrumbs="breadcrumbs" />
       <form v-if="!formStatus.isSubmitted" class="forgot-password__form">
-        <h2 class="forgot-password__header">{{ t('form.header') }}</h2>
+        <h2 class="forgot-password__header">{{ t('title') }}</h2>
         <span class="forgot-password__description">{{ t('form.description') }}</span>
         <FormInput
           v-model="form.values.email"
           name="email"
-          :label="t('form.email')"
+          :label="$t('form.email')"
           rules="required|email"
         />
         <LayoutButton class="forgot-password__btn" :label="$t('form.send')" html-type="submit" />
@@ -33,8 +33,6 @@
   "pl": {
     "title": "Przypomnij hasło",
     "form": {
-      "email": "Adres e-mail",
-      "header": "Przypomnij hasło",
       "description": "Jeżeli ten adres e-mail został zarejestrowany w naszym serwisie, otrzymasz link do zrestartowania hasła."
     },
     "message": "Jeżeli istnieje konto powiązane z podanym adresem ",

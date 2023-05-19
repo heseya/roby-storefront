@@ -13,7 +13,7 @@
               />
               <FormInputPassword
                 v-model="form.values.confirmPassword"
-                :label="t('form.confirmPassword')"
+                :label="$t('form.confirmPassword')"
                 rules="confirmedPassword:@password"
                 name="confirmPassword"
               />
@@ -40,7 +40,6 @@
 {
   "pl": {
     "title": "Resetowanie hasła",
-    "confirmPassword": "Powtórz hasło",
     "message": "Twoje hasło zostało pomyślnie zmienione"
   }
 }

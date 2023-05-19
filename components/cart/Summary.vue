@@ -37,7 +37,7 @@
 
     <span class="cart-summary__text">{{ t('summary.paymentMethods') }}</span>
     <div class="cart-summary__payment-methods">
-      <b v-if="config.isTraditionalTransfer">{{ $t('custom.tratidionalTransfer') }}</b>
+      <b v-if="config.isTraditionalTransfer">{{ $t('payments.traditionalTransfer') }}</b>
       <img
         v-for="method in paymentMethods"
         :key="method.id"

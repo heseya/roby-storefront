@@ -9,7 +9,6 @@
 <i18n lang="json">
 {
   "pl": {
-    "alreadyPaid": "Zamówienie zostało już opłacone",
     "notFoundError": "Nie znaleziono zamówienia o podanym kodzie"
   }
 }
@@ -31,7 +30,7 @@ useAsyncData(`order-summary-${orderCode}`, async () => {
     const order = await heseya.Orders.getOneByCode(orderCode.value)
 
     if (order.paid) {
-      notify({ type: 'success', text: t('alreadyPaid') })
+      notify({ type: 'success', text: $t('errors.CLIENT_ORDER_PAID') })
       router.push(`/status/${orderCode.value}`)
     }
 
@@ -43,7 +42,7 @@ useAsyncData(`order-summary-${orderCode}`, async () => {
 })
 
 useSeoMeta({
-  title: () => $t('custom.tratidionalTransfer'),
+  title: () => $t('payments.traditionalTransfer'),
 })
 </script>
 

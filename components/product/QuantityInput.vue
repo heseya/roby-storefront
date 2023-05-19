@@ -1,6 +1,6 @@
 <template>
   <div class="quantity-input">
-    <div v-if="showLabel" class="quantity-input__label">{{ t('label') }}</div>
+    <div v-if="showLabel" class="quantity-input__label">{{ $t('custom.quantity') }}</div>
     <FormSelect
       :model-value="quantity"
       label-uppercase
@@ -14,13 +14,7 @@
   </div>
 </template>
 
-<i18n lang="json">
-{
-  "pl": {
-    "label": "Ilość"
-  }
-}
-</i18n>
+
 
 <script setup lang="ts">
 withDefaults(
@@ -36,7 +30,7 @@ withDefaults(
   },
 )
 
-const t = useLocalI18n()
+const { t: $t } = useI18n({ useScope: 'global' })
 
 const emit = defineEmits<{
   (event: 'update:quantity', value: number): void

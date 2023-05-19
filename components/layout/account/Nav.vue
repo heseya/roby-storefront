@@ -4,7 +4,7 @@
       <ul class="layout-account-nav__list">
         <li v-for="(target, index) in navList" :key="index" class="layout-account-nav__list-item">
           <NuxtLink :to="`/account/${target}`" class="layout-account-nav__text"
-            >{{ t(target) }}
+            >{{ $t(`custom.${target}`) }}
           </NuxtLink>
           <LayoutIcon :icon="GoNextIcon" :size="12" class="layout-account-nav__icon" />
         </li>

@@ -5,11 +5,11 @@
         {{ order.shipping_method?.name }}
       </AccountOrderDetailsContainer>
 
-      <AccountOrderDetailsContainer :header="$t('custom.deliveryAddress')">
+      <AccountOrderDetailsContainer :header="$t('payments.deliveryAddress')">
         <AccountOrderDeliveryAddress :order="order" />
       </AccountOrderDetailsContainer>
 
-      <AccountOrderDetailsContainer :header="$t('custom.billingAddress')">
+      <AccountOrderDetailsContainer :header="$t('payments.billingAddress')">
         <div>{{ order.billing_address.name }}</div>
         <div>{{ order.billing_address.vat }}</div>
         <div>{{ order.billing_address.phone }}</div>
@@ -20,7 +20,7 @@
       <div>
         <div class="account-order-view__payment-status-box">
           <div class="account-order-view__header">
-            {{ $t('custom.payment') }}
+            {{ $t('payments.payment') }}
           </div>
 
           <div class="account-order-view__payment-status" :class="paymentStatus.class">
@@ -31,7 +31,7 @@
         <div class="account-order-view__text">
           {{
             paymentStatus?.method === 'offline'
-              ? $t('custom.tratidionalTransfer')
+              ? $t('payments.traditionalTransfer')
               : paymentStatus?.method
           }}
         </div>
@@ -105,7 +105,7 @@ const paymentStatus = computed(() => {
         icon: Failed,
         class: 'account-order-view__payment-status--failed',
         status: {
-          text: $t('custom.notPaid'),
+          text: $t('payments.notPaid'),
           value: PaymentStatus.Failed,
         },
         method: payment?.method || '',

@@ -38,7 +38,7 @@
                 v-if="product"
                 :product="product"
                 type="renting"
-                :action-text="t('tabs.renting')"
+                :action-text="$t('custom.renting')"
               />
             </template>
           </LayoutTabs>
@@ -48,7 +48,7 @@
               v-if="product"
               :product="product"
               type="price"
-              :action-text="t('tabs.pricing')"
+              :action-text="$t('custom.pricing')"
             />
           </div>
         </div>
@@ -108,8 +108,6 @@
     "notFoundError": "Podany produkt nie istnieje",
     "tabs": {
       "buy": "Zakup",
-      "renting": "Zapytaj o wynajem",
-      "pricing": "Zapytaj o cenę",
       "description": "Opis",
       "additionalInfo": "Dodatkowe informacje"
     },
@@ -126,6 +124,7 @@ import { getProductSubtext } from '@/utils/product'
 const heseya = useHeseya()
 const route = useRoute()
 const t = useLocalI18n()
+const { t: $t } = useI18n({ useScope: 'global' })
 
 const { data: product } = useAsyncData(`product-${route.params.slug}`, async () => {
   try {
@@ -148,7 +147,9 @@ const productPurchaseTabs = computed(
   () =>
     [
       { key: 'buy', label: t('tabs.buy') },
-      product.value?.metadata.allow_renting ? { key: 'renting', label: t('tabs.renting') } : null,
+      product.value?.metadata.allow_renting
+        ? { key: 'renting', label: $t('custom.renting') }
+        : null,
     ].filter(Boolean) as Tab[],
 )
 

@@ -7,7 +7,7 @@
       <span>{{ address.phone }}</span>
       <span>{{ address.address }}</span>
       <span>{{ address.zip }} {{ address.city }}</span>
-      <span v-if="address.vat">{{ $t('custom.vat') }}: {{ address.vat }}</span>
+      <span v-if="address.vat">{{ $t('form.vat') }}: {{ address.vat }}</span>
       <span>{{ address.country_name }}</span>
     </div>
 

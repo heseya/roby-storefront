@@ -36,7 +36,7 @@
       :disabled="!checkout.isValid"
       @click="createOrder"
     >
-      {{ $t('custom.confirmAndPay') }}
+      {{ $t('payments.confirmAndPay') }}
     </LayoutButton>
   </div>
 </template>

@@ -12,7 +12,7 @@
         v-model="form.values.query"
         class="mobile-search__input"
         type="text"
-        :placeholder="t('search')"
+        :placeholder="$t('custom.search')"
         name="query"
         autocomplete="off"
       />
@@ -22,14 +22,6 @@
   </div>
 </template>
 
-<i18n lang="json">
-{
-  "pl": {
-    "search": "Czego szukasz?"
-  }
-}
-</i18n>
-
 <script lang="ts" setup>
 import { useForm } from 'vee-validate'
 
@@ -38,7 +30,7 @@ import ArrowBack from '@/assets/icons/arrow-back.svg?component'
 import { SearchValues } from '@/components/layout/nav/Search.vue'
 import { useSearchHistoryStore } from '@/store/searchHistory'
 
-const t = useLocalI18n()
+const { t: $t } = useI18n({ useScope: 'global' })
 
 const searchHistory = useSearchHistoryStore()
 

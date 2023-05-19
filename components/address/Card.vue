@@ -12,7 +12,7 @@
         {{ value.name }}
       </p>
       <p>{{ value.address.name }}</p>
-      <p v-if="value.address.vat">{{ $t('custom.vat') }} {{ value.address.vat }}</p>
+      <p v-if="value.address.vat">{{ $t('form.vat') }} {{ value.address.vat }}</p>
       <p>{{ value.address.phone }}</p>
     </div>
     <div>

@@ -10,7 +10,7 @@
       :disabled="!selectedPaymentMethodId"
       @click="pay"
     >
-      {{ $t('custom.confirmAndPay') }}
+      {{ $t('payments.confirmAndPay') }}
     </LayoutButton>
   </div>
 </template>

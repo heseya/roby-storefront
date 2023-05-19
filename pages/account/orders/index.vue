@@ -33,14 +33,14 @@
 
 <script setup lang="ts">
 const t = useLocalI18n()
+const { t: $t } = useI18n({ useScope: 'global' })
 const formatError = useErrorMessage()
 const router = useRouter()
 const route = useRoute()
 const heseya = useHeseya()
-const { t: $t } = useI18n({ useScope: 'global' })
 
 useSeoMeta({
-  title: () => t('title'),
+  title: () => $t('custom.orders'),
 })
 
 definePageMeta({
@@ -53,7 +53,7 @@ const lastPage = computed(() => Math.ceil((orders.value?.pagination.total ?? 1) 
 
 const breadcrumbs = computed(() => [
   { label: $t('breadcrumbs.account'), link: '/account' },
-  { label: t('title'), link: '/account/orders' },
+  { label: $t('custom.orders'), link: '/account/orders' },
 ])
 
 const errorMessage = ref('')

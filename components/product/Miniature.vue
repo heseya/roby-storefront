@@ -23,7 +23,9 @@
       </span>
       <span class="product-miniature__subtext"> {{ getProductSubtext(product) }} </span>
       <ProductPrice v-if="showPrice" class="product-miniature__price" :product="product" />
-      <LayoutButton v-else class="product-miniature__btn"> {{ t('askForPrice') }} </LayoutButton>
+      <LayoutButton v-else class="product-miniature__btn">
+        {{ $t('custom.pricing') }}
+      </LayoutButton>
 
       <ProductFavouriteButton class="product-miniature__wishlist-btn" :product="product" />
       <slot />
@@ -31,20 +33,12 @@
   </NuxtLink>
 </template>
 
-<i18n lang="json">
-{
-  "pl": {
-    "askForPrice": "Zapytaj o cenę"
-  }
-}
-</i18n>
-
 <script lang="ts" setup>
 import { ProductList } from '@heseya/store-core'
 import { getProductSubtext } from '@/utils/product'
 import { ASK_FOR_PRICE_KEY } from '@/consts/metadataKeys'
 
-const t = useLocalI18n()
+const { t: $t } = useI18n({ useScope: 'global' })
 const localePath = useLocalePath()
 
 const props = defineProps<{

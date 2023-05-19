@@ -7,7 +7,9 @@
           <span class="cart-preview-item__name">{{ item.name }}</span>
           <span class="cart-preview-item__brand">{{ getProductSubtext(item) }}</span>
           <div class="cart-preview-item__summary">
-            <span class="cart-preview-item__quantity">{{ t('quantity') }} {{ item.qty }}</span>
+            <span class="cart-preview-item__quantity"
+              >{{ $t('custom.quantity') }} {{ item.qty }}</span
+            >
             <span class="cart-preview-item__price">
               {{ formatAmount(item.totalPrice) }}
             </span>
@@ -29,20 +31,11 @@
   <div v-else class="cart-preview cart-preview--empty">{{ $t('custom.emptyCart') }}</div>
 </template>
 
-<i18n lang="json">
-{
-  "pl": {
-    "quantity": "Ilość:"
-  }
-}
-</i18n>
-
 <script setup lang="ts">
 import CrossIcon from '@/assets/icons/cross.svg?component'
 import { useCartStore } from '@/store/cart'
 import { getProductSubtext } from '@/utils/product'
 
-const t = useLocalI18n()
 const { t: $t } = useI18n({ useScope: 'global' })
 const cart = useCartStore()
 

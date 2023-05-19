@@ -51,7 +51,7 @@ const breadcrumb = [
 const scrollTarget = ref<HTMLElement>()
 
 const handleScroll = () => {
-  scrollTarget.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
+  scrollTarget.value?.scrollIntoView({ behavior: 'smooth', block: 'center' })
 }
 </script>
 

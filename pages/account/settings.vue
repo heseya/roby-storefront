@@ -4,7 +4,7 @@
 
     <LayoutAccount class="account-settings">
       <template #header>
-        {{ t('title') }}
+        {{ $t('custom.settings') }}
       </template>
 
       <AccountSettingsCard />
@@ -12,20 +12,11 @@
   </NuxtLayout>
 </template>
 
-<i18n lang="json">
-{
-  "pl": {
-    "title": "Ustawienia konta"
-  }
-}
-</i18n>
-
 <script setup lang="ts">
-const t = useLocalI18n()
 const { t: $t } = useI18n({ useScope: 'global' })
 
 useSeoMeta({
-  title: () => t('title'),
+  title: () => $t('custom.settings'),
 })
 
 definePageMeta({
@@ -34,7 +25,7 @@ definePageMeta({
 
 const breadcrumbs = computed(() => [
   { label: $t('breadcrumbs.account'), link: '/account' },
-  { label: t('title'), link: '/account/settings' },
+  { label: $t('custom.settings'), link: '/account/settings' },
 ])
 </script>
 

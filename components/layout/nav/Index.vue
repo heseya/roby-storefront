@@ -34,7 +34,7 @@
             <LayoutIconButton
               class="nav-link-button__button"
               :icon="Profile"
-              :label="auth.isLogged ? $t('.breadcrumbs.account') : $t('custom.login')"
+              :label="auth.isLogged ? $t('breadcrumbs.account') : $t('custom.login')"
               is-resize
             />
           </NuxtLink>
@@ -43,13 +43,13 @@
               {{ $t('custom.orders') }}
             </NuxtLink>
             <NuxtLink class="nav-link-button__list-item" :to="localePath('/account/settings')">
-              {{ t('accountSettings') }}
+              {{ $t('custom.settings') }}
             </NuxtLink>
             <NuxtLink class="nav-link-button__list-item" :to="localePath('/account/addresses')">
               {{ $t('custom.addresses') }}
             </NuxtLink>
             <NuxtLink class="nav-link-button__list-item" :to="localePath('/account/wishlist')">
-              {{ t('wishlist') }}
+              {{ $t('custom.wishlist') }}
             </NuxtLink>
             <button
               class="nav-link-button__list-item nav-link-button__list-item--logout"
@@ -66,7 +66,7 @@
           <LayoutIconButton
             class="nav-link-button__button"
             :icon="Favorite"
-            :label="t('wishlist')"
+            :label="$t('custom.wishlist')"
             :count="wishlist.quantity"
             is-resize
           />
@@ -76,7 +76,7 @@
             <LayoutIconButton
               class="nav-link-button__button"
               :icon="Shopping"
-              :label="$t('customcart')"
+              :label="$t('custom.cart')"
               :count="cart.length"
               is-resize
             />
@@ -111,8 +111,6 @@
 <i18n lang="json">
 {
   "pl": {
-    "wishlist": "Lista życzeń",
-    "accountSettings": "Ustawienia konta",
     "message": {
       "logout": "Wylogowano pomyślnie"
     }

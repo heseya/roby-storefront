@@ -13,7 +13,7 @@
           </ClientOnly>
         </div>
         <div class="checkout-page__area">
-          <h2 class="checkout-page__title">{{ $t('custom.delivery') }}</h2>
+          <h2 class="checkout-page__title">{{ $t('title.delivery') }}</h2>
           <ClientOnly>
             <CheckoutShippingMethods />
 
@@ -23,7 +23,7 @@
           </ClientOnly>
         </div>
         <div class="checkout-page__area">
-          <h2 class="checkout-page__title">{{ $t('custom.billingAddress') }}</h2>
+          <h2 class="checkout-page__title">{{ $t('payments.billingAddress') }}</h2>
           <ClientOnly>
             <CheckoutFormLoggedBillingAddress v-if="defaultBillingAddress" />
             <CheckoutBillingAddress v-else />
