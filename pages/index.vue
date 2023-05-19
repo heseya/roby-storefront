@@ -58,8 +58,6 @@
 <script setup lang="ts">
 import { ProductSetList } from '@heseya/store-core'
 import { LinkBox } from '~~/components/home/LinkBox.vue'
-import BgImagePath from '@/assets/images/link-box-bgr.png'
-import BgImage2Path from '@/assets/images/link-box-bgr-2.png'
 
 const t = useLocalI18n()
 const heseya = useHeseya()
@@ -83,21 +81,16 @@ const { data } = useAsyncData('main-banner', async () => {
   }
 })
 
-// TODO: maybe fetch from API? Directus?
-const LINK_BOXES: LinkBox[] = [
-  {
-    text: 'Zapytaj o wynajem',
-    src: BgImagePath,
-    link: '/wynajem',
-    linkText: 'Zapytaj',
-  },
-  {
-    text: 'Zapytaj o indywidualną ofertę',
-    src: BgImage2Path,
-    link: '/kontakt',
-    linkText: 'Zapytaj',
-  },
-]
+const { data: offertsBanner } = useAsyncData('offerts-banner', async (): Promise<LinkBox[]> => {
+  const { banner_media: bannerMedia } = await heseya.Banners.getOneBySlug('offers')
+
+  return bannerMedia.map(({ title, media, url, subtitle }) => ({
+    text: title,
+    src: media[0].media.url,
+    link: url,
+    linkText: subtitle,
+  }))
+})
 
 const sections = computed<Section[]>(() => {
   const sets =
@@ -106,10 +99,12 @@ const sections = computed<Section[]>(() => {
       data: set,
     })) || []
 
-  const boxes = LINK_BOXES.map((box) => ({
-    type: 'box' as const,
-    data: box,
-  }))
+  const boxes = offertsBanner.value
+    ? offertsBanner.value.map((box) => ({
+        type: 'box' as const,
+        data: box,
+      }))
+    : []
 
   const length = Math.max(sets.length, boxes.length)
   return Array.from({ length }, (_, i) => [sets[i], boxes[i]])
