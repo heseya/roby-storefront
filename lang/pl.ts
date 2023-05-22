@@ -30,6 +30,11 @@ export default {
     removed: 'Produkt został usunięty z listy życzeń.',
   },
 
+  phonePrefix: {
+    default: 'tel.:',
+    mobile: 'tel. kom.:',
+  },
+
   errors: {
     CLIENT_INVALID_CREDENTIALS: 'Nieprawidłowy login lub hasło.',
     CLIENT_INVALID_PASSWORD: 'Nieprawidłowe aktualne hasło.',
