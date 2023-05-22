@@ -1,7 +1,7 @@
 import { Directus } from '@directus/sdk'
 
-import { BlogArticle } from '~/interfaces/BlogArticle'
-import { ContactDepartment, ContactPerson } from '~/interfaces/contact'
+import { BlogArticle } from '@/interfaces/BlogArticle'
+import { ContactDepartment, ContactPerson } from '@/interfaces/contact'
 
 export type DirectusCollections = {
   Articles: BlogArticle
