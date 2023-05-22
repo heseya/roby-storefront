@@ -1,18 +1,20 @@
 <template>
   <div class="item">
-    <img class="item__image" :src="partner.image" :alt="partner.name" />
+    <img class="item__image" :src="logoUrl" :alt="partner.name" />
     <div>
       <span class="item__name">{{ partner?.name }}</span>
-      <span class="item__subname">{{ partner?.subname ?? ' ' }}</span>
+      <span class="item__subname">{{ partner?.subtitle ?? ' ' }}</span>
     </div>
     <span class="item__description"> {{ partner.description }} </span>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { AboutPartner } from '~/interfaces/aboutPage'
+import { TranslatedAboutPartner } from '@/interfaces/aboutPage'
 
-defineProps<{ partner: AboutPartner }>()
+const props = defineProps<{ partner: TranslatedAboutPartner }>()
+
+const logoUrl = computed(() => getImageUrl(props.partner.logo))
 </script>
 
 <style lang="scss" scoped>

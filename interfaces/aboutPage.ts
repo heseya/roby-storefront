@@ -3,10 +3,21 @@ import { DirectusTranslated } from './DirectusTranslated'
 import { DirectusImage } from './DirectusImage'
 
 export interface AboutPartner {
+  id: ID
+  translations: DirectusTranslated<{
+    name: string
+    subtitle?: string
+    description: string
+  }>
+  logo: DirectusImage
+}
+
+export interface TranslatedAboutPartner {
+  id: ID
   name: string
-  subname?: string
+  subtitle?: string
   description: string
-  image: string
+  logo: DirectusImage
 }
 
 export interface TranslatedAboutPage {

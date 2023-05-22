@@ -13,7 +13,7 @@
 <script setup lang="ts">
 const props = defineProps<{ text: string }>()
 
-const parts = computed(() => props.text.split('|'))
+const parts = computed(() => props.text?.split('|') || [])
 </script>
 
 <style lang="scss" scoped>
