@@ -2,7 +2,6 @@
   <NuxtLayout>
     <LayoutBreadcrumpsProvider :breadcrumbs="breadcrumb" />
     <LayoutLoading :active="pending" />
-
     <BaseContainer v-if="!pending" class="statute-page">
       <div>
         <div class="statute-page__contents-container">
@@ -29,7 +28,8 @@
 <i18n lang="json">
 {
   "pl": {
-    "statute": "Regulamin"
+    "statute": "Regulamin",
+    "notFoundError": "Nie znaleziono treści regulaminu"
   }
 }
 </i18n>
@@ -55,7 +55,11 @@ const { data: page, pending } = useAsyncData(`static-regulamin`, async () => {
   try {
     return await heseya.Pages.getOneBySlug('regulamin')
   } catch (e: any) {
-    if (e?.response?.status !== 404) showError({ message: e.statusCode, statusCode: 500 })
+    if (e?.response?.status !== 404) {
+      showError({ message: e.statusCode, statusCode: 500 })
+      return null
+    }
+    showError({ message: t('notFoundError'), statusCode: 404 })
     return null
   }
 })
@@ -64,7 +68,7 @@ const headers: ComputedRef<HTMLHeadingElement[]> = computed(() => {
   if (!content.value) {
     return []
   }
-  return [...content.value.getElementsByTagName('h1')]
+  return [...content.value.getElementsByTagName('h2')]
 })
 </script>
 
