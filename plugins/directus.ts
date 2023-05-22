@@ -11,7 +11,7 @@ export default defineNuxtPlugin((nuxtApp) => {
 
   if (!directus.url) {
     // eslint-disable-next-line no-console
-    console.warn('Directus has not been properly connected')
+    console.warn('Directus does not have URL set up, check DIRECTUS_URL env')
   }
 
   return {
