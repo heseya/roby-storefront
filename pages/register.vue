@@ -12,10 +12,10 @@
 const $t = useGlobalI18n()
 
 useSeoMeta({
-  title: () => $t('custom.registerTitle'),
+  title: () => $t('account.registerTitle'),
 })
 
-const breadcrumbs = computed(() => [{ label: $t('custom.registerTitle'), link: '/register' }])
+const breadcrumbs = computed(() => [{ label: $t('account.registerTitle'), link: '/register' }])
 </script>
 
 <style lang="scss" scoped>

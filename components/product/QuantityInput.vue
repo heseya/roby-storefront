@@ -1,6 +1,6 @@
 <template>
   <div class="quantity-input">
-    <div v-if="showLabel" class="quantity-input__label">{{ $t('custom.quantity') }}</div>
+    <div v-if="showLabel" class="quantity-input__label">{{ $t('cart.quantity') }}</div>
     <FormSelect
       :model-value="quantity"
       label-uppercase

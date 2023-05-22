@@ -4,7 +4,7 @@
 
     <LayoutAccount class="account-addresses">
       <template #header>
-        {{ $t('custom.addresses') }}
+        {{ $t('account.addresses') }}
       </template>
       <div class="account-addresses__container">
         <AccountDefaultAddress type="shipping" />
@@ -18,7 +18,7 @@
 const $t = useGlobalI18n()
 
 useSeoMeta({
-  title: () => $t('custom.addresses'),
+  title: () => $t('account.addresses'),
 })
 
 definePageMeta({
@@ -27,7 +27,7 @@ definePageMeta({
 
 const breadcrumbs = computed(() => [
   { label: $t('breadcrumbs.account'), link: '/account' },
-  { label: $t('custom.addresses'), link: '/account/addresses' },
+  { label: $t('account.addresses'), link: '/account/addresses' },
 ])
 </script>
 

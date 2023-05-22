@@ -21,7 +21,7 @@
         </LayoutInfoBox>
 
         <LayoutAccountSection
-          :header="$t('custom.wishlist')"
+          :header="$t('wishlist.title')"
           :link="`/account/wishlist`"
           class="account-page__wishlist"
         >

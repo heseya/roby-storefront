@@ -24,7 +24,7 @@
       <span class="product-miniature__subtext"> {{ getProductSubtext(product) }} </span>
       <ProductPrice v-if="showPrice" class="product-miniature__price" :product="product" />
       <LayoutButton v-else class="product-miniature__btn">
-        {{ $t('custom.pricing') }}
+        {{ $t('offers.pricing') }}
       </LayoutButton>
 
       <ProductFavouriteButton class="product-miniature__wishlist-btn" :product="product" />

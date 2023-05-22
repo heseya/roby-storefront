@@ -4,7 +4,7 @@
     <AddressForm v-model:address="form.address" :invoice="form.invoice" />
 
     <FormCheckbox v-model="form.invoice" name="invoice">
-      {{ $t('custom.needInvoice') }}
+      {{ $t('form.needInvoice') }}
     </FormCheckbox>
 
     <div class="billing-form__btns">

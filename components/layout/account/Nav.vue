@@ -9,7 +9,7 @@
           <LayoutIcon :icon="GoNextIcon" :size="12" class="layout-account-nav__icon" />
         </li>
       </ul>
-      <div class="layout-account-nav__logout" @click="logout">{{ $t('custom.logout') }}</div>
+      <div class="layout-account-nav__logout" @click="logout">{{ $t('account.logout') }}</div>
     </div>
   </div>
 </template>

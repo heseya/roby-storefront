@@ -2,7 +2,7 @@
   <div class="cart-empty">
     <div class="cart-empty__row">
       <LayoutIcon class="cart-empty__icon" :icon="CartIcon" :size="24" />
-      <span class="cart-empty__text">{{ $t('custom.emptyCart') }}</span>
+      <span class="cart-empty__text">{{ $t('cart.empty') }}</span>
     </div>
 
     <NuxtLink to="/">

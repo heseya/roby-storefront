@@ -5,14 +5,14 @@
     <div class="login-content">
       <div class="login-content__container">
         <div>
-          <h2 class="login-content__header">{{ $t('custom.login') }}</h2>
+          <h2 class="login-content__header">{{ $t('account.login') }}</h2>
           <AuthLoginForm @login="handleLogin" />
         </div>
 
         <LayoutSpacer />
         <div class="login-content__register">
           <div>
-            <div class="login-content__header">{{ $t('custom.noAccount') }}</div>
+            <div class="login-content__header">{{ $t('account.noAccount') }}</div>
             <div>
               <div>{{ t('form.benefits-header') }}</div>
               <ul class="login-content__list">
@@ -24,7 +24,7 @@
             </div>
           </div>
           <NuxtLink to="/register">
-            <LayoutButton class="login-content__btn" :label="$t('custom.register')" />
+            <LayoutButton class="login-content__btn" :label="$t('account.register')" />
           </NuxtLink>
         </div>
       </div>
@@ -69,10 +69,10 @@ onBeforeMount(() => {
 })
 
 useSeoMeta({
-  title: () => $t('custom.login'),
+  title: () => $t('account.login'),
 })
 
-const breadcrumbs = computed(() => [{ label: $t('custom.login'), link: '/login' }])
+const breadcrumbs = computed(() => [{ label: $t('account.login'), link: '/login' }])
 </script>
 
 <style lang="scss" scoped>

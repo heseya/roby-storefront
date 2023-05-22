@@ -2,7 +2,7 @@
   <FormModal
     v-model:open="isModalVisible"
     :values="form.values"
-    :header="$t('custom.myData')"
+    :header="$t('account.myData')"
     :error="error"
     @submit="onSubmit"
   >

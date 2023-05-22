@@ -4,7 +4,7 @@
 
     <LayoutAccount class="account-settings">
       <template #header>
-        {{ $t('custom.settings') }}
+        {{ $t('account.settings') }}
       </template>
 
       <AccountSettingsCard />
@@ -16,7 +16,7 @@
 const $t = useGlobalI18n()
 
 useSeoMeta({
-  title: () => $t('custom.settings'),
+  title: () => $t('account.settings'),
 })
 
 definePageMeta({
@@ -25,7 +25,7 @@ definePageMeta({
 
 const breadcrumbs = computed(() => [
   { label: $t('breadcrumbs.account'), link: '/account' },
-  { label: $t('custom.settings'), link: '/account/settings' },
+  { label: $t('account.settings'), link: '/account/settings' },
 ])
 </script>
 

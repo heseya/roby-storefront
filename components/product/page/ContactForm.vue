@@ -42,7 +42,7 @@
     </FormCheckbox>
 
     <LayoutButton :disabled="isLoading" html-type="submit" class="product-contact-form__btn">
-      {{ actionText || $t('custom.pricing') }}
+      {{ actionText || $t('offers.pricing') }}
     </LayoutButton>
   </form>
 </template>

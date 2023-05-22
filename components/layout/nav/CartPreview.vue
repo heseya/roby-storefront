@@ -8,7 +8,7 @@
           <span class="cart-preview-item__brand">{{ getProductSubtext(item) }}</span>
           <div class="cart-preview-item__summary">
             <span class="cart-preview-item__quantity"
-              >{{ $t('custom.quantity') }} {{ item.qty }}</span
+              >{{ $t('cart.quantity') }} {{ item.qty }}</span
             >
             <span class="cart-preview-item__price">
               {{ formatAmount(item.totalPrice) }}
@@ -24,11 +24,11 @@
       </div>
     </div>
     <div class="cart-preview-summary">
-      <span>{{ $t('custom.totalAmount') }}</span>
+      <span>{{ $t('orders.totalAmount') }}</span>
       <span class="cart-preview-summary__total">{{ formatAmount(cart.totalValue) }}</span>
     </div>
   </div>
-  <div v-else class="cart-preview cart-preview--empty">{{ $t('custom.emptyCart') }}</div>
+  <div v-else class="cart-preview cart-preview--empty">{{ $t('cart.empty') }}</div>
 </template>
 
 <script setup lang="ts">

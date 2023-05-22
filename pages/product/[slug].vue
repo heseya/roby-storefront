@@ -38,7 +38,7 @@
                 v-if="product"
                 :product="product"
                 type="renting"
-                :action-text="$t('custom.renting')"
+                :action-text="$t('offers.renting')"
               />
             </template>
           </LayoutTabs>
@@ -48,7 +48,7 @@
               v-if="product"
               :product="product"
               type="price"
-              :action-text="$t('custom.pricing')"
+              :action-text="$t('offers.pricing')"
             />
           </div>
         </div>
@@ -148,7 +148,7 @@ const productPurchaseTabs = computed(
     [
       { key: 'buy', label: t('tabs.buy') },
       product.value?.metadata.allow_renting
-        ? { key: 'renting', label: $t('custom.renting') }
+        ? { key: 'renting', label: $t('offers.renting') }
         : null,
     ].filter(Boolean) as Tab[],
 )

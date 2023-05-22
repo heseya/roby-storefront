@@ -2,17 +2,17 @@
   <div class="view-summary">
     <div class="view-summary__section">
       <div class="view-summary__container">
-        <div>{{ $t('custom.productsPrice') }}</div>
+        <div>{{ $t('orders.productsPrice') }}</div>
         <div>{{ formatAmount(order.cart_total) }}</div>
       </div>
       <div class="view-summary__container">
-        <div>{{ $t('custom.delivery') }}</div>
+        <div>{{ $t('orders.delivery') }}</div>
         <div>{{ formatAmount(order.shipping_price) }}</div>
       </div>
     </div>
     <div class="view-summary__section">
       <div class="view-summary__container">
-        <div>{{ $t('custom.totalAmount') }}</div>
+        <div>{{ $t('orders.totalAmount') }}</div>
         <div class="view-summary__total">
           {{ formatAmount(order.summary) }}
         </div>

@@ -27,36 +27,44 @@ export default {
     confirmAndPay: 'Potwierdzam i płacę',
     traditionalTransfer: 'Przelew tradycyjny',
     payForOrder: 'Opłać zamówienie',
+    discount: 'Oszczędzasz',
   },
 
-  custom: {
+  account: {
     myData: 'Moje dane',
     deleteAccount: 'Usuń konto',
+    login: 'Zaloguj się',
+    register: 'Zarejestruj się',
+    logout: 'Wyloguj się',
+    addresses: 'Adresy',
+    registerTitle: 'Rejestracja',
+    settings: 'Ustawienia konta',
+    noAccount: 'Nie masz konta?',
+  },
+
+  orders: {
+    title: 'Zamówienia',
+    details: 'Szczegóły Zamówienia',
     status: 'Status',
     delivery: 'Dostawa',
     totalAmount: 'Łączna kwota',
     productsPrice: 'Cena produktów',
-    wishlist: 'Lista życzeń',
-    addresses: 'Adresy',
-    login: 'Zaloguj się',
-    register: 'Zarejestruj się',
-    registerTitle: 'Rejestracja',
-    emptyCart: 'Twój koszyk jest pusty',
-    noAccount: 'Nie masz konta?',
-    discount: 'Oszczędzasz',
-    needInvoice: 'Potrzebuje fakturę VAT',
-    workingDays: 'dni roboczych',
-    showAll: 'Pokaż wszystkie',
-    conditions: 'Warunki',
-    privacy: 'Prywatność',
-    orders: 'Zamówienia',
-    orderDetails: 'Szczegóły Zamówienia',
-    logout: 'Wyloguj się',
-    cart: 'Koszyk',
+  },
+
+  offers: {
     renting: 'Zapytaj o wynajem',
     pricing: 'Zapytaj o cenę',
-    settings: 'Ustawienia konta',
+  },
+
+  cart: {
+    title: 'Koszyk',
+    empty: 'Twój koszyk jest pusty',
     quantity: 'Ilość:',
+  },
+
+  custom: {
+    workingDays: 'dni roboczych',
+    showAll: 'Pokaż wszystkie',
     search: 'Czego szukasz?',
   },
 
@@ -69,6 +77,7 @@ export default {
     backToLogin: 'Wróć do logowania',
     currentPassword: 'Aktualne hasło',
     nameAndSurname: 'Imię i nazwisko',
+    needInvoice: 'Potrzebuje fakturę VAT',
   },
 
   nav: {
@@ -80,6 +89,7 @@ export default {
   },
 
   wishlist: {
+    title: 'Lista życzeń',
     added: 'Produkt został dodany do listy życzeń.',
     removed: 'Produkt został usunięty z listy życzeń.',
     empty: 'Nie masz żadnego produktu dodanego do listy życzeń',

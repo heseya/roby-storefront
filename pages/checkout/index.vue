@@ -3,7 +3,7 @@
     <BaseContainer class="checkout-page">
       <section class="checkout-page__section">
         <div class="checkout-page__area">
-          <h2 class="checkout-page__title">{{ $t('custom.myData') }}</h2>
+          <h2 class="checkout-page__title">{{ $t('account.myData') }}</h2>
           <ClientOnly>
             <CheckoutPersonalData />
 

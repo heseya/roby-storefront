@@ -4,7 +4,7 @@
       <div class="cart-page__content">
         <div class="cart-page__cart">
           <h1 class="cart-page__title">
-            {{ $t('custom.cart') }}
+            {{ $t('cart.title') }}
             <ClientOnly>
               <span class="cart-page__subtext">({{ cart.length }})</span>
             </ClientOnly>
@@ -71,7 +71,7 @@ const suggestedQuery = computed(() => ({
 }))
 
 useSeoMeta({
-  title: () => $t('custom.cart'),
+  title: () => $t('cart.title'),
 })
 </script>
 

@@ -13,7 +13,7 @@
       </div>
     </div>
     <div class="account-order-card-header__status">
-      <b> {{ $t('custom.status') }}:</b>
+      <b> {{ $t('orders.status') }}:</b>
 
       <div
         class="account-order-card-header__status-btn"

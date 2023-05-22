@@ -1,7 +1,7 @@
 <template>
   <div class="account-order-view">
     <div class="account-order-view__section">
-      <AccountOrderDetailsContainer :header="$t('custom.delivery')">
+      <AccountOrderDetailsContainer :header="$t('orders.delivery')">
         {{ order.shipping_method?.name }}
       </AccountOrderDetailsContainer>
 

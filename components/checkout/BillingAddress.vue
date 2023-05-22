@@ -11,7 +11,7 @@
   <div class="checkout-billing-address">
     <AddressForm v-model:address="checkout.billingAddress" :invoice="checkout.invoiceRequested" />
     <FormCheckbox v-model="checkout.invoiceRequested" name="is_invoice" style="margin-top: 16px">
-      {{ $t('custom.needInvoice') }}
+      {{ $t('form.needInvoice') }}
     </FormCheckbox>
   </div>
 </template>

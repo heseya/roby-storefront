@@ -8,7 +8,7 @@
     <div v-if="activeStep" class="checkout__bar">
       <div class="checkout__bar-container">
         <div class="checkout__bar-item checkout__bar-item--filled">
-          {{ $t('custom.cart') }}
+          {{ $t('cart.title') }}
         </div>
         <div
           class="checkout__bar-item"

@@ -23,7 +23,7 @@
           <div class="account-order-card__actions">
             <NuxtLink :to="`/account/orders/${order.code}`">
               <LayoutButton variant="gray">
-                {{ $t('custom.orderDetails') }}
+                {{ $t('orders.details') }}
                 <LayoutIcon :icon="GoNextIcon" :size="8" />
               </LayoutButton>
             </NuxtLink>

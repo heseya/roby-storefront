@@ -1,7 +1,7 @@
 <template>
   <form class="register-form" disabled @submit.prevent="onSubmit">
     <LayoutLoading :active="isLoading" />
-    <h2 class="register-form__header">{{ $t('custom.registerTitle') }}</h2>
+    <h2 class="register-form__header">{{ $t('account.registerTitle') }}</h2>
     <div class="register-form__container">
       <FormInput
         v-model="form.values.name"
@@ -60,7 +60,7 @@
         :disabled="isFormDisabled"
         html-type="submit"
         class="register-form__btn"
-        :label="$t('custom.register')"
+        :label="$t('account.register')"
       />
     </div>
   </form>

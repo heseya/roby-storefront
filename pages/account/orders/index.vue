@@ -4,7 +4,7 @@
 
     <LayoutAccount v-if="orders" class="account-orders">
       <template #header>
-        {{ $t('custom.orders') }}
+        {{ $t('orders.title') }}
       </template>
       <LayoutEmpty v-if="orders.data.length === 0" class="account-order-card__empty">
         {{ t('empty') }}
@@ -40,7 +40,7 @@ const route = useRoute()
 const heseya = useHeseya()
 
 useSeoMeta({
-  title: () => $t('custom.orders'),
+  title: () => $t('orders.title'),
 })
 
 definePageMeta({
@@ -53,7 +53,7 @@ const lastPage = computed(() => Math.ceil((orders.value?.pagination.total ?? 1) 
 
 const breadcrumbs = computed(() => [
   { label: $t('breadcrumbs.account'), link: '/account' },
-  { label: $t('custom.orders'), link: '/account/orders' },
+  { label: $t('orders.title'), link: '/account/orders' },
 ])
 
 const errorMessage = ref('')

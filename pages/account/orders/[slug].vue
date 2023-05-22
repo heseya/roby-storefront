@@ -3,7 +3,7 @@
     <LayoutBreadcrumpsProvider :breadcrumbs="breadcrumbs" />
     <LayoutAccount v-if="order" class="account-order">
       <template #header>
-        {{ $t('custom.orderDetails') }}
+        {{ $t('orders.details') }}
       </template>
       <template #text>
         <AccountOrderCardHeader
@@ -41,14 +41,14 @@ definePageMeta({
 })
 
 useSeoMeta({
-  title: () => $t('custom.orderDetails'),
+  title: () => $t('orders.details'),
 })
 
 const errorMessage = ref('')
 
 const breadcrumbs = computed(() => [
   { label: $t('breadcrumbs.account'), link: '/account' },
-  { label: $t('custom.orders'), link: '/account/orders' },
+  { label: $t('orders.title'), link: '/account/orders' },
   { label: `${t('route')}${orderNumber.value}`, link: `/account/orders/${orderNumber.value}` },
 ])
 

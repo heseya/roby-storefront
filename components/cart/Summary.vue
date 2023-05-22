@@ -1,17 +1,17 @@
 <template>
   <div class="cart-summary" :class="{ 'cart-summary--disabled': disabled }">
     <div class="cart-summary__item">
-      <div class="cart-summary__label">{{ $t('custom.productsPrice') }}</div>
+      <div class="cart-summary__label">{{ $t('orders.productsPrice') }}</div>
       <div class="cart-summary__value">{{ formatAmount(cart.totalValueInitial) }}</div>
     </div>
 
     <div v-if="cart.totalDiscountValue > 0" class="cart-summary__item cart-summary__item--green">
-      <div class="cart-summary__label">{{ $t('custom.discount') }}</div>
+      <div class="cart-summary__label">{{ $t('payments.discount') }}</div>
       <div class="cart-summary__value">{{ formatAmount(cart.totalDiscountValue) }}</div>
     </div>
 
     <div class="cart-summary__item">
-      <div class="cart-summary__label">{{ $t('custom.delivery') }}</div>
+      <div class="cart-summary__label">{{ $t('orders.delivery') }}</div>
       <div class="cart-summary__value">
         {{ t('summary.from') }} {{ formatAmount(cheapestShippingMethodPrice || 0) }}
       </div>
@@ -20,7 +20,7 @@
     <hr class="hr cart-summary__line" />
 
     <div class="cart-summary__item">
-      <div class="cart-summary__label">{{ $t('custom.totalAmount') }}</div>
+      <div class="cart-summary__label">{{ $t('orders.totalAmount') }}</div>
       <div class="cart-summary__value cart-summary__value--big">
         {{ formatAmount(cart.totalValue) }}
       </div>

@@ -4,7 +4,7 @@
 
     <LayoutAccount>
       <template #header>
-        {{ $t('custom.wishlist') }}
+        {{ $t('wishlist.title') }}
       </template>
       <div class="account-wishlist">
         <WishlistView small />
@@ -32,12 +32,12 @@ watch(
 )
 
 useSeoMeta({
-  title: () => $t('custom.wishlist'),
+  title: () => $t('wishlist.title'),
 })
 
 const breadcrumbs = computed(() => [
   { label: $t('breadcrumbs.account'), link: '/account' },
-  { label: $t('custom.wishlist'), link: '/account/wishlist' },
+  { label: $t('wishlist.title'), link: '/account/wishlist' },
 ])
 </script>
 

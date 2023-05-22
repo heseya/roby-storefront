@@ -34,28 +34,28 @@
             <LayoutIconButton
               class="nav-link-button__button"
               :icon="Profile"
-              :label="auth.isLogged ? $t('breadcrumbs.account') : $t('custom.login')"
+              :label="auth.isLogged ? $t('breadcrumbs.account') : $t('account.login')"
               is-resize
             />
           </NuxtLink>
           <div v-if="auth.isLogged" class="nav-link-button__list">
             <NuxtLink class="nav-link-button__list-item" :to="localePath('/account/orders')">
-              {{ $t('custom.orders') }}
+              {{ $t('orders.title') }}
             </NuxtLink>
             <NuxtLink class="nav-link-button__list-item" :to="localePath('/account/settings')">
-              {{ $t('custom.settings') }}
+              {{ $t('account.settings') }}
             </NuxtLink>
             <NuxtLink class="nav-link-button__list-item" :to="localePath('/account/addresses')">
-              {{ $t('custom.addresses') }}
+              {{ $t('account.addresses') }}
             </NuxtLink>
             <NuxtLink class="nav-link-button__list-item" :to="localePath('/account/wishlist')">
-              {{ $t('custom.wishlist') }}
+              {{ $t('wishlist.title') }}
             </NuxtLink>
             <button
               class="nav-link-button__list-item nav-link-button__list-item--logout"
               @click="onLogout"
             >
-              {{ $t('custom.logout') }}
+              {{ $t('account.logout') }}
             </button>
           </div>
         </div>
@@ -66,7 +66,7 @@
           <LayoutIconButton
             class="nav-link-button__button"
             :icon="Favorite"
-            :label="$t('custom.wishlist')"
+            :label="$t('wishlist.title')"
             :count="wishlist.quantity"
             is-resize
           />
@@ -76,7 +76,7 @@
             <LayoutIconButton
               class="nav-link-button__button"
               :icon="Shopping"
-              :label="$t('custom.cart')"
+              :label="$t('cart.title')"
               :count="cart.length"
               is-resize
             />

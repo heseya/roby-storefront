@@ -9,7 +9,7 @@
 
     <div v-if="cart.totalDiscountValue !== 0" class="checkout-summary-item">
       <span class="checkout-summary-item__text checkout-summary-item__text--green">
-        {{ $t('custom.discount') }}
+        {{ $t('payments.discount') }}
       </span>
       <span class="checkout-summary-item__text checkout-summary-item__text--green">
         {{ formatAmount(-cart.totalDiscountValue) }}
@@ -17,14 +17,14 @@
     </div>
 
     <div class="checkout-summary-item">
-      <span class="checkout-summary-item__text">{{ $t('custom.delivery') }}</span>
+      <span class="checkout-summary-item__text">{{ $t('orders.delivery') }}</span>
       <span class="checkout-summary-item__text"> {{ formatAmount(cart.shippingPrice) }} </span>
     </div>
 
     <hr class="checkout-summary__hr hr" />
 
     <div class="checkout-summary-item">
-      <span class="checkout-summary-item__text">{{ $t('custom.totalAmount') }}</span>
+      <span class="checkout-summary-item__text">{{ $t('orders.totalAmount') }}</span>
       <span class="checkout-summary-item__text checkout-summary-item__text--big">
         {{ formatAmount(cart.summary) }}
       </span>

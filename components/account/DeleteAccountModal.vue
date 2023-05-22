@@ -4,7 +4,7 @@
     :values="form.values"
     :header="t('header')"
     :error="error"
-    :ok-text="$t('custom.deleteAccount')"
+    :ok-text="$t('account.deleteAccount')"
     @submit="onSubmit"
   >
     <p class="delete-account-modal__question">{{ t('question') }}</p>

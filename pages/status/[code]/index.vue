@@ -1,14 +1,14 @@
 <template>
   <NuxtLayout name="checkout">
     <div class="status-page">
-      <h1 class="status-page__title">{{ $t('custom.orderDetails') }}</h1>
+      <h1 class="status-page__title">{{ $t('orders.details') }}</h1>
 
       <div class="status-page__field">
         <span class="status-page__field-label">{{ t('fields.number') }}:</span>
         <span class="status-page__field-value blue-text">{{ orderCode }}</span>
       </div>
       <div class="status-page__field">
-        <span class="status-page__field-label">{{ $t('custom.status') }}:</span>
+        <span class="status-page__field-label">{{ $t('orders.status') }}:</span>
         <span class="status-page__field-value" :style="{ color: `#${order?.status.color}` }">
           {{ order?.status.name }}
         </span>
@@ -74,7 +74,7 @@ const { data: order } = useAsyncData(`order-summary-${orderCode}`, async () => {
 const isPayable = computed(() => order.value?.payable || false)
 
 useSeoMeta({
-  title: () => $t('custom.orderDetails'),
+  title: () => $t('orders.details'),
 })
 </script>
 

@@ -2,7 +2,7 @@
   <LayoutModal v-model:open="isModalVisible" :closeable="false" :box="true">
     <div class="login-block">
       <div>
-        <h2 class="login-block__header">{{ $t('custom.login') }}</h2>
+        <h2 class="login-block__header">{{ $t('account.login') }}</h2>
         <AuthLoginForm class="login-block__login" @login="router.push('/checkout')" />
       </div>
 
@@ -20,9 +20,9 @@
         <div class="login-block__register">
           <LayoutSpacer />
           <div>
-            <h2 class="login-block__header">{{ $t('custom.noAccount') }}</h2>
+            <h2 class="login-block__header">{{ $t('account.noAccount') }}</h2>
             <NuxtLink to="/register">
-              <LayoutButton class="login-block__register-btn" :label="$t('custom.register')" />
+              <LayoutButton class="login-block__register-btn" :label="$t('account.register')" />
             </NuxtLink>
           </div>
         </div>

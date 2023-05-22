@@ -23,10 +23,10 @@ watch(
 )
 
 useSeoMeta({
-  title: () => $t('custom.wishlist'),
+  title: () => $t('wishlist.title'),
 })
 
-const breadcrumbs = computed(() => [{ label: $t('custom.wishlist'), link: '/wishlist' }])
+const breadcrumbs = computed(() => [{ label: $t('wishlist.title'), link: '/wishlist' }])
 </script>
 
 <style lang="scss" scoped>

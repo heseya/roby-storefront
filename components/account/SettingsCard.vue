@@ -1,6 +1,6 @@
 <template>
   <div v-if="!errorMessage" class="settings-card">
-    <h4 class="settings-card__header">{{ $t('custom.myData') }}</h4>
+    <h4 class="settings-card__header">{{ $t('account.myData') }}</h4>
     <div class="settings-card__container">
       <p>{{ user?.name }}</p>
       <p>{{ user?.email }}</p>
@@ -31,7 +31,7 @@
       />
     </div>
     <div class="settings-card__delete-account" @click="isDeleteAccountModalVisible = true">
-      {{ $t('custom.deleteAccount') }}
+      {{ $t('account.deleteAccount') }}
     </div>
   </div>
 
