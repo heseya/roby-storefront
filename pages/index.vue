@@ -47,25 +47,17 @@
   </NuxtLayout>
 </template>
 
-<i18n lang="json">
-{
-  "pl": {
-    "title": "Strona główna"
-  }
-}
-</i18n>
-
 <script setup lang="ts">
 import { ProductSetList } from '@heseya/store-core'
 import { LinkBox } from '~~/components/home/LinkBox.vue'
 
-const t = useLocalI18n()
+const $t = useGlobalI18n()
 const heseya = useHeseya()
 
 type Section = { type: 'set'; data: ProductSetList } | { type: 'box'; data: LinkBox }
 
 useSeoMeta({
-  title: () => t('title'),
+  title: () => $t('breadcrumbs.account'),
 })
 
 const { data } = useAsyncData('main-banner', async () => {

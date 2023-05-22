@@ -16,8 +16,8 @@
   "pl": {
     "recaptcha": {
       "message": "Ta strona korzysta z zabezpieczenia Google reCAPTCHa",
-      "privacy": "Prywatność",
-      "conditions": "Warunki"
+      "conditions": "Warunki",
+      "privacy": "Prywatność"
     }
   }
 }

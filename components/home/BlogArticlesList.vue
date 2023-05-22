@@ -2,7 +2,9 @@
   <div class="blog-articles">
     <BaseContainer>
       <div class="blog-articles__header">
-        <LayoutHeader class="blog-articles__title" variant="black">{{ t('blog') }}</LayoutHeader>
+        <LayoutHeader class="blog-articles__title" variant="black">{{
+          $t('breadcrumbs.blog')
+        }}</LayoutHeader>
         <HomeShowAllButton path="/blog" />
       </div>
     </BaseContainer>
@@ -18,15 +20,8 @@
   </div>
 </template>
 
-<i18n lang="json">
-{
-  "pl": {
-    "blog": "Blog"
-  }
-}
-</i18n>
-
 <script lang="ts" setup>
+const $t = useGlobalI18n()
 const directus = useDirectus()
 const { data: articles } = useAsyncData('home-blog-articles', () => {
   return directus.items('Articles').readByQuery({
@@ -45,8 +40,6 @@ const { data: articles } = useAsyncData('home-blog-articles', () => {
     } as any, // this any exists because of directus weird typing
   })
 })
-
-const t = useLocalI18n()
 </script>
 
 <style lang="scss" scoped>

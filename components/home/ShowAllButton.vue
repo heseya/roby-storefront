@@ -1,17 +1,9 @@
 <template>
   <NuxtLink :to="localePath(`${path}`)" class="show-all">
-    <span class="show-all__label">{{ t('showAll') }}</span>
+    <span class="show-all__label">{{ $t('custom.showAll') }}</span>
     <LayoutIcon :icon="ArrowNext" :size="8" />
   </NuxtLink>
 </template>
-
-<i18n lang="json">
-{
-  "pl": {
-    "showAll": "Pokaż wszystkie"
-  }
-}
-</i18n>
 
 <script lang="ts" setup>
 import ArrowNext from '@/assets/icons/chevron.svg?component'
@@ -20,7 +12,7 @@ defineProps<{
   path: string
 }>()
 
-const t = useLocalI18n()
+const $t = useGlobalI18n()
 const localePath = useLocalePath()
 </script>
 

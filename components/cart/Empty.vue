@@ -2,7 +2,7 @@
   <div class="cart-empty">
     <div class="cart-empty__row">
       <LayoutIcon class="cart-empty__icon" :icon="CartIcon" :size="24" />
-      <span class="cart-empty__text">{{ t('title') }}</span>
+      <span class="cart-empty__text">{{ $t('cart.empty') }}</span>
     </div>
 
     <NuxtLink to="/">
@@ -14,7 +14,6 @@
 <i18n lang="json">
 {
   "pl": {
-    "title": "Twój koszyk jest pusty",
     "btn": "Wróć do sklepu"
   }
 }
@@ -24,6 +23,7 @@
 import CartIcon from '@/assets/icons/shopping.svg?component'
 
 const t = useLocalI18n()
+const $t = useGlobalI18n()
 </script>
 
 <style lang="scss" scoped>

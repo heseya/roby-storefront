@@ -41,7 +41,7 @@ import {
 import { EMPTY_ADDRESS } from '~/consts/address'
 
 const t = useLocalI18n()
-const { t: $t } = useI18n({ useScope: 'global' })
+const $t = useGlobalI18n()
 const formatError = useErrorMessage()
 const { notify } = useNotify()
 

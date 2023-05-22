@@ -8,7 +8,7 @@
     <div v-if="activeStep" class="checkout__bar">
       <div class="checkout__bar-container">
         <div class="checkout__bar-item checkout__bar-item--filled">
-          {{ t('cart') }}
+          {{ $t('cart.title') }}
         </div>
         <div
           class="checkout__bar-item"
@@ -34,7 +34,6 @@
 <i18n lang="json">
 {
   "pl": {
-    "cart": "Koszyk",
     "checkout": "Dostawa i płatność",
     "finished": "Gotowe"
   }
@@ -51,6 +50,7 @@ useCartStore()
 const route = useRoute()
 const config = useConfigStore()
 const t = useLocalI18n()
+const $t = useGlobalI18n()
 
 enum CheckoutStep {
   Cart = 'cart',

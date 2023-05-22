@@ -1,6 +1,6 @@
 <template>
   <BaseContainer class="wishlist-view">
-    <LayoutEmpty v-if="wishlist.products.length === 0"> {{ t('empty') }} </LayoutEmpty>
+    <LayoutEmpty v-if="wishlist.products.length === 0"> {{ $t('wishlist.empty') }} </LayoutEmpty>
 
     <div v-if="wishlist.products.length > 0" class="wishlist-view__items">
       <ProductMiniature
@@ -14,18 +14,10 @@
   </BaseContainer>
 </template>
 
-<i18n lang="json">
-{
-  "pl": {
-    "empty": "Nie masz żadnego produktu dodanego do listy życzeń"
-  }
-}
-</i18n>
-
 <script setup lang="ts">
 import { useWishlistStore } from '@/store/wishlist'
 
-const t = useLocalI18n()
+const $t = useGlobalI18n()
 const wishlist = useWishlistStore()
 </script>
 

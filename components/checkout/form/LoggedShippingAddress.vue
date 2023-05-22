@@ -1,8 +1,12 @@
 <template>
-  <CheckoutAddressCard :title="t('title')" :address="checkout.shippingAddress" @edit="handleEdit" />
+  <CheckoutAddressCard
+    :title="$t('payments.deliveryAddress')"
+    :address="checkout.shippingAddress"
+    @edit="handleEdit"
+  />
 
   <CheckoutAddressModal
-    :title="t('title')"
+    :title="$t('payments.deliveryAddress')"
     :open="isEditOpen"
     @update:open="(v) => (isEditOpen = v)"
     @save="onSave"
@@ -11,19 +15,11 @@
   </CheckoutAddressModal>
 </template>
 
-<i18n lang="json">
-{
-  "pl": {
-    "title": "Adres dostawy"
-  }
-}
-</i18n>
-
 <script setup lang="ts">
 import clone from 'lodash/clone'
 import { useCheckoutStore } from '~/store/checkout'
 
-const t = useLocalI18n()
+const $t = useGlobalI18n()
 const checkout = useCheckoutStore()
 const { defaultAddress } = useUserShippingAddresses()
 

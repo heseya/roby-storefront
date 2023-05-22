@@ -5,7 +5,7 @@
     <BaseContainer>
       <LayoutLoading :active="pending" />
 
-      <h1 class="blog__title">{{ t('blog') }}</h1>
+      <h1 class="blog__title">{{ $t('breadcrumbs.blog') }}</h1>
       <div class="blog">
         <div class="blog__tags">
           <BlogTag :link="localePath(`/blog`)" :class="route.query.tag ? '' : 'blog-tag--active'">
@@ -40,7 +40,6 @@
 <i18n lang="json">
 {
   "pl": {
-    "blog": "Blog",
     "empty": "Brak postów do wyświetlenia",
     "all": "Wszystkie"
   }
@@ -52,7 +51,7 @@ const route = useRoute()
 const router = useRouter()
 const directus = useDirectus()
 const t = useLocalI18n()
-const { t: $t } = useI18n({ useScope: 'global' })
+const $t = useGlobalI18n()
 const localePath = useLocalePath()
 
 const limit = 6
@@ -111,7 +110,7 @@ const changePage = (page: number | string) => {
 }
 
 useSeoMeta({
-  title: () => t('blog'),
+  title: () => $t('breadcrumbs.blog'),
 })
 
 const breadcrumbs = computed(() => [{ label: $t('breadcrumbs.blog'), link: `/blog` }])

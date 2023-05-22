@@ -1,7 +1,7 @@
 <template>
   <form class="register-form" disabled @submit.prevent="onSubmit">
     <LayoutLoading :active="isLoading" />
-    <h2 class="register-form__header">{{ t('form.header') }}</h2>
+    <h2 class="register-form__header">{{ $t('account.registerTitle') }}</h2>
     <div class="register-form__container">
       <FormInput
         v-model="form.values.name"
@@ -60,7 +60,7 @@
         :disabled="isFormDisabled"
         html-type="submit"
         class="register-form__btn"
-        :label="t('form.register')"
+        :label="$t('account.register')"
       />
     </div>
   </form>
@@ -70,8 +70,6 @@
 {
   "pl": {
     "form": {
-      "header": "Rejestracja",
-      "register": "Zarejestruj się",
       "name": "Imię",
       "surname": "Nazwisko"
     }
@@ -84,7 +82,7 @@ import { User, UserConsentDto, UserRegisterDto } from '@heseya/store-core'
 import { useForm } from 'vee-validate'
 
 const t = useLocalI18n()
-const { t: $t } = useI18n({ useScope: 'global' })
+const $t = useGlobalI18n()
 const heseya = useHeseya()
 const formatError = useErrorMessage()
 

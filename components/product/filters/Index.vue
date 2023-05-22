@@ -14,7 +14,7 @@
       <FormInputLabel label-uppercase> {{ t('price') }} </FormInputLabel>
 
       <div class="product-filters__row">
-        <span> {{ t('from') }} </span>
+        <span> {{ $t('common.from') }} </span>
         <FormInput
           type="gray"
           html-type="number"
@@ -24,7 +24,7 @@
           label-uppercase
           @update:model-value="(v) => updateKey('price.min', v)"
         />
-        <span> {{ t('to') }} </span>
+        <span> {{ $t('common.to') }} </span>
         <FormInput
           type="gray"
           html-type="number"
@@ -51,9 +51,7 @@
 {
   "pl": {
     "title": "Filtry",
-    "price": "Cena",
-    "from": "Od",
-    "to": "do"
+    "price": "Cena"
   }
 }
 </i18n>
@@ -79,6 +77,7 @@ const emit = defineEmits<{
 
 const heseya = useHeseya()
 const t = useLocalI18n()
+const $t = useGlobalI18n()
 
 const { data: attributes } = useLazyAsyncData(async () => {
   // TODO: add support for date and number attributes

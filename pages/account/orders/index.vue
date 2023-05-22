@@ -4,7 +4,7 @@
 
     <LayoutAccount v-if="orders" class="account-orders">
       <template #header>
-        {{ t('title') }}
+        {{ $t('orders.title') }}
       </template>
       <LayoutEmpty v-if="orders.data.length === 0" class="account-order-card__empty">
         {{ t('empty') }}
@@ -26,7 +26,6 @@
 <i18n lang="json">
 {
   "pl": {
-    "title": "Zamówienia",
     "empty": "Nie masz żadnego zamówienia"
   }
 }
@@ -34,14 +33,14 @@
 
 <script setup lang="ts">
 const t = useLocalI18n()
+const $t = useGlobalI18n()
 const formatError = useErrorMessage()
 const router = useRouter()
 const route = useRoute()
 const heseya = useHeseya()
-const { t: $t } = useI18n({ useScope: 'global' })
 
 useSeoMeta({
-  title: () => t('title'),
+  title: () => $t('orders.title'),
 })
 
 definePageMeta({
@@ -54,7 +53,7 @@ const lastPage = computed(() => Math.ceil((orders.value?.pagination.total ?? 1) 
 
 const breadcrumbs = computed(() => [
   { label: $t('breadcrumbs.account'), link: '/account' },
-  { label: t('title'), link: '/account/orders' },
+  { label: $t('orders.title'), link: '/account/orders' },
 ])
 
 const errorMessage = ref('')
