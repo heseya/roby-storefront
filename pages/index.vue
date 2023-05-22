@@ -99,12 +99,11 @@ const sections = computed<Section[]>(() => {
       data: set,
     })) || []
 
-  const boxes = offertsBanner.value
-    ? offertsBanner.value.map((box) => ({
-        type: 'box' as const,
-        data: box,
-      }))
-    : []
+  const boxes =
+    offertsBanner.value?.map((box) => ({
+      type: 'box' as const,
+      data: box,
+    })) || []
 
   const length = Math.max(sets.length, boxes.length)
   return Array.from({ length }, (_, i) => [sets[i], boxes[i]])
