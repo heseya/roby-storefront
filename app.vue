@@ -16,7 +16,6 @@
 
 <script setup lang="ts">
 import { useConfigStore } from './store/config'
-import ShopOff from '~/components/ShopOff.vue'
 
 const { showColorThemePicker } = usePublicRuntimeConfig()
 
