@@ -7,11 +7,14 @@ export type DirectusCollections = {
 }
 
 export default defineNuxtPlugin((nuxtApp) => {
-  if (nuxtApp.$config.public.directusUrl) {
-    const directus = new Directus<DirectusCollections>(nuxtApp.$config.public.directusUrl)
+  const directus = new Directus<DirectusCollections>(nuxtApp.$config.public.directusUrl)
 
-    return {
-      provide: { directus },
-    }
+  if (!directus.url) {
+    // eslint-disable-next-line no-console
+    console.warn('Directus has not been properly connected')
+  }
+
+  return {
+    provide: { directus },
   }
 })

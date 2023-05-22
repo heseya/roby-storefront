@@ -43,7 +43,7 @@
     "blog": "Blog",
     "empty": "Brak postów do wyświetlenia",
     "all": "Wszystkie",
-    "error": "Nie udało się pobrać blogów"
+    "error": "Wystąpił błąd podczas wczytywania listy blogów"
   }
 }
 </i18n>
@@ -59,6 +59,12 @@ const directus = useDirectus()
 const limit = 6
 const page = computed(() => Number(route.query.page ?? 1))
 const lastPage = computed(() => Math.ceil((articles.value?.meta?.filter_count ?? 1) / limit))
+
+useAsyncData(async () => {
+  if (!directus.url) {
+    await showError({ message: t('error'), statusCode: 404 })
+  }
+})
 
 const {
   data: articles,
