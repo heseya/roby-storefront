@@ -74,7 +74,7 @@ const isModalVisible = computed({
 
   @media ($viewport-7) {
     grid-template-columns: 1fr 0.1fr 1fr;
-    gap: 40px;
+    gap: 10px;
     background-color: $gray-color-100;
   }
 
