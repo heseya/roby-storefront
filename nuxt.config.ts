@@ -1,11 +1,10 @@
-import cloneDeep from 'lodash/cloneDeep'
 import { NuxtPage } from 'nuxt/schema'
 import svgLoader from 'vite-svg-loader'
-import { removePagesByName } from './utils/removePages'
+import { removePageByName } from './utils/removePageByName'
 
 const {
   API_URL = 'https://demo-***REMOVED***.***REMOVED***',
-  DIRECTUS_URL,
+  DIRECTUS_URL = 'https://blog-***REMOVED***.heseya.pl',
   PRICE_TRACKER_URL = 'https://main-price-tracker.app.***REMOVED***',
   ENVIRONMENT = 'development',
   APP_HOST,
@@ -68,17 +67,11 @@ export default defineNuxtConfig({
 
   hooks: {
     'pages:extend'(pages) {
-      const pagesToDeleted = []
-      let filteredPages: NuxtPage[] = cloneDeep(pages)
+      const pagesToRemove: string[] = []
 
-      if (!DIRECTUS_URL) pagesToDeleted.push('blog')
+      if (!DIRECTUS_URL) pagesToRemove.push('blog')
 
-      filteredPages = pagesToDeleted.reduce(
-        (acc, page) => removePagesByName<NuxtPage>(page, acc),
-        filteredPages,
-      )
-
-      pages = filteredPages
+      pagesToRemove.forEach((page) => removePageByName<NuxtPage>(page, pages))
     },
   },
 
