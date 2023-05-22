@@ -8,7 +8,7 @@
 <script setup lang="ts">
 import { useCheckoutStore } from '~/store/checkout'
 
-const { t: $t } = useI18n({ useScope: 'global' })
+const $t = useGlobalI18n()
 const checkout = useCheckoutStore()
 </script>
 

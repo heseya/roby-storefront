@@ -28,7 +28,7 @@ withDefaults(
   },
 )
 
-const { t: $t } = useI18n({ useScope: 'global' })
+const $t = useGlobalI18n()
 
 const emit = defineEmits<{
   (event: 'update:quantity', value: number): void

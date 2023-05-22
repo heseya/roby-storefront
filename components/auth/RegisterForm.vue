@@ -82,7 +82,7 @@ import { User, UserConsentDto, UserRegisterDto } from '@heseya/store-core'
 import { useForm } from 'vee-validate'
 
 const t = useLocalI18n()
-const { t: $t } = useI18n({ useScope: 'global' })
+const $t = useGlobalI18n()
 const heseya = useHeseya()
 const formatError = useErrorMessage()
 

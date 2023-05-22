@@ -36,7 +36,7 @@
 
 <script setup lang="ts">
 const t = useLocalI18n()
-const { t: $t } = useI18n({ useScope: 'global' })
+const $t = useGlobalI18n()
 
 defineProps<{
   code: string

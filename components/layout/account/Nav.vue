@@ -26,7 +26,7 @@
 import GoNextIcon from '@/assets/icons/navigate-next.svg?component'
 import { useAuthStore } from '@/store/auth'
 
-const { t: $t } = useI18n({ useScope: 'global' })
+const $t = useGlobalI18n()
 const t = useLocalI18n()
 const auth = useAuthStore()
 

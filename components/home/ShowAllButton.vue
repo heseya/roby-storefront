@@ -12,7 +12,7 @@ defineProps<{
   path: string
 }>()
 
-const { t: $t } = useI18n({ useScope: 'global' })
+const $t = useGlobalI18n()
 const localePath = useLocalePath()
 </script>
 

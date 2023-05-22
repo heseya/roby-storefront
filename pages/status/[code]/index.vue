@@ -55,7 +55,7 @@
 
 <script setup lang="ts">
 const t = useLocalI18n()
-const { t: $t } = useI18n({ useScope: 'global' })
+const $t = useGlobalI18n()
 const route = useRoute()
 
 const orderCode = computed(() => route.params.code as string)

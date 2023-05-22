@@ -135,7 +135,7 @@ import { SearchValues } from '@/components/layout/nav/Search.vue'
 import { useSearchHistoryStore } from '@/store/searchHistory'
 
 const t = useLocalI18n()
-const { t: $t } = useI18n({ useScope: 'global' })
+const $t = useGlobalI18n()
 const localePath = useLocalePath()
 const heseya = useHeseya()
 const router = useRouter()

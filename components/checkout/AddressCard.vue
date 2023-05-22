@@ -21,7 +21,7 @@
 import { Address } from '@heseya/store-core'
 import PencilLine from '@/assets/icons/pencil-line-filled.svg?component'
 
-const { t: $t } = useI18n({ useScope: 'global' })
+const $t = useGlobalI18n()
 
 defineProps<{
   address: Address

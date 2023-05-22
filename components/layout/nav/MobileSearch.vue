@@ -30,7 +30,7 @@ import ArrowBack from '@/assets/icons/arrow-back.svg?component'
 import { SearchValues } from '@/components/layout/nav/Search.vue'
 import { useSearchHistoryStore } from '@/store/searchHistory'
 
-const { t: $t } = useI18n({ useScope: 'global' })
+const $t = useGlobalI18n()
 
 const searchHistory = useSearchHistoryStore()
 

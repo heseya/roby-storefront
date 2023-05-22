@@ -50,7 +50,7 @@ const route = useRoute()
 const auth = useAuthStore()
 
 const t = useLocalI18n()
-const { t: $t } = useI18n({ useScope: 'global' })
+const $t = useGlobalI18n()
 
 const orderCode = computed(() => route.query.code as string)
 

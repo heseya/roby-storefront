@@ -36,7 +36,7 @@ import { useUserStore } from '@/store/user'
 const { notify } = useNotify()
 
 const t = useLocalI18n()
-const { t: $t } = useI18n({ useScope: 'global' })
+const $t = useGlobalI18n()
 const heseya = useHeseya()
 
 const props = defineProps<{

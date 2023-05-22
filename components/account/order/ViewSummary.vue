@@ -24,7 +24,7 @@
 <script setup lang="ts">
 import { Order } from '@heseya/store-core'
 
-const { t: $t } = useI18n({ useScope: 'global' })
+const $t = useGlobalI18n()
 
 defineProps<{
   order: Order

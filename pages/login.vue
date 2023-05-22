@@ -52,7 +52,7 @@ import Check from '@/assets/icons/check-2.svg?component'
 import { useAuthStore } from '@/store/auth'
 
 const t = useLocalI18n()
-const { t: $t } = useI18n({ useScope: 'global' })
+const $t = useGlobalI18n()
 const router = useRouter()
 const route = useRoute()
 const auth = useAuthStore()

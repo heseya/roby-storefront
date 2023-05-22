@@ -59,7 +59,7 @@ import { useCartStore } from '@/store/cart'
 
 const cart = useCartStore()
 const t = useLocalI18n()
-const { t: $t } = useI18n({ useScope: 'global' })
+const $t = useGlobalI18n()
 
 const isCartEmpty = computed(() => cart.length === 0)
 

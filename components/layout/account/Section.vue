@@ -17,7 +17,7 @@
 
 <script setup lang="ts">
 import GoNextIcon from '@/assets/icons/navigate-next.svg?component'
-const { t: $t } = useI18n({ useScope: 'global' })
+const $t = useGlobalI18n()
 
 defineProps<{
   header: string

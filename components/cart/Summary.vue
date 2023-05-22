@@ -81,7 +81,7 @@ withDefaults(
 
 const cart = useCartStore()
 const t = useLocalI18n()
-const { t: $t } = useI18n({ useScope: 'global' })
+const $t = useGlobalI18n()
 const config = useConfigStore()
 const auth = useAuthStore()
 const router = useRouter()

@@ -64,7 +64,7 @@ import Successful from '@/assets/icons/mark-circle.svg?component'
 import Failed from '@/assets/icons/x-mark-circle.svg?component'
 import Pending from '@/assets/icons/pending.svg?component'
 const t = useLocalI18n()
-const { t: $t } = useI18n({ useScope: 'global' })
+const $t = useGlobalI18n()
 
 const props = defineProps<{
   order: Order

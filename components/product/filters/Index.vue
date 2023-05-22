@@ -77,7 +77,7 @@ const emit = defineEmits<{
 
 const heseya = useHeseya()
 const t = useLocalI18n()
-const { t: $t } = useI18n({ useScope: 'global' })
+const $t = useGlobalI18n()
 
 const { data: attributes } = useLazyAsyncData(async () => {
   // TODO: add support for date and number attributes

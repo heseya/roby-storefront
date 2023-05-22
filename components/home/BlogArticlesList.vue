@@ -21,7 +21,7 @@
 </template>
 
 <script lang="ts" setup>
-const { t: $t } = useI18n({ useScope: 'global' })
+const $t = useGlobalI18n()
 const directus = useDirectus()
 const { data: articles } = useAsyncData('home-blog-articles', () => {
   return directus.items('Articles').readByQuery({

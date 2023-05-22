@@ -17,7 +17,7 @@
 <script setup lang="ts">
 import { useWishlistStore } from '@/store/wishlist'
 
-const { t: $t } = useI18n({ useScope: 'global' })
+const $t = useGlobalI18n()
 const wishlist = useWishlistStore()
 </script>
 

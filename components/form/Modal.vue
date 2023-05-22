@@ -24,7 +24,7 @@
 
 <script setup lang="ts">
 import { useForm } from 'vee-validate'
-const { t: $t } = useI18n({ useScope: 'global' })
+const $t = useGlobalI18n()
 const formatError = useErrorMessage()
 
 const props = defineProps<{

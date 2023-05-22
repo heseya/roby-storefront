@@ -59,7 +59,7 @@ import PencilLine from '@/assets/icons/pencil-line-filled.svg?component'
 import { useUserStore } from '@/store/user'
 
 const t = useLocalI18n()
-const { t: $t } = useI18n({ useScope: 'global' })
+const $t = useGlobalI18n()
 const formatError = useErrorMessage()
 const { notify } = useNotify()
 const heseya = useHeseya()

@@ -63,7 +63,7 @@
 import { useWishlistStore } from '@/store/wishlist'
 
 const t = useLocalI18n()
-const { t: $t } = useI18n({ useScope: 'global' })
+const $t = useGlobalI18n()
 
 useSeoMeta({
   title: () => $t('breadcrumbs.account'),

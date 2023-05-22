@@ -38,7 +38,7 @@ import { ProductList } from '@heseya/store-core'
 import { getProductSubtext } from '@/utils/product'
 import { ASK_FOR_PRICE_KEY } from '@/consts/metadataKeys'
 
-const { t: $t } = useI18n({ useScope: 'global' })
+const $t = useGlobalI18n()
 const localePath = useLocalePath()
 
 const props = defineProps<{

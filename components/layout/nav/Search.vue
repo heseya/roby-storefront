@@ -47,7 +47,7 @@ export interface SearchValues {
 }
 
 const t = useLocalI18n()
-const { t: $t } = useI18n({ useScope: 'global' })
+const $t = useGlobalI18n()
 const searchHistory = useSearchHistoryStore()
 
 const historyRef = ref(null)

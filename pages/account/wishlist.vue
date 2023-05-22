@@ -16,7 +16,7 @@
 <script setup lang="ts">
 import { useAuthStore } from '~/store/auth'
 
-const { t: $t } = useI18n({ useScope: 'global' })
+const $t = useGlobalI18n()
 
 definePageMeta({
   middleware: 'auth',

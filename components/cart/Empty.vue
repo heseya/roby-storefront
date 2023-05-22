@@ -23,7 +23,7 @@
 import CartIcon from '@/assets/icons/shopping.svg?component'
 
 const t = useLocalI18n()
-const { t: $t } = useI18n({ useScope: 'global' })
+const $t = useGlobalI18n()
 </script>
 
 <style lang="scss" scoped>

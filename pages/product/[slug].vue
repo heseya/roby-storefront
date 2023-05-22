@@ -124,7 +124,7 @@ import { getProductSubtext } from '@/utils/product'
 const heseya = useHeseya()
 const route = useRoute()
 const t = useLocalI18n()
-const { t: $t } = useI18n({ useScope: 'global' })
+const $t = useGlobalI18n()
 
 const { data: product } = useAsyncData(`product-${route.params.slug}`, async () => {
   try {

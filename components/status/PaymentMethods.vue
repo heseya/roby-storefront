@@ -35,7 +35,7 @@ const props = withDefaults(
 )
 
 const t = useLocalI18n()
-const { t: $t } = useI18n({ useScope: 'global' })
+const $t = useGlobalI18n()
 const { notify } = useNotify()
 const formatError = useErrorMessage()
 const selectedPaymentMethodId = ref<string | null>(null)

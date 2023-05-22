@@ -33,7 +33,7 @@
 <script setup lang="ts">
 import { ProductList } from '@heseya/store-core'
 
-const { t: $t } = useI18n({ useScope: 'global' })
+const $t = useGlobalI18n()
 const props = withDefaults(
   defineProps<{
     product: ProductList

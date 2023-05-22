@@ -53,7 +53,7 @@ import { LinkBox } from '~~/components/home/LinkBox.vue'
 import BgImagePath from '@/assets/images/link-box-bgr.png'
 import BgImage2Path from '@/assets/images/link-box-bgr-2.png'
 
-const { t: $t } = useI18n({ useScope: 'global' })
+const $t = useGlobalI18n()
 const heseya = useHeseya()
 
 type Section = { type: 'set'; data: ProductSetList } | { type: 'box'; data: LinkBox }

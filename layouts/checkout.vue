@@ -50,7 +50,7 @@ useCartStore()
 const route = useRoute()
 const config = useConfigStore()
 const t = useLocalI18n()
-const { t: $t } = useI18n({ useScope: 'global' })
+const $t = useGlobalI18n()
 
 enum CheckoutStep {
   Cart = 'cart',

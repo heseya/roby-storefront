@@ -20,7 +20,7 @@ const router = useRouter()
 const { notify } = useNotify()
 
 const t = useLocalI18n()
-const { t: $t } = useI18n({ useScope: 'global' })
+const $t = useGlobalI18n()
 
 const orderCode = computed(() => route.params.code as string)
 

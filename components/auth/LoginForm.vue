@@ -53,7 +53,8 @@ import { useConfigStore } from '~/store/config'
 import { LOGGED_IN_THE_PAST_KEY } from '@/consts/localstorageKeys'
 
 const t = useLocalI18n()
-const { t: $t } = useI18n({ useScope: 'global' })
+const $t = useGlobalI18n()
+
 const getErrorMessage = useErrorMessage()
 const auth = useAuthStore()
 const config = useConfigStore()

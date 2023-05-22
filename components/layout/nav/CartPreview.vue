@@ -36,7 +36,7 @@ import CrossIcon from '@/assets/icons/cross.svg?component'
 import { useCartStore } from '@/store/cart'
 import { getProductSubtext } from '@/utils/product'
 
-const { t: $t } = useI18n({ useScope: 'global' })
+const $t = useGlobalI18n()
 const cart = useCartStore()
 
 const handleRemove = (id: string) => {

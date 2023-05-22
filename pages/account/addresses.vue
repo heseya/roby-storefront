@@ -15,7 +15,7 @@
 </template>
 
 <script setup lang="ts">
-const { t: $t } = useI18n({ useScope: 'global' })
+const $t = useGlobalI18n()
 
 useSeoMeta({
   title: () => $t('custom.addresses'),
