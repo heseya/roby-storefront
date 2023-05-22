@@ -65,7 +65,7 @@ onKeyStroke('Escape', () => close())
   top: 0;
   width: 100vw;
   height: 100vh;
-  background-color: #00000044;
+  background-color: #0000007c;
   z-index: 1000;
   opacity: 0;
   visibility: hidden;

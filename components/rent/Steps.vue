@@ -17,7 +17,7 @@
             formularza zajmie tylko chwilę, a dzięki temu otrzymasz od nas wsparcie w wyborze
             urządzenia i ofertę dopasowaną do Twoich potrzeb.</span
           >
-          <LayoutButton class="steps__button" label="Wypelnij formularz" />
+          <LayoutButton class="steps__button" label="Wypelnij formularz" @click="emit('scroll')" />
         </div>
       </div>
       <div class="steps__element">
@@ -46,7 +46,11 @@
   </div>
 </template>
 
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+const emit = defineEmits<{
+  (e: 'scroll'): void
+}>()
+</script>
 
 <style lang="scss" scoped>
 .steps {
