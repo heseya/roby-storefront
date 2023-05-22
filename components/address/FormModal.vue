@@ -5,6 +5,7 @@
     :header="header"
     :error="errorMessage"
     :ok-text="$t('common.save')"
+    :fullscreen="fullscreen"
     @submit="onSubmit"
   >
     <FormInput v-model="form.values.name" rules="required" :label="$t('common.name')" name="name" />
@@ -37,18 +38,27 @@ import {
   UserSavedAddressCreateDto,
   UserSavedAddressUpdateDto,
 } from '@heseya/store-core'
+import { EMPTY_ADDRESS } from '~/consts/address'
+
 const t = useLocalI18n()
 const { t: $t } = useI18n({ useScope: 'global' })
 const formatError = useErrorMessage()
 const { notify } = useNotify()
 
-const props = defineProps<{
-  open: boolean
-  type: 'billing' | 'shipping'
-  address?: UserSavedAddress
-  successUpdateMessage: string
-  header: string
-}>()
+const props = withDefaults(
+  defineProps<{
+    open: boolean
+    type: 'billing' | 'shipping'
+    address?: UserSavedAddress
+    successUpdateMessage: string
+    header: string
+    fullscreen?: boolean
+  }>(),
+  {
+    fullscreen: true,
+    address: undefined,
+  },
+)
 
 const emit = defineEmits<{
   (e: 'update:open', value: boolean): void
@@ -66,24 +76,7 @@ const errorMessage = ref<string>()
 
 const isInvoice = ref<boolean>(!!props.address?.address.vat)
 
-const form = useForm<UserSavedAddressCreateDto | UserSavedAddressUpdateDto>({
-  initialValues: props.address
-    ? { ...props.address }
-    : {
-        default: false,
-        name: '',
-        address: {
-          address: '',
-          city: '',
-          country: '',
-          country_name: '',
-          name: '',
-          phone: '',
-          zip: '',
-          vat: '',
-        },
-      },
-})
+const form = useForm<UserSavedAddressCreateDto | UserSavedAddressUpdateDto>()
 
 const onSubmit = async () => {
   const { success, error } = props.address
@@ -105,7 +98,13 @@ const onSubmit = async () => {
 watch(
   () => props.open,
   () => {
-    if (!props.open) form.handleReset()
+    if (props.open) {
+      form.values = props.address ?? {
+        default: false,
+        name: '',
+        address: { ...EMPTY_ADDRESS },
+      }
+    }
   },
 )
 </script>
