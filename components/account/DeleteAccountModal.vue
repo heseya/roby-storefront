@@ -1,6 +1,7 @@
 <template>
   <FormModal
     v-model:open="isModalVisible"
+    :fullscreen="false"
     :values="form.values"
     :header="t('header')"
     :error="error"
@@ -73,6 +74,9 @@ const onSubmit = form.handleSubmit(async () => {
 </script>
 
 <style lang="scss" scoped>
-.account-form-modal {
+.delete-account-modal {
+  &__question {
+    margin-bottom: 10px;
+  }
 }
 </style>

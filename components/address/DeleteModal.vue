@@ -1,13 +1,14 @@
 <template>
   <FormModal
     v-model:open="isModalVisible"
+    :fullscreen="false"
     :values="{}"
     :error="errorMessage"
     :header="t(`${type}.header`)"
     :ok-text="t(`${type}.delete`)"
     @submit="onSubmit"
   >
-    <h3>{{ t(`${type}.confirmDelete`) }}</h3>
+    <div class="address-delete-modal">{{ t(`${type}.confirmDelete`) }}</div>
   </FormModal>
 </template>
 
@@ -72,26 +73,6 @@ const onSubmit = async () => {
 </script>
 
 <style lang="scss" scoped>
-.address-delete-modal {
-  &__actions {
-    display: flex;
-    justify-content: center;
-    gap: 30px;
-  }
-
-  &__button {
-    width: 200px;
-
-    &--cancel {
-      background-color: $white-color;
-      color: $text-color;
-    }
-  }
-
-  &__error {
-    color: $error-color;
-    font-weight: bold;
-    text-align: center;
-  }
+.tmp {
 }
 </style>
