@@ -1,4 +1,3 @@
-import { NuxtPage } from 'nuxt/schema'
 import svgLoader from 'vite-svg-loader'
 import { removePageByName } from './utils/removePageByName'
 
