@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ContactDepartment } from '~/interfaces/contactPage'
+import { ContactDepartment } from '@/interfaces/contactPage'
 
 const $t = useGlobalI18n()
 
