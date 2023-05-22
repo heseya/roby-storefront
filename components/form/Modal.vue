@@ -1,5 +1,5 @@
 <template>
-  <LayoutModal :open="open" :closeable="false">
+  <LayoutModal :open="open" :closeable="false" :full-screen="fullScreen">
     <div class="form-modal">
       <form class="form-modal__form" @submit.prevent="onSubmit">
         <div class="form-modal__header">{{ header }}</div>
@@ -32,13 +32,21 @@ import { useForm } from 'vee-validate'
 const { t: $t } = useI18n({ useScope: 'global' })
 const formatError = useErrorMessage()
 
-const props = defineProps<{
-  values: any
-  open: boolean
-  header: string
-  okText?: string
-  error?: any
-}>()
+const props = withDefaults(
+  defineProps<{
+    values: any
+    open: boolean
+    header: string
+    okText?: string
+    error?: any
+    fullScreen?: boolean
+  }>(),
+  {
+    fullScreen: true,
+    okText: '',
+    error: null,
+  },
+)
 
 const emit = defineEmits<{
   (e: 'update:open', isModalVisible: boolean): void
@@ -58,6 +66,7 @@ const onSubmit = form.handleSubmit(() => emit('submit'))
   background-color: $gray-color-100;
   padding: 10px 0px;
   height: fit-content;
+  width: 100%;
 
   &__header {
     font-size: 20px;

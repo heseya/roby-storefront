@@ -1,7 +1,10 @@
 <template>
   <Teleport to="body">
     <div class="modal-bg" :class="{ 'modal--open': open }" @click="close" />
-    <div class="modal" :class="{ 'modal--open': open, 'modal--box': box }">
+    <div
+      class="modal"
+      :class="{ 'modal--open': open, 'modal--box': box, 'modal--full-screen': fullScreen }"
+    >
       <button
         v-if="closeable && !hideClose"
         class="modal__close-btn"
@@ -32,10 +35,12 @@ const props = withDefaults(
     closeable?: boolean
     hideClose?: boolean
     box?: boolean
+    fullScreen?: boolean
   }>(),
   {
     closeable: true,
     hideClose: false,
+    fullScreen: true,
   },
 )
 const emit = defineEmits<{
@@ -106,6 +111,16 @@ onKeyStroke('Escape', () => close())
   overflow-y: auto;
   display: flex;
   align-items: stretch;
+
+  &--full-screen {
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    transform: none;
+    max-width: none;
+    max-height: none;
+  }
 
   &--open {
     opacity: 1;
