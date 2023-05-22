@@ -71,7 +71,7 @@ export default defineNuxtConfig({
 
       if (!DIRECTUS_URL) pagesToRemove.push('blog')
 
-      pagesToRemove.forEach((page) => removePageByName<NuxtPage>(page, pages))
+      pagesToRemove.forEach((page) => removePageByName(page, pages))
     },
   },
 
