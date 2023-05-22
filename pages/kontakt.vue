@@ -1,110 +1,102 @@
 <template>
   <NuxtLayout>
-    <LayoutBreadcrumpsProvider :breadcrumbs="breadcrumb" />
+    <LayoutBreadcrumpsProvider :breadcrumbs="breadcrumbs" />
     <BaseContainer class="contact">
       <div>
         <div class="contact__header">
           <LayoutHeader class="contact__title" variant="black" tag="h1">
-            ROBICAN S.C.R. JASTRZĘBSKI I WSPÓLNICY
+            {{ config.env.company_name }}
           </LayoutHeader>
-          <span>UL. ZAKOPIAŃSKA 190, 60-467 POZNAŃ</span>
+          <span class="contact__subtitle">{{ config.env.company_address }}</span>
         </div>
+
         <div class="contact__info">
-          <ContactInfoCard v-for="(data, index) in contacts" :key="index" :data="data" />
+          <ContactInfoCard
+            v-for="department in departments"
+            :key="department.id"
+            :data="department"
+          />
         </div>
       </div>
 
-      <div>
-        <LayoutHeader class="contact__subtitle" variant="black" tag="h2">
-          Dział handlowy
+      <div v-for="[group, persons] in personGroups" :key="group">
+        <LayoutHeader class="contact__group-name" variant="black" tag="h2">
+          {{ group }}
         </LayoutHeader>
         <div class="contact__persons">
-          <ContactPersonCard v-for="(person, index) in persons" :key="index" :data="person" />
-        </div>
-      </div>
-      <div>
-        <LayoutHeader class="contact__subtitle" variant="black" tag="h2">
-          Dział serwisu
-        </LayoutHeader>
-        <div class="contact__persons">
-          <ContactPersonCard
-            v-for="(person, index) in servicePersons"
-            :key="index"
-            :data="person"
-          />
+          <ContactPersonCard v-for="(person, index) in persons" :key="index" :person="person" />
         </div>
       </div>
     </BaseContainer>
   </NuxtLayout>
 </template>
 
+<i18n lang="json">
+{
+  "pl": {
+    "title": "Kontakt"
+  }
+}
+</i18n>
+
 <script setup lang="ts">
-import { InfoCardProps } from '@/components/contact/InfoCard.vue'
-import { PersonCardProps } from '@/components/contact/PersonCard.vue'
+import groupBy from 'lodash/groupBy'
+import { useConfigStore } from '@/store/config'
+import { ContactDepartment, ContactPerson } from '@/interfaces/contact'
 
-import AvatarRobert from '@/assets/images/avatars/robert.png?url'
-import AvatarMarcin from '@/assets/images/avatars/marcin.jpeg?url'
-import AvatarArkadiusz from '@/assets/images/avatars/arkadiusz.png?url'
+const config = useConfigStore()
+const t = useLocalI18n()
 
-const breadcrumb = [
+const breadcrumbs = [
   {
-    label: 'Kontakt',
+    label: t('title'),
     link: '/kontakt',
   },
 ]
 
-const persons: PersonCardProps[] = [
-  {
-    name: 'Robert Jastrzębski',
-    email: 'biuro@***REMOVED***.pl',
-    phone: 'tel.: +48 604 858 045',
-    description:
-      'Urządzenia wielofunkcyjne, urządzenia wielkoformatowe/plotery, urządzenia wysokonakładowe',
-    link: 'https://www.linkedin.com/in/robert-jastrz%C4%99bski-30a9a371/',
-    avatar: AvatarRobert,
-  },
-  {
-    name: 'Marcin Wiśniewski',
-    email: 'mwisniewski@***REMOVED***.pl',
-    phone: 'tel.: +48 509 612 945',
-    description:
-      'Doradztwo techniczne i handlowe, plotery, kopiarki, drukarki, niszczarki, sprzedaż i wynajem urządzeń',
-    link: 'https://www.linkedin.com/in/marcin-wi%C5%9Bniewski1/',
-    avatar: AvatarMarcin,
-  },
-  {
-    name: 'Arkadiusz Wiśniewski',
-    email: 'arkadiusz@***REMOVED***.pl',
-    phone: 'tel.: +48 795 581 936',
-    description:
-      'Obsługa umów dzierżaw/wynajmu, papiery, media do ploterów, materiały eksploatacyjne, plotery, wynajem urządzeń',
-    link: 'https://www.linkedin.com/in/arkadiusz-wi%C5%9Bniewski-3a06b6131/',
-    avatar: AvatarArkadiusz,
-  },
-]
+useSeoMeta({
+  title: t('title'),
+})
 
-const servicePersons: PersonCardProps[] = [
-  {
-    name: 'Jacek Frąszczak',
-    email: 'serwis@***REMOVED***.pl',
-    phone: 'tel.: +48 602 527 397',
-    description: 'Zarządzanie serwisem, obsługa zleceń serwisowych',
-  },
-]
+const { data: departments } = useAsyncData('contact-departments', async () => {
+  const directus = useDirectus()
+  const { data } = await directus.items('Departments').readByQuery({
+    fields: [
+      'id',
+      'email',
+      'phone_mobile',
+      'phone_stationery',
+      'translations.name',
+      'translations.languages_code',
+    ],
+  })
+  return data as ContactDepartment[]
+})
 
-const contacts: InfoCardProps[] = [
-  { name: 'Biuro', email: 'biuro@***REMOVED***.pl', phones: ['tel.: +48 604 858 045'] },
-  {
-    name: 'Serwis',
-    email: 'serwis@***REMOVED***.pl',
-    phones: ['tel.: +48 61 842-53-00 w.106', 'tel. kom. 604 858 045'],
-  },
-  {
-    name: 'SIECI TELEINFORMATYCZNE',
-    email: 'teleinfo@***REMOVED***.pl',
-    phones: ['tel. kom. 601 777 319'],
-  },
-]
+const { data: allPersons } = useAsyncData('contact-persons', async () => {
+  const directus = useDirectus()
+  const { data } = await directus.items('Person').readByQuery({
+    fields: [
+      'id',
+      'name',
+      'date_created',
+      'email',
+      'phone',
+      // @ts-ignore files are not properly typed?
+      'avatar.filename_disk',
+      'part_of_team',
+      'group',
+      'linkedin_url',
+      'translations.description',
+      'translations.languages_code',
+    ],
+  })
+  return data as ContactPerson[]
+})
+
+const personGroups = computed(() =>
+  Object.entries(groupBy(allPersons.value, 'group')).filter(([group]) => group !== 'null'),
+)
 </script>
 
 <style lang="scss" scoped>
@@ -123,10 +115,15 @@ const contacts: InfoCardProps[] = [
 
   &__title {
     text-align: left;
+    text-transform: uppercase;
 
     @media ($max-viewport-9) {
       font-size: rem(20);
     }
+  }
+
+  &__subtitle {
+    text-transform: uppercase;
   }
 
   &__info {
@@ -138,7 +135,7 @@ const contacts: InfoCardProps[] = [
     }
   }
 
-  &__subtitle {
+  &__group-name {
     margin-bottom: 12px;
 
     text-align: left;

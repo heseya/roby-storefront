@@ -207,7 +207,7 @@ const showPrice = computed(() => {
   }
 
   &__attachments {
-    margin-top: 24px;
+    margin-top: 50px;
   }
 }
 

@@ -18,39 +18,24 @@
 </template>
 
 <script lang="ts" setup>
-import { AboutPerson } from '@/interfaces/AboutPartner'
-import AvatarRobert from '@/assets/images/avatars/robert.png?url'
-import AvatarMarcin from '@/assets/images/avatars/marcin.jpeg?url'
-import AvatarArkadiusz from '@/assets/images/avatars/arkadiusz.png?url'
-import AvatarLukasz from '@/assets/images/avatars/lukasz.png?url'
-
-const persons: AboutPerson[] = [
-  {
-    name: 'Robert Jastrzębski',
-    avatar: AvatarRobert,
-  },
-  {
-    name: 'Marcin Wiśniewski',
-    avatar: AvatarMarcin,
-  },
-  {
-    name: 'Arkadiusz Wiśniewski',
-    avatar: AvatarArkadiusz,
-  },
-  {
-    name: 'Łukasz Zielonka',
-    avatar: AvatarLukasz,
-  },
-  {
-    name: 'Marcin Brętkowski',
-  },
-  {
-    name: 'Maciej Marciniak',
-  },
-  {
-    name: 'Marian Maćkowiak',
-  },
-]
+const { data: persons } = useAsyncData('team-persons', async () => {
+  const directus = useDirectus()
+  const { data } = await directus.items('Person').readByQuery({
+    fields: [
+      'id',
+      'name',
+      // @ts-ignore files are not properly typed?
+      'avatar.filename_disk',
+    ],
+    filter: {
+      part_of_team: true,
+    },
+  })
+  return data?.map((person: any) => ({
+    ...person,
+    avatar: getImageUrl(person.avatar),
+  }))
+})
 </script>
 
 <style lang="scss" scoped>

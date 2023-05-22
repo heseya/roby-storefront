@@ -11,7 +11,7 @@
   width: 100%;
   border-bottom: 2px solid $gray-color-300;
 
-  @media ($viewport-11) {
+  @media ($viewport-7) {
     border-bottom: none;
     height: 100%;
     width: 2px;
