@@ -82,7 +82,7 @@ const { data } = useAsyncData('main-banner', async () => {
 })
 
 const { data: offertsBanner } = useAsyncData('offerts-banner', async (): Promise<LinkBox[]> => {
-  const { banner_media: bannerMedia } = await heseya.Banners.getOneBySlug('offers')
+  const { banner_media: bannerMedia } = await heseya.Banners.getOneBySlug('offer-banner')
 
   return bannerMedia.map(({ title, media, url, subtitle }) => ({
     text: title,
