@@ -5,7 +5,7 @@
     :header="header"
     :error="errorMessage"
     :ok-text="$t('common.save')"
-    :full-screen="fullScreen"
+    :fullscreen="fullscreen"
     @submit="onSubmit"
   >
     <FormInput v-model="form.values.name" rules="required" :label="$t('common.name')" name="name" />
@@ -52,10 +52,10 @@ const props = withDefaults(
     address?: UserSavedAddress
     successUpdateMessage: string
     header: string
-    fullScreen?: boolean
+    fullscreen?: boolean
   }>(),
   {
-    fullScreen: true,
+    fullscreen: true,
     address: undefined,
   },
 )

@@ -1,5 +1,5 @@
 <template>
-  <LayoutModal :open="open" :closeable="false" :full-screen="fullScreen">
+  <LayoutModal :open="open" :closeable="false" :fullscreen="fullscreen">
     <div class="form-modal">
       <form class="form-modal__form" @submit.prevent="onSubmit">
         <div class="form-modal__header">{{ header }}</div>
@@ -39,10 +39,10 @@ const props = withDefaults(
     header: string
     okText?: string
     error?: any
-    fullScreen?: boolean
+    fullscreen?: boolean
   }>(),
   {
-    fullScreen: true,
+    fullscreen: true,
     okText: '',
     error: null,
   },

@@ -3,7 +3,7 @@
     <div class="modal-bg" :class="{ 'modal--open': open }" @click="close" />
     <div
       class="modal"
-      :class="{ 'modal--open': open, 'modal--box': box, 'modal--full-screen': fullScreen }"
+      :class="{ 'modal--open': open, 'modal--box': box, 'modal--full-screen': fullscreen }"
     >
       <button
         v-if="closeable && !hideClose"
@@ -35,12 +35,12 @@ const props = withDefaults(
     closeable?: boolean
     hideClose?: boolean
     box?: boolean
-    fullScreen?: boolean
+    fullscreen?: boolean
   }>(),
   {
     closeable: true,
     hideClose: false,
-    fullScreen: true,
+    fullscreen: true,
   },
 )
 const emit = defineEmits<{
@@ -77,8 +77,8 @@ onKeyStroke('Escape', () => close())
   position: fixed;
   left: 0;
   top: 0;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   background-color: #0000007c;
   z-index: 1000;
   opacity: 0;
@@ -113,13 +113,15 @@ onKeyStroke('Escape', () => close())
   align-items: stretch;
 
   &--full-screen {
-    left: 0;
-    top: 0;
-    width: 100vw;
-    height: 100vh;
-    transform: none;
-    max-width: none;
-    max-height: none;
+    @media ($max-viewport-6) {
+      left: 0;
+      top: 0;
+      width: 100vw;
+      height: 100vh;
+      transform: none;
+      max-width: none;
+      max-height: none;
+    }
   }
 
   &--open {

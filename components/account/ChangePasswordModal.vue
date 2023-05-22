@@ -4,7 +4,7 @@
     :values="form.values"
     :header="t('header')"
     :error="error"
-    :full-screen="false"
+    :fullscreen="false"
     @submit="onSubmit"
   >
     <FormInputPassword

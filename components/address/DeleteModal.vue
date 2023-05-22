@@ -1,7 +1,7 @@
 <template>
   <FormModal
     v-model:open="isModalVisible"
-    :full-screen="false"
+    :fullscreen="false"
     :values="{}"
     :error="errorMessage"
     :header="t(`${type}.header`)"
