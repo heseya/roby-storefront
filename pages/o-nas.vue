@@ -7,6 +7,7 @@
           {{ aboutPage?.title }}
         </LayoutHeader>
         <AboutDescription
+          v-if="aboutPage"
           :text="aboutPage?.text"
           :point1="aboutPage?.point_1"
           :point2="aboutPage?.point_2"
@@ -14,14 +15,19 @@
         />
       </BaseContainer>
 
-      <AboutBanner class="about-page__banner" :text="aboutPage?.catching_text" />
+      <AboutBanner
+        v-if="aboutPage?.catching_text"
+        class="about-page__banner"
+        :text="aboutPage?.catching_text"
+      />
 
-      <BaseContainer class="about-page__content">
+      <BaseContainer v-if="aboutPage" class="about-page__content">
         <AboutTeam :title="aboutPage?.persons_title" />
         <AboutPartnerCarousel :title="aboutPage?.slider_title" />
       </BaseContainer>
 
       <AboutImageBanner
+        v-if="aboutPage"
         :title="aboutPage?.banner_title"
         :text="aboutPage?.banner_text"
         :image-url="bannerImageUrl"
@@ -39,6 +45,8 @@
 </i18n>
 
 <script setup lang="ts">
+import { TranslatedAboutPage } from '~/interfaces/aboutPage'
+
 const t = useLocalI18n()
 
 const breadcrumbs = [
@@ -53,12 +61,16 @@ useSeoMeta({
 })
 
 const { data: aboutPage } = useAsyncData('about-page', async () => {
-  const directus = useDirectus()
-  const data = await directus.items('AboutPage').readOne(1, {
-    // @ts-ignore directus typing is wrong
-    fields: ['translations.*', 'translations.main_image.*', 'translations.banner_image.*'],
-  })
-  return getTranslated(data!.translations!, 'pl-PL')
+  try {
+    const directus = useDirectus()
+    const data = await directus.items('AboutPage').readOne(1, {
+      // @ts-ignore directus typing is wrong
+      fields: ['translations.*', 'translations.main_image.*', 'translations.banner_image.*'],
+    })
+    return getTranslated(data!.translations!, 'pl-PL') as TranslatedAboutPage
+  } catch {
+    showError({ message: t('errors.NOT_FOUND'), statusCode: 404 })
+  }
 })
 
 const mainImageUrl = computed(() => getImageUrl(aboutPage.value?.main_image))
