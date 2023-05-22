@@ -11,13 +11,15 @@
         </div>
       </BaseContainer>
       <BaseContainer class="rent-page__content">
-        <RentSteps />
+        <RentSteps @scroll="handleScroll" />
         <RentAdvantages />
       </BaseContainer>
       <RentBanner class="rent-page__banner" />
       <BaseContainer class="rent-page__content">
         <RentWhyOtherChose />
-        <RentFillForm />
+        <div ref="scrollTarget">
+          <RentFillForm />
+        </div>
         <RentFaq />
       </BaseContainer>
     </div>
@@ -45,6 +47,12 @@ const breadcrumb = [
     link: '/wynajem',
   },
 ]
+
+const scrollTarget = ref<HTMLElement>()
+
+const handleScroll = () => {
+  scrollTarget.value?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+}
 </script>
 
 <style lang="scss" scoped>

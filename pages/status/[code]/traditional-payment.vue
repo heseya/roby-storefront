@@ -9,8 +9,6 @@
 <i18n lang="json">
 {
   "pl": {
-    "title": "Przelew tradycyjny",
-    "alreadyPaid": "Zamówienie zostało już opłacone",
     "notFoundError": "Nie znaleziono zamówienia o podanym kodzie"
   }
 }
@@ -22,6 +20,7 @@ const router = useRouter()
 const { notify } = useNotify()
 
 const t = useLocalI18n()
+const $t = useGlobalI18n()
 
 const orderCode = computed(() => route.params.code as string)
 
@@ -31,7 +30,7 @@ useAsyncData(`order-summary-${orderCode}`, async () => {
     const order = await heseya.Orders.getOneByCode(orderCode.value)
 
     if (order.paid) {
-      notify({ type: 'success', text: t('alreadyPaid') })
+      notify({ type: 'success', text: $t('errors.CLIENT_ORDER_PAID') })
       router.push(`/status/${orderCode.value}`)
     }
 
@@ -43,7 +42,7 @@ useAsyncData(`order-summary-${orderCode}`, async () => {
 })
 
 useSeoMeta({
-  title: () => t('title'),
+  title: () => $t('payments.traditionalTransfer'),
 })
 </script>
 

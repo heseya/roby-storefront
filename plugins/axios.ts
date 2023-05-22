@@ -58,7 +58,7 @@ export default defineNuxtPlugin((nuxt) => {
     if (!isProduction) {
       const time = `${config._endTime - config._beginTime!}ms`
       // eslint-disable-next-line no-console
-      console.log(`[${config.method}] (`, time, ')', `${config.baseURL}${config.url}`)
+      console.log(`(${time}) - [${config.method}]`, config.url)
     }
     return response
   })

@@ -4,7 +4,7 @@
       <div class="cart-page__content">
         <div class="cart-page__cart">
           <h1 class="cart-page__title">
-            {{ t('cart.title') }}
+            {{ $t('cart.title') }}
             <ClientOnly>
               <span class="cart-page__subtext">({{ cart.length }})</span>
             </ClientOnly>
@@ -47,7 +47,6 @@
 {
   "pl": {
     "cart": {
-      "title": "Koszyk",
       "summary": "Podsumowanie",
       "suggested": "Może Cię zainteresować"
     }
@@ -60,6 +59,7 @@ import { useCartStore } from '@/store/cart'
 
 const cart = useCartStore()
 const t = useLocalI18n()
+const $t = useGlobalI18n()
 
 const isCartEmpty = computed(() => cart.length === 0)
 
@@ -71,7 +71,7 @@ const suggestedQuery = computed(() => ({
 }))
 
 useSeoMeta({
-  title: () => t('cart.title'),
+  title: () => $t('cart.title'),
 })
 </script>
 

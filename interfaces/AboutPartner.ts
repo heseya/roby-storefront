@@ -4,8 +4,3 @@ export interface AboutPartner {
   description: string
   image: string
 }
-
-export interface AboutPerson {
-  name: string
-  avatar?: string
-}

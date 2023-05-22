@@ -12,7 +12,7 @@
         {{ value.name }}
       </p>
       <p>{{ value.address.name }}</p>
-      <p v-if="value.address.vat">{{ t('vatNumber') }} {{ value.address.vat }}</p>
+      <p v-if="value.address.vat">{{ $t('form.vat') }} {{ value.address.vat }}</p>
       <p>{{ value.address.phone }}</p>
     </div>
     <div>
@@ -47,7 +47,6 @@
 <i18n lang="json">
 {
   "pl": {
-    "vatNumber": "NIP",
     "billing": {
       "header": "Edytowanie adresu",
       "sucessUpdate": "Pomyślnie edytowano rachunek",

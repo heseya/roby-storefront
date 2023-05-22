@@ -38,7 +38,7 @@
                 v-if="product"
                 :product="product"
                 type="renting"
-                :action-text="t('tabs.renting')"
+                :action-text="$t('offers.renting')"
               />
             </template>
           </LayoutTabs>
@@ -48,7 +48,7 @@
               v-if="product"
               :product="product"
               type="price"
-              :action-text="t('tabs.pricing')"
+              :action-text="$t('offers.pricing')"
             />
           </div>
         </div>
@@ -57,14 +57,14 @@
       <LayoutTabs class="product-page__main" :tabs="productDescriptionTabs">
         <template #description>
           <div class="product-page__description-wrapper">
-            <div>
+            <LayoutDropDownContainer>
               <LazyBaseWysiwygContent :content="product?.description_html" />
               <LazyProductPageAttachments
                 v-if="product?.attachments.length"
                 :attachments="product?.attachments"
                 class="product-page__attachments"
               />
-            </div>
+            </LayoutDropDownContainer>
 
             <LazyProductPageAttributeCard v-if="product" :product="product" />
           </div>
@@ -108,8 +108,6 @@
     "notFoundError": "Podany produkt nie istnieje",
     "tabs": {
       "buy": "Zakup",
-      "renting": "Zapytaj o wynajem",
-      "pricing": "Zapytaj o cenę",
       "description": "Opis",
       "additionalInfo": "Dodatkowe informacje"
     },
@@ -126,6 +124,7 @@ import { getProductSubtext } from '@/utils/product'
 const heseya = useHeseya()
 const route = useRoute()
 const t = useLocalI18n()
+const $t = useGlobalI18n()
 
 const { data: product } = useAsyncData(`product-${route.params.slug}`, async () => {
   try {
@@ -148,7 +147,9 @@ const productPurchaseTabs = computed(
   () =>
     [
       { key: 'buy', label: t('tabs.buy') },
-      product.value?.metadata.allow_renting ? { key: 'renting', label: t('tabs.renting') } : null,
+      product.value?.metadata.allow_renting
+        ? { key: 'renting', label: $t('offers.renting') }
+        : null,
     ].filter(Boolean) as Tab[],
 )
 
@@ -206,7 +207,7 @@ const showPrice = computed(() => {
   }
 
   &__attachments {
-    margin-top: 24px;
+    margin-top: 50px;
   }
 }
 

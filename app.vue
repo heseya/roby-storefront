@@ -2,7 +2,8 @@
   <LayoutThemeContext>
     <NuxtLoadingIndicator />
 
-    <NuxtPage />
+    <ShopOff v-if="isShopDisabled" />
+    <NuxtPage v-else />
 
     <ClientOnly>
       <CartUnavailableModal />
@@ -21,6 +22,8 @@ const { showColorThemePicker } = usePublicRuntimeConfig()
 const config = useConfigStore()
 const seo = toRef(config, 'seo')
 const title = computed(() => seo.value.title || 'Store')
+
+const isShopDisabled = computed(() => config.storeFrontDisabled)
 
 useSeoMeta({
   titleTemplate: (titleChunk) => (titleChunk ? `${titleChunk} - ${title.value}` : title.value),

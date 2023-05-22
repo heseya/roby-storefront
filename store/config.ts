@@ -24,6 +24,10 @@ export const useConfigStore = defineStore('config', {
     isTraditionalTransfer(): boolean {
       return this.env.allow_traditional_transfer === '1'
     },
+
+    storeFrontDisabled(): boolean {
+      return this.env.storefront_disabled === '1'
+    },
   },
 
   actions: {

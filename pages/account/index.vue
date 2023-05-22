@@ -21,7 +21,7 @@
         </LayoutInfoBox>
 
         <LayoutAccountSection
-          :header="t('wishlist.title')"
+          :header="$t('wishlist.title')"
           :link="`/account/wishlist`"
           class="account-page__wishlist"
         >
@@ -33,7 +33,7 @@
             </div>
 
             <LayoutEmpty v-else class="account-page__empty">
-              {{ t('wishlist.empty') }}
+              {{ $t('wishlist.empty') }}
             </LayoutEmpty>
 
             <template #fallback>
@@ -49,13 +49,10 @@
 <i18n lang="json">
 {
   "pl": {
-    "title": "Moje konto",
     "welcome": "Witaj, ",
     "message": "Tutaj możesz zarządzać swoimi zamówieniami oraz ustawieniami konta.",
     "lastOrder": "Ostatnie zamówienie",
     "wishlist": {
-      "title": "Lista życzeń",
-      "empty": "Nie masz żadnego produktu dodanego do listy życzeń",
       "loading": "Ładowanie listy życzeń..."
     }
   }
@@ -66,10 +63,10 @@
 import { useWishlistStore } from '@/store/wishlist'
 
 const t = useLocalI18n()
-const { t: $t } = useI18n({ useScope: 'global' })
+const $t = useGlobalI18n()
 
 useSeoMeta({
-  title: () => t('title'),
+  title: () => $t('breadcrumbs.account'),
 })
 
 definePageMeta({

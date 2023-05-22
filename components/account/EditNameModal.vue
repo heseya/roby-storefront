@@ -1,14 +1,15 @@
 <template>
   <FormModal
     v-model:open="isModalVisible"
+    :fullscreen="false"
     :values="form.values"
-    :header="t('header')"
+    :header="$t('account.myData')"
     :error="error"
     @submit="onSubmit"
   >
     <FormInput
       v-model:model-value="form.values.name"
-      :label="t('nameSurname')"
+      :label="$t('form.nameAndSurname')"
       name="name"
       rules="alpha"
     />
@@ -24,8 +25,6 @@
 <i18n lang="json">
 {
   "pl": {
-    "header": "Moje dane",
-    "nameSurname": "Imię i Nazwisko",
     "sucessUpdate": "Zaktualizowane dane użytkownika."
   }
 }
@@ -38,7 +37,7 @@ import { useUserStore } from '@/store/user'
 const { notify } = useNotify()
 
 const t = useLocalI18n()
-const { t: $t } = useI18n({ useScope: 'global' })
+const $t = useGlobalI18n()
 const heseya = useHeseya()
 
 const props = defineProps<{

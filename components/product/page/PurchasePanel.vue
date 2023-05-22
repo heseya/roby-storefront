@@ -29,7 +29,7 @@
       class="product-purchase-panel__cart-btn"
       @click="addToCart"
     >
-      {{ product.available ? t('actions.addToCart') : t('actions.notAvailable') }}
+      {{ product.available ? t('actions.addToCart') : t('availability.unavailable') }}
     </LayoutButton>
 
     <a
@@ -51,7 +51,6 @@
   "pl": {
     "actions": {
       "addToCart": "Dodaj do koszyka",
-      "notAvailable": "Niedostępny",
       "lease": "Zapytaj o leasing"
     },
     "availability": {

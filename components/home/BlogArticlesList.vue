@@ -2,7 +2,9 @@
   <div v-if="articles" class="blog-articles">
     <BaseContainer>
       <div class="blog-articles__header">
-        <LayoutHeader class="blog-articles__title" variant="black">{{ t('blog') }}</LayoutHeader>
+        <LayoutHeader class="blog-articles__title" variant="black">{{
+          $t('breadcrumbs.blog')
+        }}</LayoutHeader>
         <HomeShowAllButton path="/blog" />
       </div>
     </BaseContainer>
@@ -18,18 +20,9 @@
   </div>
 </template>
 
-<i18n lang="json">
-{
-  "pl": {
-    "blog": "Blog"
-  }
-}
-</i18n>
-
 <script lang="ts" setup>
-const t = useLocalI18n()
+const $t = useGlobalI18n()
 const directus = useDirectus()
-
 const { data: articles } = useAsyncData('home-blog-articles', () => {
   return directus.items('Articles').readByQuery({
     fields: [

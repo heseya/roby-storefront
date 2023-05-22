@@ -2,17 +2,17 @@
   <div class="view-summary">
     <div class="view-summary__section">
       <div class="view-summary__container">
-        <div>{{ t('productsPrice') }}</div>
+        <div>{{ $t('orders.productsPrice') }}</div>
         <div>{{ formatAmount(order.cart_total) }}</div>
       </div>
       <div class="view-summary__container">
-        <div>{{ t('delivery') }}</div>
+        <div>{{ $t('orders.delivery') }}</div>
         <div>{{ formatAmount(order.shipping_price) }}</div>
       </div>
     </div>
     <div class="view-summary__section">
       <div class="view-summary__container">
-        <div>{{ t('totalAmount') }}</div>
+        <div>{{ $t('orders.totalAmount') }}</div>
         <div class="view-summary__total">
           {{ formatAmount(order.summary) }}
         </div>
@@ -21,20 +21,10 @@
   </div>
 </template>
 
-<i18n lang="json">
-{
-  "pl": {
-    "delivery": "Dostawa",
-    "productsPrice": "Cena produktów",
-    "totalAmount": "Łączna kwota"
-  }
-}
-</i18n>
-
 <script setup lang="ts">
 import { Order } from '@heseya/store-core'
 
-const t = useLocalI18n()
+const $t = useGlobalI18n()
 
 defineProps<{
   order: Order

@@ -1,16 +1,17 @@
 <template>
   <FormModal
     v-model:open="isModalVisible"
+    :fullscreen="false"
     :values="form.values"
     :header="t('header')"
     :error="error"
-    :ok-text="t('deleteAccount')"
+    :ok-text="$t('account.deleteAccount')"
     @submit="onSubmit"
   >
     <p class="delete-account-modal__question">{{ t('question') }}</p>
     <FormInputPassword
       v-model:model-value="form.values.currentPassword"
-      :label="t('currentPassword')"
+      :label="$t('form.currentPassword')"
       name="currentPassword"
       rules="required"
     />
@@ -22,9 +23,7 @@
   "pl": {
     "header": "Usuwanie konta",
     "question": "Czy napewno chcesz usunąć konto ?",
-    "currentPassword": "Aktualne hasło",
-    "sucessUpdate": "Usunięto konto użytkownika.",
-    "deleteAccount": "Usuń konto"
+    "sucessUpdate": "Usunięto konto użytkownika."
   }
 }
 </i18n>
@@ -35,6 +34,7 @@ import { useAuthStore } from '@/store/auth'
 
 const { notify } = useNotify()
 const t = useLocalI18n()
+const $t = useGlobalI18n()
 const heseya = useHeseya()
 const auth = useAuthStore()
 
@@ -73,6 +73,9 @@ const onSubmit = form.handleSubmit(async () => {
 </script>
 
 <style lang="scss" scoped>
-.account-form-modal {
+.delete-account-modal {
+  &__question {
+    margin-bottom: 10px;
+  }
 }
 </style>

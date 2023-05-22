@@ -34,28 +34,28 @@
             <LayoutIconButton
               class="nav-link-button__button"
               :icon="Profile"
-              :label="auth.isLogged ? t('myAccount') : t('login')"
+              :label="auth.isLogged ? $t('breadcrumbs.account') : $t('account.login')"
               is-resize
             />
           </NuxtLink>
           <div v-if="auth.isLogged" class="nav-link-button__list">
             <NuxtLink class="nav-link-button__list-item" :to="localePath('/account/orders')">
-              {{ t('orders') }}
+              {{ $t('orders.title') }}
             </NuxtLink>
             <NuxtLink class="nav-link-button__list-item" :to="localePath('/account/settings')">
-              {{ t('accountSettings') }}
+              {{ $t('account.settings') }}
             </NuxtLink>
             <NuxtLink class="nav-link-button__list-item" :to="localePath('/account/addresses')">
-              {{ t('address') }}
+              {{ $t('account.addresses') }}
             </NuxtLink>
             <NuxtLink class="nav-link-button__list-item" :to="localePath('/account/wishlist')">
-              {{ t('wishlist') }}
+              {{ $t('wishlist.title') }}
             </NuxtLink>
             <button
               class="nav-link-button__list-item nav-link-button__list-item--logout"
               @click="onLogout"
             >
-              {{ t('logout') }}
+              {{ $t('account.logout') }}
             </button>
           </div>
         </div>
@@ -66,7 +66,7 @@
           <LayoutIconButton
             class="nav-link-button__button"
             :icon="Favorite"
-            :label="t('wishlist')"
+            :label="$t('wishlist.title')"
             :count="wishlist.quantity"
             is-resize
           />
@@ -76,7 +76,7 @@
             <LayoutIconButton
               class="nav-link-button__button"
               :icon="Shopping"
-              :label="t('cart')"
+              :label="$t('cart.title')"
               :count="cart.length"
               is-resize
             />
@@ -111,14 +111,6 @@
 <i18n lang="json">
 {
   "pl": {
-    "myAccount": "Moje konto",
-    "login": "Zaloguj się",
-    "wishlist": "Lista życzeń",
-    "cart": "Koszyk",
-    "orders": "Zamówienia",
-    "accountSettings": "Ustawienia konta",
-    "address": "Adresy",
-    "logout": "Wyloguj się",
     "message": {
       "logout": "Wylogowano pomyślnie"
     }
@@ -143,6 +135,7 @@ import { SearchValues } from '@/components/layout/nav/Search.vue'
 import { useSearchHistoryStore } from '@/store/searchHistory'
 
 const t = useLocalI18n()
+const $t = useGlobalI18n()
 const localePath = useLocalePath()
 const heseya = useHeseya()
 const router = useRouter()

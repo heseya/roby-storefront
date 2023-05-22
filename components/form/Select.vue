@@ -1,7 +1,7 @@
 <template>
   <div class="input input--select" :class="`input--${type}`">
     <FormInputLabel v-if="label" :uppercase="labelUppercase" :for="name" class="input__label">
-      {{ label }}
+      {{ label }} <span v-if="isRequired && label" class="input__required-star">*</span>
     </FormInputLabel>
     <select
       :id="name"
@@ -13,10 +13,13 @@
     >
       <slot />
     </select>
+    <span class="input__error">{{ errorMessage || errors[0] }}</span>
   </div>
 </template>
 
 <script setup lang="ts">
+import { useField } from 'vee-validate'
+
 type SelectValue = number | string | undefined | null | boolean | object
 
 const props = withDefaults(
@@ -27,6 +30,8 @@ const props = withDefaults(
     type?: 'default' | 'gray'
     disabled?: boolean
     labelUppercase?: boolean
+    rules: string
+    errorMessage?: string
   }>(),
   {
     modelValue: undefined,
@@ -34,6 +39,8 @@ const props = withDefaults(
     type: 'default',
     disabled: false,
     labelUppercase: false,
+    rules: '',
+    errorMessage: '',
   },
 )
 
@@ -45,6 +52,10 @@ const innerValue = computed({
   get: () => props.modelValue,
   set: (value) => emit('update:modelValue', value),
 })
+
+const { errors } = useField(props.name, props.rules)
+
+const isRequired = computed(() => props.rules.includes('required'))
 </script>
 
 <style lang="scss" scoped>

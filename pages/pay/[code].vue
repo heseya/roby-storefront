@@ -5,26 +5,15 @@
 
       <NuxtLink class="status-page__link" to="/">
         <LayoutButton class="status-page__btn" variant="gray">
-          {{ t('cancelBtn') }}
+          {{ $t('nav.goToMainPage') }}
         </LayoutButton>
       </NuxtLink>
     </div>
   </NuxtLayout>
 </template>
 
-<i18n lang="json">
-{
-  "pl": {
-    "title": "Opłać zamówienie",
-    "notFoundError": "Zamówienie o tym numerze nie istnieje",
-    "payBtn": "Opłać zamówienie",
-    "cancelBtn": "Przejdź na stronę główną"
-  }
-}
-</i18n>
-
 <script setup lang="ts">
-const t = useLocalI18n()
+const $t = useGlobalI18n()
 const route = useRoute()
 
 const orderCode = computed(() => route.params.code as string)
@@ -39,12 +28,12 @@ useAsyncData(`order-summary-${orderCode}`, async () => {
     return order
   } catch (e: any) {
     const code = e?.response?.status
-    showError({ message: t('notFoundError'), statusCode: code })
+    showError({ message: $t('errors.ORDER_WITH_THIS_NUMBER_DOESNT_EXIST'), statusCode: code })
   }
 })
 
 useSeoMeta({
-  title: () => t('title'),
+  title: () => $t('payments.payForOrder'),
 })
 </script>
 

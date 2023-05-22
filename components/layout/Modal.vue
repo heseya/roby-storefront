@@ -1,20 +1,32 @@
 <template>
-  <div>
+  <Teleport to="body">
     <div class="modal-bg" :class="{ 'modal--open': open }" @click="close" />
-    <div class="modal" :class="{ 'modal--open': open, 'modal--box': box }">
+    <div
+      class="modal"
+      :class="{ 'modal--open': open, 'modal--box': box, 'modal--full-screen': fullscreen }"
+    >
       <button
         v-if="closeable && !hideClose"
         class="modal__close-btn"
-        aria-label="Zamknij modal"
+        :aria-label="t('close')"
         @click="close"
       />
 
       <slot v-if="open" />
     </div>
-  </div>
+  </Teleport>
 </template>
 
+<i18n lang="json">
+{
+  "pl": {
+    "close": "Zamknij modal"
+  }
+}
+</i18n>
+
 <script setup lang="ts">
+const t = useLocalI18n()
 const NO_SCROLL_CLASS = 'no-scroll'
 
 const props = withDefaults(
@@ -23,10 +35,12 @@ const props = withDefaults(
     closeable?: boolean
     hideClose?: boolean
     box?: boolean
+    fullscreen?: boolean
   }>(),
   {
     closeable: true,
     hideClose: false,
+    fullscreen: true,
   },
 )
 const emit = defineEmits<{
@@ -65,7 +79,7 @@ onKeyStroke('Escape', () => close())
   top: 0;
   width: 100vw;
   height: 100vh;
-  background-color: #00000044;
+  background-color: #0000007c;
   z-index: 1000;
   opacity: 0;
   visibility: hidden;
@@ -79,10 +93,15 @@ onKeyStroke('Escape', () => close())
 
 .modal {
   position: fixed;
-  left: 0;
-  top: 0;
-  width: 100vw;
-  height: 100vh;
+  width: auto;
+  height: auto;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  min-width: 22vw;
+  min-height: 20vh;
+  max-width: calc(100vw - 32px);
+  max-height: calc(100vh - 32px);
   background-color: $white-color;
   z-index: 1001;
   opacity: 0;
@@ -93,16 +112,16 @@ onKeyStroke('Escape', () => close())
   display: flex;
   align-items: stretch;
 
-  @media ($viewport-6) {
-    width: auto;
-    height: auto;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    min-width: 22vw;
-    min-height: 30vh;
-    max-width: calc(100vw - 32px);
-    max-height: calc(100vh - 32px);
+  &--full-screen {
+    @media ($max-viewport-6) {
+      left: 0;
+      top: 0;
+      width: 100vw;
+      height: 100vh;
+      transform: none;
+      max-width: none;
+      max-height: none;
+    }
   }
 
   &--open {

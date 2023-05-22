@@ -1,6 +1,6 @@
 <template>
   <NuxtLayout>
-    <LayoutBreadcrumpsProvider :breadcrumbs="breadcrumb" />
+    <LayoutBreadcrumpsProvider :breadcrumbs="breadcrumbs" />
     <div class="about-page">
       <BaseContainer class="about-page__content about-page__content--narrow">
         <LayoutHeader variant="black" tag="h1" class="about-page__title">
@@ -20,13 +20,27 @@
   </NuxtLayout>
 </template>
 
+<i18n lang="json">
+{
+  "pl": {
+    "title": "O nas"
+  }
+}
+</i18n>
+
 <script setup lang="ts">
-const breadcrumb = [
+const t = useLocalI18n()
+
+const breadcrumbs = [
   {
-    label: 'O nas',
+    label: t('title'),
     link: '/o-nas',
   },
 ]
+
+useSeoMeta({
+  title: t('title'),
+})
 </script>
 
 <style lang="scss" scoped>

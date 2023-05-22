@@ -7,7 +7,7 @@
       <span>{{ address.address }}</span>
       <span>{{ address.zip }} {{ address.city }}</span>
       <span>{{ address.country_name }}</span>
-      <span v-if="address.vat">{{ t('vat') }}: {{ address.vat }}</span>
+      <span v-if="address.vat">{{ $t('form.vat') }}: {{ address.vat }}</span>
       <span> {{ t('phone') }}: {{ address.phone }}</span>
     </template>
 
@@ -25,7 +25,6 @@
 <i18n lang="json">
 {
   "pl": {
-    "vat": "NIP",
     "phone": "Tel."
   }
 }
@@ -50,6 +49,7 @@ withDefaults(
 )
 
 const t = useLocalI18n()
+const $t = useGlobalI18n()
 
 const emit = defineEmits<{
   (event: 'edit'): void

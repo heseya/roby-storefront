@@ -3,7 +3,7 @@
     <LayoutBreadcrumpsProvider :breadcrumbs="breadcrumbs" />
     <LayoutAccount v-if="order" class="account-order">
       <template #header>
-        {{ t('title') }}
+        {{ $t('orders.details') }}
       </template>
       <template #text>
         <AccountOrderCardHeader
@@ -23,15 +23,13 @@
 <i18n lang="json">
 {
   "pl": {
-    "title": "Szczegóły Zamówienia",
-    "orders": "Zamówienia",
     "route": "Zamówienie nr "
   }
 }
 </i18n>
 <script setup lang="ts">
 const t = useLocalI18n()
-const { t: $t } = useI18n({ useScope: 'global' })
+const $t = useGlobalI18n()
 const heseya = useHeseya()
 const formatError = useErrorMessage()
 const route = useRoute()
@@ -43,14 +41,14 @@ definePageMeta({
 })
 
 useSeoMeta({
-  title: () => t('title'),
+  title: () => $t('orders.details'),
 })
 
 const errorMessage = ref('')
 
 const breadcrumbs = computed(() => [
   { label: $t('breadcrumbs.account'), link: '/account' },
-  { label: t('orders'), link: '/account/orders' },
+  { label: $t('orders.title'), link: '/account/orders' },
   { label: `${t('route')}${orderNumber.value}`, link: `/account/orders/${orderNumber.value}` },
 ])
 

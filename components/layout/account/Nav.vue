@@ -4,12 +4,12 @@
       <ul class="layout-account-nav__list">
         <li v-for="(target, index) in navList" :key="index" class="layout-account-nav__list-item">
           <NuxtLink :to="`/account/${target}`" class="layout-account-nav__text"
-            >{{ t(target) }}
+            >{{ $t(`custom.${target}`) }}
           </NuxtLink>
           <LayoutIcon :icon="GoNextIcon" :size="12" class="layout-account-nav__icon" />
         </li>
       </ul>
-      <div class="layout-account-nav__logout" @click="logout">{{ t('logout') }}</div>
+      <div class="layout-account-nav__logout" @click="logout">{{ $t('account.logout') }}</div>
     </div>
   </div>
 </template>
@@ -17,11 +17,6 @@
 <i18n lang="json">
 {
   "pl": {
-    "orders": "Zamówienia",
-    "settings": "Ustawienia konta",
-    "addresses": "Adresy",
-    "wishlist": "Lista życzeń",
-    "logout": "Wyloguj się",
     "logoutText": "Zostałeś wylogowany."
   }
 }
@@ -31,6 +26,7 @@
 import GoNextIcon from '@/assets/icons/navigate-next.svg?component'
 import { useAuthStore } from '@/store/auth'
 
+const $t = useGlobalI18n()
 const t = useLocalI18n()
 const auth = useAuthStore()
 

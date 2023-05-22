@@ -4,7 +4,7 @@
       <h3 class="layout-account-section__text">{{ header }}</h3>
       <NuxtLink :to="link">
         <button class="layout-account-section__btn">
-          {{ t('showAll') }}
+          {{ $t('custom.showAll') }}
           <LayoutIcon :icon="GoNextIcon" :size="8" />
         </button>
       </NuxtLink>
@@ -15,18 +15,9 @@
   </div>
 </template>
 
-<i18n lang="json">
-{
-  "pl": {
-    "showAll": "Pokaż wszystkie",
-    "myAccount": "Moje konto"
-  }
-}
-</i18n>
-
 <script setup lang="ts">
 import GoNextIcon from '@/assets/icons/navigate-next.svg?component'
-const t = useLocalI18n()
+const $t = useGlobalI18n()
 
 defineProps<{
   header: string

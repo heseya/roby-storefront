@@ -3,7 +3,7 @@
     <FormInput
       v-if="!isLogged"
       v-model="checkout.email"
-      :label="t('email.label')"
+      :label="$t('form.email')"
       name="email"
       rules="email|required"
     />
@@ -14,20 +14,10 @@
   </div>
 </template>
 
-<i18n lang="json">
-{
-  "pl": {
-    "email": {
-      "label": "Adres e-mail"
-    }
-  }
-}
-</i18n>
-
 <script setup lang="ts">
 import { useCheckoutStore } from '@/store/checkout'
 
-const t = useLocalI18n()
+const $t = useGlobalI18n()
 const checkout = useCheckoutStore()
 
 const isLogged = useIsLogged()
