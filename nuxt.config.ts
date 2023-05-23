@@ -1,4 +1,5 @@
 import svgLoader from 'vite-svg-loader'
+import { removePageByName } from './utils/removePageByName'
 
 const {
   API_URL = 'https://demo-***REMOVED***.***REMOVED***',
@@ -62,6 +63,16 @@ export default defineNuxtConfig({
     'nuxt-swiper',
     'nuxt-delay-hydration',
   ],
+
+  hooks: {
+    'pages:extend'(pages) {
+      const pagesToRemove: string[] = []
+
+      if (!DIRECTUS_URL) pagesToRemove.push('blog')
+
+      pagesToRemove.forEach((page) => removePageByName(page, pages))
+    },
+  },
 
   googleFonts: {
     families: {

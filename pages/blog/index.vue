@@ -49,10 +49,10 @@
 <script setup lang="ts">
 const route = useRoute()
 const router = useRouter()
-const directus = useDirectus()
 const t = useLocalI18n()
 const $t = useGlobalI18n()
 const localePath = useLocalePath()
+const directus = useDirectus()
 
 const limit = 6
 const page = computed(() => Number(route.query.page ?? 1))
