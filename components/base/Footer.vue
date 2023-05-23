@@ -18,7 +18,12 @@
       </BaseFooterSection>
 
       <div class="footer__section footer__section--main">
-        <img v-if="config.footerLogoUrl" class="footer__logo" :src="config.footerLogoUrl" />
+        <img
+          v-if="config.footerLogoUrl"
+          class="footer__logo"
+          :src="config.footerLogoUrl"
+          :alt="`${config.storeName} logo`"
+        />
 
         <div v-if="companyAddress" class="footer__text">
           <div class="footer__icon"><PinIcon /></div>

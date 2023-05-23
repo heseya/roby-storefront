@@ -48,10 +48,10 @@ withDefaults(
     height: 36px;
     background-color: $gray-color-300;
     border-radius: 50%;
-
     transition: background-color 200ms ease-in-out;
 
     &:hover {
+      filter: none;
       background-color: $gray-color-400;
     }
   }

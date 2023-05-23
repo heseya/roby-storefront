@@ -82,7 +82,7 @@ const dateCreated = computed(() => formatDate(props.article.date_created, 'dd LL
 
   &__date {
     margin-top: 5px;
-    color: $gray-color-600;
+    color: $gray-color-700;
     display: flex;
     justify-content: space-between;
   }
