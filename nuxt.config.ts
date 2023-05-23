@@ -66,11 +66,12 @@ export default defineNuxtConfig({
 
   hooks: {
     'pages:extend'(pages) {
-      const pagesToRemove: string[] = []
+      /**
+       * This pages must be disabled, when directus is not available
+       */
+      const directusPages = ['blog', 'kontakt', 'o-nas', 'wynajem']
 
-      if (!DIRECTUS_URL) pagesToRemove.push('blog')
-
-      pagesToRemove.forEach((page) => removePageByName(page, pages))
+      if (!DIRECTUS_URL) directusPages.forEach((page) => removePageByName(page, pages))
     },
   },
 
