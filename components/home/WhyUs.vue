@@ -1,6 +1,6 @@
 <template>
-  <div class="why-us">
-    <LayoutHeader class="why-us__header" variant="black">Dlaczego ***REMOVED***?</LayoutHeader>
+  <div v-if="content?.active" class="why-us">
+    <LayoutHeader class="why-us__header" variant="black">{{ content.title }}</LayoutHeader>
     <div class="why-us__reasons">
       <HomeWhyUsReson
         v-for="(reason, index) in reasonList"
@@ -11,16 +11,12 @@
       />
     </div>
     <div class="why-us__partner">
-      <img class="partner__image" src="@/assets/images/gold-partner.jpg?url" alt="gold partner" />
+      <img class="partner__image" :src="imageUrl" role="presentation" />
       <div class="partner__description">
         <LayoutHeader class="why-us__header" variant="black">
-          Jesteśmy autoryzowanym dystrybutorem produktów Canon
+          {{ content.image_title }}
         </LayoutHeader>
-        <span>
-          Status Partnera Canon Polska to pewność pochodzenia urządzeń oraz gwarancja wysokiej
-          jakości obsługi. Wieloletnia współpraca z marką Canon pozwala nam występować w roli
-          eksperta.
-        </span>
+        <span> {{ content.image_description }} </span>
       </div>
     </div>
   </div>
@@ -28,6 +24,8 @@
 
 <script lang="ts" setup>
 import { ReasonProps } from '@/components/home/WhyUsReson.vue'
+
+import { TranslatedWhyUsComponent } from '@/interfaces/whyUsComponent'
 
 import Warranty from '@/assets/icons/warranty.svg?component'
 import Support from '@/assets/icons/support.svg?component'
@@ -60,6 +58,24 @@ const reasonList: ReasonProps[] = [
     icon: Warranty,
   },
 ]
+
+const { data: content } = useAsyncData('why-us-content', async () => {
+  try {
+    const directus = useDirectus()
+    const data = await directus.items('WhyUsComponent').readOne(1, {
+      // @ts-ignore directus typing is wrong
+      fields: ['active', 'translations.*', 'image.filename_disk'],
+    })
+    return {
+      active: data?.active,
+      image: data?.image,
+      // @ts-ignore directus typing is wrong
+      ...getTranslated(data!.translations!, 'pl-PL'),
+    } as TranslatedWhyUsComponent
+  } catch {}
+})
+
+const imageUrl = computed(() => getImageUrl(content.value?.image))
 </script>
 
 <style lang="scss" scoped>
