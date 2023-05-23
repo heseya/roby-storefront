@@ -2,18 +2,18 @@
   <div v-if="articles" class="blog-articles">
     <BaseContainer>
       <div class="blog-articles__header">
-        <LayoutHeader class="blog-articles__title" variant="black">{{
-          $t('breadcrumbs.blog')
-        }}</LayoutHeader>
+        <LayoutHeader class="blog-articles__title" variant="black">
+          {{ $t('breadcrumbs.blog') }}
+        </LayoutHeader>
         <HomeShowAllButton path="/blog" />
       </div>
     </BaseContainer>
     <div class="blog-articles__list-container">
       <div class="blog-articles__list">
         <BlogArticleTile
-          v-for="(article, index) in articles?.data || []"
-          :key="index"
-          :article="article"
+          v-for="article in articles?.data || []"
+          :key="article.id"
+          :article="(article as any)"
         />
       </div>
     </div>
@@ -29,6 +29,7 @@ const { data: articles } = useAsyncData('home-blog-articles', () => {
       'id',
       'slug',
       'date_created',
+      // @ts-ignore directus is wrong
       'image.filename_disk',
       'translations.title',
       'translations.description',
@@ -37,7 +38,7 @@ const { data: articles } = useAsyncData('home-blog-articles', () => {
     limit: 4,
     filter: {
       status: 'published',
-    } as any, // this any exists because of directus weird typing
+    },
   })
 })
 </script>

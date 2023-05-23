@@ -14,7 +14,7 @@ import { TranslatedAboutPartner } from '@/interfaces/aboutPage'
 
 const props = defineProps<{ partner: TranslatedAboutPartner }>()
 
-const logoUrl = computed(() => getImageUrl(props.partner.logo))
+const logoUrl = computed(() => getImageUrl(props.partner.logo, { width: 150 }))
 </script>
 
 <style lang="scss" scoped>

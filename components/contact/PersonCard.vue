@@ -38,7 +38,7 @@ const $t = useGlobalI18n()
 
 const props = defineProps<{ person: ContactPerson }>()
 
-const avatarUrl = computed(() => getImageUrl(props.person.avatar))
+const avatarUrl = computed(() => getImageUrl(props.person.avatar, { width: 70 }))
 const description = computed(
   () => getTranslated(props.person.translations, 'description')?.description || '',
 )

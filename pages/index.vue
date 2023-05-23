@@ -14,20 +14,20 @@
           :class="{ 'index-page__content--wide': section.type === 'box' }"
         >
           <LazyHydrate when-idle>
-            <HomeProductCarousel v-if="section.type === 'set'" :category="section.data" />
+            <LazyHomeProductCarousel v-if="section.type === 'set'" :category="section.data" />
 
-            <HomeLinkBox v-if="section.type === 'box'" :link="section.data" />
+            <LazyHomeLinkBox v-if="section.type === 'box'" :link="section.data" />
           </LazyHydrate>
         </BaseContainer>
       </template>
 
       <BaseContainer class="index-page__content">
         <LazyHydrate when-visible>
-          <HomeBlogArticlesList />
+          <LazyHomeBlogArticlesList />
         </LazyHydrate>
 
         <LazyHydrate when-visible>
-          <HomeWhyUs />
+          <LazyHomeWhyUs />
         </LazyHydrate>
 
         <LazyHydrate when-visible>
@@ -78,7 +78,7 @@ const { data: offertsBanner } = useAsyncData('offer-banner', async (): Promise<L
 
   return bannerMedia.map(({ title, media, url, subtitle }) => ({
     text: title,
-    src: media[0].media.url,
+    media: media[0].media,
     link: url,
     linkText: subtitle,
   }))

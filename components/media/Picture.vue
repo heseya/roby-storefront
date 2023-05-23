@@ -44,12 +44,11 @@ const isError = ref(false)
 
 const baseUrl = computed(() => {
   if (!props.src) return undefined
-  if (!props.width || !props.height) return props.src
 
   const url = new URL(props.src)
 
-  url.searchParams.append('w', props.width.toString())
-  url.searchParams.append('h', props.height.toString())
+  if (props.width) url.searchParams.append('w', props.width.toString())
+  if (props.height) url.searchParams.append('h', props.height.toString())
 
   return url.toString()
 })

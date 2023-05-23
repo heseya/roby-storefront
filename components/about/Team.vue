@@ -37,7 +37,7 @@ const { data: persons } = useAsyncData('team-persons', async () => {
   })
   return data?.map((person: any) => ({
     ...person,
-    avatar: getImageUrl(person.avatar),
+    avatar: getImageUrl(person.avatar, { width: 70 }),
   }))
 })
 </script>
