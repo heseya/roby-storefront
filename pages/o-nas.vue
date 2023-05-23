@@ -49,12 +49,15 @@ import { TranslatedAboutPage } from '~/interfaces/aboutPage'
 
 const t = useLocalI18n()
 
-const breadcrumbs = [
-  {
-    label: t('title'),
-    link: '/o-nas',
-  },
-]
+const breadcrumbs = computed(() => {
+  const route = useRoute()
+  return [
+    {
+      label: t('title'),
+      link: route.path,
+    },
+  ]
+})
 
 useSeoMeta({
   title: t('title'),

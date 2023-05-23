@@ -1,13 +1,13 @@
 <template>
   <NuxtLayout>
-    <LayoutBreadcrumpsProvider :breadcrumbs="breadcrumb" />
+    <LayoutBreadcrumpsProvider :breadcrumbs="breadcrumbs" />
     <LayoutLoading :active="pending" />
     <BaseContainer v-if="!pending" class="statute-page">
       <div>
         <div class="statute-page__contents-container">
-          <LayoutHeader class="statute-page__title" variant="black">{{
-            t('statute')
-          }}</LayoutHeader>
+          <LayoutHeader class="statute-page__title" variant="black">
+            {{ t('title') }}
+          </LayoutHeader>
           <button
             v-for="(header, index) in headers"
             :key="index"
@@ -28,7 +28,7 @@
 <i18n lang="json">
 {
   "pl": {
-    "statute": "Regulamin",
+    "title": "Regulamin",
     "notFoundError": "Nie znaleziono treści regulaminu"
   }
 }
@@ -37,23 +37,24 @@
 <script setup lang="ts">
 const t = useLocalI18n()
 const heseya = useHeseya()
+const route = useRoute()
 
 const content = ref<HTMLElement>()
 
 useSeoMeta({
-  title: () => t('statute'),
+  title: () => t('title'),
 })
 
-const breadcrumb = [
+const breadcrumbs = computed(() => [
   {
-    label: 'Regulamin',
-    link: '/regulamin',
+    label: t('title'),
+    link: route.path,
   },
-]
+])
 
 const { data: page, pending } = useAsyncData(`static-regulamin`, async () => {
   try {
-    return await heseya.Pages.getOneBySlug('regulamin')
+    return await heseya.Pages.getOneBySlug(route.path.replace('/', ''))
   } catch (e: any) {
     if (e?.response?.status !== 404) {
       showError({ message: e.statusCode, statusCode: 500 })
