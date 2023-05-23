@@ -132,6 +132,9 @@ export const useCartStore = defineStore('cart', {
       } catch (e) {
         // TODO: handle if process cart fails
         this.error = e
+        this.unavailableItems = this.items
+        this.items = []
+        this.summary = 0
       }
       this.isProcessing = false
     },
