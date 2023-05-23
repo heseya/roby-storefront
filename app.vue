@@ -1,17 +1,19 @@
 <template>
-  <LayoutThemeContext>
-    <NuxtLoadingIndicator />
+  <Html :lang="i18nHead.htmlAttrs?.lang" :dir="i18nHead.htmlAttrs?.dir">
+    <LayoutThemeContext>
+      <NuxtLoadingIndicator />
 
-    <ShopOff v-if="isShopDisabled" />
-    <NuxtPage v-else />
+      <ShopOff v-if="isShopDisabled" />
+      <NuxtPage v-else />
 
-    <ClientOnly>
-      <CartUnavailableModal />
-      <Notifications class="notifications" position="bottom right" />
-    </ClientOnly>
+      <ClientOnly>
+        <CartUnavailableModal />
+        <Notifications class="notifications" position="bottom right" />
+      </ClientOnly>
 
-    <LazyColorThemePicker v-if="showColorThemePicker" />
-  </LayoutThemeContext>
+      <LazyColorThemePicker v-if="showColorThemePicker" />
+    </LayoutThemeContext>
+  </Html>
 </template>
 
 <script setup lang="ts">
@@ -21,6 +23,11 @@ const { showColorThemePicker } = usePublicRuntimeConfig()
 
 const config = useConfigStore()
 const seo = toRef(config, 'seo')
+const i18nHead = useLocaleHead({
+  addDirAttribute: true,
+  identifierAttribute: 'id',
+  addSeoAttributes: true,
+})
 const title = computed(() => seo.value.title || 'Store')
 
 const isShopDisabled = computed(() => config.storeFrontDisabled)
@@ -34,7 +41,11 @@ useSeoMeta({
 })
 
 useHead({
-  link: [{ rel: 'icon', type: 'image/x-icon', href: config.faviconUrl }],
+  link: [
+    ...(i18nHead.value.link || []),
+    { rel: 'icon', type: 'image/x-icon', href: config.faviconUrl },
+  ],
+  meta: i18nHead.value.meta,
 })
 </script>
 
