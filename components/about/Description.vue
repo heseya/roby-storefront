@@ -2,36 +2,36 @@
   <div class="description">
     <div class="description__content">
       <span>
-        Specjalizujemy się w dziedzinie urządzeń biurowych i wielkoformatowych. Skupiamy się na
-        dostarczaniu rozwiązań, które usprawnią funkcjonowanie Twojego biznesu. Wieloletnie
-        doświadczenie pozwala nam na wybór sprawdzonych rozwiązań, które w pełni dopasują się do
-        Twoich indywidualnych potrzeb.
+        {{ text }}
       </span>
       <div class="description__point">
         <LayoutIcon class="description__point-icon" :icon="Chevron" :size="12" />
         <span>
-          Dobrze wiemy, że na działanie Twojego biznesu wpływ ma również sprawna obsługa urządzeń.
-          Dlatego w całości angażujemy się w szybkie dostarczanie materiałów i usług niezbędnych do
-          zaspokojenia wszelkich potrzeb w obszarze druku.
+          {{ point1 }}
         </span>
       </div>
       <div class="description__point">
         <LayoutIcon class="description__point-icon" :icon="Chevron" :size="12" />
         <span>
-          Co możemy zrobić dla Twojej firmy? Naszym głównym celem jest sprawienie, abyś mógł w pełni
-          skupić się na prowadzeniu swojego biznesu, nie zaprzątając sobie głowy sprzętem biurowym i
-          jego prawidłowym funkcjonowaniem.
+          {{ point2 }}
         </span>
       </div>
     </div>
     <div class="description__image-container">
-      <img class="description__image" src="@/assets/images/about.jpg" />
+      <img class="description__image" :src="imageUrl" />
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import Chevron from '@/assets/icons/chevron.svg?component'
+
+defineProps<{
+  text: string
+  point1: string
+  point2: string
+  imageUrl: string
+}>()
 </script>
 
 <style lang="scss" scoped>

@@ -4,18 +4,34 @@
     <div class="about-page">
       <BaseContainer class="about-page__content about-page__content--narrow">
         <LayoutHeader variant="black" tag="h1" class="about-page__title">
-          Dowiedz się więcej o naszym zespole
+          {{ aboutPage?.title }}
         </LayoutHeader>
-        <AboutDescription />
+        <AboutDescription
+          v-if="aboutPage"
+          :text="aboutPage?.text"
+          :point1="aboutPage?.point_1"
+          :point2="aboutPage?.point_2"
+          :image-url="mainImageUrl"
+        />
       </BaseContainer>
 
-      <AboutBanner class="about-page__banner" />
-      <BaseContainer class="about-page__content">
-        <AboutTeam />
-        <AboutPartnerCarousel />
+      <AboutBanner
+        v-if="aboutPage?.catching_text"
+        class="about-page__banner"
+        :text="aboutPage?.catching_text"
+      />
+
+      <BaseContainer v-if="aboutPage" class="about-page__content">
+        <AboutTeam :title="aboutPage?.persons_title" />
+        <AboutPartnerCarousel :title="aboutPage?.slider_title" />
       </BaseContainer>
 
-      <AboutImageBanner />
+      <AboutImageBanner
+        v-if="aboutPage"
+        :title="aboutPage?.banner_title"
+        :text="aboutPage?.banner_text"
+        :image-url="bannerImageUrl"
+      />
     </div>
   </NuxtLayout>
 </template>
@@ -29,6 +45,8 @@
 </i18n>
 
 <script setup lang="ts">
+import { TranslatedAboutPage } from '~/interfaces/aboutPage'
+
 const t = useLocalI18n()
 
 const breadcrumbs = [
@@ -41,6 +59,22 @@ const breadcrumbs = [
 useSeoMeta({
   title: t('title'),
 })
+
+const { data: aboutPage } = useAsyncData('about-page', async () => {
+  try {
+    const directus = useDirectus()
+    const data = await directus.items('AboutPage').readOne(1, {
+      // @ts-ignore directus typing is wrong
+      fields: ['translations.*', 'translations.main_image.*', 'translations.banner_image.*'],
+    })
+    return getTranslated(data!.translations!, 'pl-PL') as TranslatedAboutPage
+  } catch {
+    showError({ message: t('errors.NOT_FOUND'), statusCode: 404 })
+  }
+})
+
+const mainImageUrl = computed(() => getImageUrl(aboutPage.value?.main_image))
+const bannerImageUrl = computed(() => getImageUrl(aboutPage.value?.banner_image))
 </script>
 
 <style lang="scss" scoped>
