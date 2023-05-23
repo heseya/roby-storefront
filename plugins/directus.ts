@@ -3,6 +3,7 @@ import { Directus } from '@directus/sdk'
 import { BlogArticle } from '@/interfaces/BlogArticle'
 import { AboutPage, AboutPartner } from '@/interfaces/aboutPage'
 import { ContactDepartment, ContactPerson } from '@/interfaces/contactPage'
+import { WhyUsComponent, WhyUsReason } from '@/interfaces/whyUsComponent'
 
 export type DirectusCollections = {
   Articles: BlogArticle
@@ -10,6 +11,8 @@ export type DirectusCollections = {
   Departments: ContactDepartment
   AboutPage: AboutPage
   AboutPagePartner: AboutPartner
+  WhyUsComponent: WhyUsComponent
+  WhyUsReason: WhyUsReason
 }
 
 export default defineNuxtPlugin((nuxtApp) => {
