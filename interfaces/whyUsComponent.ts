@@ -20,3 +20,18 @@ export interface TranslatedWhyUsComponent {
   image: DirectusImage
   active: boolean
 }
+
+export interface WhyUsReason {
+  id: ID
+  icon: DirectusImage
+  translations: DirectusTranslated<{
+    name: string
+    description: string
+  }>
+}
+
+export interface TranslatedWhyUsReason {
+  name: string
+  description: string
+  icon: DirectusImage
+}
