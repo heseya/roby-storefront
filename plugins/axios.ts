@@ -39,7 +39,6 @@ export default defineNuxtPlugin((nuxt) => {
     setRefreshToken: (token) => (refreshToken.value = token),
     shouldIncludeAuthorizationHeader: (req) => pathsWithAuth.some((url) => req.url?.includes(url)),
     onTokenRefreshError: (error) => {
-      // TODO: Handle token refresh error, basicly logout user?
       // eslint-disable-next-line no-console
       console.error('Auth Error', error.message)
       auth.clearAuth()
