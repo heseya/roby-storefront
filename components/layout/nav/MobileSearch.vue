@@ -6,17 +6,24 @@
         type="button"
         :icon="ArrowBack"
         icon-size="sm"
+        :title="$t('search.close')"
         @click="onClose"
       />
       <input
         v-model="form.values.query"
         class="mobile-search__input"
         type="text"
-        :placeholder="$t('custom.search')"
+        :placeholder="$t('search.placeholder')"
         name="query"
         autocomplete="off"
       />
-      <LayoutIconButton class="mobile-search__btn" type="submit" icon-size="sm" :icon="Search" />
+      <LayoutIconButton
+        class="mobile-search__btn"
+        type="submit"
+        icon-size="sm"
+        :icon="Search"
+        :title="$t('search.action')"
+      />
     </form>
     <LayoutNavSearchHistory v-show="searchHistory.queries.length" class="mobile-search__history" />
   </div>

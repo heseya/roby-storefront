@@ -19,6 +19,7 @@
           class="cart-preview-item__remove-btn"
           :icon="CrossIcon"
           icon-size="sm"
+          :title="$t('cart.remove')"
           @click="handleRemove(item.id)"
         />
       </div>

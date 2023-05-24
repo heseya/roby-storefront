@@ -2,6 +2,7 @@
   <button
     :class="['favorite-btn', { 'favorite-btn--active': isInWishlist }]"
     :variant="isInWishlist ? 'gray' : 'white'"
+    :title="t(isInWishlist ? 'remove' : 'add')"
     @click.prevent="toggle"
   >
     <LayoutIcon v-if="isInWishlist" :size="14" :icon="FilledHeartIcon" class="favorite-btn__icon" />
@@ -9,11 +10,22 @@
   </button>
 </template>
 
+<i18n lang="json">
+{
+  "pl": {
+    "add": "Dodaj do ulubionych",
+    "remove": "Usuń z ulubionych"
+  }
+}
+</i18n>
+
 <script setup lang="ts">
 import { ProductList } from '@heseya/store-core'
 
 import HeartIcon from '@/assets/icons/heart.svg?component'
 import FilledHeartIcon from '@/assets/icons/filled-heart.svg?component'
+
+const t = useLocalI18n()
 
 const props = withDefaults(defineProps<{ product: ProductList }>(), {})
 

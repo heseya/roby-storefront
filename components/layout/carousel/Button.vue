@@ -5,14 +5,26 @@
       class="carousel-button__icon"
       :icon="ArrowNext"
       :icon-size="12"
+      :title="t(type)"
       @click="type === 'next' ? swiper.slideNext() : swiper.slidePrev()"
     />
   </div>
 </template>
 
+<i18n lang="json">
+{
+  "pl": {
+    "next": "Przewiń do następnego slajdu",
+    "prev": "Przewiń do poprzedniego slajdu"
+  }
+}
+</i18n>
+
 <script lang="ts" setup>
 import ArrowNext from '@/assets/icons/chevron.svg?component'
 import IconButton from '@/components/layout/IconButton.vue'
+
+const t = useLocalI18n()
 
 const swiper = useSwiper()
 const firstTime = ref(true)

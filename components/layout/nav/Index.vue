@@ -7,6 +7,7 @@
         <LayoutIconButton
           class="nav-items__menu-btn"
           :icon="Menu"
+          :title="$t('nav.showCategories')"
           @click="isOpenCategories = true"
         />
         <NuxtLink to="/" class="nav-items__logo-link">
@@ -24,6 +25,7 @@
           icon-size="sm"
           class="nav-items__search--narrow"
           :icon="Search"
+          :title="$t('search.open')"
           @click="isOpenSearch = true"
         />
         <div class="nav-items__button-wrapper">

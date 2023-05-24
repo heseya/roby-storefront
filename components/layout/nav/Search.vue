@@ -5,7 +5,7 @@
         ref="inputRef"
         v-model="formCtx.values.query"
         class="search__input search__input--query"
-        :placeholder="$t('custom.search')"
+        :placeholder="$t('search.placeholder')"
         name="query"
         autocomplete="off"
       />
@@ -20,7 +20,13 @@
           {{ name }}
         </option>
       </select>
-      <LayoutIconButton icon-size="sm" class="search__button" :icon="Search" type="submit" />
+      <LayoutIconButton
+        icon-size="sm"
+        class="search__button"
+        :icon="Search"
+        type="submit"
+        :title="$t('search.action')"
+      />
     </form>
     <LayoutNavSearchHistory v-show="showHistory" ref="historyRef" class="search__history" />
   </div>

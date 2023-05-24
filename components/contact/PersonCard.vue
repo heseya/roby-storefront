@@ -19,7 +19,12 @@
             target="_blank"
             rel="nofollow noopener"
           >
-            <LayoutIconButton class="person-card__social" :icon="Linkedin" :icon-size="16" />
+            <LayoutIconButton
+              class="person-card__social"
+              :icon="Linkedin"
+              :icon-size="16"
+              :title="t('linkedinAction')"
+            />
           </a>
         </div>
         <div class="person-card__details">
@@ -36,11 +41,20 @@
   </div>
 </template>
 
+<i18n lang="json">
+{
+  "pl": {
+    "linkedinAction": "Przejdź do LinkedIn"
+  }
+}
+</i18n>
+
 <script lang="ts" setup>
 import Linkedin from '@/assets/icons/linkedin.svg?component'
-import { ContactPerson } from '@/interfaces/contact'
+import { ContactPerson } from '@/interfaces/contactPage'
 
 const $t = useGlobalI18n()
+const t = useLocalI18n()
 
 const props = defineProps<{ person: ContactPerson }>()
 

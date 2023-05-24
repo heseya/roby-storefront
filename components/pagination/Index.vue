@@ -12,6 +12,7 @@
     <div class="pagination__content pagination__content--desktop">
       <button
         :class="['pagination__button', { 'pagination__button--active': 1 === current }]"
+        :title="t('first')"
         @click="first"
       >
         1
@@ -23,6 +24,7 @@
         v-for="page in visiblePages"
         :key="page"
         :class="['pagination__button', { 'pagination__button--active': page === current }]"
+        :title="t('go', { page })"
         @click="go(page)"
       >
         {{ page }}
@@ -33,6 +35,7 @@
       <button
         v-if="total !== 1"
         :class="['pagination__button', { 'pagination__button--active': total === current }]"
+        :title="t('last')"
         @click="last"
       >
         {{ total }}
@@ -66,7 +69,10 @@
 {
   "pl": {
     "next": "Następna",
-    "prev": "Poprzednia"
+    "prev": "Poprzednia",
+    "first": "Przejdź do pierwszej strony",
+    "go": "Przejdź do strony {page}",
+    "last": "Przejdź do ostatniej strony"
   }
 }
 </i18n>

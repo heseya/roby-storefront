@@ -1,11 +1,12 @@
 <template>
   <div class="product-gallery">
-    <button class="product-gallery__close-btn" @click="emit('close')">
+    <button class="product-gallery__close-btn" :title="t('close')" @click="emit('close')">
       <LayoutIcon :size="10" :icon="CrossIcon" />
     </button>
     <button
       class="product-gallery__btn product-gallery__btn--prev"
       :disabled="!prev"
+      :title="t('prev')"
       @click="active = prev"
     >
       <LayoutIcon :size="13" :icon="ChevronIcon" />
@@ -13,6 +14,7 @@
     <button
       class="product-gallery__btn product-gallery__btn--next"
       :disabled="!next"
+      :title="t('next')"
       @click="active = next"
     >
       <LayoutIcon :size="13" :icon="ChevronIcon" />
@@ -36,10 +38,22 @@
   </div>
 </template>
 
+<i18n lang="json">
+{
+  "pl": {
+    "close": "Zamknij galerię",
+    "next": "Następne zdjęcie",
+    "prev": "Poprzednie zdjęcie"
+  }
+}
+</i18n>
+
 <script setup lang="ts">
 import { CdnMedia } from '@heseya/store-core'
 import ChevronIcon from '@/assets/icons/chevron.svg?component'
 import CrossIcon from '@/assets/icons/cross.svg?component'
+
+const t = useLocalI18n()
 
 const props = defineProps<{
   media: CdnMedia[]

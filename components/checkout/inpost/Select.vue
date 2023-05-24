@@ -15,6 +15,7 @@
           class="inpost-select__edit"
           :icon="EditIcon"
           :icon-size="14"
+          :title="t('change')"
           @click="isPaczkomatModalOpen = true"
         />
       </div>
@@ -40,7 +41,8 @@
 {
   "pl": {
     "button": "Wybierz paczkomat",
-    "phone": "Number telefonu odbiorcy"
+    "phone": "Number telefonu odbiorcy",
+    "change": "Wybierz paczkomat"
   }
 }
 </i18n>

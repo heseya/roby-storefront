@@ -44,6 +44,7 @@
             v-if="companyFacebook"
             class="footer__social-icon"
             :href="companyFacebook"
+            :aria-label="t('goToFacebook')"
             rel="nofollow noreferrer"
           >
             <FacebookIcon />
@@ -53,6 +54,7 @@
             v-if="companyInstagram"
             class="footer__social-icon"
             :href="companyInstagram"
+            :aria-label="t('goToInstagram')"
             rel="nofollow noreferrer"
           >
             <InstagramIcon />
@@ -61,6 +63,7 @@
             v-if="companyLinkedin"
             class="footer__social-icon"
             :href="companyLinkedin"
+            :aria-label="t('goToLinkedin')"
             rel="nofollow noreferrer"
           >
             <LayoutIcon :icon="LinkedinIcon" size="sm" />
@@ -70,6 +73,16 @@
     </div>
   </footer>
 </template>
+
+<i18n lang="json">
+{
+  "pl": {
+    "goToFacebook": "Przejdź do Facebooka",
+    "goToInstagram": "Przejdź do Instagrama",
+    "goToLinkedin": "Przejdź do Linkedin"
+  }
+}
+</i18n>
 
 <script lang="ts" setup>
 import { useConfigStore } from '@/store/config'
@@ -81,6 +94,7 @@ import PinIcon from '@/assets/icons/pin.svg?component'
 import PhoneIcon from '@/assets/icons/phone.svg?component'
 import MailIcon from '@/assets/icons/mail.svg?component'
 
+const t = useLocalI18n()
 const config = useConfigStore()
 const heseya = useHeseya()
 const localePath = useLocalePath()
