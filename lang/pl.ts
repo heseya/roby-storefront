@@ -8,6 +8,7 @@ export default {
   common: {
     save: 'Zapisz',
     cancel: 'Anuluj',
+    edit: 'Edytuj',
     yes: 'Tak',
     no: 'Nie',
     name: 'Nazwa',

@@ -8,7 +8,7 @@
       <button
         v-if="closeable && !hideClose"
         class="modal__close-btn"
-        :aria-label="t('close')"
+        :title="t('close')"
         @click="close"
       />
 

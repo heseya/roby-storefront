@@ -11,7 +11,11 @@
       <span>{{ address.country_name }}</span>
     </div>
 
-    <button class="checkout-address-card__edit-btn" @click="emit('edit')">
+    <button
+      class="checkout-address-card__edit-btn"
+      :title="$t('common.edit')"
+      @click="emit('edit')"
+    >
       <LayoutIcon class="checkout-address-card__edit-btn-icon" :size="14" :icon="PencilLine" />
     </button>
   </div>
