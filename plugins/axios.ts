@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { enhanceAxiosWithAuthTokenRefreshing } from '@heseya/store-core'
-import { cacheAdapterEnhancer } from 'axios-extensions'
-import { LRUCache } from 'lru-cache'
+import { setupCache, buildMemoryStorage } from 'axios-cache-interceptor/dev'
+
 import { Pinia } from '@pinia/nuxt/dist/runtime/composables'
 
 import { useAuthStore } from '~/store/auth'
@@ -12,25 +12,26 @@ declare module 'axios' {
     _endTime?: number
   }
 }
+
+// ? Common cache storage for server side
+const cacheStorage = buildMemoryStorage()
+
 export default defineNuxtPlugin((nuxt) => {
   const { apiUrl: baseURL, isProduction, clientCacheTtl } = usePublicRuntimeConfig()
 
-  const ax = axios.create({ baseURL })
+  const baseAxios = axios.create({ baseURL })
 
   // ? --------------------------------------------------------------------------------------------
   // ? Cache
-  //   TODO: this does not work
   // ? --------------------------------------------------------------------------------------------
-
-  const defaultCache = process.server
-    ? // @ts-ignore // Shared cache on whole ServerSide
-      nuxt.$axCache
-    : new LRUCache({ ttl: Number(clientCacheTtl), max: 50 })
-
-  // @ts-ignore
-  ax.defaults.adapter = cacheAdapterEnhancer(axios.defaults.adapter!, {
-    enabledByDefault: false,
-    defaultCache,
+  const cacheTTL =
+    (process.client ? clientCacheTtl : parseInt(process.env.SERVER_CACHE_TTL || '0')) ?? 0
+  const ax = setupCache(baseAxios, {
+    // This time is a fallback value, by default time is determined by the `Cache-Control` header
+    ttl: cacheTTL,
+    // TODO: remove this override when API stop returning `Cache-Control: no-cache`
+    headerInterpreter: () => cacheTTL,
+    storage: cacheStorage,
   })
 
   // ? --------------------------------------------------------------------------------------------
@@ -76,9 +77,9 @@ export default defineNuxtPlugin((nuxt) => {
     const config = response.config
     config._endTime = Date.now()
     if (!isProduction) {
-      const time = `${config._endTime - config._beginTime!}ms`
+      const time = response.cached ? 'cache' : `${config._endTime - config._beginTime!}ms`
       // eslint-disable-next-line no-console
-      console.log(`(${time}) - [${config.method}]`, config.url)
+      console.log(`(${time}) - [${config.method}] ${config.url} {ID:${config.id}}`)
     }
     return response
   })
