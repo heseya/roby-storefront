@@ -1,15 +1,30 @@
 <template>
   <div v-show="config.env.top_site_text" class="notification">
     <span class="notification__title">{{ config.env.top_site_text }}</span>
-    <LayoutIconButton v-show="false" class="notification__button" :icon="Close" icon-size="sm" />
+    <LayoutIconButton
+      v-show="false"
+      class="notification__button"
+      :icon="Close"
+      icon-size="sm"
+      :title="t('close')"
+    />
   </div>
 </template>
+
+<i18n lang="json">
+{
+  "pl": {
+    "close": "Zamknij powiadomienie"
+  }
+}
+</i18n>
 
 <script lang="ts" setup>
 import Close from '@/assets/icons/cross.svg?component'
 import { useConfigStore } from '@/store/config'
 // import { useNavNotificationBarStore } from '@/store/navNotificationBar'
 
+const t = useLocalI18n()
 const config = useConfigStore()
 
 // TODO load notification without hydration & layout shift problem

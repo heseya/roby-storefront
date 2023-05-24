@@ -60,12 +60,12 @@ export default {
     title: 'Koszyk',
     empty: 'Twój koszyk jest pusty',
     quantity: 'Ilość:',
+    remove: 'Usuń produkt z koszyka',
   },
 
   custom: {
     workingDays: 'dni roboczych',
     showAll: 'Pokaż wszystkie',
-    search: 'Czego szukasz?',
   },
 
   form: {
@@ -81,7 +81,18 @@ export default {
   },
 
   nav: {
+    title: 'Menu',
     goToMainPage: 'Przejdź na stronę główną',
+    close: 'Zamknij menu nawigacyjne',
+    showSubcategories: 'Pokaż podkategorie',
+    showCategories: 'Pokaż kategorie',
+  },
+
+  search: {
+    action: 'Wyszukaj',
+    open: 'Otwórz wyszukiwarkę',
+    close: 'Zamknij wyszukiwarkę',
+    placeholder: 'Czego szukasz?',
   },
 
   seo: {

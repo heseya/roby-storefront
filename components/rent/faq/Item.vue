@@ -7,6 +7,7 @@
         :class="{ 'item__arrow--down': isOpen }"
         :icon="Chevron"
         :icon-size="12"
+        :title="t(isOpen ? 'hide' : 'show')"
         @click="toggleOpen"
       />
     </div>
@@ -14,8 +15,19 @@
   </div>
 </template>
 
+<i18n lang="json">
+{
+  "pl": {
+    "hide": "Ukryj odpowiedź",
+    "show": "Pokaż odpowiedź"
+  }
+}
+</i18n>
+
 <script lang="ts" setup>
 import Chevron from '@/assets/icons/chevron.svg?component'
+
+const t = useLocalI18n()
 
 defineProps<{
   question: string
@@ -30,7 +42,7 @@ const toggleOpen = () => {
 
 <style lang="scss" scoped>
 .item {
-  padding: 20px 0;
+  padding: 16px 0;
   @include flex-column;
   border-bottom: 1px solid $gray-color-300;
   overflow: hidden;
@@ -48,6 +60,7 @@ const toggleOpen = () => {
   }
 
   &__arrow {
+    padding: 8px;
     rotate: 90deg;
     transition: 200ms ease-in-out;
 

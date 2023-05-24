@@ -5,9 +5,10 @@
         class="mobile-menu__close-btn"
         :icon="Close"
         icon-size="sm"
+        :title="$t('nav.close')"
         @click="onClose"
       />
-      <span>{{ t('menu') }}</span>
+      <span>{{ $t('nav.title') }}</span>
     </div>
     <LayoutNavCategoryButton
       v-for="category in categoriesStore.navCategories"
@@ -32,7 +33,7 @@ import Close from '@/assets/icons/cross.svg?component'
 import { useCategoriesStore } from '@/store/categories'
 import { NavLink } from '@/interfaces/NavLink'
 
-const t = useLocalI18n()
+const $t = useGlobalI18n()
 
 withDefaults(
   defineProps<{

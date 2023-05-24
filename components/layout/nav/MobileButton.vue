@@ -10,6 +10,7 @@
         :class="{ 'category-mobile-btn__arrow--down': isOpen }"
         :icon="Chevron"
         :icon-size="12"
+        :title="$t('nav.showSubcategories')"
         @click="toggleOpen"
       />
     </div>

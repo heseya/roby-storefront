@@ -27,7 +27,12 @@
     </div>
 
     <div v-if="!static" class="cart-item__actions">
-      <LayoutIconButton :icon="CrossIcon" icon-size="sm" @click="removeFromCart" />
+      <LayoutIconButton
+        :icon="CrossIcon"
+        icon-size="sm"
+        :title="t('cart.remove')"
+        @click="removeFromCart"
+      />
     </div>
   </div>
 </template>
