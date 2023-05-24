@@ -13,10 +13,9 @@ declare module 'axios' {
   }
 }
 export default defineNuxtPlugin((nuxt) => {
-  const { apiUrl: baseURL, isProduction } = usePublicRuntimeConfig()
+  const { apiUrl: baseURL, isProduction, clientCacheTtl } = usePublicRuntimeConfig()
 
   const ax = axios.create({ baseURL })
-  const auth = useAuthStore(nuxt.$pinia as Pinia)
 
   // ? --------------------------------------------------------------------------------------------
   // ? Cache
@@ -26,7 +25,7 @@ export default defineNuxtPlugin((nuxt) => {
   const defaultCache = process.server
     ? // @ts-ignore // Shared cache on whole ServerSide
       nuxt.$axCache
-    : new LRUCache({ ttl: Number(config.clientCacheTtl), max: 50 })
+    : new LRUCache({ ttl: Number(clientCacheTtl), max: 50 })
 
   // @ts-ignore
   ax.defaults.adapter = cacheAdapterEnhancer(axios.defaults.adapter!, {
@@ -37,8 +36,7 @@ export default defineNuxtPlugin((nuxt) => {
   // ? --------------------------------------------------------------------------------------------
   // ? Auth
   // ? --------------------------------------------------------------------------------------------
-  const auth = useAuthStore()
-  const router = useRouter()
+  const auth = useAuthStore(nuxt.$pinia as Pinia)
 
   const accessToken = useAccessToken()
   const identityToken = useIdentityToken()
