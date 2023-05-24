@@ -1,26 +1,28 @@
 <template>
-  <div class="checkout-container">
-    <div class="checkout-container__icon">
-      <ShoppingBag />
-    </div>
-    <div class="checkout-container__header">{{ t('container.header') }}</div>
-    <div class="checkout-container__text">
-      <span>{{ t('container.text') }}&nbsp;</span>
-      <span v-if="auth.isLogged">
-        {{ t('container.text2') }}&nbsp;
-        <b>
-          <u>{{ t('container.my-account') }}</u>
-        </b>
-      </span>
-    </div>
-    <div v-if="route.query.code" class="checkout-container__nav">
-      <NuxtLink :to="`/status/${orderCode}`">
-        <LayoutButton class="checkout-container__btn"> {{ t('container.btn') }}</LayoutButton>
-      </NuxtLink>
-    </div>
+  <NuxtLayout name="checkout">
+    <div class="checkout-container">
+      <div class="checkout-container__icon">
+        <ShoppingBag />
+      </div>
+      <div class="checkout-container__header">{{ t('container.header') }}</div>
+      <div class="checkout-container__text">
+        <span>{{ t('container.text') }}&nbsp;</span>
+        <span v-if="auth.isLogged">
+          {{ t('container.text2') }}&nbsp;
+          <b>
+            <u>{{ $t('breadcrumbs.account') }}</u>
+          </b>
+        </span>
+      </div>
+      <div v-if="route.query.code" class="checkout-container__nav">
+        <NuxtLink :to="`/status/${orderCode}`">
+          <LayoutButton class="checkout-container__btn"> {{ t('container.btn') }}</LayoutButton>
+        </NuxtLink>
+      </div>
 
-    <CheckoutTraditionalPaymentDetails v-if="isTraditionalPayment" :code="orderCode" />
-  </div>
+      <CheckoutTraditionalPaymentDetails v-if="isTraditionalPayment" :code="orderCode" />
+    </div>
+  </NuxtLayout>
 </template>
 
 <i18n lang="json">
@@ -30,7 +32,6 @@
       "header": "Dziękujemy za zakupy!",
       "text": "Na Twojego maila zostanie wysłane potwierdzenie zakupu.",
       "text2": "Szczegóły zamówienia znajdziesz również w",
-      "my-account": "Moje konto",
       "btn": "Sprawdź szczegóły zamówienia"
     }
   }
@@ -49,6 +50,7 @@ const route = useRoute()
 const auth = useAuthStore()
 
 const t = useLocalI18n()
+const $t = useGlobalI18n()
 
 const orderCode = computed(() => route.query.code as string)
 

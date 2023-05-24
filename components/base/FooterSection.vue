@@ -91,7 +91,7 @@ const isOpen = ref(false)
       }
 
       &:hover {
-        color: var(--primary-color);
+        color: var(--secondary-color);
       }
     }
 

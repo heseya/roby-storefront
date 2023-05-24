@@ -1,7 +1,7 @@
 <template>
   <NuxtLayout>
     <div class="error-page">
-      <span class="error-page__title">{{ t('error.title') }}</span>
+      <span class="error-page__title">{{ useGlobalI18n('common.error') }}</span>
       <h1 class="error-page__code">{{ error?.statusCode || 500 }}</h1>
       <p class="error-page__text">
         {{ error?.message || error?.statusMessage || t('error.text') }}
@@ -18,7 +18,6 @@
 {
   "pl": {
     "error": {
-      "title": "Błąd",
       "text": "Coś poszło nie tak.",
       "button": "Wróć do strony głównej"
     }
@@ -60,7 +59,7 @@ useSeoMeta({
     font-size: rem(80);
     line-height: rem(160);
     margin: 24px 0;
-    color: var(--primary-color);
+    color: var(--secondary-color);
 
     &::first-letter {
       margin-left: 0;

@@ -1,27 +1,26 @@
 <template>
-  <div class="checkout-container">
-    <CheckoutTraditionalPaymentDetails :code="orderCode" />
-  </div>
+  <NuxtLayout name="checkout">
+    <div class="checkout-container">
+      <CheckoutTraditionalPaymentDetails :code="orderCode" />
+    </div>
+  </NuxtLayout>
 </template>
 
 <i18n lang="json">
 {
   "pl": {
-    "alreadyPaid": "Zamówienie zostało już opłacone"
+    "notFoundError": "Nie znaleziono zamówienia o podanym kodzie"
   }
 }
 </i18n>
 
 <script setup lang="ts">
-definePageMeta({
-  layout: 'checkout',
-})
-
 const route = useRoute()
 const router = useRouter()
 const { notify } = useNotify()
 
 const t = useLocalI18n()
+const $t = useGlobalI18n()
 
 const orderCode = computed(() => route.params.code as string)
 
@@ -31,7 +30,7 @@ useAsyncData(`order-summary-${orderCode}`, async () => {
     const order = await heseya.Orders.getOneByCode(orderCode.value)
 
     if (order.paid) {
-      notify({ type: 'success', text: t('alreadyPaid') })
+      notify({ type: 'success', text: $t('errors.CLIENT_ORDER_PAID') })
       router.push(`/status/${orderCode.value}`)
     }
 
@@ -42,8 +41,8 @@ useAsyncData(`order-summary-${orderCode}`, async () => {
   }
 })
 
-useHead({
-  title: t('container.header'),
+useSeoMeta({
+  title: () => $t('payments.traditionalTransfer'),
 })
 </script>
 

@@ -6,12 +6,13 @@
       <div class="cart-item__main">
         <span class="cart-item__name">{{ item.name }}</span>
         <span v-for="[name, value] in item.variant" :key="name" class="cart-item__schema">
-          {{ name }}: <b>{{ value }}</b>
+          {{ name }}: <b>{{ formatSchemaValue(value) }}</b>
         </span>
       </div>
 
       <ProductQuantityInput
         show-label
+        :disabled="static"
         class="cart-item__quantity"
         :quantity="item.qty"
         @update:quantity="updateQuantity"
@@ -25,7 +26,7 @@
       </div>
     </div>
 
-    <div class="cart-item__actions">
+    <div v-if="!static" class="cart-item__actions">
       <LayoutIconButton :icon="CrossIcon" icon-size="sm" @click="removeFromCart" />
     </div>
   </div>
@@ -36,9 +37,17 @@ import { CartItem } from '@heseya/store-core'
 import CrossIcon from '@/assets/icons/cross.svg?component'
 import { useCartStore } from '@/store/cart'
 
-const props = defineProps<{
-  item: CartItem
-}>()
+const { t } = useI18n()
+
+const props = withDefaults(
+  defineProps<{
+    item: CartItem
+    static?: boolean
+  }>(),
+  {
+    static: false,
+  },
+)
 
 const cart = useCartStore()
 
@@ -48,6 +57,12 @@ const updateQuantity = (newQty: number) => {
 
 const removeFromCart = () => {
   cart.remove(props.item.id)
+}
+
+const formatSchemaValue = (value: string | undefined) => {
+  if (value === 'true') return t('common.yes')
+  if (value === 'false') return t('common.no')
+  return value
 }
 </script>
 
@@ -120,7 +135,7 @@ const removeFromCart = () => {
   }
 
   &__price-initial + &__price-current {
-    color: var(--primary-color);
+    color: var(--secondary-color);
   }
 
   &__btn {

@@ -6,10 +6,9 @@ $font-weight-medium: 500;
 $font-weight-bold: 600;
 
 // ! Dont use scss color variables as a main theme colors. Use CSS variables instead!
-$primary-color: #c63225;
-$secondary-color: #ffca2b;
-$secondary-color-alt: #e1a044;
-$secondary-color-alt-semi-transparent: #e1a04426;
+$primary-color: #ffca2b;
+$primary-color-alt: #e1a044;
+$secondary-color: #c63225;
 $error-color: #f05454;
 
 // * Universal colors are ok to use as scss variables
@@ -28,10 +27,11 @@ $gray-color-300: #efefef;
 $gray-color-400: #cecece;
 $gray-color-500: #a7a7a7;
 $gray-color-600: #8d8d8d;
+$gray-color-700: #595959;
 $gray-color-900: #242423;
 
 $transparent: #fff0;
-$gray-filter: #64646464;
+$gray-filter: #00000066;
 
 // Sizes
 $container-width: 1256px;

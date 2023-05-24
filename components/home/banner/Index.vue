@@ -7,6 +7,7 @@
         :link="mainImage.url"
         :media="mainImage.media"
         centered
+        title-tag="h1"
       />
     </div>
     <div class="banner__cards" :style="{ flex: remainingImages.length }">

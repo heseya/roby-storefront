@@ -1,23 +1,17 @@
 <template>
-  <BaseContainer class="wishlist-page">
-    <LayoutBreadcrumpsProvider :breadcrumbs="[{ label: t('title'), link: '/wishlist' }]" />
+  <NuxtLayout>
+    <LayoutBreadcrumpsProvider :breadcrumbs="breadcrumbs" />
 
-    <WishlistView class="wishlist-page__content" />
-  </BaseContainer>
+    <BaseContainer class="wishlist-page">
+      <WishlistView class="wishlist-page__content" />
+    </BaseContainer>
+  </NuxtLayout>
 </template>
-
-<i18n lang="json">
-{
-  "pl": {
-    "title": "Lista życzeń"
-  }
-}
-</i18n>
 
 <script setup lang="ts">
 import { useAuthStore } from '~/store/auth'
 
-const t = useLocalI18n()
+const $t = useGlobalI18n()
 
 const auth = useAuthStore()
 watch(
@@ -29,8 +23,10 @@ watch(
 )
 
 useSeoMeta({
-  title: () => t('title'),
+  title: () => $t('wishlist.title'),
 })
+
+const breadcrumbs = computed(() => [{ label: $t('wishlist.title'), link: '/wishlist' }])
 </script>
 
 <style lang="scss" scoped>

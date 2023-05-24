@@ -18,7 +18,13 @@
       </BaseFooterSection>
 
       <div class="footer__section footer__section--main">
-        <img class="footer__logo" :src="footerLogoPath" />
+        <img
+          v-if="config.footerLogoUrl"
+          class="footer__logo"
+          :src="config.footerLogoUrl"
+          :alt="`${config.storeName} logo`"
+          loading="lazy"
+        />
 
         <div v-if="companyAddress" class="footer__text">
           <div class="footer__icon"><PinIcon /></div>
@@ -57,7 +63,7 @@
             :href="companyLinkedin"
             rel="nofollow noreferrer"
           >
-            <LinkedinIcon />
+            <LayoutIcon :icon="LinkedinIcon" size="sm" />
           </a>
         </div>
       </div>
@@ -68,7 +74,6 @@
 <script lang="ts" setup>
 import { useConfigStore } from '@/store/config'
 
-import FooterLogo from '@/assets/images/logo-grayscale.svg'
 import FacebookIcon from '@/assets/icons/facebook.svg?component'
 import InstagramIcon from '@/assets/icons/instagram.svg?component'
 import LinkedinIcon from '@/assets/icons/linkedin.svg?component'
@@ -81,9 +86,6 @@ const heseya = useHeseya()
 const localePath = useLocalePath()
 
 const SECTIONS_COUNT = 4
-
-// TODO: [template] footer logo should also come from the config
-const footerLogoPath = FooterLogo
 
 const getFromConfig = (key: string) => (config.env[key] ? String(config.env[key]) : null)
 
@@ -162,7 +164,7 @@ const getSectionName = (section: number) => String(config.env[`footer_section_na
       transition: 0.3s;
 
       &:hover {
-        color: var(--primary-color);
+        color: var(--secondary-color);
       }
     }
   }

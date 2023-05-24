@@ -1,11 +1,12 @@
 <template>
   <NuxtLink class="card" :class="{ 'card--centered': centered }" :to="link">
     <div class="card__container" :class="{ 'card__container--centered': centered }">
+      <div class="card__gray-filter" />
       <Media object-fit="cover" :media="selectedMedia" class="card__image" />
       <LayoutHeader v-if="showSubtitle" class="card__subtitle">
         {{ subtitle }}
       </LayoutHeader>
-      <LayoutHeader class="card__title"> {{ title }} </LayoutHeader>
+      <LayoutHeader class="card__title" :tag="titleTag"> {{ title }} </LayoutHeader>
     </div>
   </NuxtLink>
 </template>
@@ -16,6 +17,7 @@ import { CdnMedia } from '@heseya/store-core'
 const props = withDefaults(
   defineProps<{
     title: string | null
+    titleTag?: string
     subtitle?: string | null
     media: {
       min_screen_width: number
@@ -24,7 +26,7 @@ const props = withDefaults(
     link: string
     centered?: boolean
   }>(),
-  { subtitle: '' },
+  { titleTag: 'span', subtitle: '' },
 )
 
 // Temporary fix, as subtitle is required in API
@@ -40,6 +42,7 @@ const selectedMedia = computed(() => props.media[0].media)
   text-decoration: none;
 
   &__container {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -48,7 +51,6 @@ const selectedMedia = computed(() => props.media[0].media)
     height: 100%;
     position: relative;
     overflow: hidden;
-
     &--centered {
       flex-direction: column;
       justify-content: center;
@@ -60,6 +62,17 @@ const selectedMedia = computed(() => props.media[0].media)
       padding: 24px 16px;
       justify-content: flex-end;
     }
+  }
+
+  &__gray-filter {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    height: 100%;
+    width: 100%;
+
+    background: linear-gradient(180deg, transparent, $gray-filter);
   }
 
   &__image {

@@ -1,70 +1,63 @@
 <template>
-  <div class="index-page">
-    <LazyHydrate when-idle>
-      <HomeBanner v-if="data?.mainBanner" class="index-page__banner" :banner="data?.mainBanner" />
-    </LazyHydrate>
+  <NuxtLayout>
+    <div class="index-page">
+      <LazyHydrate when-idle>
+        <HomeBanner v-if="data?.mainBanner" class="index-page__banner" :banner="data?.mainBanner" />
+      </LazyHydrate>
 
-    <template
-      v-for="section in sections"
-      :key="section.type === 'box' ? section.data.text : section.data.id"
-    >
-      <BaseContainer
-        class="index-page__content"
-        :class="{ 'index-page__content--wide': section.type === 'box' }"
+      <template
+        v-for="section in sections"
+        :key="section.type === 'box' ? section.data.text : section.data.id"
       >
-        <LazyHydrate when-idle>
-          <HomeProductCarousel v-if="section.type === 'set'" :category="section.data" />
+        <BaseContainer
+          class="index-page__content"
+          :class="{ 'index-page__content--wide': section.type === 'box' }"
+        >
+          <LazyHydrate when-idle>
+            <LazyHomeProductCarousel v-if="section.type === 'set'" :category="section.data" />
 
-          <HomeLinkBox v-if="section.type === 'box'" :link="section.data" />
+            <LazyHomeLinkBox v-if="section.type === 'box'" :link="section.data" />
+          </LazyHydrate>
+        </BaseContainer>
+      </template>
+
+      <BaseContainer class="index-page__content">
+        <LazyHydrate when-visible>
+          <LazyHomeBlogArticlesList />
+        </LazyHydrate>
+
+        <LazyHydrate when-visible>
+          <LazyHomeWhyUs />
+        </LazyHydrate>
+
+        <LazyHydrate when-visible>
+          <LazyHomeImageCarousel
+            v-for="banner in data?.homepageBanners"
+            :key="banner.id"
+            class="index-page__image-carousel"
+            :banner="banner"
+            :title="banner.name"
+            :gray-filter="!!banner.metadata.gray_filter"
+            :image-height="(banner.metadata.image_height as any)"
+            :image-width="(banner.metadata.image_width as any)"
+          />
         </LazyHydrate>
       </BaseContainer>
-    </template>
-
-    <LazyHydrate when-visible>
-      <HomeBlogArticlesList />
-    </LazyHydrate>
-
-    <BaseContainer class="index-page__content">
-      <LazyHydrate when-visible>
-        <HomeWhyUs />
-      </LazyHydrate>
-
-      <LazyHydrate when-visible>
-        <LazyHomeImageCarousel
-          v-for="banner in data?.homepageBanners"
-          :key="banner.id"
-          class="index-page__image-carousel"
-          :banner="banner"
-          :title="banner.name"
-          :gray-filter="!!banner.metadata.gray_filter"
-          :image-height="banner.metadata.image_height"
-          :image-width="banner.metadata.image_width"
-        />
-      </LazyHydrate>
-    </BaseContainer>
-  </div>
+    </div>
+  </NuxtLayout>
 </template>
-
-<i18n lang="json">
-{
-  "pl": {
-    "title": "Strona główna"
-  }
-}
-</i18n>
 
 <script setup lang="ts">
 import { ProductSetList } from '@heseya/store-core'
 import { LinkBox } from '~~/components/home/LinkBox.vue'
-import BgImagePath from '@/assets/images/banner-bgr-grayed.jpg'
 
-const t = useLocalI18n()
+const $t = useGlobalI18n()
 const heseya = useHeseya()
 
 type Section = { type: 'set'; data: ProductSetList } | { type: 'box'; data: LinkBox }
 
 useSeoMeta({
-  title: () => t('title'),
+  title: () => $t('breadcrumbs.account'),
 })
 
 const { data } = useAsyncData('main-banner', async () => {
@@ -80,21 +73,16 @@ const { data } = useAsyncData('main-banner', async () => {
   }
 })
 
-// TODO: maybe fetch from API? Directus?
-const LINK_BOXES: LinkBox[] = [
-  {
-    text: 'Zapytaj o wynajem',
-    src: BgImagePath,
-    link: '/rent',
-    linkText: 'Zapytaj',
-  },
-  {
-    text: 'Zapytaj o indywidualną ofertę',
-    src: BgImagePath,
-    link: '/rent',
-    linkText: 'Zapytaj',
-  },
-]
+const { data: offertsBanner } = useAsyncData('offer-banner', async (): Promise<LinkBox[]> => {
+  const { banner_media: bannerMedia } = await heseya.Banners.getOneBySlug('offer-banner')
+
+  return bannerMedia.map(({ title, media, url, subtitle }) => ({
+    text: title,
+    media: media[0].media,
+    link: url,
+    linkText: subtitle,
+  }))
+})
 
 const sections = computed<Section[]>(() => {
   const sets =
@@ -103,10 +91,11 @@ const sections = computed<Section[]>(() => {
       data: set,
     })) || []
 
-  const boxes = LINK_BOXES.map((box) => ({
-    type: 'box' as const,
-    data: box,
-  }))
+  const boxes =
+    offertsBanner.value?.map((box) => ({
+      type: 'box' as const,
+      data: box,
+    })) || []
 
   const length = Math.max(sets.length, boxes.length)
   return Array.from({ length }, (_, i) => [sets[i], boxes[i]])

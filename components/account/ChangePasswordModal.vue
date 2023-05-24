@@ -1,14 +1,15 @@
 <template>
-  <AccountFormModal
+  <FormModal
     v-model:open="isModalVisible"
-    :form="form"
+    :values="form.values"
     :header="t('header')"
     :error="error"
+    :fullscreen="false"
     @submit="onSubmit"
   >
     <FormInputPassword
       v-model:model-value="form.values.currentPassword"
-      :label="t('currentPassword')"
+      :label="$t('form.currentPassword')"
       name="currentPassword"
       rules="required"
     />
@@ -18,16 +19,15 @@
       name="newPassword"
       rules="required"
     />
-  </AccountFormModal>
+  </FormModal>
 </template>
 
 <i18n lang="json">
 {
   "pl": {
     "header": "Zmiana hasła",
-    "currentPassword": "Aktualne hasło",
     "newPassword": "Nowe hasło",
-    "sucessUpdate": "Hasło zostało zmienione."
+    "sucessUpdate": "Hasło zostało zmienione"
   }
 }
 </i18n>
@@ -36,6 +36,7 @@
 import { useForm } from 'vee-validate'
 
 const t = useLocalI18n()
+const $t = useGlobalI18n()
 const heseya = useHeseya()
 const { notify } = useNotify()
 
@@ -76,7 +77,4 @@ const onSubmit = form.handleSubmit(async () => {
 })
 </script>
 
-<style lang="scss" scoped>
-.account-form-modal {
-}
-</style>
+<style lang="scss" scoped></style>

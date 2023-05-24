@@ -13,6 +13,12 @@
 
 <script setup lang="ts">
 const breadcrumbs = useBreadcrumbsState()
+
+const router = useRouter()
+
+router.beforeEach(() => {
+  breadcrumbs.value = []
+})
 </script>
 
 <style lang="scss" scoped>
@@ -44,7 +50,7 @@ const breadcrumbs = useBreadcrumbsState()
       margin-right: 1em;
 
       &:hover {
-        color: var(--primary-color);
+        color: var(--secondary-color);
       }
 
       &:after {

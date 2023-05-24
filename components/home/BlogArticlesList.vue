@@ -1,32 +1,27 @@
 <template>
-  <div class="blog-articles">
+  <div v-if="articles" class="blog-articles">
     <BaseContainer>
       <div class="blog-articles__header">
-        <LayoutHeader variant="black">{{ t('blog') }}</LayoutHeader>
+        <LayoutHeader class="blog-articles__title" variant="black">
+          {{ $t('breadcrumbs.blog') }}
+        </LayoutHeader>
         <HomeShowAllButton path="/blog" />
       </div>
     </BaseContainer>
     <div class="blog-articles__list-container">
       <div class="blog-articles__list">
         <BlogArticleTile
-          v-for="(article, index) in articles?.data || []"
-          :key="index"
-          :article="article"
+          v-for="article in articles?.data || []"
+          :key="article.id"
+          :article="(article as any)"
         />
       </div>
     </div>
   </div>
 </template>
 
-<i18n lang="json">
-{
-  "pl": {
-    "blog": "Blog"
-  }
-}
-</i18n>
-
 <script lang="ts" setup>
+const $t = useGlobalI18n()
 const directus = useDirectus()
 const { data: articles } = useAsyncData('home-blog-articles', () => {
   return directus.items('Articles').readByQuery({
@@ -34,6 +29,7 @@ const { data: articles } = useAsyncData('home-blog-articles', () => {
       'id',
       'slug',
       'date_created',
+      // @ts-ignore directus is wrong
       'image.filename_disk',
       'translations.title',
       'translations.description',
@@ -42,11 +38,9 @@ const { data: articles } = useAsyncData('home-blog-articles', () => {
     limit: 4,
     filter: {
       status: 'published',
-    } as any, // this any exists because of directus weird typing
+    },
   })
 })
-
-const t = useLocalI18n()
 </script>
 
 <style lang="scss" scoped>
@@ -57,6 +51,12 @@ const t = useLocalI18n()
     display: flex;
     justify-content: space-between;
     align-items: center;
+  }
+
+  &__title {
+    @media ($max-viewport-8) {
+      font-size: rem(18);
+    }
   }
 
   &__list-container {

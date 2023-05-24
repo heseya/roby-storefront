@@ -17,7 +17,7 @@
             formularza zajmie tylko chwilę, a dzięki temu otrzymasz od nas wsparcie w wyborze
             urządzenia i ofertę dopasowaną do Twoich potrzeb.</span
           >
-          <LayoutButton class="steps__button" label="Wypelnij formularz" />
+          <LayoutButton class="steps__button" label="Wypelnij formularz" @click="emit('scroll')" />
         </div>
       </div>
       <div class="steps__element">
@@ -41,12 +41,16 @@
       </div>
     </div>
     <div class="steps__image-container">
-      <img class="steps__image" src="@/assets/images/rent.png" />
+      <img class="steps__image" src="@/assets/images/rent.png" loading="lazy" />
     </div>
   </div>
 </template>
 
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+const emit = defineEmits<{
+  (e: 'scroll'): void
+}>()
+</script>
 
 <style lang="scss" scoped>
 .steps {
@@ -84,11 +88,10 @@
     @include flex-column;
     justify-content: center;
     align-items: center;
-    color: var(--secondary-color-alt);
+    color: var(--primary-color-alt);
     font-weight: $font-weight-bold;
-
-    background-color: var(--secondary-color-alt-semi-transparent);
-    border: 1px solid var(--secondary-color-alt);
+    background-color: rgba($primary-color-alt, 0.15);
+    border: 1px solid var(--primary-color-alt);
     border-radius: 50%;
   }
 
@@ -112,7 +115,7 @@
 
   &__line {
     height: 100%;
-    border-left: 1px dashed var(--secondary-color-alt);
+    border-left: 1px dashed var(--primary-color-alt);
   }
 
   &__button {

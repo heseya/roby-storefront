@@ -2,7 +2,7 @@
   <LayoutModal v-model:open="isModalVisible" :closeable="false" :box="true">
     <div class="login-block">
       <div>
-        <h2 class="login-block__header">{{ t('block.login') }}</h2>
+        <h2 class="login-block__header">{{ $t('account.login') }}</h2>
         <AuthLoginForm class="login-block__login" @login="router.push('/checkout')" />
       </div>
 
@@ -20,9 +20,9 @@
         <div class="login-block__register">
           <LayoutSpacer />
           <div>
-            <h2 class="login-block__header">{{ t('block.noAccount') }}</h2>
+            <h2 class="login-block__header">{{ $t('account.noAccount') }}</h2>
             <NuxtLink to="/register">
-              <LayoutButton class="login-block__register-btn" :label="t('block.register')" />
+              <LayoutButton class="login-block__register-btn" :label="$t('account.register')" />
             </NuxtLink>
           </div>
         </div>
@@ -35,12 +35,9 @@
 {
   "pl": {
     "block": {
-      "login": "Zaloguj się",
       "continueWithoutLogin": "Kontynuuj bez logowania",
       "continueAsGuest": "Kontynuuj jako gość",
-      "description": "Możesz zrobić zakupy jako gość. Wymagane są tylko dane niezbędne do realizacji zamówienia.",
-      "noAccount": "Nie masz konta?",
-      "register": "Zarejestruj się"
+      "description": "Możesz zrobić zakupy jako gość. Wymagane są tylko dane niezbędne do realizacji zamówienia."
     }
   }
 }
@@ -48,6 +45,7 @@
 
 <script setup lang="ts">
 const t = useLocalI18n()
+const $t = useGlobalI18n()
 const router = useRouter()
 
 const props = defineProps<{
@@ -74,7 +72,7 @@ const isModalVisible = computed({
 
   @media ($viewport-7) {
     grid-template-columns: 1fr 0.1fr 1fr;
-    gap: 40px;
+    gap: 10px;
     background-color: $gray-color-100;
   }
 

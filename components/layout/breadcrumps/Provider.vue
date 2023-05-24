@@ -27,14 +27,7 @@ const setBreadcrumbs = (links?: BreadcrumbsDto) => {
 
 watch(
   () => props.breadcrumbs,
-  (breadcrumbs) => {
-    setBreadcrumbs(breadcrumbs)
-  },
+  (breadcrumbs) => setBreadcrumbs(breadcrumbs),
   { deep: true, immediate: true },
 )
-
-// Clear links when route changes
-onBeforeRouteLeave(() => {
-  setBreadcrumbs([])
-})
 </script>

@@ -1,43 +1,45 @@
 <template>
-  <BaseContainer>
-    <LayoutBreadcrumpsProvider :breadcrumbs="[{ label: $t('breadcrumbs.blog'), link: `/blog` }]" />
-    <LayoutLoading :active="pending" />
+  <NuxtLayout>
+    <LayoutBreadcrumpsProvider :breadcrumbs="breadcrumbs" />
 
-    <h1 class="blog__title">{{ t('blog') }}</h1>
-    <div class="blog">
-      <div class="blog__tags">
-        <BlogTag :link="localePath(`/blog`)" :class="route.query.tag ? '' : 'blog-tag--active'">
-          {{ t('all') }}
-        </BlogTag>
-        <BlogTranslatedTag
-          v-for="tag in tags?.data ?? []"
-          :key="tag.id"
-          :tag="tag"
-          :class="tag.id == route.query.tag ? 'blog-tag--active' : ''"
-        />
+    <BaseContainer>
+      <LayoutLoading :active="pending" />
+
+      <h1 class="blog__title">{{ $t('breadcrumbs.blog') }}</h1>
+      <div class="blog">
+        <div class="blog__tags">
+          <BlogTag :link="localePath(`/blog`)" :class="route.query.tag ? '' : 'blog-tag--active'">
+            {{ t('all') }}
+          </BlogTag>
+          <BlogTranslatedTag
+            v-for="tag in tags?.data ?? []"
+            :key="tag.id"
+            :tag="tag"
+            :class="tag.id == route.query.tag ? 'blog-tag--active' : ''"
+          />
+        </div>
+        <div v-if="articles?.data?.length" class="blog__articles">
+          <BlogArticleTile
+            v-for="article in articles?.data ?? []"
+            :key="article.id"
+            :article="article"
+          ></BlogArticleTile>
+        </div>
+        <LayoutEmpty v-else>{{ t('empty') }}</LayoutEmpty>
       </div>
-      <div v-if="articles?.data?.length > 0" class="blog__articles">
-        <BlogArticleTile
-          v-for="article in articles?.data ?? []"
-          :key="article.id"
-          :article="article"
-        ></BlogArticleTile>
-      </div>
-      <LayoutEmpty v-else>{{ t('empty') }}</LayoutEmpty>
-    </div>
-    <Pagination
-      v-if="articles?.data?.length > 0"
-      :current="page"
-      :total="lastPage"
-      @go="changePage"
-    />
-  </BaseContainer>
+      <Pagination
+        v-if="articles?.data?.length"
+        :current="page"
+        :total="lastPage"
+        @go="changePage"
+      />
+    </BaseContainer>
+  </NuxtLayout>
 </template>
 
 <i18n lang="json">
 {
   "pl": {
-    "blog": "Blog",
     "empty": "Brak postów do wyświetlenia",
     "all": "Wszystkie"
   }
@@ -47,10 +49,10 @@
 <script setup lang="ts">
 const route = useRoute()
 const router = useRouter()
-const directus = useDirectus()
 const t = useLocalI18n()
-const { t: $t } = useI18n({ useScope: 'global' })
+const $t = useGlobalI18n()
 const localePath = useLocalePath()
+const directus = useDirectus()
 
 const limit = 6
 const page = computed(() => Number(route.query.page ?? 1))
@@ -76,6 +78,7 @@ const {
     meta: ['filter_count'] as any,
     page: page.value,
     limit,
+    sort: ['-date_created'],
     filter: {
       status: 'published',
       tags: route.query.tag
@@ -89,7 +92,7 @@ const {
   })
 })
 
-const { data: tags } = useAsyncData(`blog-tags`, () => {
+const { data: tags } = useLazyAsyncData(`blog-tags`, () => {
   return directus.items('BlogTags').readByQuery({
     fields: ['id', 'translations.*'],
   })
@@ -107,8 +110,10 @@ const changePage = (page: number | string) => {
 }
 
 useSeoMeta({
-  title: () => t('blog'),
+  title: () => $t('breadcrumbs.blog'),
 })
+
+const breadcrumbs = computed(() => [{ label: $t('breadcrumbs.blog'), link: `/blog` }])
 
 watch(
   () => route.query,

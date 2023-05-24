@@ -7,7 +7,9 @@
           <span class="cart-preview-item__name">{{ item.name }}</span>
           <span class="cart-preview-item__brand">{{ getProductSubtext(item) }}</span>
           <div class="cart-preview-item__summary">
-            <span class="cart-preview-item__quantity">{{ t('quantity') }} {{ item.qty }}</span>
+            <span class="cart-preview-item__quantity"
+              >{{ $t('cart.quantity') }} {{ item.qty }}</span
+            >
             <span class="cart-preview-item__price">
               {{ formatAmount(item.totalPrice) }}
             </span>
@@ -22,29 +24,19 @@
       </div>
     </div>
     <div class="cart-preview-summary">
-      <span>{{ t('totalAmount') }}</span>
+      <span>{{ $t('orders.totalAmount') }}</span>
       <span class="cart-preview-summary__total">{{ formatAmount(cart.totalValue) }}</span>
     </div>
   </div>
-  <div v-else class="cart-preview cart-preview--empty">{{ t('emptyCart') }}</div>
+  <div v-else class="cart-preview cart-preview--empty">{{ $t('cart.empty') }}</div>
 </template>
-
-<i18n lang="json">
-{
-  "pl": {
-    "quantity": "Ilość:",
-    "totalAmount": "Łączna kwota",
-    "emptyCart": "Twój koszyk jest pusty"
-  }
-}
-</i18n>
 
 <script setup lang="ts">
 import CrossIcon from '@/assets/icons/cross.svg?component'
 import { useCartStore } from '@/store/cart'
 import { getProductSubtext } from '@/utils/product'
 
-const t = useLocalI18n()
+const $t = useGlobalI18n()
 const cart = useCartStore()
 
 const handleRemove = (id: string) => {
@@ -135,7 +127,7 @@ const handleRemove = (id: string) => {
   &__total {
     font-weight: bold;
     font-size: rem(16);
-    color: var(--primary-color);
+    color: var(--secondary-color);
   }
 }
 </style>

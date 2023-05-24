@@ -5,9 +5,99 @@ export default {
     blog: 'Blog',
   },
 
+  common: {
+    save: 'Zapisz',
+    cancel: 'Anuluj',
+    yes: 'Tak',
+    no: 'Nie',
+    name: 'Nazwa',
+    error: 'Bład',
+    in: 'w',
+    from: 'od',
+    to: 'do',
+    message: 'Wiadomość',
+  },
+
+  payments: {
+    deliveryAddress: 'Adres dostawy',
+    billingAddress: 'Dane do rachunku',
+    payment: 'Płatność',
+    paid: 'Opłacono',
+    notPaid: 'Nie opłacono',
+    confirmAndPay: 'Potwierdzam i płacę',
+    traditionalTransfer: 'Przelew tradycyjny',
+    payForOrder: 'Opłać zamówienie',
+    discount: 'Oszczędzasz',
+  },
+
+  account: {
+    myData: 'Moje dane',
+    deleteAccount: 'Usuń konto',
+    login: 'Zaloguj się',
+    register: 'Zarejestruj się',
+    logout: 'Wyloguj się',
+    addresses: 'Adresy',
+    registerTitle: 'Rejestracja',
+    settings: 'Ustawienia konta',
+    noAccount: 'Nie masz konta?',
+  },
+
+  orders: {
+    title: 'Zamówienia',
+    details: 'Szczegóły Zamówienia',
+    status: 'Status',
+    delivery: 'Dostawa',
+    totalAmount: 'Łączna kwota',
+    productsPrice: 'Cena produktów',
+  },
+
+  offers: {
+    renting: 'Zapytaj o wynajem',
+    pricing: 'Zapytaj o cenę',
+  },
+
+  cart: {
+    title: 'Koszyk',
+    empty: 'Twój koszyk jest pusty',
+    quantity: 'Ilość:',
+  },
+
+  custom: {
+    workingDays: 'dni roboczych',
+    showAll: 'Pokaż wszystkie',
+    search: 'Czego szukasz?',
+  },
+
+  form: {
+    send: 'Wyślij',
+    email: 'Adres e-mail',
+    vat: 'NIP',
+    password: 'Hasło',
+    confirmPassword: 'Powtórz Hasło',
+    backToLogin: 'Wróć do logowania',
+    currentPassword: 'Aktualne hasło',
+    nameAndSurname: 'Imię i nazwisko',
+    needInvoice: 'Potrzebuje fakturę VAT',
+  },
+
+  nav: {
+    goToMainPage: 'Przejdź na stronę główną',
+  },
+
+  seo: {
+    loading: 'Wczytywanie...',
+  },
+
   wishlist: {
+    title: 'Lista życzeń',
     added: 'Produkt został dodany do listy życzeń.',
     removed: 'Produkt został usunięty z listy życzeń.',
+    empty: 'Nie masz żadnego produktu dodanego do listy życzeń',
+  },
+
+  phonePrefix: {
+    default: 'tel.:',
+    mobile: 'tel. kom.:',
   },
 
   errors: {
@@ -21,6 +111,8 @@ export default {
     CLIENT_TFA_REQUIRED: 'Do zalogowania potrzebne jest wpisanie kodu z podwójnej autoryzacji.',
     CLIENT_TFA_INVALID_TOKEN: 'Nieprawidłowy token podwójnej autoryzacji.',
     CLIENT_NO_ACCESS: 'Nie posiadasz dostępu do tego miejsca.',
+
+    ORDER_WITH_THIS_NUMBER_DOESNT_EXIST: 'Zamówienie o tym numerze nie istnieje',
 
     VALIDATION_ERROR: 'Błąd walidacji.',
     VALIDATION_PASSWORD_COMPROMISED:

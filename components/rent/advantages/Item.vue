@@ -43,7 +43,7 @@ defineProps<{ item: AdvantageProps }>()
     width: 67px;
 
     flex-shrink: 0;
-    color: var(--primary-color);
+    color: var(--secondary-color);
     background-color: $unnamed-color-f9eae8;
     border-radius: 50%;
 

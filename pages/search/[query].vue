@@ -1,12 +1,15 @@
 <template>
-  <BaseContainer>
+  <NuxtLayout>
     <LayoutBreadcrumpsProvider :breadcrumbs="breadcrumbs" />
-    <ProductListPage
-      :title="t('searchResultFor') + route.params.query"
-      :sets="preparedSets"
-      :query-params="{ search: route.params.query }"
-    />
-  </BaseContainer>
+
+    <BaseContainer>
+      <ProductListPage
+        :title="t('searchResultFor') + route.params.query"
+        :sets="preparedSets"
+        :query-params="{ search: route.params.query }"
+      />
+    </BaseContainer>
+  </NuxtLayout>
 </template>
 
 <i18n lang="json">

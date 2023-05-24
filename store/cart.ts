@@ -15,6 +15,7 @@ import { isAfter } from 'date-fns'
 import cloneDeep from 'lodash/cloneDeep'
 import { defineStore } from 'pinia'
 import isEqual from 'lodash/isEqual'
+import uniqBy from 'lodash/uniqBy'
 import { useCheckoutStore } from './checkout'
 
 export type CartCoupon = Coupon & { effective_value?: number }
@@ -80,11 +81,6 @@ export const useCartStore = defineStore('cart', {
   },
 
   actions: {
-    deboucedProcessCart() {
-      // TODO: debounce
-      this.processCart()
-    },
-
     async processCart() {
       const heseya = useHeseya()
       if (!this.length) {
@@ -104,8 +100,14 @@ export const useCartStore = defineStore('cart', {
           effective_value: coupon.value,
         }))
 
-        this.unavailableItems = this.items.filter(
-          (item) => !cart.items.find((cartItem) => cartItem.cartitem_id === item.id),
+        this.unavailableItems = uniqBy(
+          [
+            ...this.unavailableItems,
+            ...this.items.filter(
+              (item) => !cart.items.find((cartItem) => cartItem.cartitem_id === item.id),
+            ),
+          ],
+          'id',
         )
 
         this.items = mergeCartItems(
@@ -128,7 +130,11 @@ export const useCartStore = defineStore('cart', {
         // Side effect: fetch the shipping method
         // dispatch('shippingMethods/fetch', state.totalValue, { root: true })
       } catch (e) {
+        // TODO: handle if process cart fails
         this.error = e
+        this.unavailableItems = this.items
+        this.items = []
+        this.summary = 0
       }
       this.isProcessing = false
     },
@@ -149,7 +155,7 @@ export const useCartStore = defineStore('cart', {
         if (quantityDiff > 0) ev.emit(HeseyaEvent.AddToCart, cartItem.updateQuantity(quantityDiff))
         else ev.emit(HeseyaEvent.RemoveFromCart, cartItem.updateQuantity(-quantityDiff))
 
-        this.deboucedProcessCart()
+        this.processCart()
       }
     },
 
@@ -185,7 +191,7 @@ export const useCartStore = defineStore('cart', {
       if (!existingCartItem) {
         ev.emit(HeseyaEvent.AddToCart, newCartItem)
         this.items = [...this.items, newCartItem]
-        this.deboucedProcessCart()
+        this.processCart()
       } else {
         this.setQuantity(existingCartItem.id, existingCartItem.totalQty + quantity)
       }
@@ -205,7 +211,7 @@ export const useCartStore = defineStore('cart', {
       // If shipping type for order changes, checkout data should be reset
       // if (oldType !== newType) dispatch('checkout/reset', null, { root: true })
 
-      this.deboucedProcessCart()
+      this.processCart()
     },
 
     clear() {
@@ -238,6 +244,12 @@ export const useCartStore = defineStore('cart', {
     if (storeState?.items.length) {
       // CartItem class is saved in JSON as plain object, and needs to be restored
       storeState.items = restoreCart(storeState.items as unknown as SavedCartItem[])
+    }
+    if (storeState?.unavailableItems.length) {
+      // CartItem class is saved in JSON as plain object, and needs to be restored
+      storeState.unavailableItems = restoreCart(
+        storeState.unavailableItems as unknown as SavedCartItem[],
+      )
     }
   },
 })

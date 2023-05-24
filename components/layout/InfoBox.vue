@@ -17,10 +17,10 @@ withDefaults(
 
 <style scoped lang="scss">
 .info-box {
-  border: solid 1px var(--primary-color);
+  border: solid 1px var(--secondary-color);
   padding: 8px;
   width: 100%;
-  color: var(--primary-color);
+  color: var(--secondary-color);
   margin: 12px 0;
   text-align: center;
 

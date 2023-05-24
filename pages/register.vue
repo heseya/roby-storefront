@@ -1,24 +1,21 @@
 <template>
-  <div class="register-content">
-    <LayoutBreadcrumpsProvider :breadcrumbs="[{ label: t('title'), link: '/register' }]" />
-    <AuthRegisterForm @registered="() => $router.push('/login')" />
-  </div>
+  <NuxtLayout>
+    <LayoutBreadcrumpsProvider :breadcrumbs="breadcrumbs" />
+
+    <div class="register-content">
+      <AuthRegisterForm @registered="() => $router.push('/login')" />
+    </div>
+  </NuxtLayout>
 </template>
 
-<i18n lang="json">
-{
-  "pl": {
-    "title": "Rejestracja"
-  }
-}
-</i18n>
-
 <script setup lang="ts">
-const t = useLocalI18n()
+const $t = useGlobalI18n()
 
 useSeoMeta({
-  title: () => t('title'),
+  title: () => $t('account.registerTitle'),
 })
+
+const breadcrumbs = computed(() => [{ label: $t('account.registerTitle'), link: '/register' }])
 </script>
 
 <style lang="scss" scoped>

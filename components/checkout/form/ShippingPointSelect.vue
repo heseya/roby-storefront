@@ -9,10 +9,12 @@
         :class="{ 'shipping-point--selected': point.id === checkout.shippingPointId }"
         @click="selectShippingPoint(point)"
       >
-        <span class="shipping-point__name">{{ point.name }}</span>
-        <span>{{ point.address }}</span>
-        <span>{{ point.zip }}, {{ point.city }}</span>
-        <span>{{ point.country_name }}</span>
+        <LayoutColorCheckbox :is-checked="point.id === checkout.shippingPointId" />
+        <div class="shipping-point__text">
+          <span class="shipping-point__name">{{ point.name }}</span>
+          <span>{{ point.address }}</span>
+          <span>{{ point.zip }}, {{ point.city }}</span>
+        </div>
       </div>
     </div>
   </div>
@@ -58,28 +60,30 @@ const selectShippingPoint = (point: Address) => {
 
   &__points {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+
+    @media ($max-viewport-6) {
+      grid-template-columns: 1fr;
+    }
   }
 }
 
 .shipping-point {
-  display: flex;
-  flex-direction: column;
-  padding: 6px;
-  border: solid 1px $gray-color-100;
+  @include flex-row;
+  gap: 10px;
+  padding: 10px;
+  border-radius: 4px;
+  background-color: $unnamed-color-f4f8fc;
   font-size: rem(12);
   cursor: pointer;
 
   &__name {
-    font-weight: 500;
+    font-weight: $font-weight-medium;
   }
 
-  &:not(&--selected):hover {
-    border-color: var(--secondary-color);
-  }
-
-  &--selected {
-    border-color: var(--secondary-color-alt);
+  &__text {
+    @include flex-column;
   }
 }
 </style>

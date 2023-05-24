@@ -1,90 +1,121 @@
 <template>
-  <BaseContainer class="checkout-page">
-    <section class="checkout-page__section">
-      <div class="checkout-page__area">
-        <h2 class="checkout-page__title">{{ t('personalData') }}</h2>
-        <ClientOnly>
-          <CheckoutPersonalData />
+  <NuxtLayout name="checkout">
+    <BaseContainer class="checkout-page">
+      <section class="checkout-page__section">
+        <div class="checkout-page__area">
+          <h2 class="checkout-page__title">{{ $t('account.myData') }}</h2>
+          <ClientOnly>
+            <CheckoutPersonalData />
 
-          <template #placeholder>
-            <div class="checkout-page__placeholder" style="height: 80px"></div>
-          </template>
-        </ClientOnly>
-      </div>
-      <div class="checkout-page__area">
-        <h2 class="checkout-page__title">{{ t('shipping') }}</h2>
-        <ClientOnly>
-          <CheckoutShippingMethods />
+            <template #placeholder>
+              <div class="checkout-page__placeholder" style="height: 80px"></div>
+            </template>
+          </ClientOnly>
+        </div>
+        <div class="checkout-page__area">
+          <h2 class="checkout-page__title">{{ $t('title.delivery') }}</h2>
+          <ClientOnly>
+            <CheckoutShippingMethods />
 
-          <template #placeholder>
-            <div class="checkout-page__placeholder" style="height: 150px"></div>
-          </template>
-        </ClientOnly>
-      </div>
-      <div class="checkout-page__area">
-        <h2 class="checkout-page__title">{{ t('billing') }}</h2>
-        <ClientOnly>
-          <CheckoutBillingAddress />
+            <template #placeholder>
+              <div class="checkout-page__placeholder" style="height: 150px"></div>
+            </template>
+          </ClientOnly>
+        </div>
+        <div class="checkout-page__area">
+          <h2 class="checkout-page__title">{{ $t('payments.billingAddress') }}</h2>
+          <ClientOnly>
+            <CheckoutFormLoggedBillingAddress v-if="defaultBillingAddress" />
+            <CheckoutBillingAddress v-else />
 
-          <template #placeholder>
-            <div class="checkout-page__placeholder" style="height: 80px"></div>
-          </template>
-        </ClientOnly>
-      </div>
-      <div class="checkout-page__area">
-        <h2 class="checkout-page__title">{{ t('payment') }}</h2>
-        <ClientOnly>
-          <CheckoutPaymentMethods />
+            <template #placeholder>
+              <div class="checkout-page__placeholder" style="height: 80px"></div>
+            </template>
+          </ClientOnly>
+        </div>
+        <div class="checkout-page__area">
+          <h2 class="checkout-page__title">{{ t('payment') }}</h2>
+          <ClientOnly>
+            <CheckoutPaymentMethods />
 
-          <template #placeholder>
-            <div class="checkout-page__placeholder" style="height: 100px"></div>
-          </template>
-        </ClientOnly>
-      </div>
-      <div class="checkout-page__area">
-        <ClientOnly>
-          <CheckoutComment />
+            <template #placeholder>
+              <div class="checkout-page__placeholder" style="height: 100px"></div>
+            </template>
+          </ClientOnly>
+        </div>
+        <div class="checkout-page__area">
+          <ClientOnly>
+            <CheckoutComment />
 
-          <template #placeholder>
-            <div class="checkout-page__placeholder" style="height: 80px"></div>
-          </template>
-        </ClientOnly>
-      </div>
-    </section>
-    <section class="checkout-page__section">
-      <div class="checkout-page__area">
-        <ClientOnly>
-          <CheckoutSummary />
+            <template #placeholder>
+              <div class="checkout-page__placeholder" style="height: 80px"></div>
+            </template>
+          </ClientOnly>
+        </div>
+      </section>
+      <section class="checkout-page__section">
+        <div class="checkout-page__area">
+          <ClientOnly>
+            <CheckoutSummary />
 
-          <template #placeholder>
-            <div class="checkout-page__placeholder" style="height: 300px"></div>
-          </template>
-        </ClientOnly>
-      </div>
-    </section>
-  </BaseContainer>
+            <template #placeholder>
+              <div class="checkout-page__placeholder" style="height: 300px"></div>
+            </template>
+          </ClientOnly>
+        </div>
+      </section>
+    </BaseContainer>
+  </NuxtLayout>
 </template>
 
 <i18n lang="json">
 {
   "pl": {
     "title": "Podsumowanie zamówienia",
-    "personalData": "Moje dane",
     "createAccount": "Załóż konto",
-    "shipping": "Dostawa",
-    "billing": "Dane do rachunku",
     "payment": "Metoda płatności"
   }
 }
 </i18n>
 
 <script setup lang="ts">
+import clone from 'lodash/clone'
+import { EMPTY_ADDRESS } from '~/consts/address'
+import { useCheckoutStore } from '~/store/checkout'
+
 const t = useLocalI18n()
-definePageMeta({
-  layout: 'checkout',
+const $t = useGlobalI18n()
+
+const checkout = useCheckoutStore()
+const user = useUser()
+const { defaultAddress: defaultBillingAddress } = useUserBillingAddresses()
+
+// Autofill billing address if user is logged in
+watch(
+  () => defaultBillingAddress,
+  () => {
+    if (defaultBillingAddress.value)
+      checkout.billingAddress = clone(defaultBillingAddress.value.address)
+    else checkout.billingAddress = clone(EMPTY_ADDRESS)
+  },
+  { immediate: true },
+)
+
+// Autofill email if user is logged in
+watch(
+  () => user,
+  () => {
+    if (user.value) checkout.email = user.value.email
+    else checkout.email = ''
+  },
+  { immediate: true },
+)
+
+useSeoMeta({
+  title: () => t('title'),
 })
+
 useHead({
-  title: t('title'),
   // Import of Inpost map widget
   link: [{ rel: 'stylesheet', href: 'https://geowidget.easypack24.net/css/easypack.css' }],
   script: [{ src: 'https://geowidget.easypack24.net/js/sdk-for-javascript.js', async: true }],

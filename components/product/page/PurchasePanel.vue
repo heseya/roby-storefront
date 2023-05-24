@@ -13,7 +13,7 @@
       </span>
     </div>
 
-    <ProductPageOmnibus class="product-purchase-panel__omnibus" />
+    <ProductPageOmnibus :product="product" class="product-purchase-panel__omnibus" />
 
     <ProductPageSchemas
       v-model:value="schemaValue"
@@ -24,14 +24,18 @@
 
     <ProductQuantityInput v-model:quantity="quantity" class="product-purchase-panel__quantity" />
 
-    <LayoutButton class="product-purchase-panel__cart-btn" @click="addToCart">
-      {{ t('actions.addToCart') }}
+    <LayoutButton
+      :disabled="!product.available"
+      class="product-purchase-panel__cart-btn"
+      @click="addToCart"
+    >
+      {{ product.available ? t('actions.addToCart') : t('availability.unavailable') }}
     </LayoutButton>
 
     <a
       v-if="isLeaseable"
       class="product-purchase-panel__lease-btn"
-      :href="$leaslink(product.name, product.price_min, false, product.vat_rate)"
+      :href="getLeasingUrl(product.name, price, false, product.vat_rate)"
     >
       <LayoutButton variant="gray" :style="{ width: '100%' }">
         {{ t('actions.lease') }}
@@ -76,6 +80,8 @@ const props = withDefaults(
 const cart = useCartStore()
 const router = useRouter()
 const t = useLocalI18n()
+
+const getLeasingUrl = useLeaselink()
 
 const quantity = ref(1)
 const schemaValue = ref<CartItemSchema[]>(parseSchemasToValues(props.product.schemas))
@@ -152,7 +158,7 @@ const addToCart = () => {
     line-height: rem(28);
     font-weight: 600;
     grid-area: price;
-    color: var(--primary-color);
+    color: var(--secondary-color);
     position: relative;
 
     @media ($viewport-5) {
@@ -194,7 +200,7 @@ const addToCart = () => {
 }
 
 .product-price {
-  color: var(--primary-color);
+  color: var(--secondary-color);
 
   &--discounted {
     color: $gray-color-600;

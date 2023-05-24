@@ -1,32 +1,30 @@
 <template>
-  <AccountFormModal
+  <FormModal
     v-model:open="isModalVisible"
-    :form="form"
-    :header="t('header')"
+    :fullscreen="false"
+    :values="form.values"
+    :header="$t('account.myData')"
     :error="error"
     @submit="onSubmit"
   >
     <FormInput
       v-model:model-value="form.values.name"
-      :label="t('nameSurname')"
+      :label="$t('form.nameAndSurname')"
       name="name"
       rules="alpha"
     />
     <FormInput
-      :label="t('email')"
+      :label="$t('form.email')"
       :model-value="userStore.user?.email"
       :disabled="true"
       name="email"
     />
-  </AccountFormModal>
+  </FormModal>
 </template>
 
 <i18n lang="json">
 {
   "pl": {
-    "header": "Moje dane",
-    "nameSurname": "Imię i Nazwisko",
-    "email": "Adres e-mail",
     "sucessUpdate": "Zaktualizowane dane użytkownika."
   }
 }
@@ -39,6 +37,7 @@ import { useUserStore } from '@/store/user'
 const { notify } = useNotify()
 
 const t = useLocalI18n()
+const $t = useGlobalI18n()
 const heseya = useHeseya()
 
 const props = defineProps<{
@@ -56,12 +55,8 @@ const emit = defineEmits<{
 }>()
 
 const isModalVisible = computed({
-  get() {
-    return props.open
-  },
-  set(value) {
-    emit('update:open', value)
-  },
+  get: () => props.open,
+  set: (value) => emit('update:open', value),
 })
 
 const onSubmit = form.handleSubmit(async () => {

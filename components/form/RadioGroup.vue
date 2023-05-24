@@ -62,12 +62,17 @@ const radioValue = computed({
     font-size: 1rem;
     line-height: 1rem;
     transition: 0.3s;
-    margin-bottom: 3px;
+    padding-bottom: 3px;
     position: relative;
     padding-left: 24px;
 
+    &:not(:first-child) {
+      margin-top: 20px;
+    }
+
     &:not(:last-child) {
-      margin-bottom: 20px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid $gray-color-300;
     }
 
     &::before,
@@ -108,15 +113,15 @@ const radioValue = computed({
 
     &--active {
       &::before {
-        border-color: var(--secondary-color-alt);
+        border-color: var(--primary-color-alt);
       }
 
       &::after {
-        background-color: var(--secondary-color-alt);
+        background-color: var(--primary-color-alt);
       }
 
       &:hover::before {
-        background-color: var(--secondary-color);
+        background-color: var(--primary-color);
       }
     }
   }
@@ -130,7 +135,7 @@ const radioValue = computed({
 
     &--active {
       &::before {
-        background-color: var(--secondary-color);
+        background-color: var(--primary-color);
       }
     }
   }

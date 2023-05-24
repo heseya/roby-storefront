@@ -1,10 +1,11 @@
 <template>
   <div class="quantity-input">
-    <div v-if="showLabel" class="quantity-input__label">{{ t('label') }}</div>
+    <div v-if="showLabel" class="quantity-input__label">{{ $t('cart.quantity') }}</div>
     <FormSelect
       :model-value="quantity"
       label-uppercase
       name="quantity"
+      :disabled="disabled"
       class="quantity-input__quantity"
       @update:model-value="(v) => emit('update:quantity', Number(v))"
     >
@@ -13,27 +14,21 @@
   </div>
 </template>
 
-<i18n lang="json">
-{
-  "pl": {
-    "label": "Ilość"
-  }
-}
-</i18n>
-
 <script setup lang="ts">
 withDefaults(
   defineProps<{
     quantity: number
     showLabel?: boolean
+    disabled?: boolean
   }>(),
   {
     quantity: 1,
     showLabel: false,
+    disabled: false,
   },
 )
 
-const t = useLocalI18n()
+const $t = useGlobalI18n()
 
 const emit = defineEmits<{
   (event: 'update:quantity', value: number): void

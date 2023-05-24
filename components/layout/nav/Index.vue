@@ -2,7 +2,7 @@
   <nav class="nav-bar">
     <LayoutNavNotification class="nav-bar__notification" />
 
-    <div class="nav-items">
+    <div class="nav-items" :class="{ 'nav-items--small': scrollY > 100 }">
       <div class="nav-items__left">
         <LayoutIconButton
           class="nav-items__menu-btn"
@@ -34,28 +34,28 @@
             <LayoutIconButton
               class="nav-link-button__button"
               :icon="Profile"
-              :label="auth.isLogged ? t('myAccount') : t('login')"
+              :label="auth.isLogged ? $t('breadcrumbs.account') : $t('account.login')"
               is-resize
             />
           </NuxtLink>
           <div v-if="auth.isLogged" class="nav-link-button__list">
             <NuxtLink class="nav-link-button__list-item" :to="localePath('/account/orders')">
-              {{ t('orders') }}
+              {{ $t('orders.title') }}
             </NuxtLink>
             <NuxtLink class="nav-link-button__list-item" :to="localePath('/account/settings')">
-              {{ t('accountSettings') }}
+              {{ $t('account.settings') }}
             </NuxtLink>
             <NuxtLink class="nav-link-button__list-item" :to="localePath('/account/addresses')">
-              {{ t('address') }}
+              {{ $t('account.addresses') }}
             </NuxtLink>
             <NuxtLink class="nav-link-button__list-item" :to="localePath('/account/wishlist')">
-              {{ t('wishlist') }}
+              {{ $t('wishlist.title') }}
             </NuxtLink>
             <button
               class="nav-link-button__list-item nav-link-button__list-item--logout"
               @click="onLogout"
             >
-              {{ t('logout') }}
+              {{ $t('account.logout') }}
             </button>
           </div>
         </div>
@@ -66,7 +66,7 @@
           <LayoutIconButton
             class="nav-link-button__button"
             :icon="Favorite"
-            :label="t('wishlist')"
+            :label="$t('wishlist.title')"
             :count="wishlist.quantity"
             is-resize
           />
@@ -76,7 +76,7 @@
             <LayoutIconButton
               class="nav-link-button__button"
               :icon="Shopping"
-              :label="t('cart')"
+              :label="$t('cart.title')"
               :count="cart.length"
               is-resize
             />
@@ -111,14 +111,6 @@
 <i18n lang="json">
 {
   "pl": {
-    "myAccount": "Moje konto",
-    "login": "Zaloguj się",
-    "wishlist": "Lista życzeń",
-    "cart": "Koszyk",
-    "orders": "Zamówienia",
-    "accountSettings": "Ustawienia konta",
-    "address": "Adresy",
-    "logout": "Wyloguj się",
     "message": {
       "logout": "Wylogowano pomyślnie"
     }
@@ -143,6 +135,7 @@ import { SearchValues } from '@/components/layout/nav/Search.vue'
 import { useSearchHistoryStore } from '@/store/searchHistory'
 
 const t = useLocalI18n()
+const $t = useGlobalI18n()
 const localePath = useLocalePath()
 const heseya = useHeseya()
 const router = useRouter()
@@ -158,6 +151,8 @@ const searchHistory = useSearchHistoryStore()
 const isOpenCategories = ref(false)
 const isOpenSearch = ref(false)
 
+const { y: scrollY } = useWindowScroll()
+
 const handleSearch = ({ query, category }: SearchValues) => {
   if (query !== '') {
     searchHistory.addNewQuery(query)
@@ -172,12 +167,11 @@ const onLogout = async () => {
     title: t('message.logout'),
     type: 'success',
   })
-  router.push('/')
 }
 
 const { data: navLinks } = useAsyncData<NavLink[]>('nav-pages', async () => {
   const { data } = await heseya.Pages.get({ metadata: { nav: true } })
-  return data.map((p) => ({ text: p.name, path: p.slug }))
+  return data.map((p) => ({ text: p.name, path: `/${p.slug}` }))
 })
 </script>
 
@@ -203,14 +197,19 @@ const { data: navLinks } = useAsyncData<NavLink[]>('nav-pages', async () => {
 }
 
 .nav-items {
-  position: relative;
-  height: 130px;
-  padding: 0 42px;
-
   @include flex-row;
+
+  position: relative;
+  padding: 42px 42px;
   justify-content: space-between;
   align-items: center;
   gap: 40px;
+  transition: padding 0.2s;
+
+  &--small {
+    padding: 12px 42px;
+  }
+
   @media ($max-viewport-12) {
     height: 60px;
     padding: 0 18px;
@@ -309,14 +308,14 @@ const { data: navLinks } = useAsyncData<NavLink[]>('nav-pages', async () => {
 .nav-link-button {
   display: inline-block;
   text-decoration: none;
-  padding: 20px 0;
+  padding: 0;
 
   &__button {
     color: #8d8d8d;
   }
 
   &:hover {
-    color: var(--primary-color);
+    color: var(--secondary-color);
   }
 
   &__list {
@@ -339,7 +338,7 @@ const { data: navLinks } = useAsyncData<NavLink[]>('nav-pages', async () => {
       transition: color 200ms ease-in-out;
 
       &:hover {
-        color: var(--primary-color);
+        color: var(--secondary-color);
         cursor: pointer;
       }
 

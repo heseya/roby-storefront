@@ -1,67 +1,54 @@
 <template>
-  <div class="why-us">
-    <LayoutHeader class="why-us__header" variant="black">Dlaczego ***REMOVED***?</LayoutHeader>
-    <div class="why-us__reasons">
-      <HomeWhyUsReson
-        v-for="(reason, index) in reasonList"
-        :key="index"
-        :title="reason.title"
-        :description="reason.description"
-        :icon="reason.icon"
-      />
+  <div v-if="content?.active" class="why-us">
+    <LayoutHeader class="why-us__header" variant="black">{{ content.title }}</LayoutHeader>
+    <div v-if="reasons?.length" class="why-us__reasons">
+      <HomeWhyUsReson v-for="(reason, index) in reasons" :key="index" :reason="reason" />
     </div>
     <div class="why-us__partner">
-      <img class="partner__image" src="@/assets/images/gold-partner.jpg?url" alt="gold partner" />
+      <img class="partner__image" :src="imageUrl" role="presentation" loading="lazy" />
       <div class="partner__description">
         <LayoutHeader class="why-us__header" variant="black">
-          Jesteśmy autoryzowanym dystrybutorem produktów Canon
+          {{ content.image_title }}
         </LayoutHeader>
-        <span>
-          Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
-          invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et
-          accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata
-          sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing
-          elitr, sed diam nonumy eirmod.
-        </span>
+        <span> {{ content.image_description }} </span>
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ReasonProps } from '~/components/home/WhyUsReson.vue'
+import { TranslatedWhyUsComponent, TranslatedWhyUsReason } from '@/interfaces/whyUsComponent'
 
-import Warranty from '@/assets/icons/warranty.svg?component'
-import Support from '@/assets/icons/support.svg?component'
-import Shipping from '@/assets/icons/shipping.svg?component'
-import Bulb from '@/assets/icons/bulb.svg?component'
+const { data: content } = useAsyncData('why-us-content', async () => {
+  try {
+    const directus = useDirectus()
+    const data = await directus.items('WhyUsComponent').readOne(1, {
+      fields: ['*.*'],
+    })
+    return {
+      active: data?.active,
+      image: data?.image,
+      ...getTranslated(data!.translations!, 'pl-PL'),
+    } as TranslatedWhyUsComponent
+  } catch {}
+})
 
-const reasonList: ReasonProps[] = [
-  {
-    title: 'PROFESJONALNE DORADZTWO',
-    description:
-      'Wieloletnie doświadczenie w realizacji projektów i dostaw pozwala nam skutecznie doradzić najlepsze dla Twojego biznesu rozwiązania.',
-    icon: Bulb,
-  },
-  {
-    title: 'WSPARCIE TECHNICZNE',
-    description:
-      'Jako wieloletni serwis gwarancyjny marek Canon i Sharp, udzielamy wsparcia technicznego na najwyższym poziomie.',
-    icon: Support,
-  },
-  {
-    title: 'SZYBKA DOSTAWA',
-    description:
-      'Dokładamy starań, aby oferowane przez nas produkty były stale dostępne i wysyłane praktycznie natychmiastowo.',
-    icon: Shipping,
-  },
-  {
-    title: 'GWARANCJA',
-    description:
-      'Oferowane przez nas urządzenia i materiały pochodzą z oficjalnych kanałów dystrybucji, dzięki czemu posiadają pełną gwarancję producenta.',
-    icon: Warranty,
-  },
-]
+const { data: reasons } = useAsyncData('why-us-reasons', async () => {
+  try {
+    const directus = useDirectus()
+    const { data } = await directus.items('WhyUsReason').readByQuery({
+      fields: ['*.*'],
+    })
+    return data?.map((v) => ({
+      icon: v?.icon,
+      ...getTranslated(v!.translations!, 'pl-PL'),
+    })) as TranslatedWhyUsReason[]
+  } catch {
+    return []
+  }
+})
+
+const imageUrl = computed(() => getImageUrl(content.value?.image))
 </script>
 
 <style lang="scss" scoped>
@@ -73,6 +60,10 @@ const reasonList: ReasonProps[] = [
 
   &__header {
     text-align: left;
+
+    @media ($max-viewport-9) {
+      font-size: rem(18);
+    }
   }
 
   &__reasons {

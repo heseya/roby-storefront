@@ -17,13 +17,21 @@
               {{ t('shippingTime') }} <b>{{ cart.shippingTimeDescription }}.</b>
             </template>
             {{ t('packagingTime') }}
-            <b>{{ method.shipping_time_min }}-{{ method.shipping_time_max }} {{ t('days') }}</b>
+            <b
+              >{{ method.shipping_time_min }}-{{ method.shipping_time_max }}
+              {{ $t('custom.workingDays') }}</b
+            >
           </p>
         </div>
       </template>
 
       <template v-for="method in shippingMethods" :key="method.id" v-slot:[method.id]>
-        <CheckoutFormShippingAddress v-if="method.shipping_type === ShippingType.Address" />
+        <CheckoutFormShippingAddress
+          v-if="method.shipping_type === ShippingType.Address && !hasShippingAddresses"
+        />
+        <CheckoutFormLoggedShippingAddress
+          v-if="method.shipping_type === ShippingType.Address && hasShippingAddresses"
+        />
         <CheckoutInpostSelect
           v-if="method.shipping_type === ShippingType.PointExternal && method.metadata.paczkomat"
         />
@@ -40,8 +48,7 @@
 {
   "pl": {
     "shippingTime": "Przewidywana wysyłka",
-    "packagingTime": "Przewidywany czas realizacji dostawy",
-    "days": "dni roboczych"
+    "packagingTime": "Przewidywany czas realizacji dostawy"
   }
 }
 </i18n>
@@ -52,11 +59,12 @@ import { useCartStore } from '@/store/cart'
 import { useCheckoutStore } from '@/store/checkout'
 
 const t = useLocalI18n()
+const $t = useGlobalI18n()
 const heseya = useHeseya()
 const cart = useCartStore()
 const checkout = useCheckoutStore()
 
-const { data: shippingMethods } = useAsyncData(
+const { data: shippingMethods } = useLazyAsyncData(
   `shipping-methods-for-value`,
   async () => {
     const methods = await heseya.ShippingMethods.get({ cart_value: cart.totalValue })
@@ -64,6 +72,11 @@ const { data: shippingMethods } = useAsyncData(
   },
   { server: false, default: () => [] as ShippingMethod[] },
 )
+
+const hasShippingAddresses = computed(() => {
+  const { defaultAddress } = useUserShippingAddresses()
+  return !!defaultAddress.value
+})
 
 const shippingOptions = computed(() => {
   return (shippingMethods.value || []).map((method) => ({

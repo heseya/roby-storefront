@@ -1,16 +1,16 @@
 <template>
   <div class="blog-article">
-    <nuxt-link :to="localePath(`/blog/${article.slug}`)" class="blog-article__link">
+    <NuxtLink :to="localePath(`/${article.slug}`)" class="blog-article__link">
       <div class="blog-article__image-container">
-        <img :src="imageUrl" :alt="translatedArticle.title" />
+        <img :src="imageUrl" :alt="translatedArticle.title" loading="lazy" />
         <div class="blog-article__floating-title">{{ translatedArticle.title }}</div>
       </div>
       <div class="blog-article__title">{{ translatedArticle.description }}</div>
-    </nuxt-link>
+    </NuxtLink>
     <div class="blog-article__date">
       <div>{{ dateCreated }}</div>
       <div>
-        <BlogSimpleTag v-for="tag in article.tags" :key="tag.id" :tag="tag" />
+        <LazyBlogSimpleTag v-for="tag in article.tags" :key="tag.id" :tag="(tag as any)" />
       </div>
     </div>
   </div>
@@ -20,15 +20,16 @@
 import { BlogArticle } from '~/interfaces/BlogArticle'
 
 const props = defineProps<{
-  article: {
-    type: BlogArticle
-    required: true
-  }
+  article: BlogArticle
 }>()
 
 const localePath = useLocalePath()
-const imageUrl = computed(
-  () => `${getImageUrl(props.article.image)}?width=300&height=200&fit=cover`,
+const imageUrl = computed(() =>
+  getImageUrl(props.article.image, {
+    width: 400,
+    height: 300,
+    fit: 'cover',
+  }),
 )
 const translatedArticle = computed(() => getTranslated(props.article.translations, 'PL-pl'))
 const dateCreated = computed(() => formatDate(props.article.date_created, 'dd LLLL yyyy'))
@@ -81,7 +82,7 @@ const dateCreated = computed(() => formatDate(props.article.date_created, 'dd LL
 
   &__date {
     margin-top: 5px;
-    color: $gray-color-600;
+    color: $gray-color-700;
     display: flex;
     justify-content: space-between;
   }

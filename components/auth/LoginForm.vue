@@ -10,12 +10,12 @@
       <FormInput
         v-model="form.values.email"
         name="email"
-        :label="t('form.email')"
+        :label="$t('form.email')"
         rules="required|email"
       />
       <FormInputPassword
         v-model="form.values.password"
-        :label="t('form.password')"
+        :label="$t('form.password')"
         name="password"
         rules="required"
       />
@@ -28,7 +28,7 @@
     <LayoutInfoBox v-if="errorMessage" type="danger" class="login-form__error">
       {{ errorMessage }}
     </LayoutInfoBox>
-    <LayoutButton class="login-form__btn" :label="t('form.login')" html-type="submit" />
+    <LayoutButton class="login-form__btn" :label="$t('account.login')" html-type="submit" />
   </form>
 </template>
 
@@ -36,15 +36,12 @@
 {
   "pl": {
     "form": {
-      "login": "Zaloguj się",
-      "email": "Adres e-mail",
-      "forgot-password": "Nie pamiętasz hasła?",
-      "password": "Hasło"
+      "forgot-password": "Nie pamiętasz hasła?"
     },
     "message": {
       "success": "Zalogowano pomyślnie"
     },
-    "accountMigrationInfo": "W związku z aktualizacją bezpieczeństwa, przed pierwszym logowaniem, skorzystaj z opcji \"przypomnij hasło\"."
+    "accountMigrationInfo": "W związku z aktualizacją bezpieczeństwa, przed pierwszym logowaniem, skorzystaj z opcji \"Nie pamiętasz hasła?\"."
   }
 }
 </i18n>
@@ -56,6 +53,7 @@ import { useConfigStore } from '~/store/config'
 import { LOGGED_IN_THE_PAST_KEY } from '@/consts/localstorageKeys'
 
 const t = useLocalI18n()
+const $t = useGlobalI18n()
 
 const getErrorMessage = useErrorMessage()
 const auth = useAuthStore()

@@ -1,51 +1,52 @@
 <template>
-  <BaseContainer class="cart-page">
-    <div class="cart-page__content">
-      <div class="cart-page__cart">
-        <h1 class="cart-page__title">
-          {{ t('cart.title') }}
+  <NuxtLayout>
+    <BaseContainer class="cart-page">
+      <div class="cart-page__content">
+        <div class="cart-page__cart">
+          <h1 class="cart-page__title">
+            {{ $t('cart.title') }}
+            <ClientOnly>
+              <span class="cart-page__subtext">({{ cart.length }})</span>
+            </ClientOnly>
+          </h1>
+
           <ClientOnly>
-            <span class="cart-page__subtext">({{ cart.length }})</span>
+            <div v-if="!isCartEmpty" class="cart-page__list">
+              <LazyCartItem
+                v-for="item in cart.items"
+                :key="item.id"
+                :item="(item as any)"
+                class="cart-page__item"
+              />
+            </div>
+
+            <LazyCartEmpty v-else class="cart-page__empty" />
           </ClientOnly>
-        </h1>
+        </div>
 
-        <ClientOnly>
-          <div v-if="!isCartEmpty" class="cart-page__list">
-            <LazyCartItem
-              v-for="item in cart.items"
-              :key="item.id"
-              :item="item"
-              class="cart-page__item"
-            />
-          </div>
+        <div class="cart-page__summary">
+          <h2 class="cart-page__title cart-page__title--hideable">{{ t('cart.summary') }}</h2>
 
-          <LazyCartEmpty v-else class="cart-page__empty" />
-        </ClientOnly>
+          <ClientOnly>
+            <CartSummary class="cart-page__summary-box" :disabled="isCartEmpty" />
+          </ClientOnly>
+        </div>
       </div>
 
-      <div class="cart-page__summary">
-        <h2 class="cart-page__title cart-page__title--hideable">{{ t('cart.summary') }}</h2>
-
-        <ClientOnly>
-          <CartSummary class="cart-page__summary-box" :disabled="isCartEmpty" />
-        </ClientOnly>
-      </div>
-    </div>
-
-    <ProductSimpleCarousel
-      v-if="!isCartEmpty"
-      class="cart-page__suggested"
-      :query="suggestedQuery"
-      :title="t('cart.suggested')"
-    />
-  </BaseContainer>
+      <ProductSimpleCarousel
+        v-if="!isCartEmpty"
+        class="cart-page__suggested"
+        :query="suggestedQuery"
+        :title="t('cart.suggested')"
+      />
+    </BaseContainer>
+  </NuxtLayout>
 </template>
 
 <i18n lang="json">
 {
   "pl": {
     "cart": {
-      "title": "Koszyk",
       "summary": "Podsumowanie",
       "suggested": "Może Cię zainteresować"
     }
@@ -58,6 +59,7 @@ import { useCartStore } from '@/store/cart'
 
 const cart = useCartStore()
 const t = useLocalI18n()
+const $t = useGlobalI18n()
 
 const isCartEmpty = computed(() => cart.length === 0)
 
@@ -69,7 +71,7 @@ const suggestedQuery = computed(() => ({
 }))
 
 useSeoMeta({
-  title: () => t('cart.title'),
+  title: () => $t('cart.title'),
 })
 </script>
 

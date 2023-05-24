@@ -9,12 +9,9 @@
   </LayoutButton>
 
   <div class="checkout-billing-address">
-    <CheckoutFormAddress
-      v-model:address="checkout.billingAddress"
-      :invoice="checkout.invoiceRequested"
-    />
+    <AddressForm v-model:address="checkout.billingAddress" :invoice="checkout.invoiceRequested" />
     <FormCheckbox v-model="checkout.invoiceRequested" name="is_invoice" style="margin-top: 16px">
-      {{ t('billingAddress.invoice') }}
+      {{ $t('form.needInvoice') }}
     </FormCheckbox>
   </div>
 </template>
@@ -23,7 +20,6 @@
 {
   "pl": {
     "billingAddress": {
-      "invoice": "Potrzebuje fakturę VAT",
       "copy": "Skopiuj z adresu dostawy"
     }
   }
@@ -38,9 +34,7 @@ const t = useLocalI18n()
 const checkout = useCheckoutStore()
 
 const canCopyFromShippingAddress = computed(
-  () =>
-    checkout.shippingMethod?.shipping_type === ShippingType.Address &&
-    isAddressValid(checkout.shippingAddress),
+  () => checkout.shippingMethod?.shipping_type === ShippingType.Address,
 )
 
 const copyFromShippingAddress = () => {

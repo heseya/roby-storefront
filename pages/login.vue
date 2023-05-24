@@ -1,32 +1,35 @@
 <template>
-  <div class="login-content">
-    <LayoutBreadcrumpsProvider :breadcrumbs="[{ label: t('form.login'), link: '/login' }]" />
-    <div class="login-content__container">
-      <div>
-        <h2 class="login-content__header">{{ t('form.login') }}</h2>
-        <AuthLoginForm @login="handleLogin" />
-      </div>
+  <NuxtLayout>
+    <LayoutBreadcrumpsProvider :breadcrumbs="breadcrumbs" />
 
-      <LayoutSpacer />
-      <div class="login-content__register">
+    <div class="login-content">
+      <div class="login-content__container">
         <div>
-          <div class="login-content__header">{{ t('form.no-account') }}</div>
-          <div>
-            <div>{{ t('form.benefits-header') }}</div>
-            <ul class="login-content__list">
-              <li v-for="(item, index) in benefits" :key="index" class="login-content__list-item">
-                <Check class="login-content__list-icon" />
-                {{ item }}
-              </li>
-            </ul>
-          </div>
+          <h2 class="login-content__header">{{ $t('account.login') }}</h2>
+          <AuthLoginForm @login="handleLogin" />
         </div>
-        <NuxtLink to="/register">
-          <LayoutButton class="login-content__btn" :label="t('form.register')" />
-        </NuxtLink>
+
+        <LayoutSpacer />
+        <div class="login-content__register">
+          <div>
+            <div class="login-content__header">{{ $t('account.noAccount') }}</div>
+            <div>
+              <div>{{ t('form.benefits-header') }}</div>
+              <ul class="login-content__list">
+                <li v-for="(item, index) in benefits" :key="index" class="login-content__list-item">
+                  <Check class="login-content__list-icon" />
+                  {{ item }}
+                </li>
+              </ul>
+            </div>
+          </div>
+          <NuxtLink to="/register">
+            <LayoutButton class="login-content__btn" :label="$t('account.register')" />
+          </NuxtLink>
+        </div>
       </div>
     </div>
-  </div>
+  </NuxtLayout>
 </template>
 
 <i18n lang="json">
@@ -38,10 +41,7 @@
       "wishlist": "Dodawać produkty do listy życzeń"
     },
     "form": {
-      "login": "Zaloguj się",
-      "register": "Zarejestruj się",
-      "benefits-header": "Mając konto w sklepie możesz:",
-      "no-account": "Nie masz konta?"
+      "benefits-header": "Mając konto w sklepie możesz:"
     }
   }
 }
@@ -52,6 +52,7 @@ import Check from '@/assets/icons/check-2.svg?component'
 import { useAuthStore } from '@/store/auth'
 
 const t = useLocalI18n()
+const $t = useGlobalI18n()
 const router = useRouter()
 const route = useRoute()
 const auth = useAuthStore()
@@ -68,8 +69,10 @@ onBeforeMount(() => {
 })
 
 useSeoMeta({
-  title: () => t('form.login'),
+  title: () => $t('account.login'),
 })
+
+const breadcrumbs = computed(() => [{ label: $t('account.login'), link: '/login' }])
 </script>
 
 <style lang="scss" scoped>

@@ -1,40 +1,37 @@
 <template>
-  <BaseContainer>
-    <LayoutBreadcrumpsProvider :breadcrumbs="[{ label: page?.name || '', link: route.fullPath }]" />
-    <LayoutLoading :active="pending" />
-    <div class="page">
-      <BaseWysiwygContent :content="page?.content_html" />
+  <NuxtLayout>
+    <div class="universal-page">
+      <LayoutLoading :active="pending" />
+
+      <template v-if="!pending">
+        <LazyStaticArticle v-if="page" :page="page" />
+        <BlogArticle v-else :slug="slug" />
+      </template>
     </div>
-  </BaseContainer>
+  </NuxtLayout>
 </template>
 
 <script setup lang="ts">
 const heseya = useHeseya()
 const route = useRoute()
-const t = useLocalI18n()
 
-const { data: page, pending } = useAsyncData(`page-${route.params.slug}`, async () => {
+const slug = computed(() => route.params.slug as string)
+
+/**
+ * This component is used for holding both static and blog articles in one route
+ * When static page is found, it will be rendered, otherwise blog article will be rendered. If none of them is found, 404 will be shown (<BlogArticle /> handles this)
+ */
+const { data: page, pending } = useAsyncData(`static-${slug.value}`, async () => {
   try {
-    return await heseya.Pages.getOneBySlug(route.params.slug as string)
+    return await heseya.Pages.getOneBySlug(slug.value)
   } catch (e: any) {
-    if (e?.response?.status === 404) showError({ message: t('notFoundError'), statusCode: 404 })
-    else showError({ message: e.statusCode, statusCode: 500 })
+    if (e?.response?.status !== 404) showError({ message: e.statusCode, statusCode: 500 })
     return null
   }
-})
-
-useSeoMeta({
-  title: () => page.value?.seo?.title || page.value?.name || '',
-  description: () => page.value?.seo?.description || '',
-  ogImage: () => page.value?.seo?.og_image?.url || '',
-  twitterCard: () => page.value?.seo?.twitter_card || 'summary',
-  robots: () => (page.value?.seo?.no_index ? 'no_index' : 'index'),
 })
 </script>
 
 <style lang="scss" scoped>
-.page {
-  max-width: $content-width;
-  margin: auto;
+.universal-page {
 }
 </style>

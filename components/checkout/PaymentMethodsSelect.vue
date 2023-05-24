@@ -12,6 +12,7 @@
             src="@/assets/images/payu.png"
             role="presentation"
             class="payment-methods-select__label-img"
+            loading="lazy"
           />
         </div>
       </template>
@@ -63,7 +64,7 @@ const value = computed<string | null>({
   },
 })
 
-const { data: paymentMethods, refresh } = useAsyncData('payment-methods-select', async () => {
+const { data: paymentMethods, refresh } = useLazyAsyncData('payment-methods-select', async () => {
   const { data } = await heseya.PaymentMethods.get({
     shipping_method_id: checkout.shippingMethod?.id,
   })
@@ -81,15 +82,13 @@ const TRADITIONAL_TRANSFER: RadioGroupOption = {
   label: t('paymentMethods.traditional'),
 }
 
-const isTraditionalTransfer = computed(() => config.env.allow_traditional_transfer === '1')
-
 const optionGroups = computed<RadioGroupOption[]>(() => [
   ...(paymentMethods.value?.map((method) => ({
     key: method.alias,
     value: method.id,
     label: method.name,
   })) || []),
-  ...(isTraditionalTransfer.value ? [TRADITIONAL_TRANSFER] : []),
+  ...(config.isTraditionalTransfer ? [TRADITIONAL_TRANSFER] : []),
 ])
 </script>
 

@@ -16,8 +16,8 @@
   "pl": {
     "recaptcha": {
       "message": "Ta strona korzysta z zabezpieczenia Google reCAPTCHa",
-      "privacy": "Prywatność",
-      "conditions": "Warunki"
+      "conditions": "Warunki",
+      "privacy": "Prywatność"
     }
   }
 }
@@ -26,12 +26,12 @@
 <script setup lang="ts">
 const t = useLocalI18n()
 
-const { public: config } = useRuntimeConfig()
+const { recaptchaPublic } = usePublicRuntimeConfig()
 
 useHead({
   script: [
     {
-      src: `https://www.google.com/recaptcha/api.js?render=${config.recaptchaPublic}`,
+      src: `https://www.google.com/recaptcha/api.js?render=${recaptchaPublic}`,
     },
   ],
 })
@@ -47,12 +47,12 @@ useHead({
   color: $gray-color-600;
 
   a {
-    color: var(--primary-color);
+    color: var(--secondary-color);
     text-decoration: none;
     transition: 0.3s;
 
     &:hover {
-      color: var(--secondary-color-alt);
+      color: var(--primary-color-alt);
     }
   }
 }

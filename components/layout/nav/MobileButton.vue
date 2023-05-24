@@ -97,7 +97,7 @@ const toggleOpen = () => {
   }
 
   &--special &__link {
-    color: var(--primary-color);
+    color: var(--secondary-color);
   }
 }
 </style>

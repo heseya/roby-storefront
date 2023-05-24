@@ -3,10 +3,12 @@ import { useCartStore } from '@/store/cart'
 import { useAuthStore } from '~/store/auth'
 import { useWishlistStore } from '~/store/wishlist'
 
-export default defineNuxtPlugin(async (nuxtApp) => {
-  const cart = useCartStore(nuxtApp.$pinia as Pinia)
-  const authStore = useAuthStore(nuxtApp.$pinia as Pinia)
-  const wishlistStore = useWishlistStore(nuxtApp.$pinia as Pinia)
+export default defineNuxtPlugin((nuxtApp) => {
+  const pinia = nuxtApp.$pinia as Pinia
+
+  const cart = useCartStore(pinia)
+  const authStore = useAuthStore(pinia)
+  const wishlistStore = useWishlistStore(pinia)
 
   watch(
     () => authStore.isLogged,
@@ -20,6 +22,4 @@ export default defineNuxtPlugin(async (nuxtApp) => {
     },
     { immediate: true },
   )
-
-  await Promise.all([cart.processCart()])
 })

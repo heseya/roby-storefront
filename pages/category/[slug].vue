@@ -1,19 +1,21 @@
 <template>
-  <BaseContainer class="categories-page">
+  <NuxtLayout>
     <LayoutBreadcrumpsProvider :breadcrumbs="breadcrumbs" />
 
-    <ProductListPage :title="category?.name" :sets="[route.params.slug as string]">
-      <template #aside>
-        <SubcategoriesLinks v-if="category" :category="category" />
-      </template>
-    </ProductListPage>
-  </BaseContainer>
+    <BaseContainer class="categories-page">
+      <ProductListPage :title="category?.name" :sets="[route.params.slug as string]">
+        <template #aside>
+          <SubcategoriesLinks v-if="category" :category="category" />
+        </template>
+      </ProductListPage>
+    </BaseContainer>
+  </NuxtLayout>
 </template>
 
 <i18n lang="json">
 {
   "pl": {
-    "notFoundError": "Podany produkt nie istnieje"
+    "notFoundError": "Podana kategoria nie istnieje"
   }
 }
 </i18n>
@@ -41,13 +43,7 @@ const { data: category } = useAsyncData(`category-${route.params.slug}`, async (
   }
 })
 
-useSeoMeta({
-  title: () => category.value?.seo?.title || category.value?.name || '',
-  description: () => category.value?.seo?.description || '',
-  ogImage: () => category.value?.seo?.og_image?.url || '',
-  twitterCard: () => category.value?.seo?.twitter_card || 'summary',
-  robots: () => (category.value?.seo?.no_index ? 'no_index' : 'index'),
-})
+useSeo(() => [category.value?.seo, { title: category.value?.name }])
 
 const breadcrumbs = computed(() => [
   category.value?.parent

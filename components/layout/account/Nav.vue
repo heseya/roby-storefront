@@ -1,13 +1,15 @@
 <template>
-  <div class="account-nav">
+  <div class="layout-account-nav">
     <div>
-      <ul class="account-nav__list">
-        <li v-for="(target, index) in navList" :key="index" class="account-nav__list-item">
-          <NuxtLink :to="`/account/${target}`" class="account-nav__text">{{ t(target) }} </NuxtLink>
-          <LayoutIcon :icon="GoNextIcon" :size="12" class="account-nav__icon" />
+      <ul class="layout-account-nav__list">
+        <li v-for="(target, index) in navList" :key="index" class="layout-account-nav__list-item">
+          <NuxtLink :to="`/account/${target}`" class="layout-account-nav__text"
+            >{{ $t(`${target}`) }}
+          </NuxtLink>
+          <LayoutIcon :icon="GoNextIcon" :size="12" class="layout-account-nav__icon" />
         </li>
       </ul>
-      <div class="account-nav__logout" @click="logout">{{ t('logout') }}</div>
+      <div class="layout-account-nav__logout" @click="logout">{{ $t('account.logout') }}</div>
     </div>
   </div>
 </template>
@@ -15,11 +17,6 @@
 <i18n lang="json">
 {
   "pl": {
-    "orders": "Zamówienia",
-    "settings": "Ustawienia konta",
-    "addresses": "Adresy",
-    "wishlist": "Lista życzeń",
-    "logout": "Wyloguj się",
     "logoutText": "Zostałeś wylogowany."
   }
 }
@@ -29,12 +26,18 @@
 import GoNextIcon from '@/assets/icons/navigate-next.svg?component'
 import { useAuthStore } from '@/store/auth'
 
+const $t = useGlobalI18n()
 const t = useLocalI18n()
 const auth = useAuthStore()
-const router = useRouter()
+
 const { notify } = useNotify()
 
-const navList = ref<string[]>(['orders', 'settings', 'addresses', 'wishlist'])
+const navList = ref<string[]>([
+  'orders.title',
+  'account.settings',
+  'account.addresses',
+  'wishlist.title',
+])
 
 const logout = async () => {
   await auth.logout()
@@ -42,12 +45,11 @@ const logout = async () => {
     title: t('logoutText'),
     type: 'success',
   })
-  router.push('/')
 }
 </script>
 
 <style lang="scss">
-.account-nav {
+.layout-account-nav {
   grid-area: nav;
 
   &__list {
@@ -73,7 +75,7 @@ const logout = async () => {
     }
 
     & > .router-link-active {
-      color: var(--primary-color);
+      color: var(--secondary-color);
       font-weight: bold;
     }
   }
@@ -88,7 +90,7 @@ const logout = async () => {
     text-decoration: underline;
     cursor: pointer;
 
-    margin: 35px 0px;
+    margin: 22px 0px;
   }
 
   &__icon {

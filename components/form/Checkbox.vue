@@ -73,7 +73,7 @@ const checkboxValue = computed({
     &--required > :first-child {
       ::after {
         content: '*';
-        color: $primary-color;
+        color: $secondary-color;
         font-weight: bold;
       }
     }
@@ -82,7 +82,7 @@ const checkboxValue = computed({
   &__label {
     display: block;
     font-size: rem(14);
-    line-height: rem(14);
+    line-height: rem(16);
   }
 
   &__text {
@@ -121,14 +121,14 @@ const checkboxValue = computed({
 
     a {
       font-weight: 600;
-      color: var(--secondary-color-alt);
+      color: var(--primary-color-alt);
     }
   }
 
   input:checked + label::before {
-    background-color: var(--secondary-color-alt);
+    background-color: var(--primary-color-alt);
     background-image: url('@/assets/icons/check.svg');
-    border-color: var(--secondary-color-alt);
+    border-color: var(--primary-color-alt);
   }
 
   &[disabled='true'] label::before {

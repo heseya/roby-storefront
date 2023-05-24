@@ -3,14 +3,18 @@
     <form class="search__form" @submit.prevent="onSubmit">
       <input
         ref="inputRef"
-        v-model="form.values.query"
+        v-model="formCtx.values.query"
         class="search__input search__input--query"
-        :placeholder="t('search')"
+        :placeholder="$t('custom.search')"
         name="query"
         autocomplete="off"
       />
       <div class="search__separator" />
-      <select v-model="form.values.category" class="search__input" name="category">
+      <select
+        v-model="formCtx.values.category"
+        class="search__input search__input--select"
+        name="category"
+      >
         <option selected value="all">{{ t('allCategories') }}</option>
         <option v-for="{ name, slug } in categories" :key="slug" :value="slug">
           {{ name }}
@@ -25,7 +29,6 @@
 <i18n lang="json">
 {
   "pl": {
-    "search": "Czego szukasz?",
     "allCategories": "Wszystkie kategorie"
   }
 }
@@ -44,6 +47,7 @@ export interface SearchValues {
 }
 
 const t = useLocalI18n()
+const $t = useGlobalI18n()
 const searchHistory = useSearchHistoryStore()
 
 const historyRef = ref(null)
@@ -60,14 +64,14 @@ const emit = defineEmits<{
   (event: 'search', values: SearchValues): void
 }>()
 
-const form = useForm({
+const formCtx = useForm({
   initialValues: {
     query: '',
     category: 'all',
   },
 })
 
-const onSubmit = form.handleSubmit((values) => {
+const onSubmit = formCtx.handleSubmit((values) => {
   emit('search', values)
 })
 
@@ -98,15 +102,26 @@ defineProps<{
   }
 
   &__input {
+    background-color: $transparent;
     height: 100%;
     padding: 0;
     outline: none;
     border: none;
-    background: transparent;
     font-size: rem(14);
+    height: 46px;
 
     &--query {
       width: 100%;
+    }
+
+    &--select {
+      background: url(data:image/svg+xml;base64,PHN2ZyBpZD0iTGF5ZXJfMSIgZGF0YS1uYW1lPSJMYXllciAxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0Ljk1IDEwIj48ZGVmcz48c3R5bGU+LmNscy0ye2ZpbGw6IzQ0NDt9PC9zdHlsZT48L2RlZnM+PHRpdGxlPmFycm93czwvdGl0bGU+PHBvbHlnb24gY2xhc3M9ImNscy0yIiBwb2ludHM9IjEuNDEgNC42NyAyLjQ4IDMuMTggMy41NCA0LjY3IDEuNDEgNC42NyIvPjxwb2x5Z29uIGNsYXNzPSJjbHMtMiIgcG9pbnRzPSIzLjU0IDUuMzMgMi40OCA2LjgyIDEuNDEgNS4zMyAzLjU0IDUuMzMiLz48L3N2Zz4=)
+        no-repeat 98% 50%;
+      background-size: 14px;
+      padding-right: 24px;
+      -moz-appearance: none;
+      -webkit-appearance: none;
+      appearance: none;
     }
   }
 
@@ -114,7 +129,7 @@ defineProps<{
     height: 46px;
     width: 46px;
     border-radius: 50%;
-    background-color: var(--secondary-color);
+    background-color: var(--primary-color);
   }
 
   &__history {

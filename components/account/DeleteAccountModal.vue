@@ -1,20 +1,21 @@
 <template>
-  <AccountFormModal
+  <FormModal
     v-model:open="isModalVisible"
-    :form="form"
+    :fullscreen="false"
+    :values="form.values"
     :header="t('header')"
     :error="error"
-    :ok-text="t('deleteAccount')"
+    :ok-text="$t('account.deleteAccount')"
     @submit="onSubmit"
   >
     <p class="delete-account-modal__question">{{ t('question') }}</p>
     <FormInputPassword
       v-model:model-value="form.values.currentPassword"
-      :label="t('currentPassword')"
+      :label="$t('form.currentPassword')"
       name="currentPassword"
       rules="required"
     />
-  </AccountFormModal>
+  </FormModal>
 </template>
 
 <i18n lang="json">
@@ -22,9 +23,7 @@
   "pl": {
     "header": "Usuwanie konta",
     "question": "Czy napewno chcesz usunąć konto ?",
-    "currentPassword": "Aktualne hasło",
-    "sucessUpdate": "Usunięto konto użytkownika.",
-    "deleteAccount": "Usuń konto"
+    "sucessUpdate": "Usunięto konto użytkownika."
   }
 }
 </i18n>
@@ -32,11 +31,12 @@
 <script setup lang="ts">
 import { useForm } from 'vee-validate'
 import { useAuthStore } from '@/store/auth'
-const t = useLocalI18n()
-const heseya = useHeseya()
+
 const { notify } = useNotify()
+const t = useLocalI18n()
+const $t = useGlobalI18n()
+const heseya = useHeseya()
 const auth = useAuthStore()
-const router = useRouter()
 
 const props = defineProps<{
   open: boolean
@@ -47,12 +47,8 @@ const emit = defineEmits<{
 }>()
 
 const isModalVisible = computed({
-  get() {
-    return props.open
-  },
-  set(value) {
-    emit('update:open', value)
-  },
+  get: () => props.open,
+  set: (value) => emit('update:open', value),
 })
 
 const error = ref<Error | null>(null)
@@ -70,7 +66,6 @@ const onSubmit = form.handleSubmit(async () => {
       type: 'success',
     })
     await auth.logout()
-    router.push('/')
   } catch (e: any) {
     error.value = e
   }
@@ -78,6 +73,9 @@ const onSubmit = form.handleSubmit(async () => {
 </script>
 
 <style lang="scss" scoped>
-.account-form-modal {
+.delete-account-modal {
+  &__question {
+    margin-bottom: 10px;
+  }
 }
 </style>

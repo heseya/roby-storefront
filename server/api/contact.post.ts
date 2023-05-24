@@ -7,7 +7,7 @@ interface ContactForm {
   email: string
   message: string
   type: 'renting' | 'price'
-  product: ProductList
+  product?: ProductList
   recaptchaToken: string
 }
 
@@ -40,7 +40,7 @@ const sendMail = (options: SendMailOptions): Promise<SentMessageInfo> =>
 export default defineEventHandler(async (event) => {
   const { name, email, message, type, product, recaptchaToken } = await readBody<ContactForm>(event)
 
-  if (!name || !email || !message || !type || !product || !recaptchaToken)
+  if (!name || !email || !message || !type || !recaptchaToken)
     throw createError({
       statusCode: 422,
       statusMessage: 'Missing required fields',
@@ -56,22 +56,32 @@ export default defineEventHandler(async (event) => {
   try {
     const title = type === 'renting' ? 'Zapytanie o wynajem' : 'Zapytanie o cenę'
 
+    const subject = product ? `${title}: ${product.name}` : title
+
     await sendMail({
       from: `${name} <${MAIL_USER}>`,
       to: MAIL_RECEIVER,
-      subject: `${title}: ${product.name} | ${APP_HOST}`,
+      subject: `${subject} | ${APP_HOST}`,
+      replyTo: email,
       text: `
       Wiadomość od ${name} \n
       Email: ${email || '-'}\n
-      Dotyczy produktu: ${product.name} (${APP_HOST}/product/${product.slug}) \n\n
+      ${
+        product
+          ? `Dotyczy produktu: ${product.name} (${APP_HOST}/product/${product.slug}) \n\n`
+          : ''
+      }
       ${message}
       `,
       html: `
       <h1>Wiadomość od ${name}</h1>
-      <small>Email: ${email || '-'}</small><br />
-      <small>Dotyczy produktu: ${product.name}
-      (<a href="${APP_HOST}/product/${product.slug}">${APP_HOST}/product/${product.slug}</a>)
-      </small><br />
+      <p>Email: ${email || '-'}</p>
+      ${
+        product
+          ? `<p>Dotyczy produktu: ${product.name} (<a href="${APP_HOST}/product/${product.slug}">${APP_HOST}/product/${product.slug}</a>)</p><br />`
+          : ''
+      }
+
 
       <p>${message}</p>
       `,

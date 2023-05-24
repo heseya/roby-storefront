@@ -42,7 +42,9 @@ export const useCheckoutStore = defineStore('checkout', {
       return {
         email: this.email,
         comment: this.comment,
-        shipping_place: this.orderShippingPlace,
+        shipping_place: this.isInpostShippingMethod
+          ? `${this.orderShippingPlace as string} | tel.: ${this.shippingAddress.phone}`
+          : this.orderShippingPlace,
         items: cart.orderItems,
         shipping_method_id: this.shippingMethod?.id,
         digital_shipping_method_id: this.digitalShippingMethod?.id,
@@ -55,6 +57,7 @@ export const useCheckoutStore = defineStore('checkout', {
         metadata: this.isInpostShippingMethod
           ? {
               inpost_phone: this.shippingAddress.phone,
+              inpost_point: this.orderShippingPlace as string,
             }
           : {},
       }
@@ -120,14 +123,18 @@ export const useCheckoutStore = defineStore('checkout', {
 
       const order = await heseya.Orders.create(this.orderDto)
 
-      ev.emit(HeseyaEvent.Purchase, { order, items: cart.items as CartItem[] })
+      ev.emit(HeseyaEvent.Purchase, {
+        order,
+        items: cart.items as CartItem[],
+        email: this.orderDto.email,
+      })
 
       return order
     },
 
     async createOrderPayment(orderCode: string, paymentMethodId: string) {
       const heseya = useHeseya()
-      const { appHost } = useRuntimeConfig()
+      const { appHost } = usePublicRuntimeConfig()
 
       const { order, paymentMethods } = await heseya.Orders.getPaymentMethods(orderCode)
 
@@ -140,7 +147,7 @@ export const useCheckoutStore = defineStore('checkout', {
       return await heseya.Orders.pay(
         orderCode,
         paymentMethods[0].id,
-        `${appHost}/checkout/thank-you?code=${orderCode}&t=${orderShippingType}`,
+        joinUrl(`/checkout/thank-you?code=${orderCode}&t=${orderShippingType}`, appHost),
       )
     },
   },

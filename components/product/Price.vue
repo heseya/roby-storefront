@@ -6,21 +6,21 @@
       :class="{ 'product-price__price--discounted': isDiscounted }"
     >
       <template v-if="product.price_min !== product.price_max">
-        {{ t('from') }}
+        {{ $t('common.from') }}
       </template>
       {{ formatAmount(product.price_min) }}
       <!-- <template v-if="product.price_min !== product.price_max">
         - {{ formatAmount(product.price_max) }}
       </template> -->
     </component>
-
+    {{ ' ' }}
     <component
       :is="tag"
       v-if="isDiscounted"
       class="product-price__price product-price__price--original"
     >
       <template v-if="product.price_min_initial !== product.price_max_initial">
-        {{ t('from') }}
+        {{ $t('common.from') }}
       </template>
       {{ formatAmount(product.price_min_initial) }}
       <!-- <template v-if="product.price_min_initial !== product.price_max_initial">
@@ -30,19 +30,10 @@
   </div>
 </template>
 
-<i18n lang="json">
-{
-  "pl": {
-    "from": "od"
-  }
-}
-</i18n>
-
 <script setup lang="ts">
 import { ProductList } from '@heseya/store-core'
 
-const t = useLocalI18n()
-
+const $t = useGlobalI18n()
 const props = withDefaults(
   defineProps<{
     product: ProductList
@@ -63,11 +54,15 @@ const isDiscounted = computed(() => {
 
 <style lang="scss" scoped>
 .product-price {
+  display: flex;
+  flex-wrap: wrap;
+
   &__price {
     line-height: 1.1em;
+    white-space: nowrap;
 
     &--discounted {
-      color: var(--primary-color);
+      color: var(--secondary-color);
     }
 
     &--original {

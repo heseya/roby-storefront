@@ -23,7 +23,7 @@ defineProps<{
 
   &--active,
   &:hover {
-    border: 1px solid var(--primary-color);
+    border: 1px solid var(--secondary-color);
   }
 }
 </style>

@@ -1,26 +1,26 @@
 <template>
   <div class="cart-summary" :class="{ 'cart-summary--disabled': disabled }">
     <div class="cart-summary__item">
-      <div class="cart-summary__label">{{ t('summary.productsPrice') }}</div>
+      <div class="cart-summary__label">{{ $t('orders.productsPrice') }}</div>
       <div class="cart-summary__value">{{ formatAmount(cart.totalValueInitial) }}</div>
     </div>
 
     <div v-if="cart.totalDiscountValue > 0" class="cart-summary__item cart-summary__item--green">
-      <div class="cart-summary__label">{{ t('summary.discount') }}</div>
+      <div class="cart-summary__label">{{ $t('payments.discount') }}</div>
       <div class="cart-summary__value">{{ formatAmount(cart.totalDiscountValue) }}</div>
     </div>
 
     <div class="cart-summary__item">
-      <div class="cart-summary__label">{{ t('summary.shipping') }}</div>
+      <div class="cart-summary__label">{{ $t('orders.delivery') }}</div>
       <div class="cart-summary__value">
-        {{ t('summary.from') }} {{ formatAmount(cheapestShippingMethodPrice) }}
+        {{ t('summary.from') }} {{ formatAmount(cheapestShippingMethodPrice || 0) }}
       </div>
     </div>
 
     <hr class="hr cart-summary__line" />
 
     <div class="cart-summary__item">
-      <div class="cart-summary__label">{{ t('summary.total') }}</div>
+      <div class="cart-summary__label">{{ $t('orders.totalAmount') }}</div>
       <div class="cart-summary__value cart-summary__value--big">
         {{ formatAmount(cart.totalValue) }}
       </div>
@@ -37,12 +37,13 @@
 
     <span class="cart-summary__text">{{ t('summary.paymentMethods') }}</span>
     <div class="cart-summary__payment-methods">
-      <b v-if="isTraditionalTransfer">{{ t('summary.tratidionalTransfer') }}</b>
+      <b v-if="config.isTraditionalTransfer">{{ $t('payments.traditionalTransfer') }}</b>
       <img
         v-for="method in paymentMethods"
         :key="method.id"
         :src="method.icon"
         :alt="method.name"
+        loading="lazy"
       />
     </div>
     <CartLoginBlockModal v-model:open="isAuthenticationModalVisible" />
@@ -53,24 +54,22 @@
 {
   "pl": {
     "summary": {
-      "productsPrice": "Cena produktów",
-      "discount": "Oszczędzasz",
-      "shipping": "Dostawa",
       "from": "już od",
-      "total": "Łączna kwota",
       "submit": "Przejdź do finalizacji zamówienia",
-      "paymentMethods": "Dostępne metody płatności:",
-      "tratidionalTransfer": "Przelew tradycyjny"
+      "paymentMethods": "Dostępne metody płatności:"
     }
   }
 }
 </i18n>
 
 <script setup lang="ts">
-import { PaymentMethod } from '@heseya/store-core'
+import { ShippingType } from '@heseya/store-core'
+
 import { useCartStore } from '@/store/cart'
-import PayuIcon from '@/assets/images/payu.png'
 import { useAuthStore } from '@/store/auth'
+import { useConfigStore } from '@/store/config'
+
+import PayuIcon from '@/assets/images/payu.png'
 
 withDefaults(
   defineProps<{
@@ -83,27 +82,27 @@ withDefaults(
 
 const cart = useCartStore()
 const t = useLocalI18n()
+const $t = useGlobalI18n()
+const config = useConfigStore()
 const auth = useAuthStore()
 const router = useRouter()
+const heseya = useHeseya()
 
-// TODO: get from API
-const cheapestShippingMethodPrice = 7.99
+const { data: cheapestShippingMethodPrice } = useLazyAsyncData(`shippingMethodPrice`, async () => {
+  const { data } = await heseya.ShippingMethods.get()
+  // TODO: ShippingType.Point can also have own price? Maybe ignore free shipping?
+  const prices = data.filter((m) => m.shipping_type !== ShippingType.Point).map((m) => m.price || 0)
+  return prices.length ? Math.min(...prices) : 0
+})
 
-// TODO: get from API
-const paymentMethods: PaymentMethod[] = [
-  {
-    id: 'payu',
-    url: '/',
-    alias: 'payu',
-    public: true,
-    app: null,
-    name: 'Przelew bankowy',
-    icon: PayuIcon,
-  },
-]
+const { data: paymentMethods } = useLazyAsyncData('all-payment-methods', async () => {
+  const { data } = await heseya.PaymentMethods.get()
+  return data.map((method) => ({
+    ...method,
+    icon: method.alias === 'payu' ? PayuIcon : method.icon,
+  }))
+})
 
-// TODO: get from API
-const isTraditionalTransfer = true
 const isAuthenticationModalVisible = ref<boolean>(false)
 
 const processCheckout = () => {

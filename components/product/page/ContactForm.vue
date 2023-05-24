@@ -20,7 +20,7 @@
         name="email"
         html-type="email"
         class="product-contact-form__input"
-        :label="t('email')"
+        :label="$t('form.email')"
         rules="required|email"
         label-uppercase
       />
@@ -30,7 +30,7 @@
       v-model="form.values.message"
       name="message"
       class="product-contact-form__input"
-      :label="t('message')"
+      :label="$t('common.message')"
       rules="required"
       label-uppercase
     />
@@ -42,7 +42,7 @@
     </FormCheckbox>
 
     <LayoutButton :disabled="isLoading" html-type="submit" class="product-contact-form__btn">
-      {{ actionText || t('actionText') }}
+      {{ actionText || $t('offers.pricing') }}
     </LayoutButton>
   </form>
 </template>
@@ -52,16 +52,8 @@
   "pl": {
     "text": "Wypełnienie formularza zajmie tylko chwilę, a dzięki temu otrzymasz od nas wsparcie w wyborze urządzenia i ofertę dopasowaną do Twoich potrzeb.",
     "name": "Imię lub nazwa firmy",
-    "email": "Adres email",
-    "message": "Wiadomość",
     "consent": "Zgadzam się na kontakt w celach przedstawienia oferty handlowej firmy {companyName}",
-    "actionText": "Zapytaj o cenę",
-    "successMessage": "Dziękujemy za wysłanie zapytania. Wkrótce się z Tobą skontaktujemy.",
-    "recaptcha": {
-      "message": "Ta strona korzysta z zabezpieczenia Google reCAPTCHa",
-      "privacy": "Prywatność",
-      "conditions": "Warunki"
-    }
+    "successMessage": "Dziękujemy za wysłanie zapytania. Wkrótce się z Tobą skontaktujemy."
   }
 }
 </i18n>
@@ -85,10 +77,9 @@ const props = withDefaults(
 )
 
 const t = useLocalI18n()
+const $t = useGlobalI18n()
 const { notify } = useNotify()
-const {
-  public: { recaptchaPublic },
-} = useRuntimeConfig()
+const { recaptchaPublic } = usePublicRuntimeConfig()
 const config = useConfigStore()
 
 const isLoading = ref(false)
@@ -119,6 +110,8 @@ const onSubmit = form.handleSubmit(async (values) => {
       type: 'success',
       text: t('successMessage'),
     })
+
+    form.resetForm()
   } catch (e: any) {
     notify({
       type: 'error',

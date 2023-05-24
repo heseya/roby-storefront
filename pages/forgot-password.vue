@@ -1,29 +1,31 @@
 <template>
-  <div class="forgot-password" @submit.prevent="onSubmit">
-    <LayoutBreadcrumpsProvider :breadcrumbs="[{ label: t('title'), link: '/forgot-password' }]" />
-    <form v-if="!formStatus.send" class="forgot-password__form">
-      <h2 class="forgot-password__header">{{ t('form.header') }}</h2>
-      <span class="forgot-password__description">{{ t('form.description') }}</span>
-      <FormInput
-        v-model="form.values.email"
-        name="email"
-        :label="t('form.email')"
-        rules="required|email"
-      />
-      <LayoutButton class="forgot-password__btn" :label="t('form.send')" html-type="submit" />
+  <NuxtLayout>
+    <div class="forgot-password" @submit.prevent="onSubmit">
+      <LayoutBreadcrumpsProvider :breadcrumbs="breadcrumbs" />
+      <form v-if="!formStatus.isSubmitted" class="forgot-password__form">
+        <h2 class="forgot-password__header">{{ t('title') }}</h2>
+        <span class="forgot-password__description">{{ t('form.description') }}</span>
+        <FormInput
+          v-model="form.values.email"
+          name="email"
+          :label="$t('form.email')"
+          rules="required|email"
+        />
+        <LayoutButton class="forgot-password__btn" :label="$t('form.send')" html-type="submit" />
 
-      <span v-if="errorMessage" class="forgot-password__error">{{ errorMessage }}</span>
-    </form>
-    <div v-else>
-      <p>
-        {{ t('message') }}<b>{{ formStatus.email }}</b
-        >{{ t('message2') }}
-      </p>
+        <span v-if="errorMessage" class="forgot-password__error">{{ errorMessage }}</span>
+      </form>
+      <div v-else>
+        <p>
+          {{ t('message') }}<b>{{ formStatus.email }}</b
+          >{{ t('message2') }}
+        </p>
+      </div>
+      <NuxtLink :to="'/login'" class="forgot-password__nav">
+        &lt; {{ $t('form.backToLogin') }}</NuxtLink
+      >
     </div>
-    <NuxtLink :to="'/login'" class="forgot-password__nav">
-      &lt; {{ t('form.backToLogin') }}</NuxtLink
-    >
-  </div>
+  </NuxtLayout>
 </template>
 
 <i18n lang="json">
@@ -31,11 +33,7 @@
   "pl": {
     "title": "Przypomnij hasło",
     "form": {
-      "email": "Adres e-mail",
-      "header": "Przypomnij hasło",
-      "description": "Jeżeli ten adres e-mail został zarejestrowany w naszym serwisie, otrzymasz link do zrestartowania hasła.",
-      "send": "Wyślij",
-      "backToLogin": "Wróć do logowania"
+      "description": "Jeżeli ten adres e-mail został zarejestrowany w naszym serwisie, otrzymasz link do zrestartowania hasła."
     },
     "message": "Jeżeli istnieje konto powiązane z podanym adresem ",
     "message2": ", wysłaliśmy e-mail z linkiem do resetowania hasła."
@@ -47,6 +45,7 @@
 import { useForm } from 'vee-validate'
 
 const t = useLocalI18n()
+const $t = useGlobalI18n()
 const heseya = useHeseya()
 const formatError = useErrorMessage()
 
@@ -56,26 +55,28 @@ const form = useForm({
   },
 })
 
-const formStatus = ref<{ send: boolean; email: string }>({
-  send: false,
+const formStatus = ref<{ isSubmitted: boolean; email: string }>({
+  isSubmitted: false,
   email: '',
 })
 
-const errorMessage = ref<string | null>(null)
+const errorMessage = ref<string>()
 
 const onSubmit = form.handleSubmit(async (values) => {
   try {
-    const { appHost } = useRuntimeConfig()
+    const { appHost } = usePublicRuntimeConfig()
 
-    await heseya.Auth.requestResetPassword(values.email, `${appHost}/reset-password`)
+    await heseya.Auth.requestResetPassword(values.email, joinUrl('reset-password', appHost))
     formStatus.value = {
-      send: true,
+      isSubmitted: true,
       email: form.values.email,
     }
   } catch (e: any) {
     errorMessage.value = formatError(e)
   }
 })
+
+const breadcrumbs = computed(() => [{ label: t('title'), link: '/forgot-password' }])
 </script>
 
 <style lang="scss" scoped>

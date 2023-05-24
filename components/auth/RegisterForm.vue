@@ -1,20 +1,20 @@
 <template>
   <form class="register-form" disabled @submit.prevent="onSubmit">
     <LayoutLoading :active="isLoading" />
-    <h2 class="register-form__header">{{ t('form.header') }}</h2>
+    <h2 class="register-form__header">{{ $t('account.registerTitle') }}</h2>
     <div class="register-form__container">
       <FormInput
         v-model="form.values.name"
         name="name"
         :label="t('form.name')"
-        rules="required"
+        rules="required|alpha"
         :disabled="isFormDisabled"
       />
       <FormInput
         v-model="form.values.surname"
         name="surname"
         :label="t('form.surname')"
-        rules="required"
+        rules="required|alpha"
         :disabled="isFormDisabled"
       />
     </div>
@@ -22,7 +22,7 @@
       <FormInput
         v-model="form.values.email"
         name="email"
-        :label="t('form.email')"
+        :label="$t('form.email')"
         rules="required|email"
         :disabled="isFormDisabled"
       />
@@ -30,13 +30,13 @@
     <div class="register-form__container">
       <FormInputPassword
         v-model="form.values.password"
-        :label="t('form.password')"
+        :label="$t('form.password')"
         name="password"
         :disabled="isFormDisabled"
       />
       <FormInputPassword
         v-model="form.values.confirmPassword"
-        :label="t('form.confirmPassword')"
+        :label="$t('form.confirmPassword')"
         rules="confirmedPassword:@password"
         name="confirmPassword"
         :disabled="isFormDisabled"
@@ -60,7 +60,7 @@
         :disabled="isFormDisabled"
         html-type="submit"
         class="register-form__btn"
-        :label="t('form.register')"
+        :label="$t('account.register')"
       />
     </div>
   </form>
@@ -70,13 +70,8 @@
 {
   "pl": {
     "form": {
-      "email": "Adres e-mail",
-      "header": "Rejestracja",
-      "register": "Zarejestruj się",
       "name": "Imię",
-      "surname": "Nazwisko",
-      "password": "Hasło",
-      "confirmPassword": "Powtórz hasło"
+      "surname": "Nazwisko"
     }
   }
 }
@@ -87,6 +82,7 @@ import { User, UserConsentDto, UserRegisterDto } from '@heseya/store-core'
 import { useForm } from 'vee-validate'
 
 const t = useLocalI18n()
+const $t = useGlobalI18n()
 const heseya = useHeseya()
 const formatError = useErrorMessage()
 
@@ -185,7 +181,7 @@ const onSubmit = form.handleSubmit(async () => {
   }
 
   &__policy-agreement {
-    color: $primary-color;
+    color: $secondary-color;
   }
 
   &__error {
