@@ -25,11 +25,11 @@
     <ProductQuantityInput v-model:quantity="quantity" class="product-purchase-panel__quantity" />
 
     <LayoutButton
-      :disabled="!product.available"
+      :disabled="!product.available || isProductPurchaseLimitReached"
       class="product-purchase-panel__cart-btn"
       @click="addToCart"
     >
-      {{ product.available ? t('actions.addToCart') : t('availability.unavailable') }}
+      {{ purchaseButtonText }}
     </LayoutButton>
 
     <a
@@ -55,8 +55,8 @@
     },
     "availability": {
       "available": "Produkt dostępny na zamówienie",
-      "alreadyAdded": "Product znajduje się w koszyku",
       "unavailable": "Niedostępny",
+      "reachedLimit": "Osiągnięto limit",
       "shippingDigital": "Dostawa natychmiastowa",
       "shippingDate": "Gotowy do wysłania od {date}",
       "shippingTime": "Gotowy do wysłania w {time}",
@@ -68,10 +68,8 @@
 
 <script setup lang="ts">
 import { CartItemSchema, Product, parseSchemasToValues } from '@heseya/store-core'
-
 import DeliveryIcon from '@/assets/icons/delivery.svg?component'
 import { useCartStore } from '@/store/cart'
-import ProductCard from '~/components/account/ProductCard.vue'
 
 const props = withDefaults(
   defineProps<{
@@ -89,12 +87,26 @@ const quantity = ref(1)
 const schemaValue = ref<CartItemSchema[]>(parseSchemasToValues(props.product.schemas))
 const { price, originalPrice, pending } = useProductPrice(props.product, schemaValue)
 
+const purchaseButtonText = computed((): string => {
+  if (isProductPurchaseLimitReached.value) return t('availability.reachedLimit')
+
+  if (props.product.available) return t('actions.addToCart')
+
+  return t('availability.unavailable')
+})
+
+const isProductPurchaseLimitReached = computed((): boolean => {
+  if (!props.product.purchase_limit_per_user) return false
+
+  const productsInBasket = cart.items.find((p) => p.productId === props.product.id)?.totalQty || 0
+
+  return props.product.purchase_limit_per_user < productsInBasket + quantity.value
+})
+
 const availability = computed(() => {
   if (!props.product.available) return t('availability.unavailable')
 
   if (props.product.shipping_digital) return t('availability.shippingDigital')
-
-  if (props.product.purchase_limit_per_user) return t('availability.alreadyAdded')
 
   if (props.product.shipping_date) {
     return t('availability.shippingDate', {
@@ -115,11 +127,7 @@ const isLeaseable = computed(() => {
 })
 
 const addToCart = () => {
-  if (!props.product.available) return
-
-  if (props.product.purchase_limit_per_user) return
-
-  console.log(cart)
+  if (!props.product.available || isProductPurchaseLimitReached) return
 
   cart.add({
     product: props.product,
