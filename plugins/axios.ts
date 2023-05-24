@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { enhanceAxiosWithAuthTokenRefreshing } from '@heseya/store-core'
-import { setupCache, buildMemoryStorage } from 'axios-cache-interceptor/dev'
+import { setupCache, buildMemoryStorage } from 'axios-cache-interceptor'
 
 import { Pinia } from '@pinia/nuxt/dist/runtime/composables'
 
@@ -13,7 +13,7 @@ declare module 'axios' {
   }
 }
 
-// ? Common cache storage for server side
+// Common cache storage for server side
 const cacheStorage = buildMemoryStorage()
 
 export default defineNuxtPlugin((nuxt) => {
@@ -79,7 +79,7 @@ export default defineNuxtPlugin((nuxt) => {
     if (!isProduction) {
       const time = response.cached ? 'cache' : `${config._endTime - config._beginTime!}ms`
       // eslint-disable-next-line no-console
-      console.log(`(${time}) - [${config.method}] ${config.url} {ID:${config.id}}`)
+      console.log(`(${time}) - [${config.method}] ${config.url}`)
     }
     return response
   })
