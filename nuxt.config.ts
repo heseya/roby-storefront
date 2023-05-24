@@ -1,5 +1,5 @@
 import svgLoader from 'vite-svg-loader'
-import { removePageByName } from './utils/removePageByName'
+import { removePageByName, changePagePathOrRemoveByName } from './utils/routing'
 
 const {
   API_URL = 'https://demo-***REMOVED***.***REMOVED***',
@@ -13,6 +13,13 @@ const {
   LEASLINK_ID,
   COLOR_THEME_PICKER,
   AXIOS_CACHE_TTL,
+
+  // Custom pages paths
+  PAGE_BLOG_PATH = '/blog',
+  PAGE_CONTACT_PATH = '/kontakt',
+  PAGE_ABOUT_PATH = '/o-nas',
+  PAGE_RENT_PATH = '/wynajem',
+  PAGE_STATUTE_PATH = '/regulamin',
 } = process.env
 
 const isProduction = ENVIRONMENT === 'production'
@@ -68,12 +75,34 @@ export default defineNuxtConfig({
 
   hooks: {
     'pages:extend'(pages) {
-      /**
-       * This pages must be disabled, when directus is not available
-       */
-      const directusPages = ['blog', 'kontakt', 'o-nas', 'wynajem']
+      const CUSTOM_PAGE_NAMES = {
+        Blog: 'blog',
+        Contact: 'kontakt',
+        AboutUs: 'o-nas',
+        Rent: 'wynajem',
+        Statute: 'regulamin',
+      }
 
-      if (!DIRECTUS_URL) directusPages.forEach((page) => removePageByName(page, pages))
+      /**
+       * All custom pages can be disabled or their path can be changed
+       */
+      changePagePathOrRemoveByName(pages, CUSTOM_PAGE_NAMES.Blog, PAGE_BLOG_PATH)
+      changePagePathOrRemoveByName(pages, CUSTOM_PAGE_NAMES.Contact, PAGE_CONTACT_PATH)
+      changePagePathOrRemoveByName(pages, CUSTOM_PAGE_NAMES.AboutUs, PAGE_ABOUT_PATH)
+      changePagePathOrRemoveByName(pages, CUSTOM_PAGE_NAMES.Rent, PAGE_RENT_PATH)
+      changePagePathOrRemoveByName(pages, CUSTOM_PAGE_NAMES.Statute, PAGE_STATUTE_PATH)
+
+      /**
+       * These pages must be disabled, when directus is not available
+       */
+      const directusPageNames = [
+        CUSTOM_PAGE_NAMES.Blog,
+        CUSTOM_PAGE_NAMES.Contact,
+        CUSTOM_PAGE_NAMES.AboutUs,
+        CUSTOM_PAGE_NAMES.Rent,
+      ]
+
+      if (!DIRECTUS_URL) directusPageNames.forEach((name) => removePageByName(name, pages))
     },
   },
 

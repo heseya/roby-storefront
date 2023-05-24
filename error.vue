@@ -1,7 +1,7 @@
 <template>
   <NuxtLayout>
     <div class="error-page">
-      <span class="error-page__title">{{ useGlobalI18n('common.error') }}</span>
+      <span class="error-page__title">{{ $t('common.error') }}</span>
       <h1 class="error-page__code">{{ error?.statusCode || 500 }}</h1>
       <p class="error-page__text">
         {{ error?.message || error?.statusMessage || t('error.text') }}
@@ -31,11 +31,12 @@ const props = defineProps({
   error: Object,
 })
 const t = useLocalI18n()
+const $t = useGlobalI18n()
 
 const handleError = () => clearError({ redirect: '/' })
 
 useSeoMeta({
-  title: `${t('error.title')} ${props.error?.statusCode || 500}`,
+  title: `${$t('common.error')} ${props.error?.statusCode || 500}`,
 })
 </script>
 

@@ -1,6 +1,6 @@
 <template>
   <NuxtLayout>
-    <LayoutBreadcrumpsProvider :breadcrumbs="breadcrumb" />
+    <LayoutBreadcrumpsProvider :breadcrumbs="breadcrumbs" />
 
     <div class="rent-page">
       <BaseContainer class="rent-page__content">
@@ -41,12 +41,15 @@ useSeoMeta({
   title: () => t('title'),
 })
 
-const breadcrumb = [
-  {
-    label: 'Wynajem',
-    link: '/wynajem',
-  },
-]
+const breadcrumbs = computed(() => {
+  const route = useRoute()
+  return [
+    {
+      label: t('title'),
+      link: route.path,
+    },
+  ]
+})
 
 const scrollTarget = ref<HTMLElement>()
 

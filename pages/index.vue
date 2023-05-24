@@ -57,7 +57,7 @@ const heseya = useHeseya()
 type Section = { type: 'set'; data: ProductSetList } | { type: 'box'; data: LinkBox }
 
 useSeoMeta({
-  title: () => $t('breadcrumbs.account'),
+  title: () => $t('breadcrumbs.home'),
 })
 
 const { data } = useAsyncData('main-banner', async () => {

@@ -47,12 +47,15 @@ import { ContactDepartment, ContactPerson } from '@/interfaces/contactPage'
 const config = useConfigStore()
 const t = useLocalI18n()
 
-const breadcrumbs = [
-  {
-    label: t('title'),
-    link: '/kontakt',
-  },
-]
+const breadcrumbs = computed(() => {
+  const route = useRoute()
+  return [
+    {
+      label: t('title'),
+      link: route.path,
+    },
+  ]
+})
 
 useSeoMeta({
   title: t('title'),
