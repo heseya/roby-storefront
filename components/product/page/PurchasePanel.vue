@@ -55,6 +55,7 @@
     },
     "availability": {
       "available": "Produkt dostępny na zamówienie",
+      "alreadyAdded": "Product znajduje się w koszyku",
       "unavailable": "Niedostępny",
       "shippingDigital": "Dostawa natychmiastowa",
       "shippingDate": "Gotowy do wysłania od {date}",
@@ -70,6 +71,7 @@ import { CartItemSchema, Product, parseSchemasToValues } from '@heseya/store-cor
 
 import DeliveryIcon from '@/assets/icons/delivery.svg?component'
 import { useCartStore } from '@/store/cart'
+import ProductCard from '~/components/account/ProductCard.vue'
 
 const props = withDefaults(
   defineProps<{
@@ -92,6 +94,8 @@ const availability = computed(() => {
 
   if (props.product.shipping_digital) return t('availability.shippingDigital')
 
+  if (props.product.purchase_limit_per_user) return t('availability.alreadyAdded')
+
   if (props.product.shipping_date) {
     return t('availability.shippingDate', {
       date: new Date(props.product.shipping_date).toLocaleDateString(),
@@ -112,6 +116,10 @@ const isLeaseable = computed(() => {
 
 const addToCart = () => {
   if (!props.product.available) return
+
+  if (props.product.purchase_limit_per_user) return
+
+  console.log(cart)
 
   cart.add({
     product: props.product,
