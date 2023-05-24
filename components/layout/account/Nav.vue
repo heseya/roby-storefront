@@ -3,8 +3,8 @@
     <div>
       <ul class="layout-account-nav__list">
         <li v-for="(target, index) in navList" :key="index" class="layout-account-nav__list-item">
-          <NuxtLink :to="`/account/${target}`" class="layout-account-nav__text"
-            >{{ $t(`${target}`) }}
+          <NuxtLink :to="`/account/${target.to}`" class="layout-account-nav__text"
+            >{{ $t(`${target.title}`) }}
           </NuxtLink>
           <LayoutIcon :icon="GoNextIcon" :size="12" class="layout-account-nav__icon" />
         </li>
@@ -32,11 +32,11 @@ const auth = useAuthStore()
 
 const { notify } = useNotify()
 
-const navList = ref<string[]>([
-  'orders.title',
-  'account.settings',
-  'account.addresses',
-  'wishlist.title',
+const navList = ref<{ to: string; title: string }[]>([
+  { to: 'orders', title: 'orders.title' },
+  { to: 'settings', title: 'account.settings' },
+  { to: 'addresses', title: 'account.addresses' },
+  { to: 'wishlist', title: 'wishlist.title' },
 ])
 
 const logout = async () => {
