@@ -1,7 +1,7 @@
 <template>
   <div class="reason">
     <div class="reason__icon-container">
-      <img :src="imageUrl" role="presentation" class="reason__icon" />
+      <img :src="imageUrl" role="presentation" class="reason__icon" loading="lazy" />
     </div>
     <span class="reason__title">{{ reason.name }}</span>
     <span class="reason__description">{{ reason.description }}</span>

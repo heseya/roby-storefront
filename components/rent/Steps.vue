@@ -41,7 +41,7 @@
       </div>
     </div>
     <div class="steps__image-container">
-      <img class="steps__image" src="@/assets/images/rent.png" />
+      <img class="steps__image" src="@/assets/images/rent.png" loading="lazy" />
     </div>
   </div>
 </template>

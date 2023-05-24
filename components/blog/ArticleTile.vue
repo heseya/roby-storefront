@@ -2,7 +2,7 @@
   <div class="blog-article">
     <NuxtLink :to="localePath(`/${article.slug}`)" class="blog-article__link">
       <div class="blog-article__image-container">
-        <img :src="imageUrl" :alt="translatedArticle.title" />
+        <img :src="imageUrl" :alt="translatedArticle.title" loading="lazy" />
         <div class="blog-article__floating-title">{{ translatedArticle.title }}</div>
       </div>
       <div class="blog-article__title">{{ translatedArticle.description }}</div>

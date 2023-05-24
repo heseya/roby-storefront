@@ -9,6 +9,7 @@
             class="team-person-card__avatar"
             :src="person.avatar"
             :alt="person.name"
+            loading="lazy"
           />
         </div>
         <span class="team-person-card__name">{{ person.name }}</span>

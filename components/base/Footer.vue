@@ -23,6 +23,7 @@
           class="footer__logo"
           :src="config.footerLogoUrl"
           :alt="`${config.storeName} logo`"
+          loading="lazy"
         />
 
         <div v-if="companyAddress" class="footer__text">

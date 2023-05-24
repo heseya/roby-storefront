@@ -5,7 +5,7 @@
       <HomeWhyUsReson v-for="(reason, index) in reasons" :key="index" :reason="reason" />
     </div>
     <div class="why-us__partner">
-      <img class="partner__image" :src="imageUrl" role="presentation" />
+      <img class="partner__image" :src="imageUrl" role="presentation" loading="lazy" />
       <div class="partner__description">
         <LayoutHeader class="why-us__header" variant="black">
           {{ content.image_title }}

@@ -8,6 +8,7 @@
     :object-fit="objectFit"
     :object-position="objectPosition"
     :placeholder-class-name="placeholderClassName"
+    :loading="loading"
     :alt="alt || media?.alt || ''"
   >
     <template #placeholder>
@@ -43,6 +44,7 @@ const props = withDefaults(
   defineProps<{
     media?: CdnMedia | null
     alt?: string
+    loading?: 'lazy' | 'eager'
     objectFit?: string
     objectPosition?: string
     width?: string | number
@@ -56,6 +58,7 @@ const props = withDefaults(
   {
     media: null,
     alt: '',
+    loading: 'lazy',
     objectFit: 'contain',
     objectPosition: 'center',
     width: undefined,

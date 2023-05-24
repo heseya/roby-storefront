@@ -11,6 +11,7 @@
       :src="baseUrl"
       :alt="alt"
       :class="`hs-picture__img hs-picture__img--fit-${objectFit} hs-picture__img--position-${objectPosition}`"
+      :loading="loading"
       @error="handleError"
     />
   </picture>
@@ -25,6 +26,7 @@ const props = withDefaults(
     objectPosition?: string
     objectFit?: string
     alt?: string
+    loading?: 'lazy' | 'eager'
     placeholderClassName?: string
   }>(),
   {
@@ -33,6 +35,7 @@ const props = withDefaults(
     objectPosition: 'top',
     objectFit: 'cover',
     alt: '',
+    loading: 'lazy',
     placeholderClassName: '',
   },
 )

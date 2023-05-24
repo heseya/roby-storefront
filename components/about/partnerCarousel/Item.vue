@@ -1,6 +1,6 @@
 <template>
   <div class="item">
-    <img class="item__image" :src="logoUrl" :alt="partner.name" />
+    <img class="item__image" :src="logoUrl" :alt="partner.name" loading="lazy" />
     <div>
       <span class="item__name">{{ partner?.name }}</span>
       <span class="item__subname">{{ partner?.subtitle ?? ' ' }}</span>
