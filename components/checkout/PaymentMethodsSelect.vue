@@ -12,6 +12,7 @@
             src="@/assets/images/payu.png"
             role="presentation"
             class="payment-methods-select__label-img"
+            loading="lazy"
           />
         </div>
       </template>

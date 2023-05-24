@@ -66,7 +66,7 @@ const { data: article, pending } = useAsyncData(`blog-article-${props.slug}`, as
   return response.data?.[0] as BlogArticle
 })
 
-const imageUrl = computed(() => getImageUrl(article.value?.image))
+const imageUrl = computed(() => getImageUrl(article.value?.image, { width: 900 }))
 const translatedArticle = computed(() =>
   article.value ? getTranslated(article.value.translations, 'PL-pl') : null,
 )

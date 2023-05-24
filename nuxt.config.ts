@@ -12,6 +12,7 @@ const {
   CENEO_GUID,
   LEASLINK_ID,
   COLOR_THEME_PICKER,
+  AXIOS_CACHE_TTL,
 
   // Custom pages paths
   PAGE_BLOG_PATH = '/blog',
@@ -31,7 +32,7 @@ export default defineNuxtConfig({
         { charset: 'utf-8' },
         {
           name: 'viewport',
-          content: 'width=device-width,initial-scale=1,maximum-scale=1',
+          content: 'width=device-width,initial-scale=1,maximum-scale=5',
         },
         {
           hid: isProduction ? 'robots' : 'force-robots',
@@ -58,6 +59,7 @@ export default defineNuxtConfig({
       ceneoGuid: CENEO_GUID,
       leaslinkId: LEASLINK_ID,
       showColorThemePicker: COLOR_THEME_PICKER === '1',
+      axiosCacheTtl: parseInt(AXIOS_CACHE_TTL || '0') ?? 0,
     },
   },
 

@@ -9,6 +9,7 @@
             class="team-person-card__avatar"
             :src="person.avatar"
             :alt="person.name"
+            loading="lazy"
           />
         </div>
         <span class="team-person-card__name">{{ person.name }}</span>
@@ -37,7 +38,7 @@ const { data: persons } = useAsyncData('team-persons', async () => {
   })
   return data?.map((person: any) => ({
     ...person,
-    avatar: getImageUrl(person.avatar),
+    avatar: getImageUrl(person.avatar, { width: 70 }),
   }))
 })
 </script>

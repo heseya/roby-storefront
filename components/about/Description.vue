@@ -18,7 +18,7 @@
       </div>
     </div>
     <div class="description__image-container">
-      <img class="description__image" :src="imageUrl" />
+      <img class="description__image" :src="imageUrl" loading="lazy" />
     </div>
   </div>
 </template>

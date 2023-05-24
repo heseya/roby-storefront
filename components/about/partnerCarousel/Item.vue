@@ -1,6 +1,6 @@
 <template>
   <div class="item">
-    <img class="item__image" :src="logoUrl" :alt="partner.name" />
+    <img class="item__image" :src="logoUrl" :alt="partner.name" loading="lazy" />
     <div>
       <span class="item__name">{{ partner?.name }}</span>
       <span class="item__subname">{{ partner?.subtitle ?? ' ' }}</span>
@@ -14,7 +14,7 @@ import { TranslatedAboutPartner } from '@/interfaces/aboutPage'
 
 const props = defineProps<{ partner: TranslatedAboutPartner }>()
 
-const logoUrl = computed(() => getImageUrl(props.partner.logo))
+const logoUrl = computed(() => getImageUrl(props.partner.logo, { width: 150 }))
 </script>
 
 <style lang="scss" scoped>

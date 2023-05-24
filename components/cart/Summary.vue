@@ -43,6 +43,7 @@
         :key="method.id"
         :src="method.icon"
         :alt="method.name"
+        loading="lazy"
       />
     </div>
     <CartLoginBlockModal v-model:open="isAuthenticationModalVisible" />

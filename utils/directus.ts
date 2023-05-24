@@ -1,10 +1,19 @@
 import { DirectusImage } from '~/interfaces/DirectusImage'
 import { DirectusTranslated } from '~/interfaces/DirectusTranslated'
 
-export const getImageUrl = (file?: DirectusImage): string => {
+export const getImageUrl = (
+  file?: DirectusImage,
+  params?: Record<string, string | number>,
+): string => {
   if (!file) return ''
   const { directusUrl } = usePublicRuntimeConfig()
-  return `${directusUrl}/assets/${file.filename_disk}`
+
+  const query = new URLSearchParams()
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value) query.set(key, value.toString())
+  })
+
+  return `${directusUrl}/assets/${file.filename_disk}?${query.toString()}`
 }
 
 export const getTranslated = <T>(translated: DirectusTranslated<T>, lang: string): T => {

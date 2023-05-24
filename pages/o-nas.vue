@@ -76,8 +76,8 @@ const { data: aboutPage } = useAsyncData('about-page', async () => {
   }
 })
 
-const mainImageUrl = computed(() => getImageUrl(aboutPage.value?.main_image))
-const bannerImageUrl = computed(() => getImageUrl(aboutPage.value?.banner_image))
+const mainImageUrl = computed(() => getImageUrl(aboutPage.value?.main_image, { width: 600 }))
+const bannerImageUrl = computed(() => getImageUrl(aboutPage.value?.banner_image, { width: 1200 }))
 </script>
 
 <style lang="scss" scoped>
