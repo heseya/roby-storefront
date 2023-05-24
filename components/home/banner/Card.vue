@@ -2,7 +2,7 @@
   <NuxtLink class="card" :class="{ 'card--centered': centered }" :to="link">
     <div class="card__container" :class="{ 'card__container--centered': centered }">
       <div class="card__gray-filter" />
-      <Media object-fit="cover" :media="selectedMedia" class="card__image" />
+      <Media object-fit="cover" :media="selectedMedia" class="card__image" loading="eager" />
       <LayoutHeader v-if="showSubtitle" class="card__subtitle">
         {{ subtitle }}
       </LayoutHeader>
