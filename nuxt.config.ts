@@ -12,7 +12,7 @@ const {
   CENEO_GUID,
   LEASLINK_ID,
   COLOR_THEME_PICKER,
-  CLIENT_CACHE_TTL,
+  AXIOS_CACHE_TTL,
 } = process.env
 
 const isProduction = ENVIRONMENT === 'production'
@@ -52,7 +52,7 @@ export default defineNuxtConfig({
       ceneoGuid: CENEO_GUID,
       leaslinkId: LEASLINK_ID,
       showColorThemePicker: COLOR_THEME_PICKER === '1',
-      clientCacheTtl: parseInt(CLIENT_CACHE_TTL || '0'),
+      axiosCacheTtl: parseInt(AXIOS_CACHE_TTL || '0') ?? 0,
     },
   },
 

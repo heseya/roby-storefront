@@ -17,20 +17,18 @@ declare module 'axios' {
 const cacheStorage = buildMemoryStorage()
 
 export default defineNuxtPlugin((nuxt) => {
-  const { apiUrl: baseURL, isProduction, clientCacheTtl } = usePublicRuntimeConfig()
+  const { apiUrl: baseURL, isProduction, axiosCacheTtl } = usePublicRuntimeConfig()
 
   const baseAxios = axios.create({ baseURL })
 
   // ? --------------------------------------------------------------------------------------------
   // ? Cache
   // ? --------------------------------------------------------------------------------------------
-  const cacheTTL =
-    (process.client ? clientCacheTtl : parseInt(process.env.SERVER_CACHE_TTL || '0')) ?? 0
   const ax = setupCache(baseAxios, {
     // This time is a fallback value, by default time is determined by the `Cache-Control` header
-    ttl: cacheTTL,
+    ttl: axiosCacheTtl,
     // TODO: remove this override when API stop returning `Cache-Control: no-cache`
-    headerInterpreter: () => cacheTTL,
+    headerInterpreter: () => axiosCacheTtl,
     storage: cacheStorage,
   })
 
