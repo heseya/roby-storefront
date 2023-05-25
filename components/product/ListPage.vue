@@ -67,8 +67,8 @@
       <LayoutEmpty v-else> {{ t('empty') }} </LayoutEmpty>
     </div>
 
-    <LayoutModal v-model:open="isAsideOpen" class="product-list-page__aside-modal">
-      <div class="product-list-page__aside-modal-content">
+    <LayoutModal v-model:open="isAsideOpen">
+      <div class="product-list-page__aside-modal">
         <ProductFilters
           hide-sort
           :sets="sets"
@@ -272,7 +272,7 @@ onMounted(() => emitViewEvent())
     grid-gap: 9px;
     margin-top: 14px;
 
-    @media ($viewport-6) {
+    @media ($viewport-10) {
       display: none;
     }
   }
@@ -305,12 +305,12 @@ onMounted(() => emitViewEvent())
 
   &__aside-modal,
   &__aside-btn {
-    @media ($viewport-6) {
+    @media ($viewport-10) {
       display: none;
     }
   }
 
-  &__aside-modal-content {
+  &__aside-modal {
     padding: 24px;
   }
 

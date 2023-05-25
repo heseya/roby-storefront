@@ -14,7 +14,11 @@
           :class="{ 'index-page__content--wide': section.type === 'box' }"
         >
           <LazyHydrate when-idle>
-            <LazyHomeProductCarousel v-if="section.type === 'set'" :category="section.data" />
+            <LazyHomeProductCarousel
+              v-if="section.type === 'set'"
+              :category="section.data"
+              header-tag="h2"
+            />
 
             <LazyHomeLinkBox v-if="section.type === 'box'" :link="section.data" />
           </LazyHydrate>
@@ -35,6 +39,7 @@
             v-for="banner in data?.homepageBanners"
             :key="banner.id"
             class="index-page__image-carousel"
+            header-tag="h2"
             :banner="banner"
             :title="banner.name"
             :gray-filter="!!banner.metadata.gray_filter"

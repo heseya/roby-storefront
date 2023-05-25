@@ -2,7 +2,7 @@
   <div class="link-box">
     <Media :media="link.media" class="link-box__media" height="400" />
 
-    <LayoutHeader class="link-box__header">{{ link.text }}</LayoutHeader>
+    <LayoutHeader class="link-box__header" tag="h2">{{ link.text }}</LayoutHeader>
     <NuxtLink :to="link.link">
       <LayoutButton class="link-box__btn" :label="link.linkText" variant="secondary" />
     </NuxtLink>

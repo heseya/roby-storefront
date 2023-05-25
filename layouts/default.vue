@@ -7,9 +7,9 @@
       class="site__content"
       :class="{ 'site__content--with-notification': config.env.top_site_text }"
     >
-      <div class="site__main">
+      <main class="site__main">
         <slot></slot>
-      </div>
+      </main>
 
       <LayoutBreadcrumps />
     </div>
