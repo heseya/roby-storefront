@@ -168,6 +168,8 @@ const breadcrumbs = computed(() => [
 
 useSeo(() => [product.value?.seo, { title: product.value?.name }])
 
+useProductJsonLd(product)
+
 const showPrice = computed(() => {
   return !product.value?.metadata?.[ASK_FOR_PRICE_KEY] ?? true
 })
