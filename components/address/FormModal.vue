@@ -76,7 +76,13 @@ const errorMessage = ref<string>()
 
 const isInvoice = ref<boolean>(!!props.address?.address.vat)
 
-const form = useForm<UserSavedAddressCreateDto | UserSavedAddressUpdateDto>()
+const form = useForm<UserSavedAddressCreateDto | UserSavedAddressUpdateDto>({
+  initialValues: {
+    default: false,
+    name: '',
+    address: { ...EMPTY_ADDRESS },
+  },
+})
 
 const onSubmit = async () => {
   const { success, error } = props.address
@@ -99,11 +105,7 @@ watch(
   () => props.open,
   () => {
     if (props.open) {
-      form.values = props.address ?? {
-        default: false,
-        name: '',
-        address: { ...EMPTY_ADDRESS },
-      }
+      props.address ? (form.values = props.address) : form.handleReset()
     }
   },
 )
