@@ -46,7 +46,7 @@ const isPopoverHover = useElementHover(popoverRef)
 const { left, top, height } = useElementBounding(linkRef)
 
 const subcategoriesTop = computed<number>(() => {
-  return top.value + height.value + 12
+  return top.value + height.value
 })
 </script>
 

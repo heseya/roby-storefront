@@ -101,12 +101,14 @@
     </div>
 
     <div class="nav-bar__categories">
-      <LayoutNavCategoryButton
-        v-for="category in categoriesStore.navCategories"
-        :key="category.id"
-        :category="category"
-      />
-      <LayoutNavButton v-for="link in navLinks" :key="link.path" :link="link" />
+      <div class="nav-bar__categories-scroll">
+        <LayoutNavCategoryButton
+          v-for="category in categoriesStore.navCategories"
+          :key="category.id"
+          :category="category"
+        />
+        <LayoutNavButton v-for="link in navLinks" :key="link.path" :link="link" />
+      </div>
     </div>
   </nav>
 </template>
@@ -190,16 +192,19 @@ const { data: navLinks } = useAsyncData<NavLink[]>('nav-pages', async () => {
 
   &__categories {
     @include flex-row;
-    display: grid;
     justify-content: center;
-    grid-auto-flow: column;
     background-color: $gray-color-300;
-    white-space: nowrap;
-    overflow-x: auto;
+    max-width: 100%;
 
     @media ($max-viewport-12) {
       display: none;
     }
+  }
+
+  &__categories-scroll {
+    white-space: nowrap;
+    overflow-x: auto;
+    @include flex-row;
 
     &::-webkit-scrollbar {
       height: 5px;
