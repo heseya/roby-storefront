@@ -1,5 +1,7 @@
 <template>
   <NuxtLayout>
+    <LayoutBreadcrumpsProvider :breadcrumbs="[]" />
+
     <div class="error-page">
       <span class="error-page__title">{{ $t('common.error') }}</span>
       <h1 class="error-page__code">{{ error?.statusCode || 500 }}</h1>
