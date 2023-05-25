@@ -127,7 +127,7 @@ const isLeaseable = computed(() => {
 })
 
 const addToCart = () => {
-  if (!props.product.available || isProductPurchaseLimitReached) return
+  if (!props.product.available || isProductPurchaseLimitReached.value) return
 
   cart.add({
     product: props.product,
