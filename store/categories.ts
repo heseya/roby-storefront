@@ -19,19 +19,30 @@ export const useCategoriesStore = defineStore('categories', {
 
   actions: {
     async fetchRootCategory() {
-      const heseya = useHeseya()
-      const config = useConfigStore()
+      try {
+        const heseya = useHeseya()
+        const config = useConfigStore()
 
-      this.rootCategory = await heseya.ProductSets.getOneBySlug(
-        config.env.root_category_slug as string,
-      )
+        this.rootCategory = await heseya.ProductSets.getOneBySlug(
+          config.env.root_category_slug as string,
+        )
+      } catch (e: any) {
+        // eslint-disable-next-line no-console
+        console.warn('Failed to fetch root category:', e.message)
+      }
     },
 
     async fetchRootCategories() {
       const heseya = useHeseya()
       if (!this.rootCategory) await this.fetchRootCategory()
 
-      const { data } = await heseya.ProductSets.get({ parent_id: this.rootCategory!.id })
+      if (!this.rootCategory) {
+        // eslint-disable-next-line no-console
+        console.warn('Root category not found, skiping...')
+        return
+      }
+
+      const { data } = await heseya.ProductSets.get({ parent_id: this.rootCategory.id })
       this.categories = data
 
       // Preload all subcategories for all root categories

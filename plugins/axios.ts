@@ -68,8 +68,6 @@ export default defineNuxtPlugin((nuxt) => {
 
   ax.interceptors.request.use((config) => {
     config._beginTime = Date.now()
-    // eslint-disable-next-line no-console
-    console.log(`starting - [${config.method}] ${config.url}`)
     return config
   })
 
