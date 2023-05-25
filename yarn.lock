@@ -1787,7 +1787,7 @@
   resolved "https://registry.yarnpkg.com/@vue/shared/-/shared-3.3.4.tgz#06e83c5027f464eef861c329be81454bc8b70780"
   integrity sha512-7OjdcV8vQ74eiz1TZLzZP4JwqM5fA94K6yntPS5Z25r9HDuGNzaGdgvwKYq6S+MxwF0TFRwe50fIR/MYnakdkQ==
 
-"@vueuse/core@10.1.2", "@vueuse/core@^10.0.0":
+"@vueuse/core@10.1.2", "@vueuse/core@^10.1.2":
   version "10.1.2"
   resolved "https://registry.yarnpkg.com/@vueuse/core/-/core-10.1.2.tgz#2499eadec36c5d7109338e3a2b73725040ae8011"
   integrity sha512-roNn8WuerI56A5uiTyF/TEYX0Y+VKlhZAF94unUfdhbDUI+NfwQMn4FUnUscIRUhv3344qvAghopU4bzLPNFlA==
@@ -1802,7 +1802,7 @@
   resolved "https://registry.yarnpkg.com/@vueuse/metadata/-/metadata-10.1.2.tgz#d8ffe557b1042efd03a0aa88540a00c25d193ee3"
   integrity sha512-3mc5BqN9aU2SqBeBuWE7ne4OtXHoHKggNgxZR2K+zIW4YLsy6xoZ4/9vErQs6tvoKDX6QAqm3lvsrv0mczAwIQ==
 
-"@vueuse/nuxt@^10.0.0":
+"@vueuse/nuxt@^10.1.2":
   version "10.1.2"
   resolved "https://registry.yarnpkg.com/@vueuse/nuxt/-/nuxt-10.1.2.tgz#2cd91471bba8ea5d27f2f97658451dbf9730e47b"
   integrity sha512-X9o5WCmNs1+6XztP1Uh9+H7/jGeIjwSRNQdwCWRKCDkxPlbgi9iLnDRYnKDY++JPY3nbB6jTDOVgZDrpaAU5kg==
