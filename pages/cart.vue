@@ -124,6 +124,11 @@ useSeoMeta({
   }
 
   &__suggested {
+    margin-top: 40px;
+
+    @media ($viewport-12) {
+      margin-top: 80px;
+    }
   }
 
   &__empty {
