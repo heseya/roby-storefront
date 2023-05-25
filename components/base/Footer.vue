@@ -112,13 +112,19 @@ const companyPhone = computed(() => getFromConfig('company_phone'))
 const companyEmail = computed(() => getFromConfig('company_email'))
 
 const { data: sections } = useAsyncData('footer-pages', async () => {
-  const pages = await Promise.all([
-    heseya.Pages.get({ metadata: { footer_section: '1' } }),
-    heseya.Pages.get({ metadata: { footer_section: '2' } }),
-    heseya.Pages.get({ metadata: { footer_section: '3' } }),
-    heseya.Pages.get({ metadata: { footer_section: '4' } }),
-  ])
-  return pages.map((section) => section.data)
+  try {
+    const pages = await Promise.all([
+      heseya.Pages.get({ metadata: { footer_section: '1' } }),
+      heseya.Pages.get({ metadata: { footer_section: '2' } }),
+      heseya.Pages.get({ metadata: { footer_section: '3' } }),
+      heseya.Pages.get({ metadata: { footer_section: '4' } }),
+    ])
+    return pages.map((section) => section.data)
+  } catch {
+    // eslint-disable-next-line no-console
+    console.warn('Could not fetch footer pages, skiping...')
+    return []
+  }
 })
 
 const getSectionPages = (section: number) => sections.value?.[section - 1] || []

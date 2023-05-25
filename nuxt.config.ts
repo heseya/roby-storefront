@@ -3,6 +3,7 @@ import { removePageByName, changePagePathOrRemoveByName } from './utils/routing'
 
 const {
   API_URL = 'https://demo-***REMOVED***.***REMOVED***',
+  CDN_URL = 'https://cdn-dev.heseya.com"',
   DIRECTUS_URL = 'https://blog-***REMOVED***.heseya.pl',
   PRICE_TRACKER_URL = 'https://main-price-tracker.app.***REMOVED***',
   ENVIRONMENT = 'development',
@@ -40,7 +41,14 @@ export default defineNuxtConfig({
           content: isProduction ? 'index, follow' : 'noindex, nofollow',
         },
       ],
-      link: [],
+      link: [
+        { rel: 'preconnect', href: API_URL },
+        { rel: 'dns-prefetch', href: API_URL },
+        { rel: 'preconnect', href: CDN_URL },
+        { rel: 'dns-prefetch', href: CDN_URL },
+        { rel: 'preconnect', href: DIRECTUS_URL },
+        { rel: 'dns-prefetch', href: DIRECTUS_URL },
+      ],
       script: [],
     },
   },
