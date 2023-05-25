@@ -126,6 +126,10 @@ useSeoMeta({
   &__suggested {
     margin-top: 40px;
 
+    @media ($viewport-6) {
+      margin-top: 60px;
+    }
+
     @media ($viewport-12) {
       margin-top: 80px;
     }
