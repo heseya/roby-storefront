@@ -4,7 +4,7 @@
 
     <BaseContainer>
       <LayoutLoading :active="pending" />
-      <div class="blog-page">
+      <article class="blog-page">
         <h1 class="blog-page__title">{{ translatedArticle?.title }}</h1>
         <div class="blog-page__img">
           <img :src="imageUrl" :alt="translatedArticle?.description" />
@@ -19,11 +19,12 @@
           </div>
           <div class="blog-page__date">{{ dateCreated }}</div>
         </div>
+
         <BaseWysiwygContent
           v-if="translatedArticle?.content"
           :content="translatedArticle.content"
         />
-      </div>
+      </article>
     </BaseContainer>
   </div>
 </template>
@@ -44,6 +45,7 @@ const { data: article, pending } = useAsyncData(`blog-article-${props.slug}`, as
       'id',
       'slug',
       'date_created',
+      // @ts-ignore directus is wrong
       'image.filename_disk',
       'translations.title',
       'translations.description',

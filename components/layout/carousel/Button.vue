@@ -61,10 +61,21 @@ withDefaults(
     background-color: $gray-color-300;
     border-radius: 50%;
     transition: background-color 200ms ease-in-out;
+    position: relative;
 
     &:hover {
       filter: none;
       background-color: $gray-color-400;
+    }
+
+    &::after {
+      --clickable-space-around-button: -15px;
+      content: '';
+      left: var(--clickable-space-around-button);
+      right: var(--clickable-space-around-button);
+      bottom: var(--clickable-space-around-button);
+      top: var(--clickable-space-around-button);
+      position: absolute;
     }
   }
 

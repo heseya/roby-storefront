@@ -30,7 +30,7 @@ const props = withDefaults(
     type?: 'default' | 'gray'
     disabled?: boolean
     labelUppercase?: boolean
-    rules: string
+    rules?: string
     errorMessage?: string
   }>(),
   {

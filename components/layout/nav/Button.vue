@@ -1,20 +1,28 @@
 <template>
   <div class="category-btn" :class="{ 'category-btn--special': highlighted }">
     <div class="category-btn__link-container">
-      <NuxtLink class="category-btn__link" :to="localePath(link.path)">
+      <NuxtLink ref="linkRef" class="category-btn__link" :to="localePath(link.path)">
         {{ link.text }}
       </NuxtLink>
     </div>
-    <div v-show="Boolean(link.children?.length)" class="category-btn__list">
-      <NuxtLink
-        v-for="sub in link.children"
-        :key="sub.path"
-        class="category-btn__list-item"
-        :to="localePath(sub.path)"
+    <Teleport to="body">
+      <div
+        v-show="Boolean(link.children?.length)"
+        ref="popoverRef"
+        class="category-btn__list"
+        :class="{ 'category-btn__list--active': isLinkHover || isPopoverHover }"
+        :style="{ left: `${left}px`, top: `${subcategoriesTop}px` }"
       >
-        {{ sub.text }}
-      </NuxtLink>
-    </div>
+        <NuxtLink
+          v-for="sub in link.children"
+          :key="sub.path"
+          class="category-btn__list-item"
+          :to="localePath(sub.path)"
+        >
+          {{ sub.text }}
+        </NuxtLink>
+      </div>
+    </Teleport>
   </div>
 </template>
 
@@ -29,13 +37,24 @@ withDefaults(
 )
 
 const localePath = useLocalePath()
+
+const linkRef = ref()
+const popoverRef = ref()
+
+const isLinkHover = useElementHover(linkRef)
+const isPopoverHover = useElementHover(popoverRef)
+const { left, top, height } = useElementBounding(linkRef)
+
+const subcategoriesTop = computed<number>(() => {
+  return top.value + height.value
+})
 </script>
 
 <style lang="scss" scoped>
 .category-btn {
   position: relative;
   height: 55px;
-  padding: 0 18px;
+  padding: 0 12px;
   background-color: $gray-color-300;
 
   &:hover {
@@ -55,44 +74,39 @@ const localePath = useLocalePath()
   &__link {
     text-decoration: none;
     text-align: center;
-
     padding: 5px 0;
     font-weight: bold;
     text-transform: uppercase;
     color: $gray-color-900;
-
     border-bottom: 2px solid transparent;
     transition: border-bottom-color 200ms ease-in-out;
   }
 
   &__list {
-    position: absolute;
+    position: fixed;
     left: 0;
+    top: 50%;
     padding: 10px 0;
-
+    z-index: 9999;
     @include flex-column;
     background-color: $gray-color-300;
-
-    &-item {
-      padding: 10px 20px;
-
-      text-align: left;
-      white-space: nowrap;
-      text-decoration: none;
-      color: $gray-color-900;
-      transition: color 200ms ease-in-out;
-
-      &:hover {
-        color: var(--secondary-color);
-      }
-    }
-
     display: none;
+
+    &--active {
+      display: flex;
+    }
   }
 
-  &:hover {
-    .category-btn__list {
-      display: flex;
+  &__list-item {
+    padding: 10px 20px;
+    text-align: left;
+    white-space: nowrap;
+    text-decoration: none;
+    color: $gray-color-900;
+    transition: color 200ms ease-in-out;
+
+    &:hover {
+      color: var(--secondary-color);
     }
   }
 

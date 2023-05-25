@@ -1,7 +1,7 @@
 <template>
   <div class="product-carousel">
     <div class="product-carousel__header">
-      <LayoutHeader class="product-carousel__title" variant="black">
+      <LayoutHeader class="product-carousel__title" variant="black" :tag="headerTag">
         {{ label || category.name }}
       </LayoutHeader>
       <HomeShowAllButton :path="`/category/${category.slug}`" />
@@ -34,8 +34,9 @@ const props = withDefaults(
     category: ProductSetList
     label?: string
     withoutSubcategories?: boolean
+    headerTag?: string
   }>(),
-  { label: '', withoutSubcategories: false },
+  { label: '', withoutSubcategories: false, headerTag: 'span' },
 )
 const heseya = useHeseya()
 const categoriesStore = useCategoriesStore()

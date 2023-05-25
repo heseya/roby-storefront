@@ -12,7 +12,7 @@ export default {
     yes: 'Tak',
     no: 'Nie',
     name: 'Nazwa',
-    error: 'Bład',
+    error: 'Błąd',
     in: 'w',
     from: 'od',
     to: 'do',

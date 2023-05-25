@@ -3,10 +3,10 @@
     <LayoutBreadcrumpsProvider :breadcrumbs="breadcrumbs" />
 
     <BaseContainer>
-      <div class="page">
+      <article class="page">
         <h1 class="page__title">{{ page.name }}</h1>
         <BaseWysiwygContent :content="page?.content_html" />
-      </div>
+      </article>
     </BaseContainer>
   </div>
 </template>

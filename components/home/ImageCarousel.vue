@@ -1,6 +1,8 @@
 <template>
   <div class="image-carousel">
-    <LayoutHeader class="image-carousel__title" variant="black">{{ banner.name }}</LayoutHeader>
+    <LayoutHeader class="image-carousel__title" variant="black" :tag="headerTag">
+      {{ banner.name }}
+    </LayoutHeader>
     <LayoutCarousel :items="banner.banner_media" :breakpoints="breakpoints">
       <template #item="media: BannerMedia">
         <Media
@@ -30,11 +32,13 @@ withDefaults(
     imageHeight?: number | string
     banner: Banner
     grayFilter?: boolean
+    headerTag?: string
   }>(),
   {
     imageWidth: 160,
     imageHeight: 60,
     grayFilter: false,
+    headerTag: 'span',
   },
 )
 </script>

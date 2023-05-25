@@ -2,7 +2,7 @@
   <div v-if="articles" class="blog-articles">
     <BaseContainer>
       <div class="blog-articles__header">
-        <LayoutHeader class="blog-articles__title" variant="black">
+        <LayoutHeader class="blog-articles__title" variant="black" tag="h2">
           {{ $t('breadcrumbs.blog') }}
         </LayoutHeader>
         <HomeShowAllButton path="/blog" />
