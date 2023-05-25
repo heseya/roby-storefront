@@ -50,7 +50,6 @@ defineProps<{
   &__content {
     display: flex;
     gap: 8px;
-    margin-bottom: 20px;
   }
 
   &__link {
