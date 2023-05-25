@@ -6,14 +6,20 @@
           <h2 class="checkout-page__title">{{ $t('account.myData') }}</h2>
           <ClientOnly>
             <CheckoutPersonalData />
-
+            <FormCheckbox
+              v-if="!user"
+              class="checkout-page__checkbox"
+              name="createAccount"
+              v-model="isRegisterVisible"
+              :label="t('account.createQuestion')"
+            />
             <template #placeholder>
               <div class="checkout-page__placeholder" style="height: 80px"></div>
             </template>
           </ClientOnly>
         </div>
 
-        <div class="checkout-page__area" v-if="!user">
+        <div v-if="!user && isRegisterVisible" class="checkout-page__area">
           <h2 class="checkout-page__title">{{ t('account.create') }}</h2>
           <div>{{ t('account.description') }}</div>
           <ClientOnly>
@@ -86,6 +92,7 @@
     "title": "Podsumowanie zamówienia",
     "payment": "Metoda płatności",
     "account": {
+      "createQuestion": "Czy chcesz założyć konto?",
       "create": "Załóż konto",
       "description": "Wystarczy, że wypełnisz poniższe pola, aby utworzyć konto w naszym sklepie."
     }
@@ -95,6 +102,7 @@
 
 <script setup lang="ts">
 import clone from 'lodash/clone'
+import { useForm } from 'vee-validate'
 import { EMPTY_ADDRESS } from '~/consts/address'
 import { useCheckoutStore } from '~/store/checkout'
 
@@ -104,6 +112,17 @@ const $t = useGlobalI18n()
 const checkout = useCheckoutStore()
 const user = useUser()
 const { defaultAddress: defaultBillingAddress } = useUserBillingAddresses()
+
+const isRegisterVisible = ref<boolean>(false)
+
+const form = useForm({
+  initialValues: {
+    name: '',
+    surname: '',
+    password: '',
+    confirmPassword: '',
+  },
+})
 
 // Autofill billing address if user is logged in
 watch(
@@ -174,6 +193,10 @@ useHead({
   &__placeholder {
     width: 100%;
     height: 80px;
+  }
+
+  &__checkbox {
+    margin-top: 30px;
   }
 }
 </style>

@@ -3,25 +3,26 @@
     <FormInput
       v-model="form.values.name"
       :label="$t('form.name')"
-      name="checkoutName"
-      rules="alpha"
+      name="name"
+      rules="alpha|required"
     />
     <FormInput
-      v-model:model-value="form.values.surname"
+      v-model="form.values.surname"
       :label="$t('form.surname')"
-      name="checkoutSurname"
-      rules="alpha"
+      name="surname"
+      rules="alpha|required"
     />
     <FormInputPassword
-      v-model:model-value="form.values.password"
+      v-model="form.values.password"
       :label="$t('form.password')"
-      name="checkoutPassword"
+      name="password"
+      rules="password|required"
     />
     <FormInputPassword
-      v-model:model-value="form.values.confirmPassword"
+      v-model="form.values.confirmPassword"
       :label="$t('form.confirmPassword')"
-      name="checkout-confirmPassword1"
-      rules="confirmedPassword:@checkoutPassword"
+      name="confirmPassword"
+      rules="confirmedPassword:@password|required"
     />
   </form>
 </template>
@@ -30,17 +31,21 @@
 import { useCheckoutStore } from '@/store/checkout'
 import { useForm } from 'vee-validate'
 
+interface BasicUserData {
+  name: string
+  surname: string
+  password: string
+  confirmPassword: string
+}
+
+const props = defineProps<{
+  userData: BasicUserData
+}>()
+
+const form = useForm<BasicUserData>()
+
 const $t = useGlobalI18n()
 const checkout = useCheckoutStore()
-
-const form = useForm({
-  initialValues: {
-    name: '',
-    surname: '',
-    password: '',
-    confirmPassword: '',
-  },
-})
 </script>
 
 <style lang="scss" scoped>
