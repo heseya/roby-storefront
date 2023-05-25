@@ -63,7 +63,7 @@ watch(
 .product-cover-gallery {
   display: grid;
   grid-template-columns: 1fr;
-  grid-gap: 10px;
+  gap: 5px;
 
   @media ($viewport-8) {
     grid-template-columns: 1fr 5fr;
@@ -72,7 +72,12 @@ watch(
   &__list {
     display: none;
     flex-direction: column;
+    overflow-y: auto;
     gap: 10px;
+    max-height: 500px;
+    padding-right: 5px;
+
+    @include styled-scrollbar;
 
     @media ($viewport-8) {
       display: flex;
@@ -86,6 +91,7 @@ watch(
   }
 
   &__item {
+    width: 100%;
     border: solid 1px $gray-color-300;
     cursor: pointer;
     aspect-ratio: 1/1;
