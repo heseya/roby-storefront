@@ -79,6 +79,8 @@ export default {
     currentPassword: 'Aktualne hasło',
     nameAndSurname: 'Imię i nazwisko',
     needInvoice: 'Potrzebuje fakturę VAT',
+    name: 'Imię',
+    surname: 'Nazwisko',
   },
 
   nav: {

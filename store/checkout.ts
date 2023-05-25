@@ -16,6 +16,10 @@ import { EMPTY_ADDRESS } from '@/consts/address'
 export const useCheckoutStore = defineStore('checkout', {
   state: () => ({
     email: '',
+    name: '',
+    surname: '',
+    password: '',
+    confirmPassword: '',
     comment: '',
     shippingAddress: { ...EMPTY_ADDRESS } as Address,
     shippingPointId: null as string | null,

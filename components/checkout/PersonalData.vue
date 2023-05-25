@@ -37,7 +37,7 @@ watch(
   width: 100%;
   display: grid;
   grid-template-columns: 1fr;
-  gap: 8px;
+  gap: 26px;
 
   @media ($viewport-6) {
     grid-template-columns: 1fr 1fr;

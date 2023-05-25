@@ -12,8 +12,20 @@
             </template>
           </ClientOnly>
         </div>
+
+        <div class="checkout-page__area" v-if="!user">
+          <h2 class="checkout-page__title">{{ t('account.create') }}</h2>
+          <div>{{ t('account.description') }}</div>
+          <ClientOnly>
+            <CheckoutRegisterForm />
+
+            <template #placeholder>
+              <div class="checkout-page__placeholder" style="height: 80px"></div>
+            </template>
+          </ClientOnly>
+        </div>
         <div class="checkout-page__area">
-          <h2 class="checkout-page__title">{{ $t('title.delivery') }}</h2>
+          <h2 class="checkout-page__title">{{ $t('orders.delivery') }}</h2>
           <ClientOnly>
             <CheckoutShippingMethods />
 
@@ -72,8 +84,11 @@
 {
   "pl": {
     "title": "Podsumowanie zamówienia",
-    "createAccount": "Załóż konto",
-    "payment": "Metoda płatności"
+    "payment": "Metoda płatności",
+    "account": {
+      "create": "Załóż konto",
+      "description": "Wystarczy, że wypełnisz poniższe pola, aby utworzyć konto w naszym sklepie."
+    }
   }
 }
 </i18n>
