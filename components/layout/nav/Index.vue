@@ -99,6 +99,7 @@
         @search="handleSearch"
       />
     </div>
+
     <div class="nav-bar__categories">
       <LayoutNavCategoryButton
         v-for="category in categoriesStore.navCategories"
@@ -189,11 +190,30 @@ const { data: navLinks } = useAsyncData<NavLink[]>('nav-pages', async () => {
 
   &__categories {
     @include flex-row;
+    display: grid;
     justify-content: center;
+    grid-auto-flow: column;
     background-color: $gray-color-300;
+    white-space: nowrap;
+    overflow-x: auto;
 
     @media ($max-viewport-12) {
       display: none;
+    }
+
+    &::-webkit-scrollbar {
+      height: 5px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      border-radius: 8px;
+      background-color: $gray-color-400;
+    }
+
+    &::-webkit-scrollbar-button:end:increment {
+      width: 12px;
+      display: block;
+      background: transparent;
     }
   }
 }
