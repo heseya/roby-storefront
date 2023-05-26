@@ -5,7 +5,7 @@
     <div class="register-form__container">
       <FormInput
         v-model="form.values.name"
-        name="x_name"
+        name="name"
         :label="t('form.name')"
         rules="required|alpha"
         :disabled="isFormDisabled"
