@@ -42,10 +42,12 @@ const emit = defineEmits<{
 }>()
 
 const heseya = useHeseya()
+
 const containerRef = ref<HTMLElement>()
 const { height: containerHeight } = useElementSize(containerRef)
 const { arrivedState: containerScrollState } = useScroll(containerRef)
 const containerScrollHeight = useElementScrollHeight(containerRef)
+const isScrollable = computed(() => containerScrollHeight.value > containerHeight.value)
 
 const pagination = ref<HeseyaPaginationMeta>({ currentPage: 0, lastPage: 0, perPage: 0, total: 0 })
 const options = ref<AttributeOption[]>([])
@@ -69,19 +71,6 @@ const loadOptions = async (page = 1) => {
 
 loadOptions(1)
 
-const value = computed(() => (Array.isArray(props.value) ? props.value : [props.value]))
-
-const isChecked = (optionId: string) => value.value.includes(optionId)
-
-const toggleCheckbox = (optionId: string) => {
-  const newValue = isChecked(optionId)
-    ? value.value.filter((v) => v !== optionId)
-    : [...value.value, optionId]
-  emit('update:value', newValue.filter(Boolean))
-}
-
-const isScrollable = computed(() => containerScrollHeight.value > containerHeight.value)
-
 useInfiniteScroll(
   containerRef,
   () => {
@@ -90,6 +79,16 @@ useInfiniteScroll(
   },
   { distance: 10 },
 )
+
+const innerValue = computed(() => (Array.isArray(props.value) ? props.value : [props.value]))
+const isChecked = (optionId: string) => innerValue.value.includes(optionId)
+
+const toggleCheckbox = (optionId: string) => {
+  const newValue = isChecked(optionId)
+    ? innerValue.value.filter((v) => v !== optionId)
+    : [...innerValue.value, optionId]
+  emit('update:value', newValue.filter(Boolean))
+}
 </script>
 
 <style lang="scss" scoped>
