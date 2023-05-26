@@ -8,9 +8,11 @@
       <div class="checkout-container__text">
         <span>{{ t('container.text') }}&nbsp;</span>
         <span v-if="auth.isLogged">
-          {{ t('container.text2') }}&nbsp;
+          {{ t('container.text2') }}
           <b>
-            <u>{{ $t('breadcrumbs.account') }}</u>
+            <NuxtLink :to="`/account`" class="checkout-container__link">
+              {{ $t('breadcrumbs.account') }}
+            </NuxtLink>
           </b>
         </span>
       </div>
@@ -110,6 +112,10 @@ useSeoMeta({
 
   &__btn {
     padding: 10px 55px;
+  }
+
+  &__link {
+    color: $text-color;
   }
 }
 </style>

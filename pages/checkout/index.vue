@@ -13,7 +13,7 @@
           </ClientOnly>
         </div>
         <div class="checkout-page__area">
-          <h2 class="checkout-page__title">{{ $t('title.delivery') }}</h2>
+          <h2 class="checkout-page__title">{{ $t('orders.delivery') }}</h2>
           <ClientOnly>
             <CheckoutShippingMethods />
 

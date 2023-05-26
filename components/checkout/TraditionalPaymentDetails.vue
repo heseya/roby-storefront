@@ -20,7 +20,7 @@
       </div>
       <div class="payment-details__row">
         <span class="payment-details__label"> {{ t('notice.transferTitle') }}: </span>
-        <span class="payment-details__value"> {{ t('orderNumber') }} {{ code }} </span>
+        <span class="payment-details__value"> {{ t('notice.orderNumber') }} {{ code }} </span>
       </div>
     </div>
     <p class="payment-details__text">
