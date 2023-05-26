@@ -104,8 +104,11 @@ const onSubmit = async () => {
 watch(
   () => props.open,
   () => {
-    if (props.open) {
-      props.address ? (form.values = props.address) : form.handleReset()
+    if (!props.open) return
+    if (props.address) {
+      form.values = props.address
+    } else {
+      form.handleReset()
     }
   },
 )
