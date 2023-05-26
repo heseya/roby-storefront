@@ -4,17 +4,22 @@
 
     <div class="rent-page">
       <BaseContainer class="rent-page__content">
-        <div>
-          <LayoutHeader variant="black" tag="h1" class="rent-page__title">
-            {{ t('title') }}
-          </LayoutHeader>
-        </div>
+        <LayoutHeader variant="black" tag="h1" class="rent-page__title">
+          {{ rentPage?.title }}
+        </LayoutHeader>
       </BaseContainer>
       <BaseContainer class="rent-page__content">
         <RentSteps @scroll="handleScroll" />
         <RentAdvantages />
       </BaseContainer>
-      <RentBanner class="rent-page__banner" />
+      <RentBanner
+        v-if="rentPage"
+        class="rent-page__banner"
+        :title="rentPage?.banner_title"
+        :subtitle="rentPage.banner_subtitle"
+        :text="rentPage.banner_text"
+        :image-url="bannerImageUrl"
+      />
       <BaseContainer class="rent-page__content">
         <RentWhyOtherChose />
         <div ref="scrollTarget">
@@ -35,6 +40,8 @@
 </i18n>
 
 <script setup lang="ts">
+import { TranslatedRentPage } from '~/interfaces/rentPage'
+
 const t = useLocalI18n()
 
 useSeoMeta({
@@ -56,6 +63,21 @@ const scrollTarget = ref<HTMLElement>()
 const handleScroll = () => {
   scrollTarget.value?.scrollIntoView({ behavior: 'smooth', block: 'center' })
 }
+
+const { data: rentPage } = useAsyncData('rent-page', async () => {
+  try {
+    const directus = useDirectus()
+    const data = await directus.items('RentPage').readOne(1, {
+      // @ts-ignore directus typing is wrong
+      fields: ['translations.*', 'translations.banner_image.*'],
+    })
+    return getTranslated(data!.translations!, 'pl-PL') as TranslatedRentPage
+  } catch {
+    showError({ message: t('errors.NOT_FOUND'), statusCode: 404 })
+  }
+})
+
+const bannerImageUrl = computed(() => getImageUrl(rentPage.value?.banner_image, { width: 1200 }))
 </script>
 
 <style lang="scss" scoped>

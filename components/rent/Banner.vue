@@ -1,29 +1,31 @@
 <template>
-  <div class="banner">
+  <div class="banner" :style="{ backgroundImage: `url(${imageUrl})` }">
     <div class="banner__gray-filter">
       <div class="banner__content">
         <LayoutHeader tag="h2" class="banner__title">
-          Dostarczamy urządzenia, które rozwijają Twój biznes.
+          {{ title }}
         </LayoutHeader>
-        <LayoutHeader class="banner__subtitle"
-          >ROBICAN - PROFESJONALIZM I DOŚWIADCZENIE</LayoutHeader
-        >
+        <LayoutHeader class="banner__subtitle">{{ subtitle }}</LayoutHeader>
         <span class="banner__text">
-          Dostarczamy urządzenia, które nie tylko pełnią podstawową rolę drukarki firmowej, ale
-          stanowią ważny punkt na ścieżce procesów firmowych. Nowoczesny sprzęt to nie tylko dobrze
-          wykonane zadania, ale również wsparcie i optymalizacja codziennych czynności w biurze.
+          {{ text }}
         </span>
       </div>
     </div>
   </div>
 </template>
 
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+defineProps<{
+  title: string
+  subtitle: string
+  text: string
+  imageUrl: string
+}>()
+</script>
 
 <style lang="scss" scoped>
 .banner {
   width: 100%;
-  background-image: url('@/assets/images/banner-bgr.png');
   @include background-image-basic;
 
   &__gray-filter {
