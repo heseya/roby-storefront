@@ -1,19 +1,27 @@
 <template>
-  <div class="filter-checkbox-group">
+  <div
+    class="filter-checkbox-group"
+    :class="{
+      'filter-checkbox-group--scrollable-up': isScrollable && !containerScrollState.top,
+      'filter-checkbox-group--scrollable-down': isScrollable && !containerScrollState.bottom,
+    }"
+  >
     <FormInputLabel class="filter-checkbox-group__label" uppercase>
       {{ attribute.name }}
     </FormInputLabel>
 
-    <FormCheckbox
-      v-for="option in options"
-      :key="option.id"
-      :model-value="isChecked(option.id)"
-      class="filter-checkbox-group__checkbox"
-      :name="option.id"
-      @update:model-value="() => toggleCheckbox(option.id)"
-    >
-      {{ option.name }}
-    </FormCheckbox>
+    <div ref="containerRef" class="filter-checkbox-group__items">
+      <FormCheckbox
+        v-for="option in options"
+        :key="option.id"
+        :model-value="isChecked(option.id)"
+        class="filter-checkbox-group__checkbox"
+        :name="option.id"
+        @update:model-value="() => toggleCheckbox(option.id)"
+      >
+        {{ option.name }}
+      </FormCheckbox>
+    </div>
   </div>
 </template>
 
@@ -34,6 +42,8 @@ const emit = defineEmits<{
 }>()
 
 const heseya = useHeseya()
+const containerRef = ref()
+const { arrivedState: containerScrollState } = useScroll(containerRef)
 
 const { data: options } = useLazyAsyncData(`options-${props.attribute.id}`, async () => {
   const { data } = await heseya.Attributes.getOptions(props.attribute.id)
@@ -50,6 +60,53 @@ const toggleCheckbox = (optionId: string) => {
     : [...value.value, optionId]
   emit('update:value', newValue.filter(Boolean))
 }
+
+const isScrollable = computed(
+  () => containerRef.value?.scrollHeight > containerRef.value?.clientHeight,
+)
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.filter-checkbox-group {
+  position: relative;
+
+  &::before,
+  &::after {
+    $height: 4em;
+    content: '';
+    position: absolute;
+    display: block;
+    left: 0;
+    top: calc(100% - $height);
+    height: $height;
+    width: 100%;
+    background: linear-gradient(180deg, $transparent 0%, $white-color 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 10;
+  }
+
+  &::before {
+    transform: rotate(180deg);
+    top: 24px;
+  }
+
+  &--scrollable-up {
+    &::before {
+      opacity: 1;
+    }
+  }
+
+  &--scrollable-down {
+    &::after {
+      opacity: 1;
+    }
+  }
+
+  &__items {
+    max-height: 300px;
+    overflow: auto;
+    @include styled-scrollbar;
+  }
+}
+</style>
