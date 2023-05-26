@@ -10,6 +10,15 @@ export interface TranslatedRentPage {
   banner_text: string
   banner_title: string
   banner_subtitle: string
+  advantages_title: string
+}
+
+export interface TranslatedRentPageAdvantages {
+  id: ID
+  order: number
+  icon: DirectusImage
+  title: string
+  description: string
 }
 
 export interface TranslatedRentPageStep {
@@ -30,4 +39,11 @@ export interface RentPageStep {
   order: number
   translations: DirectusTranslated<TranslatedRentPageStep>
   button: boolean
+}
+
+export interface RentAdvantages {
+  id: ID
+  translations: DirectusTranslated<TranslatedRentPageStep>
+  order: number
+  icon: DirectusImage
 }

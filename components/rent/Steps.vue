@@ -1,7 +1,7 @@
 <template>
   <div class="steps">
     <div class="steps__content">
-      <div v-for="step in steps" :key="step.id" class="steps__content2">
+      <div v-for="step in steps" :key="step.id" class="steps__step">
         <RentStepHeader :order="step.order" :header="step.title" />
         <RentStepDescription
           v-if="step.description"
@@ -11,14 +11,19 @@
         />
       </div>
     </div>
+
     <div class="steps__image-container">
-      <img class="steps__image" src="@/assets/images/rent.png" loading="lazy" />
+      <div class="steps__image" :style="{ backgroundImage: `url(${banner})` }"></div>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { TranslatedRentPageStep } from '~/interfaces/rentPage'
+
+defineProps<{
+  banner: string
+}>()
 
 const emit = defineEmits<{
   (e: 'scroll'): void
@@ -51,13 +56,15 @@ const { data: steps } = useAsyncData('rent-page-steps', async () => {
   }
 
   &__content {
+    @include flex-column;
     flex: 1;
   }
 
-  &__content2 {
+  &__step {
     @include flex-column;
     gap: 12px;
     font-size: rem(16);
+    margin-bottom: 12px;
 
     @media ($max-viewport-9) {
       font-size: rem(14);
@@ -66,15 +73,10 @@ const { data: steps } = useAsyncData('rent-page-steps', async () => {
 
   &__image-container {
     flex: 1;
-    position: relative;
-    min-height: 200px;
   }
 
   &__image {
-    position: absolute;
-    width: 100%;
     height: 100%;
-    object-fit: cover;
   }
 }
 </style>

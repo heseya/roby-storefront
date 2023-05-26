@@ -1,25 +1,21 @@
 <template>
   <div class="item">
     <div class="item__icon-container">
-      <LayoutIcon :icon="item.icon" size="35" class="item__icon" />
+      <img class="item__icon" :src="imageUrl" role="presentation" loading="lazy" />
     </div>
     <div class="item__content">
       <LayoutHeader variant="black" class="item__title">{{ item.title }}</LayoutHeader>
-      <span>{{ item.text }}</span>
+      <span>{{ item.description }}</span>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { FunctionalComponent } from 'vue'
+import { TranslatedRentPageAdvantages } from '~/interfaces/rentPage'
 
-export interface AdvantageProps {
-  title: string
-  icon: FunctionalComponent
-  text: string
-}
+const props = defineProps<{ item: TranslatedRentPageAdvantages }>()
 
-defineProps<{ item: AdvantageProps }>()
+const imageUrl = computed(() => getImageUrl(props.item.icon))
 </script>
 
 <style lang="scss" scoped>
@@ -58,10 +54,8 @@ defineProps<{ item: AdvantageProps }>()
   }
 
   &__icon {
-    @media ($max-viewport-9) {
-      height: 22px;
-      width: 22px;
-    }
+    height: 22px;
+    width: 22px;
   }
 
   &__title {

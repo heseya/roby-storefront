@@ -1,44 +1,35 @@
 <template>
   <div class="advantages">
     <LayoutHeader tag="h2" class="advantages__title" variant="black">
-      Jakie są zalety wynajmu?
+      {{ title }}
     </LayoutHeader>
     <div class="advantages__content">
-      <RentAdvantagesItem v-for="item in items" :key="item.title" :item="item" />
+      <RentAdvantagesItem v-for="item in advantages" :key="item.title" :item="item" />
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { AdvantageProps } from '~/components/rent/advantages/Item.vue'
+import { TranslatedRentPageAdvantages } from '~/interfaces/rentPage'
 
-import PrinterIcon from '@/assets/icons/printer.svg?component'
-import PaymentIcon from '@/assets/icons/payments.svg?component'
-import DesignIcon from '@/assets/icons/design.svg?component'
-import SupportIcon from '@/assets/icons/support.svg?component'
+defineProps<{
+  title: string
+}>()
 
-const items: AdvantageProps[] = [
-  {
-    title: 'Nowoczesny sprzęt',
-    text: 'Nowoczesne urządzenia, które wspierają wykonywanie codziennych zadań.',
-    icon: PrinterIcon,
-  },
-  {
-    title: 'Elastyczne finansowanie',
-    text: 'Niskie opłaty miesięczne oraz pakiety dopasowane do indywidualnych potrzeb.',
-    icon: PaymentIcon,
-  },
-  {
-    title: 'Płynne działanie',
-    text: 'Pełna dostępność materiałów eksploatacyjnych i sprawnie działający serwis.',
-    icon: DesignIcon,
-  },
-  {
-    title: 'Wsparcie',
-    text: 'Wsparcie sprzętowe, techniczne i doradcze przez cały okres wynajmu drukarki.',
-    icon: SupportIcon,
-  },
-]
+const { data: advantages } = useAsyncData('rent-page-advantages', async () => {
+  const directus = useDirectus()
+
+  const { data } = await directus.items('RentPageAdvantages').readByQuery({
+    fields: ['order', 'icon.*', 'translations.title', 'translations.description'],
+  })
+
+  return (data?.map((advantage) => ({
+    // @ts-ignore directus typing is wrong???
+    ...getTranslated(advantage.translations as any, 'pl-PL'),
+    order: advantage.order,
+    icon: advantage.icon,
+  })) || []) as TranslatedRentPageAdvantages[]
+})
 </script>
 
 <style lang="scss" scoped>

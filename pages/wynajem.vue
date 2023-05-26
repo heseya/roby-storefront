@@ -9,8 +9,8 @@
         </LayoutHeader>
       </BaseContainer>
       <BaseContainer class="rent-page__content">
-        <RentSteps @scroll="handleScroll" />
-        <RentAdvantages />
+        <RentSteps @scroll="handleScroll" :banner="stepsImageUrl" />
+        <RentAdvantages v-if="rentPage" :title="rentPage?.advantages_title" />
       </BaseContainer>
       <RentBanner
         v-if="rentPage"
@@ -69,7 +69,7 @@ const { data: rentPage } = useAsyncData('rent-page', async () => {
     const directus = useDirectus()
     const data = await directus.items('RentPage').readOne(1, {
       // @ts-ignore directus typing is wrong
-      fields: ['translations.*', 'translations.banner_image.*'],
+      fields: ['translations.*', 'translations.banner_image.*', 'translations.steps_image.*'],
     })
     return getTranslated(data!.translations!, 'pl-PL') as TranslatedRentPage
   } catch {
@@ -77,7 +77,8 @@ const { data: rentPage } = useAsyncData('rent-page', async () => {
   }
 })
 
-const bannerImageUrl = computed(() => getImageUrl(rentPage.value?.banner_image, { width: 1200 }))
+const stepsImageUrl = computed(() => getImageUrl(rentPage.value?.steps_image, { width: 650 }))
+const bannerImageUrl = computed(() => getImageUrl(rentPage.value?.banner_image, { width: 1478 }))
 </script>
 
 <style lang="scss" scoped>
