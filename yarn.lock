@@ -1484,17 +1484,17 @@
     hookable "^5.5.3"
     unhead "1.1.27"
 
-"@vee-validate/i18n@^4.8.3":
-  version "4.9.3"
-  resolved "https://registry.yarnpkg.com/@vee-validate/i18n/-/i18n-4.9.3.tgz#322cd59ea91dc3d269d60007059f4e4e2402e430"
-  integrity sha512-6jPv1mJg2A/PnzKHY+g5FZ/OG7tjijHdRCLPwwYOgnc00Rs9ixrNDTGgHkTPVjpXaZFr1ykhTzEmLrjAZMeEkA==
+"@vee-validate/i18n@^4.9.5":
+  version "4.9.5"
+  resolved "https://registry.yarnpkg.com/@vee-validate/i18n/-/i18n-4.9.5.tgz#ed0a2bae64fec481f9538a34a04e52c58f9edf38"
+  integrity sha512-aV1vWOKH2NPOQEvwFWKJxQPN3I1X80H4I4la9x8+gI0hrDEzrCZzwQ9Rr5z4jDrddvM1RDX36Q9jcdrRMiev2Q==
 
-"@vee-validate/rules@^4.8.3":
-  version "4.9.3"
-  resolved "https://registry.yarnpkg.com/@vee-validate/rules/-/rules-4.9.3.tgz#dc03c3d7f707aa55da766c4e09892734d8d5272e"
-  integrity sha512-amljER8wdI69cP9s1I9V3634NvCLLAHU1HeT/2Fulu5FGUW5ZKuKuSOKy6qgrVDpwAfRIOg6XlXVXj6kYAv1Vg==
+"@vee-validate/rules@^4.9.5":
+  version "4.9.5"
+  resolved "https://registry.yarnpkg.com/@vee-validate/rules/-/rules-4.9.5.tgz#7fef18bc10bf3c5026d49ace3d995a95b6fb2e25"
+  integrity sha512-HtBIfSQtesRyidW6dPvFI5jMZmmZAbsbliwbAIBPhjzXoeFInUXj5is1F9mjTA+C/PSAwiOUFb6g0yY2mxi+pA==
   dependencies:
-    vee-validate "^4.9.3"
+    vee-validate "^4.9.5"
 
 "@vercel/nft@^0.22.6":
   version "0.22.6"
@@ -7154,10 +7154,10 @@ validate-npm-package-license@^3.0.1:
     spdx-correct "^3.0.0"
     spdx-expression-parse "^3.0.0"
 
-vee-validate@^4.8.6, vee-validate@^4.9.3:
-  version "4.9.3"
-  resolved "https://registry.yarnpkg.com/vee-validate/-/vee-validate-4.9.3.tgz#5baaa965aa3acc9cacffb02cec212e8bf8d635a5"
-  integrity sha512-XZ5OuDa0WecESCScWzdX632e9uT/ExTacRsUiLaL46r2NqJBSE9Gr88QxV/kh7PmfD0Nb1+7/LwFYukTMeQfFw==
+vee-validate@^4.9.5:
+  version "4.9.5"
+  resolved "https://registry.yarnpkg.com/vee-validate/-/vee-validate-4.9.5.tgz#ee72492a9c491e5eeb91f84c3d623e81dafc7cbe"
+  integrity sha512-BVhGHjD6lWdEltDg08+wN/oTtSEDJcpwpgb5IJVvTmzEU0Dunn3j/JwVfbM+WSLCj4SMxnfar59qLnDLyZpQWg==
   dependencies:
     "@vue/devtools-api" "^6.5.0"
     type-fest "^3.10.0"

@@ -74,7 +74,7 @@ export default {
     email: 'Adres e-mail',
     vat: 'NIP',
     password: 'Hasło',
-    confirmPassword: 'Powtórz Hasło',
+    confirmPassword: 'Powtórz hasło',
     backToLogin: 'Wróć do logowania',
     currentPassword: 'Aktualne hasło',
     nameAndSurname: 'Imię i nazwisko',
@@ -134,6 +134,7 @@ export default {
     VALIDATION_REQUIRED_CONSENTS: 'Nie zostały zaakcepowane wszystkie wymagane zgody.',
     VALIDATION_PASSWORD_LENGTH: 'Hasło musi mieć przynajmniej 12 znaków.',
     VALIDATION_UNIQUE: 'Podany adres e-mail został już zarejestrowany w systemie.',
+    VALIDATION_CONSENT_EXISTS: 'Zaakceptowana zgoda nie istnieje w systemie.',
 
     UNPROCESSABLE_ENTITY: 'Błąd walidacji.',
 

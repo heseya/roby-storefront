@@ -48,14 +48,24 @@ const emit = defineEmits<{
   (e: 'update:modelValue', value: SelectValue): void
 }>()
 
+const isRequired = computed(() => props.rules.includes('required'))
 const innerValue = computed({
   get: () => props.modelValue,
   set: (value) => emit('update:modelValue', value),
 })
 
-const { errors } = useField(props.name, props.rules)
+const { errors, validate } = useField(props.name, props.rules, {
+  /**
+   * We need to force validation to ignore auto form update, cause we are doing it manually
+   */
+  validateOnValueUpdate: false,
+  modelPropName: 'null',
+})
 
-const isRequired = computed(() => props.rules.includes('required'))
+watch(
+  () => props.modelValue,
+  () => validate(),
+)
 </script>
 
 <style lang="scss" scoped>

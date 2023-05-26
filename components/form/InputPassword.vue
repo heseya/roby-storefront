@@ -28,7 +28,7 @@ const props = withDefaults(
     modelValue: '',
     label: '',
     name: 'password',
-    rules: 'password',
+    rules: 'password|required',
   },
 )
 

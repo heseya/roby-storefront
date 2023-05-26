@@ -65,11 +65,17 @@ const emit = defineEmits<{
   (event: 'update:modelValue', value: string | number): void
 }>()
 
-const uuid = Math.random().toString(36).substr(2, 9)
+const uniqueId = Math.random().toString(36).substr(2, 9)
+const id = computed(() => `${props.name}-${uniqueId}`)
+const isRequired = computed(() => props.rules.includes('required'))
 
-const id = computed(() => `${props.name}-${uuid}`)
-
-const { errors } = useField(props.name, props.rules)
+const { errors, validate } = useField(props.name, props.rules, {
+  /**
+   * We need to force validation to ignore auto form update, cause we are doing it manually
+   */
+  validateOnValueUpdate: false,
+  modelPropName: 'null',
+})
 
 const inputValue = computed({
   get(): number | string {
@@ -80,7 +86,10 @@ const inputValue = computed({
   },
 })
 
-const isRequired = computed(() => props.rules.includes('required'))
+watch(
+  () => props.modelValue,
+  () => validate(),
+)
 </script>
 
 <style lang="scss" scoped>

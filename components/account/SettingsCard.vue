@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!errorMessage" class="settings-card">
+  <div class="settings-card">
     <h4 class="settings-card__header">{{ $t('account.myData') }}</h4>
     <div class="settings-card__container">
       <p>{{ user?.name }}</p>
@@ -7,6 +7,7 @@
       <LayoutIcon
         class="settings-card__action"
         :icon="PencilLine"
+        :size="16"
         @click="isEditNameModalVisible = true"
       />
     </div>
@@ -21,23 +22,12 @@
       </p>
     </div>
 
-    <div v-if="userConsentsDto">
-      <AccountConsentsList
-        :value="userConsentsDto"
-        :force-required="true"
-        :show-save-btn="true"
-        @error="(e) => (errorMessage = formatError(e))"
-        @submit="saveConsent"
-      />
-    </div>
+    <AccountConsentsListForm :value="currentUserConsents" force-required @submit="saveConsent" />
+
     <div class="settings-card__delete-account" @click="isDeleteAccountModalVisible = true">
       {{ $t('account.deleteAccount') }}
     </div>
   </div>
-
-  <LayoutInfoBox v-if="errorMessage" type="danger" class="settings-card__error">
-    {{ errorMessage }}
-  </LayoutInfoBox>
 
   <AccountEditNameModal v-model:open="isEditNameModalVisible" />
   <AccountChangePasswordModal v-model:open="isChangePasswordModalVisible" />
@@ -65,36 +55,35 @@ const { notify } = useNotify()
 const heseya = useHeseya()
 const userStore = useUserStore()
 
-const errorMessage = ref('')
-
 const user = useUser()
 
 const isEditNameModalVisible = ref<boolean>(false)
 const isChangePasswordModalVisible = ref<boolean>(false)
 const isDeleteAccountModalVisible = ref<boolean>(false)
 
-const userConsentsDto = ref<UserConsentDto>({})
+const currentUserConsents = computed<UserConsentDto>(
+  () =>
+    user.value?.consents.reduce(
+      (acc, item) => ({ ...acc, [item.id]: item.value }),
+      {} as UserConsentDto,
+    ) || {},
+)
+
 const saveConsent = async (consents: UserConsentDto) => {
   try {
     const user = await heseya.UserProfile.update({ consents })
     userStore.setUser(user)
-    userConsentsDto.value = consents
     notify({
       title: t('sucessUpdate'),
       type: 'success',
     })
   } catch (e) {
-    errorMessage.value = formatError(e)
+    notify({
+      title: formatError(e),
+      type: 'error',
+    })
   }
 }
-
-onMounted(() => {
-  userConsentsDto.value =
-    user.value?.consents.reduce(
-      (acc, item) => ({ ...acc, [item.id]: item.value }),
-      {} as UserConsentDto,
-    ) || {}
-})
 </script>
 <style lang="scss" scoped>
 .settings-card {
@@ -131,9 +120,9 @@ onMounted(() => {
     cursor: pointer;
     color: $blue-color;
     position: absolute;
-    right: 0;
+    right: 16px;
     top: 50%;
-    transform: translate(-30%, -35%);
+    transform: translateY(-50%);
 
     &:hover {
       opacity: 0.7;
