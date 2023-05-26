@@ -99,7 +99,7 @@ onKeyStroke('Escape', () => close())
   left: 50%;
   transform: translate(-50%, -50%);
   min-width: 22vw;
-  min-height: 20vh;
+  min-height: 10vh;
   max-width: calc(100vw - 32px);
   max-height: calc(100vh - 32px);
   background-color: $white-color;
