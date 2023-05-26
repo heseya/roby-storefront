@@ -85,7 +85,7 @@ const paymentStatus = computed(() => {
         icon: Successful,
         class: 'account-order-view__payment-status--successful',
         status: {
-          text: $t('csutom.paid'),
+          text: $t('payments.paid'),
           value: PaymentStatus.Successful,
         },
         method: payment.method,
