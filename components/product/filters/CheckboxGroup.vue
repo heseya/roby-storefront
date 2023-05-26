@@ -26,7 +26,7 @@
 </template>
 
 <script setup lang="ts">
-import { Attribute } from '@heseya/store-core'
+import { Attribute, AttributeOption, HeseyaPaginationMeta } from '@heseya/store-core'
 
 const props = withDefaults(
   defineProps<{
@@ -42,13 +42,32 @@ const emit = defineEmits<{
 }>()
 
 const heseya = useHeseya()
-const containerRef = ref()
+const containerRef = ref<HTMLElement>()
+const { height: containerHeight } = useElementSize(containerRef)
 const { arrivedState: containerScrollState } = useScroll(containerRef)
+const containerScrollHeight = useElementScrollHeight(containerRef)
 
-const { data: options } = useLazyAsyncData(`options-${props.attribute.id}`, async () => {
-  const { data } = await heseya.Attributes.getOptions(props.attribute.id)
-  return data
-})
+const pagination = ref<HeseyaPaginationMeta>({ currentPage: 0, lastPage: 0, perPage: 0, total: 0 })
+const options = ref<AttributeOption[]>([])
+
+const loadOptions = async (page = 1) => {
+  try {
+    const { data, pagination: meta } = await heseya.Attributes.getOptions(props.attribute.id, {
+      page,
+    })
+    options.value = [...options.value, ...data]
+    pagination.value = meta
+  } catch (e) {
+    const formatError = useErrorMessage()
+    const { notify } = useNotify()
+    notify({
+      type: 'error',
+      text: formatError(e),
+    })
+  }
+}
+
+loadOptions(1)
 
 const value = computed(() => (Array.isArray(props.value) ? props.value : [props.value]))
 
@@ -61,8 +80,15 @@ const toggleCheckbox = (optionId: string) => {
   emit('update:value', newValue.filter(Boolean))
 }
 
-const isScrollable = computed(
-  () => containerRef.value?.scrollHeight > containerRef.value?.clientHeight,
+const isScrollable = computed(() => containerScrollHeight.value > containerHeight.value)
+
+useInfiniteScroll(
+  containerRef,
+  () => {
+    if (pagination.value.currentPage < pagination.value.lastPage)
+      loadOptions(pagination.value.currentPage + 1)
+  },
+  { distance: 10 },
 )
 </script>
 
@@ -84,6 +110,7 @@ const isScrollable = computed(
     opacity: 0;
     transition: opacity 0.3s ease;
     z-index: 10;
+    pointer-events: none;
   }
 
   &::before {
