@@ -2,11 +2,6 @@ import { ID } from '@directus/sdk'
 import { DirectusImage } from './DirectusImage'
 import { DirectusTranslated } from './DirectusTranslated'
 
-export interface RentPage {
-  id: ID
-  translations: DirectusTranslated<TranslatedRentPage>
-}
-
 export interface TranslatedRentPage {
   id: ID
   title: string
@@ -17,17 +12,22 @@ export interface TranslatedRentPage {
   banner_subtitle: string
 }
 
-export interface RentPageStep {
-  id: ID
-  order: number
-  translations: DirectusTranslated<TranslatedRentPageStep>
-  button: boolean
-}
-
 export interface TranslatedRentPageStep {
   id: ID
   order: number
   title: string
   description?: string
+  button: boolean
+}
+
+export interface RentPage {
+  id: ID
+  translations: DirectusTranslated<TranslatedRentPage>
+}
+
+export interface RentPageStep {
+  id: ID
+  order: number
+  translations: DirectusTranslated<TranslatedRentPageStep>
   button: boolean
 }

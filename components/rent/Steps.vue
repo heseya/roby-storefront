@@ -1,7 +1,7 @@
 <template>
   <div class="steps">
     <div class="steps__content">
-      <div v-for="step in steps" class="steps__content2">
+      <div v-for="step in steps" :key="step.id" class="steps__content2">
         <RentStepHeader :order="step.order" :header="step.title" />
         <RentStepDescription
           v-if="step.description"
