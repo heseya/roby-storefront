@@ -74,7 +74,7 @@ export default {
     email: 'Adres e-mail',
     vat: 'NIP',
     password: 'Hasło',
-    confirmPassword: 'Powtórz Hasło',
+    confirmPassword: 'Powtórz hasło',
     backToLogin: 'Wróć do logowania',
     currentPassword: 'Aktualne hasło',
     nameAndSurname: 'Imię i nazwisko',

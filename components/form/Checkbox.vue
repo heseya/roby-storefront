@@ -46,11 +46,16 @@ const emit = defineEmits<{
   (event: 'update:modelValue', value: boolean): void
 }>()
 
-const { errors } = useField(props.name, props.rules, {
-  initialValue: false,
-})
-
 const isRequired = computed(() => props.rules?.includes('required'))
+
+const { errors, validate } = useField(props.name, props.rules, {
+  initialValue: false,
+  /**
+   * We need to force validation to ignore auto form update, cause we are doing it manually
+   */
+  validateOnValueUpdate: false,
+  modelPropName: 'null',
+})
 
 const checkboxValue = computed({
   get() {
@@ -60,6 +65,11 @@ const checkboxValue = computed({
     emit('update:modelValue', value)
   },
 })
+
+watch(
+  () => props.modelValue,
+  () => validate(),
+)
 </script>
 
 <style lang="scss">
@@ -74,7 +84,7 @@ const checkboxValue = computed({
   &__input {
     &--required > :first-child {
       ::after {
-        content: '*';
+        content: ' *';
         color: $secondary-color;
         font-weight: bold;
       }
