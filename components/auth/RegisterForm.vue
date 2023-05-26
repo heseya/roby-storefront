@@ -1,5 +1,5 @@
 <template>
-  <form class="register-form" disabled @submit.prevent="onSubmit">
+  <form class="register-form" @submit.prevent="onSubmit">
     <LayoutLoading :active="isLoading" />
     <h2 class="register-form__header">{{ $t('account.registerTitle') }}</h2>
     <div class="register-form__container">
@@ -24,6 +24,7 @@
         name="email"
         :label="$t('form.email')"
         rules="required|email"
+        autocomplete="username"
         :disabled="isFormDisabled"
       />
     </div>
@@ -32,29 +33,32 @@
         v-model="form.values.password"
         :label="$t('form.password')"
         name="password"
+        autocomplete="new-password"
         :disabled="isFormDisabled"
       />
       <FormInputPassword
         v-model="form.values.confirmPassword"
         :label="$t('form.confirmPassword')"
-        rules="confirmedPassword:@password"
+        rules="confirmedPassword:@password|required"
         name="confirmPassword"
+        autocomplete="new-password"
         :disabled="isFormDisabled"
       />
     </div>
 
     <AccountConsentsList
-      v-if="form.values.consents"
       v-model:value="form.values.consents"
       @error="(e) => (consentsListError = formatError(e))"
     />
+
     <LayoutInfoBox
-      v-if="errorMessage || consentsListError"
+      v-show="errorMessage || consentsListError"
       type="danger"
       class="register-form__error"
     >
       {{ errorMessage || consentsListError }}
     </LayoutInfoBox>
+
     <div class="register-form__btn-container">
       <LayoutButton
         :disabled="isFormDisabled"
@@ -107,20 +111,19 @@ const form = useForm({
 
 const isFormDisabled = computed(() => !!consentsListError.value)
 
-const registerForm = computed<UserRegisterDto>(() => ({
+const registerFormDto = computed<UserRegisterDto>(() => ({
   name: `${form.values.name} ${form.values.surname}`,
   email: form.values.email,
   password: form.values.password,
   consents: form.values.consents,
-  roles: [],
 }))
 
 const onSubmit = form.handleSubmit(async () => {
   isLoading.value = true
 
   try {
-    const user = await heseya.Auth.register(registerForm.value)
-    user && emit('registered', user)
+    const user = await heseya.Auth.register(registerFormDto.value)
+    if (user) emit('registered', user)
   } catch (e: any) {
     errorMessage.value = formatError(e)
   } finally {

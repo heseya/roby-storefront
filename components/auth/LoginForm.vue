@@ -11,12 +11,14 @@
         v-model="form.values.email"
         name="email"
         :label="$t('form.email')"
+        autocomplete="username"
         rules="required|email"
       />
       <FormInputPassword
         v-model="form.values.password"
         :label="$t('form.password')"
         name="password"
+        autocomplete="current-password"
         rules="required"
       />
     </div>

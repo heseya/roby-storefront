@@ -46,7 +46,9 @@ const emit = defineEmits<{
   (event: 'update:modelValue', value: boolean): void
 }>()
 
-const { errors } = useField(props.name, props.rules)
+const { errors } = useField(props.name, props.rules, {
+  initialValue: false,
+})
 
 const isRequired = computed(() => props.rules?.includes('required'))
 
