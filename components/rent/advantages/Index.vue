@@ -20,14 +20,14 @@ const { data: advantages } = useAsyncData('rent-page-advantages', async () => {
   const directus = useDirectus()
 
   const { data } = await directus.items('RentPageAdvantage').readByQuery({
-    fields: ['order', 'icon.*', 'translations.title', 'translations.description'],
+    fields: ['order', 'image.*', 'translations.title', 'translations.description'],
   })
 
   return (data?.map((advantage) => ({
     // @ts-ignore directus typing is wrong???
     ...getTranslated(advantage.translations as any, 'pl-PL'),
     order: advantage.order,
-    icon: advantage.icon,
+    image: advantage.image,
   })) || []) as TranslatedRentPageAdvantage[]
 })
 </script>
