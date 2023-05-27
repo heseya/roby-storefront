@@ -2,7 +2,7 @@
   <div class="checkout-personal-data">
     <FormInput
       v-if="!isLogged"
-      v-model="checkout.email"
+      v-model="checkout.personalData.email"
       :label="$t('form.email')"
       name="email"
       rules="email|required"
@@ -26,7 +26,7 @@ const user = useUser()
 watch(
   () => user,
   () => {
-    if (user) checkout.email = user.value?.email ?? ''
+    if (user) checkout.personalData.email = user.value?.email ?? ''
   },
   { immediate: true },
 )

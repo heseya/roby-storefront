@@ -52,6 +52,7 @@
 <script setup lang="ts">
 import { useCartStore } from '@/store/cart'
 import { TRADITIONAL_PAYMENT_KEY } from '~/consts/traditionalPayment'
+import { useAuthStore } from '~/store/auth'
 import { useCheckoutStore } from '~/store/checkout'
 
 const t = useLocalI18n()
@@ -61,6 +62,8 @@ const checkout = useCheckoutStore()
 const formatError = useErrorMessage()
 const { notify } = useNotify()
 const router = useRouter()
+const auth = useAuthStore()
+const heseya = useHeseya()
 
 const saveUserAddresses = async () => {
   const { addresses: shipping, add: addShipping } = useUserShippingAddresses()
@@ -82,8 +85,15 @@ const saveUserAddresses = async () => {
   }
 }
 
+const createAccountAndLogin = async () => {
+  const user = await heseya.Auth.register({ ...checkout.personalData })
+  await auth.login({ email: user.email, password: checkout.personalData.password })
+}
+
 const createOrder = async () => {
   try {
+    if (checkout.createAccount) await createAccountAndLogin()
+
     // paymentMethodId must exist at this point, it is validated before
     const paymentId = checkout.paymentMethodId!
     const order = await checkout.createOrder()
@@ -100,9 +110,10 @@ const createOrder = async () => {
 
     const paymentUrl = await checkout.createOrderPayment(order.code, paymentId)
     window.location.href = paymentUrl
-  } catch (error) {
+  } catch (e: any) {
+    const error = formatError(e)
     notify({
-      title: formatError(error),
+      title: $t(error),
       type: 'error',
     })
   }

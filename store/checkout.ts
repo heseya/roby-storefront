@@ -6,6 +6,7 @@ import {
   OrderCreateDto,
   ShippingMethod,
   ShippingType,
+  UserConsentDto,
 } from '@heseya/store-core'
 import { defineStore } from 'pinia'
 import { useCartStore } from './cart'
@@ -15,11 +16,15 @@ import { EMPTY_ADDRESS } from '@/consts/address'
 
 export const useCheckoutStore = defineStore('checkout', {
   state: () => ({
-    email: '',
-    name: '',
-    surname: '',
-    password: '',
-    confirmPassword: '',
+    personalData: {
+      email: '',
+      name: '',
+      surname: '',
+      password: '',
+      confirmPassword: '',
+      consents: {} as UserConsentDto,
+    },
+    createAccount: false,
     comment: '',
     shippingAddress: { ...EMPTY_ADDRESS } as Address,
     shippingPointId: null as string | null,
@@ -44,7 +49,7 @@ export const useCheckoutStore = defineStore('checkout', {
       const cart = useCartStore()
       if (!(this.shippingAddress || this.billingAddress)) return null
       return {
-        email: this.email,
+        email: this.personalData.email,
         comment: this.comment,
         shipping_place: this.isInpostShippingMethod
           ? `${this.orderShippingPlace as string} | tel.: ${this.shippingAddress.phone}`
@@ -79,7 +84,7 @@ export const useCheckoutStore = defineStore('checkout', {
     },
 
     isValid(): boolean {
-      if (!this.email) return false
+      if (!this.personalData.email) return false
       // TODO: not all orders requires phisical shipping method
       if (!this.shippingMethod) return false
       if (!this.paymentMethodId) return false
@@ -92,6 +97,15 @@ export const useCheckoutStore = defineStore('checkout', {
         return false
       if (!isAddress(this.orderShippingPlace) && !isAddressValid(this.billingAddress)) return false
       if (this.invoiceRequested && !this.billingAddress.vat) return false
+      if (this.createAccount) {
+        if (
+          !this.personalData.name ||
+          !this.personalData.surname ||
+          !this.personalData.password ||
+          !this.personalData.confirmPassword
+        )
+          return false
+      }
       return true
     },
   },

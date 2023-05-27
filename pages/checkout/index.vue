@@ -8,9 +8,9 @@
             <CheckoutPersonalData />
             <FormCheckbox
               v-if="!user"
+              v-model="checkout.createAccount"
               class="checkout-page__checkbox"
               name="createAccount"
-              v-model="isRegisterVisible"
               :label="t('account.createQuestion')"
             />
             <template #placeholder>
@@ -19,7 +19,7 @@
           </ClientOnly>
         </div>
 
-        <div v-if="!user && isRegisterVisible" class="checkout-page__area">
+        <div v-if="!user && checkout.createAccount" class="checkout-page__area">
           <h2 class="checkout-page__title">{{ t('account.create') }}</h2>
           <div>{{ t('account.description') }}</div>
           <ClientOnly>
@@ -92,7 +92,7 @@
     "title": "Podsumowanie zamówienia",
     "payment": "Metoda płatności",
     "account": {
-      "createQuestion": "Czy chcesz założyć konto?",
+      "createQuestion": "Chce założyć konto",
       "create": "Załóż konto",
       "description": "Wystarczy, że wypełnisz poniższe pola, aby utworzyć konto w naszym sklepie."
     }
@@ -102,7 +102,6 @@
 
 <script setup lang="ts">
 import clone from 'lodash/clone'
-import { useForm } from 'vee-validate'
 import { EMPTY_ADDRESS } from '~/consts/address'
 import { useCheckoutStore } from '~/store/checkout'
 
@@ -112,17 +111,6 @@ const $t = useGlobalI18n()
 const checkout = useCheckoutStore()
 const user = useUser()
 const { defaultAddress: defaultBillingAddress } = useUserBillingAddresses()
-
-const isRegisterVisible = ref<boolean>(false)
-
-const form = useForm({
-  initialValues: {
-    name: '',
-    surname: '',
-    password: '',
-    confirmPassword: '',
-  },
-})
 
 // Autofill billing address if user is logged in
 watch(
@@ -139,8 +127,8 @@ watch(
 watch(
   () => user,
   () => {
-    if (user.value) checkout.email = user.value.email
-    else checkout.email = ''
+    if (user.value) checkout.personalData.email = user.value.email
+    else checkout.personalData.email = ''
   },
   { immediate: true },
 )

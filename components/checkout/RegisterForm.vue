@@ -1,48 +1,40 @@
 <template>
   <form class="checkout-register-form">
     <FormInput
-      v-model="form.values.name"
+      v-model="checkout.personalData.name"
       :label="$t('form.name')"
-      name="name"
+      autocomplete="name"
+      name="checkout_name"
       rules="alpha|required"
     />
     <FormInput
-      v-model="form.values.surname"
+      v-model="checkout.personalData.surname"
       :label="$t('form.surname')"
-      name="surname"
+      autocomplete="surname"
+      name="checkout_surname"
       rules="alpha|required"
     />
     <FormInputPassword
-      v-model="form.values.password"
+      v-model="checkout.personalData.password"
       :label="$t('form.password')"
-      name="password"
+      autocomplete="password"
+      name="checkout_password"
       rules="password|required"
     />
     <FormInputPassword
-      v-model="form.values.confirmPassword"
+      v-model="checkout.personalData.confirmPassword"
       :label="$t('form.confirmPassword')"
-      name="confirmPassword"
-      rules="confirmedPassword:@password|required"
+      autocomplete="confirmPassword"
+      name="checkout_confirmPassword"
+      rules="confirmedPassword:@checkout_password|required"
     />
+
+    <AccountConsentsList v-model:value="checkout.personalData.consents" />
   </form>
 </template>
 
 <script setup lang="ts">
 import { useCheckoutStore } from '@/store/checkout'
-import { useForm } from 'vee-validate'
-
-interface BasicUserData {
-  name: string
-  surname: string
-  password: string
-  confirmPassword: string
-}
-
-const props = defineProps<{
-  userData: BasicUserData
-}>()
-
-const form = useForm<BasicUserData>()
 
 const $t = useGlobalI18n()
 const checkout = useCheckoutStore()

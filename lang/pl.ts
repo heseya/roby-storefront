@@ -129,6 +129,7 @@ export default {
     ORDER_WITH_THIS_NUMBER_DOESNT_EXIST: 'Zamówienie o tym numerze nie istnieje',
 
     VALIDATION_ERROR: 'Błąd walidacji.',
+    VALIDATION_EMAIL: 'Podany adres e-mail jest nieprawidłowy.',
     VALIDATION_PASSWORD_COMPROMISED:
       'Podane hasło pojawiło się w wycieku danych. Proszę wybrać inne hasło.',
     CLIENT_REGISTER_WITH_NON_REGISTRATION_ROLE: 'Nie możesz się zarejestrować z tą rolą.',
