@@ -4,7 +4,7 @@
       {{ title }}
     </LayoutHeader>
     <div class="advantages__content">
-      <RentAdvantagesItem v-for="item in advantages" :key="item.title" :item="item" />
+      <RentAdvantagesItem v-for="item in advantages" :key="item.order" :item="item" />
     </div>
   </div>
 </template>

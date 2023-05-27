@@ -1,7 +1,7 @@
 <template>
   <div class="item">
     <div class="item__icon-container">
-      <img class="item__icon" :src="imageUrl" role="presentation" loading="lazy" />
+      <img class="item__icon" :src="imageUrl" loading="lazy" />
     </div>
     <div class="item__content">
       <LayoutHeader variant="black" class="item__title">{{ item.title }}</LayoutHeader>
