@@ -19,6 +19,7 @@ export default defineNuxtPlugin((_nuxt) => {
           password: 'Hasło musi mieć co najmniej 12 znaków',
           confirmedPassword: 'Hasła nie są takie same.',
           alpha: 'To pole może składać się tylko z liter.',
+          alpha_spaces: 'To pole może składać się tylko z liter i spacji.',
         },
       },
     }),

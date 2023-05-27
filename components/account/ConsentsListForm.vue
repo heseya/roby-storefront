@@ -1,11 +1,6 @@
 <template>
   <form @submit.prevent="onSubmit">
-    <AccountConsentsList
-      :value="form.values"
-      :force-required="forceRequired"
-      @update:value="setValue"
-    />
-
+    <AccountConsentsList v-model:value="form.values" :force-required="forceRequired" />
     <LayoutButton :label="t('saveConsent')" html-type="submit" />
   </form>
 
@@ -41,12 +36,8 @@ const emit = defineEmits<{
 
 const errorMessage = ref('')
 const form = useForm<UserConsentDto>({
-  initialValues: {},
+  initialValues: { ...props.value },
 })
-
-const setValue = (value: UserConsentDto) => {
-  form.setValues(value)
-}
 
 const onSubmit = form.handleSubmit(() => {
   try {
@@ -59,7 +50,7 @@ const onSubmit = form.handleSubmit(() => {
 watch(
   () => props.value,
   () => {
-    form.values = props.value
+    form.values = { ...props.value }
   },
 )
 </script>
