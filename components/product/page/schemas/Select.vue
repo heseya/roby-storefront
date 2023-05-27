@@ -1,5 +1,14 @@
 <template>
-  <FormSelect v-model="innerValue" class="schema-select" :name="schema.id" :label="schema.name">
+  <FormSelect
+    v-model="innerValue"
+    class="schema-select"
+    :name="schema.id"
+    :label="schema.name"
+    :rules="schema.required ? 'required' : ''"
+  >
+    <option v-if="!schema.required" :value="undefined" class="schema-select__option">
+      {{ t('emptyValue') }}
+    </option>
     <option
       v-for="option in schema.options"
       :key="option.id"
@@ -13,8 +22,18 @@
   </FormSelect>
 </template>
 
+<i18n lang="json">
+{
+  "pl": {
+    "emptyValue": "-- Wybierz opcję --"
+  }
+}
+</i18n>
+
 <script setup lang="ts">
 import { CartItemSchemaValue, Schema, SchemaType } from '@heseya/store-core'
+
+const t = useLocalI18n()
 
 const props = withDefaults(
   defineProps<{

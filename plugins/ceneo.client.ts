@@ -1,16 +1,15 @@
 import { createHeseyaEventBusService, HeseyaEvent } from '@heseya/store-core'
 
-export default defineNuxtPlugin((nuxtApp) => {
-  if (nuxtApp.$config.public.ceneoGuid === undefined) return
+export default defineNuxtPlugin(() => {
+  const { ceneoGuid } = usePublicRuntimeConfig()
+  if (ceneoGuid === undefined) return
 
   useHead({
     script: [
       {
         defer: true,
         // new version: https://ssl.ceneo.pl/ct/v5/script.js
-        src: `https://ssl.ceneo.pl/shops/sw.js?accountGuid=${
-          nuxtApp.$config.public.ceneoGuid
-        }&t=${Date.now()}`,
+        src: `https://ssl.ceneo.pl/shops/sw.js?accountGuid=${ceneoGuid}&t=${Date.now()}`,
       },
     ],
   })

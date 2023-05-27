@@ -24,3 +24,22 @@
     cursor: pointer;
   }
 }
+
+@mixin styled-scrollbar {
+  &::-webkit-scrollbar {
+    height: 5px;
+    width: 5px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 8px;
+    background-color: $gray-color-400;
+  }
+
+  &::-webkit-scrollbar-button:end:increment {
+    width: 0px;
+    height: 0;
+    display: block;
+    background: transparent;
+  }
+}

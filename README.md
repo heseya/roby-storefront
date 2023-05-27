@@ -37,6 +37,34 @@ yarn dev
 npm run dev
 ```
 
+## Environment variables
+
+### API urls
+
+Template uses 3 different APIs. You can change the url of each API by setting the following environment variables.
+
+- Most important is `API_URL` which is used by the application to fetch data from the Heseya API.
+- `DIRECTUS_URL` is used by the application to fetch data from the Directus API. This is used for example to fetch the blog posts. This is optional, if you don't have a Directus instance, you can leave this empty.
+- `PRICE_TRACKER_URL` is used by the application to fetch data from the Price Tracker API to fullfill the Omnibus requirement.
+
+```env
+API_URL=https://demo-***REMOVED***.***REMOVED***
+DIRECTUS_URL=https://cms.heseya.com
+PRICE_TRACKER_URL=https://main-price-tracker.app.***REMOVED***
+```
+
+### Custom pages
+
+In this template there are 5 custom pages available. You can change the path of each page by setting the following environment variables. If you want to disable a page, set the env to _empty_.
+
+```env
+PAGE_BLOG_PATH=/blog
+PAGE_CONTACT_PATH=/kontakt
+PAGE_ABOUT_PATH=/o-nas
+PAGE_RENT_PATH=/wynajem
+PAGE_STATUTE_PATH=/regulamin
+```
+
 ## Production
 
 Build the application for production:

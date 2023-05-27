@@ -205,21 +205,7 @@ const { data: navLinks } = useAsyncData<NavLink[]>('nav-pages', async () => {
     white-space: nowrap;
     overflow-x: auto;
     @include flex-row;
-
-    &::-webkit-scrollbar {
-      height: 5px;
-    }
-
-    &::-webkit-scrollbar-thumb {
-      border-radius: 8px;
-      background-color: $gray-color-400;
-    }
-
-    &::-webkit-scrollbar-button:end:increment {
-      width: 12px;
-      display: block;
-      background: transparent;
-    }
+    @include styled-scrollbar;
   }
 }
 

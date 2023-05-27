@@ -611,10 +611,10 @@
   resolved "https://registry.yarnpkg.com/@eslint/js/-/js-8.40.0.tgz#3ba73359e11f5a7bd3e407f70b3528abfae69cec"
   integrity sha512-ElyB54bJIhXQYVKjDSvCkPO1iU1tSAeVQJbllWJq1XQSmmA4dgFk8CbiBGpiOPxleE48vDogxCtmMYku4HSVLA==
 
-"@heseya/store-core@5.1.0-dev.5":
-  version "5.1.0-dev.5"
-  resolved "https://registry.yarnpkg.com/@heseya/store-core/-/store-core-5.1.0-dev.5.tgz#412de51c03688cebfedb442adcc4ea6199867abd"
-  integrity sha512-xAZRvZ3/MFaRV1SldmQ5XFwQFwJG+cIFXNbep/+vttS7uXUSBKXZiUEHd66rnx7L/8Ofgy45E4ce1yFBAO1uqA==
+"@heseya/store-core@5.1.0-dev.7":
+  version "5.1.0-dev.7"
+  resolved "https://registry.yarnpkg.com/@heseya/store-core/-/store-core-5.1.0-dev.7.tgz#2e028ed7cba38485a6a3f68729625a25853e0e20"
+  integrity sha512-+PXB86UKERVULkon4AAGCENgGfZwU3YMkrTZT1PNcmwdjEtlvrz16vvTSEnBmUGZ+aG48Ln+4KJ1Q5PaqxzVTA==
   dependencies:
     "@types/flat" "^5.0.2"
     array-to-tree "^3.3.2"
@@ -1484,17 +1484,17 @@
     hookable "^5.5.3"
     unhead "1.1.27"
 
-"@vee-validate/i18n@^4.8.3":
-  version "4.9.3"
-  resolved "https://registry.yarnpkg.com/@vee-validate/i18n/-/i18n-4.9.3.tgz#322cd59ea91dc3d269d60007059f4e4e2402e430"
-  integrity sha512-6jPv1mJg2A/PnzKHY+g5FZ/OG7tjijHdRCLPwwYOgnc00Rs9ixrNDTGgHkTPVjpXaZFr1ykhTzEmLrjAZMeEkA==
+"@vee-validate/i18n@^4.9.5":
+  version "4.9.5"
+  resolved "https://registry.yarnpkg.com/@vee-validate/i18n/-/i18n-4.9.5.tgz#ed0a2bae64fec481f9538a34a04e52c58f9edf38"
+  integrity sha512-aV1vWOKH2NPOQEvwFWKJxQPN3I1X80H4I4la9x8+gI0hrDEzrCZzwQ9Rr5z4jDrddvM1RDX36Q9jcdrRMiev2Q==
 
-"@vee-validate/rules@^4.8.3":
-  version "4.9.3"
-  resolved "https://registry.yarnpkg.com/@vee-validate/rules/-/rules-4.9.3.tgz#dc03c3d7f707aa55da766c4e09892734d8d5272e"
-  integrity sha512-amljER8wdI69cP9s1I9V3634NvCLLAHU1HeT/2Fulu5FGUW5ZKuKuSOKy6qgrVDpwAfRIOg6XlXVXj6kYAv1Vg==
+"@vee-validate/rules@^4.9.5":
+  version "4.9.5"
+  resolved "https://registry.yarnpkg.com/@vee-validate/rules/-/rules-4.9.5.tgz#7fef18bc10bf3c5026d49ace3d995a95b6fb2e25"
+  integrity sha512-HtBIfSQtesRyidW6dPvFI5jMZmmZAbsbliwbAIBPhjzXoeFInUXj5is1F9mjTA+C/PSAwiOUFb6g0yY2mxi+pA==
   dependencies:
-    vee-validate "^4.9.3"
+    vee-validate "^4.9.5"
 
 "@vercel/nft@^0.22.6":
   version "0.22.6"
@@ -1787,7 +1787,7 @@
   resolved "https://registry.yarnpkg.com/@vue/shared/-/shared-3.3.4.tgz#06e83c5027f464eef861c329be81454bc8b70780"
   integrity sha512-7OjdcV8vQ74eiz1TZLzZP4JwqM5fA94K6yntPS5Z25r9HDuGNzaGdgvwKYq6S+MxwF0TFRwe50fIR/MYnakdkQ==
 
-"@vueuse/core@10.1.2", "@vueuse/core@^10.0.0":
+"@vueuse/core@10.1.2", "@vueuse/core@^10.1.2":
   version "10.1.2"
   resolved "https://registry.yarnpkg.com/@vueuse/core/-/core-10.1.2.tgz#2499eadec36c5d7109338e3a2b73725040ae8011"
   integrity sha512-roNn8WuerI56A5uiTyF/TEYX0Y+VKlhZAF94unUfdhbDUI+NfwQMn4FUnUscIRUhv3344qvAghopU4bzLPNFlA==
@@ -1802,7 +1802,7 @@
   resolved "https://registry.yarnpkg.com/@vueuse/metadata/-/metadata-10.1.2.tgz#d8ffe557b1042efd03a0aa88540a00c25d193ee3"
   integrity sha512-3mc5BqN9aU2SqBeBuWE7ne4OtXHoHKggNgxZR2K+zIW4YLsy6xoZ4/9vErQs6tvoKDX6QAqm3lvsrv0mczAwIQ==
 
-"@vueuse/nuxt@^10.0.0":
+"@vueuse/nuxt@^10.1.2":
   version "10.1.2"
   resolved "https://registry.yarnpkg.com/@vueuse/nuxt/-/nuxt-10.1.2.tgz#2cd91471bba8ea5d27f2f97658451dbf9730e47b"
   integrity sha512-X9o5WCmNs1+6XztP1Uh9+H7/jGeIjwSRNQdwCWRKCDkxPlbgi9iLnDRYnKDY++JPY3nbB6jTDOVgZDrpaAU5kg==
@@ -7154,10 +7154,10 @@ validate-npm-package-license@^3.0.1:
     spdx-correct "^3.0.0"
     spdx-expression-parse "^3.0.0"
 
-vee-validate@^4.8.6, vee-validate@^4.9.3:
-  version "4.9.3"
-  resolved "https://registry.yarnpkg.com/vee-validate/-/vee-validate-4.9.3.tgz#5baaa965aa3acc9cacffb02cec212e8bf8d635a5"
-  integrity sha512-XZ5OuDa0WecESCScWzdX632e9uT/ExTacRsUiLaL46r2NqJBSE9Gr88QxV/kh7PmfD0Nb1+7/LwFYukTMeQfFw==
+vee-validate@^4.9.5:
+  version "4.9.5"
+  resolved "https://registry.yarnpkg.com/vee-validate/-/vee-validate-4.9.5.tgz#ee72492a9c491e5eeb91f84c3d623e81dafc7cbe"
+  integrity sha512-BVhGHjD6lWdEltDg08+wN/oTtSEDJcpwpgb5IJVvTmzEU0Dunn3j/JwVfbM+WSLCj4SMxnfar59qLnDLyZpQWg==
   dependencies:
     "@vue/devtools-api" "^6.5.0"
     type-fest "^3.10.0"

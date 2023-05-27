@@ -10,8 +10,8 @@
         v-show="Boolean(link.children?.length)"
         ref="popoverRef"
         class="category-btn__list"
-        :class="{ 'category-btn__list--active': isLinkHover || isPopoverHover }"
-        :style="{ left: `${left}px`, top: `${subcategoriesTop}px` }"
+        :class="{ 'category-btn__list--active': isActive }"
+        :style="{ left: `${left}px`, top: `${topHeight}px` }"
       >
         <NuxtLink
           v-for="sub in link.children"
@@ -43,11 +43,18 @@ const popoverRef = ref()
 
 const isLinkHover = useElementHover(linkRef)
 const isPopoverHover = useElementHover(popoverRef)
-const { left, top, height } = useElementBounding(linkRef)
+const { left, top, height, update } = useElementBounding(linkRef)
 
-const subcategoriesTop = computed<number>(() => {
+const isActive = computed<boolean>(() => isLinkHover.value || isPopoverHover.value)
+
+const topHeight = computed<number>(() => {
   return top.value + height.value
 })
+
+watch(
+  () => isActive.value,
+  () => update(),
+)
 </script>
 
 <style lang="scss" scoped>

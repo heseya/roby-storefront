@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import svgLoader from 'vite-svg-loader'
 import { removePageByName, changePagePathOrRemoveByName } from './utils/routing'
 
@@ -24,6 +25,12 @@ const {
 } = process.env
 
 const isProduction = ENVIRONMENT === 'production'
+
+if (!API_URL) console.warn('API_URL env is not defined')
+if (!PRICE_TRACKER_URL) console.warn('PRICE_TRACKER_URL env is not defined')
+if (!APP_HOST) console.warn('APP_HOST env is not defined')
+if (!RECAPTCHA_PUBLIC) console.warn('RECAPTCHA_PUBLIC env is not defined')
+if (!RECAPTCHA_PUBLIC) console.warn('RECAPTCHA_PUBLIC env is not defined')
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({

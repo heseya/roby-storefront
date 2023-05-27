@@ -5,7 +5,11 @@
     <div class="cart-item__content">
       <div class="cart-item__main">
         <span class="cart-item__name">{{ item.name }}</span>
-        <span v-for="[name, value] in item.variant" :key="name" class="cart-item__schema">
+        <span
+          v-for="[name, value] in filterSchemaVariant(item.variant)"
+          :key="name"
+          class="cart-item__schema"
+        >
           {{ name }}: <b>{{ formatSchemaValue(value) }}</b>
         </span>
       </div>
@@ -68,6 +72,10 @@ const formatSchemaValue = (value: string | undefined) => {
   if (value === 'true') return t('common.yes')
   if (value === 'false') return t('common.no')
   return value
+}
+
+const filterSchemaVariant = (variant: (string | undefined)[][]) => {
+  return variant.filter(([n, v]) => !!n && !!v)
 }
 </script>
 
