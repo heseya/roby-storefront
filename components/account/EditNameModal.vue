@@ -11,7 +11,7 @@
       v-model="form.values.name"
       :label="$t('form.nameAndSurname')"
       name="name"
-      rules="alpha_spaces"
+      rules="alphaSpaces"
     />
     <FormInput
       :label="$t('form.email')"
