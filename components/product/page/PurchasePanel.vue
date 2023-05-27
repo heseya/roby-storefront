@@ -78,7 +78,6 @@ const props = withDefaults(
   {},
 )
 const cart = useCartStore()
-const router = useRouter()
 const t = useLocalI18n()
 
 const getLeasingUrl = useLeaselink()
@@ -136,7 +135,7 @@ const addToCart = () => {
     quantity: Number(quantity.value) || 1,
   })
 
-  router.push('/cart')
+  navigateTo('/cart')
 }
 </script>
 

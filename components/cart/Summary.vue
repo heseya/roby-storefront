@@ -85,7 +85,6 @@ const t = useLocalI18n()
 const $t = useGlobalI18n()
 const config = useConfigStore()
 const auth = useAuthStore()
-const router = useRouter()
 const heseya = useHeseya()
 
 const { data: cheapestShippingMethodPrice } = useLazyAsyncData(`shippingMethodPrice`, async () => {
@@ -109,7 +108,7 @@ const processCheckout = () => {
   if (!auth.isLogged) {
     isAuthenticationModalVisible.value = true
   } else {
-    router.push('/checkout')
+    navigateTo('/checkout')
   }
 }
 </script>

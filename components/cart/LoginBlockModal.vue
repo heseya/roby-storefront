@@ -3,7 +3,7 @@
     <div class="login-block">
       <div>
         <h2 class="login-block__header">{{ $t('account.login') }}</h2>
-        <AuthLoginForm class="login-block__login" @login="router.push('/checkout')" />
+        <AuthLoginForm class="login-block__login" @login="navigateTo('/checkout')" />
       </div>
 
       <LayoutSpacer />
@@ -46,7 +46,6 @@
 <script setup lang="ts">
 const t = useLocalI18n()
 const $t = useGlobalI18n()
-const router = useRouter()
 
 const props = defineProps<{
   open: boolean

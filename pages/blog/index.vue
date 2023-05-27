@@ -48,7 +48,6 @@
 
 <script setup lang="ts">
 const route = useRoute()
-const router = useRouter()
 const t = useLocalI18n()
 const $t = useGlobalI18n()
 const localePath = useLocalePath()
@@ -99,7 +98,7 @@ const { data: tags } = useLazyAsyncData(`blog-tags`, () => {
 })
 
 const changePage = (page: number | string) => {
-  router.push({
+  navigateTo({
     name: route.name!,
     params: route.params,
     query: {

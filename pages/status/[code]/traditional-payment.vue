@@ -16,7 +16,6 @@
 
 <script setup lang="ts">
 const route = useRoute()
-const router = useRouter()
 const { notify } = useNotify()
 
 const t = useLocalI18n()
@@ -31,7 +30,7 @@ useAsyncData(`order-summary-${orderCode}`, async () => {
 
     if (order.paid) {
       notify({ type: 'success', text: $t('errors.CLIENT_ORDER_PAID') })
-      router.push(`/status/${orderCode.value}`)
+      navigateTo(`/status/${orderCode.value}`)
     }
 
     return order

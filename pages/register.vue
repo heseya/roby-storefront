@@ -3,7 +3,7 @@
     <LayoutBreadcrumpsProvider :breadcrumbs="breadcrumbs" />
 
     <div class="register-content">
-      <AuthRegisterForm @registered="() => $router.push('/login')" />
+      <AuthRegisterForm @registered="() => navigateTo('/login')" />
     </div>
   </NuxtLayout>
 </template>
