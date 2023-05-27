@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts" setup>
-import { TranslatedRentPageAdvantages } from '~/interfaces/rentPage'
+import { TranslatedRentPageAdvantage } from '~/interfaces/rentPage'
 
 defineProps<{
   title: string
@@ -19,7 +19,7 @@ defineProps<{
 const { data: advantages } = useAsyncData('rent-page-advantages', async () => {
   const directus = useDirectus()
 
-  const { data } = await directus.items('RentPageAdvantages').readByQuery({
+  const { data } = await directus.items('RentPageAdvantage').readByQuery({
     fields: ['order', 'icon.*', 'translations.title', 'translations.description'],
   })
 
@@ -28,7 +28,7 @@ const { data: advantages } = useAsyncData('rent-page-advantages', async () => {
     ...getTranslated(advantage.translations as any, 'pl-PL'),
     order: advantage.order,
     icon: advantage.icon,
-  })) || []) as TranslatedRentPageAdvantages[]
+  })) || []) as TranslatedRentPageAdvantage[]
 })
 </script>
 

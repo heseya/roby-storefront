@@ -11,9 +11,9 @@
 </template>
 
 <script lang="ts" setup>
-import { TranslatedRentPageAdvantages } from '~/interfaces/rentPage'
+import { TranslatedRentPageAdvantage } from '~/interfaces/rentPage'
 
-const props = defineProps<{ item: TranslatedRentPageAdvantages }>()
+const props = defineProps<{ item: TranslatedRentPageAdvantage }>()
 
 const imageUrl = computed(() => getImageUrl(props.item.icon))
 </script>
@@ -54,8 +54,9 @@ const imageUrl = computed(() => getImageUrl(props.item.icon))
   }
 
   &__icon {
-    height: 22px;
-    width: 22px;
+    height: 35px;
+    width: 35px;
+    filter: invert(26%) sepia(67%) saturate(2470%) hue-rotate(348deg) brightness(85%) contrast(88%);
   }
 
   &__title {
@@ -70,7 +71,6 @@ const imageUrl = computed(() => getImageUrl(props.item.icon))
   &__content {
     @include flex-column;
     gap: 5px;
-
     font-size: rem(16);
 
     @media ($max-viewport-9) {
