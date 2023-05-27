@@ -18,7 +18,7 @@ export interface TranslatedRentPage {
 export interface TranslatedRentPageAdvantage {
   id: ID
   order: number
-  icon: DirectusImage
+  image: DirectusImage
   title: string
   description: string
 }
@@ -51,9 +51,9 @@ export interface RentPageStep {
 
 export interface RentPageAdvantage {
   id: ID
-  translations: DirectusTranslated<TranslatedRentPageStep>
+  translations: DirectusTranslated<TranslatedRentPageAdvantage>
   order: number
-  icon: DirectusImage
+  image: DirectusImage
 }
 
 export interface RentPageDecision {

@@ -15,7 +15,7 @@ import { TranslatedRentPageAdvantage } from '~/interfaces/rentPage'
 
 const props = defineProps<{ item: TranslatedRentPageAdvantage }>()
 
-const imageUrl = computed(() => getImageUrl(props.item.icon))
+const imageUrl = computed(() => getImageUrl(props.item.image))
 </script>
 
 <style lang="scss" scoped>
