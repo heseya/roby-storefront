@@ -1,19 +1,19 @@
 <template>
   <div class="faq">
     <div class="faq__content">
-      <LayoutHeader variant="black" class="faq__title">Obsługa wynajmu urządzeń</LayoutHeader>
+      <LayoutHeader variant="black" class="faq__title">{{ title1 }}</LayoutHeader>
       <RentFaqItem
-        v-for="({ question, answer }, index) in technicalFaq"
-        :key="index"
+        v-for="{ question, answer, order } in faq?.technical"
+        :key="order"
         :question="question"
         :answer="answer"
       />
     </div>
     <div class="faq__content">
-      <LayoutHeader variant="black" class="faq__title">Umowa i formalności</LayoutHeader>
+      <LayoutHeader variant="black" class="faq__title">{{ title2 }}</LayoutHeader>
       <RentFaqItem
-        v-for="({ question, answer }, index) in formalFaq"
-        :key="index"
+        v-for="{ question, answer, order } in faq?.formal"
+        :key="order"
         :question="question"
         :answer="answer"
       />
@@ -22,49 +22,29 @@
 </template>
 
 <script lang="ts" setup>
-const technicalFaq = [
-  {
-    question: 'Czy wynajem drukarek obejmuje dostawy tonerów?',
-    answer:
-      'Tak. W ramach wynajmu urządzeń dostarczamy wszystkie niezbędne materiały eksploatacyjne, łącznie z tonerami.',
-  },
-  {
-    question: 'Czy serwis urządzenia jest dodatkowo płatny?',
-    answer:
-      'Nie. W ramach wynajmu, usługi serwisowe oraz dojazd serwisantów do miejsca instalacji urządzenia są bezpłatne.',
-  },
-  {
-    question: 'Kto zajmuje się konfiguracją urządzenia?',
-    answer:
-      'Serwisant przywozi urządzenie oraz konfiguruje je, umożliwiając prawidłowe działanie. Dodatkowo przeprowadzi szkolenie z obsługi urządzenia.',
-  },
-  {
-    question: 'Ile trwa dostawa tonerów?',
-    answer:
-      'Tonery dostarczane są w ciągu 1 dnia od ich zamówienia lub od wystąpienia komunikatu o braku tonera, jeżeli urządzenie jest połączone z aplikacją do monitoringu.\n' +
-      '\n' +
-      'Zawsze staramy się, aby w Twoim biurze znajdował się zapas.',
-  },
-]
-const formalFaq = [
-  {
-    question: 'Jaki jest czas trwania umowy wynajmu?',
-    answer:
-      'W zależności od wybranego modelu urządzenia umowy zawieramy na okres od 12 do 48 miesięcy. Istnieje też możliwość indywidualnej kalkulacji uwzględniającej szczególne warunki wynajmu.',
-  },
-  {
-    question: 'Ile kosztuje wynajem urządzenia?',
-    answer:
-      'Końcowy koszt wynajmu jest zależny od wybranego modelu i konfiguracji urządzenia. Najlepiej wybrać urządzenie, które będzie dopasowane zarówno pod względem wydajności, jak i funkcjonalności.\n' +
-      '\n' +
-      'Bez wiedzy o potrzebach w firmie można określić zakres od 30 do nawet 600 zł miesięcznie za wynajem urządzenia.',
-  },
-  {
-    question: 'Kiedy dostanę fakturę za wynajem?',
-    answer:
-      'Faktury za wynajem drukarek wystawiane są na koniec każdego miesiąca kalendarzowego i wysyłane mailem lub pocztą.',
-  },
-]
+import { TranslatedRentPageFaq } from '~/interfaces/rentPage'
+
+defineProps<{ title1: string; title2: string }>()
+
+const { data: faq } = useAsyncData('rent-page-faq', async () => {
+  const directus = useDirectus()
+
+  const { data } = await directus.items('RentPageFaq').readByQuery({
+    fields: ['type', 'order', 'translations.question', 'translations.answer'],
+  })
+
+  const translatedData = (data?.map((faq) => ({
+    // @ts-ignore directus typing is wrong???
+    ...getTranslated(faq.translations as any, 'pl-PL'),
+    order: faq.order,
+    type: faq.type,
+  })) || []) as TranslatedRentPageFaq[]
+
+  return {
+    technical: translatedData.filter((faq) => faq.type === 'technical'),
+    formal: translatedData.filter((faq) => faq.type === 'formal'),
+  }
+})
 </script>
 
 <style lang="scss" scoped>

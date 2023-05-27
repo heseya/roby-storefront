@@ -2,24 +2,40 @@
   <div class="why-other-chose">
     <div class="why-other-chose__reason">
       <LayoutHeader tag="h2" variant="black" class="why-other-chose__title">
-        Dlaczego firmy decydują się na wynajem?
+        {{ title }}
       </LayoutHeader>
       <span class="why-other-chose__text">
-        Nowoczesny biznes wymaga nowoczesnych rozwiązań, także w zakresie sposobu eksploatacji
-        urządzeń biurowych. Wynajem drukarek i kserokopiarek to odpowiedź na potrzebę nowoczesnego
-        sprzętu, bez konieczności ponoszenia kosztownych inwestycji.
+        {{ description }}
       </span>
     </div>
     <div class="why-other-chose__attributes">
-      <RentWhyOtherChoseAttribute text="Dopasowane urządzenia o szerokiej funkcjonalności." />
-      <RentWhyOtherChoseAttribute text="Niskie koszty nabycia sprzętu do biura." />
-      <RentWhyOtherChoseAttribute text="Gwarantowana płynność pracy urządzeń." />
-      <RentWhyOtherChoseAttribute text="Gwarancja jakości wydruku." />
+      <RentWhyOtherChoseAttribute
+        v-for="decision in decisions"
+        :key="decision.id"
+        :text="decision.text"
+      />
     </div>
   </div>
 </template>
 
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import { TranslatedRentPageDecision } from '~/interfaces/rentPage'
+
+defineProps<{ title: string; description: string }>()
+
+const { data: decisions } = useAsyncData('rent-page-decision', async () => {
+  const directus = useDirectus()
+
+  const { data } = await directus.items('RentPageDecision').readByQuery({
+    fields: ['translations.text', 'translations.order'],
+  })
+
+  return (data?.map((step) => ({
+    // @ts-ignore directus typing is wrong???
+    ...getTranslated(step.translations as any, 'pl-PL'),
+  })) || []) as TranslatedRentPageDecision[]
+})
+</script>
 
 <style lang="scss" scoped>
 .why-other-chose {

@@ -13,6 +13,8 @@ export interface TranslatedRentPage {
   advantages_title: string
   decision_title: string
   decision_description: string
+  faq_title_1: string
+  faq_title_2: string
 }
 
 export interface TranslatedRentPageAdvantage {
@@ -37,6 +39,21 @@ export interface TranslatedRentPageDecision {
   order: number
 }
 
+export interface TranslatedRentPageFaq {
+  id: ID
+  order: number
+  type: 'formal' | 'technical'
+  question: string
+  answer: string
+}
+
+export interface TranslatedRentPageForm {
+  id: ID
+  text_1: string
+  text_2: string
+  description: string
+}
+
 export interface RentPage {
   id: ID
   translations: DirectusTranslated<TranslatedRentPage>
@@ -59,4 +76,16 @@ export interface RentPageAdvantage {
 export interface RentPageDecision {
   id: ID
   translations: DirectusTranslated<TranslatedRentPageDecision>
+}
+
+export interface RentPageForm {
+  id: ID
+  translations: DirectusTranslated<TranslatedRentPageForm>
+}
+
+export interface RentPageFaq {
+  id: ID
+  translations: DirectusTranslated<TranslatedRentPageDecision>
+  type: 'formal' | 'technical'
+  order: number
 }

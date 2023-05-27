@@ -21,11 +21,15 @@
         :image-url="bannerImageUrl"
       />
       <BaseContainer class="rent-page__content">
-        <RentWhyOtherChose />
+        <RentWhyOtherChose
+          v-if="rentPage"
+          :title="rentPage?.decision_title"
+          :description="rentPage.decision_description"
+        />
         <div ref="scrollTarget">
           <RentFillForm />
         </div>
-        <RentFaq />
+        <RentFaq v-if="rentPage" :title1="rentPage?.faq_title_1" :title2="rentPage?.faq_title_2" />
       </BaseContainer>
     </div>
   </NuxtLayout>
