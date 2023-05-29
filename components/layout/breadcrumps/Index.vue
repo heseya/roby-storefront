@@ -16,7 +16,9 @@ const breadcrumbs = useBreadcrumbsState()
 
 const router = useRouter()
 
-router.beforeEach(() => {
+router.beforeEach((prev, next) => {
+  // If we are on the same page, do nothing
+  if (prev.name === next.name) return
   breadcrumbs.value = []
 })
 </script>
