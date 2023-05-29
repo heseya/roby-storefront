@@ -40,6 +40,7 @@ import { useCheckoutStore } from '~/store/checkout'
 const t = useLocalI18n()
 
 const checkout = useCheckoutStore()
+const user = useUser()
 const { defaultAddress: defaultBillingAddress } = useUserBillingAddresses()
 
 const create = reactive({
@@ -54,6 +55,15 @@ watch(
     if (defaultBillingAddress.value)
       checkout.billingAddress = clone(defaultBillingAddress.value.address)
     else checkout.billingAddress = clone(EMPTY_ADDRESS)
+  },
+  { immediate: true },
+)
+
+// Autofill email if user is logged in
+watch(
+  () => user,
+  () => {
+    if (user.value) checkout.email = user.value.email
   },
   { immediate: true },
 )

@@ -129,15 +129,6 @@ const createAccountAndLoggin = async () => {
   }
 }
 
-// Autofill email if user is logged in
-watch(
-  () => user,
-  () => {
-    if (user.value?.email) form.values.email = user.value.email
-  },
-  { immediate: true },
-)
-
 watch(
   () => form.values.email,
   () => {
@@ -152,7 +143,7 @@ watch(
   () => props.submit,
   async () => {
     if (props.submit) {
-      if (isLogged.value || createAccount) emit('createOrder')
+      if (isLogged.value || !createAccount) emit('createOrder')
       else {
         const { valid } = await form.validate()
         if (valid) await createAccountAndLoggin()
