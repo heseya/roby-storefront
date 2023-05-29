@@ -42,7 +42,9 @@
 </template>
 
 <script setup lang="ts">
-import { CartItem } from '@heseya/store-core'
+import { CartItem, CartItemRawSchemaValue } from '@heseya/store-core'
+import isNil from 'lodash/isNil'
+
 import CrossIcon from '@/assets/icons/cross.svg?component'
 import { useCartStore } from '@/store/cart'
 
@@ -68,14 +70,14 @@ const removeFromCart = () => {
   cart.remove(props.item.id)
 }
 
-const formatSchemaValue = (value: string | undefined) => {
-  if (value === 'true') return t('common.yes')
-  if (value === 'false') return t('common.no')
+const formatSchemaValue = (value: CartItemRawSchemaValue) => {
+  if (value === true) return t('common.yes')
+  if (value === false) return t('common.no')
   return value
 }
 
-const filterSchemaVariant = (variant: (string | undefined)[][]) => {
-  return variant.filter(([n, v]) => !!n && !!v)
+const filterSchemaVariant = (variant: [string, CartItemRawSchemaValue][]) => {
+  return variant.filter(([n, v]) => !!n && !isNil(v))
 }
 </script>
 
