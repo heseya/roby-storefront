@@ -1,20 +1,22 @@
 <template>
-  <Teleport to="body">
-    <div class="modal-bg" :class="{ 'modal--open': open }" @click="close" />
-    <div
-      class="modal"
-      :class="{ 'modal--open': open, 'modal--box': box, 'modal--full-screen': fullscreen }"
-    >
-      <button
-        v-if="closeable && !hideClose"
-        class="modal__close-btn"
-        :title="t('close')"
-        @click="close"
-      />
+  <ClientOnly>
+    <Teleport to="body">
+      <div class="modal-bg" :class="{ 'modal--open': open }" @click="close" />
+      <div
+        class="modal"
+        :class="{ 'modal--open': open, 'modal--box': box, 'modal--full-screen': fullscreen }"
+      >
+        <button
+          v-if="closeable && !hideClose"
+          class="modal__close-btn"
+          :title="t('close')"
+          @click="close"
+        />
 
-      <slot v-if="open" />
-    </div>
-  </Teleport>
+        <slot v-if="open" />
+      </div>
+    </Teleport>
+  </ClientOnly>
 </template>
 
 <i18n lang="json">
