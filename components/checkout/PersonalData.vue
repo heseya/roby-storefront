@@ -1,9 +1,5 @@
 <template>
   <CheckoutPageArea :title="$t('account.myData')">
-    {{ form.values.email }}
-    x
-    {{ checkout.email }}
-    x
     <div class="checkout-personal-data__myData">
       <FormInput
         v-if="!isLogged"
@@ -56,6 +52,9 @@
       />
       <AccountConsentsList v-model:value="form.values.consents" />
     </form>
+    <LayoutInfoBox v-if="errorMessage" type="danger">
+      {{ errorMessage }}
+    </LayoutInfoBox>
   </CheckoutPageArea>
 </template>
 
@@ -93,14 +92,15 @@ const submit = computed({
 
 const $t = useGlobalI18n()
 const t = useLocalI18n()
+const formatError = useErrorMessage()
 const checkout = useCheckoutStore()
-
 const heseya = useHeseya()
 const auth = useAuthStore()
-const createAccount = ref<boolean>(false)
-
 const isLogged = useIsLogged()
 const user = useUser()
+
+const createAccount = ref<boolean>(false)
+const errorMessage = ref('')
 
 const form = useForm({
   initialValues: {
@@ -114,7 +114,19 @@ const form = useForm({
 })
 
 const createAccountAndLoggin = async () => {
-  emit('createOrder')
+  try {
+    const { name, surname, email, consents, password } = form.values
+    const user = await heseya.Auth.register({
+      name: name + ' ' + surname,
+      email,
+      password,
+      consents,
+    })
+    await auth.login({ email: user.email, password })
+    emit('createOrder')
+  } catch (e: any) {
+    errorMessage.value = formatError(e)
+  }
 }
 
 // Autofill email if user is logged in
@@ -133,15 +145,17 @@ watch(
       checkout.email = form.values.email
     }
   },
+  { immediate: true },
 )
 
 watch(
   () => props.submit,
   async () => {
     if (props.submit) {
-      const { valid } = await form.validate()
-      if (valid) {
-        await createAccountAndLoggin()
+      if (isLogged.value || createAccount) emit('createOrder')
+      else {
+        const { valid } = await form.validate()
+        if (valid) await createAccountAndLoggin()
       }
     }
 

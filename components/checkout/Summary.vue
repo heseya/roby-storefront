@@ -35,7 +35,7 @@
         variant="primary"
         class="cart-summary__button"
         :disabled="!checkout.isValid"
-        @click="$emit('createOrder')"
+        @click="emit('createOrder')"
       >
         {{ $t('payments.confirmAndPay') }}
       </LayoutButton>
