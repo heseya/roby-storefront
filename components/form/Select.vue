@@ -59,7 +59,6 @@ const { errors, validate } = useField(props.name, props.rules, {
    * We need to force validation to ignore auto form update, cause we are doing it manually
    */
   validateOnValueUpdate: false,
-  modelPropName: 'null',
 })
 
 watch(

@@ -106,7 +106,7 @@ watch(
   () => {
     if (!props.open) return
     if (props.address) {
-      form.values = props.address
+      form.values = { ...props.address }
     } else {
       form.handleReset()
     }
