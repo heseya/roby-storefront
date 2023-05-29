@@ -93,7 +93,6 @@
 import { HeseyaEvent } from '@heseya/store-core'
 
 const route = useRoute()
-const router = useRouter()
 const t = useLocalI18n()
 
 const ev = useHeseyaEventBus()
@@ -146,7 +145,7 @@ const changeRouteQuery = (query: Record<string, any>) => {
     return String(v)
   }
 
-  router.push({
+  navigateTo({
     name: route.name!,
     params: route.params,
     query: {

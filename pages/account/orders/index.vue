@@ -35,7 +35,6 @@
 const t = useLocalI18n()
 const $t = useGlobalI18n()
 const formatError = useErrorMessage()
-const router = useRouter()
 const route = useRoute()
 const heseya = useHeseya()
 
@@ -71,7 +70,7 @@ const { data: orders, refresh } = useAsyncData(`user-orders-${route.query.page |
 })
 
 const changePage = (page: number | string) => {
-  router.push({
+  navigateTo({
     name: route.name!,
     params: route.params,
     query: {

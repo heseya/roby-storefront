@@ -53,7 +53,6 @@ import { useAuthStore } from '@/store/auth'
 
 const t = useLocalI18n()
 const $t = useGlobalI18n()
-const router = useRouter()
 const route = useRoute()
 const auth = useAuthStore()
 
@@ -61,11 +60,11 @@ const benefits = ref<string[]>([t('benefits.faster'), t('benefits.track'), t('be
 
 const handleLogin = () => {
   const redirectUrl = (route.query.redirect as string | undefined) || '/'
-  router.push(redirectUrl)
+  navigateTo(redirectUrl)
 }
 
 onBeforeMount(() => {
-  if (auth.isLogged) router.push('/')
+  if (auth.isLogged) navigateTo('/')
 })
 
 useSeoMeta({

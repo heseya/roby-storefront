@@ -61,7 +61,6 @@ const cart = useCartStore()
 const checkout = useCheckoutStore()
 const formatError = useErrorMessage()
 const { notify } = useNotify()
-const router = useRouter()
 const auth = useAuthStore()
 const heseya = useHeseya()
 
@@ -104,7 +103,7 @@ const createOrder = async () => {
     checkout.reset()
 
     if (paymentId === TRADITIONAL_PAYMENT_KEY) {
-      router.push(`/checkout/thank-you?code=${order.code}&payment=${TRADITIONAL_PAYMENT_KEY}`)
+      navigateTo(`/checkout/thank-you?code=${order.code}&payment=${TRADITIONAL_PAYMENT_KEY}`)
       return
     }
 

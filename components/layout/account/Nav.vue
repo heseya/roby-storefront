@@ -78,6 +78,12 @@ const logout = async () => {
       color: var(--secondary-color);
       font-weight: bold;
     }
+
+    &:hover {
+      .layout-account-nav__text {
+        color: var(--secondary-color);
+      }
+    }
   }
 
   &__text {
