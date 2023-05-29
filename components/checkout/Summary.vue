@@ -1,44 +1,46 @@
 <template>
-  <div class="checkout-summary">
-    <div v-for="item in cart.items" :key="item.id" class="checkout-summary-item">
-      <span class="checkout-summary-item__text">
-        <span class="primary-text">{{ item.qty }}x</span> {{ item.name }}
-      </span>
-      <span class="checkout-summary-item__text">{{ formatAmount(item.totalPrice) }}</span>
+  <CheckoutPageArea :title="$t('account.myData')" :placeholder-height="300">
+    <div class="checkout-summary">
+      <div v-for="item in cart.items" :key="item.id" class="checkout-summary-item">
+        <span class="checkout-summary-item__text">
+          <span class="primary-text">{{ item.qty }}x</span> {{ item.name }}
+        </span>
+        <span class="checkout-summary-item__text">{{ formatAmount(item.totalPrice) }}</span>
+      </div>
+
+      <div v-if="cart.totalDiscountValue !== 0" class="checkout-summary-item">
+        <span class="checkout-summary-item__text checkout-summary-item__text--green">
+          {{ $t('payments.discount') }}
+        </span>
+        <span class="checkout-summary-item__text checkout-summary-item__text--green">
+          {{ formatAmount(-cart.totalDiscountValue) }}
+        </span>
+      </div>
+
+      <div class="checkout-summary-item">
+        <span class="checkout-summary-item__text">{{ $t('orders.delivery') }}</span>
+        <span class="checkout-summary-item__text"> {{ formatAmount(cart.shippingPrice) }} </span>
+      </div>
+
+      <hr class="checkout-summary__hr hr" />
+
+      <div class="checkout-summary-item">
+        <span class="checkout-summary-item__text">{{ $t('orders.totalAmount') }}</span>
+        <span class="checkout-summary-item__text checkout-summary-item__text--big">
+          {{ formatAmount(cart.summary) }}
+        </span>
+      </div>
+
+      <LayoutButton
+        variant="primary"
+        class="cart-summary__button"
+        :disabled="!checkout.isValid"
+        @click="createOrder"
+      >
+        {{ $t('payments.confirmAndPay') }}
+      </LayoutButton>
     </div>
-
-    <div v-if="cart.totalDiscountValue !== 0" class="checkout-summary-item">
-      <span class="checkout-summary-item__text checkout-summary-item__text--green">
-        {{ $t('payments.discount') }}
-      </span>
-      <span class="checkout-summary-item__text checkout-summary-item__text--green">
-        {{ formatAmount(-cart.totalDiscountValue) }}
-      </span>
-    </div>
-
-    <div class="checkout-summary-item">
-      <span class="checkout-summary-item__text">{{ $t('orders.delivery') }}</span>
-      <span class="checkout-summary-item__text"> {{ formatAmount(cart.shippingPrice) }} </span>
-    </div>
-
-    <hr class="checkout-summary__hr hr" />
-
-    <div class="checkout-summary-item">
-      <span class="checkout-summary-item__text">{{ $t('orders.totalAmount') }}</span>
-      <span class="checkout-summary-item__text checkout-summary-item__text--big">
-        {{ formatAmount(cart.summary) }}
-      </span>
-    </div>
-
-    <LayoutButton
-      variant="primary"
-      class="cart-summary__button"
-      :disabled="!checkout.isValid"
-      @click="createOrder"
-    >
-      {{ $t('payments.confirmAndPay') }}
-    </LayoutButton>
-  </div>
+  </CheckoutPageArea>
 </template>
 
 <i18n lang="json">

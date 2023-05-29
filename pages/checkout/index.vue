@@ -2,85 +2,17 @@
   <NuxtLayout name="checkout">
     <BaseContainer class="checkout-page">
       <section class="checkout-page__section">
-        <div class="checkout-page__area">
-          <h2 class="checkout-page__title">{{ $t('account.myData') }}</h2>
-          <ClientOnly>
-            <CheckoutPersonalData />
-            <FormCheckbox
-              v-if="!user"
-              v-model="checkout.createAccount"
-              class="checkout-page__checkbox"
-              name="createAccount"
-              :label="t('account.createQuestion')"
-            />
-            <template #placeholder>
-              <div class="checkout-page__placeholder" style="height: 80px"></div>
-            </template>
-          </ClientOnly>
-        </div>
+        <CheckoutPersonalData />
+        <CheckoutShippingMethods />
 
-        <div v-if="!user && checkout.createAccount" class="checkout-page__area">
-          <h2 class="checkout-page__title">{{ t('account.create') }}</h2>
-          <div>{{ t('account.description') }}</div>
-          <ClientOnly>
-            <CheckoutRegisterForm />
+        <CheckoutFormLoggedBillingAddress v-if="defaultBillingAddress" />
+        <CheckoutBillingAddress v-else />
 
-            <template #placeholder>
-              <div class="checkout-page__placeholder" style="height: 80px"></div>
-            </template>
-          </ClientOnly>
-        </div>
-        <div class="checkout-page__area">
-          <h2 class="checkout-page__title">{{ $t('orders.delivery') }}</h2>
-          <ClientOnly>
-            <CheckoutShippingMethods />
-
-            <template #placeholder>
-              <div class="checkout-page__placeholder" style="height: 150px"></div>
-            </template>
-          </ClientOnly>
-        </div>
-        <div class="checkout-page__area">
-          <h2 class="checkout-page__title">{{ $t('payments.billingAddress') }}</h2>
-          <ClientOnly>
-            <CheckoutFormLoggedBillingAddress v-if="defaultBillingAddress" />
-            <CheckoutBillingAddress v-else />
-
-            <template #placeholder>
-              <div class="checkout-page__placeholder" style="height: 80px"></div>
-            </template>
-          </ClientOnly>
-        </div>
-        <div class="checkout-page__area">
-          <h2 class="checkout-page__title">{{ t('payment') }}</h2>
-          <ClientOnly>
-            <CheckoutPaymentMethods />
-
-            <template #placeholder>
-              <div class="checkout-page__placeholder" style="height: 100px"></div>
-            </template>
-          </ClientOnly>
-        </div>
-        <div class="checkout-page__area">
-          <ClientOnly>
-            <CheckoutComment />
-
-            <template #placeholder>
-              <div class="checkout-page__placeholder" style="height: 80px"></div>
-            </template>
-          </ClientOnly>
-        </div>
+        <CheckoutPaymentMethods />
+        <CheckoutComment />
       </section>
       <section class="checkout-page__section">
-        <div class="checkout-page__area">
-          <ClientOnly>
-            <CheckoutSummary />
-
-            <template #placeholder>
-              <div class="checkout-page__placeholder" style="height: 300px"></div>
-            </template>
-          </ClientOnly>
-        </div>
+        <CheckoutSummary />
       </section>
     </BaseContainer>
   </NuxtLayout>
@@ -106,10 +38,8 @@ import { EMPTY_ADDRESS } from '~/consts/address'
 import { useCheckoutStore } from '~/store/checkout'
 
 const t = useLocalI18n()
-const $t = useGlobalI18n()
 
 const checkout = useCheckoutStore()
-const user = useUser()
 const { defaultAddress: defaultBillingAddress } = useUserBillingAddresses()
 
 // Autofill billing address if user is logged in
@@ -119,16 +49,6 @@ watch(
     if (defaultBillingAddress.value)
       checkout.billingAddress = clone(defaultBillingAddress.value.address)
     else checkout.billingAddress = clone(EMPTY_ADDRESS)
-  },
-  { immediate: true },
-)
-
-// Autofill email if user is logged in
-watch(
-  () => user,
-  () => {
-    if (user.value) checkout.personalData.email = user.value.email
-    else checkout.personalData.email = ''
   },
   { immediate: true },
 )
@@ -159,32 +79,6 @@ useHead({
     display: flex;
     flex-direction: column;
     gap: 16px;
-  }
-
-  &__area {
-    padding: 16px;
-    background-color: #fff;
-    position: relative;
-  }
-
-  &__title {
-    font-size: rem(18);
-    font-weight: 600;
-    margin-top: 0;
-    margin-bottom: 16px;
-
-    &--slim {
-      font-weight: 400;
-    }
-  }
-
-  &__placeholder {
-    width: 100%;
-    height: 80px;
-  }
-
-  &__checkbox {
-    margin-top: 30px;
   }
 }
 </style>
