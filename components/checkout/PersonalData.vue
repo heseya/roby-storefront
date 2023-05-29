@@ -1,5 +1,9 @@
 <template>
   <CheckoutPageArea :title="$t('account.myData')">
+    {{ form.values.email }}
+    x
+    {{ checkout.email }}
+    x
     <div class="checkout-personal-data__myData">
       <FormInput
         v-if="!isLogged"
@@ -110,9 +114,6 @@ const form = useForm({
 })
 
 const createAccountAndLoggin = async () => {
-  const { email, name, surname, password, consents } = form.values
-  const user = await heseya.Auth.register({ email, password, name: name + '' + surname, consents })
-  await auth.login({ email: user.email, password })
   emit('createOrder')
 }
 
@@ -128,7 +129,9 @@ watch(
 watch(
   () => form.values.email,
   () => {
-    checkout.email = form.values.email
+    if (form.values.email) {
+      checkout.email = form.values.email
+    }
   },
 )
 
