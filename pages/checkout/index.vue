@@ -2,7 +2,7 @@
   <NuxtLayout name="checkout">
     <BaseContainer class="checkout-page">
       <section class="checkout-page__section">
-        <CheckoutPersonalData />
+        <CheckoutPersonalData v-model:submit="create.submit" @create-order="create.value = true" />
         <CheckoutShippingMethods />
 
         <CheckoutFormLoggedBillingAddress v-if="defaultBillingAddress" />
@@ -12,7 +12,7 @@
         <CheckoutComment />
       </section>
       <section class="checkout-page__section">
-        <CheckoutSummary />
+        <CheckoutSummary :create="create.value" @create-order="create.submit = true" />
       </section>
     </BaseContainer>
   </NuxtLayout>
@@ -41,6 +41,11 @@ const t = useLocalI18n()
 
 const checkout = useCheckoutStore()
 const { defaultAddress: defaultBillingAddress } = useUserBillingAddresses()
+
+const create = reactive({
+  submit: false,
+  value: false,
+})
 
 // Autofill billing address if user is logged in
 watch(

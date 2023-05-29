@@ -21,7 +21,7 @@
       :label="t('account.createQuestion')"
     />
   </CheckoutPageArea>
-  <CheckoutPageArea v-if="createAccount">
+  <CheckoutPageArea v-if="!user && createAccount">
     <form class="checkout-personal-data__form">
       <FormInput
         v-model="form.values.name"
@@ -71,11 +71,28 @@
 import { UserConsentDto } from '@heseya/store-core'
 import { useForm } from 'vee-validate'
 import { useCheckoutStore } from '@/store/checkout'
+import { useAuthStore } from '~/store/auth'
+
+const props = defineProps<{
+  submit: boolean
+}>()
+
+const emit = defineEmits<{
+  (e: 'update:submit', value: boolean): void
+  (e: 'createOrder'): void
+}>()
+
+const submit = computed({
+  get: () => props.submit,
+  set: (value) => emit('update:submit', value),
+})
 
 const $t = useGlobalI18n()
 const t = useLocalI18n()
 const checkout = useCheckoutStore()
 
+const heseya = useHeseya()
+const auth = useAuthStore()
 const createAccount = ref<boolean>(false)
 
 const isLogged = useIsLogged()
@@ -92,11 +109,18 @@ const form = useForm({
   },
 })
 
+const createAccountAndLoggin = async () => {
+  const { email, name, surname, password, consents } = form.values
+  const user = await heseya.Auth.register({ email, password, name: name + '' + surname, consents })
+  await auth.login({ email: user.email, password })
+  emit('createOrder')
+}
+
 // Autofill email if user is logged in
 watch(
   () => user,
   () => {
-    if (user) form.values.email = user.value?.email ?? ''
+    if (user.value?.email) form.values.email = user.value.email
   },
   { immediate: true },
 )
@@ -105,6 +129,20 @@ watch(
   () => form.values.email,
   () => {
     checkout.email = form.values.email
+  },
+)
+
+watch(
+  () => props.submit,
+  async () => {
+    if (props.submit) {
+      const { valid } = await form.validate()
+      if (valid) {
+        await createAccountAndLoggin()
+      }
+    }
+
+    submit.value = false
   },
 )
 </script>

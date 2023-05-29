@@ -35,7 +35,7 @@
         variant="primary"
         class="cart-summary__button"
         :disabled="!checkout.isValid"
-        @click="createOrder"
+        @click="$emit('createOrder')"
       >
         {{ $t('payments.confirmAndPay') }}
       </LayoutButton>
@@ -54,8 +54,15 @@
 <script setup lang="ts">
 import { useCartStore } from '@/store/cart'
 import { TRADITIONAL_PAYMENT_KEY } from '~/consts/traditionalPayment'
-import { useAuthStore } from '~/store/auth'
 import { useCheckoutStore } from '~/store/checkout'
+
+const props = defineProps<{
+  create: boolean
+}>()
+
+const emit = defineEmits<{
+  (e: 'createOrder'): void
+}>()
 
 const t = useLocalI18n()
 const $t = useGlobalI18n()
@@ -63,8 +70,6 @@ const cart = useCartStore()
 const checkout = useCheckoutStore()
 const formatError = useErrorMessage()
 const { notify } = useNotify()
-const auth = useAuthStore()
-const heseya = useHeseya()
 
 const saveUserAddresses = async () => {
   const { addresses: shipping, add: addShipping } = useUserShippingAddresses()
@@ -86,17 +91,11 @@ const saveUserAddresses = async () => {
   }
 }
 
-const createAccountAndLogin = async () => {
-  const user = await heseya.Auth.register({ ...checkout.personalData })
-  await auth.login({ email: user.email, password: checkout.personalData.password })
-}
-
 const createOrder = async () => {
   try {
-    if (checkout.createAccount) await createAccountAndLogin()
-
     // paymentMethodId must exist at this point, it is validated before
     const paymentId = checkout.paymentMethodId!
+
     const order = await checkout.createOrder()
 
     // save user addresses if they don't exist
@@ -119,6 +118,11 @@ const createOrder = async () => {
     })
   }
 }
+
+watch(
+  () => props.create,
+  () => createOrder(),
+)
 </script>
 
 <style lang="scss" scoped>

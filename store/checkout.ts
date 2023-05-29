@@ -75,6 +75,7 @@ export const useCheckoutStore = defineStore('checkout', {
 
     isValid(): boolean {
       if (!this.email) return false
+
       // TODO: not all orders requires phisical shipping method
       if (!this.shippingMethod) return false
       if (!this.paymentMethodId) return false
