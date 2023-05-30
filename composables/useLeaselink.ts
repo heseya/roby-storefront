@@ -4,5 +4,8 @@ export const useLeaselink = () => {
   const getUrl = (name: string, value: number, isNet: boolean, tax: number) =>
     `https://online2.leaselink.pl/client/rate-calculator?externalId=${leaslinkId}&value=${value}&isNet=${isNet}&tax=${tax}&productName=${name}`
 
-  return getUrl
+  return {
+    enabled: !!leaslinkId,
+    getUrl,
+  }
 }
