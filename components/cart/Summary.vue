@@ -38,13 +38,10 @@
     <span class="cart-summary__text">{{ t('summary.paymentMethods') }}</span>
     <div class="cart-summary__payment-methods">
       <b v-if="config.isTraditionalTransfer">{{ $t('payments.traditionalTransfer') }}</b>
-      <img
-        v-for="method in paymentMethods"
-        :key="method.id"
-        :src="method.icon"
-        :alt="method.name"
-        loading="lazy"
-      />
+      <template v-for="method in paymentMethods" :key="method.id">
+        <img v-if="method.icon" :src="method.icon" :alt="method.name" loading="lazy" />
+        <b v-else>{{ method.name }}</b>
+      </template>
     </div>
     <CartLoginBlockModal v-model:open="isAuthenticationModalVisible" />
   </div>
@@ -68,8 +65,6 @@ import { ShippingType } from '@heseya/store-core'
 import { useCartStore } from '@/store/cart'
 import { useAuthStore } from '@/store/auth'
 import { useConfigStore } from '@/store/config'
-
-import PayuIcon from '@/assets/images/payu.png'
 
 withDefaults(
   defineProps<{
@@ -98,7 +93,6 @@ const { data: paymentMethods } = useLazyAsyncData('all-payment-methods', async (
   const { data } = await heseya.PaymentMethods.get()
   return data.map((method) => ({
     ...method,
-    icon: method.alias === 'payu' ? PayuIcon : method.icon,
   }))
 })
 
