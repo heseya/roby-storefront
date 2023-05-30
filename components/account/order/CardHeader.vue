@@ -3,7 +3,10 @@
     <div class="account-order-card-header__content">
       <div class="account-order-card-header__box">
         <b>{{ t('orderNumber') }}: </b>
-        <NuxtLink :to="`/account/orders/${code}`" class="account-order-card-header__link">
+        <NuxtLink
+          :to="localePath(`/account/orders/${code}`)"
+          class="account-order-card-header__link"
+        >
           {{ code }}
         </NuxtLink>
       </div>
@@ -44,6 +47,8 @@ defineProps<{
   color: string
   name: string
 }>()
+
+const localePath = useLocalePath()
 </script>
 
 <style lang="scss" scoped>

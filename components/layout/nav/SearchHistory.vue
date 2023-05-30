@@ -9,7 +9,7 @@
         <NuxtLink
           v-for="(query, index) in searchHistory.queries"
           :key="index"
-          :to="`/search/${query}`"
+          :to="localePath(`/search/${query}`)"
           class="search-history__link"
         >
           <LayoutIcon :icon="HistoryIcon" size="sm" class="search-history__icon" />
@@ -34,6 +34,7 @@ import HistoryIcon from '@/assets/icons/history.svg?component'
 import { useSearchHistoryStore } from '@/store/searchHistory'
 
 const t = useLocalI18n()
+const localePath = useLocalePath()
 const searchHistory = useSearchHistoryStore()
 
 const handleClear = () => {

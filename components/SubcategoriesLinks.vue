@@ -4,7 +4,7 @@
       <NuxtLink
         v-if="category?.parent"
         class="subcategories-list__link"
-        :to="`/category/${category?.parent?.slug}`"
+        :to="localePath(`/category/${category?.parent?.slug}`)"
       >
         <ChevronIcon class="subcategories-list__icon" /> {{ category?.parent?.name }}
       </NuxtLink>
@@ -21,7 +21,7 @@
       :class="{
         'subcategories-list__link--intended': isParent,
       }"
-      :to="`/category/${cat.slug}`"
+      :to="localePath(`/category/${cat.slug}`)"
     >
       {{ cat.name }}
     </NuxtLink>
@@ -36,6 +36,7 @@ const props = defineProps<{
   category: ProductSet
 }>()
 const heseya = useHeseya()
+const localePath = useLocalePath()
 
 const isParent = computed(() => !!props.category?.parent)
 
