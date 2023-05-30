@@ -7,7 +7,7 @@
           v-if="step.description"
           :description="step.description"
           :send-form="step.button"
-          @scroll="emit('scroll')"
+          @action="emit('action')"
         />
       </div>
     </div>
@@ -26,7 +26,7 @@ defineProps<{
 }>()
 
 const emit = defineEmits<{
-  (e: 'scroll'): void
+  (e: 'action'): void
 }>()
 
 const { data: steps } = useAsyncData('rent-page-steps', async () => {
