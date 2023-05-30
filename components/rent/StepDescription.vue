@@ -9,7 +9,7 @@
         v-if="sendForm"
         class="step-description__button"
         label="Wypelnij formularz"
-        @click="emit('scroll')"
+        @click="emit('action')"
       />
     </div>
   </div>
@@ -22,7 +22,7 @@ defineProps<{
 }>()
 
 const emit = defineEmits<{
-  (e: 'scroll'): void
+  (e: 'action'): void
 }>()
 </script>
 

@@ -56,7 +56,6 @@ const imageUrl = computed(() => getImageUrl(props.item.image))
   &__icon {
     height: 35px;
     width: 35px;
-    filter: invert(26%) sepia(67%) saturate(2470%) hue-rotate(348deg) brightness(85%) contrast(88%);
   }
 
   &__title {

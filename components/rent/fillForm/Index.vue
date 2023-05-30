@@ -13,7 +13,7 @@
       :description="rentForm?.description"
       class="fill-form__contact-form"
       type="renting"
-      action-text="Wyślij"
+      :action-text="$t('form.send')"
     />
   </div>
 </template>
@@ -21,6 +21,8 @@
 <script lang="ts" setup>
 import DoubleIcon from '@/assets/icons/double-chevron.svg?component'
 import { TranslatedRentPageForm } from '~/interfaces/rentPage'
+
+const $t = useGlobalI18n()
 
 const { data: rentForm } = useAsyncData('rent-page-form', async () => {
   const directus = useDirectus()

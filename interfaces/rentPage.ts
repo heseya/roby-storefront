@@ -42,7 +42,7 @@ export interface TranslatedRentPageDecision {
 export interface TranslatedRentPageFaq {
   id: ID
   order: number
-  type: 'formal' | 'technical'
+  title: string
   question: string
   answer: string
 }
@@ -85,7 +85,6 @@ export interface RentPageForm {
 
 export interface RentPageFaq {
   id: ID
-  translations: DirectusTranslated<TranslatedRentPageDecision>
-  type: 'formal' | 'technical'
+  translations: DirectusTranslated<TranslatedRentPageFaq>
   order: number
 }

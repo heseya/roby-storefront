@@ -13,7 +13,7 @@
     </div>
 
     <div class="steps__image-container">
-      <div class="steps__image" :style="{ backgroundImage: `url(${banner})` }"></div>
+      <img class="steps__image" :src="url" loading="lazy" />
     </div>
   </div>
 </template>
@@ -22,7 +22,7 @@
 import { TranslatedRentPageStep } from '~/interfaces/rentPage'
 
 defineProps<{
-  banner: string
+  url: string
 }>()
 
 const emit = defineEmits<{
@@ -33,11 +33,11 @@ const { data: steps } = useAsyncData('rent-page-steps', async () => {
   const directus = useDirectus()
 
   const { data } = await directus.items('RentPageStep').readByQuery({
+    // @ts-ignore directus typing is wrong
     fields: ['order', 'button', 'translations.title', 'translations.description'],
   })
 
   return (data?.map((step) => ({
-    // @ts-ignore directus typing is wrong???
     ...getTranslated(step.translations as any, 'pl-PL'),
     order: step.order,
     button: step.button,

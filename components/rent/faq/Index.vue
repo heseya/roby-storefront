@@ -1,18 +1,9 @@
 <template>
   <div class="faq">
-    <div class="faq__content">
-      <LayoutHeader variant="black" class="faq__title">{{ title1 }}</LayoutHeader>
+    <div v-for="(values, title) in faq" :key="title" class="faq__content">
+      <LayoutHeader variant="black" class="faq__title">{{ title }}</LayoutHeader>
       <RentFaqItem
-        v-for="{ question, answer, order } in faq?.technical"
-        :key="order"
-        :question="question"
-        :answer="answer"
-      />
-    </div>
-    <div class="faq__content">
-      <LayoutHeader variant="black" class="faq__title">{{ title2 }}</LayoutHeader>
-      <RentFaqItem
-        v-for="{ question, answer, order } in faq?.formal"
+        v-for="{ question, answer, order } in values"
         :key="order"
         :question="question"
         :answer="answer"
@@ -24,26 +15,24 @@
 <script lang="ts" setup>
 import { TranslatedRentPageFaq } from '~/interfaces/rentPage'
 
-defineProps<{ title1: string; title2: string }>()
-
 const { data: faq } = useAsyncData('rent-page-faq', async () => {
   const directus = useDirectus()
 
   const { data } = await directus.items('RentPageFaq').readByQuery({
-    fields: ['type', 'order', 'translations.question', 'translations.answer'],
+    // @ts-ignore directus typing is wrong
+    fields: ['order', 'translations.question', 'translations.answer', 'translations.title'],
   })
 
   const translatedData = (data?.map((faq) => ({
-    // @ts-ignore directus typing is wrong???
     ...getTranslated(faq.translations as any, 'pl-PL'),
     order: faq.order,
-    type: faq.type,
   })) || []) as TranslatedRentPageFaq[]
 
-  return {
-    technical: translatedData.filter((faq) => faq.type === 'technical'),
-    formal: translatedData.filter((faq) => faq.type === 'formal'),
-  }
+  return translatedData.reduce((obj, element) => {
+    obj[element.title] = obj[element.title] || []
+    obj[element.title].push(element)
+    return obj
+  }, {} as { [key: string]: TranslatedRentPageFaq[] })
 })
 </script>
 

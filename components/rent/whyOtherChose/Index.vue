@@ -27,11 +27,11 @@ const { data: decisions } = useAsyncData('rent-page-decision', async () => {
   const directus = useDirectus()
 
   const { data } = await directus.items('RentPageDecision').readByQuery({
+    // @ts-ignore directus typing is wrong
     fields: ['translations.text', 'translations.order'],
   })
 
   return (data?.map((step) => ({
-    // @ts-ignore directus typing is wrong???
     ...getTranslated(step.translations as any, 'pl-PL'),
   })) || []) as TranslatedRentPageDecision[]
 })

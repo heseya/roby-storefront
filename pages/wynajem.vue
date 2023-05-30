@@ -9,7 +9,7 @@
         </LayoutHeader>
       </BaseContainer>
       <BaseContainer class="rent-page__content">
-        <RentSteps :banner="stepsImageUrl" @scroll="handleScroll" />
+        <RentSteps :url="stepsImageUrl" @action="handleScroll" />
         <RentAdvantages v-if="rentPage" :title="rentPage?.advantages_title" />
       </BaseContainer>
       <RentBanner
@@ -29,7 +29,7 @@
         <div ref="scrollTarget">
           <RentFillForm />
         </div>
-        <RentFaq v-if="rentPage" :title1="rentPage?.faq_title_1" :title2="rentPage?.faq_title_2" />
+        <RentFaq />
       </BaseContainer>
     </div>
   </NuxtLayout>
