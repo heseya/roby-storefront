@@ -129,7 +129,10 @@ export default defineNuxtConfig({
 
   i18n: {
     baseUrl: APP_HOST,
-    locales: [{ code: 'pl', iso: 'pl-PL', file: 'pl.ts' }],
+    locales: [
+      { code: 'pl', iso: 'pl-PL', file: 'pl.ts' },
+      { code: 'en', iso: 'en-US', file: 'en.ts' },
+    ],
     defaultLocale: 'pl',
     langDir: 'lang',
     strategy: 'prefix_except_default',

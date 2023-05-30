@@ -1,7 +1,10 @@
 <template>
   <nav class="nav-bar">
     <LayoutNavNotification class="nav-bar__notification" />
-
+    <div class="nav-bar__language">
+      <div>Polski</div>
+      <div>PLN</div>
+    </div>
     <div class="nav-items" :class="{ 'nav-items--small': scrollY > 100 }">
       <div class="nav-items__left">
         <LayoutIconButton
@@ -205,6 +208,11 @@ const { data: navLinks } = useAsyncData<NavLink[]>('nav-pages', async () => {
     overflow-x: auto;
     @include flex-row;
     @include styled-scrollbar;
+  }
+
+  &__language {
+    display: flex;
+    justify-content: flex-end;
   }
 }
 
