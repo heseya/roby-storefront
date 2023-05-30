@@ -9,7 +9,7 @@
         </LayoutHeader>
       </BaseContainer>
       <BaseContainer class="rent-page__content">
-        <RentSteps :url="stepsImageUrl" @action="handleScroll" />
+        <RentSteps :banner-url="stepsImageUrl" @action="handleScroll" />
         <RentAdvantages v-if="rentPage" :title="rentPage?.advantages_title" />
       </BaseContainer>
       <RentBanner

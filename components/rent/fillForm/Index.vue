@@ -30,7 +30,7 @@ const { data: rentForm } = useAsyncData('rent-page-form', async () => {
     // @ts-ignore directus typing is wrong
     fields: ['translations.text_1', 'translations.text_2', 'translations.description'],
   })
-  return getTranslated(data!.translations!, 'pl-PL') as TranslatedRentPageForm
+  return data && (getTranslated(data.translations, 'pl-PL') as TranslatedRentPageForm)
 })
 </script>
 

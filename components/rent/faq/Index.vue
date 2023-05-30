@@ -13,6 +13,7 @@
 </template>
 
 <script lang="ts" setup>
+import { groupBy } from 'lodash'
 import { TranslatedRentPageFaq } from '~/interfaces/rentPage'
 
 const { data: faq } = useAsyncData('rent-page-faq', async () => {
@@ -28,11 +29,7 @@ const { data: faq } = useAsyncData('rent-page-faq', async () => {
     order: faq.order,
   })) || []) as TranslatedRentPageFaq[]
 
-  return translatedData.reduce((obj, element) => {
-    obj[element.title] = obj[element.title] || []
-    obj[element.title].push(element)
-    return obj
-  }, {} as { [key: string]: TranslatedRentPageFaq[] })
+  return groupBy(translatedData, 'title')
 })
 </script>
 

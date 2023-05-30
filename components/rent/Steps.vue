@@ -12,8 +12,8 @@
       </div>
     </div>
 
-    <div class="steps__image-container">
-      <img class="steps__image" :src="url" loading="lazy" />
+    <div class="steps__banner-container">
+      <img class="steps__banner" :src="bannerUrl" loading="lazy" />
     </div>
   </div>
 </template>
@@ -22,7 +22,7 @@
 import { TranslatedRentPageStep } from '~/interfaces/rentPage'
 
 defineProps<{
-  url: string
+  bannerUrl: string
 }>()
 
 const emit = defineEmits<{
@@ -71,11 +71,11 @@ const { data: steps } = useAsyncData('rent-page-steps', async () => {
     }
   }
 
-  &__image-container {
+  &__banner-container {
     flex: 1;
   }
 
-  &__image {
+  &__banner {
     height: 100%;
   }
 }
