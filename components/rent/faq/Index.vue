@@ -13,7 +13,7 @@
 </template>
 
 <script lang="ts" setup>
-import { groupBy } from 'lodash'
+import groupBy from 'lodash/groupBy'
 import { TranslatedRentPageFaq } from '~/interfaces/rentPage'
 
 const { data: faq } = useAsyncData('rent-page-faq', async () => {
