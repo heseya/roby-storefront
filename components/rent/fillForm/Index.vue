@@ -1,16 +1,16 @@
 <template>
-  <div class="fill-form">
+  <div v-if="rentForm" class="fill-form">
     <div class="fill-form__header">
       <LayoutHeader tag="h2" variant="black" class="fill-form__title">
-        {{ rentForm?.text_1 }}
-        <span class="fill-form__title--color"> {{ rentForm?.text_2 }}</span>
+        {{ rentForm.text_1 }}
+        <span class="fill-form__title--color"> {{ rentForm.text_2 }}</span>
       </LayoutHeader>
       <div class="fill-form__icon-container">
         <LayoutIcon class="fill-form__icon" :icon="DoubleIcon" :size="28" />
       </div>
     </div>
     <ProductPageContactForm
-      :description="rentForm?.description"
+      :description="rentForm.description"
       class="fill-form__contact-form"
       type="renting"
       :action-text="$t('form.send')"

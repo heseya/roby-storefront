@@ -8,12 +8,20 @@
       <LayoutButton
         v-if="sendForm"
         class="step-description__button"
-        label="Wypelnij formularz"
+        :label="t('fillForm')"
         @click="emit('action')"
       />
     </div>
   </div>
 </template>
+
+<i18n lang="json">
+{
+  "pl": {
+    "fillForm": "Wypelnij formularz"
+  }
+}
+</i18n>
 
 <script setup lang="ts">
 defineProps<{
@@ -24,6 +32,8 @@ defineProps<{
 const emit = defineEmits<{
   (e: 'action'): void
 }>()
+
+const t = useLocalI18n()
 </script>
 
 <style lang="scss" scoped>
