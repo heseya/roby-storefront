@@ -3,7 +3,12 @@
     <div class="icon-btn__icon-container">
       <LayoutIcon :icon="icon" :size="iconSize" :is-resize="isResize" />
       <ClientOnly>
-        <span v-show="isNumber(count)" class="icon-btn__notification">{{ count }}</span>
+        <span
+          v-show="isNumber(count)"
+          class="icon-btn__notification"
+          :class="`icon-btn__notification--${iconColorTheme}`"
+          >{{ count }}</span
+        >
       </ClientOnly>
     </div>
     <span v-show="label" :class="['icon-btn__label', { 'icon-btn__label--resize': isResize }]">
@@ -28,6 +33,8 @@ withDefaults(
   }>(),
   { label: '', title: '', iconSize: 'md', count: undefined, isResize: false },
 )
+
+const iconColorTheme = useTextColorForBackground('primary-color')
 </script>
 
 <style lang="scss" scoped>
@@ -69,6 +76,10 @@ withDefaults(
 
     color: $gray-color-900;
     background-color: var(--primary-color);
+
+    &--light {
+      color: #fff;
+    }
   }
 
   &__label {

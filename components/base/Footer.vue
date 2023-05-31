@@ -26,9 +26,9 @@
           loading="lazy"
         />
 
-        <div v-if="companyName" class="footer__text footer__text--bold">
+        <!-- <div v-if="companyName" class="footer__text footer__text--bold">
           {{ companyName }}
-        </div>
+        </div> -->
         <div v-if="companyAddress" class="footer__text">
           <div class="footer__icon"><PinIcon /></div>
           {{ companyAddress }}
@@ -110,7 +110,7 @@ const companyFacebook = computed(() => getFromConfig('facebook_url'))
 const companyInstagram = computed(() => getFromConfig('instagram_url'))
 const companyLinkedin = computed(() => getFromConfig('linkedin_url'))
 
-const companyName = computed(() => getFromConfig('company_name'))
+// const companyName = computed(() => getFromConfig('company_name'))
 const companyAddress = computed(() => getFromConfig('company_address'))
 const companyPhone = computed(() => getFromConfig('company_phone'))
 const companyEmail = computed(() => getFromConfig('company_email'))

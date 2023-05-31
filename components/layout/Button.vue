@@ -1,5 +1,13 @@
 <template>
-  <button :class="[`btn`, `btn--${variant}`]" :disabled="disabled" :type="htmlType">
+  <button
+    :class="[
+      `btn`,
+      `btn--${variant}`,
+      { 'btn--text-dark': textColorThemePrimary === 'dark' && variant === 'primary' },
+    ]"
+    :disabled="disabled"
+    :type="htmlType"
+  >
     <slot>{{ label }}</slot>
   </button>
 </template>
@@ -16,6 +24,8 @@ withDefaults(
   }>(),
   { variant: 'primary', label: '', htmlType: 'button', disabled: false },
 )
+
+const textColorThemePrimary = useTextColorForBackground('primary-color')
 </script>
 
 <style lang="scss" scoped>
@@ -34,6 +44,10 @@ withDefaults(
   &[disabled] {
     cursor: not-allowed;
     opacity: 0.6;
+  }
+
+  &--text-dark {
+    color: $text-color !important;
   }
 
   &--primary {
