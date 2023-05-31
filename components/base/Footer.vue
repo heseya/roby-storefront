@@ -26,6 +26,9 @@
           loading="lazy"
         />
 
+        <div v-if="companyName" class="footer__text footer__text--bold">
+          {{ companyName }}
+        </div>
         <div v-if="companyAddress" class="footer__text">
           <div class="footer__icon"><PinIcon /></div>
           {{ companyAddress }}
@@ -107,6 +110,7 @@ const companyFacebook = computed(() => getFromConfig('facebook_url'))
 const companyInstagram = computed(() => getFromConfig('instagram_url'))
 const companyLinkedin = computed(() => getFromConfig('linkedin_url'))
 
+const companyName = computed(() => getFromConfig('company_name'))
 const companyAddress = computed(() => getFromConfig('company_address'))
 const companyPhone = computed(() => getFromConfig('company_phone'))
 const companyEmail = computed(() => getFromConfig('company_email'))
@@ -129,7 +133,8 @@ const { data: sections } = useAsyncData('footer-pages', async () => {
 
 const getSectionPages = (section: number) => sections.value?.[section - 1] || []
 
-const getSectionName = (section: number) => String(config.env[`footer_section_name${section}`])
+const getSectionName = (section: number) =>
+  String(config.env[`footer_section_name${section}`] || '')
 </script>
 
 <style lang="scss" scoped>
@@ -177,6 +182,10 @@ const getSectionName = (section: number) => String(config.env[`footer_section_na
     margin: 12px 0;
     font-size: rem(14);
     display: flex;
+
+    &--bold {
+      font-weight: bold;
+    }
 
     > a {
       color: $text-color;

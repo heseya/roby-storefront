@@ -11,8 +11,9 @@ const config = useConfigStore()
 
 const colorStyles = computed(() => ({
   '--primary-color': config.env.primary_color,
-  '--secondary-color': config.env.secondary_color,
   '--primary-color-alt': config.env.primary_color_alt,
+  '--secondary-color': config.env.secondary_color,
+  '--highlight-color': config.env.highlight_color,
   '--error-color': config.env.error_color,
 }))
 </script>
