@@ -3,7 +3,7 @@
     <div class="checkout-personal-data__myData">
       <FormInput
         v-if="!isLogged"
-        v-model="form.values.email"
+        v-model="email"
         :label="$t('form.email')"
         name="email"
         rules="email|required"
@@ -13,146 +13,28 @@
         <span>{{ user?.email }}</span>
       </div>
     </div>
-    <FormCheckbox
-      v-if="!user"
-      v-model="createAccount"
-      class="checkout-personal-data__checkbox"
-      name="createAccount"
-      :label="t('account.createQuestion')"
-    />
-  </CheckoutPageArea>
-  <CheckoutPageArea v-if="!user && createAccount">
-    <form class="checkout-personal-data__form">
-      <FormInput
-        v-model="form.values.name"
-        :label="$t('form.name')"
-        autocomplete="name"
-        name="name"
-        rules="alpha|required"
-      />
-      <FormInput
-        v-model="form.values.surname"
-        :label="$t('form.surname')"
-        autocomplete="surname"
-        name="surname"
-        rules="alpha|required"
-      />
-      <FormInputPassword
-        v-model="form.values.password"
-        :label="$t('form.password')"
-        autocomplete="new-password"
-        name="password"
-      />
-      <FormInputPassword
-        v-model="form.values.confirmPassword"
-        :label="$t('form.confirmPassword')"
-        autocomplete="confirmPassword"
-        name="confirmPassword"
-        rules="confirmedPassword:@password|required"
-      />
-      <AccountConsentsList v-model:value="form.values.consents" />
-    </form>
-    <LayoutInfoBox v-if="errorMessage" type="danger">
-      {{ errorMessage }}
-    </LayoutInfoBox>
+    <slot></slot>
   </CheckoutPageArea>
 </template>
 
-<i18n lang="json">
-{
-  "pl": {
-    "account": {
-      "createQuestion": "Chce założyć konto",
-      "create": "Załóż konto",
-      "description": "Wystarczy, że wypełnisz poniższe pola, aby utworzyć konto w naszym sklepie."
-    }
-  }
-}
-</i18n>
-
 <script setup lang="ts">
-import { UserConsentDto } from '@heseya/store-core'
-import { useForm } from 'vee-validate'
-import { useCheckoutStore } from '@/store/checkout'
-import { useAuthStore } from '~/store/auth'
+const $t = useGlobalI18n()
 
 const props = defineProps<{
-  submit: boolean
+  value: string
 }>()
 
 const emit = defineEmits<{
-  (e: 'update:submit', value: boolean): void
-  (e: 'createOrder'): void
+  (event: 'update:value', value: string): void
 }>()
 
-const submit = computed({
-  get: () => props.submit,
-  set: (value) => emit('update:submit', value),
+const email = computed({
+  get: () => props.value,
+  set: (value) => emit('update:value', value),
 })
 
-const $t = useGlobalI18n()
-const t = useLocalI18n()
-const formatError = useErrorMessage()
-const checkout = useCheckoutStore()
-const heseya = useHeseya()
-const auth = useAuthStore()
 const isLogged = useIsLogged()
 const user = useUser()
-
-const createAccount = ref<boolean>(false)
-const errorMessage = ref('')
-
-const form = useForm({
-  initialValues: {
-    email: '',
-    name: '',
-    surname: '',
-    password: '',
-    confirmPassword: '',
-    consents: {} as UserConsentDto,
-  },
-})
-
-const createAccountAndLoggin = async () => {
-  try {
-    const { name, surname, email, consents, password } = form.values
-    const user = await heseya.Auth.register({
-      name: name + ' ' + surname,
-      email,
-      password,
-      consents,
-    })
-    await auth.login({ email: user.email, password })
-    emit('createOrder')
-  } catch (e: any) {
-    errorMessage.value = formatError(e)
-  }
-}
-
-watch(
-  () => form.values.email,
-  () => {
-    if (form.values.email) {
-      checkout.email = form.values.email
-    }
-  },
-  { immediate: true },
-)
-
-watch(
-  () => props.submit,
-  async () => {
-    if (props.submit) {
-      if (isLogged.value || !createAccount) emit('createOrder')
-      else {
-        const { valid } = await form.validate()
-        if (valid) await createAccountAndLoggin()
-      }
-    }
-
-    submit.value = false
-  },
-)
 </script>
 
 <style lang="scss" scoped>
@@ -171,10 +53,6 @@ watch(
   &__text {
     display: flex;
     flex-direction: column;
-  }
-
-  &__checkbox {
-    margin-top: 30px;
   }
 
   &__form {

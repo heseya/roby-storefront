@@ -34,8 +34,8 @@
       <LayoutButton
         variant="primary"
         class="cart-summary__button"
-        :disabled="!checkout.isValid"
-        @click="emit('createOrder')"
+        :disabled="!enableConfirmButton || !checkout.isValid"
+        @click="emit('submit')"
       >
         {{ $t('payments.confirmAndPay') }}
       </LayoutButton>
@@ -43,86 +43,21 @@
   </CheckoutPageArea>
 </template>
 
-<i18n lang="json">
-{
-  "pl": {
-    "defaultAddress": "Adres domyślny"
-  }
-}
-</i18n>
-
 <script setup lang="ts">
 import { useCartStore } from '@/store/cart'
-import { TRADITIONAL_PAYMENT_KEY } from '~/consts/traditionalPayment'
 import { useCheckoutStore } from '~/store/checkout'
 
-const props = defineProps<{
-  create: boolean
+defineProps<{
+  enableConfirmButton: boolean
 }>()
 
 const emit = defineEmits<{
-  (e: 'createOrder'): void
+  (e: 'submit'): void
 }>()
 
-const t = useLocalI18n()
 const $t = useGlobalI18n()
 const cart = useCartStore()
 const checkout = useCheckoutStore()
-const formatError = useErrorMessage()
-const { notify } = useNotify()
-
-const saveUserAddresses = async () => {
-  const { addresses: shipping, add: addShipping } = useUserShippingAddresses()
-  const { addresses: billing, add: addBilling } = useUserBillingAddresses()
-
-  if (shipping.value.length === 0) {
-    await addShipping({
-      name: t('defaultAddress'),
-      default: true,
-      address: checkout.shippingAddress,
-    })
-  }
-  if (billing.value.length === 0) {
-    await addBilling({
-      name: t('defaultAddress'),
-      default: true,
-      address: checkout.billingAddress,
-    })
-  }
-}
-
-const createOrder = async () => {
-  try {
-    // paymentMethodId must exist at this point, it is validated before
-    const paymentId = checkout.paymentMethodId!
-
-    const order = await checkout.createOrder()
-
-    // save user addresses if they don't exist
-    await saveUserAddresses()
-
-    checkout.reset()
-
-    if (paymentId === TRADITIONAL_PAYMENT_KEY) {
-      navigateTo(`/checkout/thank-you?code=${order.code}&payment=${TRADITIONAL_PAYMENT_KEY}`)
-      return
-    }
-
-    const paymentUrl = await checkout.createOrderPayment(order.code, paymentId)
-    window.location.href = paymentUrl
-  } catch (e: any) {
-    const error = formatError(e)
-    notify({
-      title: $t(error),
-      type: 'error',
-    })
-  }
-}
-
-watch(
-  () => props.create,
-  () => createOrder(),
-)
 </script>
 
 <style lang="scss" scoped>

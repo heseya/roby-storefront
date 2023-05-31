@@ -98,14 +98,23 @@ const emit = defineEmits<{
   (event: 'registered', value: User): void
 }>()
 
-const form = useForm({
+export interface CreateUserForm {
+  email: string
+  password: string
+  confirmPassword: string
+  name: string
+  surname: string
+  consents: UserConsentDto
+}
+
+const form = useForm<CreateUserForm>({
   initialValues: {
     email: '',
     password: '',
     confirmPassword: '',
     name: '',
     surname: '',
-    consents: {} as UserConsentDto,
+    consents: {},
   },
 })
 
