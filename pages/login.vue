@@ -23,7 +23,7 @@
               </ul>
             </div>
           </div>
-          <NuxtLink to="/register">
+          <NuxtLink :to="localePath('/register')">
             <LayoutButton class="login-content__btn" :label="$t('account.register')" />
           </NuxtLink>
         </div>
@@ -55,6 +55,7 @@ const t = useLocalI18n()
 const $t = useGlobalI18n()
 const route = useRoute()
 const auth = useAuthStore()
+const localePath = useLocalePath()
 
 const benefits = ref<string[]>([t('benefits.faster'), t('benefits.track'), t('benefits.wishlist')])
 

@@ -3,7 +3,7 @@
     <Media :media="link.media" class="link-box__media" height="400" />
 
     <LayoutHeader class="link-box__header" tag="h2">{{ link.text }}</LayoutHeader>
-    <NuxtLink :to="link.link">
+    <NuxtLink :to="localePath(link.link)">
       <LayoutButton class="link-box__btn" :label="link.linkText" variant="secondary" />
     </NuxtLink>
   </div>
@@ -22,6 +22,8 @@ export type LinkBox = {
 defineProps<{
   link: LinkBox
 }>()
+
+const localePath = useLocalePath()
 </script>
 
 <style lang="scss" scoped>

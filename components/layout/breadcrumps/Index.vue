@@ -3,7 +3,7 @@
     <NuxtLink
       v-for="{ link, label } in breadcrumbs"
       :key="link"
-      :to="link"
+      :to="localePath(link)"
       class="breadcrumps__item"
     >
       {{ label }}
@@ -15,6 +15,7 @@
 const breadcrumbs = useBreadcrumbsState()
 
 const router = useRouter()
+const localePath = useLocalePath()
 
 router.beforeEach((prev, next) => {
   // If we are on the same page, do nothing

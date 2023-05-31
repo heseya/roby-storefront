@@ -35,7 +35,7 @@
               : paymentStatus?.method
           }}
         </div>
-        <NuxtLink :to="`/pay/${order.code}`">
+        <NuxtLink :to="localePath(`/pay/${order.code}`)">
           <LayoutButton
             v-if="order.payable"
             class="account-order-view__payment-button"
@@ -65,6 +65,7 @@ import Failed from '@/assets/icons/x-mark-circle.svg?component'
 import Pending from '@/assets/icons/pending.svg?component'
 const t = useLocalI18n()
 const $t = useGlobalI18n()
+const localePath = useLocalePath()
 
 const props = defineProps<{
   order: Order

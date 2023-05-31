@@ -21,9 +21,9 @@
           >{{ t('message2') }}
         </p>
       </div>
-      <NuxtLink :to="'/login'" class="forgot-password__nav">
-        &lt; {{ $t('form.backToLogin') }}</NuxtLink
-      >
+      <NuxtLink :to="localePath('/login')" class="forgot-password__nav">
+        &lt; {{ $t('form.backToLogin') }}
+      </NuxtLink>
     </div>
   </NuxtLayout>
 </template>
@@ -48,6 +48,7 @@ const t = useLocalI18n()
 const $t = useGlobalI18n()
 const heseya = useHeseya()
 const formatError = useErrorMessage()
+const localePath = useLocalePath()
 
 const form = useForm({
   initialValues: {
