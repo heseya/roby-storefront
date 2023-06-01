@@ -24,7 +24,8 @@ const props = withDefaults(
 
 const isDarkText = computed(() => {
   if (!props.color) return false
-  return shouldTextBeBlack(props.color)
+  const contrast = useContrastColor(props.color)
+  return contrast.value === 'dark'
 })
 </script>
 

@@ -86,7 +86,7 @@ defineProps<{
   categories: ProductSetList[]
 }>()
 
-const searchButtonColorTheme = useTextColorForBackground('primary-color')
+const searchButtonColorTheme = useContrastColorFromCssVar('primary-color')
 </script>
 
 <style lang="scss" scoped>

@@ -34,7 +34,7 @@ withDefaults(
   { label: '', title: '', iconSize: 'md', count: undefined, isResize: false },
 )
 
-const iconColorTheme = useTextColorForBackground('primary-color')
+const iconColorTheme = useContrastColorFromCssVar('primary-color')
 </script>
 
 <style lang="scss" scoped>
