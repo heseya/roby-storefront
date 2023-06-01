@@ -5,35 +5,34 @@
       :items="languages"
       class="language-menu__menu"
       @update:selected-item="language = $event"
-    />
+    >
+      <LayoutIcon :icon="getIcon(language)" class="layout-nav-menu__icon" />
+      <template #options="item">
+        <LayoutIcon :icon="getIcon(item.value)" class="layout-nav-menu__icon" />
+        {{ $t(`languages.${item.value}`) }}
+      </template>
+    </LayoutNavMenu>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { MenuItem } from './Menu.vue'
 import pl from '@/assets/icons/pl.svg?component'
 import en from '@/assets/icons/en.svg?component'
 const { AllowedUILanguages } = usePublicRuntimeConfig()
 
+const $t = useGlobalI18n()
 const { setLocale, locale } = useI18n()
 
 const getIcon = (value: string) => (value === 'pl' ? markRaw(pl) : markRaw(en))
 
-const selectedLanguage = ref<MenuItem>({
-  value: locale.value,
-  icon: getIcon(locale.value),
-})
+const selectedLanguage = ref<string>(locale.value)
 
-const languages = computed<MenuItem[]>(() =>
-  AllowedUILanguages.split(',').map((lang) => ({
-    value: lang,
-    icon: getIcon(lang),
-  })),
-)
+const languages = computed<string[]>(() => AllowedUILanguages.split(','))
+
 const language = computed({
   get: () => selectedLanguage.value,
-  set: (item: MenuItem) => {
-    setLocale(item.value)
+  set: (item: string) => {
+    setLocale(item)
     selectedLanguage.value = item
   },
 })

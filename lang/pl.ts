@@ -96,6 +96,11 @@ export default {
     placeholder: 'Czego szukasz?',
   },
 
+  languages: {
+    pl: 'Polski',
+    en: 'Angielski',
+  },
+
   seo: {
     loading: 'Wczytywanie...',
   },

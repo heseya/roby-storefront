@@ -1,1 +1,6 @@
-export default {}
+export default {
+  languages: {
+    pl: 'Polish',
+    en: 'English',
+  },
+}

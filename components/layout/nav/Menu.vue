@@ -1,8 +1,7 @@
 <template>
   <div ref="menu" class="layout-nav-menu" @click="toggleDropdown">
-    <LayoutIcon v-if="selectedItem.icon" :icon="selectedItem.icon" />
-
-    {{ t(selectedItem.value) }}
+    <slot></slot>
+    {{ $t(`languages.${selectedItem}`) }}
     <LayoutIcon
       :icon="showDropdown ? arrowUp : arrowDown"
       class="layout-nav-menu__icon"
@@ -16,45 +15,25 @@
         class="layout-nav-menu__option"
         @click.stop="selectAndClose(item)"
       >
-        <LayoutIcon v-if="item.icon" :icon="item.icon" />
-        {{ t(item.value) }}
+        <slot name="options" :value="item"></slot>
       </button>
     </div>
   </div>
 </template>
 
-<i18n lang="json">
-{
-  "pl": {
-    "pl": "Polski",
-    "en": "Angielski"
-  },
-  "en": {
-    "pl": "Polish",
-    "en": "English"
-  }
-}
-</i18n>
-
 <script lang="ts" setup>
-import { FunctionalComponent } from 'vue'
 import arrowDown from '@/assets/icons/arrow-down.svg?component'
 import arrowUp from '@/assets/icons/arrow-up.svg?component'
 
-export interface MenuItem {
-  value: string
-  icon?: FunctionalComponent
-}
-
-const t = useLocalI18n()
+const $t = useGlobalI18n()
 
 const props = defineProps<{
-  selectedItem: MenuItem
-  items: MenuItem[]
+  selectedItem: string
+  items: string[]
 }>()
 
 const emit = defineEmits<{
-  (event: 'update:selectedItem', value: MenuItem): void
+  (event: 'update:selectedItem', value: string): void
 }>()
 
 const menu = ref<HTMLElement | null>(null)
@@ -62,10 +41,10 @@ const showDropdown = ref<boolean>(false)
 
 const menuItem = computed({
   get: () => props.selectedItem,
-  set: (value: MenuItem) => emit('update:selectedItem', value),
+  set: (value: string) => emit('update:selectedItem', value),
 })
 
-const selectAndClose = (value: MenuItem) => {
+const selectAndClose = (value: string) => {
   menuItem.value = value
   showDropdown.value = false
 }
