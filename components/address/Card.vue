@@ -137,7 +137,7 @@ const openDeleteAddressModal = () => {
   }
 
   &__icon {
-    color: $blue-color;
+    color: $blue-color-500;
 
     &:hover {
       opacity: 0.7;

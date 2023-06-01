@@ -43,7 +43,7 @@ const isDarkText = computed(() => {
   }
 
   &--sale {
-    background-color: $green-color;
+    background-color: $green-color-500;
     color: #fff;
     font-size: rem(14);
     font-weight: 500;

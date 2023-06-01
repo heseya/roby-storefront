@@ -30,8 +30,8 @@ withDefaults(
   }
 
   &--info {
-    color: $blue-color;
-    border-color: $blue-color;
+    color: $blue-color-500;
+    border-color: $blue-color-500;
   }
 }
 </style>

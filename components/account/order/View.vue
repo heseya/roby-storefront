@@ -153,7 +153,7 @@ const paymentStatus = computed(() => {
     align-items: center;
 
     &--successful {
-      color: $green-color;
+      color: $green-color-500;
     }
 
     &--pending {

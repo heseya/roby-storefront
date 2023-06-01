@@ -82,7 +82,7 @@ const localePath = useLocalePath()
 
   &__link {
     text-decoration: none;
-    color: $blue-color;
+    color: $blue-color-500;
   }
 
   &__status {

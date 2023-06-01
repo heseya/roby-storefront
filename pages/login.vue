@@ -134,7 +134,7 @@ const breadcrumbs = computed(() => [{ label: $t('account.login'), link: '/login'
     position: absolute;
     left: -22px;
     top: 5px;
-    color: $blue-color;
+    color: $blue-color-500;
   }
 
   &__register {

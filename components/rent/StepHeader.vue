@@ -30,9 +30,21 @@ defineProps<{
     align-items: center;
     color: var(--primary-color-alt);
     font-weight: $font-weight-bold;
-    background-color: rgba($primary-color-alt, 0.15);
     border: 1px solid var(--primary-color-alt);
     border-radius: 50%;
+    position: relative;
+
+    // This is the only way to lighten css variable in the background without adding a new color
+    &::before {
+      content: '';
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      border-radius: 50%;
+      background-color: var(--primary-color-alt);
+      opacity: 0.15;
+      z-index: -1;
+    }
   }
 
   &__title {

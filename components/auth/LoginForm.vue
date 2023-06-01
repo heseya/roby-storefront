@@ -111,7 +111,7 @@ const onSubmit = form.handleSubmit(async ({ email, password }) => {
   }
 
   &__forgot-password {
-    color: $blue-color;
+    color: $blue-color-500;
     cursor: pointer;
     font-size: 12px;
     text-decoration: none;

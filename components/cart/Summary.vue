@@ -127,7 +127,7 @@ const processCheckout = () => {
     margin-bottom: 10px;
 
     &--green {
-      color: $green-color;
+      color: $green-color-500;
     }
   }
 

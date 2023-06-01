@@ -118,7 +118,7 @@ const saveConsent = async (consents: UserConsentDto) => {
 
   &__action {
     cursor: pointer;
-    color: $blue-color;
+    color: $blue-color-500;
     position: absolute;
     right: 16px;
     top: 50%;

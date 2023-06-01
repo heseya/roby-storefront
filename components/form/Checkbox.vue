@@ -143,7 +143,7 @@ watch(
 
   &[disabled='true'] label::before {
     opacity: 0.6;
-    background-color: $unnamed-color-f4f8fc;
+    background-color: $blue-color-100;
     cursor: not-allowed;
   }
 

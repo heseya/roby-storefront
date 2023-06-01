@@ -68,13 +68,13 @@ const handleClear = () => {
   &__button {
     all: unset;
 
-    color: $blue-color;
+    color: $blue-color-500;
     transition: color 200ms ease-in-out;
     font-weight: rem(12);
 
     &:hover {
       cursor: pointer;
-      color: $unnamed-color-30475e;
+      color: $blue-color-700;
     }
   }
 
