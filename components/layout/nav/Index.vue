@@ -1,15 +1,7 @@
 <template>
   <nav class="nav-bar">
     <LayoutNavNotification class="nav-bar__notification" />
-    <div class="nav-bar__language">
-      <select v-model="selectedLanguages" name="languages">
-        <option v-for="(language, index) in languages" :key="index" :value="language">
-          {{ t(`${language}`) }}
-        </option>
-      </select>
-
-      <div>PLN</div>
-    </div>
+    <LayoutNavLanguageMenu />
     <div class="nav-items" :class="{ 'nav-items--small': scrollY > 100 }">
       <div class="nav-items__left">
         <LayoutIconButton
@@ -126,9 +118,7 @@
   "pl": {
     "message": {
       "logout": "Wylogowano pomyślnie"
-    },
-    "polish": "Polski",
-    "english": "Angielski"
+    }
   }
 }
 </i18n>
@@ -166,10 +156,6 @@ const isOpenCategories = ref(false)
 const isOpenSearch = ref(false)
 
 const { y: scrollY } = useWindowScroll()
-
-const selectedLanguages = ref('polish')
-
-const languages = ['polish', 'english']
 
 const handleSearch = ({ query, category }: SearchValues) => {
   if (query !== '') {
@@ -219,13 +205,6 @@ const { data: navLinks } = useAsyncData<NavLink[]>('nav-pages', async () => {
     overflow-x: auto;
     @include flex-row;
     @include styled-scrollbar;
-  }
-
-  &__language {
-    height: 50px;
-    display: flex;
-    justify-content: flex-end;
-    border-bottom: 1px solid $gray-color-300;
   }
 }
 
