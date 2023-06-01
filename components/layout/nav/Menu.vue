@@ -1,7 +1,7 @@
 <template>
   <div ref="menu" class="layout-nav-menu" @click="toggleDropdown">
     <slot></slot>
-    {{ $t(`languages.${selectedItem}`) }}
+    <div class="layout-nav-menu__item">{{ $t(`languages.${selectedItem}`) }}</div>
     <LayoutIcon
       :icon="showDropdown ? arrowUp : arrowDown"
       class="layout-nav-menu__icon"
@@ -103,6 +103,10 @@ onBeforeUnmount(() => {
   &__icon {
     margin-top: 7px;
     padding: 5px;
+  }
+
+  &__item {
+    margin-left: 4px;
   }
 }
 </style>

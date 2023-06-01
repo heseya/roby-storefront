@@ -6,9 +6,9 @@
       class="language-menu__menu"
       @update:selected-item="language = $event"
     >
-      <LayoutIcon :icon="getIcon(language)" class="layout-nav-menu__icon" />
+      <img :src="getIcon(language)" class="language-menu__icon" />
       <template #options="item">
-        <LayoutIcon :icon="getIcon(item.value)" class="layout-nav-menu__icon" />
+        <img :src="getIcon(item.value)" class="language-menu__icon" />
         {{ $t(`languages.${item.value}`) }}
       </template>
     </LayoutNavMenu>
@@ -16,14 +16,14 @@
 </template>
 
 <script lang="ts" setup>
-import pl from '@/assets/icons/pl.svg?component'
-import en from '@/assets/icons/en.svg?component'
+import pl from '@/assets/icons/pl.svg'
+import en from '@/assets/icons/en.svg'
 const { AllowedUILanguages } = usePublicRuntimeConfig()
 
 const $t = useGlobalI18n()
 const { setLocale, locale } = useI18n()
 
-const getIcon = (value: string) => (value === 'pl' ? markRaw(pl) : markRaw(en))
+const getIcon = (value: string) => (value === 'pl' ? pl : en)
 
 const selectedLanguage = ref<string>(locale.value)
 
@@ -47,6 +47,11 @@ const language = computed({
 
   &__menu {
     margin-right: 54px;
+  }
+
+  &__icon {
+    height: 24px;
+    width: 24px;
   }
 }
 </style>
