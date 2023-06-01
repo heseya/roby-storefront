@@ -15,6 +15,7 @@ const colorStyles = computed(() => ({
   '--secondary-color': config.env.secondary_color,
   '--highlight-color': config.env.highlight_color,
   '--error-color': config.env.error_color,
+  '--warning-color': config.env.warning_color,
 }))
 </script>
 

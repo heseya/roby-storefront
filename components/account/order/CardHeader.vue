@@ -20,6 +20,7 @@
 
       <div
         class="account-order-card-header__status-btn"
+        :class="`account-order-card-header__status-btn--${statusTagTheme}`"
         :style="{ 'background-color': `#${color}` }"
       >
         {{ name }}
@@ -41,7 +42,7 @@
 const t = useLocalI18n()
 const $t = useGlobalI18n()
 
-defineProps<{
+const props = defineProps<{
   code: string
   createdAt: string
   color: string
@@ -49,6 +50,8 @@ defineProps<{
 }>()
 
 const localePath = useLocalePath()
+
+const statusTagTheme = useContrastColor(props.color)
 </script>
 
 <style lang="scss" scoped>
@@ -96,6 +99,10 @@ const localePath = useLocalePath()
     margin-top: 5px;
     color: $white-color;
     border-radius: 5px;
+
+    &--dark {
+      color: $text-color;
+    }
 
     @media ($viewport-12) {
       margin-top: 0px;

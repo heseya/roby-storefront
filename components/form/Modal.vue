@@ -119,7 +119,7 @@ const onSubmit = form.handleSubmit(() => emit('submit'))
   }
 
   &__error {
-    color: $error-color;
+    color: var(--error-color);
     font-weight: bold;
     text-align: center;
   }

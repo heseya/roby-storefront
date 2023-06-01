@@ -25,8 +25,8 @@ withDefaults(
   text-align: center;
 
   &--danger {
-    color: $error-color;
-    border-color: $error-color;
+    color: var(--error-color);
+    border-color: var(--error-color);
   }
 
   &--info {

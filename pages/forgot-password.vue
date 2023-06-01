@@ -127,7 +127,7 @@ const breadcrumbs = computed(() => [{ label: t('title'), link: '/forgot-password
   }
 
   &__error {
-    color: $error-color;
+    color: var(--error-color);
     font-weight: bold;
     text-align: center;
   }

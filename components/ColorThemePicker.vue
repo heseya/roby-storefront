@@ -39,7 +39,8 @@
       "secondaryColor": "Kolor dodatkowy",
       "primaryColorAlt": "Kolor główny alternatywny",
       "highlightColor": "Kolor podświetlenia",
-      "errorColor": "Kolor błędu"
+      "errorColor": "Kolor błędu",
+      "warningColor": "Kolor ostrzeżenia"
     },
     "actions": {
       "restoreDefault": "Wróć do domyślnych",
@@ -61,6 +62,7 @@ type ColorKeys =
   | 'secondaryColor'
   | 'highlightColor'
   | 'errorColor'
+  | 'warningColor'
 
 const defaultColors: Record<ColorKeys, string> = {
   primaryColor: '#ffca2b',
@@ -68,6 +70,7 @@ const defaultColors: Record<ColorKeys, string> = {
   secondaryColor: '#c63225',
   highlightColor: '#c63225',
   errorColor: '#f05454',
+  warningColor: '#ffca2b',
 }
 
 const cssVariables: Record<ColorKeys, string> = {
@@ -76,6 +79,7 @@ const cssVariables: Record<ColorKeys, string> = {
   secondaryColor: '--secondary-color',
   highlightColor: '--highlight-color',
   errorColor: '--error-color',
+  warningColor: '--warning-color',
 }
 
 const isVisible = ref(false)

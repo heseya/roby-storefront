@@ -157,11 +157,11 @@ const paymentStatus = computed(() => {
     }
 
     &--pending {
-      color: $primary-color-alt;
+      color: var(--warning-color);
     }
 
     &--failed {
-      color: $secondary-color;
+      color: var(--error-color);
       font-weight: bold;
     }
   }
@@ -181,6 +181,7 @@ const paymentStatus = computed(() => {
     margin-top: 10px;
     width: 100%;
     background-color: $gray-color-900;
+    color: #fff !important;
   }
 
   &__icon {
