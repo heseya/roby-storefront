@@ -3,7 +3,11 @@
     <LayoutIcon v-if="selectedItem.icon" :icon="selectedItem.icon" />
 
     {{ t(selectedItem.value) }}
-    <LayoutIcon :icon="showDropdown ? arrowUp : arrowDown" class="layout-nav-menu__icon" />
+    <LayoutIcon
+      :icon="showDropdown ? arrowUp : arrowDown"
+      class="layout-nav-menu__icon"
+      @click.stop="toggleDropdown"
+    />
 
     <div v-show="showDropdown" class="layout-nav-menu__dropdown">
       <button
