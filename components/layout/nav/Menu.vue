@@ -1,7 +1,8 @@
 <template>
   <div ref="menu" class="layout-nav-menu" @click="toggleDropdown">
     <LayoutIcon v-if="selectedItem.icon" :icon="selectedItem.icon" />
-    {{ selectedItem.text }}
+
+    {{ t(selectedItem.value) }}
     <LayoutIcon :icon="showDropdown ? arrowUp : arrowDown" class="layout-nav-menu__icon" />
 
     <div v-show="showDropdown" class="layout-nav-menu__dropdown">
@@ -12,11 +13,24 @@
         @click.stop="selectAndClose(item)"
       >
         <LayoutIcon v-if="item.icon" :icon="item.icon" />
-        {{ item.text }}
+        {{ t(item.value) }}
       </button>
     </div>
   </div>
 </template>
+
+<i18n lang="json">
+{
+  "pl": {
+    "pl": "Polski",
+    "en": "Angielski"
+  },
+  "en": {
+    "pl": "Polish",
+    "en": "English"
+  }
+}
+</i18n>
 
 <script lang="ts" setup>
 import { FunctionalComponent } from 'vue'
@@ -24,10 +38,11 @@ import arrowDown from '@/assets/icons/arrow-down.svg?component'
 import arrowUp from '@/assets/icons/arrow-up.svg?component'
 
 export interface MenuItem {
-  text: string
   value: string
   icon?: FunctionalComponent
 }
+
+const t = useLocalI18n()
 
 const props = defineProps<{
   selectedItem: MenuItem

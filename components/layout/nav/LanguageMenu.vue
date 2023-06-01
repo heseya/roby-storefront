@@ -9,32 +9,17 @@
   </div>
 </template>
 
-<i18n lang="json">
-{
-  "pl": {
-    "pl": "Polski",
-    "en": "Angielski"
-  },
-  "en": {
-    "pl": "Polish",
-    "en": "English"
-  }
-}
-</i18n>
-
 <script lang="ts" setup>
 import { MenuItem } from './Menu.vue'
 import pl from '@/assets/icons/pl.svg?component'
 import en from '@/assets/icons/en.svg?component'
 const { AllowedUILanguages } = usePublicRuntimeConfig()
 
-const t = useLocalI18n()
 const { setLocale, locale } = useI18n()
 
 const getIcon = (value: string) => (value === 'pl' ? markRaw(pl) : markRaw(en))
 
 const selectedLanguage = ref<MenuItem>({
-  text: t(locale.value),
   value: locale.value,
   icon: getIcon(locale.value),
 })
@@ -42,7 +27,6 @@ const selectedLanguage = ref<MenuItem>({
 const languages = computed<MenuItem[]>(() =>
   AllowedUILanguages.split(',').map((lang) => ({
     value: lang,
-    text: t(lang),
     icon: getIcon(lang),
   })),
 )
