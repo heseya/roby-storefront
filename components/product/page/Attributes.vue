@@ -29,7 +29,7 @@ const parsedAttributes = computed(() => {
 <style lang="scss" scoped>
 .product-attributes {
   max-width: 600px;
-  margin: 0 auto;
+  // margin: 0 auto;
 
   @media ($viewport-8) {
     align-self: flex-start;
@@ -49,10 +49,13 @@ const parsedAttributes = computed(() => {
   }
 
   &__item {
-    display: flex;
-    padding: 16px 0;
-    justify-content: space-between;
-    border-bottom: solid 1px $gray-color-300;
+    display: grid;
+    padding: 8px 16px;
+    grid-template-columns: 1fr 1fr;
+
+    &:nth-child(odd) {
+      background-color: $gray-color-100;
+    }
 
     &:last-of-type {
       border-bottom: none;
