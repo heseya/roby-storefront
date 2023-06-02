@@ -42,7 +42,7 @@ const emit = defineEmits<{
   padding: 10px;
   font-size: rem(12);
   border-radius: 4px;
-  background-color: $blue-color-500-100;
+  background-color: $blue-color-100;
   margin-top: 16px;
   position: relative;
 

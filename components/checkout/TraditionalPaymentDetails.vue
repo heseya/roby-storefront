@@ -63,7 +63,7 @@ defineProps({
 .payment-details {
   display: block;
   font-size: rem(12);
-  background-color: $blue-color-500-100;
+  background-color: $blue-color-100;
   padding: 16px;
 
   &__title {
