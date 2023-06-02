@@ -228,6 +228,8 @@ export const useCartStore = defineStore('cart', {
     },
 
     addCoupon(coupon: Coupon) {
+      // ignore duplicate coupons
+      if (this.coupons.find((item) => item.id === coupon.id)) return
       this.coupons = [...this.coupons, coupon]
       this.processCart()
     },
