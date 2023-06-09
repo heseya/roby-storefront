@@ -1,24 +1,22 @@
 <template>
-  <div v-if="languages.length > 1" class="language-menu">
-    <LayoutNavMenu
-      :selected-item="language"
-      :items="languages"
-      class="language-menu__menu"
-      @update:selected-item="language = $event"
-    >
-      <img :src="getIcon(language)" class="language-menu__icon" />
-      <template #options="item">
-        <img :src="getIcon(item.value)" class="language-menu__icon" />
-        {{ $t(`languages.${item.value}`) }}
-      </template>
-    </LayoutNavMenu>
-  </div>
+  <LayoutNavMenu
+    v-if="languages.length > 1"
+    :selected-item="language"
+    :items="languages"
+    class="language-menu__menu"
+    @update:selected-item="language = $event"
+  >
+    <img :src="getIcon(language)" class="language-menu__icon" />
+    <template #options="item">
+      <img :src="getIcon(item.value)" class="language-menu__icon" />
+      {{ $t(`languages.${item.value}`) }}
+    </template>
+  </LayoutNavMenu>
 </template>
 
 <script lang="ts" setup>
 import pl from '@/assets/icons/pl.svg'
 import en from '@/assets/icons/en.svg'
-const { AllowedUILanguages } = usePublicRuntimeConfig()
 
 const $t = useGlobalI18n()
 const { setLocale, locale } = useI18n()
@@ -27,7 +25,7 @@ const getIcon = (value: string) => (value === 'pl' ? pl : en)
 
 const selectedLanguage = ref<string>(locale.value)
 
-const languages = computed<string[]>(() => AllowedUILanguages.split(','))
+const languages = computed<string[]>(() => ['pl'])
 
 const language = computed({
   get: () => selectedLanguage.value,

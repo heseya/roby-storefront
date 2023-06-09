@@ -1,5 +1,5 @@
 <template>
-  <BaseContainer class="breadcrumps">
+  <BaseContainer class="breadcrumps" :style="menuBar ? { 'padding-top': '70px' } : {}">
     <NuxtLink
       v-for="{ link, label } in breadcrumbs"
       :key="link"
@@ -13,8 +13,10 @@
 
 <script setup lang="ts">
 const breadcrumbs = useBreadcrumbsState()
-
+const { locales } = useI18n()
 const router = useRouter()
+
+const menuBar = computed(() => ['pl'])
 
 router.beforeEach((prev, next) => {
   // If we are on the same page, do nothing
