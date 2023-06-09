@@ -1,5 +1,5 @@
 <template>
-  <NuxtLink class="card" :class="{ 'card--centered': centered }" :to="link">
+  <NuxtLink class="card" :class="{ 'card--centered': centered }" :to="localePath(link)">
     <div class="card__container" :class="{ 'card__container--centered': centered }">
       <div class="card__gray-filter" />
       <Media object-fit="cover" :media="selectedMedia" class="card__image" loading="eager" />
@@ -34,6 +34,8 @@ const showSubtitle = computed(() => props.subtitle && props.subtitle !== '-')
 
 // TODO: handle responsive media
 const selectedMedia = computed(() => props.media[0].media)
+
+const localePath = useLocalePath()
 </script>
 
 <style lang="scss" scoped>

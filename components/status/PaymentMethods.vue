@@ -46,8 +46,7 @@ const pay = async () => {
     if (!selectedPaymentMethodId.value) return
 
     if (selectedPaymentMethodId.value === TRADITIONAL_PAYMENT_KEY) {
-      const router = useRouter()
-      router.push(`/status/${props.code}/traditional-payment`)
+      navigateTo(`/status/${props.code}/traditional-payment`)
       return
     }
 

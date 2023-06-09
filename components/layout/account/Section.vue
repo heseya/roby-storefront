@@ -2,7 +2,7 @@
   <div class="layout-account-section">
     <div v-if="header" class="layout-account-section__header">
       <h3 class="layout-account-section__text">{{ header }}</h3>
-      <NuxtLink :to="link">
+      <NuxtLink :to="localePath(link)">
         <button class="layout-account-section__btn">
           {{ $t('custom.showAll') }}
           <LayoutIcon :icon="GoNextIcon" :size="8" />
@@ -23,6 +23,8 @@ defineProps<{
   header: string
   link: string
 }>()
+
+const localePath = useLocalePath()
 </script>
 
 <style lang="scss" scoped>

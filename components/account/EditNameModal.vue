@@ -1,17 +1,17 @@
 <template>
   <FormModal
     v-model:open="isModalVisible"
-    :fullscreen="false"
     :values="form.values"
     :header="$t('account.myData')"
+    :fullscreen="false"
     :error="error"
     @submit="onSubmit"
   >
     <FormInput
-      v-model:model-value="form.values.name"
+      v-model="form.values.name"
       :label="$t('form.nameAndSurname')"
       name="name"
-      rules="alpha"
+      rules="alphaSpaces"
     />
     <FormInput
       :label="$t('form.email')"
@@ -48,7 +48,7 @@ const userStore = useUserStore()
 
 const error = ref<Error | null>(null)
 
-const form = useForm<UserProfileUpdateDto>()
+const form = useForm<UserProfileUpdateDto>({ initialValues: { name: '' } })
 
 const emit = defineEmits<{
   (e: 'update:open', isModalVisible: boolean): void
@@ -73,12 +73,15 @@ const onSubmit = form.handleSubmit(async () => {
   }
 })
 
-onMounted(() => {
-  form.values = { name: userStore.user?.name }
-})
+watch(
+  () => props.open,
+  () => {
+    form.values.name = userStore.user?.name
+  },
+)
 </script>
 
 <style lang="scss" scoped>
-.account-edit-name {
+.tmp {
 }
 </style>

@@ -3,7 +3,7 @@
     <div>
       <ul class="layout-account-nav__list">
         <li v-for="(target, index) in navList" :key="index" class="layout-account-nav__list-item">
-          <NuxtLink :to="`/account/${target.to}`" class="layout-account-nav__text"
+          <NuxtLink :to="localePath(`/account/${target.to}`)" class="layout-account-nav__text"
             >{{ $t(`${target.title}`) }}
           </NuxtLink>
           <LayoutIcon :icon="GoNextIcon" :size="12" class="layout-account-nav__icon" />
@@ -29,6 +29,7 @@ import { useAuthStore } from '@/store/auth'
 const $t = useGlobalI18n()
 const t = useLocalI18n()
 const auth = useAuthStore()
+const localePath = useLocalePath()
 
 const { notify } = useNotify()
 
@@ -77,6 +78,12 @@ const logout = async () => {
     & > .router-link-active {
       color: var(--secondary-color);
       font-weight: bold;
+    }
+
+    &:hover {
+      .layout-account-nav__text {
+        color: var(--secondary-color);
+      }
     }
   }
 

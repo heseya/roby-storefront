@@ -67,10 +67,10 @@ const emit = defineEmits<{
     border: none;
     cursor: pointer;
     transition: 0.3s;
-    color: $blue-color;
+    color: $blue-color-500;
 
     &:hover {
-      color: $primary-color-alt;
+      color: var(--primary-color-alt);
     }
   }
 }

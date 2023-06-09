@@ -9,17 +9,18 @@ $font-weight-bold: 600;
 $primary-color: #ffca2b;
 $primary-color-alt: #e1a044;
 $secondary-color: #c63225;
+$highlight-color: #c63225;
+$warning-color: #e1a044;
 $error-color: #f05454;
 
 // * Universal colors are ok to use as scss variables
 $white-color: #fff;
-$blue-color: #256fc6;
-$blue-color-100: #f4f8fc;
-$green-color: #62a360;
 
-$unnamed-color-f9eae8: #f9eae8;
-$unnamed-color-30475e: #30475e;
-$unnamed-color-f4f8fc: #f4f8fc;
+$blue-color-700: #30475e;
+$blue-color-500: #256fc6;
+$blue-color-100: #f4f8fc;
+
+$green-color-500: #62a360;
 
 $gray-color-050: #fafafa;
 $gray-color-100: #f7f7f7;

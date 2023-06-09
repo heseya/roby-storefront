@@ -10,7 +10,7 @@
           :title="$t('nav.showCategories')"
           @click="isOpenCategories = true"
         />
-        <NuxtLink to="/" class="nav-items__logo-link">
+        <NuxtLink :to="localePath('/')" class="nav-items__logo-link">
           <img class="nav-items__logo" :src="config.storeLogoUrl" :alt="config.storeName" />
         </NuxtLink>
         <LayoutNavSearch
@@ -143,7 +143,6 @@ const t = useLocalI18n()
 const $t = useGlobalI18n()
 const localePath = useLocalePath()
 const heseya = useHeseya()
-const router = useRouter()
 const { notify } = useNotify()
 
 const auth = useAuthStore()
@@ -163,7 +162,7 @@ const handleSearch = ({ query, category }: SearchValues) => {
     searchHistory.addNewQuery(query)
     const pathQuery = `/search/${query}`
     const pathCategory = ['', 'all'].includes(category) ? '' : `?set=${category}`
-    router.push(pathQuery + pathCategory)
+    navigateTo(pathQuery + pathCategory)
   }
 }
 const onLogout = async () => {

@@ -23,7 +23,7 @@
               </ul>
             </div>
           </div>
-          <NuxtLink to="/register">
+          <NuxtLink :to="localePath('/register')">
             <LayoutButton class="login-content__btn" :label="$t('account.register')" />
           </NuxtLink>
         </div>
@@ -53,19 +53,19 @@ import { useAuthStore } from '@/store/auth'
 
 const t = useLocalI18n()
 const $t = useGlobalI18n()
-const router = useRouter()
 const route = useRoute()
 const auth = useAuthStore()
+const localePath = useLocalePath()
 
 const benefits = ref<string[]>([t('benefits.faster'), t('benefits.track'), t('benefits.wishlist')])
 
 const handleLogin = () => {
   const redirectUrl = (route.query.redirect as string | undefined) || '/'
-  router.push(redirectUrl)
+  navigateTo(redirectUrl)
 }
 
 onBeforeMount(() => {
-  if (auth.isLogged) router.push('/')
+  if (auth.isLogged) navigateTo('/')
 })
 
 useSeoMeta({
@@ -134,7 +134,7 @@ const breadcrumbs = computed(() => [{ label: $t('account.login'), link: '/login'
     position: absolute;
     left: -22px;
     top: 5px;
-    color: $blue-color;
+    color: $blue-color-500;
   }
 
   &__register {

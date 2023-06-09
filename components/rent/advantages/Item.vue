@@ -37,11 +37,10 @@ const imageUrl = computed(() => getImageUrl(props.item.image))
   &__icon-container {
     height: 67px;
     width: 67px;
+    position: relative;
 
     flex-shrink: 0;
     color: var(--secondary-color);
-    background-color: $unnamed-color-f9eae8;
-    border-radius: 50%;
 
     @include flex-row;
     justify-content: center;
@@ -50,6 +49,18 @@ const imageUrl = computed(() => getImageUrl(props.item.image))
     @media ($max-viewport-9) {
       height: 44px;
       width: 44px;
+    }
+
+    // This is the only way to lighten css variable in the background without adding a new color
+    &::before {
+      content: '';
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      border-radius: 50%;
+      background-color: var(--secondary-color);
+      opacity: 0.15;
+      z-index: -1;
     }
   }
 
