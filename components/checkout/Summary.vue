@@ -45,6 +45,9 @@
 {
   "pl": {
     "defaultAddress": "Adres domyślny"
+  },
+  "pl": {
+    "defaultAddress": "Default address"
   }
 }
 </i18n>

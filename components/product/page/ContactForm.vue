@@ -54,6 +54,12 @@
     "name": "Imię lub nazwa firmy",
     "consent": "Zgadzam się na kontakt w celach przedstawienia oferty handlowej firmy {companyName}",
     "successMessage": "Dziękujemy za wysłanie zapytania. Wkrótce się z Tobą skontaktujemy."
+  },
+  "en": {
+    "text": "Filling out the form will only take a moment, and thanks to this you will receive support in choosing a device and an offer tailored to your needs.",
+    "name": "Name or company name",
+    "consent": "I agree to be contacted in order to present the commercial offer of the {companyName} company",
+    "successMessage": "Thank you for submitting your inquiry. We will contact you soon."
   }
 }
 </i18n>

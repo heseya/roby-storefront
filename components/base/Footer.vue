@@ -80,6 +80,11 @@
     "goToFacebook": "Przejdź do Facebooka",
     "goToInstagram": "Przejdź do Instagrama",
     "goToLinkedin": "Przejdź do Linkedin"
+  },
+  "en": {
+    "goToFacebook": "Go to Facebook",
+    "goToInstagram": "Go to Instagram",
+    "goToLinkedin": "Go to Linkedin"
   }
 }
 </i18n>

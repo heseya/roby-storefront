@@ -39,6 +39,10 @@
   "pl": {
     "changePassword": "Zmień hasło",
     "sucessUpdate": "Zaktualizowano zgody użytkownika."
+  },
+  "en": {
+    "changePassword": "Change password",
+    "sucessUpdate": "User consents have been updated."
   }
 }
 </i18n>

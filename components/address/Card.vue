@@ -48,14 +48,26 @@
 {
   "pl": {
     "billing": {
-      "header": "Edytowanie adresu",
-      "sucessUpdate": "Pomyślnie edytowano rachunek",
+      "header": "Edytowanie danych rachunku",
+      "sucessUpdate": "Pomyślnie edytowano dane rachunku",
       "default": "Nie można usunąć domyślnego rachunku"
     },
     "shipping": {
       "header": "Edytowanie adresu",
       "sucessUpdate": "Pomyślnie edytowano adres",
       "default": "Nie można usunąć domyślnego adresu"
+    }
+  },
+  "en": {
+    "billing": {
+      "header": "Edit billing data",
+      "sucessUpdate": "You have successfully edited your billing data",
+      "default": "The default billing data cannot be deleted"
+    },
+    "shipping": {
+      "header": "Edit shipping address",
+      "sucessUpdate": "You have successfully edited your shipping address",
+      "default": "The default shipping address cannot be deleted"
     }
   }
 }

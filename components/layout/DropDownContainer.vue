@@ -32,6 +32,10 @@
   "pl": {
     "expand": "Rozwiń",
     "collapse": "Zwiń"
+  },
+  "en": {
+    "expand": "Expand",
+    "collapse": "Collapse"
   }
 }
 </i18n>

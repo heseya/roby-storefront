@@ -16,6 +16,12 @@
       "label": "Uwagi do zamówienia",
       "placeholder": "Uwagi do zamówienia np. Informacje o dostarczeniu przesyłki"
     }
+  },
+  "en": {
+    "comment": {
+      "label": "Comments to order",
+      "placeholder": "Notes to the order, e.g. information about the delivery of the shipment"
+    }
   }
 }
 </i18n>

@@ -43,6 +43,9 @@
 {
   "pl": {
     "empty": "Nie masz żadnego zamówienia"
+  },
+  "en": {
+    "empty": "You dont have any order yet"
   }
 }
 </i18n>

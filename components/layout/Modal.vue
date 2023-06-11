@@ -23,6 +23,9 @@
 {
   "pl": {
     "close": "Zamknij modal"
+  },
+  "en": {
+    "close": "Close modal"
   }
 }
 </i18n>

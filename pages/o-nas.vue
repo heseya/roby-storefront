@@ -40,6 +40,9 @@
 {
   "pl": {
     "title": "O nas"
+  },
+  "en": {
+    "title": "About us"
   }
 }
 </i18n>

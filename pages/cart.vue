@@ -50,6 +50,12 @@
       "summary": "Podsumowanie",
       "suggested": "Może Cię zainteresować"
     }
+  },
+  "en": {
+    "cart": {
+      "summary": "Summary",
+      "suggested": "Might interest you"
+    }
   }
 }
 </i18n>

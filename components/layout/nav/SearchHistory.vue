@@ -25,6 +25,10 @@
   "pl": {
     "clear": "Wyczyść",
     "lastSearch": "Ostatnie wyszukiwania"
+  },
+  "en": {
+    "clear": "Clear",
+    "lastSearch": "Last searches"
   }
 }
 </i18n>

@@ -13,6 +13,9 @@
 {
   "pl": {
     "saveConsent": "Zapisz zgody"
+  },
+  "en": {
+    "saveConsent": "Save consent"
   }
 }
 </i18n>

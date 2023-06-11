@@ -58,6 +58,13 @@
       "submit": "Przejdź do finalizacji zamówienia",
       "paymentMethods": "Dostępne metody płatności:"
     }
+  },
+  "en": {
+    "summary": {
+      "from": "from",
+      "submit": "Checkout",
+      "paymentMethods": "Payment methods available:"
+    }
   }
 }
 </i18n>

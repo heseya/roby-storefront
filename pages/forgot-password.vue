@@ -35,8 +35,16 @@
     "form": {
       "description": "Jeżeli ten adres e-mail został zarejestrowany w naszym serwisie, otrzymasz link do zrestartowania hasła."
     },
-    "message": "Jeżeli istnieje konto powiązane z podanym adresem ",
+    "message": "Jeżeli istnieje konto powiązane z podanym adresem",
     "message2": ", wysłaliśmy e-mail z linkiem do resetowania hasła."
+  },
+  "en": {
+    "title": "Password reset",
+    "form": {
+      "description": "If this e-mail address has been registered with us, you will receive a link to reset your password."
+    },
+    "message": "If there is an account associated with the given address",
+    "message2": ", we have sent you an email with a link to reset your password."
   }
 }
 </i18n>

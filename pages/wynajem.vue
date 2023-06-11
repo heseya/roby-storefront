@@ -30,6 +30,9 @@
 {
   "pl": {
     "title": "Wynajem drukarek i kopiarek"
+  },
+  "en": {
+    "title": "Rental of printers and copiers"
   }
 }
 </i18n>

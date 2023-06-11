@@ -18,7 +18,7 @@
         <b v-if="order?.paid" class="status-page__field-value green-text">
           {{ $t('payments.paid') }}
         </b>
-        <b v-else class="status-page__field-value error-text"> {{ $t('payments.notPaid') }} </b>
+        <b v-else class="status-page__field-value error-text"> {{ $t('payments.unpaid') }} </b>
       </div>
       <div class="status-page__field">
         <span class="status-page__field-label">{{ t('fields.value') }}:</span>
@@ -48,6 +48,12 @@
     "fields": {
       "number": "Numer",
       "value": "Wartość"
+    }
+  },
+  "en": {
+    "fields": {
+      "number": "Number",
+      "value": "Value"
     }
   }
 }

@@ -16,6 +16,9 @@
 {
   "pl": {
     "header": "Zamówione produkty"
+  },
+  "en": {
+    "header": "Ordered products"
   }
 }
 </i18n>

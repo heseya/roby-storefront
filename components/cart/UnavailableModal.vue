@@ -42,6 +42,18 @@
     },
     "productsRemoved": "Poniżej znajduje się lista produktów, które zostały usunięte z koszyka.",
     "action": "Rozumiem"
+  },
+  "en": {
+    "cartAged": {
+      "title": "Some products may not be available",
+      "text": "Unfortunately, since your previous visit, some products that were in the basket are no longer available in the requested quantity."
+    },
+    "tooManyItems": {
+      "title": "Unable to add products to the cart",
+      "text": "Unfortunately, we are unable to add products in the requested quantity. We probably don't have the required quantity in stock. Try adding a smaller amount."
+    },
+    "productsRemoved": "Below is a list of products that have been removed from the cart.",
+    "action": "I agree"
   }
 }
 </i18n>

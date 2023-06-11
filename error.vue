@@ -23,6 +23,12 @@
       "text": "Coś poszło nie tak.",
       "button": "Wróć do strony głównej"
     }
+  },
+  "en": {
+    "error": {
+      "text": "Something went wrong.",
+      "button": "Back to home"
+    }
   }
 }
 </i18n>

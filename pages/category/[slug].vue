@@ -16,6 +16,9 @@
 {
   "pl": {
     "notFoundError": "Podana kategoria nie istnieje"
+  },
+  "en": {
+    "notFoundError": "The specified category doesnt exist"
   }
 }
 </i18n>

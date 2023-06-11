@@ -74,6 +74,11 @@
     "title": "Podsumowanie zamówienia",
     "createAccount": "Załóż konto",
     "payment": "Metoda płatności"
+  },
+  "en": {
+    "title": "Order summary",
+    "createAccount": "Create account",
+    "payment": "Payment method"
   }
 }
 </i18n>

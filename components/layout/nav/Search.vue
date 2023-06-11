@@ -36,6 +36,9 @@
 {
   "pl": {
     "allCategories": "Wszystkie kategorie"
+  },
+  "en": {
+    "allCategories": "All"
   }
 }
 </i18n>

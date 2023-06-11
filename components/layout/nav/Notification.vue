@@ -15,6 +15,9 @@
 {
   "pl": {
     "close": "Zamknij powiadomienie"
+  },
+  "en": {
+    "close": "Close the notification"
   }
 }
 </i18n>

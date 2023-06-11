@@ -15,6 +15,9 @@
 {
   "pl": {
     "title": "Adres rozliczeniowy"
+  },
+  "en": {
+    "title": "Billing address"
   }
 }
 </i18n>

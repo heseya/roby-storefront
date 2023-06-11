@@ -42,6 +42,10 @@
   "pl": {
     "empty": "Brak postów do wyświetlenia",
     "all": "Wszystkie"
+  },
+  "en": {
+    "empty": "There are no posts to display",
+    "all": "All"
   }
 }
 </i18n>

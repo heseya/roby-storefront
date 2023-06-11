@@ -10,6 +10,9 @@
 {
   "pl": {
     "notFoundError": "Nie znaleziono zamówienia o podanym kodzie"
+  },
+  "en": {
+    "notFoundError": "No order found with the given code"
   }
 }
 </i18n>

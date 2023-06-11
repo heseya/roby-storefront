@@ -36,6 +36,14 @@
       "text2": "Szczegóły zamówienia znajdziesz również w",
       "btn": "Sprawdź szczegóły zamówienia"
     }
+  },
+  "en": {
+    "container": {
+      "header": "Thank you for shopping!",
+      "text": "A purchase confirmation will be sent to your email.",
+      "text2": "Order details can also be found in",
+      "btn": "Check your order details"
+    }
   }
 }
 </i18n>

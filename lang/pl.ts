@@ -24,7 +24,7 @@ export default {
     billingAddress: 'Dane do rachunku',
     payment: 'Płatność',
     paid: 'Opłacono',
-    notPaid: 'Nie opłacono',
+    unpaid: 'Nie opłacono',
     confirmAndPay: 'Potwierdzam i płacę',
     traditionalTransfer: 'Przelew tradycyjny',
     payForOrder: 'Opłać zamówienie',

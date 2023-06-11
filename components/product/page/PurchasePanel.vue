@@ -62,6 +62,21 @@
       "shippingTime": "Gotowy do wysłania w {time}",
       "days": "dni"
     }
+  },
+  "en": {
+    "actions": {
+      "addToCart": "Add to cart",
+      "lease": "Ask about leasing"
+    },
+    "availability": {
+      "available": "Product available on request",
+      "unavailable": "Unavailable",
+      "reachedLimit": "Limit reached",
+      "shippingDigital": "Shipping digital",
+      "shippingDate": "Ready to ship from {date}",
+      "shippingTime": "Ready to ship in {time}",
+      "days": "days"
+    }
   }
 }
 </i18n>

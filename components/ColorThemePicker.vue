@@ -44,6 +44,18 @@
       "restoreDefault": "Wróć do domyślnych",
       "copy": "Kopiuj paletę kolorów"
     }
+  },
+  "en": {
+    "colors": {
+      "primaryColor": "Primary color",
+      "secondaryColor": "Secondary color",
+      "primaryColorAlt": "Primary alternative color",
+      "errorColor": "Error color"
+    },
+    "actions": {
+      "restoreDefault": "Restore default",
+      "copy": "Copy color palette"
+    }
   }
 }
 </i18n>

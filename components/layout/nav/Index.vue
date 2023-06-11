@@ -119,6 +119,11 @@
     "message": {
       "logout": "Wylogowano pomyślnie"
     }
+  },
+  "en": {
+    "message": {
+      "logout": "You have been logged out."
+    }
   }
 }
 </i18n>

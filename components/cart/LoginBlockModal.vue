@@ -39,6 +39,13 @@
       "continueAsGuest": "Kontynuuj jako gość",
       "description": "Możesz zrobić zakupy jako gość. Wymagane są tylko dane niezbędne do realizacji zamówienia."
     }
+  },
+  "en": {
+    "block": {
+      "continueWithoutLogin": "Continue without logging in",
+      "continueAsGuest": "Continue as guest",
+      "description": "You can shop as a guest. Only the data necessary to complete the order are required."
+    }
   }
 }
 </i18n>

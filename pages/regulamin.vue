@@ -30,6 +30,10 @@
   "pl": {
     "title": "Regulamin",
     "notFoundError": "Nie znaleziono treści regulaminu"
+  },
+  "en": {
+    "title": "Statute",
+    "notFoundError": "Statute content not found"
   }
 }
 </i18n>

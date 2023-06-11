@@ -44,6 +44,15 @@
       "success": "Zalogowano pomyślnie"
     },
     "accountMigrationInfo": "W związku z aktualizacją bezpieczeństwa, przed pierwszym logowaniem, skorzystaj z opcji \"Nie pamiętasz hasła?\"."
+  },
+  "en": {
+    "form": {
+      "forgot-password": "Forgot password?"
+    },
+    "message": {
+      "success": "Successfully logged "
+    },
+    "accountMigrationInfo": "Due to the security update, please use the \"Forgot password?\" option before logging in for the first time."
   }
 }
 </i18n>

@@ -30,6 +30,10 @@
   "pl": {
     "orderNumber": "Numer zamówienia",
     "orderCreatingDate": "Data złożenia"
+  },
+  "en": {
+    "orderNumber": "Order number",
+    "orderCreatingDate": "Creating Date"
   }
 }
 </i18n>

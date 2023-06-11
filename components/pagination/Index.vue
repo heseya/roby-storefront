@@ -73,6 +73,13 @@
     "first": "Przejdź do pierwszej strony",
     "go": "Przejdź do strony {page}",
     "last": "Przejdź do ostatniej strony"
+  },
+  "en": {
+    "next": "Next",
+    "prev": "Previous",
+    "first": "Go to the first page",
+    "go": "Go to page {page}",
+    "last": "Go to last page"
   }
 }
 </i18n>
