@@ -1,6 +1,6 @@
 <template>
-  <OnClickOutside class="layout-popover" @trigger="toggleDropdown" @click="toggleDropdown">
-    <slot></slot>
+  <div ref="target" class="layout-popover" @click="toggleDropdown">
+    <slot name="option" :value="value"> {{ value.key }}</slot>
 
     <LayoutIcon
       :icon="showDropdown ? arrowUp : arrowDown"
@@ -15,16 +15,20 @@
         class="layout-popover__option"
         @click.stop="selectAndClose(item)"
       >
-        <slot name="option" :value="item"> {{ item }}</slot>
+        <slot name="option" :value="item"> {{ item.key }}</slot>
       </button>
     </div>
-  </OnClickOutside>
+  </div>
 </template>
 
 <script lang="ts" setup generic="T extends { key: string }">
-import { OnClickOutside } from '@vueuse/components'
+import { onClickOutside } from '@vueuse/core'
 import arrowDown from '@/assets/icons/arrow-down.svg?component'
 import arrowUp from '@/assets/icons/arrow-up.svg?component'
+
+defineSlots<{
+  option(value: { value: T }): any
+}>()
 
 const props = defineProps<{
   value: T
@@ -34,6 +38,8 @@ const props = defineProps<{
 const emit = defineEmits<{
   (event: 'update:value', value: T): void
 }>()
+
+const target = ref(null)
 
 const showDropdown = ref<boolean>(false)
 
@@ -48,6 +54,12 @@ const selectAndClose = (value: T) => {
 }
 
 const toggleDropdown = (): boolean => (showDropdown.value = !showDropdown.value)
+
+onClickOutside(target, () => {
+  if (showDropdown.value) {
+    showDropdown.value = false
+  }
+})
 </script>
 
 <style lang="scss" scoped>

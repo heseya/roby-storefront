@@ -5,8 +5,6 @@
     :options="languages"
     class="language-switch__menu"
   >
-    <img :src="getIcon(language.key)" class="language-switch__icon" />
-    {{ $t(`languages.${selectedLanguage.key}`) }}
     <template #option="item">
       <img :src="getIcon(item.value.key)" class="language-switch__icon" />
       {{ $t(`languages.${item.value.key}`) }}
