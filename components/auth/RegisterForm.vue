@@ -193,11 +193,11 @@ const onSubmit = form.handleSubmit(async () => {
   }
 
   &__policy-agreement {
-    color: $secondary-color;
+    color: var(--secondary-color);
   }
 
   &__error {
-    color: $error-color;
+    color: var(--error-color);
     font-weight: bold;
     text-align: center;
   }

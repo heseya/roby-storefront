@@ -55,7 +55,7 @@ PRICE_TRACKER_URL=https://main-price-tracker.app.***REMOVED***
 
 ### Custom pages
 
-In this template there are 5 custom pages available. You can change the path of each page by setting the following environment variables. If you want to disable a page, set the env to _empty_.
+In this template there are 5 custom pages available. You can change the path of each page by setting the following environment variables. If you want to disable a page, set the env to _empty_ or to `0`.
 
 ```env
 PAGE_BLOG_PATH=/blog

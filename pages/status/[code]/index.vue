@@ -27,13 +27,13 @@
         </b>
       </div>
 
-      <NuxtLink v-if="isPayable" class="status-page__link" :to="`/pay/${orderCode}`">
+      <NuxtLink v-if="isPayable" class="status-page__link" :to="localePath(`/pay/${orderCode}`)">
         <LayoutButton class="status-page__btn">
           {{ $t('payments.payForOrder') }}
         </LayoutButton>
       </NuxtLink>
 
-      <NuxtLink class="status-page__link" to="/">
+      <NuxtLink class="status-page__link" :to="localePath('/')">
         <LayoutButton class="status-page__btn" :variant="isPayable ? 'gray' : 'primary'">
           {{ $t('nav.goToMainPage') }}
         </LayoutButton>
@@ -57,6 +57,7 @@
 const t = useLocalI18n()
 const $t = useGlobalI18n()
 const route = useRoute()
+const localePath = useLocalePath()
 
 const orderCode = computed(() => route.params.code as string)
 

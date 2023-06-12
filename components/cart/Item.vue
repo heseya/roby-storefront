@@ -16,7 +16,7 @@
 
       <ProductQuantityInput
         show-label
-        :disabled="static"
+        :disabled="props.static"
         class="cart-item__quantity"
         :quantity="item.qty"
         @update:quantity="updateQuantity"
@@ -30,7 +30,7 @@
       </div>
     </div>
 
-    <div v-if="!static" class="cart-item__actions">
+    <div v-if="!props.static" class="cart-item__actions">
       <LayoutIconButton
         :icon="CrossIcon"
         icon-size="sm"
@@ -42,7 +42,9 @@
 </template>
 
 <script setup lang="ts">
-import { CartItem } from '@heseya/store-core'
+import { CartItem, CartItemRawSchemaValue } from '@heseya/store-core'
+import isNil from 'lodash/isNil'
+
 import CrossIcon from '@/assets/icons/cross.svg?component'
 import { useCartStore } from '@/store/cart'
 
@@ -68,14 +70,14 @@ const removeFromCart = () => {
   cart.remove(props.item.id)
 }
 
-const formatSchemaValue = (value: string | undefined) => {
-  if (value === 'true') return t('common.yes')
-  if (value === 'false') return t('common.no')
+const formatSchemaValue = (value: CartItemRawSchemaValue) => {
+  if (value === true) return t('common.yes')
+  if (value === false) return t('common.no')
   return value
 }
 
-const filterSchemaVariant = (variant: (string | undefined)[][]) => {
-  return variant.filter(([n, v]) => !!n && !!v)
+const filterSchemaVariant = (variant: [string, CartItemRawSchemaValue][]) => {
+  return variant.filter(([n, v]) => !!n && !isNil(v))
 }
 </script>
 
@@ -127,9 +129,6 @@ const filterSchemaVariant = (variant: (string | undefined)[][]) => {
     color: $gray-color-600;
   }
 
-  &__quantity {
-  }
-
   &__price {
     font-size: rem(16);
 
@@ -148,7 +147,7 @@ const filterSchemaVariant = (variant: (string | undefined)[][]) => {
   }
 
   &__price-initial + &__price-current {
-    color: var(--secondary-color);
+    color: var(--highlight-color);
   }
 
   &__btn {
