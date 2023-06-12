@@ -11,7 +11,7 @@
         <slot></slot>
       </main>
 
-      <LayoutBreadcrumps :style="locales.length > 1 ? { 'padding-top': '70px' } : {}" />
+      <LayoutBreadcrumps :style="isLocaleMenuVisible ? { 'padding-top': '70px' } : {}" />
     </div>
     <div class="site__footer">
       <BaseFooter />
@@ -24,6 +24,8 @@ import { useConfigStore } from '~/store/config'
 
 const config = useConfigStore()
 const { locales } = useI18n()
+
+const isLocaleMenuVisible = computed(() => locales.value.length > 1)
 
 // TODO load notification without hydration & layout shift problem
 // import { useNavNotificationBarStore } from '@/store/navNotificationBar'

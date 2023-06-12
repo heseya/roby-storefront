@@ -27,10 +27,10 @@ import arrowDown from '@/assets/icons/arrow-down.svg?component'
 import arrowUp from '@/assets/icons/arrow-up.svg?component'
 
 defineSlots<{
-  option(value: { value: T }): any
+  option(props: { value: T }): any
 }>()
 
-const props = defineProps<{
+defineProps<{
   value: T
   options: T[]
 }>()
@@ -43,22 +43,15 @@ const target = ref(null)
 
 const showDropdown = ref<boolean>(false)
 
-const menuItem = computed({
-  get: () => props.value,
-  set: (value: T) => emit('update:value', value),
-})
-
 const selectAndClose = (value: T) => {
-  menuItem.value = value
+  emit('update:value', value)
   showDropdown.value = false
 }
 
 const toggleDropdown = (): boolean => (showDropdown.value = !showDropdown.value)
 
 onClickOutside(target, () => {
-  if (showDropdown.value) {
-    showDropdown.value = false
-  }
+  showDropdown.value = false
 })
 </script>
 

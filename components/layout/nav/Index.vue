@@ -1,7 +1,7 @@
 <template>
   <nav class="nav-bar">
     <LayoutNavNotification class="nav-bar__notification" />
-    <LayoutNavMenuBar />
+    <LayoutNavLocaleMenu />
     <div class="nav-items" :class="{ 'nav-items--small': scrollY > 100 }">
       <div class="nav-items__left">
         <LayoutIconButton

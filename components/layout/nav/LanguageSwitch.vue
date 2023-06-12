@@ -25,8 +25,6 @@ const { setLocale, locale, locales } = useI18n()
 
 const getIcon = (value: string) => (value === 'pl' ? plFlagUrl : enFlagUrl)
 
-const selectedLanguage = ref<Language>({ key: locale.value })
-
 const languages = computed<Language[]>(() =>
   locales.value.map((v) => ({
     key: typeof v === 'string' ? v : v.code,
@@ -34,11 +32,8 @@ const languages = computed<Language[]>(() =>
 )
 
 const language = computed({
-  get: () => selectedLanguage.value,
-  set: (item: Language) => {
-    setLocale(item.key)
-    selectedLanguage.value = item
-  },
+  get: () => ({ key: locale.value }),
+  set: (item: Language) => setLocale(item.key),
 })
 </script>
 
