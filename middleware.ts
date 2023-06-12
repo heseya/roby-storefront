@@ -3,12 +3,14 @@ import { rewrite } from '@vercel/edge'
 export function middleware(request: Request) {
   const url = new URL(request.url)
 
+  console.log('Running middleware')
+  return rewrite(new URL('https://example.com'))
+
   /**
    * Needs to replace /kategoria-produktu/ with /category/
    * In old notation, all subcategries was joined in url using /, now it's using - (its just slug)
    * Also, we need to handle `/page/{number}` on the end of url converting it to `?page={number}`
    */
-  console.log('Running middleware')
 
   const matcherPrefix = '/kategoria-produktu/'
   if (url.pathname.startsWith(matcherPrefix)) {
