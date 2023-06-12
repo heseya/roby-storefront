@@ -83,7 +83,7 @@ watch(
     &--required > :first-child {
       ::after {
         content: ' *';
-        color: $secondary-color;
+        color: var(--secondary-color);
         font-weight: bold;
       }
     }
@@ -143,13 +143,13 @@ watch(
 
   &[disabled='true'] label::before {
     opacity: 0.6;
-    background-color: $unnamed-color-f4f8fc;
+    background-color: $blue-color-100;
     cursor: not-allowed;
   }
 
   &__error {
     font-size: rem(10);
-    color: $error-color;
+    color: var(--error-color);
     padding-left: 24px;
     font-weight: 500;
 
@@ -159,10 +159,10 @@ watch(
   }
 
   &--error label::before {
-    border-color: $error-color;
+    border-color: var(--error-color);
   }
   &--error label {
-    color: $error-color;
+    color: var(--error-color);
   }
 }
 </style>

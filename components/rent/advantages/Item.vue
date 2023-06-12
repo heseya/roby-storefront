@@ -1,25 +1,21 @@
 <template>
   <div class="item">
     <div class="item__icon-container">
-      <LayoutIcon :icon="item.icon" size="35" class="item__icon" />
+      <img class="item__icon" :src="imageUrl" loading="lazy" />
     </div>
     <div class="item__content">
       <LayoutHeader variant="black" class="item__title">{{ item.title }}</LayoutHeader>
-      <span>{{ item.text }}</span>
+      <span>{{ item.description }}</span>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { FunctionalComponent } from 'vue'
+import { TranslatedRentPageAdvantage } from '~/interfaces/rentPage'
 
-export interface AdvantageProps {
-  title: string
-  icon: FunctionalComponent
-  text: string
-}
+const props = defineProps<{ item: TranslatedRentPageAdvantage }>()
 
-defineProps<{ item: AdvantageProps }>()
+const imageUrl = computed(() => getImageUrl(props.item.image))
 </script>
 
 <style lang="scss" scoped>
@@ -41,11 +37,10 @@ defineProps<{ item: AdvantageProps }>()
   &__icon-container {
     height: 67px;
     width: 67px;
+    position: relative;
 
     flex-shrink: 0;
     color: var(--secondary-color);
-    background-color: $unnamed-color-f9eae8;
-    border-radius: 50%;
 
     @include flex-row;
     justify-content: center;
@@ -55,13 +50,23 @@ defineProps<{ item: AdvantageProps }>()
       height: 44px;
       width: 44px;
     }
+
+    // This is the only way to lighten css variable in the background without adding a new color
+    &::before {
+      content: '';
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      border-radius: 50%;
+      background-color: var(--secondary-color);
+      opacity: 0.15;
+      z-index: -1;
+    }
   }
 
   &__icon {
-    @media ($max-viewport-9) {
-      height: 22px;
-      width: 22px;
-    }
+    height: 35px;
+    width: 35px;
   }
 
   &__title {
@@ -76,7 +81,6 @@ defineProps<{ item: AdvantageProps }>()
   &__content {
     @include flex-column;
     gap: 5px;
-
     font-size: rem(16);
 
     @media ($max-viewport-9) {

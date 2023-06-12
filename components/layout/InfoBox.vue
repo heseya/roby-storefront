@@ -25,13 +25,13 @@ withDefaults(
   text-align: center;
 
   &--danger {
-    color: $error-color;
-    border-color: $error-color;
+    color: var(--error-color);
+    border-color: var(--error-color);
   }
 
   &--info {
-    color: $blue-color;
-    border-color: $blue-color;
+    color: $blue-color-500;
+    border-color: $blue-color-500;
   }
 }
 </style>

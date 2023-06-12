@@ -3,7 +3,7 @@
     <NuxtLink
       v-for="{ link, label } in breadcrumbs"
       :key="link"
-      :to="link"
+      :to="localePath(link)"
       class="breadcrumps__item"
     >
       {{ label }}
@@ -14,6 +14,7 @@
 <script setup lang="ts">
 const breadcrumbs = useBreadcrumbsState()
 const router = useRouter()
+const localePath = useLocalePath()
 
 const menuBar = computed(() => ['pl'])
 

@@ -3,7 +3,7 @@
     <div class="status-page">
       <StatusPaymentMethods :code="orderCode" class="status-page__payment" />
 
-      <NuxtLink class="status-page__link" to="/">
+      <NuxtLink class="status-page__link" :to="localePath('/')">
         <LayoutButton class="status-page__btn" variant="gray">
           {{ $t('nav.goToMainPage') }}
         </LayoutButton>
@@ -15,6 +15,7 @@
 <script setup lang="ts">
 const $t = useGlobalI18n()
 const route = useRoute()
+const localePath = useLocalePath()
 
 const orderCode = computed(() => route.params.code as string)
 

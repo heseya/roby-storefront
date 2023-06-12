@@ -75,7 +75,7 @@ const showButton = computed(() => (slotHeight.value ?? 0) > props.minExpandHeigh
     box-shadow: 0 -20px 16px $white-color;
     transition: all 500ms ease-in-out;
 
-    color: $blue-color;
+    color: $blue-color-500;
 
     &--expand {
       box-shadow: none;
@@ -90,7 +90,7 @@ const showButton = computed(() => (slotHeight.value ?? 0) > props.minExpandHeigh
     }
   }
   &__button-icon {
-    color: $blue-color;
+    color: $blue-color-500;
     transform: rotate(90deg);
     transition: all 500ms ease-in-out;
 

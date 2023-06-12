@@ -16,7 +16,7 @@
 
       <ProductQuantityInput
         show-label
-        :disabled="static"
+        :disabled="props.static"
         class="cart-item__quantity"
         :quantity="item.qty"
         @update:quantity="updateQuantity"
@@ -30,7 +30,7 @@
       </div>
     </div>
 
-    <div v-if="!static" class="cart-item__actions">
+    <div v-if="!props.static" class="cart-item__actions">
       <LayoutIconButton
         :icon="CrossIcon"
         icon-size="sm"
@@ -129,9 +129,6 @@ const filterSchemaVariant = (variant: [string, CartItemRawSchemaValue][]) => {
     color: $gray-color-600;
   }
 
-  &__quantity {
-  }
-
   &__price {
     font-size: rem(16);
 
@@ -150,7 +147,7 @@ const filterSchemaVariant = (variant: [string, CartItemRawSchemaValue][]) => {
   }
 
   &__price-initial + &__price-current {
-    color: var(--secondary-color);
+    color: var(--highlight-color);
   }
 
   &__btn {

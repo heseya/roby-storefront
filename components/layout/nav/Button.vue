@@ -119,12 +119,12 @@ watch(
 
   &--special {
     .category-btn__link {
-      color: var(--secondary-color);
+      color: var(--highlight-color);
     }
 
     &:hover {
       .category-btn__link {
-        border-bottom-color: var(--secondary-color);
+        border-bottom-color: var(--highlight-color);
       }
     }
   }

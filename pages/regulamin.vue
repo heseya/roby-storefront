@@ -94,7 +94,7 @@ const headers: ComputedRef<HTMLHeadingElement[]> = computed(() => {
 
   &__content {
     @include reset-button;
-    color: $blue-color;
+    color: $blue-color-500;
     text-align: left;
     font-size: rem(14);
     padding: 5px 0;

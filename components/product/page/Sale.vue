@@ -29,7 +29,7 @@ defineProps<{
     line-height: rem(24);
     width: 100%;
     padding: 6px 15px;
-    background-color: $green-color;
+    background-color: $green-color-500;
     color: #fff;
     text-align: left;
   }

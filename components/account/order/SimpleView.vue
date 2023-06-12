@@ -21,7 +21,7 @@
             </div>
           </div>
           <div class="account-order-card__actions">
-            <NuxtLink :to="`/account/orders/${order.code}`">
+            <NuxtLink :to="localePath(`/account/orders/${order.code}`)">
               <LayoutButton variant="gray">
                 {{ $t('orders.details') }}
                 <LayoutIcon :icon="GoNextIcon" :size="8" />
@@ -67,6 +67,8 @@ const props = withDefaults(
     header: '',
   },
 )
+
+const localePath = useLocalePath()
 
 const { data: order } = useAsyncData(`account/orders/${props.code}`, async () => {
   try {

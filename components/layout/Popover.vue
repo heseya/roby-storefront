@@ -80,7 +80,7 @@ const toggleDropdown = (): boolean => (showDropdown.value = !showDropdown.value)
     background: transparent;
     cursor: pointer;
     &:hover {
-      background: $unnamed-color-f4f8fc;
+      background: $blue-color-100;
     }
   }
 

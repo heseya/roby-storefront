@@ -135,7 +135,7 @@ const createOrder = async () => {
     }
 
     &--green {
-      color: $green-color;
+      color: $green-color-500;
       font-weight: 500;
     }
   }
