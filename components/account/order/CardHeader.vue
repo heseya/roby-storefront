@@ -3,7 +3,10 @@
     <div class="account-order-card-header__content">
       <div class="account-order-card-header__box">
         <b>{{ t('orderNumber') }}: </b>
-        <NuxtLink :to="`/account/orders/${code}`" class="account-order-card-header__link">
+        <NuxtLink
+          :to="localePath(`/account/orders/${code}`)"
+          class="account-order-card-header__link"
+        >
           {{ code }}
         </NuxtLink>
       </div>
@@ -17,6 +20,7 @@
 
       <div
         class="account-order-card-header__status-btn"
+        :class="`account-order-card-header__status-btn--${statusTagTheme}`"
         :style="{ 'background-color': `#${color}` }"
       >
         {{ name }}
@@ -42,12 +46,16 @@
 const t = useLocalI18n()
 const $t = useGlobalI18n()
 
-defineProps<{
+const props = defineProps<{
   code: string
   createdAt: string
   color: string
   name: string
 }>()
+
+const localePath = useLocalePath()
+
+const statusTagTheme = useContrastColor(props.color)
 </script>
 
 <style lang="scss" scoped>
@@ -81,7 +89,7 @@ defineProps<{
 
   &__link {
     text-decoration: none;
-    color: $blue-color;
+    color: $blue-color-500;
   }
 
   &__status {
@@ -95,6 +103,10 @@ defineProps<{
     margin-top: 5px;
     color: $white-color;
     border-radius: 5px;
+
+    &--dark {
+      color: $text-color;
+    }
 
     @media ($viewport-12) {
       margin-top: 0px;

@@ -12,7 +12,7 @@
         <div class="login-block__continue">
           <h2 class="login-block__header">{{ t('block.continueWithoutLogin') }}</h2>
           <div class="login-block__descrpition">{{ t('block.description') }}</div>
-          <NuxtLink to="/checkout">
+          <NuxtLink :to="localePath('/checkout')">
             <LayoutButton class="login-block__btn" :label="t('block.continueAsGuest')" />
           </NuxtLink>
         </div>
@@ -21,7 +21,7 @@
           <LayoutSpacer />
           <div>
             <h2 class="login-block__header">{{ $t('account.noAccount') }}</h2>
-            <NuxtLink to="/register">
+            <NuxtLink :to="localePath('/register')">
               <LayoutButton class="login-block__register-btn" :label="$t('account.register')" />
             </NuxtLink>
           </div>
@@ -53,6 +53,7 @@
 <script setup lang="ts">
 const t = useLocalI18n()
 const $t = useGlobalI18n()
+const localePath = useLocalePath()
 
 const props = defineProps<{
   open: boolean

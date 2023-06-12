@@ -1,7 +1,7 @@
 <template>
   <div class="checkout">
     <div class="checkout__header">
-      <NuxtLink to="/" class="checkout__logo">
+      <NuxtLink :to="localePath('/')" class="checkout__logo">
         <img class="checkout__logo-img" :src="config.storeLogoUrl" :alt="config.storeName" />
       </NuxtLink>
     </div>
@@ -55,6 +55,7 @@ const route = useRoute()
 const config = useConfigStore()
 const t = useLocalI18n()
 const $t = useGlobalI18n()
+const localePath = useLocalePath()
 
 enum CheckoutStep {
   Cart = 'cart',

@@ -1,55 +1,48 @@
 <template>
   <div class="steps">
     <div class="steps__content">
-      <div class="steps__element">
-        <div class="steps__number">1</div>
-        <LayoutHeader class="steps__title" variant="black">
-          Powiedz nam, czego potrzebujesz</LayoutHeader
-        >
-      </div>
-      <div class="steps__element">
-        <div class="steps__line-container">
-          <div class="steps__line" />
-        </div>
-        <div class="steps__content">
-          <span
-            >Wypełnij formularz wynajmu i napisz, jakich urządzeń potrzebujesz. Wypełnienie
-            formularza zajmie tylko chwilę, a dzięki temu otrzymasz od nas wsparcie w wyborze
-            urządzenia i ofertę dopasowaną do Twoich potrzeb.</span
-          >
-          <LayoutButton class="steps__button" label="Wypelnij formularz" @click="emit('scroll')" />
-        </div>
-      </div>
-      <div class="steps__element">
-        <div class="steps__number">2</div>
-        <LayoutHeader class="steps__title" variant="black">Przedstawimy Ci ofertę</LayoutHeader>
-      </div>
-      <div class="steps__element">
-        <div class="steps__line-container">
-          <div class="steps__line" />
-        </div>
-        <span
-          >Skontaktujemy się z Tobą najszybciej jak to możliwe. Przedstawimy Ci najatrakcyjniejsze
-          rozwiązania. Chętnie odpowiemy na Twoje pytania i pomożemy podjąć decyzję.</span
-        >
-      </div>
-      <div class="steps__element">
-        <div class="steps__number">3</div>
-        <LayoutHeader class="steps__title" variant="black"
-          >Zrealizujemy Twoje zamówienie</LayoutHeader
-        >
+      <div v-for="step in steps" :key="step.id" class="steps__step">
+        <RentStepHeader :order="step.order" :header="step.title" />
+        <RentStepDescription
+          v-if="step.description"
+          :description="step.description"
+          :send-form="step.button"
+          @action="emit('action')"
+        />
       </div>
     </div>
-    <div class="steps__image-container">
-      <img class="steps__image" src="@/assets/images/rent.png" loading="lazy" />
+
+    <div class="steps__banner-container">
+      <img class="steps__banner" :src="bannerUrl" loading="lazy" />
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-const emit = defineEmits<{
-  (e: 'scroll'): void
+import { TranslatedRentPageStep } from '~/interfaces/rentPage'
+
+defineProps<{
+  bannerUrl: string
 }>()
+
+const emit = defineEmits<{
+  (e: 'action'): void
+}>()
+
+const { data: steps } = useAsyncData('rent-page-steps', async () => {
+  const directus = useDirectus()
+
+  const { data } = await directus.items('RentPageStep').readByQuery({
+    // @ts-ignore directus typing is wrong
+    fields: ['order', 'button', 'translations.title', 'translations.description'],
+  })
+
+  return (data?.map((step) => ({
+    ...getTranslated(step.translations as any, 'pl-PL'),
+    order: step.order,
+    button: step.button,
+  })) || []) as TranslatedRentPageStep[]
+})
 </script>
 
 <style lang="scss" scoped>
@@ -63,76 +56,27 @@ const emit = defineEmits<{
   }
 
   &__content {
+    @include flex-column;
     flex: 1;
+  }
 
+  &__step {
     @include flex-column;
     gap: 12px;
     font-size: rem(16);
+    margin-bottom: 12px;
 
     @media ($max-viewport-9) {
       font-size: rem(14);
     }
   }
 
-  &__element {
-    @include flex-row;
-    gap: 22px;
-    align-items: center;
-  }
-
-  &__number {
-    height: 30px;
-    width: 30px;
-
-    flex-shrink: 0;
-    @include flex-column;
-    justify-content: center;
-    align-items: center;
-    color: var(--primary-color-alt);
-    font-weight: $font-weight-bold;
-    background-color: rgba($primary-color-alt, 0.15);
-    border: 1px solid var(--primary-color-alt);
-    border-radius: 50%;
-  }
-
-  &__title {
-    font-size: rem(20);
-    text-align: left;
-
-    @media ($max-viewport-9) {
-      font-size: rem(18);
-    }
-  }
-
-  &__line-container {
-    height: 100%;
-    width: 30px;
-
-    flex-shrink: 0;
-    @include flex-column;
-    align-items: center;
-  }
-
-  &__line {
-    height: 100%;
-    border-left: 1px dashed var(--primary-color-alt);
-  }
-
-  &__button {
-    max-width: 200px;
-  }
-
-  &__image-container {
+  &__banner-container {
     flex: 1;
-    position: relative;
-    min-height: 200px;
   }
 
-  &__image {
-    position: absolute;
-    width: 100%;
+  &__banner {
     height: 100%;
-    object-fit: cover;
   }
 }
 </style>

@@ -23,6 +23,7 @@
       <LayoutIconButton
         icon-size="sm"
         class="search__button"
+        :class="`search__button--${searchButtonColorTheme}`"
         :icon="Search"
         type="submit"
         :title="$t('search.action')"
@@ -87,6 +88,8 @@ const onSubmit = formCtx.handleSubmit((values) => {
 defineProps<{
   categories: ProductSetList[]
 }>()
+
+const searchButtonColorTheme = useContrastColorFromCssVar('primary-color')
 </script>
 
 <style lang="scss" scoped>
@@ -139,6 +142,10 @@ defineProps<{
     width: 46px;
     border-radius: 50%;
     background-color: var(--primary-color);
+
+    &--light {
+      color: $white-color;
+    }
   }
 
   &__history {

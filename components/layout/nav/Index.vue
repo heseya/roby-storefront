@@ -1,7 +1,7 @@
 <template>
   <nav class="nav-bar">
     <LayoutNavNotification class="nav-bar__notification" />
-    <LayoutNavLanguageMenu />
+    <LayoutNavMenuBar />
     <div class="nav-items" :class="{ 'nav-items--small': scrollY > 100 }">
       <div class="nav-items__left">
         <LayoutIconButton
@@ -10,7 +10,7 @@
           :title="$t('nav.showCategories')"
           @click="isOpenCategories = true"
         />
-        <NuxtLink to="/" class="nav-items__logo-link">
+        <NuxtLink :to="localePath('/')" class="nav-items__logo-link">
           <img class="nav-items__logo" :src="config.storeLogoUrl" :alt="config.storeName" />
         </NuxtLink>
         <LayoutNavSearch

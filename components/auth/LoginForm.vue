@@ -23,7 +23,7 @@
       />
     </div>
     <div class="login-form__options">
-      <NuxtLink class="login-form__forgot-password" to="/forgot-password">
+      <NuxtLink class="login-form__forgot-password" :to="localePath('/forgot-password')">
         {{ t('form.forgot-password') }}
       </NuxtLink>
     </div>
@@ -70,6 +70,7 @@ const getErrorMessage = useErrorMessage()
 const auth = useAuthStore()
 const config = useConfigStore()
 const { notify } = useNotify()
+const localePath = useLocalePath()
 
 const wasLoggedInPast = useLocalStorage(LOGGED_IN_THE_PAST_KEY, false)
 
@@ -119,7 +120,7 @@ const onSubmit = form.handleSubmit(async ({ email, password }) => {
   }
 
   &__forgot-password {
-    color: $blue-color;
+    color: $blue-color-500;
     cursor: pointer;
     font-size: 12px;
     text-decoration: none;

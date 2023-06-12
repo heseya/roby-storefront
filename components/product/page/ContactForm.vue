@@ -3,7 +3,7 @@
     <LayoutLoading :active="isLoading" />
 
     <p class="product-contact-form__text">
-      {{ t('text') }}
+      {{ description ?? t('text') }}
     </p>
 
     <div class="product-contact-form__row">
@@ -75,10 +75,12 @@ const props = withDefaults(
     product?: ProductList
     actionText?: string
     type: 'price' | 'renting'
+    description?: string
   }>(),
   {
     actionText: '',
     product: undefined,
+    description: '',
   },
 )
 

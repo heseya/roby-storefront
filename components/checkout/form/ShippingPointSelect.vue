@@ -77,7 +77,7 @@ const selectShippingPoint = (point: Address) => {
   gap: 10px;
   padding: 10px;
   border-radius: 4px;
-  background-color: $unnamed-color-f4f8fc;
+  background-color: $blue-color-100;
   font-size: rem(12);
   cursor: pointer;
 

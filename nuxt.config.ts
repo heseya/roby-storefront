@@ -15,7 +15,6 @@ const {
   LEASLINK_ID,
   COLOR_THEME_PICKER,
   AXIOS_CACHE_TTL,
-  ALLOWED_UI_LANGUAGES,
 
   // Custom pages paths
   PAGE_BLOG_PATH = '/blog',
@@ -25,12 +24,19 @@ const {
   PAGE_STATUTE_PATH = '/regulamin',
 } = process.env
 
+const locales = [
+  { code: 'pl', iso: 'pl-PL', file: 'pl.ts' },
+  { code: 'en', iso: 'en-US', file: 'en.ts' },
+]
+
+const ALLOWED_UI_LANGUAGES = process.env.ALLOWED_UI_LANGUAGES?.split(',') || ['pl']
+const DEFAULT_LANGUAGE = process.env.DEFAULT_LANGUAGE || ALLOWED_UI_LANGUAGES[0]
+
 const isProduction = ENVIRONMENT === 'production'
 
 if (!API_URL) console.warn('API_URL env is not defined')
 if (!PRICE_TRACKER_URL) console.warn('PRICE_TRACKER_URL env is not defined')
 if (!APP_HOST) console.warn('APP_HOST env is not defined')
-if (!RECAPTCHA_PUBLIC) console.warn('RECAPTCHA_PUBLIC env is not defined')
 if (!RECAPTCHA_PUBLIC) console.warn('RECAPTCHA_PUBLIC env is not defined')
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
@@ -76,7 +82,6 @@ export default defineNuxtConfig({
       leaslinkId: LEASLINK_ID,
       showColorThemePicker: COLOR_THEME_PICKER === '1',
       axiosCacheTtl: parseInt(AXIOS_CACHE_TTL || '0') ?? 0,
-      AllowedUILanguages: ALLOWED_UI_LANGUAGES,
     },
   },
 
@@ -131,13 +136,11 @@ export default defineNuxtConfig({
 
   i18n: {
     baseUrl: APP_HOST,
-    locales: [
-      { code: 'pl', iso: 'pl-PL', file: 'pl.ts' },
-      { code: 'en', iso: 'en-US', file: 'en.ts' },
-    ],
-    defaultLocale: 'pl',
+    defaultLocale: DEFAULT_LANGUAGE,
+    fallbackLocale: DEFAULT_LANGUAGE,
     langDir: 'lang',
     strategy: 'prefix_except_default',
+    locales: locales.filter((locale) => ALLOWED_UI_LANGUAGES.includes(locale.code)),
     detectBrowserLanguage: {
       useCookie: true,
       cookieKey: 'i18n_redirected',

@@ -38,7 +38,9 @@
       "primaryColor": "Kolor główny",
       "secondaryColor": "Kolor dodatkowy",
       "primaryColorAlt": "Kolor główny alternatywny",
-      "errorColor": "Kolor błędu"
+      "highlightColor": "Kolor podświetlenia",
+      "errorColor": "Kolor błędu",
+      "warningColor": "Kolor ostrzeżenia"
     },
     "actions": {
       "restoreDefault": "Wróć do domyślnych",
@@ -66,20 +68,30 @@ import ChevronIcon from '@/assets/icons/chevron.svg?component'
 const { notify } = useNotify()
 const t = useLocalI18n()
 
-type ColorKeys = 'primaryColor' | 'primaryColorAlt' | 'secondaryColor' | 'errorColor'
+type ColorKeys =
+  | 'primaryColor'
+  | 'primaryColorAlt'
+  | 'secondaryColor'
+  | 'highlightColor'
+  | 'errorColor'
+  | 'warningColor'
 
 const defaultColors: Record<ColorKeys, string> = {
   primaryColor: '#ffca2b',
   primaryColorAlt: '#e1a044',
   secondaryColor: '#c63225',
+  highlightColor: '#c63225',
   errorColor: '#f05454',
+  warningColor: '#ffca2b',
 }
 
 const cssVariables: Record<ColorKeys, string> = {
   primaryColor: '--primary-color',
   primaryColorAlt: '--primary-color-alt',
   secondaryColor: '--secondary-color',
+  highlightColor: '--highlight-color',
   errorColor: '--error-color',
+  warningColor: '--warning-color',
 }
 
 const isVisible = ref(false)

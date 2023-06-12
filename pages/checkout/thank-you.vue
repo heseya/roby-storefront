@@ -10,14 +10,14 @@
         <span v-if="auth.isLogged">
           {{ t('container.text2') }}
           <b>
-            <NuxtLink :to="`/account`" class="checkout-container__link">
+            <NuxtLink :to="localePath(`/account`)" class="checkout-container__link">
               {{ $t('breadcrumbs.account') }}
             </NuxtLink>
           </b>
         </span>
       </div>
       <div v-if="route.query.code" class="checkout-container__nav">
-        <NuxtLink :to="`/status/${orderCode}`">
+        <NuxtLink :to="localePath(`/status/${orderCode}`)">
           <LayoutButton class="checkout-container__btn"> {{ t('container.btn') }}</LayoutButton>
         </NuxtLink>
       </div>
@@ -58,6 +58,7 @@ definePageMeta({
 
 const route = useRoute()
 const auth = useAuthStore()
+const localePath = useLocalePath()
 
 const t = useLocalI18n()
 const $t = useGlobalI18n()

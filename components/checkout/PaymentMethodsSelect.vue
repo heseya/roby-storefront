@@ -5,11 +5,12 @@
         <CheckoutTraditionalPaymentNotice class="payment-methods-select__notice" />
       </template>
 
-      <template #payu-label>
+      <template v-for="method in paymentMethods" :key="method.id" #[`${method.id}-label`]>
         <div class="payment-methods-select__label">
-          {{ t('paymentMethods.quick') }}
+          {{ t('paymentMethods.quick') }} {{ method.name }}
           <img
-            src="@/assets/images/payu.png"
+            v-if="method.icon"
+            :src="method.icon"
             role="presentation"
             class="payment-methods-select__label-img"
             loading="lazy"
@@ -90,7 +91,7 @@ const TRADITIONAL_TRANSFER: RadioGroupOption = {
 
 const optionGroups = computed<RadioGroupOption[]>(() => [
   ...(paymentMethods.value?.map((method) => ({
-    key: method.alias,
+    key: method.id,
     value: method.id,
     label: method.name,
   })) || []),

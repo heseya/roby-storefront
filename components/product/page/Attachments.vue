@@ -57,7 +57,7 @@ defineProps<{
 
   &__link {
     display: flex;
-    color: $blue-color;
+    color: $blue-color-500;
     align-items: center;
     text-decoration: none;
 

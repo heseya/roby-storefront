@@ -27,7 +27,7 @@
         </div>
         <div v-else class="reset-password__subbmited">
           <p>{{ t('message') }}</p>
-          <NuxtLink :to="'/login'" class="reset-password__nav">
+          <NuxtLink :to="localePath('/login')" class="reset-password__nav">
             &lt; {{ $t('form.backToLogin') }}
           </NuxtLink>
         </div>
@@ -57,6 +57,7 @@ const $t = useGlobalI18n()
 const formatError = useErrorMessage()
 const heseya = useHeseya()
 const route = useRoute()
+const localePath = useLocalePath()
 
 const query = computed(() => ({
   token: route.query.token as string,

@@ -3,13 +3,13 @@
     <div>
       <ul class="layout-account-nav__list">
         <li v-for="(target, index) in navList" :key="index" class="layout-account-nav__list-item">
-          <NuxtLink :to="`/account/${target.to}`" class="layout-account-nav__text"
+          <NuxtLink :to="localePath(`/account/${target.to}`)" class="layout-account-nav__text"
             >{{ $t(`${target.title}`) }}
           </NuxtLink>
           <LayoutIcon :icon="GoNextIcon" :size="12" class="layout-account-nav__icon" />
         </li>
       </ul>
-      <div class="layout-account-nav__logout" @click="logout">{{ $t('account.logout') }}</div>
+      <div class="layout-account-nav__logout-btn" @click="logout">{{ $t('account.logout') }}</div>
     </div>
   </div>
 </template>
@@ -32,6 +32,7 @@ import { useAuthStore } from '@/store/auth'
 const $t = useGlobalI18n()
 const t = useLocalI18n()
 const auth = useAuthStore()
+const localePath = useLocalePath()
 
 const { notify } = useNotify()
 
@@ -93,13 +94,18 @@ const logout = async () => {
     padding-left: 15px;
     text-decoration: none;
     color: $text-color;
+    transition: color 300ms ease-in-out;
   }
 
-  &__logout {
+  &__logout-btn {
     text-decoration: underline;
     cursor: pointer;
-
     margin: 22px 0px;
+    transition: color 300ms ease-in-out;
+
+    &:hover {
+      color: var(--secondary-color);
+    }
   }
 
   &__icon {

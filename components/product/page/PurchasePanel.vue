@@ -33,7 +33,7 @@
     </LayoutButton>
 
     <a
-      v-if="isLeaseable"
+      v-if="isLeaseable && leaselinkEnabled"
       class="product-purchase-panel__lease-btn"
       :href="getLeasingUrl(product.name, price, false, product.vat_rate)"
     >
@@ -95,7 +95,7 @@ const props = withDefaults(
 const cart = useCartStore()
 const t = useLocalI18n()
 
-const getLeasingUrl = useLeaselink()
+const { enabled: leaselinkEnabled, getUrl: getLeasingUrl } = useLeaselink()
 
 const quantity = ref(1)
 const schemaValue = ref<CartItemSchema[]>(parseSchemasToValues(props.product.schemas))

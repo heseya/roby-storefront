@@ -5,7 +5,7 @@
       <span class="cart-empty__text">{{ $t('cart.empty') }}</span>
     </div>
 
-    <NuxtLink to="/">
+    <NuxtLink :to="localePath('/')">
       <LayoutButton class="cart-empty__btn">{{ t('btn') }}</LayoutButton>
     </NuxtLink>
   </div>
@@ -27,6 +27,7 @@ import CartIcon from '@/assets/icons/shopping.svg?component'
 
 const t = useLocalI18n()
 const $t = useGlobalI18n()
+const localePath = useLocalePath()
 </script>
 
 <style lang="scss" scoped>

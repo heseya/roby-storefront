@@ -28,6 +28,8 @@ html {
   --primary-color: #{$primary-color};
   --primary-color-alt: #{$primary-color-alt};
   --secondary-color: #{$secondary-color};
+  --highlight-color: #{$highlight-color};
+  --warning-color: #{$warning-color};
   --error-color: #{$error-color};
 
   --header-font-family-family: #{$headerFont};
@@ -63,13 +65,13 @@ h2 {
   color: var(--primary-color);
 }
 .blue-text {
-  color: $blue-color;
+  color: $blue-color-500;
 }
 .green-text {
-  color: $green-color;
+  color: $green-color-500;
 }
 .error-text {
-  color: $error-color;
+  color: var(--error-color);
 }
 .gray-600-text {
   color: $gray-color-600;

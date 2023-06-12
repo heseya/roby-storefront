@@ -122,7 +122,7 @@ const saveConsent = async (consents: UserConsentDto) => {
 
   &__action {
     cursor: pointer;
-    color: $blue-color;
+    color: $blue-color-500;
     position: absolute;
     right: 16px;
     top: 50%;
@@ -139,7 +139,7 @@ const saveConsent = async (consents: UserConsentDto) => {
   }
 
   &__error {
-    color: $error-color;
+    color: var(--error-color);
     font-weight: bold;
     text-align: center;
   }

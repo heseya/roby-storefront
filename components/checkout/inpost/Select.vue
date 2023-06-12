@@ -88,7 +88,7 @@ const selectPaczkomat = (machine: Paczkomat) => {
     gap: 10px;
 
     border-radius: 4px;
-    background-color: $unnamed-color-f4f8fc;
+    background-color: $blue-color-100;
   }
 
   &__phone-input {
@@ -96,7 +96,7 @@ const selectPaczkomat = (machine: Paczkomat) => {
   }
 
   &__edit {
-    color: $blue-color;
+    color: $blue-color-500;
   }
 }
 </style>
