@@ -18,6 +18,7 @@
     "@pinia/nuxt": "^0.4.7",
     "@vee-validate/i18n": "^4.9.5",
     "@vee-validate/rules": "^4.9.5",
+    "@vueuse/components": "^10.1.2",
     "@vueuse/core": "^10.1.2",
     "@vueuse/nuxt": "^10.1.2",
     "axios": "^1.4.0",

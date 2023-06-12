@@ -30,6 +30,7 @@ const locales = [
 ]
 
 const ALLOWED_UI_LANGUAGES = process.env.ALLOWED_UI_LANGUAGES?.split(',') || ['pl']
+const DEFAULT_LANGUAGE = process.env.DEFAULT_LANGUAGE || ALLOWED_UI_LANGUAGES[0]
 
 const isProduction = ENVIRONMENT === 'production'
 
@@ -136,8 +137,8 @@ export default defineNuxtConfig({
 
   i18n: {
     baseUrl: APP_HOST,
-
-    defaultLocale: 'pl',
+    defaultLocale: DEFAULT_LANGUAGE,
+    fallbackLocale: DEFAULT_LANGUAGE,
     langDir: 'lang',
     strategy: 'prefix_except_default',
     locales: locales.filter((locale) => ALLOWED_UI_LANGUAGES.includes(locale.code)),

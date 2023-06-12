@@ -1,73 +1,57 @@
 <template>
-  <div ref="menu" class="layout-nav-menu" @click="toggleDropdown">
+  <OnClickOutside class="layout-popover" @trigger="toggleDropdown" @click="toggleDropdown">
     <slot></slot>
-    <div class="layout-nav-menu__item">{{ $t(`languages.${selectedItem}`) }}</div>
+
     <LayoutIcon
       :icon="showDropdown ? arrowUp : arrowDown"
-      class="layout-nav-menu__icon"
+      class="layout-popover__icon"
       @click.stop="toggleDropdown"
     />
 
-    <div v-show="showDropdown" class="layout-nav-menu__dropdown">
+    <div v-show="showDropdown" class="layout-popover__dropdown">
       <button
-        v-for="(item, index) in items"
+        v-for="(item, index) in options"
         :key="index"
-        class="layout-nav-menu__option"
+        class="layout-popover__option"
         @click.stop="selectAndClose(item)"
       >
-        <slot name="options" :value="item"></slot>
+        <slot name="option" :value="item"> {{ item }}</slot>
       </button>
     </div>
-  </div>
+  </OnClickOutside>
 </template>
 
-<script lang="ts" setup>
+<script lang="ts" setup generic="T extends { key: string }">
+import { OnClickOutside } from '@vueuse/components'
 import arrowDown from '@/assets/icons/arrow-down.svg?component'
 import arrowUp from '@/assets/icons/arrow-up.svg?component'
 
-const $t = useGlobalI18n()
-
 const props = defineProps<{
-  selectedItem: string
-  items: string[]
+  value: T
+  options: T[]
 }>()
 
 const emit = defineEmits<{
-  (event: 'update:selectedItem', value: string): void
+  (event: 'update:value', value: T): void
 }>()
 
-const menu = ref<HTMLElement | null>(null)
 const showDropdown = ref<boolean>(false)
 
 const menuItem = computed({
-  get: () => props.selectedItem,
-  set: (value: string) => emit('update:selectedItem', value),
+  get: () => props.value,
+  set: (value: T) => emit('update:value', value),
 })
 
-const selectAndClose = (value: string) => {
+const selectAndClose = (value: T) => {
   menuItem.value = value
   showDropdown.value = false
 }
 
 const toggleDropdown = (): boolean => (showDropdown.value = !showDropdown.value)
-
-const handler = (e: Event) => {
-  if (menu.value && !menu.value.contains(e.target as Node)) {
-    showDropdown.value = false
-  }
-}
-
-onMounted(() => {
-  document.addEventListener('click', handler)
-})
-
-onBeforeUnmount(() => {
-  document.removeEventListener('click', handler)
-})
 </script>
 
 <style lang="scss" scoped>
-.layout-nav-menu {
+.layout-popover {
   display: flex;
   align-items: center;
   cursor: pointer;
@@ -89,7 +73,7 @@ onBeforeUnmount(() => {
     display: flex;
     align-items: center;
     user-select: none;
-    gap: 8px;
+    gap: 4px;
     width: 100%;
     text-align: left;
     border: none;
@@ -103,10 +87,6 @@ onBeforeUnmount(() => {
   &__icon {
     margin-top: 7px;
     padding: 5px;
-  }
-
-  &__item {
-    margin-left: 4px;
   }
 }
 </style>

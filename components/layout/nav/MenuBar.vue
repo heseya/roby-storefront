@@ -1,6 +1,6 @@
 <template>
   <div class="layout-nav-menu-bar">
-    <LayoutNavLanguageMenu />
+    <LayoutNavLanguageSwitch />
   </div>
 </template>
 
