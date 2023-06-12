@@ -9,7 +9,7 @@
           <LayoutIcon :icon="GoNextIcon" :size="12" class="layout-account-nav__icon" />
         </li>
       </ul>
-      <div class="layout-account-nav__logout" @click="logout">{{ $t('account.logout') }}</div>
+      <div class="layout-account-nav__logout-btn" @click="logout">{{ $t('account.logout') }}</div>
     </div>
   </div>
 </template>
@@ -91,13 +91,18 @@ const logout = async () => {
     padding-left: 15px;
     text-decoration: none;
     color: $text-color;
+    transition: color 300ms ease-in-out;
   }
 
-  &__logout {
+  &__logout-btn {
     text-decoration: underline;
     cursor: pointer;
-
     margin: 22px 0px;
+    transition: color 300ms ease-in-out;
+
+    &:hover {
+      color: var(--secondary-color);
+    }
   }
 
   &__icon {
