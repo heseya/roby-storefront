@@ -46,7 +46,7 @@ useSeoMeta({
 .error-page {
   width: calc(100vw - 32px);
   margin: 0 auto;
-  min-height: 700px;
+  margin-top: 48px;
   display: flex;
   flex-direction: column;
   justify-content: center;
