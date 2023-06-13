@@ -29,6 +29,7 @@
 
           <ClientOnly>
             <CartSummary class="cart-page__summary-box" :disabled="isCartEmpty" />
+            <CartCoupons v-show="!isCartEmpty" class="cart-page__summary-box" />
           </ClientOnly>
         </div>
       </div>
@@ -127,6 +128,8 @@ useSeoMeta({
 
   &__summary-box {
     background-color: $gray-color-100;
+    padding: 16px;
+    margin-bottom: 24px;
   }
 
   &__suggested {
