@@ -1,11 +1,11 @@
 <template>
-  <div class="layout-nav-locale-menu">
+  <div class="layout-nav-top-bar">
     <LayoutNavLanguageSwitch />
   </div>
 </template>
 
 <style lang="scss" scoped>
-.layout-nav-locale-menu {
+.layout-nav-top-bar {
   height: 50px;
   display: flex;
   justify-content: flex-end;

@@ -24,11 +24,6 @@ const {
   PAGE_STATUTE_PATH = '/regulamin',
 } = process.env
 
-const locales = [
-  { code: 'pl', iso: 'pl-PL', file: 'pl.ts' },
-  { code: 'en', iso: 'en-US', file: 'en.ts' },
-]
-
 const ALLOWED_UI_LANGUAGES = process.env.ALLOWED_UI_LANGUAGES?.split(',') || ['pl']
 const DEFAULT_LANGUAGE = process.env.DEFAULT_LANGUAGE || ALLOWED_UI_LANGUAGES[0]
 
@@ -140,7 +135,10 @@ export default defineNuxtConfig({
     fallbackLocale: DEFAULT_LANGUAGE,
     langDir: 'lang',
     strategy: 'prefix_except_default',
-    locales: locales.filter((locale) => ALLOWED_UI_LANGUAGES.includes(locale.code)),
+    locales: [
+      { code: 'pl', iso: 'pl-PL', file: 'pl.ts' },
+      { code: 'en', iso: 'en-US', file: 'en.ts' },
+    ].filter((locale) => ALLOWED_UI_LANGUAGES.includes(locale.code)),
     detectBrowserLanguage: {
       useCookie: true,
       cookieKey: 'i18n_redirected',
