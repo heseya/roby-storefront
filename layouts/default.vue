@@ -72,18 +72,21 @@ const isAdditionalNavBarVisible = computed(() => locales.value.length > 1)
     }
 
     &--with-additional-navbar {
-      padding-top: 230px;
+      padding-top: 235px;
+      padding-bottom: 50px;
 
       @media ($max-viewport-12) {
-        padding-top: 105px;
+        padding-top: 110px;
+        padding-bottom: 20px;
       }
     }
 
     &--with-notification.site__content--with-additional-navbar {
-      padding-top: 270px;
+      padding-top: 275px;
+      
 
       @media ($max-viewport-12) {
-        padding-top: 155px;
+        padding-top: 160px;
       }
     }
   }
