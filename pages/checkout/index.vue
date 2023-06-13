@@ -2,11 +2,10 @@
   <NuxtLayout name="checkout">
     <BaseContainer class="checkout-page">
       <section class="checkout-page__section">
-        {{ form.values }}
         <form>
           <CheckoutPersonalData v-model:value="form.values.email">
             <FormCheckbox
-              v-if="!isLogged"
+              v-show="!isLogged"
               v-model="wantCreateAccount"
               class="checkout-page__checkbox"
               name="wantCreateAccount"
@@ -69,6 +68,7 @@
 <script setup lang="ts">
 import clone from 'lodash/clone'
 import { useForm } from 'vee-validate'
+import { ShippingType } from '@heseya/store-core'
 import { CreateUserForm } from '~/components/auth/RegisterForm.vue'
 import { EMPTY_ADDRESS } from '~/consts/address'
 import { TRADITIONAL_PAYMENT_KEY } from '~/consts/traditionalPayment'
@@ -120,7 +120,10 @@ const saveUserAddresses = async () => {
   const { addresses: shipping, add: addShipping } = useUserShippingAddresses()
   const { addresses: billing, add: addBilling } = useUserBillingAddresses()
 
-  if (shipping.value.length === 0) {
+  if (
+    checkout.shippingMethod?.shipping_type === ShippingType.Address &&
+    shipping.value.length === 0
+  ) {
     await addShipping({
       name: t('defaultAddress'),
       default: true,
