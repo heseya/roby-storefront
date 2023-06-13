@@ -5,7 +5,10 @@
     </div>
     <div
       class="site__content"
-      :class="{ 'site__content--with-notification': config.env.top_site_text }"
+      :class="{
+        'site__content--with-notification': config.env.top_site_text,
+        'site__content--with-additional-navbar': isAdditionalNavBarVisible,
+      }"
     >
       <main class="site__main">
         <slot></slot>
@@ -23,6 +26,9 @@
 import { useConfigStore } from '~/store/config'
 
 const config = useConfigStore()
+const { locales } = useI18n()
+
+const isAdditionalNavBarVisible = computed(() => locales.value.length > 1)
 
 // TODO load notification without hydration & layout shift problem
 // import { useNavNotificationBarStore } from '@/store/navNotificationBar'
@@ -62,6 +68,24 @@ const config = useConfigStore()
 
       @media ($max-viewport-12) {
         padding-top: 100px;
+      }
+    }
+
+    &--with-additional-navbar {
+      padding-top: 235px;
+      padding-bottom: 50px;
+
+      @media ($max-viewport-12) {
+        padding-top: 110px;
+        padding-bottom: 20px;
+      }
+    }
+
+    &--with-notification.site__content--with-additional-navbar {
+      padding-top: 275px;
+
+      @media ($max-viewport-12) {
+        padding-top: 160px;
       }
     }
   }

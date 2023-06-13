@@ -24,6 +24,9 @@ const {
   PAGE_STATUTE_PATH = '/regulamin',
 } = process.env
 
+const ALLOWED_UI_LANGUAGES = process.env.ALLOWED_UI_LANGUAGES?.split(',') || ['pl']
+const DEFAULT_LANGUAGE = process.env.DEFAULT_LANGUAGE || ALLOWED_UI_LANGUAGES[0]
+
 const isProduction = ENVIRONMENT === 'production'
 
 if (!API_URL) console.warn('API_URL env is not defined')
@@ -128,10 +131,14 @@ export default defineNuxtConfig({
 
   i18n: {
     baseUrl: APP_HOST,
-    locales: [{ code: 'pl', iso: 'pl-PL', file: 'pl.ts' }],
-    defaultLocale: 'pl',
+    defaultLocale: DEFAULT_LANGUAGE,
+    fallbackLocale: DEFAULT_LANGUAGE,
     langDir: 'lang',
     strategy: 'prefix_except_default',
+    locales: [
+      { code: 'pl', iso: 'pl-PL', file: 'pl.ts' },
+      { code: 'en', iso: 'en-US', file: 'en.ts' },
+    ].filter((locale) => ALLOWED_UI_LANGUAGES.includes(locale.code)),
     detectBrowserLanguage: {
       useCookie: true,
       cookieKey: 'i18n_redirected',

@@ -2,7 +2,6 @@
   <Html :lang="i18nHead.htmlAttrs?.lang" :dir="i18nHead.htmlAttrs?.dir">
     <LayoutThemeContext>
       <NuxtLoadingIndicator />
-
       <ShopOff v-if="isShopDisabled" />
       <NuxtPage v-else />
 
