@@ -55,6 +55,14 @@
     "wishlist": {
       "loading": "Ładowanie listy życzeń..."
     }
+  },
+  "en": {
+    "welcome": "Hello, ",
+    "message": "Here you can manage your orders and account settings.",
+    "lastOrder": "Last order",
+    "wishlist": {
+      "loading": "Loading wishlist..."
+    }
   }
 }
 </i18n>

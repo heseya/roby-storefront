@@ -24,6 +24,9 @@
 {
   "pl": {
     "title": "Wybierz punkt odbioru"
+  },
+  "en": {
+    "title": "Select a pick-up point"
   }
 }
 </i18n>

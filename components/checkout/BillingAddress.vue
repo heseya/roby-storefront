@@ -22,6 +22,11 @@
     "billingAddress": {
       "copy": "Skopiuj z adresu dostawy"
     }
+  },
+  "en": {
+    "billingAddress": {
+      "copy": "Copy from delivery address"
+    }
   }
 }
 </i18n>

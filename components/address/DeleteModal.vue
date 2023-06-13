@@ -27,6 +27,20 @@
       "confirmDelete": "Czy napewno chcesz usunąć adres?",
       "sucessUpdate": "Pomyślnie usunięto adres"
     }
+  },
+  "en": {
+    "billing": {
+      "header": "Deleting billing data",
+      "delete": "Delete billing data",
+      "confirmDelete": "Are you sure you want delete billing data?",
+      "sucessUpdate": "Billing data deleted successfully"
+    },
+    "shipping": {
+      "header": "Deleting shipping address",
+      "delete": "Delete shipping address",
+      "confirmDelete": "Are you sure you want delete shipping address?",
+      "sucessUpdate": "Shipping address deleted successfully"
+    }
   }
 }
 </i18n>

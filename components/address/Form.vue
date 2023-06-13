@@ -85,6 +85,15 @@
     "phone": "Telefon",
     "country": "Kraj",
     "info": "Dane obowiązkowe do wypełnienia"
+  },
+  "en": {
+    "companyName": "Company name",
+    "address": "Address",
+    "city": "City",
+    "postalCode": "Postal Code",
+    "phone": "Phone",
+    "country": "Country",
+    "info": "Mandatory data to be completed"
   }
 }
 </i18n>

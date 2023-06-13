@@ -41,6 +41,10 @@
   "pl": {
     "title": "Resetowanie hasła",
     "message": "Twoje hasło zostało pomyślnie zmienione"
+  },
+  "en": {
+    "title": "Reset password",
+    "message": "Your password has been changed successfully"
   }
 }
 </i18n>

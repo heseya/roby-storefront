@@ -24,6 +24,9 @@
 {
   "pl": {
     "menu": "Menu"
+  },
+  "en": {
+    "menu": "Menu"
   }
 }
 </i18n>

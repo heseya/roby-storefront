@@ -19,6 +19,13 @@
       "conditions": "Warunki",
       "privacy": "Prywatność"
     }
+  },
+  "en": {
+    "recaptcha": {
+      "message": "This website uses Google reCAPTCHA protection",
+      "conditions": "Conditions",
+      "privacy": "Privacy"
+    }
   }
 }
 </i18n>

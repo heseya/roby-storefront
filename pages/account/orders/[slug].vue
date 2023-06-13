@@ -24,6 +24,9 @@
 {
   "pl": {
     "route": "Zamówienie nr "
+  },
+  "en": {
+    "route": "Order number "
   }
 }
 </i18n>

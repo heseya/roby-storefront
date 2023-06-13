@@ -43,6 +43,16 @@
     "form": {
       "benefits-header": "Mając konto w sklepie możesz:"
     }
+  },
+  "en": {
+    "benefits": {
+      "faster": "Place orders faster and more conveniently",
+      "track": "Track the status of your shipment",
+      "wishlist": "Add products to your wish list"
+    },
+    "form": {
+      "benefits-header": "With an account in the store, you can:"
+    }
   }
 }
 </i18n>

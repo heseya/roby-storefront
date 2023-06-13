@@ -28,6 +28,11 @@
     "header": "Zmiana hasła",
     "newPassword": "Nowe hasło",
     "sucessUpdate": "Hasło zostało zmienione"
+  },
+  "en": {
+    "header": "Change password",
+    "newPassword": "New password",
+    "sucessUpdate": "Password has been changed"
   }
 }
 </i18n>

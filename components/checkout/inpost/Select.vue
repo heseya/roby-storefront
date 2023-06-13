@@ -43,6 +43,11 @@
     "button": "Wybierz paczkomat",
     "phone": "Number telefonu odbiorcy",
     "change": "Wybierz paczkomat"
+  },
+  "en": {
+    "button": "Choose parcel locker",
+    "phone": "Recipient's phone number",
+    "change": "Choose parcel locker"
   }
 }
 </i18n>

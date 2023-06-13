@@ -16,6 +16,10 @@
   "pl": {
     "next": "Przewiń do następnego slajdu",
     "prev": "Przewiń do poprzedniego slajdu"
+  },
+  "en": {
+    "next": "Scroll to the next slide",
+    "prev": "Scroll to the previous slide"
   }
 }
 </i18n>

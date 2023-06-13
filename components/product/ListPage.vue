@@ -85,6 +85,10 @@
   "pl": {
     "openAside": "Rozwiń filtry",
     "empty": "Nie znaleziono produktów spełniających podane kryteria"
+  },
+  "en": {
+    "openAside": "Expand filters",
+    "empty": "No products were found matching your criteria"
   }
 }
 </i18n>

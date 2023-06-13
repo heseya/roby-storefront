@@ -21,6 +21,9 @@
 {
   "pl": {
     "text": "Pokaż na stronie"
+  },
+  "en": {
+    "text": "Show on page"
   }
 }
 </i18n>

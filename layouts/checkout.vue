@@ -36,6 +36,10 @@
   "pl": {
     "checkout": "Dostawa i płatność",
     "finished": "Gotowe"
+  },
+  "en": {
+    "checkout": "Delivery and payment",
+    "finished": "Finished"
   }
 }
 </i18n>

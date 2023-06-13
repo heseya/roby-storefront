@@ -45,6 +45,9 @@
 {
   "pl": {
     "linkedinAction": "Przejdź do LinkedIn"
+  },
+  "en": {
+    "linkedinAction": "Go to LinkedIn"
   }
 }
 </i18n>
