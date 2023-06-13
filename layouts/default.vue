@@ -83,7 +83,6 @@ const isAdditionalNavBarVisible = computed(() => locales.value.length > 1)
 
     &--with-notification.site__content--with-additional-navbar {
       padding-top: 275px;
-      
 
       @media ($max-viewport-12) {
         padding-top: 160px;
