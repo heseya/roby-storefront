@@ -27,6 +27,6 @@ export const changePagePathOrRemoveByName = (
   name: string,
   newPath?: string,
 ): void => {
-  if (newPath) changePagePathByName(pages, name, newPath)
+  if (newPath && newPath !== '0') changePagePathByName(pages, name, newPath)
   else removePageByName(name, pages)
 }

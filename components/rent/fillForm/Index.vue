@@ -1,20 +1,37 @@
 <template>
-  <div class="fill-form">
+  <div v-if="rentForm" class="fill-form">
     <div class="fill-form__header">
       <LayoutHeader tag="h2" variant="black" class="fill-form__title">
-        Wypełnij formularz i
-        <span class="fill-form__title--color">zapytaj o wynajem</span>
+        {{ rentForm.text_1 }}
+        <span class="fill-form__title--color"> {{ rentForm.text_2 }}</span>
       </LayoutHeader>
       <div class="fill-form__icon-container">
         <LayoutIcon class="fill-form__icon" :icon="DoubleIcon" :size="28" />
       </div>
     </div>
-    <ProductPageContactForm class="fill-form__contact-form" type="renting" action-text="Wyślij" />
+    <ProductPageContactForm
+      :description="rentForm.description"
+      class="fill-form__contact-form"
+      type="renting"
+      :action-text="$t('form.send')"
+    />
   </div>
 </template>
 
 <script lang="ts" setup>
 import DoubleIcon from '@/assets/icons/double-chevron.svg?component'
+import { TranslatedRentPageForm } from '~/interfaces/rentPage'
+
+const $t = useGlobalI18n()
+
+const { data: rentForm } = useAsyncData('rent-page-form', async () => {
+  const directus = useDirectus()
+  const data = await directus.items('RentPageForm').readOne(1, {
+    // @ts-ignore directus typing is wrong
+    fields: ['translations.text_1', 'translations.text_2', 'translations.description'],
+  })
+  return data && (getTranslated(data.translations, 'pl-PL') as TranslatedRentPageForm)
+})
 </script>
 
 <style lang="scss" scoped>

@@ -1,9 +1,7 @@
 <template>
   <NuxtLayout>
     <div class="index-page">
-      <LazyHydrate when-idle>
-        <HomeBanner v-if="data?.mainBanner" class="index-page__banner" :banner="data?.mainBanner" />
-      </LazyHydrate>
+      <HomeBanner v-if="data?.mainBanner" class="index-page__banner" :banner="data?.mainBanner" />
 
       <template
         v-for="section in sections"
@@ -13,40 +11,32 @@
           class="index-page__content"
           :class="{ 'index-page__content--wide': section.type === 'box' }"
         >
-          <LazyHydrate when-idle>
-            <LazyHomeProductCarousel
-              v-if="section.type === 'set'"
-              :category="section.data"
-              header-tag="h2"
-            />
+          <LazyHomeProductCarousel
+            v-if="section.type === 'set'"
+            :category="section.data"
+            header-tag="h2"
+          />
 
-            <LazyHomeLinkBox v-if="section.type === 'box'" :link="section.data" />
-          </LazyHydrate>
+          <LazyHomeLinkBox v-if="section.type === 'box'" :link="section.data" />
         </BaseContainer>
       </template>
 
       <BaseContainer class="index-page__content">
-        <LazyHydrate when-visible>
-          <LazyHomeBlogArticlesList />
-        </LazyHydrate>
+        <LazyHomeBlogArticlesList />
 
-        <LazyHydrate when-visible>
-          <LazyHomeWhyUs />
-        </LazyHydrate>
+        <LazyHomeWhyUs />
 
-        <LazyHydrate when-visible>
-          <LazyHomeImageCarousel
-            v-for="banner in data?.homepageBanners"
-            :key="banner.id"
-            class="index-page__image-carousel"
-            header-tag="h2"
-            :banner="banner"
-            :title="banner.name"
-            :gray-filter="!!banner.metadata.gray_filter"
-            :image-height="(banner.metadata.image_height as any)"
-            :image-width="(banner.metadata.image_width as any)"
-          />
-        </LazyHydrate>
+        <LazyHomeImageCarousel
+          v-for="banner in data?.homepageBanners"
+          :key="banner.id"
+          class="index-page__image-carousel"
+          header-tag="h2"
+          :banner="banner"
+          :title="banner.name"
+          :gray-filter="!!banner.metadata.gray_filter"
+          :image-height="(banner.metadata.image_height as any)"
+          :image-width="(banner.metadata.image_width as any)"
+        />
       </BaseContainer>
     </div>
   </NuxtLayout>

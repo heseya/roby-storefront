@@ -1,56 +1,97 @@
 <template>
-  <div class="color-theme-picker">
-    <div class="color-theme-picker__input">
-      <input id="primaryColor" v-model="colors.primaryColor" type="color" />
-      <label for="primaryColor"> Primary Color </label>
-    </div>
-
-    <div class="color-theme-picker__input">
-      <input id="primaryColorAlt" v-model="colors.primaryColorAlt" type="color" />
-      <label for="primaryColorAlt"> Primary Color Alt </label>
-    </div>
-
-    <div class="color-theme-picker__input">
-      <input id="secondaryColor" v-model="colors.secondaryColor" type="color" />
-      <label for="secondaryColor"> Secondary Color </label>
-    </div>
-
-    <div class="color-theme-picker__input">
-      <input id="errorColor" v-model="colors.errorColor" type="color" />
-      <label for="errorColor"> Error Color </label>
+  <div class="color-theme-picker" :class="{ 'color-theme-picker--visible': isVisible }">
+    <div
+      v-for="colorKey in Object.keys(cssVariables)"
+      :key="colorKey"
+      class="color-theme-picker__input"
+    >
+      <input :id="colorKey" v-model="colors[colorKey as ColorKeys]" type="color" />
+      <label :for="colorKey">
+        {{ t(`colors.${colorKey}`) }}
+      </label>
     </div>
 
     <button
       class="color-theme-picker__btn color-theme-picker__btn--transparent"
       @click="restoreDefaultColors"
     >
-      Wróć do domyślnych
+      {{ t('actions.restoreDefault') }}
     </button>
-    <button class="color-theme-picker__btn" @click="copy">Kopiuj paletę kolorów</button>
+    <button class="color-theme-picker__btn" @click="copy">{{ t('actions.copy') }}</button>
+
+    <button class="color-theme-picker__hide-btn" @click="isVisible = !isVisible">
+      <LayoutIcon
+        :icon="ChevronIcon"
+        :size="12"
+        :style="{
+          transform: `rotate(${isVisible ? 180 : 0}deg)`,
+        }"
+      />
+    </button>
   </div>
 </template>
 
-<script setup lang="ts">
-const { notify } = useNotify()
+<i18n lang="json">
+{
+  "pl": {
+    "colors": {
+      "primaryColor": "Kolor główny",
+      "secondaryColor": "Kolor dodatkowy",
+      "primaryColorAlt": "Kolor główny alternatywny",
+      "highlightColor": "Kolor podświetlenia",
+      "errorColor": "Kolor błędu",
+      "warningColor": "Kolor ostrzeżenia"
+    },
+    "actions": {
+      "restoreDefault": "Wróć do domyślnych",
+      "copy": "Kopiuj paletę kolorów"
+    }
+  }
+}
+</i18n>
 
-const defaultColors = {
+<script setup lang="ts">
+import ChevronIcon from '@/assets/icons/chevron.svg?component'
+
+const { notify } = useNotify()
+const t = useLocalI18n()
+
+type ColorKeys =
+  | 'primaryColor'
+  | 'primaryColorAlt'
+  | 'secondaryColor'
+  | 'highlightColor'
+  | 'errorColor'
+  | 'warningColor'
+
+const defaultColors: Record<ColorKeys, string> = {
   primaryColor: '#ffca2b',
-  secondaryColor: '#c63225',
   primaryColorAlt: '#e1a044',
+  secondaryColor: '#c63225',
+  highlightColor: '#c63225',
   errorColor: '#f05454',
+  warningColor: '#ffca2b',
 }
 
-const parentEl = useParentElement()
+const cssVariables: Record<ColorKeys, string> = {
+  primaryColor: '--primary-color',
+  primaryColorAlt: '--primary-color-alt',
+  secondaryColor: '--secondary-color',
+  highlightColor: '--highlight-color',
+  errorColor: '--error-color',
+  warningColor: '--warning-color',
+}
 
+const isVisible = ref(false)
+const parentEl = useParentElement()
 const colors = useLocalStorage('colors', { ...defaultColors })
 
 watchEffect(() => {
   if (process.server) return
 
-  parentEl.value?.style.setProperty('--primary-color', colors.value.primaryColor)
-  parentEl.value?.style.setProperty('--secondary-color', colors.value.secondaryColor)
-  parentEl.value?.style.setProperty('--primary-color-alt', colors.value.primaryColorAlt)
-  parentEl.value?.style.setProperty('--error-color', colors.value.errorColor)
+  Object.entries(cssVariables).forEach(([key, value]) => {
+    parentEl.value?.style.setProperty(value, colors.value[key as ColorKeys])
+  })
 })
 
 const restoreDefaultColors = () => {
@@ -58,10 +99,9 @@ const restoreDefaultColors = () => {
 }
 
 const copy = async () => {
-  const css = `
---primary-color: ${colors.value.primaryColor};
---secondary-color: ${colors.value.secondaryColor};
-  `
+  const css = Object.entries(cssVariables).reduce((acc, [key, value]) => {
+    return `${acc}\n${value}: ${colors.value[key as ColorKeys]};`
+  }, '')
 
   await navigator.clipboard.writeText(css)
 
@@ -83,6 +123,12 @@ const copy = async () => {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   z-index: 9999;
   padding-top: 8px;
+  transform: translateX(calc(-100% - 20px));
+  transition: 0.3s;
+
+  &--visible {
+    transform: none;
+  }
 
   &__input {
     display: flex;
@@ -138,6 +184,32 @@ const copy = async () => {
       &:hover {
         background-color: #fafafa;
       }
+    }
+  }
+
+  &__hide-btn {
+    all: unset;
+    position: absolute;
+    left: 100%;
+    bottom: 3em;
+    background-color: #fff;
+    padding: 4px 8px;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    color: $gray-color-600;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+
+    &::before {
+      content: '';
+      position: absolute;
+      left: -8px;
+      top: 0;
+      height: 100%;
+      width: 16px;
+      background-color: #fff;
+      pointer-events: none;
     }
   }
 }

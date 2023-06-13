@@ -1,6 +1,6 @@
 <template>
   <div class="product-list-item">
-    <NuxtLink :to="`/product/${product.slug}`">
+    <NuxtLink :to="localePath(`/product/${product.slug}`)">
       <Media object-fit="cover" :media="product.cover" />
     </NuxtLink>
   </div>
@@ -12,6 +12,8 @@ import { ProductList } from '@heseya/store-core'
 defineProps<{
   product: ProductList
 }>()
+
+const localePath = useLocalePath()
 </script>
 
 <style lang="scss" scoped>

@@ -87,7 +87,7 @@ const checkout = useCheckoutStore()
     }
 
     &--green {
-      color: $green-color;
+      color: $green-color-500;
       font-weight: 500;
     }
   }

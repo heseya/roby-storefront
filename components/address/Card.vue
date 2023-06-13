@@ -137,7 +137,7 @@ const openDeleteAddressModal = () => {
   }
 
   &__icon {
-    color: $blue-color;
+    color: $blue-color-500;
 
     &:hover {
       opacity: 0.7;
@@ -145,7 +145,7 @@ const openDeleteAddressModal = () => {
   }
 
   &--selected > &__select {
-    border: 1px solid $primary-color-alt;
+    border: 1px solid var(--primary-color-alt);
 
     &::before {
       content: '';
@@ -156,7 +156,7 @@ const openDeleteAddressModal = () => {
       height: 8px;
       width: 8px;
       border-radius: 50%;
-      background-color: $primary-color-alt;
+      background-color: var(--primary-color-alt);
     }
   }
 }
