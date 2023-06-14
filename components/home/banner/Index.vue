@@ -38,6 +38,7 @@ const remainingImages = computed(() => props.banner?.banner_media.slice(1) as Ba
 <style lang="scss" scoped>
 .banner {
   @include flex-column;
+  width: 100%;
   max-height: 960px;
 
   &__main-card {
