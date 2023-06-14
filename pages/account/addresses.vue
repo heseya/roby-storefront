@@ -1,5 +1,5 @@
 <template>
-  <NuxtLayout>
+  <NuxtLayout class="content--no-bottom-padding">
     <LayoutBreadcrumpsProvider :breadcrumbs="breadcrumbs" />
 
     <LayoutAccount class="account-addresses">

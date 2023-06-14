@@ -55,12 +55,12 @@ const isAdditionalNavBarVisible = computed(() => locales.value.length > 1)
 
     flex: 1;
     padding-top: 185px;
-    padding-bottom: 100px;
+    padding-bottom: 190px;
     transition: padding-top 200ms ease-in-out;
 
     @media ($max-viewport-12) {
       padding-top: 60px;
-      padding-bottom: 70px;
+      padding-bottom: 100px;
     }
 
     &--with-notification {
@@ -73,11 +73,11 @@ const isAdditionalNavBarVisible = computed(() => locales.value.length > 1)
 
     &--with-additional-navbar {
       padding-top: 235px;
-      padding-bottom: 50px;
+      padding-bottom: 140px;
 
       @media ($max-viewport-12) {
         padding-top: 110px;
-        padding-bottom: 20px;
+        padding-bottom: 50px;
       }
     }
 
@@ -93,5 +93,9 @@ const isAdditionalNavBarVisible = computed(() => locales.value.length > 1)
   &__main {
     width: 100%;
   }
+}
+
+.content--no-bottom-padding .site__content {
+  padding-bottom: 0;
 }
 </style>

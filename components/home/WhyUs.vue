@@ -83,7 +83,7 @@ const imageUrl = computed(() => getImageUrl(content.value?.image))
     gap: 20px;
 
     @media ($viewport-9) {
-      margin: 70px 0 40px 0;
+      margin-top: 70px;
       max-width: 80%;
       flex-direction: row;
     }
