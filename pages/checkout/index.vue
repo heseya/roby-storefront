@@ -3,7 +3,7 @@
     <BaseContainer class="checkout-page">
       <section class="checkout-page__section">
         <form>
-          <CheckoutPersonalData v-model:value="form.values.email">
+          <CheckoutPersonalData v-model:email="registerForm.values.email">
             <FormCheckbox
               v-show="!isLogged"
               v-model="wantCreateAccount"
@@ -17,13 +17,12 @@
           <keep-alive>
             <CheckoutRegisterForm
               v-if="!isLogged && wantCreateAccount"
-              :name="form.values.name"
-              :surname="form.values.surname"
-              :password="form.values.password"
-              :confirm-password="form.values.confirmPassword"
-              :consents="form.values.consents"
-              @update:value="updateForm($event)"
-              @update:consents="form.values.consents = { ...$event }"
+              v-model:consents="registerForm.values.consents"
+              :name="registerForm.values.name"
+              :surname="registerForm.values.surname"
+              :password="registerForm.values.password"
+              :confirm-password="registerForm.values.confirmPassword"
+              @update="updateRegisterForm"
             >
               <LayoutInfoBox v-if="errorMessage" type="danger">
                 {{ errorMessage }}
@@ -42,7 +41,7 @@
       </section>
       <section class="checkout-page__section">
         <CheckoutSummary
-          :enable-confirm-button="!wantCreateAccount || IsFormValid"
+          :disabled="wantCreateAccount && !isRegisterFormValid"
           @submit="processOrder()"
         />
       </section>
@@ -92,7 +91,7 @@ const wantCreateAccount = ref<boolean>(false)
 
 const errorMessage = ref('')
 
-const form = useForm({
+const registerForm = useForm({
   initialValues: {
     email: '',
     name: '',
@@ -103,17 +102,23 @@ const form = useForm({
   },
 })
 
-const IsFormValid = computed(() => {
-  const { name, surname, password, confirmPassword } = form.values
+const isRegisterFormValid = computed(() => {
+  const { name, surname, password, confirmPassword } = registerForm.values
 
-  if (!name || !surname || !password || !confirmPassword || Object.keys(form.errors.value).length)
+  if (
+    !name ||
+    !surname ||
+    !password ||
+    !confirmPassword ||
+    Object.keys(registerForm.errors.value).length
+  )
     return false
 
   return true
 })
 
-const updateForm = (e: { key: keyof Omit<CreateUserForm, 'consents'>; value: string }) => {
-  form.values[e.key] = e.value
+const updateRegisterForm = (e: { key: keyof Omit<CreateUserForm, 'consents'>; value: string }) => {
+  registerForm.values[e.key] = e.value
 }
 
 const saveUserAddresses = async () => {
@@ -168,7 +173,7 @@ const createOrder = async () => {
 }
 
 const createAccountAndLogin = async () => {
-  const { name, surname, email, consents, password } = form.values
+  const { name, surname, email, consents, password } = registerForm.values
   await heseya.Auth.register({
     name: name + ' ' + surname,
     email,
@@ -209,10 +214,10 @@ watch(
 )
 
 watch(
-  () => form.values.email,
+  () => registerForm.values.email,
   () => {
     if (!isLogged.value) {
-      checkout.email = form.values.email
+      checkout.email = registerForm.values.email
     }
   },
 )

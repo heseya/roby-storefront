@@ -7,7 +7,7 @@
         autocomplete="name"
         name="name"
         rules="alpha|required"
-        @update:model-value="emit('update:value', { key: 'name', value: $event as string })"
+        @update:model-value="emit('update', { key: 'name', value: $event as string })"
       />
       <FormInput
         :model-value="surname"
@@ -15,14 +15,14 @@
         autocomplete="surname"
         name="surname"
         rules="alpha|required"
-        @update:model-value="emit('update:value', { key: 'surname', value: $event as string })"
+        @update:model-value="emit('update', { key: 'surname', value: $event as string })"
       />
       <FormInputPassword
         :model-value="password"
         :label="$t('form.password')"
         autocomplete="new-password"
         name="password"
-        @update:model-value="emit('update:value', { key: 'password', value: $event as string })"
+        @update:model-value="emit('update', { key: 'password', value: $event as string })"
       />
       <FormInputPassword
         :model-value="confirmPassword"
@@ -30,15 +30,10 @@
         autocomplete="confirmPassword"
         name="confirmPassword"
         rules="confirmedPassword:@password|required"
-        @update:model-value="
-          emit('update:value', { key: 'confirmPassword', value: $event as string })
-        "
+        @update:model-value="emit('update', { key: 'confirmPassword', value: $event as string })"
       />
 
-      <AccountConsentsList
-        :value="consents"
-        @update:value="emit('update:consents', $event as UserConsentDto)"
-      />
+      <AccountConsentsList v-model:value="consents" />
     </div>
 
     <slot></slot>
@@ -49,7 +44,7 @@
 import { UserConsentDto } from '@heseya/store-core'
 import { CreateUserForm } from '../auth/RegisterForm.vue'
 
-defineProps<{
+const props = defineProps<{
   name: string
   surname: string
   password: string
@@ -58,12 +53,14 @@ defineProps<{
 }>()
 
 const emit = defineEmits<{
-  (
-    event: 'update:value',
-    value: { key: keyof Omit<CreateUserForm, 'consents'>; value: string },
-  ): void
+  (event: 'update', value: { key: keyof Omit<CreateUserForm, 'consents'>; value: string }): void
   (event: 'update:consents', value: UserConsentDto): void
 }>()
+
+const consents = computed({
+  get: () => props.consents,
+  set: (value) => emit('update:consents', value),
+})
 </script>
 
 <style lang="scss" scoped>

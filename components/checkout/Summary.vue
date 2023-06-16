@@ -34,7 +34,7 @@
       <LayoutButton
         variant="primary"
         class="cart-summary__button"
-        :disabled="!enableConfirmButton || !checkout.isValid"
+        :disabled="disabled || !checkout.isValid"
         @click="emit('submit')"
       >
         {{ $t('payments.confirmAndPay') }}
@@ -48,7 +48,7 @@ import { useCartStore } from '@/store/cart'
 import { useCheckoutStore } from '~/store/checkout'
 
 defineProps<{
-  enableConfirmButton: boolean
+  disabled: boolean
 }>()
 
 const emit = defineEmits<{

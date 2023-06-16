@@ -1,6 +1,6 @@
 <template>
   <CheckoutPageArea :title="$t('account.myData')">
-    <div class="checkout-personal-data__myData">
+    <div class="checkout-personal-data__my-data">
       <FormInput
         v-if="!isLogged"
         v-model="email"
@@ -21,16 +21,16 @@
 const $t = useGlobalI18n()
 
 const props = defineProps<{
-  value: string
+  email: string
 }>()
 
 const emit = defineEmits<{
-  (event: 'update:value', value: string): void
+  (event: 'update:email', value: string): void
 }>()
 
 const email = computed({
-  get: () => props.value,
-  set: (value) => emit('update:value', value),
+  get: () => props.email,
+  set: (value) => emit('update:email', value),
 })
 
 const isLogged = useIsLogged()
@@ -39,7 +39,7 @@ const user = useUser()
 
 <style lang="scss" scoped>
 .checkout-personal-data {
-  &__myData {
+  &__my-data {
     width: 100%;
     display: grid;
     grid-template-columns: 1fr;
