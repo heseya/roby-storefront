@@ -88,7 +88,10 @@ const showPrice = computed(() => {
   }
 
   &__content {
+    @include flex-column;
+    height: 100%;
     width: 100%;
+    justify-content: space-between;
   }
 
   &__tags {
