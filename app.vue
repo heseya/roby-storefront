@@ -43,8 +43,13 @@ useHead({
   link: [
     ...(i18nHead.value.link || []),
     { rel: 'icon', type: 'image/x-icon', href: config.faviconUrl },
+    ...(seo.value.header_tags?.filter((tag) => tag.type === 'link') || []),
   ],
-  meta: i18nHead.value.meta,
+  meta: [
+    ...(i18nHead.value.meta || []),
+    ...(seo.value.header_tags?.filter((tag) => tag.type === 'meta') || []),
+  ],
+  script: [...(seo.value.header_tags?.filter((tag) => tag.type === 'script') || [])],
 })
 </script>
 
