@@ -24,7 +24,7 @@ export default {
     billingAddress: 'Dane do rachunku',
     payment: 'Płatność',
     paid: 'Opłacono',
-    notPaid: 'Nie opłacono',
+    unpaid: 'Nie opłacono',
     confirmAndPay: 'Potwierdzam i płacę',
     traditionalTransfer: 'Przelew tradycyjny',
     payForOrder: 'Opłać zamówienie',
@@ -96,6 +96,11 @@ export default {
     open: 'Otwórz wyszukiwarkę',
     close: 'Zamknij wyszukiwarkę',
     placeholder: 'Czego szukasz?',
+  },
+
+  languages: {
+    pl: 'Polski',
+    en: 'Angielski',
   },
 
   seo: {

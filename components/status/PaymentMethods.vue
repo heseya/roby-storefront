@@ -19,6 +19,9 @@
 {
   "pl": {
     "title": "Wybierz metodę płatności"
+  },
+  "en": {
+    "title": "Choose payment method"
   }
 }
 </i18n>

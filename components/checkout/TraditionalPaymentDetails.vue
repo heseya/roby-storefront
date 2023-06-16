@@ -41,6 +41,17 @@
       "text": "Twoje zamówienie zostanie zrealizowane po zaksięgowaniu wpłaty na naszym koncie.",
       "orderNumber": "Zamówienie"
     }
+  },
+  "en": {
+    "notice": {
+      "title": "Billing data:",
+      "recipient": "The recipient's details",
+      "bank": "Bank",
+      "bankAccount": "Bank account",
+      "transferTitle": "Transfer title",
+      "text": "Your order will be processed after the payment is credited to our account.",
+      "orderNumber": "Order number"
+    }
   }
 }
 </i18n>

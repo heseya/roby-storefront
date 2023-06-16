@@ -13,7 +13,6 @@
 
 <script setup lang="ts">
 const breadcrumbs = useBreadcrumbsState()
-
 const router = useRouter()
 const localePath = useLocalePath()
 

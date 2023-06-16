@@ -51,6 +51,10 @@
   "pl": {
     "shippingTime": "Przewidywana wysyłka",
     "packagingTime": "Przewidywany czas realizacji dostawy"
+  },
+  "en": {
+    "shippingTime": "Estimated shipment",
+    "packagingTime": "Estimated delivery time"
   }
 }
 </i18n>

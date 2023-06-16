@@ -77,6 +77,12 @@
       "name": "Imię",
       "surname": "Nazwisko"
     }
+  },
+  "en": {
+    "form": {
+      "name": "Name",
+      "surname": "Surname"
+    }
   }
 }
 </i18n>

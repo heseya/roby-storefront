@@ -26,6 +26,9 @@
 {
   "pl": {
     "emptyValue": "-- Wybierz opcję --"
+  },
+  "en": {
+    "emptyValue": "-- Select --"
   }
 }
 </i18n>

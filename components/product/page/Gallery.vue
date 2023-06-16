@@ -44,6 +44,11 @@
     "close": "Zamknij galerię",
     "next": "Następne zdjęcie",
     "prev": "Poprzednie zdjęcie"
+  },
+  "en": {
+    "close": "Close the gallery",
+    "next": "Next photo",
+    "prev": "Previous photo"
   }
 }
 </i18n>

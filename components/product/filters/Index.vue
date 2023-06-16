@@ -53,6 +53,10 @@
   "pl": {
     "title": "Filtry",
     "price": "Cena"
+  },
+  "en": {
+    "title": "Filters",
+    "price": "Price"
   }
 }
 </i18n>

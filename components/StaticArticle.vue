@@ -15,6 +15,9 @@
 {
   "pl": {
     "notFoundError": "Nie znaleziono strony o podanym adresie"
+  },
+  "en": {
+    "notFoundError": "The page with the given address was not found"
   }
 }
 </i18n>

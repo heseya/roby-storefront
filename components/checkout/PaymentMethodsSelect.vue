@@ -28,6 +28,12 @@
       "traditional": "Przelew bankowy",
       "quick": "Przelew natychmiastowy"
     }
+  },
+  "en": {
+    "paymentMethods": {
+      "traditional": "Bank transfer",
+      "quick": "Instant transfer"
+    }
   }
 }
 </i18n>

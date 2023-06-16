@@ -17,6 +17,9 @@
 {
   "pl": {
     "quantity": "szt."
+  },
+  "en": {
+    "quantity": "pcs."
   }
 }
 </i18n>

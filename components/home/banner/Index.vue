@@ -39,10 +39,10 @@ const remainingImages = computed(() => props.banner?.banner_media.slice(1) as Ba
 .banner {
   @include flex-column;
   width: 100%;
-  height: 960px;
+  max-height: 960px;
 
   &__main-card {
-    flex: 1;
+    height: 480px;
     @media ($viewport-9) {
       flex-direction: row;
     }

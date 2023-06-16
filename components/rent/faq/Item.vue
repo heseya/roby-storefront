@@ -20,6 +20,10 @@
   "pl": {
     "hide": "Ukryj odpowiedź",
     "show": "Pokaż odpowiedź"
+  },
+  "en": {
+    "hide": "Hide answer",
+    "show": "Show answer"
   }
 }
 </i18n>

@@ -54,6 +54,10 @@
   "pl": {
     "pending": "W trakcie",
     "goToPayment": "Przejdź do płatności"
+  },
+  "en": {
+    "pending": "Pending",
+    "goToPayment": "Payment"
   }
 }
 </i18n>
@@ -106,7 +110,7 @@ const paymentStatus = computed(() => {
         icon: Failed,
         class: 'account-order-view__payment-status--failed',
         status: {
-          text: $t('payments.notPaid'),
+          text: $t('payments.unpaid'),
           value: PaymentStatus.Failed,
         },
         method: payment?.method || '',

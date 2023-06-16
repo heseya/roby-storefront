@@ -9,7 +9,7 @@
               v-model="wantCreateAccount"
               class="checkout-page__checkbox"
               name="wantCreateAccount"
-              :label="t('account.question')"
+              :label="t('question')"
             />
           </CheckoutPersonalData>
 
@@ -52,14 +52,10 @@
 <i18n lang="json">
 {
   "pl": {
-    "title": "Podsumowanie zamówienia",
-    "payment": "Metoda płatności",
-    "account": {
-      "question": "Chce założyć konto",
-      "create": "Załóż konto",
-      "description": "Wystarczy, że wypełnisz poniższe pola, aby utworzyć konto w naszym sklepie."
-    },
-    "defaultAddress": "Adres domyślny"
+    "question": "Chce założyć konto"
+  },
+  "en": {
+    "question": "I want to create account"
   }
 }
 </i18n>

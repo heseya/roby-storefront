@@ -15,6 +15,9 @@
 {
   "pl": {
     "btn": "Wróć do sklepu"
+  },
+  "en": {
+    "btn": "Back to the shop"
   }
 }
 </i18n>

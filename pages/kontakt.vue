@@ -35,6 +35,9 @@
 {
   "pl": {
     "title": "Kontakt"
+  },
+  "en": {
+    "title": "Contact"
   }
 }
 </i18n>

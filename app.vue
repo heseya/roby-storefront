@@ -2,7 +2,6 @@
   <Html :lang="i18nHead.htmlAttrs?.lang" :dir="i18nHead.htmlAttrs?.dir">
     <LayoutThemeContext>
       <NuxtLoadingIndicator />
-
       <ShopOff v-if="isShopDisabled" />
       <NuxtPage v-else />
 
@@ -44,8 +43,13 @@ useHead({
   link: [
     ...(i18nHead.value.link || []),
     { rel: 'icon', type: 'image/x-icon', href: config.faviconUrl },
+    ...(seo.value.header_tags?.filter((tag) => tag.type === 'link') || []),
   ],
-  meta: i18nHead.value.meta,
+  meta: [
+    ...(i18nHead.value.meta || []),
+    ...(seo.value.header_tags?.filter((tag) => tag.type === 'meta') || []),
+  ],
+  script: [...(seo.value.header_tags?.filter((tag) => tag.type === 'script') || [])],
 })
 </script>
 

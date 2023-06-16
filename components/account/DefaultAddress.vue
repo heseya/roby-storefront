@@ -24,6 +24,20 @@
       "sucessUpdate": "Zmieniono domyślne dane do rachunku",
       "failedUpdate": "Nie udało się zmienić domyślnego rachunku"
     }
+  },
+  "en": {
+    "shipping": {
+      "title": "Delivery address",
+      "description": "The selected address is the default delivery address.",
+      "sucessUpdate": "The default delivery address has been changed",
+      "failedUpdate": "Failed to change the default delivery address"
+    },
+    "billing": {
+      "title": "Billing data",
+      "description": "The selected data are the default billing data.",
+      "sucessUpdate": "The default billing data have been changed",
+      "failedUpdate": "Failed to change default billing data"
+    }
   }
 }
 </i18n>

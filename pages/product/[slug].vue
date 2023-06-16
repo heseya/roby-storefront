@@ -115,6 +115,15 @@
       "additionalInfo": "Dodatkowe informacje"
     },
     "salesTitle": "Aktualne promocje"
+  },
+  "en": {
+    "notFoundError": "The specified product doesnt exist",
+    "tabs": {
+      "buy": "Purchase",
+      "description": "Description",
+      "additionalInfo": "Additional information"
+    },
+    "salesTitle": "Current promotions"
   }
 }
 </i18n>

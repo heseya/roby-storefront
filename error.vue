@@ -1,5 +1,5 @@
 <template>
-  <NuxtLayout>
+  <NuxtLayout class="content--no-bottom-padding">
     <LayoutBreadcrumpsProvider :breadcrumbs="[]" />
 
     <div class="error-page">
@@ -22,6 +22,12 @@
     "error": {
       "text": "Coś poszło nie tak.",
       "button": "Wróć do strony głównej"
+    }
+  },
+  "en": {
+    "error": {
+      "text": "Something went wrong.",
+      "button": "Back to home"
     }
   }
 }

@@ -37,6 +37,18 @@
       "button": "+ Dodaj adres",
       "sucessUpdate": "Pomyślnie dodano adres"
     }
+  },
+  "en": {
+    "billing": {
+      "header": "Adding billing address",
+      "button": "+ Add data",
+      "sucessUpdate": "Sucessfully added billing data"
+    },
+    "shipping": {
+      "header": "Adding shipping address",
+      "button": "+ Add address",
+      "sucessUpdate": "Sucessfully added shipping address"
+    }
   }
 }
 </i18n>

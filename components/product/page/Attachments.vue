@@ -24,6 +24,9 @@
 {
   "pl": {
     "title": "Pliki do pobrania"
+  },
+  "en": {
+    "title": "Files to download"
   }
 }
 </i18n>

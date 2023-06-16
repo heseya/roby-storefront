@@ -23,6 +23,15 @@
       "price_desc": "Od najdroższych",
       "name": "Wg nazwy"
     }
+  },
+  "en": {
+    "label": "Sort by",
+    "options": {
+      "default": "Default",
+      "price_asc": "From the cheapest",
+      "price_desc": "From the most expensive",
+      "name": "By name"
+    }
   }
 }
 </i18n>

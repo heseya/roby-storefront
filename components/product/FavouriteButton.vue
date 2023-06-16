@@ -15,6 +15,10 @@
   "pl": {
     "add": "Dodaj do ulubionych",
     "remove": "Usuń z ulubionych"
+  },
+  "en": {
+    "add": "Add to favorites",
+    "remove": "Delete from favorites"
   }
 }
 </i18n>

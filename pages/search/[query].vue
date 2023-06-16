@@ -17,6 +17,10 @@
   "pl": {
     "searchResultFor": "Wyniki wyszukiwania dla: ",
     "searchResult": "Wyniki wyszukiwania"
+  },
+  "en": {
+    "searchResultFor": "Search results for: ",
+    "searchResult": "Search Results"
   }
 }
 </i18n>

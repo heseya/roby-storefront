@@ -1,7 +1,7 @@
 <template>
   <nav class="nav-bar">
     <LayoutNavNotification class="nav-bar__notification" />
-
+    <LayoutNavTopBar v-if="isTopBarVisible" />
     <div class="nav-items" :class="{ 'nav-items--small': scrollY > 100 }">
       <div class="nav-items__left">
         <LayoutIconButton
@@ -119,6 +119,11 @@
     "message": {
       "logout": "Wylogowano pomyślnie"
     }
+  },
+  "en": {
+    "message": {
+      "logout": "You have been logged out."
+    }
   }
 }
 </i18n>
@@ -154,6 +159,10 @@ const searchHistory = useSearchHistoryStore()
 
 const isOpenCategories = ref(false)
 const isOpenSearch = ref(false)
+
+const { locales } = useI18n()
+
+const isTopBarVisible = computed(() => locales.value.length > 1)
 
 const { y: scrollY } = useWindowScroll()
 

@@ -25,7 +25,10 @@
 <i18n lang="json">
 {
   "pl": {
-    "sucessUpdate": "Zaktualizowane dane użytkownika."
+    "sucessUpdate": "Zaktualizowano dane użytkownika."
+  },
+  "en": {
+    "sucessUpdate": "User data has been updated."
   }
 }
 </i18n>

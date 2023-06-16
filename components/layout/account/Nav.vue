@@ -18,6 +18,9 @@
 {
   "pl": {
     "logoutText": "Zostałeś wylogowany."
+  },
+  "en": {
+    "logoutText": "You have been logged out."
   }
 }
 </i18n>

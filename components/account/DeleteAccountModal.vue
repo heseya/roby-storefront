@@ -22,8 +22,13 @@
 {
   "pl": {
     "header": "Usuwanie konta",
-    "question": "Czy napewno chcesz usunąć konto ?",
+    "question": "Czy napewno chcesz usunąć konto?",
     "sucessUpdate": "Usunięto konto użytkownika."
+  },
+  "en": {
+    "header": "Delete account",
+    "question": "Are you sure you want to delete your account?",
+    "sucessUpdate": "The user account has been deleted."
   }
 }
 </i18n>

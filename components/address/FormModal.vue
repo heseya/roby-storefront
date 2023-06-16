@@ -27,6 +27,10 @@
   "pl": {
     "default": "Ustaw jako domyślny",
     "invoice": "Chce otrzymać fakture VAT"
+  },
+  "en": {
+    "default": "Set as default",
+    "invoice": "I want to receive VAT invoice"
   }
 }
 </i18n>

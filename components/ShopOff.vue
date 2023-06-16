@@ -11,6 +11,10 @@
   "pl": {
     "title": "Sklep jest tymczasowo niedostępny",
     "text": "Pracujemy nad aktualizacją sklepu. To nie potrwa długo, zapraszamy wkrótce."
+  },
+  "en": {
+    "title": "The shop is temporarily unavailable",
+    "text": "We are working on updating the store. It won't be long, come back soon."
   }
 }
 </i18n>

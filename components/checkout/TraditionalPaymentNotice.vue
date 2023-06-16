@@ -23,6 +23,13 @@
       "text1": "Proszę użyć numeru zamówienia jako tytułu płatności.",
       "text2": "Twoje zamówienie zostanie zrealizowane po zaksięgowaniu wpłaty na naszym koncie."
     }
+  },
+  "en": {
+    "notice": {
+      "title": "Please make a payment to our bank account.",
+      "text1": "Please use your order number as payment reference.",
+      "text2": "Your order will be processed after the payment is credited to our account."
+    }
   }
 }
 </i18n>
