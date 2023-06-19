@@ -109,7 +109,7 @@ const optionGroups = computed<RadioGroupOption[]>(() => [
   &__label-img {
     height: 16px;
     margin-left: 16px;
-    transform: scale(2);
+    transform: scale(1.4);
   }
 
   &__notice {
