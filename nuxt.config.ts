@@ -132,6 +132,7 @@ export default defineNuxtConfig({
   i18n: {
     baseUrl: APP_HOST,
     defaultLocale: DEFAULT_LANGUAGE,
+    // @ts-ignore TODO: where to put this?
     fallbackLocale: DEFAULT_LANGUAGE,
     langDir: 'lang',
     strategy: 'prefix_except_default',
