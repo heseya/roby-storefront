@@ -85,8 +85,11 @@ const t = useLocalI18n()
 const $t = useGlobalI18n()
 
 const { data: attributes } = useLazyAsyncData(async () => {
+  // TODO: this is not optimal
+  const sets = await Promise.all(props.sets.map((set) => heseya.ProductSets.getOneBySlug(set)))
+
   // TODO: add support for date and number attributes
-  const attrs = await heseya.Products.getFilters({ sets: props.sets })
+  const attrs = await heseya.Products.getFilters({ sets: sets.map((s) => s.id) })
   return attrs.filter(
     (a) => a.type === AttributeType.MultiChoiceOption || a.type === AttributeType.SingleOption,
   )
