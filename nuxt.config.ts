@@ -13,6 +13,7 @@ const {
   GOOGLE_ANALYTICS_ID,
   CENEO_GUID,
   LEASLINK_ID,
+  CALLPAGE_ID,
   COLOR_THEME_PICKER,
   AXIOS_CACHE_TTL,
 
@@ -58,7 +59,13 @@ export default defineNuxtConfig({
         { rel: 'preconnect', href: DIRECTUS_URL },
         { rel: 'dns-prefetch', href: DIRECTUS_URL },
       ],
-      script: [],
+      script: [
+        {
+          hid: 'polyfill',
+          defer: true,
+          src: 'https://polyfill.io/v3/polyfill.min.js?features=Intl.NumberFormat%2CIntl.PluralRules.~locale.pl',
+        },
+      ],
     },
   },
 
@@ -75,6 +82,7 @@ export default defineNuxtConfig({
       googleAnalyticsId: GOOGLE_ANALYTICS_ID,
       ceneoGuid: CENEO_GUID,
       leaslinkId: LEASLINK_ID,
+      callpageId: CALLPAGE_ID,
       showColorThemePicker: COLOR_THEME_PICKER === '1',
       axiosCacheTtl: parseInt(AXIOS_CACHE_TTL || '0') ?? 0,
     },
@@ -132,6 +140,7 @@ export default defineNuxtConfig({
   i18n: {
     baseUrl: APP_HOST,
     defaultLocale: DEFAULT_LANGUAGE,
+    // @ts-ignore
     fallbackLocale: DEFAULT_LANGUAGE,
     langDir: 'lang',
     strategy: 'prefix_except_default',
