@@ -167,7 +167,7 @@ const processCheckout = () => {
     color: $text-color;
 
     > img {
-      height: 2em;
+      height: 1.6em;
     }
   }
 }
