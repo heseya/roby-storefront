@@ -1,5 +1,5 @@
 <template>
-  <div class="banner">
+  <div class="banner" :style="{ height: remainingImages.length > 0 ? '960px' : '480px' }">
     <div class="banner__main-card">
       <HomeBannerCard
         :title="mainImage.title"
@@ -10,7 +10,11 @@
         title-tag="h1"
       />
     </div>
-    <div class="banner__cards" :style="{ flex: remainingImages.length }">
+    <div
+      v-if="remainingImages.length"
+      class="banner__cards"
+      :style="{ flex: remainingImages.length }"
+    >
       <HomeBannerCard
         v-for="image in remainingImages"
         :key="image.id"
@@ -39,10 +43,9 @@ const remainingImages = computed(() => props.banner?.banner_media.slice(1) as Ba
 .banner {
   @include flex-column;
   width: 100%;
-  max-height: 960px;
 
   &__main-card {
-    height: 480px;
+    flex: 1;
     @media ($viewport-9) {
       flex-direction: row;
     }
