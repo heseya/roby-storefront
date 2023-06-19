@@ -1,14 +1,16 @@
 import VueGtag, { trackRouter } from 'vue-gtag-next'
 
 export default defineNuxtPlugin((nuxtApp) => {
-  const { googleAnalyticsId } = usePublicRuntimeConfig()
+  const { googleTagManagerId } = usePublicRuntimeConfig()
 
-  if (googleAnalyticsId)
-    nuxtApp.vueApp.use(VueGtag, {
-      property: {
-        id: googleAnalyticsId,
-      },
-    })
+  onNuxtReady(() => {
+    if (googleTagManagerId)
+      nuxtApp.vueApp.use(VueGtag, {
+        property: {
+          id: googleTagManagerId,
+        },
+      })
 
-  trackRouter(useRouter())
+    trackRouter(useRouter())
+  })
 })

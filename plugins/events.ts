@@ -1,4 +1,4 @@
-import { useGtag } from 'vue-gtag-next'
+import { useGtag, isTracking } from 'vue-gtag-next'
 import { createHeseyaEventBusService, HeseyaEvent } from '@heseya/store-core'
 import { Pinia } from '@pinia/nuxt/dist/runtime/composables'
 
@@ -11,7 +11,7 @@ export default defineNuxtPlugin((nuxt) => {
   const bus = createHeseyaEventBusService()
 
   bus.on(HeseyaEvent.ViewProduct, (product) => {
-    if (process.server) return
+    if (!isTracking.value) return
 
     gTagEvent('', { ecommerce: null })
     gTagEvent('view_item', {
@@ -20,7 +20,7 @@ export default defineNuxtPlugin((nuxt) => {
   })
 
   bus.on(HeseyaEvent.ViewProductList, ({ set, items }) => {
-    if (process.server) return
+    if (!isTracking.value) return
 
     gTagEvent('', { ecommerce: null })
     gTagEvent('view_item_list', {
@@ -32,7 +32,7 @@ export default defineNuxtPlugin((nuxt) => {
   })
 
   bus.on(HeseyaEvent.AddToCart, (item) => {
-    if (process.server) return
+    if (!isTracking.value) return
 
     gTagEvent('', { ecommerce: null })
     gTagEvent('add_to_cart', {
@@ -45,7 +45,7 @@ export default defineNuxtPlugin((nuxt) => {
   })
 
   bus.on(HeseyaEvent.RemoveFromCart, (item) => {
-    if (process.server) return
+    if (!isTracking.value) return
 
     gTagEvent('', { ecommerce: null })
     gTagEvent('remove_from_cart', {
@@ -58,7 +58,7 @@ export default defineNuxtPlugin((nuxt) => {
   })
 
   bus.on(HeseyaEvent.AddShippingInfo, ({ shipping, items }) => {
-    if (process.server) return
+    if (!isTracking.value) return
 
     gTagEvent('', { ecommerce: null })
     gTagEvent('add_shipping_info', {
@@ -71,7 +71,7 @@ export default defineNuxtPlugin((nuxt) => {
   })
 
   bus.on(HeseyaEvent.InitiateCheckout, (items) => {
-    if (process.server) return
+    if (!isTracking.value) return
 
     gTagEvent('', { ecommerce: null })
     gTagEvent('begin_checkout', {
@@ -80,7 +80,7 @@ export default defineNuxtPlugin((nuxt) => {
   })
 
   bus.on(HeseyaEvent.Login, () => {
-    if (process.server) return
+    if (!isTracking.value) return
 
     gTagEvent('login', {
       method: 'email',
@@ -88,7 +88,7 @@ export default defineNuxtPlugin((nuxt) => {
   })
 
   bus.on(HeseyaEvent.Register, () => {
-    if (process.server) return
+    if (!isTracking.value) return
 
     gTagEvent('sign_up', {
       method: 'email',
@@ -96,7 +96,7 @@ export default defineNuxtPlugin((nuxt) => {
   })
 
   bus.on(HeseyaEvent.Purchase, ({ order, items }) => {
-    if (process.server) return
+    if (!isTracking.value) return
 
     gTagEvent('', { ecommerce: null })
     // TODO: add coupons?
@@ -114,7 +114,7 @@ export default defineNuxtPlugin((nuxt) => {
   })
 
   bus.on(HeseyaEvent.ViewCart, (items) => {
-    if (process.server) return
+    if (!isTracking.value) return
 
     gTagEvent('', { ecommerce: null })
     gTagEvent('view_cart', {
