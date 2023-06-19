@@ -45,6 +45,7 @@
 </i18n>
 
 <script setup lang="ts">
+import { CartItem, HeseyaEvent } from '@heseya/store-core'
 import { useConfigStore } from '@/store/config'
 import { useCartStore } from '@/store/cart'
 
@@ -67,6 +68,12 @@ const activeStep = computed(() => {
   if (route.path === '/checkout') return CheckoutStep.Checkout
   if (route.path === '/checkout/thank-you') return CheckoutStep.Finished
   return null
+})
+
+onMounted(() => {
+  const ev = useHeseyaEventBus()
+  const cart = useCartStore()
+  ev.emit(HeseyaEvent.InitiateCheckout, cart.items as CartItem[])
 })
 </script>
 <style lang="scss">

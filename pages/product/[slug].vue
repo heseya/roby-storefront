@@ -132,10 +132,12 @@
 </i18n>
 
 <script setup lang="ts">
+import { HeseyaEvent } from '@heseya/store-core'
 import { ASK_FOR_PRICE_KEY } from '@/consts/metadataKeys'
 import { Tab } from '@/components/layout/Tabs.vue'
 import { getProductSubtext } from '@/utils/product'
 
+const ev = useHeseyaEventBus()
 const heseya = useHeseya()
 const route = useRoute()
 const t = useLocalI18n()
@@ -182,6 +184,16 @@ const breadcrumbs = computed(() => [
     : null,
   { label: product.value?.name || '', link: route.fullPath },
 ])
+
+onMounted(() => {
+  watch(
+    product,
+    (p) => {
+      if (p) ev.emit(HeseyaEvent.ViewProduct, p)
+    },
+    { immediate: true },
+  )
+})
 
 useSeo(() => [product.value?.seo, { title: product.value?.name }])
 
