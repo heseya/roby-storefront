@@ -1,8 +1,8 @@
 import { ProductListAttribute } from '@heseya/store-core'
 
-const PRODUCT_SUBTEXT_ATTRIBUTE_NAME = 'Marka'
-
 // TODO: find attribute using something else than name
+const PRODUCT_SUBTEXT_ATTRIBUTE_NAME = 'producent'
+
 export const getProductSubtext = <T extends { attributes: ProductListAttribute[] }>(
   item?: T | null,
 ) =>
