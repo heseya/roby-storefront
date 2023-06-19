@@ -69,7 +69,10 @@
               />
             </div>
 
-            <LazyProductPageAttributeCard v-if="product" :product="product" />
+            <LazyProductPageAttributeCard
+              v-if="product && product.attributes.length"
+              :product="product"
+            />
           </div>
         </template>
 
@@ -167,7 +170,9 @@ const productPurchaseTabs = computed(
 
 const productDescriptionTabs = computed<Tab[]>(() => [
   { key: 'description', label: t('tabs.description') },
-  { key: 'additionalInfo', label: t('tabs.additionalInfo') },
+  ...(product.value?.attributes.length
+    ? [{ key: 'additionalInfo', label: t('tabs.additionalInfo') }]
+    : []),
   ...(globalPages.value?.map((p) => ({ key: p.slug, label: p.name })) || []),
 ])
 
