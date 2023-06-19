@@ -1,0 +1,45 @@
+@mixin background-image-basic {
+  background-color: $gray-color-600;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+@mixin flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
+@mixin flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+@mixin reset-button {
+  outline: none;
+  background: none;
+  border: none;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+@mixin styled-scrollbar {
+  &::-webkit-scrollbar {
+    height: 5px;
+    width: 5px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 8px;
+    background-color: $gray-color-400;
+  }
+
+  &::-webkit-scrollbar-button:end:increment {
+    width: 0px;
+    height: 0;
+    display: block;
+    background: transparent;
+  }
+}

@@ -1,9 +1,43 @@
-$baseFontSize: 16px;
+$base-font-size: 14px;
+$text-color: #141414;
 
-//! Dont use scss color variables. Use CSS variables instead!
-$primaryColor: #c63225;
-$secondaryColor: #ffca2b;
-$errorColor: #b22222;
+$font-weight-regular: 400;
+$font-weight-medium: 500;
+$font-weight-bold: 600;
+
+// ! Dont use scss color variables as a main theme colors. Use CSS variables instead!
+$primary-color: #ffca2b;
+$primary-color-alt: #e1a044;
+$secondary-color: #c63225;
+$highlight-color: #c63225;
+$warning-color: #e1a044;
+$error-color: #f05454;
+
+// * Universal colors are ok to use as scss variables
+$white-color: #fff;
+
+$blue-color-700: #30475e;
+$blue-color-500: #256fc6;
+$blue-color-100: #f4f8fc;
+
+$green-color-500: #62a360;
+
+$gray-color-050: #fafafa;
+$gray-color-100: #f7f7f7;
+$gray-color-300: #efefef;
+$gray-color-400: #cecece;
+$gray-color-500: #a7a7a7;
+$gray-color-600: #8d8d8d;
+$gray-color-700: #595959;
+$gray-color-900: #242423;
+
+$transparent: #fff0;
+$gray-filter: #00000066;
+
+// Sizes
+$container-width: 1256px;
+$content-width: 911px;
+$container-padding: 12px;
 
 // Fonts
 $headerFont: 'Roboto', sans-serif;
@@ -38,6 +72,7 @@ $max-viewport-7: 'max-width: 768px';
 $max-viewport-8: 'max-width: 850px';
 $max-viewport-9: 'max-width: 992px';
 $max-viewport-10: 'max-width: 1024px';
+$max-viewport-11: 'max-width: 1100px';
 $max-viewport-12: 'max-width: 1200px';
 $max-viewport-128: 'max-width: 1280px';
 $max-viewport-13: 'max-width: 1366px';
@@ -46,3 +81,6 @@ $max-viewport-16: 'max-width: 1680px';
 $max-viewport-18: 'max-width: 1860px';
 $max-viewport-19: 'max-width: 1920px';
 $max-viewport-24: 'max-width: 2420px';
+
+$only-desktop: 'pointer: fine';
+$only-mobile: 'pointer: coarse';

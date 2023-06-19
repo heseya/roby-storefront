@@ -1,0 +1,105 @@
+.input {
+  width: 100%;
+  position: relative;
+
+  &__content {
+    position: relative;
+  }
+
+  &__input {
+    all: unset;
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+    background-color: #fff;
+    border: solid 1px $gray-color-300;
+    border-radius: 5px;
+    padding: 11px 14px;
+
+    cursor: text;
+    transition: 0.3s;
+    font-size: rem(12);
+
+    @media ($viewport-6) {
+      font-size: rem(14);
+    }
+
+    &:hover {
+      background-color: $gray-color-100;
+    }
+
+    &::placeholder {
+      color: $gray-color-600;
+    }
+
+    &--disabled {
+      background-color: $gray-color-100;
+      cursor: not-allowed;
+    }
+  }
+
+  &__label {
+    display: block;
+    color: $gray-color-900;
+    font-size: rem(12);
+    font-weight: 500;
+    margin-bottom: 6px;
+
+    &--uppercase {
+      text-transform: uppercase;
+    }
+  }
+
+  &__required-star {
+    color: var(--error-color);
+  }
+
+  &__error {
+    font-size: rem(10);
+    line-height: 1.5rem;
+    color: var(--error-color);
+    font-weight: 500;
+    transition: 0.3s;
+    max-height: 60px;
+
+    &:empty {
+      max-height: 0;
+      color: transparent;
+    }
+  }
+
+  &--error &__input {
+    border-color: var(--error-color);
+  }
+
+  &--select &__input {
+    cursor: pointer;
+    padding-right: 32px;
+    background-image: url('@/assets/icons/arrow-drop-down.svg');
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+  }
+
+  &--postfix &__input {
+    padding-right: 34px;
+  }
+
+  &--postfix::after {
+    content: attr(data-postfix);
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: rem(14);
+    color: $gray-color-600;
+  }
+
+  &--gray &__input {
+    background-color: $gray-color-300;
+    border-color: $gray-color-300;
+
+    &:hover {
+      background-color: $gray-color-400;
+    }
+  }
+}
