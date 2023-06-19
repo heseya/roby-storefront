@@ -58,7 +58,6 @@ export default defineNuxtPlugin((nuxt) => {
     })
   })
 
-  // TODO
   bus.on(HeseyaEvent.AddShippingInfo, ({ shipping, items }) => {
     if (!isTracking.value) return
 
