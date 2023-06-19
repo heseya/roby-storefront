@@ -6,20 +6,24 @@ import { useConfigStore } from '~/store/config'
 import { mapCartItemToItem, mapProductToItem } from '~/utils/google'
 
 export default defineNuxtPlugin((nuxt) => {
-  const gtm = useGtag()
+  const { event: gTagEvent } = useGtag()
   const config = useConfigStore(nuxt.$pinia as Pinia)
   const bus = createHeseyaEventBusService()
 
   bus.on(HeseyaEvent.ViewProduct, (product) => {
-    gtm.event('', { ecommerce: null })
-    gtm.event('view_item', {
+    if (process.server) return
+
+    gTagEvent('', { ecommerce: null })
+    gTagEvent('view_item', {
       ecommerce: { items: [mapProductToItem(product)] },
     })
   })
 
   bus.on(HeseyaEvent.ViewProductList, ({ set, items }) => {
-    gtm.event('', { ecommerce: null })
-    gtm.event('view_item_list', {
+    if (process.server) return
+
+    gTagEvent('', { ecommerce: null })
+    gTagEvent('view_item_list', {
       ecommerce: {
         item_list_name: set?.name,
         items: items.map(mapProductToItem),
@@ -28,8 +32,10 @@ export default defineNuxtPlugin((nuxt) => {
   })
 
   bus.on(HeseyaEvent.AddToCart, (item) => {
-    gtm.event('', { ecommerce: null })
-    gtm.event('add_to_cart', {
+    if (process.server) return
+
+    gTagEvent('', { ecommerce: null })
+    gTagEvent('add_to_cart', {
       ecommerce: {
         currency: config.currency,
         value: item.price,
@@ -39,8 +45,10 @@ export default defineNuxtPlugin((nuxt) => {
   })
 
   bus.on(HeseyaEvent.RemoveFromCart, (item) => {
-    gtm.event('', { ecommerce: null })
-    gtm.event('remove_from_cart', {
+    if (process.server) return
+
+    gTagEvent('', { ecommerce: null })
+    gTagEvent('remove_from_cart', {
       ecommerce: {
         currency: config.currency,
         value: item.price,
@@ -50,8 +58,10 @@ export default defineNuxtPlugin((nuxt) => {
   })
 
   bus.on(HeseyaEvent.AddShippingInfo, ({ shipping, items }) => {
-    gtm.event('', { ecommerce: null })
-    gtm.event('add_shipping_info', {
+    if (process.server) return
+
+    gTagEvent('', { ecommerce: null })
+    gTagEvent('add_shipping_info', {
       ecommerce: {
         currency: config.currency,
         value: shipping.price,
@@ -61,28 +71,36 @@ export default defineNuxtPlugin((nuxt) => {
   })
 
   bus.on(HeseyaEvent.InitiateCheckout, (items) => {
-    gtm.event('', { ecommerce: null })
-    gtm.event('begin_checkout', {
+    if (process.server) return
+
+    gTagEvent('', { ecommerce: null })
+    gTagEvent('begin_checkout', {
       ecommerce: { items: items.map(mapCartItemToItem) },
     })
   })
 
   bus.on(HeseyaEvent.Login, () => {
-    gtm.event('login', {
+    if (process.server) return
+
+    gTagEvent('login', {
       method: 'email',
     })
   })
 
   bus.on(HeseyaEvent.Register, () => {
-    gtm.event('sign_up', {
+    if (process.server) return
+
+    gTagEvent('sign_up', {
       method: 'email',
     })
   })
 
   bus.on(HeseyaEvent.Purchase, ({ order, items }) => {
-    gtm.event('', { ecommerce: null })
+    if (process.server) return
+
+    gTagEvent('', { ecommerce: null })
     // TODO: add coupons?
-    gtm.event('purchase', {
+    gTagEvent('purchase', {
       ecommerce: {
         transaction_id: order.code,
         affiliation: 'Ksiażki.pl website',
@@ -96,8 +114,10 @@ export default defineNuxtPlugin((nuxt) => {
   })
 
   bus.on(HeseyaEvent.ViewCart, (items) => {
-    gtm.event('', { ecommerce: null })
-    gtm.event('view_cart', {
+    if (process.server) return
+
+    gTagEvent('', { ecommerce: null })
+    gTagEvent('view_cart', {
       ecommerce: { items: items.map(mapCartItemToItem) },
     })
   })
