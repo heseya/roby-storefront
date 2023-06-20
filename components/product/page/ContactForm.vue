@@ -120,6 +120,16 @@ const onSubmit = form.handleSubmit(async (values) => {
     })
 
     form.resetForm()
+
+    // Hack for clearing error messages
+    setTimeout(() => {
+      form.setErrors({
+        name: '',
+        email: '',
+        message: '',
+        consent: '',
+      })
+    }, 0)
   } catch (e: any) {
     notify({
       type: 'error',

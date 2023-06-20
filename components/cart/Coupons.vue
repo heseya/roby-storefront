@@ -85,8 +85,14 @@ const addCoupon = form.handleSubmit(async () => {
     const coupon = await heseya.Coupons.getOneBySlug(form.values.coupon)
     cart.addCoupon(coupon)
 
-    // TODO: this does not clear form entirely, error message is still visible
     form.resetForm()
+
+    // Hack for clearing error messages
+    setTimeout(() => {
+      form.setErrors({
+        coupon: '',
+      })
+    }, 0)
   } catch {
     errorMessage.value = t('coupons.errors.notFound')
   }
