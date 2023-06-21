@@ -10,6 +10,7 @@
   height: 50px;
   display: flex;
   gap: 16px;
+  padding: 0 16px;
   justify-content: flex-end;
   border-bottom: 1px solid $gray-color-300;
 }

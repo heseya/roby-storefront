@@ -29,6 +29,18 @@ export const useConfigStore = defineStore('config', {
     storeFrontDisabled(): boolean {
       return this.env.storefront_disabled === '1'
     },
+
+    customRedirect(): { url: string; text: string; icon: string | null } | null {
+      const url = this.env.custom_nav_redirect_url
+      const text = this.env.custom_nav_redirect_text
+      if (!url || !text) return null
+
+      return {
+        url: String(url),
+        text: String(text),
+        icon: String(this.env.custom_nav_redirect_icon) || null,
+      }
+    },
   },
 
   actions: {

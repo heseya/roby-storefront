@@ -1,18 +1,18 @@
 <template>
   <a
-    v-if="isRedirectVisible"
-    :href="redirectUrl"
+    v-if="redirect"
+    :href="redirect.url"
     rel="nofollow noreferrer"
     target="_blank"
     class="nav-custom-redirect"
   >
     <img
-      v-if="redirectIcon"
-      :src="redirectIcon"
+      v-if="redirect.icon"
+      :src="redirect.icon"
       role="presentation"
       class="nav-custom-redirect__icon"
     />
-    <span class="nav-custom-redirect__text">{{ redirectText }}</span>
+    <span class="nav-custom-redirect__text">{{ redirect.text }}</span>
   </a>
 </template>
 
@@ -21,11 +21,7 @@ import { useConfigStore } from '~/store/config'
 
 const config = useConfigStore()
 
-const redirectUrl = computed(() => String(config.env.custom_nav_redirect_url))
-const redirectText = computed(() => String(config.env.custom_nav_redirect_text))
-const redirectIcon = computed(() => String(config.env.custom_nav_redirect_icon))
-
-const isRedirectVisible = computed(() => !!redirectUrl.value && !!redirectText.value)
+const redirect = computed(() => config.customRedirect)
 </script>
 
 <style lang="scss" scoped>

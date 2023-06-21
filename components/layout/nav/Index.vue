@@ -162,7 +162,7 @@ const isOpenSearch = ref(false)
 
 const { locales } = useI18n()
 
-const isTopBarVisible = computed(() => locales.value.length > 1)
+const isTopBarVisible = computed(() => locales.value.length > 1 || !!config.customRedirect)
 
 const { y: scrollY } = useWindowScroll()
 
