@@ -1,5 +1,6 @@
 <template>
   <div class="layout-nav-top-bar">
+    <LayoutNavCustomRedirect />
     <LayoutNavLanguageSwitch />
   </div>
 </template>
@@ -8,6 +9,7 @@
 .layout-nav-top-bar {
   height: 50px;
   display: flex;
+  gap: 16px;
   justify-content: flex-end;
   border-bottom: 1px solid $gray-color-300;
 }
