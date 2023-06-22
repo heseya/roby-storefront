@@ -35,6 +35,12 @@
       {{ t('summary.submit') }}
     </LayoutButton>
 
+    <NuxtLink :to="localePath('/')">
+      <LayoutButton variant="gray" class="cart-summary__button">
+        {{ t('summary.returnToStore') }}
+      </LayoutButton>
+    </NuxtLink>
+
     <span class="cart-summary__text">{{ t('summary.paymentMethods') }}</span>
     <div class="cart-summary__payment-methods">
       <b v-if="config.isTraditionalTransfer">{{ $t('payments.traditionalTransfer') }}</b>
@@ -53,6 +59,7 @@
     "summary": {
       "from": "już od",
       "submit": "Przejdź do finalizacji zamówienia",
+      "returnToStore": "Kontynuuj zakupy",
       "paymentMethods": "Dostępne metody płatności:"
     }
   },
@@ -60,6 +67,7 @@
     "summary": {
       "from": "from",
       "submit": "Checkout",
+      "returnToStore": "Return to store",
       "paymentMethods": "Payment methods available:"
     }
   }
@@ -88,6 +96,7 @@ const $t = useGlobalI18n()
 const config = useConfigStore()
 const auth = useAuthStore()
 const heseya = useHeseya()
+const localePath = useLocalePath()
 
 const { data: cheapestShippingMethodPrice } = useLazyAsyncData(`shippingMethodPrice`, async () => {
   const { data } = await heseya.ShippingMethods.get()
