@@ -4,7 +4,11 @@
 
     <BaseContainer class="product-page">
       <div class="product-page__header product-header">
-        <ProductPageCover class="product-header__gallery" :media="product?.gallery || []" />
+        <ProductPageCover
+          class="product-header__gallery"
+          :media="product?.gallery || []"
+          :tags="product?.tags || []"
+        />
 
         <div class="product-header__summary">
           <ClientOnly>
