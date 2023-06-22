@@ -100,7 +100,7 @@ watch(
 
   &__tags {
     position: absolute;
-    z-index: 1000;
+    z-index: 1;
     left: 0;
     top: 18px;
     display: flex;
