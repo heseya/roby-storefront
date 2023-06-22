@@ -8,6 +8,7 @@ const {
   DIRECTUS_URL = 'https://blog-***REMOVED***.heseya.pl',
   PRICE_TRACKER_URL = 'https://main-price-tracker.app.***REMOVED***',
   ENVIRONMENT = 'development',
+  VERCEL_ENV,
   APP_HOST,
   RECAPTCHA_PUBLIC,
   GOOGLE_TAG_MANAGER_ID,
@@ -28,7 +29,7 @@ const {
 const ALLOWED_UI_LANGUAGES = process.env.ALLOWED_UI_LANGUAGES?.split(',') || ['pl']
 const DEFAULT_LANGUAGE = process.env.DEFAULT_LANGUAGE || ALLOWED_UI_LANGUAGES[0]
 
-const isProduction = ENVIRONMENT === 'production'
+const isProduction = (VERCEL_ENV || ENVIRONMENT) === 'production'
 
 if (!API_URL) console.warn('API_URL env is not defined')
 if (!PRICE_TRACKER_URL) console.warn('PRICE_TRACKER_URL env is not defined')

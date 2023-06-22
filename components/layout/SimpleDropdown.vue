@@ -17,11 +17,12 @@
     <div
       class="simple-dropdown__content"
       :style="{
-        // TODO: change fixed height
-        maxHeight: (isExpanded ? 300 : 0) + 'px',
+        maxHeight: (isExpanded ? slotHeight : 0) + 'px',
       }"
     >
-      <slot />
+      <div ref="slotRef">
+        <slot />
+      </div>
     </div>
   </div>
 </template>
@@ -38,7 +39,10 @@ defineSlots<{
   title(props: { expanded: boolean }): unknown
 }>()
 
-const isExpanded = ref(true)
+const isExpanded = ref(false)
+
+const slotRef = ref<HTMLElement>()
+const { height: slotHeight } = useElementSize(slotRef)
 </script>
 
 <style lang="scss" scoped>
@@ -52,7 +56,7 @@ const isExpanded = ref(true)
   &__button-icon {
     color: $text-color;
     transform: rotate(90deg);
-    transition: all 500ms ease-in-out;
+    transition: all 300ms ease-in-out;
 
     &--expand {
       transform: rotate(-90deg);
