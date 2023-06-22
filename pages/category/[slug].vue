@@ -3,7 +3,11 @@
     <LayoutBreadcrumpsProvider :breadcrumbs="breadcrumbs" />
 
     <BaseContainer class="categories-page">
-      <ProductListPage :title="category?.name" :sets="[route.params.slug as string]">
+      <ProductListPage
+        :title="category?.name"
+        :sets="[route.params.slug as string]"
+        :default-sort="`set.${route.params.slug}`"
+      >
         <template #aside>
           <SubcategoriesLinks v-if="category" :category="category" />
         </template>

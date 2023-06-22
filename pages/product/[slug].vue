@@ -102,7 +102,7 @@
         :key="set.id"
         class="product-page__related-products"
         :title="set.name"
-        :query="{ sets: [set.slug] }"
+        :query="{ sets: [set.slug], sort: `set.${set.slug}` }"
       />
     </BaseContainer>
   </NuxtLayout>

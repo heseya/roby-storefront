@@ -49,8 +49,12 @@ const { data: products, refresh: refreshProducts } = useAsyncData(
   `products-${props.category.id}`,
   async () => {
     const categorySlug = selectedCategory.value || props.category.slug
-    const { data } = await heseya.Products.get({ sets: [categorySlug], limit: 16 })
-    // console.log('🚀 ~ file: Index.vue:59 ~ const{data:products,refresh}=useAsyncData ~ data:', data)
+    const { data } = await heseya.Products.get({
+      sets: [categorySlug],
+      limit: 16,
+      sort: `set.${categorySlug}`,
+    })
+
     return data
   },
   { immediate: false },

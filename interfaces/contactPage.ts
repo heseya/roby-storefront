@@ -9,6 +9,7 @@ export interface ContactDepartment {
   phone_stationery?: string
   translations: DirectusTranslated<{
     name?: string
+    text?: string
   }>
 }
 

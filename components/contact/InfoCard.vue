@@ -1,11 +1,12 @@
 <template>
   <div class="info-card">
-    <span class="info-card__title">{{ name }}</span>
+    <span class="info-card__title">{{ translated.name }}</span>
     <a class="info-card__email" :href="`mailto:${data.email}`">{{ data.email }}</a>
     <span v-if="data.phone_mobile"> {{ $t('phonePrefix.mobile') }} {{ data.phone_mobile }} </span>
     <span v-if="data.phone_stationery">
       {{ $t('phonePrefix.default') }} {{ data.phone_stationery }}
     </span>
+    <p v-if="translated.text" class="info-card__text">{{ translated.text }}</p>
   </div>
 </template>
 
@@ -16,7 +17,7 @@ const $t = useGlobalI18n()
 
 const props = defineProps<{ data: ContactDepartment }>()
 
-const name = computed(() => getTranslated(props.data.translations, 'name')?.name || '')
+const translated = computed(() => getTranslated(props.data.translations, 'PL-pl'))
 </script>
 
 <style lang="scss" scoped>
@@ -35,6 +36,10 @@ const name = computed(() => getTranslated(props.data.translations, 'name')?.name
   &__email {
     color: var(--secondary-color);
     text-decoration: none;
+  }
+
+  &__text {
+    white-space: pre-line;
   }
 }
 </style>

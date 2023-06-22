@@ -220,13 +220,17 @@ watch(
   },
 )
 
-onBeforeMount(() => {
-  // If current page is out of scope, redirect to the first page
-  const page = Number(route.query.page ?? 1)
-  if (page < 1 || page > (products.value?.pagination.lastPage || Infinity)) {
-    changeRouteQuery({ page: 1 })
-  }
-})
+watch(
+  () => products.value,
+  () => {
+    // If current page is out of scope, redirect to the first page
+    const page = Number(route.query.page ?? 1)
+    if (page < 1 || page > (products.value?.pagination.lastPage || Infinity)) {
+      changeRouteQuery({ page: 1 })
+    }
+  },
+  { immediate: true },
+)
 
 onMounted(() => emitViewEvent())
 </script>
