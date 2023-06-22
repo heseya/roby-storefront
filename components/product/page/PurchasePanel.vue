@@ -5,10 +5,10 @@
   >
     <div class="product-purchase-panel__price">
       <LayoutLoading :active="pending" />
-      <span class="product-price">
+      <span class="product-price" :class="{ 'product-price--discounted': price !== originalPrice }">
         {{ formatAmount(price) }}
       </span>
-      <span v-if="price !== originalPrice" class="product-price product-price--discounted">
+      <span v-if="price !== originalPrice" class="product-price product-price--original">
         {{ formatAmount(originalPrice) }}
       </span>
     </div>
@@ -188,7 +188,7 @@ const addToCart = () => {
     line-height: rem(28);
     font-weight: 600;
     grid-area: price;
-    color: var(--secondary-color);
+    // color: var(--secondary-color);
     position: relative;
 
     @media ($viewport-5) {
@@ -233,6 +233,10 @@ const addToCart = () => {
   color: var(--secondary-color);
 
   &--discounted {
+    color: var(--highlight-color);
+  }
+
+  &--original {
     color: $gray-color-600;
     margin-left: 4px;
     font-size: 0.8em;
