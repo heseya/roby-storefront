@@ -19,7 +19,6 @@ export default defineNuxtPlugin((nuxt) => {
     })
   })
 
-  // TODO
   bus.on(HeseyaEvent.ViewProductList, ({ set, items }) => {
     if (!isTracking.value) return
 

@@ -26,7 +26,7 @@
 </template>
 
 <script lang="ts" setup>
-import { HeseyaEvent, ProductSetList } from '@heseya/store-core'
+import { ProductSetList } from '@heseya/store-core'
 import { useCategoriesStore } from '@/store/categories'
 
 const props = withDefaults(
@@ -39,7 +39,6 @@ const props = withDefaults(
   { label: '', withoutSubcategories: false, headerTag: 'span' },
 )
 const heseya = useHeseya()
-const ev = useHeseyaEventBus()
 const categoriesStore = useCategoriesStore()
 
 const selectedCategory = ref<string | null>(null)
@@ -69,12 +68,10 @@ useAsyncData(`subcategories-${props.category.id}`, async () => {
   refreshProducts()
 })
 
-onMounted(() => {
-  ev.emit(HeseyaEvent.ViewProductList, {
-    set: { name: props.category.name },
-    items: products.value || [],
-  })
-})
+useEmitProductsViewEvent(
+  computed(() => products.value || []),
+  props.category.name,
+)
 
 const setNewCategory = (categorySlug: string) => {
   if (categorySlug !== selectedCategory.value) {

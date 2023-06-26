@@ -99,12 +99,9 @@
 </i18n>
 
 <script setup lang="ts">
-import { HeseyaEvent } from '@heseya/store-core'
-
 const route = useRoute()
 const t = useLocalI18n()
 
-const ev = useHeseyaEventBus()
 const heseya = useHeseya()
 
 const slots = useSlots()
@@ -137,13 +134,6 @@ const perPage = computed(() => {
 })
 
 const isAsideSection = computed(() => !!slots.aside)
-
-const emitViewEvent = () => {
-  ev.emit(HeseyaEvent.ViewProductList, {
-    set: { name: props.title },
-    items: products.value?.data || [],
-  })
-}
 
 const changeRouteQuery = (query: Record<string, any>) => {
   const transformValue = (
@@ -201,9 +191,9 @@ const {
   return response
 })
 
-watch(
-  () => products.value,
-  () => emitViewEvent(),
+useEmitProductsViewEvent(
+  computed(() => products.value?.data || []),
+  props.title,
 )
 
 watch(
@@ -236,8 +226,6 @@ watch(
   },
   { immediate: true },
 )
-
-onMounted(() => emitViewEvent())
 </script>
 
 <style lang="scss" scoped>
