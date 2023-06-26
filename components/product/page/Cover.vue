@@ -22,6 +22,12 @@
         height="500"
         @click="openBigGallery"
       />
+
+      <div class="product-cover-gallery__tags">
+        <ProductTag v-for="tag in tags" :key="tag.id" :color="`#${tag.color}`" size="big">
+          {{ tag.name }}
+        </ProductTag>
+      </div>
     </div>
 
     <ProductPageGallery
@@ -34,10 +40,11 @@
 </template>
 
 <script setup lang="ts">
-import { CdnMedia } from '@heseya/store-core'
+import { CdnMedia, Tag } from '@heseya/store-core'
 
 const props = defineProps<{
   media: CdnMedia[]
+  tags: Tag[]
 }>()
 
 const isBigGalleryOpen = ref(false)
@@ -88,6 +95,19 @@ watch(
     display: flex;
     justify-content: center;
     align-items: flex-start;
+    position: relative;
+  }
+
+  &__tags {
+    position: absolute;
+    z-index: 1;
+    left: 0;
+    top: 18px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 4px;
   }
 
   &__item {

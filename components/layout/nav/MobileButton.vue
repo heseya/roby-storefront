@@ -83,6 +83,9 @@ const toggleOpen = () => {
 
   &__list {
     @include flex-column;
+    @include styled-scrollbar;
+    max-height: 50vh;
+    overflow-y: auto;
     background-color: $white-color;
   }
 

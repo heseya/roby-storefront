@@ -13,7 +13,12 @@ export const useCategoriesStore = defineStore('categories', {
 
   getters: {
     navCategories(): ProductSetList[] {
-      return this.categories.filter((category) => category.metadata[CATEGORY_IN_NAV_KEY])
+      const showRootCategory =
+        !!this.rootCategory?.metadata[CATEGORY_IN_NAV_KEY] && this.rootCategory
+
+      return ([] as ProductSetList[])
+        .concat(showRootCategory ? [{ ...this.rootCategory!, parent_id: null }] : [])
+        .concat(this.categories.filter((category) => category.metadata[CATEGORY_IN_NAV_KEY]))
     },
   },
 
@@ -53,7 +58,15 @@ export const useCategoriesStore = defineStore('categories', {
       const heseya = useHeseya()
 
       if (!this.subcategoriesMap[parentId]) {
-        const { data } = await heseya.ProductSets.get({ parent_id: parentId })
+        const { data, pagination } = await heseya.ProductSets.get({
+          parent_id: parentId,
+          limit: 50,
+        })
+
+        if (pagination.total > pagination.perPage)
+          // eslint-disable-next-line no-console
+          console.warn('Not all subcategories are loaded due to the pagination limit')
+
         this.subcategoriesMap[parentId] = data
       }
 

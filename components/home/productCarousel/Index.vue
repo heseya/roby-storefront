@@ -50,7 +50,11 @@ const { data: products, refresh: refreshProducts } = useAsyncData(
   `products-${props.category.id}`,
   async () => {
     const categorySlug = selectedCategory.value || props.category.slug
-    const { data } = await heseya.Products.get({ sets: [categorySlug], limit: 16 })
+    const { data } = await heseya.Products.get({
+      sets: [categorySlug],
+      limit: 16,
+      sort: `set.${categorySlug}`,
+    })
 
     return data
   },
