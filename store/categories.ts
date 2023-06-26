@@ -13,7 +13,12 @@ export const useCategoriesStore = defineStore('categories', {
 
   getters: {
     navCategories(): ProductSetList[] {
-      return this.categories.filter((category) => category.metadata[CATEGORY_IN_NAV_KEY])
+      const showRootCategory =
+        !!this.rootCategory?.metadata[CATEGORY_IN_NAV_KEY] && this.rootCategory
+
+      return this.categories
+        .filter((category) => category.metadata[CATEGORY_IN_NAV_KEY])
+        .concat(showRootCategory ? [{ ...this.rootCategory!, parent_id: null }] : [])
     },
   },
 
