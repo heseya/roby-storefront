@@ -187,8 +187,9 @@ const productDescriptionTabs = computed<Tab[]>(() => [
   ...(product.value?.attributes.length
     ? [{ key: 'additionalInfo', label: t('tabs.additionalInfo') }]
     : []),
-  ...(product.value?.descriptions.map((p) => ({ key: `description-${p.slug}`, label: p.name })) ||
-    []),
+  ...(product.value?.descriptions
+    .filter((p) => p.public)
+    .map((p) => ({ key: `description-${p.slug}`, label: p.name })) || []),
   ...(globalPages.value?.map((p) => ({ key: p.slug, label: p.name })) || []),
 ])
 
