@@ -3,10 +3,12 @@
     <div>
       <ul class="layout-account-nav__list">
         <li v-for="(target, index) in navList" :key="index" class="layout-account-nav__list-item">
-          <NuxtLink :to="localePath(`/account/${target.to}`)" class="layout-account-nav__text"
-            >{{ $t(`${target.title}`) }}
+          <NuxtLink :to="localePath(`/account/${target.to}`)" class="layout-account-nav__link">
+            <span class="layout-account-nav__text">
+              {{ $t(`${target.title}`) }}
+            </span>
+            <LayoutIcon :icon="GoNextIcon" :size="12" class="layout-account-nav__icon" />
           </NuxtLink>
-          <LayoutIcon :icon="GoNextIcon" :size="12" class="layout-account-nav__icon" />
         </li>
       </ul>
       <div class="layout-account-nav__logout-btn" @click="logout">{{ $t('account.logout') }}</div>
@@ -63,16 +65,18 @@ const logout = async () => {
   }
 
   &__list-item {
+    &:not(:last-child) {
+      border-bottom: 1px solid $gray-color-300;
+    }
+  }
+
+  &__link {
     height: 49px;
     cursor: pointer;
     text-decoration: none;
     display: flex;
     justify-content: space-between;
     align-items: center;
-
-    &:not(:last-child) {
-      border-bottom: 1px solid $gray-color-300;
-    }
 
     @media ($viewport-12) {
       width: 250px;
