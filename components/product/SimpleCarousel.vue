@@ -29,6 +29,11 @@ const { data: products } = useAsyncData('simple-carousel', async () => {
   const { data } = await heseya.Products.get(props.query)
   return data
 })
+
+useEmitProductsViewEvent(
+  computed(() => products.value || []),
+  props.title,
+)
 </script>
 
 <style lang="scss" scoped>

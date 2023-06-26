@@ -11,7 +11,7 @@ const {
   VERCEL_ENV,
   APP_HOST,
   RECAPTCHA_PUBLIC,
-  GOOGLE_ANALYTICS_ID,
+  GOOGLE_TAG_MANAGER_ID,
   CENEO_GUID,
   LEASLINK_ID,
   CALLPAGE_ID,
@@ -80,7 +80,7 @@ export default defineNuxtConfig({
       appHost: APP_HOST,
       isProduction,
       recaptchaPublic: RECAPTCHA_PUBLIC,
-      googleAnalyticsId: GOOGLE_ANALYTICS_ID,
+      googleTagManagerId: GOOGLE_TAG_MANAGER_ID,
       ceneoGuid: CENEO_GUID,
       leaslinkId: LEASLINK_ID,
       callpageId: CALLPAGE_ID,
@@ -141,7 +141,7 @@ export default defineNuxtConfig({
   i18n: {
     baseUrl: APP_HOST,
     defaultLocale: DEFAULT_LANGUAGE,
-    // @ts-ignore
+    // @ts-ignore TODO: where to put this?
     fallbackLocale: DEFAULT_LANGUAGE,
     langDir: 'lang',
     strategy: 'prefix_except_default',

@@ -84,8 +84,10 @@
 </i18n>
 
 <script setup lang="ts">
+import { CartItem, HeseyaEvent } from '@heseya/store-core'
 import clone from 'lodash/clone'
 import { EMPTY_ADDRESS } from '~/consts/address'
+import { useCartStore } from '~/store/cart'
 import { useCheckoutStore } from '~/store/checkout'
 
 const t = useLocalI18n()
@@ -115,6 +117,12 @@ watch(
   },
   { immediate: true },
 )
+
+onMounted(() => {
+  const ev = useHeseyaEventBus()
+  const cart = useCartStore()
+  ev.emit(HeseyaEvent.InitiateCheckout, cart.items as CartItem[])
+})
 
 useSeoMeta({
   title: () => t('title'),

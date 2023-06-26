@@ -68,6 +68,11 @@ useAsyncData(`subcategories-${props.category.id}`, async () => {
   refreshProducts()
 })
 
+useEmitProductsViewEvent(
+  computed(() => products.value || []),
+  props.category.name,
+)
+
 const setNewCategory = (categorySlug: string) => {
   if (categorySlug !== selectedCategory.value) {
     selectedCategory.value = categorySlug
