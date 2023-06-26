@@ -15,7 +15,7 @@
 
         <ProductSortSelect
           hide-label
-          :model-value="sort"
+          :model-value="String(route.query.sort)"
           @update:model-value="(newSort) => changeRouteQuery({ sort: newSort })"
         />
       </div>
@@ -75,6 +75,9 @@
           :filters="route.query"
           @update:filters="(query) => changeRouteQuery(query)"
         />
+        <LayoutButton class="product-list-page__aside-modal-btn" @click="isAsideOpen = false">
+          {{ t('useFilters') }}
+        </LayoutButton>
       </div>
     </LayoutModal>
   </div>
@@ -84,10 +87,12 @@
 {
   "pl": {
     "openAside": "Rozwiń filtry",
+    "useFilters": "Zastosuj filtry",
     "empty": "Nie znaleziono produktów spełniających podane kryteria"
   },
   "en": {
     "openAside": "Expand filters",
+    "useFilters": "Apply filters",
     "empty": "No products were found matching your criteria"
   }
 }
@@ -319,6 +324,11 @@ onMounted(() => emitViewEvent())
 
   &__aside-modal {
     padding: 24px;
+    overflow: auto;
+  }
+
+  &__aside-modal-btn {
+    width: 100%;
   }
 
   &__grid {
