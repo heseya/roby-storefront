@@ -3,24 +3,25 @@
     <LayoutBreadcrumpsProvider :breadcrumbs="breadcrumbs" />
     <LayoutLoading :active="pending" />
     <BaseContainer v-if="!pending" class="statute-page">
-      <div>
-        <div class="statute-page__contents-container">
-          <LayoutHeader class="statute-page__title" variant="black">
+      <aside class="statute-page__aside">
+        <div class="table-of-contents">
+          <LayoutHeader class="table-of-contents__title" variant="black">
             {{ t('title') }}
           </LayoutHeader>
           <button
             v-for="(header, index) in headers"
             :key="index"
-            class="statute-page__content"
+            class="table-of-contents__item"
             @click="header.scrollIntoView({ behavior: 'smooth', block: 'center' })"
           >
             {{ header.innerText }}
           </button>
         </div>
-      </div>
-      <div ref="content">
+        <div></div>
+      </aside>
+      <main ref="content" class="statute-page__content">
         <BaseWysiwygContent :content="page?.content_html" />
-      </div>
+      </main>
     </BaseContainer>
   </NuxtLayout>
 </template>
@@ -87,27 +88,37 @@ const headers: ComputedRef<HTMLHeadingElement[]> = computed(() => {
     grid-template-columns: 1fr;
   }
 
-  &__contents-container {
-    position: fixed;
-    width: 300px;
-    background-color: $white-color;
-    @media ($max-viewport-9) {
-      display: none;
-    }
+  &__aside {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    overflow: visible;
+  }
+}
+
+.table-of-contents {
+  position: sticky;
+  top: 300px;
+  width: 300px;
+  background-color: $white-color;
+  align-self: flex-start;
+
+  @media ($max-viewport-9) {
+    display: none;
   }
 
-  &__content {
+  &__title {
+    display: inline-block;
+    margin-bottom: 10px;
+  }
+
+  &__item {
     @include reset-button;
     color: $blue-color-500;
     text-align: left;
     font-size: rem(14);
     padding: 5px 0;
     width: 100%;
-  }
-
-  &__title {
-    display: inline-block;
-    margin-bottom: 10px;
   }
 }
 </style>

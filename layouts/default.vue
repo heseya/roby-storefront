@@ -28,7 +28,9 @@ import { useConfigStore } from '~/store/config'
 const config = useConfigStore()
 const { locales } = useI18n()
 
-const isAdditionalNavBarVisible = computed(() => locales.value.length > 1)
+const isAdditionalNavBarVisible = computed(
+  () => locales.value.length > 1 || !!config.customRedirect,
+)
 
 // TODO load notification without hydration & layout shift problem
 // import { useNavNotificationBarStore } from '@/store/navNotificationBar'

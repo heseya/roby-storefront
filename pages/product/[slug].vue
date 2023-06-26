@@ -4,7 +4,11 @@
 
     <BaseContainer class="product-page">
       <div class="product-page__header product-header">
-        <ProductPageCover class="product-header__gallery" :media="product?.gallery || []" />
+        <ProductPageCover
+          class="product-header__gallery"
+          :media="product?.gallery || []"
+          :tags="product?.tags || []"
+        />
 
         <div class="product-header__summary">
           <ClientOnly>
@@ -54,33 +58,46 @@
         </div>
       </div>
 
-      <LayoutTabs class="product-page__main" :tabs="productDescriptionTabs">
-        <template #description>
-          <div class="product-page__description-wrapper">
-            <div>
-              <LayoutDropDownContainer>
-                <LazyBaseWysiwygContent :content="product?.description_html" />
-              </LayoutDropDownContainer>
+      <KeepAlive>
+        <LayoutTabs class="product-page__main" :tabs="productDescriptionTabs">
+          <template #description>
+            <div class="product-page__description-wrapper">
+              <div>
+                <LayoutDropDownContainer>
+                  <LazyBaseWysiwygContent :content="product?.description_html" />
+                </LayoutDropDownContainer>
 
-              <LazyProductPageAttachments
-                v-if="product?.attachments.length"
-                :attachments="product?.attachments"
-                class="product-page__attachments"
+                <LazyProductPageAttachments
+                  v-if="product?.attachments.length"
+                  :attachments="product?.attachments"
+                  class="product-page__attachments"
+                />
+              </div>
+
+              <LazyProductPageAttributeCard
+                v-if="product && product.attributes.length"
+                :product="product"
               />
             </div>
+          </template>
 
-            <LazyProductPageAttributeCard v-if="product" :product="product" />
-          </div>
-        </template>
+          <template #additionalInfo>
+            <LazyProductPageAttributes v-if="product" :product="product" />
+          </template>
 
-        <template #additionalInfo>
-          <LazyProductPageAttributes v-if="product" :product="product" />
-        </template>
+          <template v-for="page in globalPages" :key="page.id" #[page.slug]>
+            <LazyBaseWysiwygContent :content="page?.content_html" />
+          </template>
 
-        <template v-for="page in globalPages" :key="page.id" #[page.slug]>
-          <LazyBaseWysiwygContent :content="page?.content_html" />
-        </template>
-      </LayoutTabs>
+          <template
+            v-for="page in product?.descriptions"
+            :key="page.id"
+            #[`description-${page.slug}`]
+          >
+            <LazyProductPageAdditionalDescription :page="page" />
+          </template>
+        </LayoutTabs>
+      </KeepAlive>
 
       <template v-if="product?.sales.length">
         <h2 class="primary-text">
@@ -99,7 +116,7 @@
         :key="set.id"
         class="product-page__related-products"
         :title="set.name"
-        :query="{ sets: [set.slug] }"
+        :query="{ sets: [set.slug], sort: `set.${set.slug}` }"
       />
     </BaseContainer>
   </NuxtLayout>
@@ -129,10 +146,12 @@
 </i18n>
 
 <script setup lang="ts">
+import { HeseyaEvent } from '@heseya/store-core'
 import { ASK_FOR_PRICE_KEY } from '@/consts/metadataKeys'
 import { Tab } from '@/components/layout/Tabs.vue'
 import { getProductSubtext } from '@/utils/product'
 
+const ev = useHeseyaEventBus()
 const heseya = useHeseya()
 const route = useRoute()
 const t = useLocalI18n()
@@ -167,7 +186,12 @@ const productPurchaseTabs = computed(
 
 const productDescriptionTabs = computed<Tab[]>(() => [
   { key: 'description', label: t('tabs.description') },
-  { key: 'additionalInfo', label: t('tabs.additionalInfo') },
+  ...(product.value?.attributes.length
+    ? [{ key: 'additionalInfo', label: t('tabs.additionalInfo') }]
+    : []),
+  ...(product.value?.descriptions
+    .filter((p) => p.public)
+    .map((p) => ({ key: `description-${p.slug}`, label: p.name })) || []),
   ...(globalPages.value?.map((p) => ({ key: p.slug, label: p.name })) || []),
 ])
 
@@ -177,6 +201,16 @@ const breadcrumbs = computed(() => [
     : null,
   { label: product.value?.name || '', link: route.fullPath },
 ])
+
+onMounted(() => {
+  watch(
+    product,
+    (p) => {
+      if (p) ev.emit(HeseyaEvent.ViewProduct, p)
+    },
+    { immediate: true },
+  )
+})
 
 useSeo(() => [product.value?.seo, { title: product.value?.name }])
 

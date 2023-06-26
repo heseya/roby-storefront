@@ -1,4 +1,5 @@
 {
+  "version": "1.0.1",
   "private": true,
   "scripts": {
     "build": "nuxt build",
@@ -13,7 +14,7 @@
   },
   "dependencies": {
     "@directus/sdk": "^10.3.3",
-    "@heseya/store-core": "5.1.0-dev.12",
+    "@heseya/store-core": "5.1.0",
     "@kyvg/vue3-notification": "^2.9.1",
     "@pinia-plugin-persistedstate/nuxt": "1.1.1",
     "@pinia/nuxt": "^0.4.11",

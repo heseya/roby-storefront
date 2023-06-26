@@ -73,6 +73,7 @@ const { data: departments } = useAsyncData('contact-departments', async () => {
       'phone_mobile',
       'phone_stationery',
       'translations.name',
+      'translations.text',
       'translations.languages_code',
     ],
   })

@@ -8,11 +8,13 @@ const {
   DIRECTUS_URL = 'https://blog-***REMOVED***.heseya.pl',
   PRICE_TRACKER_URL = 'https://main-price-tracker.app.***REMOVED***',
   ENVIRONMENT = 'development',
+  VERCEL_ENV,
   APP_HOST,
   RECAPTCHA_PUBLIC,
-  GOOGLE_ANALYTICS_ID,
+  GOOGLE_TAG_MANAGER_ID,
   CENEO_GUID,
   LEASLINK_ID,
+  CALLPAGE_ID,
   COLOR_THEME_PICKER,
   AXIOS_CACHE_TTL,
 
@@ -27,7 +29,7 @@ const {
 const ALLOWED_UI_LANGUAGES = process.env.ALLOWED_UI_LANGUAGES?.split(',') || ['pl']
 const DEFAULT_LANGUAGE = process.env.DEFAULT_LANGUAGE || ALLOWED_UI_LANGUAGES[0]
 
-const isProduction = ENVIRONMENT === 'production'
+const isProduction = (VERCEL_ENV || ENVIRONMENT) === 'production'
 
 if (!API_URL) console.warn('API_URL env is not defined')
 if (!PRICE_TRACKER_URL) console.warn('PRICE_TRACKER_URL env is not defined')
@@ -58,7 +60,13 @@ export default defineNuxtConfig({
         { rel: 'preconnect', href: DIRECTUS_URL },
         { rel: 'dns-prefetch', href: DIRECTUS_URL },
       ],
-      script: [],
+      script: [
+        {
+          hid: 'polyfill',
+          defer: true,
+          src: 'https://polyfill.io/v3/polyfill.min.js?features=Intl.NumberFormat%2CIntl.PluralRules.~locale.pl',
+        },
+      ],
     },
   },
 
@@ -72,9 +80,10 @@ export default defineNuxtConfig({
       appHost: APP_HOST,
       isProduction,
       recaptchaPublic: RECAPTCHA_PUBLIC,
-      googleAnalyticsId: GOOGLE_ANALYTICS_ID,
+      googleTagManagerId: GOOGLE_TAG_MANAGER_ID,
       ceneoGuid: CENEO_GUID,
       leaslinkId: LEASLINK_ID,
+      callpageId: CALLPAGE_ID,
       showColorThemePicker: COLOR_THEME_PICKER === '1',
       axiosCacheTtl: parseInt(AXIOS_CACHE_TTL || '0') ?? 0,
     },
@@ -132,6 +141,7 @@ export default defineNuxtConfig({
   i18n: {
     baseUrl: APP_HOST,
     defaultLocale: DEFAULT_LANGUAGE,
+    // @ts-ignore TODO: where to put this?
     fallbackLocale: DEFAULT_LANGUAGE,
     langDir: 'lang',
     strategy: 'prefix_except_default',

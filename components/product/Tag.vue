@@ -48,5 +48,9 @@ const isDarkText = computed(() => {
     font-size: rem(14);
     font-weight: 500;
   }
+
+  &--big {
+    font-size: rem(14);
+  }
 }
 </style>

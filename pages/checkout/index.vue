@@ -61,11 +61,12 @@
 </i18n>
 
 <script setup lang="ts">
+import { CartItem, HeseyaEvent, ShippingType } from '@heseya/store-core'
 import clone from 'lodash/clone'
 import { useForm } from 'vee-validate'
-import { ShippingType } from '@heseya/store-core'
 import { CreateUserForm } from '~/components/auth/RegisterForm.vue'
 import { EMPTY_ADDRESS } from '~/consts/address'
+import { useCartStore } from '~/store/cart'
 import { TRADITIONAL_PAYMENT_KEY } from '~/consts/traditionalPayment'
 import { useAuthStore } from '~/store/auth'
 import { useCheckoutStore } from '~/store/checkout'
@@ -208,6 +209,12 @@ watch(
   },
   { immediate: true },
 )
+
+onMounted(() => {
+  const ev = useHeseyaEventBus()
+  const cart = useCartStore()
+  ev.emit(HeseyaEvent.InitiateCheckout, cart.items as CartItem[])
+})
 
 watch(
   () => registerForm.values.email,

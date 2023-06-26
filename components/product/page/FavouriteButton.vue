@@ -14,12 +14,12 @@
 <i18n lang="json">
 {
   "en": {
-    "addToFavorites": "Add to favorites",
-    "removeFromFavorites": "Remove from favorites"
+    "addToFavorites": "Add to wishlist",
+    "removeFromFavorites": "Remove from wishlist"
   },
   "pl": {
-    "addToFavorites": "Dodaj do ulubionych",
-    "removeFromFavorites": "Usuń z ulubionych"
+    "addToFavorites": "Dodaj do listy życzeń",
+    "removeFromFavorites": "Usuń z listy życzeń"
   }
 }
 </i18n>

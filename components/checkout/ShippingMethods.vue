@@ -60,7 +60,7 @@
 </i18n>
 
 <script setup lang="ts">
-import { ShippingMethod, ShippingType } from '@heseya/store-core'
+import { CartItem, HeseyaEvent, ShippingMethod, ShippingType } from '@heseya/store-core'
 import { useCartStore } from '@/store/cart'
 import { useCheckoutStore } from '@/store/checkout'
 
@@ -69,6 +69,7 @@ const $t = useGlobalI18n()
 const heseya = useHeseya()
 const cart = useCartStore()
 const checkout = useCheckoutStore()
+const ev = useHeseyaEventBus()
 
 const { data: shippingMethods } = useLazyAsyncData(
   `shipping-methods-for-value`,
@@ -99,6 +100,12 @@ const setShippingMethod = (id: unknown) => {
   if (shippingMethod?.shipping_type === ShippingType.Point && !checkout.shippingPointId) {
     checkout.shippingPointId = shippingMethod.shipping_points[0].id || null
   }
+
+  if (checkout.shippingMethod)
+    ev.emit(HeseyaEvent.AddShippingInfo, {
+      items: cart.items as CartItem[],
+      shipping: checkout.shippingMethod,
+    })
 
   cart.processCart()
 }

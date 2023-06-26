@@ -38,7 +38,20 @@
       "remove": "Usuń kod rabatowy",
       "errors": {
         "notFound": "Nie znaleziono kuponu",
-        "alreadyAdded": "Ten kupon został już dodany"
+        "alreadyAdded": "Ten kupon został już dodany",
+        "conditionsNotMet": "Koszyk nie spełnia warunków wpisanego kodu rabatowego, dlatego nie może zostać dodany"
+      }
+    }
+  },
+  "en": {
+    "coupons": {
+      "title": "Do you have a discount code?",
+      "add": "Apply",
+      "remove": "Remove discount code",
+      "errors": {
+        "notFound": "Coupon not found",
+        "alreadyAdded": "This coupon has already been added",
+        "conditionsNotMet": "The cart does not meet the conditions of the entered discount code, so it cannot be added"
       }
     }
   }
@@ -83,10 +96,31 @@ const addCoupon = form.handleSubmit(async () => {
   errorMessage.value = ''
   try {
     const coupon = await heseya.Coupons.getOneBySlug(form.values.coupon)
+
+    // Validate if coupon can be added to cart
+    try {
+      const { coupons: processedCoupons } = await heseya.Orders.processCart({
+        ...cart.cartDto,
+        coupons: [...cart.cartDto.coupons, coupon.code],
+      })
+      if (!processedCoupons.find((c) => c.code === coupon.code))
+        throw new Error('Coupon was not returned in response')
+    } catch {
+      errorMessage.value = t('coupons.errors.conditionsNotMet')
+      isLoading.value = false
+      return
+    }
+
     cart.addCoupon(coupon)
 
-    // TODO: this does not clear form entirely, error message is still visible
     form.resetForm()
+
+    // Hack for clearing error messages
+    setTimeout(() => {
+      form.setErrors({
+        coupon: '',
+      })
+    }, 0)
   } catch {
     errorMessage.value = t('coupons.errors.notFound')
   }

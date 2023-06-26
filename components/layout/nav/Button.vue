@@ -95,6 +95,9 @@ watch(
     top: 50%;
     padding: 10px 0;
     z-index: 9999;
+    max-height: 60vh;
+    overflow-y: auto;
+    @include styled-scrollbar;
     @include flex-column;
     background-color: $gray-color-300;
     display: none;

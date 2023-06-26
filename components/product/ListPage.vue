@@ -15,7 +15,7 @@
 
         <ProductSortSelect
           hide-label
-          :model-value="sort"
+          :model-value="String(route.query.sort)"
           @update:model-value="(newSort) => changeRouteQuery({ sort: newSort })"
         />
       </div>
@@ -75,6 +75,9 @@
           :filters="route.query"
           @update:filters="(query) => changeRouteQuery(query)"
         />
+        <LayoutButton class="product-list-page__aside-modal-btn" @click="isAsideOpen = false">
+          {{ t('useFilters') }}
+        </LayoutButton>
       </div>
     </LayoutModal>
   </div>
@@ -84,22 +87,21 @@
 {
   "pl": {
     "openAside": "Rozwiń filtry",
+    "useFilters": "Zastosuj filtry",
     "empty": "Nie znaleziono produktów spełniających podane kryteria"
   },
   "en": {
     "openAside": "Expand filters",
+    "useFilters": "Apply filters",
     "empty": "No products were found matching your criteria"
   }
 }
 </i18n>
 
 <script setup lang="ts">
-import { HeseyaEvent } from '@heseya/store-core'
-
 const route = useRoute()
 const t = useLocalI18n()
 
-const ev = useHeseyaEventBus()
 const heseya = useHeseya()
 
 const slots = useSlots()
@@ -132,13 +134,6 @@ const perPage = computed(() => {
 })
 
 const isAsideSection = computed(() => !!slots.aside)
-
-const emitViewEvent = () => {
-  ev.emit(HeseyaEvent.ViewProductList, {
-    set: { name: props.title },
-    items: products.value?.data || [],
-  })
-}
 
 const changeRouteQuery = (query: Record<string, any>) => {
   const transformValue = (
@@ -196,9 +191,9 @@ const {
   return response
 })
 
-watch(
-  () => products.value,
-  () => emitViewEvent(),
+useEmitProductsViewEvent(
+  computed(() => products.value?.data || []),
+  props.title,
 )
 
 watch(
@@ -220,15 +215,17 @@ watch(
   },
 )
 
-onBeforeMount(() => {
-  // If current page is out of scope, redirect to the first page
-  const page = Number(route.query.page ?? 1)
-  if (page < 1 || page > (products.value?.pagination.lastPage || Infinity)) {
-    changeRouteQuery({ page: 1 })
-  }
-})
-
-onMounted(() => emitViewEvent())
+watch(
+  () => products.value,
+  () => {
+    // If current page is out of scope, redirect to the first page
+    const page = Number(route.query.page ?? 1)
+    if (page < 1 || page > (products.value?.pagination.lastPage || Infinity)) {
+      changeRouteQuery({ page: 1 })
+    }
+  },
+  { immediate: true },
+)
 </script>
 
 <style lang="scss" scoped>
@@ -315,6 +312,11 @@ onMounted(() => emitViewEvent())
 
   &__aside-modal {
     padding: 24px;
+    overflow: auto;
+  }
+
+  &__aside-modal-btn {
+    width: 100%;
   }
 
   &__grid {
