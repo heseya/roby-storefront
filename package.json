@@ -18,8 +18,8 @@
     "@kyvg/vue3-notification": "^2.9.1",
     "@pinia-plugin-persistedstate/nuxt": "1.1.1",
     "@pinia/nuxt": "^0.4.11",
-    "@vee-validate/i18n": "^4.10.2",
-    "@vee-validate/rules": "^4.10.2",
+    "@vee-validate/i18n": "4.9.6",
+    "@vee-validate/rules": "4.9.6",
     "@vueuse/core": "^10.2.0",
     "@vueuse/nuxt": "^10.2.0",
     "axios": "^1.4.0",
@@ -29,7 +29,7 @@
     "nodemailer": "^6.9.3",
     "nuxt-swiper": "^1.1.1",
     "swiper": "^9.4.1",
-    "vee-validate": "^4.10.2",
+    "vee-validate": "4.9.6",
     "vue-gtag-next": "^1.14.0"
   },
   "devDependencies": {
