@@ -1,114 +1,63 @@
 <template>
-  <div class="checkout-summary">
-    <div v-for="item in cart.items" :key="item.id" class="checkout-summary-item">
-      <span class="checkout-summary-item__text">
-        <span class="primary-text">{{ item.qty }}x</span> {{ item.name }}
-      </span>
-      <span class="checkout-summary-item__text">{{ formatAmount(item.totalPrice) }}</span>
+  <CheckoutPageArea :title="$t('account.myData')" :placeholder-height="300">
+    <div class="checkout-summary">
+      <div v-for="item in cart.items" :key="item.id" class="checkout-summary-item">
+        <span class="checkout-summary-item__text">
+          <span class="primary-text">{{ item.qty }}x</span> {{ item.name }}
+        </span>
+        <span class="checkout-summary-item__text">{{ formatAmount(item.totalPrice) }}</span>
+      </div>
+
+      <div v-if="cart.totalDiscountValue !== 0" class="checkout-summary-item">
+        <span class="checkout-summary-item__text checkout-summary-item__text--green">
+          {{ $t('payments.discount') }}
+        </span>
+        <span class="checkout-summary-item__text checkout-summary-item__text--green">
+          {{ formatAmount(-cart.totalDiscountValue) }}
+        </span>
+      </div>
+
+      <div class="checkout-summary-item">
+        <span class="checkout-summary-item__text">{{ $t('orders.delivery') }}</span>
+        <span class="checkout-summary-item__text"> {{ formatAmount(cart.shippingPrice) }} </span>
+      </div>
+
+      <hr class="checkout-summary__hr hr" />
+
+      <div class="checkout-summary-item">
+        <span class="checkout-summary-item__text">{{ $t('orders.totalAmount') }}</span>
+        <span class="checkout-summary-item__text checkout-summary-item__text--big">
+          {{ formatAmount(cart.summary) }}
+        </span>
+      </div>
+
+      <LayoutButton
+        variant="primary"
+        class="cart-summary__button"
+        :disabled="disabled || !checkout.isValid"
+        @click="emit('submit')"
+      >
+        {{ $t('payments.confirmAndPay') }}
+      </LayoutButton>
     </div>
-
-    <div v-if="cart.totalDiscountValue !== 0" class="checkout-summary-item">
-      <span class="checkout-summary-item__text checkout-summary-item__text--green">
-        {{ $t('payments.discount') }}
-      </span>
-      <span class="checkout-summary-item__text checkout-summary-item__text--green">
-        {{ formatAmount(-cart.totalDiscountValue) }}
-      </span>
-    </div>
-
-    <div class="checkout-summary-item">
-      <span class="checkout-summary-item__text">{{ $t('orders.delivery') }}</span>
-      <span class="checkout-summary-item__text"> {{ formatAmount(cart.shippingPrice) }} </span>
-    </div>
-
-    <hr class="checkout-summary__hr hr" />
-
-    <div class="checkout-summary-item">
-      <span class="checkout-summary-item__text">{{ $t('orders.totalAmount') }}</span>
-      <span class="checkout-summary-item__text checkout-summary-item__text--big">
-        {{ formatAmount(cart.summary) }}
-      </span>
-    </div>
-
-    <LayoutButton
-      variant="primary"
-      class="cart-summary__button"
-      :disabled="!checkout.isValid"
-      @click="createOrder"
-    >
-      {{ $t('payments.confirmAndPay') }}
-    </LayoutButton>
-  </div>
+  </CheckoutPageArea>
 </template>
-
-<i18n lang="json">
-{
-  "pl": {
-    "defaultAddress": "Adres domyślny"
-  },
-  "pl": {
-    "defaultAddress": "Default address"
-  }
-}
-</i18n>
 
 <script setup lang="ts">
 import { useCartStore } from '@/store/cart'
-import { TRADITIONAL_PAYMENT_KEY } from '~/consts/traditionalPayment'
 import { useCheckoutStore } from '~/store/checkout'
 
-const t = useLocalI18n()
+defineProps<{
+  disabled: boolean
+}>()
+
+const emit = defineEmits<{
+  (e: 'submit'): void
+}>()
+
 const $t = useGlobalI18n()
 const cart = useCartStore()
 const checkout = useCheckoutStore()
-const formatError = useErrorMessage()
-const { notify } = useNotify()
-
-const saveUserAddresses = async () => {
-  const { addresses: shipping, add: addShipping } = useUserShippingAddresses()
-  const { addresses: billing, add: addBilling } = useUserBillingAddresses()
-
-  if (shipping.value.length === 0) {
-    await addShipping({
-      name: t('defaultAddress'),
-      default: true,
-      address: checkout.shippingAddress,
-    })
-  }
-  if (billing.value.length === 0) {
-    await addBilling({
-      name: t('defaultAddress'),
-      default: true,
-      address: checkout.billingAddress,
-    })
-  }
-}
-
-const createOrder = async () => {
-  try {
-    // paymentMethodId must exist at this point, it is validated before
-    const paymentId = checkout.paymentMethodId!
-    const order = await checkout.createOrder()
-
-    // save user addresses if they don't exist
-    await saveUserAddresses()
-
-    checkout.reset()
-
-    if (paymentId === TRADITIONAL_PAYMENT_KEY) {
-      navigateTo(`/checkout/thank-you?code=${order.code}&payment=${TRADITIONAL_PAYMENT_KEY}`)
-      return
-    }
-
-    const paymentUrl = await checkout.createOrderPayment(order.code, paymentId)
-    window.location.href = paymentUrl
-  } catch (error) {
-    notify({
-      title: formatError(error),
-      type: 'error',
-    })
-  }
-}
 </script>
 
 <style lang="scss" scoped>

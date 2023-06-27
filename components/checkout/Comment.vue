@@ -1,12 +1,14 @@
 <template>
-  <div class="checkout-comment">
-    <FormInput
-      v-model="checkout.comment"
-      :label="t('comment.label')"
-      name="comment"
-      :placeholder="t('comment.placeholder')"
-    />
-  </div>
+  <CheckoutPageArea>
+    <div class="checkout-comment">
+      <FormInput
+        v-model="checkout.comment"
+        :label="t('comment.label')"
+        name="comment"
+        :placeholder="t('comment.placeholder')"
+      />
+    </div>
+  </CheckoutPageArea>
 </template>
 
 <i18n lang="json">

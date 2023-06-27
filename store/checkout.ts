@@ -9,7 +9,6 @@ import {
 } from '@heseya/store-core'
 import { defineStore } from 'pinia'
 import { useCartStore } from './cart'
-
 import { Paczkomat } from '@/interfaces/Paczkomat'
 import { EMPTY_ADDRESS } from '@/consts/address'
 
@@ -76,6 +75,7 @@ export const useCheckoutStore = defineStore('checkout', {
 
     isValid(): boolean {
       if (!this.email) return false
+
       // TODO: not all orders requires phisical shipping method
       if (!this.shippingMethod) return false
       if (!this.paymentMethodId) return false
