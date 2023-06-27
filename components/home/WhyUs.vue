@@ -22,6 +22,8 @@ import { TranslatedWhyUsComponent, TranslatedWhyUsReason } from '@/interfaces/wh
 const { data: content } = useAsyncData('why-us-content', async () => {
   try {
     const directus = useDirectus()
+    if (!directus.url) return
+
     const data = await directus.items('WhyUsComponent').readOne(1, {
       fields: ['*.*'],
     })
