@@ -4,6 +4,8 @@
   </MediaPlaceholder>
 
   <picture v-else class="hs-picture" @error="handleError">
+    <!-- <source v-if="avifUrl" :srcset="avifUrl" type="image/avif" /> -->
+    <source v-if="webpUrl" :srcset="webpUrl" type="image/webp" />
     <source v-if="webpUrl" :srcset="webpUrl" type="image/webp" />
     <source v-if="jpegUrl" :srcset="jpegUrl" type="image/jpeg" />
     <source v-if="baseUrl" :srcset="baseUrl" />
@@ -56,19 +58,17 @@ const baseUrl = computed(() => {
   return url.toString()
 })
 
-const jpegUrl = computed(() => {
-  if (!baseUrl.value) return ''
-  const url = new URL(baseUrl.value)
-  url.searchParams.append('format', 'jpeg')
-  return url.toString()
-})
+const useFormatedUrl = (format: string) =>
+  computed(() => {
+    if (!baseUrl.value) return ''
+    const url = new URL(baseUrl.value)
+    url.searchParams.append('format', format)
+    return url.toString()
+  })
 
-const webpUrl = computed(() => {
-  if (!baseUrl.value) return ''
-  const url = new URL(baseUrl.value)
-  url.searchParams.append('format', 'webp')
-  return url.toString()
-})
+const jpegUrl = useFormatedUrl('jpeg')
+const webpUrl = useFormatedUrl('webp')
+// const avifUrl = useFormatedUrl('avif')
 
 const handleError = (error: any) => {
   isError.value = true
