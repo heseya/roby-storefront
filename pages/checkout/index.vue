@@ -52,9 +52,11 @@
 <i18n lang="json">
 {
   "pl": {
+    "title": "Podsumowanie zamówienia",
     "question": "Chce założyć konto"
   },
   "en": {
+    "title": "Order summary",
     "question": "I want to create account"
   }
 }
