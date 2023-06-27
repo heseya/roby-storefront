@@ -9,12 +9,12 @@
       {{ t('billingAddress.copy') }}
     </LayoutButton>
 
-  <div class="checkout-billing-address">
-    <FormCheckbox v-model="checkout.invoiceRequested" name="is_invoice" style="margin-top: 16px">
-      {{ $t('form.needInvoice') }}
-    </FormCheckbox>
-    <AddressForm v-model:address="checkout.billingAddress" :invoice="checkout.invoiceRequested" />
-  </div>
+    <div class="checkout-billing-address">
+      <FormCheckbox v-model="checkout.invoiceRequested" name="is_invoice" style="margin-top: 16px">
+        {{ $t('form.needInvoice') }}
+      </FormCheckbox>
+      <AddressForm v-model:address="checkout.billingAddress" :invoice="checkout.invoiceRequested" />
+    </div>
   </CheckoutPageArea>
 </template>
 
