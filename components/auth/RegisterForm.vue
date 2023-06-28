@@ -88,13 +88,14 @@
 </i18n>
 
 <script setup lang="ts">
-import { User, UserConsentDto, UserRegisterDto } from '@heseya/store-core'
+import { HeseyaEvent, User, UserConsentDto, UserRegisterDto } from '@heseya/store-core'
 import { useForm } from 'vee-validate'
 
 const t = useLocalI18n()
 const $t = useGlobalI18n()
 const heseya = useHeseya()
 const formatError = useErrorMessage()
+const ev = useHeseyaEventBus()
 
 const isLoading = ref(false)
 const errorMessage = ref('')
@@ -129,7 +130,9 @@ const onSubmit = form.handleSubmit(async () => {
 
   try {
     const user = await heseya.Auth.register(registerFormDto.value)
-    if (user) emit('registered', user)
+
+    ev.emit(HeseyaEvent.Register, user)
+    emit('registered', user)
   } catch (e: any) {
     errorMessage.value = formatError(e)
   } finally {
