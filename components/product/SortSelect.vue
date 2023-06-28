@@ -10,6 +10,9 @@
     <option value="price:asc">{{ t('options.price_asc') }}</option>
     <option value="price:desc">{{ t('options.price_desc') }}</option>
     <option value="name">{{ t('options.name') }}</option>
+    <option v-for="attr in sortableAttributes" :key="attr.id" :value="`attribute.${attr.slug}`">
+      {{ t('options.by') }} {{ attr.name }}
+    </option>
   </FormSelect>
 </template>
 
@@ -21,7 +24,8 @@
       "default": "Domyślnie",
       "price_asc": "Od najtańszych",
       "price_desc": "Od najdroższych",
-      "name": "Wg nazwy"
+      "name": "Wg nazwy",
+      "by": "Wg"
     }
   },
   "en": {
@@ -30,7 +34,8 @@
       "default": "Default",
       "price_asc": "From the cheapest",
       "price_desc": "From the most expensive",
-      "name": "By name"
+      "name": "By name",
+      "by": "By"
     }
   }
 }
@@ -47,6 +52,13 @@ const props = defineProps<{
 const emit = defineEmits<{
   (e: 'update:modelValue', value: string | undefined): void
 }>()
+
+const { data: sortableAttributes } = useAsyncData(async () => {
+  const heseya = useHeseya()
+  // TODO: API should allow to filter on db level
+  const { data } = await heseya.Attributes.get()
+  return data.filter((attribute) => attribute.sortable)
+})
 
 const innerValue = computed({
   get: () => props.modelValue,
