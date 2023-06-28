@@ -49,7 +49,13 @@ const canCopyFromShippingAddress = computed(
 )
 
 const copyFromShippingAddress = () => {
-  checkout.billingAddress = { ...checkout.shippingAddress }
+  checkout.billingAddress = {
+    ...checkout.shippingAddress,
+    /**
+     * If client requests invoice, it is safer to not copy the name from shipping address to force client to enter it manually
+     */
+    name: checkout.invoiceRequested ? checkout.billingAddress.name : checkout.shippingAddress.name,
+  }
 }
 </script>
 
