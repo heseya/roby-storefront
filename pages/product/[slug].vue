@@ -20,7 +20,9 @@
           </ClientOnly>
 
           <h1 class="product-header__title">{{ product?.name }}</h1>
-          <span class="product-header__subtitle"> {{ getProductSubtext(product) }} </span>
+          <span class="product-header__subtitle">
+            {{ getProductSubtext(product, config.productSubtextAttr) }}
+          </span>
           <div class="product-header__sales">
             <ProductTag v-for="sale in product?.sales || []" :key="sale.id" type="sale">
               {{ sale.name }}
@@ -147,13 +149,16 @@
 
 <script setup lang="ts">
 import { HeseyaEvent } from '@heseya/store-core'
+
 import { ASK_FOR_PRICE_KEY } from '@/consts/metadataKeys'
 import { Tab } from '@/components/layout/Tabs.vue'
-import { getProductSubtext } from '@/utils/product'
+
+import { useConfigStore } from '@/store/config'
 
 const ev = useHeseyaEventBus()
 const heseya = useHeseya()
 const route = useRoute()
+const config = useConfigStore()
 const t = useLocalI18n()
 const $t = useGlobalI18n()
 
