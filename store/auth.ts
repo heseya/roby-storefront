@@ -1,4 +1,4 @@
-import { AuthProviderKey, HeseyaEvent, UserRegisterDto } from '@heseya/store-core'
+import { AuthProviderKey, HeseyaEvent } from '@heseya/store-core'
 import { defineStore } from 'pinia'
 
 import { useUserStore } from './user'
@@ -59,23 +59,6 @@ export const useAuthStore = defineStore('auth', {
         this.setTokens(tokens)
         ev.emit(HeseyaEvent.Login, user)
         wasLoggedInPast.value = true
-        return { success: true }
-      } catch (error) {
-        this.error = error
-        return {
-          success: false,
-          error,
-        }
-      }
-    },
-
-    async register(payload: UserRegisterDto) {
-      const heseya = useHeseya()
-      const ev = useHeseyaEventBus()
-
-      try {
-        const user = await heseya.Auth.register(payload)
-        ev.emit(HeseyaEvent.Register, user)
         return { success: true }
       } catch (error) {
         this.error = error
