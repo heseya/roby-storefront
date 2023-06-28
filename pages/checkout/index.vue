@@ -14,7 +14,7 @@
           </CheckoutPersonalData>
 
           <!--@TODO Check why form data is cleared when this element is not available-->
-          <keep-alive>
+          <KeepAlive>
             <CheckoutRegisterForm
               v-if="!isLogged && wantCreateAccount"
               v-model:consents="registerForm.values.consents"
@@ -28,7 +28,7 @@
                 {{ errorMessage }}
               </LayoutInfoBox>
             </CheckoutRegisterForm>
-          </keep-alive>
+          </KeepAlive>
         </form>
 
         <CheckoutShippingMethods />
@@ -66,10 +66,12 @@
 import { CartItem, HeseyaEvent, ShippingType } from '@heseya/store-core'
 import clone from 'lodash/clone'
 import { useForm } from 'vee-validate'
+
 import { CreateUserForm } from '~/components/auth/RegisterForm.vue'
-import { EMPTY_ADDRESS } from '~/consts/address'
-import { useCartStore } from '~/store/cart'
+
 import { TRADITIONAL_PAYMENT_KEY } from '~/consts/traditionalPayment'
+
+import { useCartStore } from '~/store/cart'
 import { useAuthStore } from '~/store/auth'
 import { useCheckoutStore } from '~/store/checkout'
 
@@ -197,7 +199,6 @@ watch(
   () => {
     if (defaultBillingAddress.value)
       checkout.billingAddress = clone(defaultBillingAddress.value.address)
-    else checkout.billingAddress = clone(EMPTY_ADDRESS)
   },
   { immediate: true },
 )
@@ -207,7 +208,6 @@ watch(
   () => user,
   () => {
     if (user.value) checkout.email = user.value.email
-    else checkout.email = ''
   },
   { immediate: true },
 )
