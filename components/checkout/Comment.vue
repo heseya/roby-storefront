@@ -21,7 +21,7 @@
   },
   "en": {
     "comment": {
-      "label": "Comments to order",
+      "label": "Notes to the order",
       "placeholder": "Notes to the order, e.g. information about the delivery of the shipment"
     }
   }

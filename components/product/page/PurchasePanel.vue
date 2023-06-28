@@ -94,6 +94,7 @@ const props = withDefaults(
 )
 const cart = useCartStore()
 const t = useLocalI18n()
+const localePath = useLocalePath()
 
 const { enabled: leaselinkEnabled, getUrl: getLeasingUrl } = useLeaselink()
 
@@ -150,7 +151,7 @@ const addToCart = () => {
     quantity: Number(quantity.value) || 1,
   })
 
-  navigateTo('/cart')
+  navigateTo(localePath('/cart'))
 }
 </script>
 

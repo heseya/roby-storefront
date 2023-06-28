@@ -65,7 +65,6 @@ const consents = computed({
 
 <style lang="scss" scoped>
 .checkout-register-form {
-  margin-top: 30px;
   display: grid;
   grid-template-columns: 1fr;
   gap: 26px;

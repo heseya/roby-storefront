@@ -134,6 +134,7 @@ export const useCheckoutStore = defineStore('checkout', {
 
     async createOrderPayment(orderCode: string, paymentMethodId: string) {
       const heseya = useHeseya()
+      const localePath = useLocalePath()
       const { appHost } = usePublicRuntimeConfig()
 
       const { order, paymentMethods } = await heseya.Orders.getPaymentMethods(orderCode)
@@ -147,7 +148,10 @@ export const useCheckoutStore = defineStore('checkout', {
       return await heseya.Orders.pay(
         orderCode,
         paymentMethods[0].id,
-        joinUrl(`/checkout/thank-you?code=${orderCode}&t=${orderShippingType}`, appHost),
+        joinUrl(
+          localePath(`/checkout/thank-you?code=${orderCode}&t=${orderShippingType}`),
+          appHost,
+        ),
       )
     },
   },

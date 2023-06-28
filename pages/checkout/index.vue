@@ -85,6 +85,7 @@ const user = useUser()
 const isLogged = useIsLogged()
 const heseya = useHeseya()
 const auth = useAuthStore()
+const localePath = useLocalePath()
 
 const { defaultAddress: defaultBillingAddress } = useUserBillingAddresses()
 
@@ -158,7 +159,9 @@ const createOrder = async () => {
     checkout.reset()
 
     if (paymentId === TRADITIONAL_PAYMENT_KEY) {
-      navigateTo(`/checkout/thank-you?code=${order.code}&payment=${TRADITIONAL_PAYMENT_KEY}`)
+      navigateTo(
+        localePath(`/checkout/thank-you?code=${order.code}&payment=${TRADITIONAL_PAYMENT_KEY}`),
+      )
       return
     }
 
