@@ -193,7 +193,9 @@ const productPurchaseTabs = computed(
 )
 
 const productDescriptionTabs = computed<Tab[]>(() => [
-  { key: 'description', label: t('tabs.description') },
+  ...(product.value?.description_html
+    ? [{ key: 'description', label: t('tabs.description') }]
+    : []),
   ...(product.value?.attributes.length
     ? [{ key: 'additionalInfo', label: t('tabs.additionalInfo') }]
     : []),

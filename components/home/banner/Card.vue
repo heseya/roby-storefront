@@ -23,10 +23,10 @@ const props = withDefaults(
       min_screen_width: number
       media: CdnMedia
     }[]
-    link: string
+    link?: string
     centered?: boolean
   }>(),
-  { titleTag: 'span', subtitle: '' },
+  { titleTag: 'span', subtitle: '', link: '' },
 )
 
 // Temporary fix, as subtitle is required in API
@@ -98,20 +98,22 @@ const localePath = useLocalePath()
     z-index: 1;
 
     @media ($max-viewport-9) {
-      font-size: rem(16);
+      font-size: rem(18);
+      line-height: rem(22);
     }
   }
 
   &__subtitle {
     text-align: left;
     font-weight: 400;
-    font-size: rem(20);
+    font-size: rem(22);
     line-height: rem(26);
     text-transform: uppercase;
     z-index: 1;
 
     @media ($max-viewport-9) {
       font-size: rem(12);
+      line-height: rem(16);
     }
   }
 

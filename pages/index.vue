@@ -11,7 +11,7 @@
           class="index-page__content"
           :class="{ 'index-page__content--wide': section.type === 'box' }"
         >
-          <LazyHomeProductCarousel
+          <HomeProductCarousel
             v-if="section.type === 'set'"
             :category="section.data"
             header-tag="h2"

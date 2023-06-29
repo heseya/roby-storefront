@@ -49,6 +49,16 @@ const remainingImages = computed(() => props.banner?.banner_media.slice(1) as Ba
     @media ($viewport-9) {
       flex-direction: row;
     }
+
+    :deep(.card__title) {
+      font-size: rem(46);
+      line-height: rem(52);
+
+      @media ($max-viewport-9) {
+        font-size: rem(18);
+        line-height: rem(22);
+      }
+    }
   }
 
   &__cards {
