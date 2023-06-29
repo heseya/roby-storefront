@@ -3,8 +3,15 @@
     <LayoutBreadcrumpsProvider :breadcrumbs="breadcrumbs" />
 
     <BaseContainer class="product-page">
-      <div class="product-page__header product-header">
-        <ProductPageCover class="product-header__gallery" :media="product?.gallery || []" />
+      <div
+        class="product-page__header product-header"
+        :class="{ 'product-header--singular-cover': (product?.gallery?.length ?? 0) < 2 }"
+      >
+        <ProductPageCover
+          class="product-header__gallery"
+          :media="product?.gallery || []"
+          :tags="product?.tags || []"
+        />
 
         <div class="product-header__summary">
           <ClientOnly>
@@ -16,7 +23,9 @@
           </ClientOnly>
 
           <h1 class="product-header__title">{{ product?.name }}</h1>
-          <span class="product-header__subtitle"> {{ getProductSubtext(product) }} </span>
+          <span class="product-header__subtitle">
+            {{ getProductSubtext(product, config.productSubtextAttr) }}
+          </span>
           <div class="product-header__sales">
             <ProductTag v-for="sale in product?.sales || []" :key="sale.id" type="sale">
               {{ sale.name }}
@@ -54,36 +63,46 @@
         </div>
       </div>
 
-      <LayoutTabs class="product-page__main" :tabs="productDescriptionTabs">
-        <template #description>
-          <div class="product-page__description-wrapper">
-            <div>
-              <LayoutDropDownContainer>
-                <LazyBaseWysiwygContent :content="product?.description_html" />
-              </LayoutDropDownContainer>
+      <KeepAlive>
+        <LayoutTabs class="product-page__main" :tabs="productDescriptionTabs">
+          <template #description>
+            <div class="product-page__description-wrapper">
+              <div>
+                <LayoutDropDownContainer>
+                  <LazyBaseWysiwygContent :content="product?.description_html" />
+                </LayoutDropDownContainer>
 
-              <LazyProductPageAttachments
-                v-if="product?.attachments.length"
-                :attachments="product?.attachments"
-                class="product-page__attachments"
+                <LazyProductPageAttachments
+                  v-if="product?.attachments.length"
+                  :attachments="product?.attachments"
+                  class="product-page__attachments"
+                />
+              </div>
+
+              <LazyProductPageAttributeCard
+                v-if="product && product.attributes.length"
+                :product="product"
               />
             </div>
+          </template>
 
-            <LazyProductPageAttributeCard
-              v-if="product && product.attributes.length"
-              :product="product"
-            />
-          </div>
-        </template>
+          <template #additionalInfo>
+            <LazyProductPageAttributes v-if="product" :product="product" />
+          </template>
 
-        <template #additionalInfo>
-          <LazyProductPageAttributes v-if="product" :product="product" />
-        </template>
+          <template v-for="page in globalPages" :key="page.id" #[page.slug]>
+            <LazyBaseWysiwygContent :content="page?.content_html" />
+          </template>
 
-        <template v-for="page in globalPages" :key="page.id" #[page.slug]>
-          <LazyBaseWysiwygContent :content="page?.content_html" />
-        </template>
-      </LayoutTabs>
+          <template
+            v-for="page in product?.descriptions"
+            :key="page.id"
+            #[`description-${page.slug}`]
+          >
+            <LazyProductPageAdditionalDescription :page="page" />
+          </template>
+        </LayoutTabs>
+      </KeepAlive>
 
       <template v-if="product?.sales.length">
         <h2 class="primary-text">
@@ -132,12 +151,17 @@
 </i18n>
 
 <script setup lang="ts">
+import { HeseyaEvent } from '@heseya/store-core'
+
 import { ASK_FOR_PRICE_KEY } from '@/consts/metadataKeys'
 import { Tab } from '@/components/layout/Tabs.vue'
-import { getProductSubtext } from '@/utils/product'
 
+import { useConfigStore } from '@/store/config'
+
+const ev = useHeseyaEventBus()
 const heseya = useHeseya()
 const route = useRoute()
+const config = useConfigStore()
 const t = useLocalI18n()
 const $t = useGlobalI18n()
 
@@ -173,6 +197,9 @@ const productDescriptionTabs = computed<Tab[]>(() => [
   ...(product.value?.attributes.length
     ? [{ key: 'additionalInfo', label: t('tabs.additionalInfo') }]
     : []),
+  ...(product.value?.descriptions
+    .filter((p) => p.public)
+    .map((p) => ({ key: `description-${p.slug}`, label: p.name })) || []),
   ...(globalPages.value?.map((p) => ({ key: p.slug, label: p.name })) || []),
 ])
 
@@ -182,6 +209,16 @@ const breadcrumbs = computed(() => [
     : null,
   { label: product.value?.name || '', link: route.fullPath },
 ])
+
+onMounted(() => {
+  watch(
+    product,
+    (p) => {
+      if (p) ev.emit(HeseyaEvent.ViewProduct, p)
+    },
+    { immediate: true },
+  )
+})
 
 useSeo(() => [product.value?.seo, { title: product.value?.name }])
 
@@ -238,6 +275,12 @@ const showPrice = computed(() => {
   @media ($viewport-10) {
     grid-gap: 46px;
     grid-template-columns: 1fr 1fr;
+  }
+
+  &--singular-cover {
+    @media ($viewport-10) {
+      grid-template-columns: 1fr 1.4fr;
+    }
   }
 
   &__fav-btn {

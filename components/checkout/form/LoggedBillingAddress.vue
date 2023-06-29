@@ -1,14 +1,16 @@
 <template>
-  <CheckoutAddressCard :address="checkout.billingAddress" @edit="handleEdit" />
+  <CheckoutPageArea :title="$t('payments.billingAddress')">
+    <CheckoutAddressCard :address="checkout.billingAddress" @edit="handleEdit" />
 
-  <CheckoutAddressModal
-    :title="t('title')"
-    :open="isEditOpen"
-    @update:open="(v) => (isEditOpen = v)"
-    @save="onSave"
-  >
-    <CheckoutAddressList v-model:address="selectedAddress" type="billing" />
-  </CheckoutAddressModal>
+    <CheckoutAddressModal
+      :title="t('title')"
+      :open="isEditOpen"
+      @update:open="(v) => (isEditOpen = v)"
+      @save="onSave"
+    >
+      <CheckoutAddressList v-model:address="selectedAddress" type="billing" />
+    </CheckoutAddressModal>
+  </CheckoutPageArea>
 </template>
 
 <i18n lang="json">

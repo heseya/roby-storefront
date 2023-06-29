@@ -5,7 +5,9 @@
         <Media width="100" class="cart-preview-item__cover" :media="item.coverMedia" />
         <div class="cart-preview-item__content">
           <span class="cart-preview-item__name">{{ item.name }}</span>
-          <span class="cart-preview-item__brand">{{ getProductSubtext(item) }}</span>
+          <span class="cart-preview-item__brand">{{
+            getProductSubtext(item, config.productSubtextAttr)
+          }}</span>
           <div class="cart-preview-item__summary">
             <span class="cart-preview-item__quantity"
               >{{ $t('cart.quantity') }} {{ item.qty }}</span
@@ -34,11 +36,13 @@
 
 <script setup lang="ts">
 import CrossIcon from '@/assets/icons/cross.svg?component'
+
+import { useConfigStore } from '@/store/config'
 import { useCartStore } from '@/store/cart'
-import { getProductSubtext } from '@/utils/product'
 
 const $t = useGlobalI18n()
 const cart = useCartStore()
+const config = useConfigStore()
 
 const handleRemove = (id: string) => {
   cart.remove(id)

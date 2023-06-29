@@ -1,7 +1,7 @@
 import { formatApiError } from '@heseya/store-core'
 
 export const useErrorMessage = () => {
-  const { t } = useI18n({ useScope: 'global' })
+  const t = useGlobalI18n()
 
   return (error: any) => {
     const { title, key, errors, text } = formatApiError(error)

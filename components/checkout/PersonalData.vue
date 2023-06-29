@@ -1,51 +1,69 @@
 <template>
-  <div class="checkout-personal-data">
-    <FormInput
-      v-if="!isLogged"
-      v-model="checkout.email"
-      :label="$t('form.email')"
-      name="email"
-      rules="email|required"
-    />
-    <div v-else class="checkout-personal-data__text">
-      <span>{{ user?.name }}</span>
-      <span>{{ user?.email }}</span>
+  <CheckoutPageArea :title="$t('account.myData')">
+    <div class="checkout-personal-data__my-data">
+      <FormInput
+        v-if="!isLogged"
+        v-model="email"
+        :label="$t('form.email')"
+        name="email"
+        rules="email|required"
+      />
+      <div v-else class="checkout-personal-data__text">
+        <span>{{ user?.name }}</span>
+        <span>{{ user?.email }}</span>
+      </div>
     </div>
-  </div>
+    <slot></slot>
+  </CheckoutPageArea>
 </template>
 
 <script setup lang="ts">
-import { useCheckoutStore } from '@/store/checkout'
-
 const $t = useGlobalI18n()
-const checkout = useCheckoutStore()
+
+const props = defineProps<{
+  email: string
+}>()
+
+const emit = defineEmits<{
+  (event: 'update:email', value: string): void
+}>()
+
+const email = computed({
+  get: () => props.email,
+  set: (value) => emit('update:email', value),
+})
 
 const isLogged = useIsLogged()
 const user = useUser()
-
-watch(
-  () => user,
-  () => {
-    if (user) checkout.email = user.value?.email ?? ''
-  },
-  { immediate: true },
-)
 </script>
 
 <style lang="scss" scoped>
 .checkout-personal-data {
-  width: 100%;
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 8px;
+  &__my-data {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 26px;
 
-  @media ($viewport-6) {
-    grid-template-columns: 1fr 1fr;
+    @media ($viewport-6) {
+      grid-template-columns: 1fr 1fr;
+    }
   }
 
   &__text {
     display: flex;
     flex-direction: column;
+  }
+
+  &__form {
+    margin-top: 30px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 26px;
+
+    @media ($viewport-6) {
+      grid-template-columns: 1fr 1fr;
+    }
   }
 }
 </style>

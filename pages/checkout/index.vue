@@ -2,67 +2,48 @@
   <NuxtLayout name="checkout">
     <BaseContainer class="checkout-page">
       <section class="checkout-page__section">
-        <div class="checkout-page__area">
-          <h2 class="checkout-page__title">{{ $t('account.myData') }}</h2>
-          <ClientOnly>
-            <CheckoutPersonalData />
+        <form>
+          <CheckoutPersonalData v-model:email="registerForm.values.email">
+            <FormCheckbox
+              v-show="!isLogged"
+              v-model="wantCreateAccount"
+              class="checkout-page__checkbox"
+              name="wantCreateAccount"
+              :label="t('question')"
+            />
+          </CheckoutPersonalData>
 
-            <template #placeholder>
-              <div class="checkout-page__placeholder" style="height: 80px"></div>
-            </template>
-          </ClientOnly>
-        </div>
-        <div class="checkout-page__area">
-          <h2 class="checkout-page__title">{{ $t('orders.delivery') }}</h2>
-          <ClientOnly>
-            <CheckoutShippingMethods />
+          <!--@TODO Check why form data is cleared when this element is not available-->
+          <KeepAlive>
+            <CheckoutRegisterForm
+              v-if="!isLogged && wantCreateAccount"
+              v-model:consents="registerForm.values.consents"
+              :name="registerForm.values.name"
+              :surname="registerForm.values.surname"
+              :password="registerForm.values.password"
+              :confirm-password="registerForm.values.confirmPassword"
+              @update="updateRegisterForm"
+            >
+              <LayoutInfoBox v-if="errorMessage" type="danger">
+                {{ errorMessage }}
+              </LayoutInfoBox>
+            </CheckoutRegisterForm>
+          </KeepAlive>
+        </form>
 
-            <template #placeholder>
-              <div class="checkout-page__placeholder" style="height: 150px"></div>
-            </template>
-          </ClientOnly>
-        </div>
-        <div class="checkout-page__area">
-          <h2 class="checkout-page__title">{{ $t('payments.billingAddress') }}</h2>
-          <ClientOnly>
-            <CheckoutFormLoggedBillingAddress v-if="defaultBillingAddress" />
-            <CheckoutBillingAddress v-else />
+        <CheckoutShippingMethods />
 
-            <template #placeholder>
-              <div class="checkout-page__placeholder" style="height: 80px"></div>
-            </template>
-          </ClientOnly>
-        </div>
-        <div class="checkout-page__area">
-          <h2 class="checkout-page__title">{{ t('payment') }}</h2>
-          <ClientOnly>
-            <CheckoutPaymentMethods />
+        <CheckoutFormLoggedBillingAddress v-if="defaultBillingAddress" />
+        <CheckoutBillingAddress v-else />
 
-            <template #placeholder>
-              <div class="checkout-page__placeholder" style="height: 100px"></div>
-            </template>
-          </ClientOnly>
-        </div>
-        <div class="checkout-page__area">
-          <ClientOnly>
-            <CheckoutComment />
-
-            <template #placeholder>
-              <div class="checkout-page__placeholder" style="height: 80px"></div>
-            </template>
-          </ClientOnly>
-        </div>
+        <CheckoutPaymentMethods />
+        <CheckoutComment />
       </section>
       <section class="checkout-page__section">
-        <div class="checkout-page__area">
-          <ClientOnly>
-            <CheckoutSummary />
-
-            <template #placeholder>
-              <div class="checkout-page__placeholder" style="height: 300px"></div>
-            </template>
-          </ClientOnly>
-        </div>
+        <CheckoutSummary
+          :disabled="wantCreateAccount && !isRegisterFormValid"
+          @submit="processOrder()"
+        />
       </section>
     </BaseContainer>
   </NuxtLayout>
@@ -72,28 +53,148 @@
 {
   "pl": {
     "title": "Podsumowanie zamówienia",
-    "createAccount": "Załóż konto",
-    "payment": "Metoda płatności"
+    "question": "Chce założyć konto"
   },
   "en": {
     "title": "Order summary",
-    "createAccount": "Create account",
-    "payment": "Payment method"
+    "question": "I want to create account"
   }
 }
 </i18n>
 
 <script setup lang="ts">
+import { CartItem, HeseyaEvent, ShippingType } from '@heseya/store-core'
 import clone from 'lodash/clone'
-import { EMPTY_ADDRESS } from '~/consts/address'
+import { useForm } from 'vee-validate'
+
+import { CreateUserForm } from '~/components/auth/RegisterForm.vue'
+
+import { TRADITIONAL_PAYMENT_KEY } from '~/consts/traditionalPayment'
+
+import { useCartStore } from '~/store/cart'
+import { useAuthStore } from '~/store/auth'
 import { useCheckoutStore } from '~/store/checkout'
 
 const t = useLocalI18n()
 const $t = useGlobalI18n()
+const formatError = useErrorMessage()
+const { notify } = useNotify()
 
 const checkout = useCheckoutStore()
 const user = useUser()
+const isLogged = useIsLogged()
+const heseya = useHeseya()
+const auth = useAuthStore()
+const localePath = useLocalePath()
+
 const { defaultAddress: defaultBillingAddress } = useUserBillingAddresses()
+
+const wantCreateAccount = ref<boolean>(false)
+
+const errorMessage = ref('')
+
+const registerForm = useForm({
+  initialValues: {
+    email: '',
+    name: '',
+    surname: '',
+    password: '',
+    confirmPassword: '',
+    consents: {},
+  },
+})
+
+const isRegisterFormValid = computed(() => {
+  const { name, surname, password, confirmPassword } = registerForm.values
+
+  if (
+    !name ||
+    !surname ||
+    !password ||
+    !confirmPassword ||
+    Object.keys(registerForm.errors.value).length
+  )
+    return false
+
+  return true
+})
+
+const updateRegisterForm = (e: { key: keyof Omit<CreateUserForm, 'consents'>; value: string }) => {
+  registerForm.values[e.key] = e.value
+}
+
+const saveUserAddresses = async () => {
+  const { addresses: shipping, add: addShipping } = useUserShippingAddresses()
+  const { addresses: billing, add: addBilling } = useUserBillingAddresses()
+
+  if (
+    checkout.shippingMethod?.shipping_type === ShippingType.Address &&
+    shipping.value.length === 0
+  ) {
+    await addShipping({
+      name: t('defaultAddress'),
+      default: true,
+      address: checkout.shippingAddress,
+    })
+  }
+  if (billing.value.length === 0) {
+    await addBilling({
+      name: t('defaultAddress'),
+      default: true,
+      address: checkout.billingAddress,
+    })
+  }
+}
+
+const createOrder = async () => {
+  try {
+    // paymentMethodId must exist at this point, it is validated before
+    const paymentId = checkout.paymentMethodId!
+
+    const order = await checkout.createOrder()
+
+    // save user addresses if they don't exist
+    await saveUserAddresses()
+
+    checkout.reset()
+
+    if (paymentId === TRADITIONAL_PAYMENT_KEY) {
+      navigateTo(
+        localePath(`/checkout/thank-you?code=${order.code}&payment=${TRADITIONAL_PAYMENT_KEY}`),
+      )
+      return
+    }
+
+    const paymentUrl = await checkout.createOrderPayment(order.code, paymentId)
+    window.location.href = paymentUrl
+  } catch (e: any) {
+    const error = formatError(e)
+    notify({
+      title: $t(error),
+      type: 'error',
+    })
+  }
+}
+
+const createAccountAndLogin = async () => {
+  const { name, surname, email, consents, password } = registerForm.values
+  await heseya.Auth.register({
+    name: name + ' ' + surname,
+    email,
+    password,
+    consents,
+  })
+  await auth.login({ email, password })
+}
+
+const processOrder = async () => {
+  try {
+    if (wantCreateAccount.value) await createAccountAndLogin()
+    await createOrder()
+  } catch (e: any) {
+    errorMessage.value = formatError(e)
+  }
+}
 
 // Autofill billing address if user is logged in
 watch(
@@ -101,7 +202,6 @@ watch(
   () => {
     if (defaultBillingAddress.value)
       checkout.billingAddress = clone(defaultBillingAddress.value.address)
-    else checkout.billingAddress = clone(EMPTY_ADDRESS)
   },
   { immediate: true },
 )
@@ -111,9 +211,23 @@ watch(
   () => user,
   () => {
     if (user.value) checkout.email = user.value.email
-    else checkout.email = ''
   },
   { immediate: true },
+)
+
+onMounted(() => {
+  const ev = useHeseyaEventBus()
+  const cart = useCartStore()
+  ev.emit(HeseyaEvent.InitiateCheckout, cart.items as CartItem[])
+})
+
+watch(
+  () => registerForm.values.email,
+  () => {
+    if (!isLogged.value) {
+      checkout.email = registerForm.values.email
+    }
+  },
 )
 
 useSeoMeta({
@@ -144,26 +258,8 @@ useHead({
     gap: 16px;
   }
 
-  &__area {
-    padding: 16px;
-    background-color: #fff;
-    position: relative;
-  }
-
-  &__title {
-    font-size: rem(18);
-    font-weight: 600;
-    margin-top: 0;
-    margin-bottom: 16px;
-
-    &--slim {
-      font-weight: 400;
-    }
-  }
-
-  &__placeholder {
-    width: 100%;
-    height: 80px;
+  &__checkbox {
+    margin-top: 30px;
   }
 }
 </style>

@@ -29,8 +29,10 @@ export type DirectusCollections = {
   RentPageFaq: RentPageFaq
 }
 
-export default defineNuxtPlugin((nuxtApp) => {
-  const directus = new Directus<DirectusCollections>(nuxtApp.$config.public.directusUrl)
+export default defineNuxtPlugin(() => {
+  const { directusUrl } = usePublicRuntimeConfig()
+
+  const directus = new Directus<DirectusCollections>(directusUrl)
 
   return {
     provide: { directus },

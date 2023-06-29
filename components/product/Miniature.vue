@@ -21,7 +21,9 @@
       <span class="product-miniature__name">
         {{ product.name }}
       </span>
-      <span class="product-miniature__subtext"> {{ getProductSubtext(product) }} </span>
+      <span class="product-miniature__subtext">
+        {{ getProductSubtext(product, config.productSubtextAttr) }}
+      </span>
       <ProductPrice v-if="showPrice" class="product-miniature__price" :product="product" />
       <LayoutButton v-else class="product-miniature__btn">
         {{ $t('offers.pricing') }}
@@ -35,11 +37,13 @@
 
 <script lang="ts" setup>
 import { ProductList } from '@heseya/store-core'
-import { getProductSubtext } from '@/utils/product'
+
+import { useConfigStore } from '@/store/config'
 import { ASK_FOR_PRICE_KEY } from '@/consts/metadataKeys'
 
 const $t = useGlobalI18n()
 const localePath = useLocalePath()
+const config = useConfigStore()
 
 const props = defineProps<{
   product: ProductList

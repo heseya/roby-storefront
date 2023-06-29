@@ -64,8 +64,8 @@ enum CheckoutStep {
 }
 
 const activeStep = computed(() => {
-  if (route.path === '/checkout') return CheckoutStep.Checkout
-  if (route.path === '/checkout/thank-you') return CheckoutStep.Finished
+  if (route.path === localePath('/checkout')) return CheckoutStep.Checkout
+  if (route.path === localePath('/checkout/thank-you')) return CheckoutStep.Finished
   return null
 })
 </script>

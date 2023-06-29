@@ -62,6 +62,7 @@
 </i18n>
 
 <script setup lang="ts">
+import { CartItem, HeseyaEvent } from '@heseya/store-core'
 import { useCartStore } from '@/store/cart'
 
 const cart = useCartStore()
@@ -76,6 +77,11 @@ const suggestedQuery = computed(() => ({
   limit: 8,
   available: true,
 }))
+
+onMounted(() => {
+  const ev = useHeseyaEventBus()
+  ev.emit(HeseyaEvent.ViewCart, cart.items as CartItem[])
+})
 
 useSeoMeta({
   title: () => $t('cart.title'),

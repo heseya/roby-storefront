@@ -13,12 +13,12 @@
 <i18n lang="json">
 {
   "pl": {
-    "add": "Dodaj do ulubionych",
-    "remove": "Usuń z ulubionych"
+    "add": "Dodaj do listy życzeń",
+    "remove": "Usuń z listy życzeń"
   },
   "en": {
-    "add": "Add to favorites",
-    "remove": "Delete from favorites"
+    "add": "Add to wishlist",
+    "remove": "Delete from wishlist"
   }
 }
 </i18n>

@@ -1,6 +1,6 @@
 <template>
   <div class="product-attribute-card">
-    <h2 class="product-attribute-card__title">Parametry - {{ product?.name }}</h2>
+    <h2 class="product-attribute-card__title">{{ product?.name }}</h2>
     <ul class="product-attribute-card__list">
       <li
         v-for="[name, value] in parsedAttributes"

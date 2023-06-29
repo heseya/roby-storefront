@@ -1,47 +1,49 @@
 <template>
-  <div class="checkout-shipping-methods">
-    <FormRadioGroup
-      :value="checkout.shippingMethod?.id"
-      :options="shippingOptions"
-      name="shipping-method"
-      @update:value="setShippingMethod"
-    >
-      <template v-for="method in shippingMethods" :key="method.id" v-slot:[`${method.id}-label`]>
-        <div class="shipping-method">
-          <span class="shipping-method__name">{{ method.name }}</span>
-          <span class="shipping-method__price">{{ formatAmount(method.price || 0) }}</span>
-        </div>
-        <div class="shipping-method-description">
-          <p>
-            <template v-if="cart.shippingTimeDescription">
-              {{ t('shippingTime') }} <b>{{ cart.shippingTimeDescription }}.</b>
-            </template>
-            {{ t('packagingTime') }}
-            <b
-              >{{ method.shipping_time_min }}-{{ method.shipping_time_max }}
-              {{ $t('custom.workingDays') }}</b
-            >
-          </p>
-        </div>
-      </template>
+  <CheckoutPageArea :title="$t('orders.delivery')">
+    <div class="checkout-shipping-methods">
+      <FormRadioGroup
+        :value="checkout.shippingMethod?.id"
+        :options="shippingOptions"
+        name="shipping-method"
+        @update:value="setShippingMethod"
+      >
+        <template v-for="method in shippingMethods" :key="method.id" v-slot:[`${method.id}-label`]>
+          <div class="shipping-method">
+            <span class="shipping-method__name">{{ method.name }}</span>
+            <span class="shipping-method__price">{{ formatAmount(method.price || 0) }}</span>
+          </div>
+          <div class="shipping-method-description">
+            <p>
+              <template v-if="cart.shippingTimeDescription">
+                {{ t('shippingTime') }} <b>{{ cart.shippingTimeDescription }}.</b>
+              </template>
+              {{ t('packagingTime') }}
+              <b
+                >{{ method.shipping_time_min }}-{{ method.shipping_time_max }}
+                {{ $t('custom.workingDays') }}</b
+              >
+            </p>
+          </div>
+        </template>
 
-      <template v-for="method in shippingMethods" :key="method.id" v-slot:[method.id]>
-        <CheckoutFormShippingAddress
-          v-if="method.shipping_type === ShippingType.Address && !hasShippingAddresses"
-        />
-        <CheckoutFormLoggedShippingAddress
-          v-if="method.shipping_type === ShippingType.Address && hasShippingAddresses"
-        />
-        <CheckoutInpostSelect
-          v-if="method.shipping_type === ShippingType.PointExternal && method.metadata.paczkomat"
-        />
-        <CheckoutFormShippingPointSelect
-          v-if="method.shipping_type === ShippingType.Point"
-          :method="method"
-        />
-      </template>
-    </FormRadioGroup>
-  </div>
+        <template v-for="method in shippingMethods" :key="method.id" v-slot:[method.id]>
+          <CheckoutFormShippingAddress
+            v-if="method.shipping_type === ShippingType.Address && !hasShippingAddresses"
+          />
+          <CheckoutFormLoggedShippingAddress
+            v-if="method.shipping_type === ShippingType.Address && hasShippingAddresses"
+          />
+          <CheckoutInpostSelect
+            v-if="method.shipping_type === ShippingType.PointExternal && method.metadata.paczkomat"
+          />
+          <CheckoutFormShippingPointSelect
+            v-if="method.shipping_type === ShippingType.Point"
+            :method="method"
+          />
+        </template>
+      </FormRadioGroup>
+    </div>
+  </CheckoutPageArea>
 </template>
 
 <i18n lang="json">
@@ -58,7 +60,7 @@
 </i18n>
 
 <script setup lang="ts">
-import { ShippingMethod, ShippingType } from '@heseya/store-core'
+import { CartItem, HeseyaEvent, ShippingMethod, ShippingType } from '@heseya/store-core'
 import { useCartStore } from '@/store/cart'
 import { useCheckoutStore } from '@/store/checkout'
 
@@ -67,6 +69,7 @@ const $t = useGlobalI18n()
 const heseya = useHeseya()
 const cart = useCartStore()
 const checkout = useCheckoutStore()
+const ev = useHeseyaEventBus()
 
 const { data: shippingMethods } = useLazyAsyncData(
   `shipping-methods-for-value`,
@@ -97,6 +100,12 @@ const setShippingMethod = (id: unknown) => {
   if (shippingMethod?.shipping_type === ShippingType.Point && !checkout.shippingPointId) {
     checkout.shippingPointId = shippingMethod.shipping_points[0].id || null
   }
+
+  if (checkout.shippingMethod)
+    ev.emit(HeseyaEvent.AddShippingInfo, {
+      items: cart.items as CartItem[],
+      shipping: checkout.shippingMethod,
+    })
 
   cart.processCart()
 }

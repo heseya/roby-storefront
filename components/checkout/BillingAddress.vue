@@ -1,19 +1,25 @@
 <template>
-  <LayoutButton
-    v-show="canCopyFromShippingAddress"
-    variant="gray"
-    class="billing-address-btn"
-    @click="copyFromShippingAddress"
-  >
-    {{ t('billingAddress.copy') }}
-  </LayoutButton>
+  <CheckoutPageArea :title="$t('payments.billingAddress')">
+    <LayoutButton
+      v-show="canCopyFromShippingAddress"
+      variant="gray"
+      class="billing-address-btn"
+      @click="copyFromShippingAddress"
+    >
+      {{ t('billingAddress.copy') }}
+    </LayoutButton>
 
-  <div class="checkout-billing-address">
-    <AddressForm v-model:address="checkout.billingAddress" :invoice="checkout.invoiceRequested" />
-    <FormCheckbox v-model="checkout.invoiceRequested" name="is_invoice" style="margin-top: 16px">
-      {{ $t('form.needInvoice') }}
-    </FormCheckbox>
-  </div>
+    <div class="checkout-billing-address">
+      <FormCheckbox v-model="checkout.invoiceRequested" name="is_invoice" style="margin-top: 16px">
+        {{ $t('form.needInvoice') }}
+      </FormCheckbox>
+      <AddressForm
+        v-model:address="checkout.billingAddress"
+        :invoice="checkout.invoiceRequested ?? false"
+        name-prefix="billing_address"
+      />
+    </div>
+  </CheckoutPageArea>
 </template>
 
 <i18n lang="json">
@@ -43,7 +49,13 @@ const canCopyFromShippingAddress = computed(
 )
 
 const copyFromShippingAddress = () => {
-  checkout.billingAddress = { ...checkout.shippingAddress }
+  checkout.billingAddress = {
+    ...checkout.shippingAddress,
+    /**
+     * If client requests invoice, it is safer to not copy the name from shipping address to force client to enter it manually
+     */
+    name: checkout.invoiceRequested ? checkout.billingAddress.name : checkout.shippingAddress.name,
+  }
 }
 </script>
 

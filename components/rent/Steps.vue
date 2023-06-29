@@ -77,6 +77,7 @@ const { data: steps } = useAsyncData('rent-page-steps', async () => {
 
   &__banner {
     height: 100%;
+    max-width: 100%;
   }
 }
 </style>

@@ -79,6 +79,8 @@ export default {
     currentPassword: 'Current password',
     nameAndSurname: 'Name and surname',
     needInvoice: 'I need invoice',
+    name: 'Name',
+    surname: 'Surname',
   },
 
   nav: {

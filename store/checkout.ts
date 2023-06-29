@@ -9,7 +9,6 @@ import {
 } from '@heseya/store-core'
 import { defineStore } from 'pinia'
 import { useCartStore } from './cart'
-
 import { Paczkomat } from '@/interfaces/Paczkomat'
 import { EMPTY_ADDRESS } from '@/consts/address'
 
@@ -76,6 +75,7 @@ export const useCheckoutStore = defineStore('checkout', {
 
     isValid(): boolean {
       if (!this.email) return false
+
       // TODO: not all orders requires phisical shipping method
       if (!this.shippingMethod) return false
       if (!this.paymentMethodId) return false
@@ -134,6 +134,7 @@ export const useCheckoutStore = defineStore('checkout', {
 
     async createOrderPayment(orderCode: string, paymentMethodId: string) {
       const heseya = useHeseya()
+      const localePath = useLocalePath()
       const { appHost } = usePublicRuntimeConfig()
 
       const { order, paymentMethods } = await heseya.Orders.getPaymentMethods(orderCode)
@@ -147,7 +148,10 @@ export const useCheckoutStore = defineStore('checkout', {
       return await heseya.Orders.pay(
         orderCode,
         paymentMethods[0].id,
-        joinUrl(`/checkout/thank-you?code=${orderCode}&t=${orderShippingType}`, appHost),
+        joinUrl(
+          localePath(`/checkout/thank-you?code=${orderCode}&t=${orderShippingType}`),
+          appHost,
+        ),
       )
     },
   },
