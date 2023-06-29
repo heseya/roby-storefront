@@ -81,7 +81,6 @@ const showHeaders = computed(() => props.tabs.length > 1 || !props.hideSingleTab
 
   &__content {
     padding: 12px;
-    margin-bottom: 30px;
   }
 
   &--gray {

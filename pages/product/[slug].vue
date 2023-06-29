@@ -3,7 +3,10 @@
     <LayoutBreadcrumpsProvider :breadcrumbs="breadcrumbs" />
 
     <BaseContainer class="product-page">
-      <div class="product-page__header product-header">
+      <div
+        class="product-page__header product-header"
+        :class="{ 'product-header--singular-cover': (product?.gallery?.length ?? 0) < 2 }"
+      >
         <ProductPageCover
           class="product-header__gallery"
           :media="product?.gallery || []"
@@ -272,6 +275,12 @@ const showPrice = computed(() => {
   @media ($viewport-10) {
     grid-gap: 46px;
     grid-template-columns: 1fr 1fr;
+  }
+
+  &--singular-cover {
+    @media ($viewport-10) {
+      grid-template-columns: 1fr 1.4fr;
+    }
   }
 
   &__fav-btn {
