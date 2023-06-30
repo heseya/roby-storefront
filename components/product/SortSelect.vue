@@ -11,7 +11,7 @@
     <option value="price:desc">{{ t('options.price_desc') }}</option>
     <option value="name">{{ t('options.name') }}</option>
     <option v-for="attr in sortableAttributes" :key="attr.id" :value="`attribute.${attr.slug}`">
-      {{ t('options.by') }} {{ attr.name }}
+      {{ t('options.by') }} {{ attr.name.toLocaleLowerCase() }}
     </option>
   </FormSelect>
 </template>
