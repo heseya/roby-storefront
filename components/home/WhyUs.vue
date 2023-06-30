@@ -1,5 +1,5 @@
 <template>
-  <div v-if="content" v-show="content.active" class="why-us">
+  <div v-if="content && content.title" v-show="content.active" class="why-us">
     <LayoutHeader tag="h2" class="why-us__header" variant="black">{{ content.title }}</LayoutHeader>
     <div v-show="reasons?.length" class="why-us__reasons">
       <HomeWhyUsReson v-for="(reason, index) in reasons" :key="index" :reason="reason" />
