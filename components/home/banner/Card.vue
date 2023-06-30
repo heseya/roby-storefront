@@ -1,9 +1,9 @@
 <template>
-  <NuxtLink class="card" :class="{ 'card--centered': centered }" :to="localePath(link)">
+  <NuxtLink class="card" :class="{ 'card--centered': centered }" :to="localePath(link || '')">
     <div class="card__container" :class="{ 'card__container--centered': centered }">
       <div class="card__gray-filter" />
       <Media object-fit="cover" :media="selectedMedia" class="card__image" loading="eager" />
-      <LayoutHeader v-if="showSubtitle" class="card__subtitle">
+      <LayoutHeader v-show="subtitle" class="card__subtitle">
         {{ subtitle }}
       </LayoutHeader>
       <LayoutHeader class="card__title" :tag="titleTag"> {{ title }} </LayoutHeader>
@@ -23,17 +23,22 @@ const props = withDefaults(
       min_screen_width: number
       media: CdnMedia
     }[]
-    link?: string
+    link?: string | null
     centered?: boolean
   }>(),
   { titleTag: 'span', subtitle: '', link: '' },
 )
 
-// Temporary fix, as subtitle is required in API
-const showSubtitle = computed(() => props.subtitle && props.subtitle !== '-')
+const { width: windowWidth } = useWindowSize()
 
-// TODO: handle responsive media
-const selectedMedia = computed(() => props.media[0].media)
+const sortedMedia = computed(() =>
+  [...props.media].sort((a, b) => a.min_screen_width - b.min_screen_width),
+)
+
+const selectedMedia = computed(() => {
+  const media = sortedMedia.value.find((m) => m.min_screen_width <= windowWidth.value)
+  return media?.media
+})
 
 const localePath = useLocalePath()
 </script>
