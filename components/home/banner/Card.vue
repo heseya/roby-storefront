@@ -30,17 +30,23 @@ const props = withDefaults(
 )
 
 const { width: windowWidth } = useWindowSize()
+const localePath = useLocalePath()
 
 const sortedMedia = computed(() =>
   [...props.media].sort((a, b) => a.min_screen_width - b.min_screen_width),
 )
 
 const selectedMedia = computed(() => {
-  const media = sortedMedia.value.find((m) => m.min_screen_width <= windowWidth.value)
-  return media?.media
-})
+  if (!sortedMedia.value[0]) return null
 
-const localePath = useLocalePath()
+  const { media } = sortedMedia.value.reduce((prev, curr) => {
+    if (prev.min_screen_width <= windowWidth.value && curr.min_screen_width > windowWidth.value)
+      return prev
+
+    return curr
+  }, sortedMedia.value[0])
+  return media
+})
 </script>
 
 <style lang="scss" scoped>
