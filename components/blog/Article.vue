@@ -40,32 +40,38 @@ const directus = useDirectus()
 
 const { t } = useI18n({ useScope: 'global' })
 const { data: article, pending } = useAsyncData(`blog-article-${props.slug}`, async () => {
-  const response = await directus.items('Articles').readByQuery({
-    fields: [
-      'id',
-      'slug',
-      'date_created',
-      // @ts-ignore directus is wrong
-      'image.filename_disk',
-      'translations.title',
-      'translations.description',
-      'translations.languages_code',
-      'translations.content',
-      'tags.BlogTags_id.id',
-      'tags.BlogTags_id.translations.*',
-    ],
-    limit: 1,
-    filter: {
-      slug: props.slug,
-      status: 'published' as const,
-    } as any, // this any exists because of directus weird typing
-  })
+  try {
+    const response = await directus.items('Articles').readByQuery({
+      fields: [
+        'id',
+        'slug',
+        'date_created',
+        // @ts-ignore directus is wrong
+        'image.filename_disk',
+        'translations.title',
+        'translations.description',
+        'translations.languages_code',
+        'translations.content',
+        'tags.BlogTags_id.id',
+        'tags.BlogTags_id.translations.*',
+      ],
+      limit: 1,
+      filter: {
+        slug: props.slug,
+        status: 'published' as const,
+      } as any, // this any exists because of directus weird typing
+    })
 
-  if (!response.data?.[0]) {
-    showError({ message: t('errors.NOT_FOUND'), statusCode: 404 })
+    if (!response.data?.[0]) {
+      showError({ message: t('errors.NOT_FOUND'), statusCode: 404 })
+    }
+
+    return response.data?.[0] as BlogArticle
+  } catch (e: any) {
+    if (e?.response?.status !== 404) showError({ message: e?.response?.status, statusCode: 500 })
+    else showError({ message: t('errors.NOT_FOUND'), statusCode: 404 })
+    return null
   }
-
-  return response.data?.[0] as BlogArticle
 })
 
 const imageUrl = computed(() => getImageUrl(article.value?.image, { width: 900 }))
