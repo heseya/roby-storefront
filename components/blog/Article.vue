@@ -40,6 +40,11 @@ const directus = useDirectus()
 
 const { t } = useI18n({ useScope: 'global' })
 const { data: article, pending } = useAsyncData(`blog-article-${props.slug}`, async () => {
+  if (!directus.url) {
+    showError({ message: t('errors.NOT_FOUND'), statusCode: 404 })
+    return null
+  }
+
   try {
     const response = await directus.items('Articles').readByQuery({
       fields: [
@@ -68,8 +73,7 @@ const { data: article, pending } = useAsyncData(`blog-article-${props.slug}`, as
 
     return response.data?.[0] as BlogArticle
   } catch (e: any) {
-    if (e?.response?.status !== 404) showError({ message: e?.response?.status, statusCode: 500 })
-    else showError({ message: t('errors.NOT_FOUND'), statusCode: 404 })
+    showError({ message: e?.response?.status, statusCode: 500 })
     return null
   }
 })

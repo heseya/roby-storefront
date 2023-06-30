@@ -5,7 +5,7 @@ import { removePageByName, changePagePathOrRemoveByName } from './utils/routing'
 const {
   API_URL = 'https://demo-***REMOVED***.***REMOVED***',
   CDN_URL = 'https://cdn-dev.heseya.com"',
-  DIRECTUS_URL = 'https://blog-***REMOVED***.heseya.pl',
+  DIRECTUS_URL,
   PRICE_TRACKER_URL = 'https://main-price-tracker.app.***REMOVED***',
   ENVIRONMENT = 'development',
   VERCEL_ENV,
