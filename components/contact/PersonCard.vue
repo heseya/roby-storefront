@@ -1,14 +1,8 @@
 <template>
   <div class="person-card">
     <div class="person-card__info-container">
-      <div class="person-card__avatar-container">
-        <img
-          v-show="avatarUrl"
-          class="person-card__avatar"
-          :src="avatarUrl"
-          :alt="person.name"
-          loading="lazy"
-        />
+      <div v-show="avatarUrl" class="person-card__avatar-container">
+        <img class="person-card__avatar" :src="avatarUrl" :alt="person.name" loading="lazy" />
       </div>
       <div class="person-card__contact">
         <div class="person-card__name-container">
