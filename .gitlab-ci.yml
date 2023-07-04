@@ -24,6 +24,8 @@ eslint:
     - if: $CI_COMMIT_BRANCH != "master"
   script:
     - yarn lint:eslint
+  tags:
+    - test-fast
 
 vue-tsc:
   image: node:16-alpine
@@ -36,3 +38,5 @@ vue-tsc:
     - yarn lint:vue
   # Hopefully only for some time, until we have fixed all the errors
   allow_failure: true
+  tags:
+    - test-fast
