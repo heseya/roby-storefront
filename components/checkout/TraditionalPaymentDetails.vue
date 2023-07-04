@@ -9,7 +9,6 @@
           {{ config.env.bank_transfer_address }}
         </span>
       </div>
-
       <div class="payment-details__row">
         <span class="payment-details__label"> {{ t('notice.bank') }}: </span>
         <span class="payment-details__value"> {{ config.env.bank_transfer_bank_name }} </span>
