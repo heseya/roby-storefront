@@ -40,9 +40,11 @@
 <script setup lang="ts">
 import { ShippingType } from '@heseya/store-core'
 import { useCheckoutStore } from '~/store/checkout'
+import { useConfigStore } from '~/store/config'
 
 const t = useLocalI18n()
 const checkout = useCheckoutStore()
+const config = useConfigStore()
 
 const canCopyFromShippingAddress = computed(
   () => checkout.shippingMethod?.shipping_type === ShippingType.Address,
@@ -57,6 +59,10 @@ const copyFromShippingAddress = () => {
     name: checkout.invoiceRequested ? checkout.billingAddress.name : checkout.shippingAddress.name,
   }
 }
+
+onMounted(() => {
+  checkout.invoiceRequested = config.env.select_invoice_by_default === '1'
+})
 </script>
 
 <style lang="scss" scoped>
