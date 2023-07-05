@@ -19,6 +19,7 @@
     <div class="site__footer">
       <BaseFooter />
     </div>
+    <BaseCookiesBar />
   </div>
 </template>
 
