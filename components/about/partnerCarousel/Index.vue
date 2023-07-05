@@ -4,7 +4,7 @@
       {{ title }}
     </LayoutHeader>
 
-    <LayoutCarousel :items="partners" :breakpoints="breakpoints">
+    <LayoutCarousel :items="partners || []" :breakpoints="breakpoints">
       <template #item="partner: TranslatedAboutPartner">
         <AboutPartnerCarouselItem :partner="partner" />
       </template>
