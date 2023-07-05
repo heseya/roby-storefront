@@ -82,9 +82,11 @@ const logout = async () => {
       width: 250px;
     }
 
-    & > .router-link-active {
-      color: var(--secondary-color);
+    &.router-link-active {
       font-weight: bold;
+      .layout-account-nav__text {
+        color: var(--secondary-color);
+      }
     }
 
     &:hover {
