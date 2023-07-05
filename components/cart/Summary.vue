@@ -128,6 +128,7 @@ const processCheckout = () => {
   display: flex;
   flex-direction: column;
   padding: 16px;
+
   font-size: rem(14);
   line-height: rem(19);
 

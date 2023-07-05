@@ -38,7 +38,7 @@ const { data: partners } = useAsyncData('about-page-partners', async () => {
     ...getTranslated(partner.translations as any, 'pl-PL'),
     logo: partner.logo,
   })) || []) as TranslatedAboutPartner[]
-})!
+})
 
 const breakpoints: Record<number, SwiperOptions> = {
   480: { slidesPerView: 1 },
