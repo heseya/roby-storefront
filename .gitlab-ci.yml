@@ -33,7 +33,6 @@ vue-tsc:
   rules:
     - if: $CI_COMMIT_BRANCH != "master"
   script:
-  # I had to comment because despite the flag it stopped the pipeline
-  #  - yarn lint:vue
+    - yarn lint:vue
   # Hopefully only for some time, until we have fixed all the errors
-  # allow_failure: true
+  allow_failure: true

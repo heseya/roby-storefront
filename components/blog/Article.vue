@@ -57,9 +57,7 @@ const { data: article, pending } = useAsyncData(`blog-article-${props.slug}`, as
         'translations.description',
         'translations.languages_code',
         'translations.content',
-        // @ts-ignore directus is wrong
         'tags.BlogTags_id.id',
-        // @ts-ignore directus is wrong
         'tags.BlogTags_id.translations.*',
       ],
       limit: 1,
