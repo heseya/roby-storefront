@@ -49,6 +49,7 @@
             :href="companyFacebook"
             :aria-label="t('goToFacebook')"
             rel="nofollow noreferrer"
+            target="_blank"
           >
             <FacebookIcon />
           </a>
@@ -58,6 +59,7 @@
             :href="companyInstagram"
             :aria-label="t('goToInstagram')"
             rel="nofollow noreferrer"
+            target="_blank"
           >
             <InstagramIcon />
           </a>
@@ -67,6 +69,7 @@
             :href="companyLinkedin"
             :aria-label="t('goToLinkedin')"
             rel="nofollow noreferrer"
+            target="_blank"
           >
             <LayoutIcon :icon="LinkedinIcon" size="sm" />
           </a>
@@ -76,6 +79,7 @@
             :href="companyYoutube"
             :aria-label="t('goToYoutube')"
             rel="nofollow noreferrer"
+            target="_blank"
           >
             <LayoutIcon :icon="YoutubeIcon" size="sm" />
           </a>
