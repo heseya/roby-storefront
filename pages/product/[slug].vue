@@ -281,7 +281,7 @@ const showPrice = computed(() => {
 
   &--singular-cover {
     @media ($viewport-10) {
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr 1.4fr;
     }
   }
 
