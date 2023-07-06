@@ -52,7 +52,6 @@
           >
             <FacebookIcon />
           </a>
-          {{ companyInstagram }}
           <a
             v-if="companyInstagram"
             class="footer__social-icon"
@@ -71,6 +70,15 @@
           >
             <LayoutIcon :icon="LinkedinIcon" size="sm" />
           </a>
+          <a
+            v-if="companyYoutube"
+            class="footer__social-icon"
+            :href="companyYoutube"
+            :aria-label="t('goToYoutube')"
+            rel="nofollow noreferrer"
+          >
+            <LayoutIcon :icon="YoutubeIcon" size="sm" />
+          </a>
         </div>
       </div>
     </div>
@@ -82,12 +90,14 @@
   "pl": {
     "goToFacebook": "Przejdź do Facebooka",
     "goToInstagram": "Przejdź do Instagrama",
-    "goToLinkedin": "Przejdź do Linkedin"
+    "goToLinkedin": "Przejdź do Linkedin",
+    "goToYoutube": "Przejdź do Youtube"
   },
   "en": {
     "goToFacebook": "Go to Facebook",
     "goToInstagram": "Go to Instagram",
-    "goToLinkedin": "Go to Linkedin"
+    "goToLinkedin": "Go to Linkedin",
+    "goToYoutube": "Go to Youtube"
   }
 }
 </i18n>
@@ -98,6 +108,7 @@ import { useConfigStore } from '@/store/config'
 import FacebookIcon from '@/assets/icons/facebook.svg?component'
 import InstagramIcon from '@/assets/icons/instagram.svg?component'
 import LinkedinIcon from '@/assets/icons/linkedin.svg?component'
+import YoutubeIcon from '@/assets/icons/youtube.svg?component'
 import PinIcon from '@/assets/icons/pin.svg?component'
 import PhoneIcon from '@/assets/icons/phone.svg?component'
 import MailIcon from '@/assets/icons/mail.svg?component'
@@ -114,6 +125,7 @@ const getFromConfig = (key: string) => (config.env[key] ? String(config.env[key]
 const companyFacebook = computed(() => getFromConfig('facebook_url'))
 const companyInstagram = computed(() => getFromConfig('instagram_url'))
 const companyLinkedin = computed(() => getFromConfig('linkedin_url'))
+const companyYoutube = computed(() => getFromConfig('youtube_url'))
 
 // const companyName = computed(() => getFromConfig('company_name'))
 const companyAddress = computed(() => getFromConfig('company_address'))
