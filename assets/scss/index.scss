@@ -36,6 +36,12 @@ html {
   --text-font-family: #{$textFont};
 }
 
+button,
+input,
+select {
+  font-family: $textFont;
+}
+
 // Hide global reCaptcha badge
 .grecaptcha-badge {
   visibility: hidden;

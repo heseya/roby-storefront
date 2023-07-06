@@ -1,5 +1,5 @@
 <template>
-  <div v-if="articles" class="blog-articles">
+  <div v-if="articles && articles.data?.length" class="blog-articles">
     <BaseContainer>
       <div class="blog-articles__header">
         <LayoutHeader class="blog-articles__title" variant="black" tag="h2">

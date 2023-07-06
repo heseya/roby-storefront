@@ -2,7 +2,7 @@ import { createHeseyaEventBusService, HeseyaEvent } from '@heseya/store-core'
 
 export default defineNuxtPlugin(() => {
   const { ceneoGuid } = usePublicRuntimeConfig()
-  if (ceneoGuid === undefined) return
+  if (!ceneoGuid) return
 
   useHead({
     script: [

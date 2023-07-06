@@ -193,7 +193,9 @@ const productPurchaseTabs = computed(
 )
 
 const productDescriptionTabs = computed<Tab[]>(() => [
-  { key: 'description', label: t('tabs.description') },
+  ...(product.value?.description_html
+    ? [{ key: 'description', label: t('tabs.description') }]
+    : []),
   ...(product.value?.attributes.length
     ? [{ key: 'additionalInfo', label: t('tabs.additionalInfo') }]
     : []),
@@ -279,7 +281,7 @@ const showPrice = computed(() => {
 
   &--singular-cover {
     @media ($viewport-10) {
-      grid-template-columns: 1fr 1.4fr;
+      grid-template-columns: 1fr 1fr;
     }
   }
 

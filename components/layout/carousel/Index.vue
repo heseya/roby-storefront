@@ -52,6 +52,10 @@ withDefaults(
     padding: 0;
   }
 
+  @media ($max-viewport-10) {
+    padding: 0;
+  }
+
   &__slider {
     position: relative;
     min-height: 36px;
@@ -61,6 +65,10 @@ withDefaults(
     margin: 0;
 
     &--without-button {
+      padding: 0;
+    }
+
+    @media ($max-viewport-10) {
       padding: 0;
     }
   }
@@ -75,6 +83,10 @@ withDefaults(
     top: 0;
     right: -64px;
     z-index: 10;
+
+    @media ($max-viewport-10) {
+      display: none;
+    }
   }
 
   &__content-container {

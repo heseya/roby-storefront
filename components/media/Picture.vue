@@ -89,6 +89,7 @@ const handleError = (error: any) => {
     text-indent: 100%;
     white-space: nowrap;
     overflow: hidden;
+    background-color: $gray-color-300;
 
     &--fit-contain {
       object-fit: contain;

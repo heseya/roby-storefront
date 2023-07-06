@@ -86,7 +86,13 @@ const hasShippingAddresses = computed(() => {
 })
 
 const shippingOptions = computed(() => {
-  return (shippingMethods.value || []).map((method) => ({
+  const filteredShippingMethods = (shippingMethods.value ?? []).filter(
+    (method) =>
+      method.metadata?.paczkomat === undefined ||
+      (method.metadata?.paczkomat === true && cart.allowPaczkomatDelivery),
+  )
+
+  return filteredShippingMethods.map((method) => ({
     key: method.id,
     value: method.id,
     label: method.name,
