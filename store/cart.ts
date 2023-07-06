@@ -53,7 +53,9 @@ export const useCartStore = defineStore('cart', {
     isDigitalShippingNeeded(): boolean {
       return this.items.some((i) => i.shippingDigital)
     },
-
+    allowPaczkomatDelivery(): boolean {
+      return allowSpecificDelivery(this.items as CartItem[], 'allow_paczkomat_delivery')
+    },
     orderItems(): CartItemDto[] {
       return this.items.map((i) => i.getOrderObject())
     },
