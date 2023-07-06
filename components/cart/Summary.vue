@@ -98,10 +98,15 @@ const auth = useAuthStore()
 const heseya = useHeseya()
 const localePath = useLocalePath()
 
-const { data: cheapestShippingMethodPrice } = useLazyAsyncData(`shippingMethodPrice`, async () => {
-  const { data } = await heseya.ShippingMethods.get()
+const { data: cheapestShippingMethodPrice } = useAsyncData(`shippingMethodPrice`, async () => {
+  const { data } = await heseya.ShippingMethods.get({ cart_value: cart.totalValue })
+
+  const filteredData = data.filter((m) => !m.metadata?.paczkomat || cart.allowPaczkomatDelivery)
+
   // TODO: ShippingType.Point can also have own price? Maybe ignore free shipping?
-  const prices = data.filter((m) => m.shipping_type !== ShippingType.Point).map((m) => m.price || 0)
+  const prices = filteredData
+    .filter((m) => m.shipping_type !== ShippingType.Point)
+    .map((m) => m.price || 0)
   return prices.length ? Math.min(...prices) : 0
 })
 
