@@ -98,7 +98,7 @@ const auth = useAuthStore()
 const heseya = useHeseya()
 const localePath = useLocalePath()
 
-const { data: cheapestShippingMethodPrice } = useAsyncData(`shippingMethodPrice`, async () => {
+const { data: cheapestShippingMethodPrice } = useLazyAsyncData(`shippingMethodPrice`, async () => {
   const { data } = await heseya.ShippingMethods.get({ cart_value: cart.totalValue })
 
   const filteredData = data.filter((m) => !m.metadata?.paczkomat || cart.allowPaczkomatDelivery)
