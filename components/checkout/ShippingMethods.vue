@@ -85,8 +85,19 @@ const hasShippingAddresses = computed(() => {
   return !!defaultAddress.value
 })
 
+// TODO: field product in item exists but its private, we need to fix it in the future
+const allowPaczkomatDelivery = computed(() =>
+  cart.items.every((item) => item.product.metadata?.allow_paczkomat_delivery ?? false),
+)
+
 const shippingOptions = computed(() => {
-  return (shippingMethods.value || []).map((method) => ({
+  const filteredShippingMethods = (shippingMethods.value ?? []).filter(
+    (method) =>
+      method.metadata?.paczkomat === undefined ||
+      (method.metadata?.paczkomat === true && allowPaczkomatDelivery.value),
+  )
+
+  return filteredShippingMethods.map((method) => ({
     key: method.id,
     value: method.id,
     label: method.name,
