@@ -48,7 +48,6 @@ export const useCategoriesStore = defineStore('categories', {
       }
 
       const { data } = await heseya.ProductSets.get({ parent_id: this.rootCategory.id })
-
       this.categories = data
 
       // Preload all subcategories for all root categories

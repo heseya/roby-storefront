@@ -173,7 +173,7 @@ const showPrice = computed(() => {
 
   &__wishlist-btn {
     position: absolute;
-    top: 0px;
+    top: 4px;
     right: 4px;
     opacity: 0;
 
