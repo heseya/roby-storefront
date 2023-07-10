@@ -10,7 +10,7 @@
     <option value="price:asc">{{ t('options.price_asc') }}</option>
     <option value="price:desc">{{ t('options.price_desc') }}</option>
     <option value="name">{{ t('options.name') }}</option>
-    <option v-for="attr in sortableAttributes" :key="attr.id" :value="`attribute.${attr.slug}`">
+    <option v-for="attr in sortableAttributes" :key="attr.id" :value="`attribute.${attr.id}`">
       {{ t('options.by') }} {{ attr.name.toLocaleLowerCase() }}
     </option>
   </FormSelect>
