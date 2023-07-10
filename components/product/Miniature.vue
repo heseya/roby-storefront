@@ -14,7 +14,16 @@
         </ProductTag>
       </div>
 
-      <Media :media="product.cover" width="200" height="200" class="product-miniature__cover" />
+      <Media
+        :media="product.cover"
+        width="200"
+        height="200"
+        class="product-miniature__cover"
+        :style="{
+          aspectRatio: config.env.product_miniature_cover_aspect_ratio || '1/1',
+          padding: config.env.product_miniature_cover_padding || '4px',
+        }"
+      />
     </div>
 
     <div class="product-miniature__content">
@@ -86,7 +95,7 @@ const showPrice = computed(() => {
 
   &__header {
     max-width: 200px;
-    max-height: 200px;
+    // max-height: 200px;
     border: solid 1px $gray-color-300;
     position: relative;
   }

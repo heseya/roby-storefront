@@ -1,19 +1,21 @@
 <template>
-  <NuxtLayout class="content--no-bottom-padding">
-    <LayoutBreadcrumpsProvider :breadcrumbs="[]" />
+  <LayoutThemeContext>
+    <NuxtLayout class="content--no-bottom-padding">
+      <LayoutBreadcrumpsProvider :breadcrumbs="[]" />
 
-    <div class="error-page">
-      <span class="error-page__title">{{ $t('common.error') }}</span>
-      <h1 class="error-page__code">{{ error?.statusCode || 500 }}</h1>
-      <p class="error-page__text">
-        {{ error?.message || error?.statusMessage || t('error.text') }}
-      </p>
+      <div class="error-page">
+        <span class="error-page__title">{{ $t('common.error') }}</span>
+        <h1 class="error-page__code">{{ error?.statusCode || 500 }}</h1>
+        <p class="error-page__text">
+          {{ error?.message || error?.statusMessage || t('error.text') }}
+        </p>
 
-      <LayoutButton class="error-page__button" @click="handleError">
-        {{ t('error.button') }}
-      </LayoutButton>
-    </div>
-  </NuxtLayout>
+        <LayoutButton class="error-page__button" @click="handleError">
+          {{ t('error.button') }}
+        </LayoutButton>
+      </div>
+    </NuxtLayout>
+  </LayoutThemeContext>
 </template>
 
 <i18n lang="json">

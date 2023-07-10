@@ -3,7 +3,10 @@
     <LayoutBreadcrumpsProvider :breadcrumbs="breadcrumbs" />
 
     <BaseContainer class="product-page">
-      <div class="product-page__header product-header">
+      <div
+        class="product-page__header product-header"
+        :class="{ 'product-header--singular-cover': (product?.gallery?.length ?? 0) < 2 }"
+      >
         <ProductPageCover
           class="product-header__gallery"
           :media="product?.gallery || []"
@@ -190,7 +193,9 @@ const productPurchaseTabs = computed(
 )
 
 const productDescriptionTabs = computed<Tab[]>(() => [
-  { key: 'description', label: t('tabs.description') },
+  ...(product.value?.description_html
+    ? [{ key: 'description', label: t('tabs.description') }]
+    : []),
   ...(product.value?.attributes.length
     ? [{ key: 'additionalInfo', label: t('tabs.additionalInfo') }]
     : []),
@@ -272,6 +277,12 @@ const showPrice = computed(() => {
   @media ($viewport-10) {
     grid-gap: 46px;
     grid-template-columns: 1fr 1fr;
+  }
+
+  &--singular-cover {
+    @media ($viewport-10) {
+      grid-template-columns: 1fr 1.4fr;
+    }
   }
 
   &__fav-btn {

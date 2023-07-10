@@ -37,6 +37,15 @@ const props = withDefaults(
 
 const activeTabKey = ref(props.tabs[0]?.key)
 
+watch(
+  () => props.tabs,
+  () => {
+    // If tabs changed, and active tab is not in new tabs, set first tab as active
+    if (!props.tabs.find((tab) => tab.key === activeTabKey.value))
+      activeTabKey.value = props.tabs[0]?.key
+  },
+)
+
 const showHeaders = computed(() => props.tabs.length > 1 || !props.hideSingleTab)
 </script>
 
@@ -81,7 +90,6 @@ const showHeaders = computed(() => props.tabs.length > 1 || !props.hideSingleTab
 
   &__content {
     padding: 12px;
-    margin-bottom: 30px;
   }
 
   &--gray {
