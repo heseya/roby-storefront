@@ -123,7 +123,7 @@ const processCheckout = () => {
   if (!auth.isLogged) {
     isAuthenticationModalVisible.value = true
   } else {
-    navigateTo('/checkout')
+    navigateTo(localePath('/checkout'))
   }
 }
 </script>

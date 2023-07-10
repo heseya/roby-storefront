@@ -23,6 +23,7 @@ const { notify } = useNotify()
 
 const t = useLocalI18n()
 const $t = useGlobalI18n()
+const localePath = useLocalePath()
 
 const orderCode = computed(() => route.params.code as string)
 
@@ -33,7 +34,7 @@ useAsyncData(`order-summary-${orderCode}`, async () => {
 
     if (order.paid) {
       notify({ type: 'success', text: $t('errors.CLIENT_ORDER_PAID') })
-      navigateTo(`/status/${orderCode.value}`)
+      navigateTo(localePath(`/status/${orderCode.value}`))
     }
 
     return order

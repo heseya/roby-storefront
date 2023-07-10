@@ -68,7 +68,7 @@ useAsyncData(`reset-password`, async () => {
   try {
     await heseya.Auth.verifyResetPasswordToken(query.value.token, query.value.email)
   } catch {
-    navigateTo('/')
+    navigateTo(localePath('/'))
   }
 })
 

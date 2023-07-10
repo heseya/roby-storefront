@@ -17,6 +17,7 @@
 import { useAuthStore } from '~/store/auth'
 
 const $t = useGlobalI18n()
+const localePath = useLocalePath()
 
 definePageMeta({
   middleware: 'auth',
@@ -26,7 +27,7 @@ const auth = useAuthStore()
 watch(
   () => auth.isLogged,
   () => {
-    if (!auth.isLogged) navigateTo('/wishlist')
+    if (!auth.isLogged) navigateTo(localePath('/wishlist'))
   },
   { immediate: true },
 )
