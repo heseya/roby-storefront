@@ -63,46 +63,44 @@
         </div>
       </div>
 
-      <KeepAlive>
-        <LayoutTabs class="product-page__main" :tabs="productDescriptionTabs">
-          <template #description>
-            <div class="product-page__description-wrapper">
-              <div>
-                <LayoutDropDownContainer>
-                  <LazyBaseWysiwygContent :content="product?.description_html" />
-                </LayoutDropDownContainer>
+      <LayoutTabs class="product-page__main" :tabs="productDescriptionTabs">
+        <template #description>
+          <div class="product-page__description-wrapper">
+            <div>
+              <LayoutDropDownContainer>
+                <LazyBaseWysiwygContent :content="product?.description_html" />
+              </LayoutDropDownContainer>
 
-                <LazyProductPageAttachments
-                  v-if="product?.attachments.length"
-                  :attachments="product?.attachments"
-                  class="product-page__attachments"
-                />
-              </div>
-
-              <LazyProductPageAttributeCard
-                v-if="product && product.attributes.length"
-                :product="product"
+              <LazyProductPageAttachments
+                v-if="product?.attachments.length"
+                :attachments="product?.attachments"
+                class="product-page__attachments"
               />
             </div>
-          </template>
 
-          <template #additionalInfo>
-            <LazyProductPageAttributes v-if="product" :product="product" />
-          </template>
+            <LazyProductPageAttributeCard
+              v-if="product && product.attributes.length"
+              :product="product"
+            />
+          </div>
+        </template>
 
-          <template v-for="page in globalPages" :key="page.id" #[page.slug]>
-            <LazyBaseWysiwygContent :content="page?.content_html" />
-          </template>
+        <template #additionalInfo>
+          <LazyProductPageAttributes v-if="product" :product="product" />
+        </template>
 
-          <template
-            v-for="page in product?.descriptions"
-            :key="page.id"
-            #[`description-${page.slug}`]
-          >
-            <LazyProductPageAdditionalDescription :page="page" />
-          </template>
-        </LayoutTabs>
-      </KeepAlive>
+        <template v-for="page in globalPages" :key="page.id" #[page.slug]>
+          <LazyBaseWysiwygContent :content="page?.content_html" />
+        </template>
+
+        <template
+          v-for="page in product?.descriptions"
+          :key="page.id"
+          #[`description-${page.slug}`]
+        >
+          <LazyProductPageAdditionalDescription :page="page" />
+        </template>
+      </LayoutTabs>
 
       <template v-if="product?.sales.length">
         <h2 class="primary-text">
@@ -192,18 +190,23 @@ const productPurchaseTabs = computed(
     ].filter(Boolean) as Tab[],
 )
 
-const productDescriptionTabs = computed<Tab[]>(() => [
-  ...(product.value?.description_html
-    ? [{ key: 'description', label: t('tabs.description') }]
-    : []),
-  ...(product.value?.attributes.length
-    ? [{ key: 'additionalInfo', label: t('tabs.additionalInfo') }]
-    : []),
-  ...(product.value?.descriptions
-    .filter((p) => p.public)
-    .map((p) => ({ key: `description-${p.slug}`, label: p.name })) || []),
-  ...(globalPages.value?.map((p) => ({ key: p.slug, label: p.name })) || []),
-])
+const productDescriptionTabs = computed<Tab[]>(() => {
+  // This prevent to set active tab to globalPages when product is not loaded yet
+  if (!product.value) return []
+
+  return [
+    ...(product.value?.description_html
+      ? [{ key: 'description', label: t('tabs.description') }]
+      : []),
+    ...(product.value?.attributes.length
+      ? [{ key: 'additionalInfo', label: t('tabs.additionalInfo') }]
+      : []),
+    ...(product.value?.descriptions
+      .filter((p) => p.public)
+      .map((p) => ({ key: `description-${p.slug}`, label: p.name })) || []),
+    ...(globalPages.value?.map((p) => ({ key: p.slug, label: p.name })) || []),
+  ]
+})
 
 const breadcrumbs = computed(() => [
   category.value
