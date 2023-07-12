@@ -98,17 +98,18 @@ const auth = useAuthStore()
 const heseya = useHeseya()
 const localePath = useLocalePath()
 
-const { data: cheapestShippingMethodPrice } = useLazyAsyncData(`shippingMethodPrice`, async () => {
-  const { data } = await heseya.ShippingMethods.get({ cart_value: cart.totalValue })
+const { data: cheapestShippingMethodPrice, refresh: refreshCheapestShippingMethodPrice } =
+  useLazyAsyncData(`shippingMethodPrice`, async () => {
+    const { data } = await heseya.ShippingMethods.get({ cart_value: cart.totalValue })
 
-  const filteredData = data.filter((m) => !m.metadata?.paczkomat || cart.allowPaczkomatDelivery)
+    const filteredData = data.filter((m) => !m.metadata?.paczkomat || cart.allowPaczkomatDelivery)
 
-  // TODO: ShippingType.Point can also have own price? Maybe ignore free shipping?
-  const prices = filteredData
-    .filter((m) => m.shipping_type !== ShippingType.Point)
-    .map((m) => m.price || 0)
-  return prices.length ? Math.min(...prices) : 0
-})
+    // TODO: ShippingType.Point can also have own price? Maybe ignore free shipping?
+    const prices = filteredData
+      .filter((m) => m.shipping_type !== ShippingType.Point)
+      .map((m) => m.price || 0)
+    return prices.length ? Math.min(...prices) : 0
+  })
 
 const { data: paymentMethods } = useLazyAsyncData('all-payment-methods', async () => {
   const { data } = await heseya.PaymentMethods.get()
@@ -126,6 +127,11 @@ const processCheckout = () => {
     navigateTo(localePath('/checkout'))
   }
 }
+watch(
+  () => cart.items,
+  () => refreshCheapestShippingMethodPrice(),
+  { deep: true },
+)
 </script>
 
 <style lang="scss" scoped>
