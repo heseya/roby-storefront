@@ -10,8 +10,8 @@
     <option value="price:asc">{{ t('options.price_asc') }}</option>
     <option value="price:desc">{{ t('options.price_desc') }}</option>
     <option value="name">{{ t('options.name') }}</option>
-    <option v-for="attr in sortableAttributes" :key="attr.id" :value="`attribute.${attr.id}`">
-      {{ t('options.by') }} {{ attr.name.toLocaleLowerCase() }}
+    <option v-for="{ key, label } in sortable" :key="key" :value="key">
+      {{ label }}
     </option>
   </FormSelect>
 </template>
@@ -25,7 +25,9 @@
       "price_asc": "Od najtańszych",
       "price_desc": "Od najdroższych",
       "name": "Wg nazwy",
-      "by": "Wg"
+      "by": "Wg",
+      "asc": "(rosnąco)",
+      "desc": "(malejąco)"
     }
   },
   "en": {
@@ -35,7 +37,9 @@
       "price_asc": "From the cheapest",
       "price_desc": "From the most expensive",
       "name": "By name",
-      "by": "By"
+      "by": "By",
+      "asc": "(asc)",
+      "desc": "(desc)"
     }
   }
 }
@@ -59,6 +63,20 @@ const { data: sortableAttributes } = useAsyncData(async () => {
   const { data } = await heseya.Attributes.get()
   return data.filter((attribute) => attribute.sortable)
 })
+
+const sortable = computed(
+  () =>
+    sortableAttributes.value
+      ?.map(function (attr) {
+        const keyBase = `attribute.${attr.id}`
+        const labelBase = `${t('options.by')} ${attr.name.toLocaleLowerCase()}`
+        return [
+          { key: `${keyBase}:desc`, label: `${labelBase} ${t('options.desc')}` },
+          { key: `${keyBase}:asc`, label: `${labelBase} ${t('options.asc')}` },
+        ]
+      })
+      .flat() || [],
+)
 
 const innerValue = computed({
   get: () => props.modelValue,
