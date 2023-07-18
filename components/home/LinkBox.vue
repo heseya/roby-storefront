@@ -1,6 +1,6 @@
 <template>
   <div class="link-box">
-    <Media :media="link.media" class="link-box__media" height="400" />
+    <Media :media="link.media" class="link-box__media" height="400" object-fit="cover" />
 
     <LayoutHeader class="link-box__header" tag="h2">{{ link.text }}</LayoutHeader>
     <NuxtLink v-if="link.link" :to="localePath(link.link)">
