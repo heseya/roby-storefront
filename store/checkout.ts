@@ -147,7 +147,7 @@ export const useCheckoutStore = defineStore('checkout', {
 
       return await heseya.Orders.pay(
         orderCode,
-        paymentMethods[0].id,
+        paymentMethodId,
         joinUrl(
           localePath(`/checkout/thank-you?code=${orderCode}&t=${orderShippingType}`),
           appHost,

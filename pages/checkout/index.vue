@@ -1,6 +1,8 @@
 <template>
   <NuxtLayout name="checkout">
     <BaseContainer class="checkout-page">
+      <LayoutLoading :active="isLoading" />
+
       <section class="checkout-page__section">
         <form>
           <CheckoutPersonalData v-model:email="registerForm.values.email">
@@ -41,7 +43,7 @@
       </section>
       <section class="checkout-page__section">
         <CheckoutSummary
-          :disabled="wantCreateAccount && !isRegisterFormValid"
+          :disabled="(wantCreateAccount && !isRegisterFormValid) || isLoading"
           @submit="processOrder()"
         />
       </section>
@@ -90,6 +92,7 @@ const localePath = useLocalePath()
 const { defaultAddress: defaultBillingAddress } = useUserBillingAddresses()
 
 const wantCreateAccount = ref<boolean>(false)
+const isLoading = ref(false)
 
 const errorMessage = ref('')
 
@@ -188,12 +191,14 @@ const createAccountAndLogin = async () => {
 }
 
 const processOrder = async () => {
+  isLoading.value = true
   try {
     if (wantCreateAccount.value) await createAccountAndLogin()
     await createOrder()
   } catch (e: any) {
     errorMessage.value = formatError(e)
   }
+  isLoading.value = false
 }
 
 // Autofill billing address if user is logged in
@@ -247,6 +252,7 @@ useHead({
   display: grid;
   grid-template-columns: 1fr;
   gap: 18px;
+  position: relative;
 
   @media ($viewport-10) {
     grid-template-columns: 1fr 360px;
