@@ -1,6 +1,5 @@
 <template>
-  <div class="product-attribute-card">
-    <h2 class="product-attribute-card__title">{{ product?.name }}</h2>
+  <ProductPageCard class="product-attribute-card" :title="product?.name">
     <ul class="product-attribute-card__list">
       <li
         v-for="[name, value] in parsedAttributes"
@@ -14,7 +13,7 @@
 
     <!-- <div class="product-attribute-card__exposed-value">490</div>
     <div class="product-attribute-card__exposed-label">mililitrów tuszu startowego</div> -->
-  </div>
+  </ProductPageCard>
 </template>
 
 <script setup lang="ts">
@@ -39,21 +38,10 @@ const parsedAttributes = computed(() => {
 
 <style lang="scss" scoped>
 .product-attribute-card {
-  padding: 25px;
-  background-color: $gray-color-100;
   align-self: center;
-  width: 100%;
-  max-width: 400px;
 
   @media ($viewport-8) {
     align-self: flex-start;
-  }
-
-  &__title {
-    font-size: rem(20);
-    line-height: rem(26);
-    font-weight: 500;
-    margin-bottom: 16px;
   }
 
   &__list {

@@ -78,8 +78,19 @@
               />
             </div>
 
+            <ProductPageCard
+              v-if="product?.metadata.allow_individual_offer"
+              :title="t('individualOffer')"
+            >
+              <LazyProductPageContactForm
+                :product="product"
+                vertical
+                type="offer"
+                :action-text="t('individualOffer')"
+              />
+            </ProductPageCard>
             <LazyProductPageAttributeCard
-              v-if="product && product.attributes.length"
+              v-else-if="product?.attributes.length"
               :product="product"
             />
           </div>
@@ -134,6 +145,7 @@
       "description": "Opis",
       "additionalInfo": "Dodatkowe informacje"
     },
+    "individualOffer": "Zapytaj o indywidualną ofertę",
     "salesTitle": "Aktualne promocje"
   },
   "en": {
@@ -143,6 +155,7 @@
       "description": "Description",
       "additionalInfo": "Additional information"
     },
+    "individualOffer": "Ask for individual offer",
     "salesTitle": "Current promotions"
   }
 }
