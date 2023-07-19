@@ -4,6 +4,12 @@
 export const ASK_FOR_PRICE_KEY = 'ask_for_price'
 
 /**
+ * Show tab with renting form
+ * If product price is equal 0, then the pucharse option is disabled (only renting form is shown)
+ */
+export const ALLOW_RENTING_KEY = 'allow_renting'
+
+/**
  * If true, the product set will be shown in the navigation
  */
 export const CATEGORY_IN_NAV_KEY = 'nav'

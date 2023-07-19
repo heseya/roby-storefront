@@ -54,10 +54,16 @@
 
           <div v-else class="product-header__form">
             <LazyProductPageContactForm
-              v-if="product"
+              v-if="product && product?.metadata?.[ASK_FOR_PRICE_KEY]"
               :product="product"
               type="price"
               :action-text="$t('offers.pricing')"
+            />
+            <LazyProductPageContactForm
+              v-else-if="product"
+              :product="product"
+              type="renting"
+              :action-text="$t('offers.renting')"
             />
           </div>
         </div>
@@ -164,7 +170,7 @@
 <script setup lang="ts">
 import { HeseyaEvent } from '@heseya/store-core'
 
-import { ASK_FOR_PRICE_KEY } from '@/consts/metadataKeys'
+import { ALLOW_RENTING_KEY, ASK_FOR_PRICE_KEY } from '@/consts/metadataKeys'
 import { Tab } from '@/components/layout/Tabs.vue'
 
 import { useConfigStore } from '@/store/config'
@@ -197,7 +203,7 @@ const productPurchaseTabs = computed(
   () =>
     [
       { key: 'buy', label: t('tabs.buy') },
-      product.value?.metadata.allow_renting
+      product.value?.metadata[ALLOW_RENTING_KEY]
         ? { key: 'renting', label: $t('offers.renting') }
         : null,
     ].filter(Boolean) as Tab[],
@@ -242,9 +248,7 @@ useSeo(() => [product.value?.seo, { title: product.value?.name }])
 
 useProductJsonLd(product)
 
-const showPrice = computed(() => {
-  return !product.value?.metadata?.[ASK_FOR_PRICE_KEY] ?? true
-})
+const showPrice = computed(() => isProductPriceShown(product.value))
 </script>
 
 <style lang="scss" scoped>
