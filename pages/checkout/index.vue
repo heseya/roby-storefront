@@ -26,8 +26,8 @@
               :confirm-password="registerForm.values.confirmPassword"
               @update="updateRegisterForm"
             >
-              <LayoutInfoBox v-if="errorMessage" type="danger">
-                {{ errorMessage }}
+              <LayoutInfoBox v-if="registerErrorMessage" type="danger">
+                {{ registerErrorMessage }}
               </LayoutInfoBox>
             </CheckoutRegisterForm>
           </KeepAlive>
@@ -94,7 +94,7 @@ const { defaultAddress: defaultBillingAddress } = useUserBillingAddresses()
 const wantCreateAccount = ref<boolean>(false)
 const isLoading = ref(false)
 
-const errorMessage = ref('')
+const registerErrorMessage = ref('')
 
 const registerForm = useForm({
   initialValues: {
@@ -159,23 +159,23 @@ const createOrder = async () => {
     // save user addresses if they don't exist
     await saveUserAddresses()
 
-    checkout.reset()
-
     if (paymentId === TRADITIONAL_PAYMENT_KEY) {
+      checkout.reset()
       navigateTo(
         localePath(`/checkout/thank-you?code=${order.code}&payment=${TRADITIONAL_PAYMENT_KEY}`),
       )
-      return
+    } else {
+      const paymentUrl = await checkout.createOrderPayment(order.code, paymentId)
+      checkout.reset()
+      window.location.href = paymentUrl
     }
-
-    const paymentUrl = await checkout.createOrderPayment(order.code, paymentId)
-    window.location.href = paymentUrl
   } catch (e: any) {
     const error = formatError(e)
     notify({
       title: $t(error),
       type: 'error',
     })
+    isLoading.value = false
   }
 }
 
@@ -196,9 +196,9 @@ const processOrder = async () => {
     if (wantCreateAccount.value) await createAccountAndLogin()
     await createOrder()
   } catch (e: any) {
-    errorMessage.value = formatError(e)
+    registerErrorMessage.value = formatError(e)
+    isLoading.value = false
   }
-  isLoading.value = false
 }
 
 // Autofill billing address if user is logged in
