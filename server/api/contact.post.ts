@@ -5,8 +5,9 @@ import { verifyRecaptchToken } from '../utils/recaptcha'
 interface ContactForm {
   name: string
   email: string
+  phone?: string
   message: string
-  type: 'renting' | 'price'
+  type: 'renting' | 'price' | 'offer'
   product?: ProductList
   recaptchaToken: string
 }
@@ -38,7 +39,8 @@ const sendMail = (options: SendMailOptions): Promise<SentMessageInfo> =>
   })
 
 export default defineEventHandler(async (event) => {
-  const { name, email, message, type, product, recaptchaToken } = await readBody<ContactForm>(event)
+  const { name, email, phone, message, type, product, recaptchaToken } =
+    await readBody<ContactForm>(event)
 
   if (!name || !email || !message || !type || !recaptchaToken)
     throw createError({
@@ -54,7 +56,17 @@ export default defineEventHandler(async (event) => {
     })
 
   try {
-    const title = type === 'renting' ? 'Zapytanie o wynajem' : 'Zapytanie o cenę'
+    const getTitle = (type: ContactForm['type']) => {
+      switch (type) {
+        case 'offer':
+          return 'Zapytanie o ofertę indywidualną'
+        case 'price':
+          return 'Zapytanie o cenę'
+        case 'renting':
+          return 'Zapytanie o wynajem'
+      }
+    }
+    const title = getTitle(type)
 
     const subject = product ? `${title}: ${product.name}` : title
 
@@ -66,6 +78,7 @@ export default defineEventHandler(async (event) => {
       text: `
       Wiadomość od ${name} \n
       Email: ${email || '-'}\n
+      Telefon kontaktowy: ${phone || '-'}\n
       ${
         product
           ? `Dotyczy produktu: ${product.name} (${APP_HOST}/product/${product.slug}) \n\n`
@@ -76,6 +89,7 @@ export default defineEventHandler(async (event) => {
       html: `
       <h1>Wiadomość od ${name}</h1>
       <p>Email: ${email || '-'}</p>
+      <p>Telefon kontaktowy: ${phone || '-'}</p>
       ${
         product
           ? `<p>Dotyczy produktu: ${product.name} (<a href="${APP_HOST}/product/${product.slug}">${APP_HOST}/product/${product.slug}</a>)</p><br />`
