@@ -24,7 +24,11 @@
             </div>
           </div>
           <NuxtLink :to="localePath('/register')">
-            <LayoutButton class="login-content__btn" :label="$t('account.register')" />
+            <LayoutButton
+              variant="gray"
+              class="login-content__btn"
+              :label="$t('account.register')"
+            />
           </NuxtLink>
         </div>
       </div>
@@ -158,8 +162,6 @@ const breadcrumbs = computed(() => [{ label: $t('account.login'), link: '/login'
     margin-bottom: 15px;
     width: 100%;
     height: 41px;
-    background-color: $gray-color-300;
-    color: $text-color;
     font-weight: 500;
 
     @media ($viewport-11) {

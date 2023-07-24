@@ -54,7 +54,7 @@ const iconColorTheme = useContrastColorFromCssVar('primary-color')
 
   &:hover {
     cursor: pointer;
-    filter: brightness(1.5);
+    filter: brightness(1.1);
   }
 
   &__icon-container {
