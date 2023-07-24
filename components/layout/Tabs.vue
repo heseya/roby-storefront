@@ -5,7 +5,10 @@
         v-for="tab in tabs"
         :key="tab.key"
         class="tabs__button"
-        :class="{ 'tabs__button--active': tab.key === activeTabKey }"
+        :class="{
+          'tabs__button--active': tab.key === activeTabKey,
+          'tabs__button--highlighted': tab.highlighted,
+        }"
         @click="activeTabKey = tab.key"
       >
         {{ tab.label }}
@@ -21,6 +24,7 @@
 export interface Tab {
   label: string
   key: string
+  highlighted?: boolean
 }
 
 const props = withDefaults(
@@ -105,8 +109,8 @@ const showHeaders = computed(() => props.tabs.length > 1 || !props.hideSingleTab
   }
 
   &--gray &__button {
-    color: #fff;
-    background-color: var(--secondary-color);
+    color: $text-color;
+    background-color: #fff;
     text-transform: uppercase;
     width: 100%;
     font-size: rem(14);
@@ -119,15 +123,36 @@ const showHeaders = computed(() => props.tabs.length > 1 || !props.hideSingleTab
     }
 
     &:not(&--active):hover {
-      color: #fff;
-      background-color: var(--secondary-color);
-      filter: brightness(1.5);
+      color: var(--secondary-color);
+      background-color: $gray-color-050;
+      // filter: brightness(1.5);
     }
 
     &--active {
       background-color: $gray-color-100;
       color: $text-color;
       cursor: default;
+    }
+
+    &--highlighted {
+      color: #fff;
+      background-color: var(--secondary-color);
+
+      &:hover {
+        color: #fff;
+        background-color: var(--secondary-color);
+      }
+    }
+
+    &--active:is(&--highlighted) {
+      color: var(--secondary-color);
+      background-color: $gray-color-050;
+    }
+
+    &:not(&--active):is(&--highlighted):hover {
+      color: #fff;
+      background-color: var(--secondary-color);
+      filter: brightness(1.5);
     }
   }
 }

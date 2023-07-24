@@ -46,6 +46,7 @@
               <LazyProductPageContactForm
                 v-if="product"
                 :product="product"
+                :description="t('rentingInfo')"
                 type="renting"
                 :action-text="$t('offers.renting')"
               />
@@ -62,6 +63,7 @@
             <LazyProductPageContactForm
               v-else-if="product"
               :product="product"
+              :description="t('rentingInfo')"
               type="renting"
               :action-text="$t('offers.renting')"
             />
@@ -152,7 +154,8 @@
       "additionalInfo": "Dodatkowe informacje"
     },
     "individualOffer": "Zapytaj o indywidualną ofertę",
-    "salesTitle": "Aktualne promocje"
+    "salesTitle": "Aktualne promocje",
+    "rentingInfo": "Wypełnienie formularza zajmie tylko chwilę, a dzięki temu otrzymasz od nas wsparcie w wyborze urządzenia i ofertę dopasowaną do Twoich potrzeb."
   },
   "en": {
     "notFoundError": "The specified product doesnt exist",
@@ -162,7 +165,8 @@
       "additionalInfo": "Additional information"
     },
     "individualOffer": "Ask for individual offer",
-    "salesTitle": "Current promotions"
+    "salesTitle": "Current promotions",
+    "rentingInfo": "Filling out the form will only take a moment, and thanks to this you will receive support from us in choosing the device and an offer tailored to your needs."
   }
 }
 </i18n>
@@ -204,7 +208,7 @@ const productPurchaseTabs = computed(
     [
       { key: 'buy', label: t('tabs.buy') },
       product.value?.metadata[ALLOW_RENTING_KEY]
-        ? { key: 'renting', label: $t('offers.renting') }
+        ? { key: 'renting', label: $t('offers.renting'), highlighted: true }
         : null,
     ].filter(Boolean) as Tab[],
 )

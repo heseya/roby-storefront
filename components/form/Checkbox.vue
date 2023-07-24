@@ -5,7 +5,7 @@
       <label
         class="checkbox__label"
         :class="{
-          'checkbox__label checkbox__input--required': ($slots.default || label) && isRequired,
+          'checkbox__label--required': ($slots.default || label) && isRequired,
         }"
         tabindex="0"
         :for="name"
@@ -79,20 +79,16 @@ watch(
     display: none;
   }
 
-  &__input {
-    &--required > :first-child {
-      ::after {
-        content: ' *';
-        color: var(--secondary-color);
-        font-weight: bold;
-      }
-    }
-  }
-
   &__label {
     display: block;
     font-size: rem(14);
     line-height: rem(16);
+
+    &--required::after {
+      content: ' *';
+      color: var(--secondary-color);
+      font-weight: bold;
+    }
   }
 
   &__text {

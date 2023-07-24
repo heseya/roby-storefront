@@ -16,7 +16,6 @@
       class="product-contact-form__input"
       :label="t('name')"
       rules="required"
-      label-uppercase
     />
 
     <div class="product-contact-form__row">
@@ -27,14 +26,12 @@
         class="product-contact-form__input"
         :label="$t('form.email')"
         rules="required|email"
-        label-uppercase
       />
       <FormInput
         v-model="form.values.phone"
         name="phone"
         class="product-contact-form__input"
         :label="t('phone')"
-        label-uppercase
       />
     </div>
 
@@ -44,7 +41,6 @@
       class="product-contact-form__input"
       :label="$t('common.message')"
       rules="required"
-      label-uppercase
     />
 
     <LayoutRecaptchaBadge class="product-contact-form__recaptcha" />
