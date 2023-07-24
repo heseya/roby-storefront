@@ -15,6 +15,7 @@ const {
   CENEO_GUID,
   LEASLINK_ID,
   CALLPAGE_ID,
+  GOOGLE_SITE_VERIFICATION,
   COLOR_THEME_PICKER,
   AXIOS_CACHE_TTL,
 
@@ -50,6 +51,11 @@ export default defineNuxtConfig({
           hid: isProduction ? 'robots' : 'force-robots',
           name: 'robots',
           content: isProduction ? 'index, follow' : 'noindex, nofollow',
+        },
+        {
+          hid: 'google-site-verification',
+          name: 'google-site-verification',
+          content: GOOGLE_SITE_VERIFICATION,
         },
       ],
       link: [
