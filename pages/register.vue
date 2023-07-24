@@ -3,13 +3,14 @@
     <LayoutBreadcrumpsProvider :breadcrumbs="breadcrumbs" />
 
     <div class="register-content">
-      <AuthRegisterForm @registered="() => navigateTo('/login')" />
+      <AuthRegisterForm @registered="() => navigateTo(localePath('/login'))" />
     </div>
   </NuxtLayout>
 </template>
 
 <script setup lang="ts">
 const $t = useGlobalI18n()
+const localePath = useLocalePath()
 
 useSeoMeta({
   title: () => $t('account.registerTitle'),

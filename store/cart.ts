@@ -132,11 +132,13 @@ export const useCartStore = defineStore('cart', {
         // Side effect: fetch the shipping method
         // dispatch('shippingMethods/fetch', state.totalValue, { root: true })
       } catch (e) {
+        const checkout = useCheckoutStore()
         // TODO: handle if process cart fails
         this.error = e
         this.unavailableItems = this.items
         this.items = []
         this.summary = 0
+        checkout.$reset()
       }
       this.isProcessing = false
     },

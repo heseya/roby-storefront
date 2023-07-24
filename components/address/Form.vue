@@ -4,6 +4,7 @@
       :model-value="address.name"
       :name="`${namePrefix}_name`"
       :label="invoice ? t('companyName') : $t('form.nameAndSurname')"
+      :autocomplete="invoice ? 'organization' : 'name'"
       rules="required"
       :disabled="disabled"
       @update:model-value="update('name', $event as string)"
@@ -12,6 +13,7 @@
       v-if="invoice"
       :model-value="address.vat"
       :name="`${namePrefix}_vat`"
+      autocomplete="vat"
       rules="required"
       :label="$t('form.vat')"
       :disabled="disabled"
@@ -44,6 +46,7 @@
       <FormInput
         :model-value="address.zip"
         :name="`${namePrefix}_postal_code`"
+        autocomplete="postal_code"
         rules="required"
         :label="t('postalCode')"
         :disabled="disabled"
@@ -52,6 +55,7 @@
       <FormInput
         :model-value="address.city"
         :name="`${namePrefix}_city`"
+        autocomplete="city"
         rules="required"
         :label="t('city')"
         :disabled="disabled"
@@ -61,6 +65,7 @@
     <FormInput
       :model-value="address.phone"
       :name="`${namePrefix}_phone`"
+      autocomplete="phone"
       html-type="phone"
       rules="required"
       :label="t('phone')"

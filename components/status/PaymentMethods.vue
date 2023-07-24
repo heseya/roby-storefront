@@ -40,6 +40,7 @@ const props = withDefaults(
 const t = useLocalI18n()
 const $t = useGlobalI18n()
 const { notify } = useNotify()
+const localePath = useLocalePath()
 const formatError = useErrorMessage()
 const selectedPaymentMethodId = ref<string | null>(null)
 const checkout = useCheckoutStore()
@@ -49,7 +50,7 @@ const pay = async () => {
     if (!selectedPaymentMethodId.value) return
 
     if (selectedPaymentMethodId.value === TRADITIONAL_PAYMENT_KEY) {
-      navigateTo(`/status/${props.code}/traditional-payment`)
+      navigateTo(localePath(`/status/${props.code}/traditional-payment`))
       return
     }
 

@@ -71,11 +71,11 @@ const benefits = ref<string[]>([t('benefits.faster'), t('benefits.track'), t('be
 
 const handleLogin = () => {
   const redirectUrl = (route.query.redirect as string | undefined) || '/'
-  navigateTo(redirectUrl)
+  navigateTo(localePath(redirectUrl))
 }
 
 onBeforeMount(() => {
-  if (auth.isLogged) navigateTo('/')
+  if (auth.isLogged) navigateTo(localePath('/'))
 })
 
 useSeoMeta({

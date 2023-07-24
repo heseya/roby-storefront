@@ -1,6 +1,8 @@
 <template>
   <NuxtLayout name="checkout">
     <BaseContainer class="checkout-page">
+      <LayoutLoading :active="isLoading" />
+
       <section class="checkout-page__section">
         <form>
           <CheckoutPersonalData v-model:email="registerForm.values.email">
@@ -24,8 +26,8 @@
               :confirm-password="registerForm.values.confirmPassword"
               @update="updateRegisterForm"
             >
-              <LayoutInfoBox v-if="errorMessage" type="danger">
-                {{ errorMessage }}
+              <LayoutInfoBox v-if="registerErrorMessage" type="danger">
+                {{ registerErrorMessage }}
               </LayoutInfoBox>
             </CheckoutRegisterForm>
           </KeepAlive>
@@ -41,7 +43,7 @@
       </section>
       <section class="checkout-page__section">
         <CheckoutSummary
-          :disabled="wantCreateAccount && !isRegisterFormValid"
+          :disabled="(wantCreateAccount && !isRegisterFormValid) || isLoading"
           @submit="processOrder()"
         />
       </section>
@@ -90,8 +92,9 @@ const localePath = useLocalePath()
 const { defaultAddress: defaultBillingAddress } = useUserBillingAddresses()
 
 const wantCreateAccount = ref<boolean>(false)
+const isLoading = ref(false)
 
-const errorMessage = ref('')
+const registerErrorMessage = ref('')
 
 const registerForm = useForm({
   initialValues: {
@@ -156,23 +159,23 @@ const createOrder = async () => {
     // save user addresses if they don't exist
     await saveUserAddresses()
 
-    checkout.reset()
-
     if (paymentId === TRADITIONAL_PAYMENT_KEY) {
+      checkout.reset()
       navigateTo(
         localePath(`/checkout/thank-you?code=${order.code}&payment=${TRADITIONAL_PAYMENT_KEY}`),
       )
-      return
+    } else {
+      const paymentUrl = await checkout.createOrderPayment(order.code, paymentId)
+      checkout.reset()
+      window.location.href = paymentUrl
     }
-
-    const paymentUrl = await checkout.createOrderPayment(order.code, paymentId)
-    window.location.href = paymentUrl
   } catch (e: any) {
     const error = formatError(e)
     notify({
       title: $t(error),
       type: 'error',
     })
+    isLoading.value = false
   }
 }
 
@@ -188,11 +191,13 @@ const createAccountAndLogin = async () => {
 }
 
 const processOrder = async () => {
+  isLoading.value = true
   try {
     if (wantCreateAccount.value) await createAccountAndLogin()
     await createOrder()
   } catch (e: any) {
-    errorMessage.value = formatError(e)
+    registerErrorMessage.value = formatError(e)
+    isLoading.value = false
   }
 }
 
@@ -247,6 +252,7 @@ useHead({
   display: grid;
   grid-template-columns: 1fr;
   gap: 18px;
+  position: relative;
 
   @media ($viewport-10) {
     grid-template-columns: 1fr 360px;

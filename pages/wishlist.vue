@@ -12,12 +12,13 @@
 import { useAuthStore } from '~/store/auth'
 
 const $t = useGlobalI18n()
+const localePath = useLocalePath()
 
 const auth = useAuthStore()
 watch(
   () => auth.isLogged,
   () => {
-    if (auth.isLogged) navigateTo('/account/wishlist')
+    if (auth.isLogged) navigateTo(localePath('/account/wishlist'))
   },
   { immediate: true },
 )

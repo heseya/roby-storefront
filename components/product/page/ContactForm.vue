@@ -1,20 +1,25 @@
 <template>
-  <form class="product-contact-form" @submit.prevent="onSubmit">
+  <form
+    class="product-contact-form"
+    :class="{ 'product-contact-form--vertical': vertical }"
+    @submit.prevent="onSubmit"
+  >
     <LayoutLoading :active="isLoading" />
 
     <p class="product-contact-form__text">
       {{ description ?? t('text') }}
     </p>
 
+    <FormInput
+      v-model="form.values.name"
+      name="name"
+      class="product-contact-form__input"
+      :label="t('name')"
+      rules="required"
+      label-uppercase
+    />
+
     <div class="product-contact-form__row">
-      <FormInput
-        v-model="form.values.name"
-        name="name"
-        class="product-contact-form__input"
-        :label="t('name')"
-        rules="required"
-        label-uppercase
-      />
       <FormInput
         v-model="form.values.email"
         name="email"
@@ -22,6 +27,13 @@
         class="product-contact-form__input"
         :label="$t('form.email')"
         rules="required|email"
+        label-uppercase
+      />
+      <FormInput
+        v-model="form.values.phone"
+        name="phone"
+        class="product-contact-form__input"
+        :label="t('phone')"
         label-uppercase
       />
     </div>
@@ -52,12 +64,14 @@
   "pl": {
     "text": "Wypełnienie formularza zajmie tylko chwilę, a dzięki temu otrzymasz od nas wsparcie w wyborze urządzenia i ofertę dopasowaną do Twoich potrzeb.",
     "name": "Imię lub nazwa firmy",
+    "phone": "Numer telefonu",
     "consent": "Zgadzam się na kontakt w celach przedstawienia oferty handlowej firmy {companyName}",
     "successMessage": "Dziękujemy za wysłanie zapytania. Wkrótce się z Tobą skontaktujemy."
   },
   "en": {
     "text": "Filling out the form will only take a moment, and thanks to this you will receive support in choosing a device and an offer tailored to your needs.",
     "name": "Name or company name",
+    "phone": "Phone number",
     "consent": "I agree to be contacted in order to present the commercial offer of the {companyName} company",
     "successMessage": "Thank you for submitting your inquiry. We will contact you soon."
   }
@@ -74,13 +88,15 @@ const props = withDefaults(
   defineProps<{
     product?: ProductList
     actionText?: string
-    type: 'price' | 'renting'
+    type: 'price' | 'renting' | 'offer'
     description?: string
+    vertical?: boolean
   }>(),
   {
     actionText: '',
     product: undefined,
     description: '',
+    vertical: false,
   },
 )
 
@@ -95,6 +111,7 @@ const form = useForm({
   initialValues: {
     name: '',
     email: '',
+    phone: '',
     message: '',
     consent: false,
   },
@@ -159,6 +176,10 @@ const onSubmit = form.handleSubmit(async (values) => {
       grid-template-columns: 1fr 1fr;
       grid-gap: 8px;
     }
+  }
+
+  &--vertical &__row {
+    grid-template-columns: 1fr !important;
   }
 
   &__btn {

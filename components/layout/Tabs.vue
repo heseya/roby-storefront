@@ -105,24 +105,29 @@ const showHeaders = computed(() => props.tabs.length > 1 || !props.hideSingleTab
   }
 
   &--gray &__button {
-    color: var(--secondary-color);
-    background-color: #fff;
+    color: #fff;
+    background-color: var(--secondary-color);
     text-transform: uppercase;
     width: 100%;
     font-size: rem(14);
     font-weight: 500;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
 
     &::before {
       display: none;
     }
 
     &:not(&--active):hover {
-      background-color: $gray-color-050;
+      color: #fff;
+      background-color: var(--secondary-color);
+      filter: brightness(1.5);
     }
 
     &--active {
       background-color: $gray-color-100;
       color: $text-color;
+      cursor: default;
     }
   }
 }

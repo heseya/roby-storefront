@@ -100,6 +100,8 @@ const shippingOptions = computed(() => {
 })
 
 const setShippingMethod = (id: unknown) => {
+  if (checkout.shippingMethod?.id === id) return
+
   const shippingMethod = shippingMethods.value?.find((method) => method.id === id) || null
   checkout.shippingMethod = shippingMethod
 

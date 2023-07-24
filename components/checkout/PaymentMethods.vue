@@ -11,6 +11,9 @@
 {
   "pl": {
     "payment": "Metoda płatności"
+  },
+  "en": {
+    "payment": "Payment methods"
   }
 }
 </i18n>

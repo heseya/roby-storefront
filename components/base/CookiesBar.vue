@@ -5,16 +5,33 @@
     :class="{ 'cookies-bar--hidden': manuallyHidden }"
   >
     <p class="cookies-bar__text">
-      Klikając „OK”, wyrażasz zgodę na przechowywanie plików cookie na Twoim urządzeniu w celu
-      poprawy działania serwisu, <br />
-      analizowania korzystania z witryny oraz lepszego dopasowania treści marketingowych
+      {{ t('content_line1') }} <br />
+      {{ t('content_line2') }}
     </p>
-    <LayoutButton class="cookies-bar__btn" type="white" @click="acceptCookies"> OK </LayoutButton>
+    <LayoutButton class="cookies-bar__btn" type="white" @click="acceptCookies">
+      {{ t('accept') }}
+    </LayoutButton>
   </div>
 </template>
 
+<i18n lang="json">
+{
+  "pl": {
+    "content_line1": "Klikając „OK”, wyrażasz zgodę na przechowywanie plików cookie na Twoim urządzeniu w celu poprawy działania serwisu,",
+    "content_line2": "analizowania korzystania z witryny oraz lepszego dopasowania treści marketingowych",
+    "accept": "OK"
+  },
+  "en": {
+    "content_line1": "By clicking „OK”, you agree to store cookies on your device to improve the performance of the website,",
+    "content_line2": "analyze site usage and better tailor marketing content",
+    "accept": "OK"
+  }
+}
+</i18n>
+
 <script setup lang="ts">
 const manuallyHidden = ref<boolean>(false)
+const t = useLocalI18n()
 
 const cookie = useCookie<number>('COOKIE_ACCEPTED_KEY', {
   maxAge: 365 * 24 * 60 * 60,

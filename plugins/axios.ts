@@ -18,6 +18,7 @@ const cacheStorage = buildMemoryStorage()
 
 export default defineNuxtPlugin((nuxt) => {
   const { apiUrl: baseURL, isProduction, axiosCacheTtl } = usePublicRuntimeConfig()
+  const localePath = useLocalePath()
 
   const baseAxios = axios.create({ baseURL })
 
@@ -62,7 +63,7 @@ export default defineNuxtPlugin((nuxt) => {
       // eslint-disable-next-line no-console
       console.error('Auth Error', error.message)
       auth.clearAuth()
-      navigateTo('/', { replace: true })
+      navigateTo(localePath('/'), { replace: true })
     },
   })
 

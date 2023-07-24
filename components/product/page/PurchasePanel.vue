@@ -54,7 +54,8 @@
       "lease": "Zapytaj o leasing"
     },
     "availability": {
-      "available": "Produkt dostępny na zamówienie",
+      "available": "Produkt dostępny",
+      "availableOnRequest": "Produkt dostępny na zamówienie",
       "unavailable": "Niedostępny",
       "reachedLimit": "Osiągnięto limit",
       "shippingDigital": "Dostawa natychmiastowa",
@@ -69,7 +70,8 @@
       "lease": "Ask about leasing"
     },
     "availability": {
-      "available": "Product available on request",
+      "available": "Product available",
+      "availableOnRequest": "Product available on request",
       "unavailable": "Unavailable",
       "reachedLimit": "Limit reached",
       "shippingDigital": "Shipping digital",
@@ -120,6 +122,8 @@ const isProductPurchaseLimitReached = computed((): boolean => {
 
 const availability = computed(() => {
   if (!props.product.available) return t('availability.unavailable')
+
+  if (props.product.metadata.available_on_request) return t('availability.availableOnRequest')
 
   if (props.product.shipping_digital) return t('availability.shippingDigital')
 

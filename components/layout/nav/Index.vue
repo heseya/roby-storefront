@@ -171,7 +171,7 @@ const handleSearch = ({ query, category }: SearchValues) => {
     searchHistory.addNewQuery(query)
     const pathQuery = `/search/${query}`
     const pathCategory = ['', 'all'].includes(category) ? '' : `?set=${category}`
-    navigateTo(pathQuery + pathCategory)
+    navigateTo(localePath(pathQuery + pathCategory))
   }
 }
 const onLogout = async () => {

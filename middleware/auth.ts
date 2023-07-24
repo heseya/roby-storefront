@@ -2,9 +2,10 @@ import { useAuthStore } from '~~/store/auth'
 
 export default defineNuxtRouteMiddleware((to, _from) => {
   const auth = useAuthStore()
+  const localePath = useLocalePath()
 
   if (!auth.isLogged) {
-    return navigateTo(`/login?redirect=${to.path}`)
+    return navigateTo(localePath(`/login?redirect=${to.path}`))
   }
 
   if (process.server) return
@@ -16,7 +17,7 @@ export default defineNuxtRouteMiddleware((to, _from) => {
     () => {
       // This effect is not cleaned on route change, so we need to check if the route is still the same
       if (!auth.isLogged && route.name === to.name) {
-        navigateTo(`/login?redirect=${to.path}`)
+        navigateTo(localePath(`/login?redirect=${to.path}`))
         stopWatch()
       }
     },
