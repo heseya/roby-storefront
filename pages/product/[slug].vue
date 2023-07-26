@@ -33,41 +33,31 @@
           </div>
 
           <LayoutTabs
-            v-if="showPrice"
             class="product-header__tabs"
             type="gray"
             hide-single-tab
             :tabs="productPurchaseTabs"
           >
             <template #buy>
-              <ProductPagePurchasePanel v-if="product" :product="product" />
+              <LazyProductPageContactForm
+                v-if="product && product?.metadata?.[ASK_FOR_PRICE_KEY]"
+                :product="product"
+                :description="t('priceFormInfo')"
+                type="price"
+                :action-text="$t('offers.pricing')"
+              />
+              <ProductPagePurchasePanel v-else-if="product" :product="product" />
             </template>
             <template #renting>
               <LazyProductPageContactForm
                 v-if="product"
                 :product="product"
-                :description="t('rentingInfo')"
+                :description="t('priceFormInfo')"
                 type="renting"
                 :action-text="$t('offers.renting')"
               />
             </template>
           </LayoutTabs>
-
-          <div v-else class="product-header__form">
-            <LazyProductPageContactForm
-              v-if="product && product?.metadata?.[ASK_FOR_PRICE_KEY]"
-              :product="product"
-              type="price"
-              :action-text="$t('offers.pricing')"
-            />
-            <LazyProductPageContactForm
-              v-else-if="product"
-              :product="product"
-              :description="t('rentingInfo')"
-              type="renting"
-              :action-text="$t('offers.renting')"
-            />
-          </div>
         </div>
       </div>
 
@@ -155,7 +145,7 @@
     },
     "individualOffer": "Zapytaj o indywidualną ofertę",
     "salesTitle": "Aktualne promocje",
-    "rentingInfo": "Wypełnienie formularza zajmie tylko chwilę, a dzięki temu otrzymasz od nas wsparcie w wyborze urządzenia i ofertę dopasowaną do Twoich potrzeb."
+    "priceFormInfo": "Wypełnienie formularza zajmie tylko chwilę, a dzięki temu otrzymasz od nas wsparcie w wyborze urządzenia i ofertę dopasowaną do Twoich potrzeb."
   },
   "en": {
     "notFoundError": "The specified product doesnt exist",
@@ -166,7 +156,7 @@
     },
     "individualOffer": "Ask for individual offer",
     "salesTitle": "Current promotions",
-    "rentingInfo": "Filling out the form will only take a moment, and thanks to this you will receive support from us in choosing the device and an offer tailored to your needs."
+    "priceFormInfo": "Filling out the form will only take a moment, and thanks to this you will receive support from us in choosing the device and an offer tailored to your needs."
   }
 }
 </i18n>
@@ -188,7 +178,12 @@ const $t = useGlobalI18n()
 
 const { data: product } = useAsyncData(`product-${route.params.slug}`, async () => {
   try {
-    return await heseya.Products.getOneBySlug(route.params.slug as string)
+    const prod = await heseya.Products.getOneBySlug(route.params.slug as string)
+
+    prod.metadata.ask_for_price = true
+    prod.metadata.allow_renting = true
+
+    return prod
   } catch (e: any) {
     if (e?.response?.status === 404) showError({ message: t('notFoundError'), statusCode: 404 })
     else showError({ message: e.statusCode, statusCode: 500 })
@@ -251,8 +246,6 @@ onMounted(() => {
 useSeo(() => [product.value?.seo, { title: product.value?.name }])
 
 useProductJsonLd(product)
-
-const showPrice = computed(() => isProductPriceShown(product.value))
 </script>
 
 <style lang="scss" scoped>
@@ -333,12 +326,6 @@ const showPrice = computed(() => isProductPriceShown(product.value))
 
   &__tabs {
     margin-top: 14px;
-  }
-
-  &__form {
-    margin-top: 14px;
-    background-color: $gray-color-100;
-    padding: 16px;
   }
 }
 </style>

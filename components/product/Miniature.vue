@@ -62,7 +62,7 @@ const props = defineProps<{
   forceSize?: boolean
 }>()
 
-const showPrice = computed(() => isProductPriceShown(props.product))
+const showPrice = computed(() => props.product?.metadata?.[ASK_FOR_PRICE_KEY])
 </script>
 
 <style lang="scss" scoped>
