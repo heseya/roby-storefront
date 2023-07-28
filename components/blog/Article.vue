@@ -1,7 +1,6 @@
 <template>
   <div>
     <LayoutBreadcrumpsProvider :breadcrumbs="breadcrumbs" />
-
     <BaseContainer>
       <LayoutLoading :active="pending" />
       <article class="blog-page">
@@ -10,6 +9,7 @@
           <img :src="imageUrl" :alt="translatedArticle?.description" />
         </div>
         <div class="blog-page__info">
+          {{ article?.status }}
           <div class="blog-page__tags">
             <BlogTranslatedTag
               v-for="tag in article?.tags ?? []"
@@ -51,12 +51,16 @@ const { data: article, pending } = useAsyncData(`blog-article-${props.slug}`, as
         'id',
         'slug',
         'date_created',
+        'no_index',
         // @ts-ignore directus is wrong
         'image.filename_disk',
         'translations.title',
         'translations.description',
         'translations.languages_code',
         'translations.content',
+        'translations.seo_description',
+        'translations.seo_title',
+        'translations.metatags',
         'tags.BlogTags_id.id',
         'tags.BlogTags_id.translations.*',
       ],
@@ -86,7 +90,22 @@ const dateCreated = computed(() =>
   article.value ? formatDate(article.value.date_created, 'dd LLLL yyyy') : '',
 )
 
-useSeo(() => [{ title: translatedArticle.value?.title }])
+const seoTitle = computed(
+  () => translatedArticle.value?.seo_title ?? translatedArticle.value?.title,
+)
+
+const seoDescription = computed(
+  () => translatedArticle.value?.seo_description ?? translatedArticle.value?.description,
+)
+
+useSeo(() => [
+  {
+    title: seoTitle.value,
+    description: seoDescription.value,
+    keywords: translatedArticle.value?.metatags.split(',').filter(Boolean),
+    no_index: article.value?.no_index,
+  },
+])
 
 const breadcrumbs = computed(() => [
   { label: t('breadcrumbs.blog'), link: `/blog` },

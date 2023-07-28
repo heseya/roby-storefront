@@ -6,6 +6,7 @@ import { DirectusTranslated } from './DirectusTranslated'
 export interface BlogArticle {
   id: ID
   image: DirectusImage
+  no_index: boolean
   date_created: string
   date_updated: string
   status: 'draft' | 'published' | 'archived'
@@ -20,6 +21,7 @@ export interface BlogArticle {
     description: string
     seo_title: string
     seo_description: string
+    metatags: string
   }>
   user_created: {
     first_name: string
