@@ -9,7 +9,6 @@
           <img :src="imageUrl" :alt="translatedArticle?.description" />
         </div>
         <div class="blog-page__info">
-          {{ article?.status }}
           <div class="blog-page__tags">
             <BlogTranslatedTag
               v-for="tag in article?.tags ?? []"
