@@ -4,7 +4,6 @@
 
     <BaseContainer>
       <LayoutLoading :active="pending" />
-
       <h1 class="blog__title">{{ $t('breadcrumbs.blog') }}</h1>
       <div class="blog">
         <div class="blog__tags">
