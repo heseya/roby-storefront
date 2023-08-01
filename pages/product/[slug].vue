@@ -180,9 +180,6 @@ const { data: product } = useAsyncData(`product-${route.params.slug}`, async () 
   try {
     const prod = await heseya.Products.getOneBySlug(route.params.slug as string)
 
-    prod.metadata.ask_for_price = true
-    prod.metadata.allow_renting = true
-
     return prod
   } catch (e: any) {
     if (e?.response?.status === 404) showError({ message: t('notFoundError'), statusCode: 404 })
