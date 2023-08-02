@@ -101,7 +101,7 @@ useSeo(() => [
   {
     title: seoTitle.value,
     description: seoDescription.value,
-    keywords: translatedArticle.value?.metatags.split(',').filter(Boolean),
+    keywords: translatedArticle.value?.metatags?.split(',')?.filter(Boolean) || [],
     no_index: article.value?.no_index,
   },
 ])
