@@ -42,8 +42,7 @@ export default defineNuxtPlugin((nuxt) => {
   const accessToken = useAccessToken()
   const identityToken = useIdentityToken()
   const refreshToken = useRefreshToken()
-  const language = useLanguageStore(nuxt.$pinia as Pinia)
-  const nuxtApp = useNuxtApp()
+  const languageStore = useLanguageStore(nuxt.$pinia as Pinia)
 
   const pathsWithAuth = [
     'auth',
@@ -72,8 +71,11 @@ export default defineNuxtPlugin((nuxt) => {
 
   ax.interceptors.request.use((config) => {
     config._beginTime = Date.now()
-    config.headers['Accept-Language'] =
-      language.getCurrentApiLanguage?.iso || nuxtApp.$i18n.locale.value
+    if (languageStore.currentApiLanguage) {
+      config.headers['Accept-Language'] = languageStore.currentApiLanguage.iso
+    } else {
+      console.warn('Current language not found in languages ​​provided by api')
+    }
     return config
   })
 

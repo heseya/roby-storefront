@@ -12,11 +12,11 @@ export default defineNuxtPlugin(async (nuxtApp) => {
   const user = useUserStore(nuxtApp.$pinia as Pinia)
   const languages = useLanguageStore(nuxtApp.$pinia as Pinia)
 
-  await config.fetchConfig()
+  await Promise.all([config.fetchConfig(), languages.fetchApiLanguages()])
+
   await Promise.all([
     config.fetchSeo(),
     categories.fetchRootCategories(),
     auth.isLogged ? user.fetchProfile() : Promise.resolve(),
-    languages.fetchApiLanguages(),
   ])
 })
