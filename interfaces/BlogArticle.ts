@@ -21,7 +21,7 @@ export interface BlogArticle {
     description: string
     seo_title: string
     seo_description: string
-    metatags: string
+    metatags: string | null
   }>
   user_created: {
     first_name: string
