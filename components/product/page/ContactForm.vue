@@ -12,7 +12,8 @@
 
     <FormInput
       v-model="form.values.name"
-      name="name"
+      :name="`${type}_name`"
+      autocomplete="name"
       class="product-contact-form__input"
       :label="t('name')"
       rules="required"
@@ -21,7 +22,8 @@
     <div class="product-contact-form__row">
       <FormInput
         v-model="form.values.email"
-        name="email"
+        :name="`${type}_email`"
+        autocomplete="email"
         html-type="email"
         class="product-contact-form__input"
         :label="$t('form.email')"
@@ -29,7 +31,8 @@
       />
       <FormInput
         v-model="form.values.phone"
-        name="phone"
+        :name="`${type}_phone`"
+        autocomplete="phone"
         class="product-contact-form__input"
         :label="t('phone')"
       />
@@ -37,7 +40,8 @@
 
     <FormTextarea
       v-model="form.values.message"
-      name="message"
+      :name="`${type}_message`"
+      autocomplete="message"
       class="product-contact-form__input"
       :label="$t('common.message')"
       rules="required"
@@ -45,7 +49,7 @@
 
     <LayoutRecaptchaBadge class="product-contact-form__recaptcha" />
 
-    <FormCheckbox v-model="form.values.consent" name="consent" rules="required">
+    <FormCheckbox v-model="form.values.consent" :name="`${type}_consent`" rules="required">
       {{ t('consent', { companyName }) }}
     </FormCheckbox>
 
@@ -115,13 +119,13 @@ const form = useForm({
 
 const companyName = computed(() => config.env.company_name)
 
-const onSubmit = form.handleSubmit(async (values) => {
+const onSubmit = form.handleSubmit(async () => {
   isLoading.value = true
   try {
     const recaptchaToken = await getRecaptchaToken(recaptchaPublic)
 
     await axios.post('/api/contact', {
-      ...values,
+      ...form.values,
       type: props.type,
       product: props.product,
       recaptchaToken,
