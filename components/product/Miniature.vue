@@ -35,9 +35,7 @@
       </span>
       <ProductPrice v-if="showPrice" class="product-miniature__price" :product="product" />
       <LayoutButton v-else class="product-miniature__btn">
-        {{
-          props.product?.metadata?.[ASK_FOR_PRICE_KEY] ? $t('offers.pricing') : $t('offers.renting')
-        }}
+        {{ $t('offers.pricing') }}
       </LayoutButton>
 
       <ProductFavouriteButton class="product-miniature__wishlist-btn" :product="product" />
@@ -62,7 +60,7 @@ const props = defineProps<{
   forceSize?: boolean
 }>()
 
-const showPrice = computed(() => isProductPriceShown(props.product))
+const showPrice = computed(() => !props.product?.metadata?.[ASK_FOR_PRICE_KEY])
 </script>
 
 <style lang="scss" scoped>

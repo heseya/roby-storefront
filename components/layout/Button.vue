@@ -25,7 +25,7 @@ withDefaults(
   { variant: 'primary', label: '', htmlType: 'button', disabled: false },
 )
 
-const textColorThemePrimary = useContrastColorFromCssVar('primary-color')
+const textColorThemePrimary = useContrastColorFromCssVar('primary-color-alt')
 </script>
 
 <style lang="scss" scoped>
