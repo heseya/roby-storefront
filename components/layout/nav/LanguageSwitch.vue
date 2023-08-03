@@ -35,10 +35,7 @@ const languages = computed<Language[]>(() =>
   })),
 )
 
-const language = computed({
-  get: () => ({ key: locale.value }),
-  set: () => {},
-})
+const language = computed(() => ({ key: locale.value }))
 
 const setLanguage = (language: Language) => {
   setLocale(language.key)
