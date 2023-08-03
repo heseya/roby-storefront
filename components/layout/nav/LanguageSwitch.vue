@@ -1,9 +1,10 @@
 <template>
   <LayoutPopover
     v-if="languages.length > 1"
-    v-model:value="language"
+    :value="language"
     :options="languages"
     class="language-switch__menu"
+    @update:value="setLanguage"
   >
     <template #option="item">
       <img :src="getIcon(item.value.key)" class="language-switch__icon" />
@@ -22,6 +23,9 @@ interface Language {
 
 const $t = useGlobalI18n()
 const { setLocale, locale, locales } = useI18n()
+const localePath = useLocalePath()
+const router = useRouter()
+const route = useRoute()
 
 const getIcon = (value: string) => (value === 'pl' ? plFlagUrl : enFlagUrl)
 
@@ -31,10 +35,12 @@ const languages = computed<Language[]>(() =>
   })),
 )
 
-const language = computed({
-  get: () => ({ key: locale.value }),
-  set: (item: Language) => setLocale(item.key),
-})
+const language = computed(() => ({ key: locale.value }))
+
+const setLanguage = (language: Language) => {
+  setLocale(language.key)
+  router.push(localePath(route.path, language.key))
+}
 </script>
 
 <style lang="scss" scoped>

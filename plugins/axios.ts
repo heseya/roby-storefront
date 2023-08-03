@@ -4,6 +4,7 @@ import { setupCache, buildMemoryStorage } from 'axios-cache-interceptor'
 
 import { Pinia } from '@pinia/nuxt/dist/runtime/composables'
 
+import { useLanguageStore } from '~/store/language'
 import { useAuthStore } from '~/store/auth'
 
 declare module 'axios' {
@@ -41,6 +42,7 @@ export default defineNuxtPlugin((nuxt) => {
   const accessToken = useAccessToken()
   const identityToken = useIdentityToken()
   const refreshToken = useRefreshToken()
+  const languageStore = useLanguageStore(nuxt.$pinia as Pinia)
 
   const pathsWithAuth = [
     'auth',
@@ -69,6 +71,11 @@ export default defineNuxtPlugin((nuxt) => {
 
   ax.interceptors.request.use((config) => {
     config._beginTime = Date.now()
+    if (languageStore.currentApiLanguage) {
+      config.headers['Accept-Language'] = languageStore.currentApiLanguage.iso
+    } else {
+      console.warn('Current language not found in languages ​​provided by api')
+    }
     return config
   })
 
