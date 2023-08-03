@@ -29,7 +29,7 @@ export const useCategoriesStore = defineStore('categories', {
         const config = useConfigStore()
 
         this.rootCategory = await heseya.ProductSets.getOneBySlug(
-          config.env.root_category_slug as string,
+          config.env.root_category_slug?.toString() || 'all',
         )
       } catch (e: any) {
         // eslint-disable-next-line no-console
