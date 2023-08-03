@@ -80,7 +80,8 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     public: {
-      apiUrl: API_URL,
+      // TODO: Return to ENV value before merged to develop
+      apiUrl: 'https://feature-languages.***REMOVED***/',
       directusUrl: DIRECTUS_URL,
       priceTrackerUrl: PRICE_TRACKER_URL,
       appHost: APP_HOST,
