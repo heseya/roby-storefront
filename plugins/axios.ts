@@ -72,8 +72,10 @@ export default defineNuxtPlugin((nuxt) => {
   ax.interceptors.request.use((config) => {
     config._beginTime = Date.now()
 
-    if (languageStore.currentApiLanguage) {
-      config.headers['Accept-Language'] = languageStore.currentApiLanguage.iso
+    // @ts-ignore this $i18n exists, but it's not in the Nuxt types for some reason
+    const apiLanguage = languageStore.getLanguageByIso(nuxt.$i18n.locale.value)
+    if (apiLanguage && languageStore.languages.length > 0) {
+      config.headers['Accept-Language'] = apiLanguage.iso
     } else {
       // eslint-disable-next-line no-console
       console.warn('Current language not found in languages provided by api')
