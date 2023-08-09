@@ -2,12 +2,12 @@ import { useGtag, isTracking } from 'vue-gtag-next'
 import { createHeseyaEventBusService, HeseyaEvent } from '@heseya/store-core'
 import { Pinia } from '@pinia/nuxt/dist/runtime/composables'
 
-import { useConfigStore } from '~/store/config'
+import { useChannelsStore } from '@/store/channels'
 import { mapCartItemToItem, mapProductToItem } from '~/utils/google'
 
 export default defineNuxtPlugin((nuxt) => {
   const { event: gTagEvent } = useGtag()
-  const config = useConfigStore(nuxt.$pinia as Pinia)
+  const channelStore = useChannelsStore(nuxt.$pinia as Pinia)
   const bus = createHeseyaEventBusService()
 
   bus.on(HeseyaEvent.ViewProduct, (product) => {
@@ -37,7 +37,7 @@ export default defineNuxtPlugin((nuxt) => {
     gTagEvent('', { ecommerce: null })
     gTagEvent('add_to_cart', {
       ecommerce: {
-        currency: config.currency,
+        currency: channelStore.currency,
         value: item.price,
         items: [mapCartItemToItem(item)],
       },
@@ -50,7 +50,7 @@ export default defineNuxtPlugin((nuxt) => {
     gTagEvent('', { ecommerce: null })
     gTagEvent('remove_from_cart', {
       ecommerce: {
-        currency: config.currency,
+        currency: channelStore.currency,
         value: item.price,
         items: [mapCartItemToItem(item)],
       },
@@ -63,8 +63,8 @@ export default defineNuxtPlugin((nuxt) => {
     gTagEvent('', { ecommerce: null })
     gTagEvent('add_shipping_info', {
       ecommerce: {
-        currency: config.currency,
-        value: shipping.price,
+        currency: channelStore.currency,
+        value: parsePrices(shipping.prices, channelStore.currency),
         items: items.map(mapCartItemToItem),
       },
     })
@@ -105,7 +105,7 @@ export default defineNuxtPlugin((nuxt) => {
         transaction_id: order.code,
         affiliation: 'Ksiażki.pl website',
         value: order.summary,
-        currency: config.currency,
+        currency: channelStore.currency,
         shipping: order.shipping_price,
         items: items.map(mapCartItemToItem),
         items_value: order.cart_total,
