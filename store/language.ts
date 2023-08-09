@@ -17,4 +17,6 @@ export const useLanguageStore = defineStore('language', {
       return this.languages.find((lang) => lang.iso.includes(iso))
     },
   },
+
+  persist: true,
 })

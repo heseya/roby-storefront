@@ -36,8 +36,12 @@ export const useChannelsStore = defineStore('channels', {
           hidden: false,
         },
       }))
+
       this.channels = channels
-      this.selected = channels[0]
+
+      if (!this.selected) this.selected = channels[0]
     },
   },
+
+  persist: true,
 })
