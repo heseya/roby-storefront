@@ -6,10 +6,10 @@
     <div class="product-purchase-panel__price">
       <LayoutLoading :active="pending" />
       <span class="product-price" :class="{ 'product-price--discounted': price !== originalPrice }">
-        {{ formatAmount(price) }}
+        {{ formatAmount(price, currency) }}
       </span>
       <span v-if="price !== originalPrice" class="product-price product-price--original">
-        {{ formatAmount(originalPrice) }}
+        {{ formatAmount(originalPrice, currency) }}
       </span>
     </div>
 
@@ -97,6 +97,7 @@ const props = withDefaults(
 const cart = useCartStore()
 const t = useLocalI18n()
 const localePath = useLocalePath()
+const currency = useCurrency()
 
 const { enabled: leaselinkEnabled, getUrl: getLeasingUrl } = useLeaselink()
 

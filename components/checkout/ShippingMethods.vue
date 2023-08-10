@@ -10,7 +10,9 @@
         <template v-for="method in shippingMethods" :key="method.id" v-slot:[`${method.id}-label`]>
           <div class="shipping-method">
             <span class="shipping-method__name">{{ method.name }}</span>
-            <span class="shipping-method__price">{{ formatAmount(method.price || 0) }}</span>
+            <span class="shipping-method__price">{{
+              formatAmount(parsePrices(method.prices, currency), currency)
+            }}</span>
           </div>
           <div class="shipping-method-description">
             <p>
@@ -70,11 +72,14 @@ const heseya = useHeseya()
 const cart = useCartStore()
 const checkout = useCheckoutStore()
 const ev = useHeseyaEventBus()
+const currency = useCurrency()
 
 const { data: shippingMethods } = useLazyAsyncData(
   `shipping-methods-for-value`,
   async () => {
-    const methods = await heseya.ShippingMethods.get({ cart_value: cart.totalValue })
+    const methods = await heseya.ShippingMethods.get({
+      cart_value: { value: cart.totalValue, currency: currency.value },
+    })
     return methods.data
   },
   { server: false, default: () => [] as ShippingMethod[] },

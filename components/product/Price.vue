@@ -8,9 +8,9 @@
       <template v-if="priceMin !== priceMax">
         {{ $t('common.from') }}
       </template>
-      {{ formatAmount(priceMin) }}
+      {{ formatAmount(priceMin, currency) }}
       <!-- <template v-if="priceMin !== priceMax">
-        - {{ formatAmount(priceMax) }}
+        - {{ formatAmount(priceMax, currency) }}
       </template> -->
     </component>
     {{ ' ' }}
@@ -22,9 +22,9 @@
       <template v-if="priceMinInitial !== priceMaxInitial">
         {{ $t('common.from') }}
       </template>
-      {{ formatAmount(priceMinInitial) }}
+      {{ formatAmount(priceMinInitial, currency) }}
       <!-- <template v-if="priceMinInitial !== priceMaxInitial">
-        - {{ formatAmount(priceMaxInitial) }}
+        - {{ formatAmount(priceMaxInitial, currency) }}
       </template> -->
     </component>
   </div>

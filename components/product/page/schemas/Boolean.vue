@@ -2,13 +2,15 @@
   <FormCheckbox v-model="innerValue" class="schema-boolean" :name="schema.id">
     {{ schema.name }}
     <span v-if="schema.price > 0" class="schema-boolean__price">
-      (+{{ formatAmount(schema.price) }})
+      (+{{ formatAmount(schema.price, currency) }})
     </span>
   </FormCheckbox>
 </template>
 
 <script setup lang="ts">
 import { CartItemSchemaValue, Schema, SchemaType } from '@heseya/store-core'
+
+const currency = useCurrency()
 
 const props = withDefaults(
   defineProps<{

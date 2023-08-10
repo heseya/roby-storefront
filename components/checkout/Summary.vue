@@ -5,7 +5,9 @@
         <span class="checkout-summary-item__text">
           <span class="primary-text">{{ item.qty }}x</span> {{ item.name }}
         </span>
-        <span class="checkout-summary-item__text">{{ formatAmount(item.totalPrice) }}</span>
+        <span class="checkout-summary-item__text">{{
+          formatAmount(item.totalPrice, currency)
+        }}</span>
       </div>
 
       <div v-if="cart.totalDiscountValue !== 0" class="checkout-summary-item">
@@ -13,13 +15,15 @@
           {{ $t('payments.discount') }}
         </span>
         <span class="checkout-summary-item__text checkout-summary-item__text--green">
-          {{ formatAmount(-cart.totalDiscountValue) }}
+          {{ formatAmount(-cart.totalDiscountValue, currency) }}
         </span>
       </div>
 
       <div class="checkout-summary-item">
         <span class="checkout-summary-item__text">{{ $t('orders.delivery') }}</span>
-        <span class="checkout-summary-item__text"> {{ formatAmount(cart.shippingPrice) }} </span>
+        <span class="checkout-summary-item__text">
+          {{ formatAmount(cart.shippingPrice, currency) }}
+        </span>
       </div>
 
       <hr class="checkout-summary__hr hr" />
@@ -27,7 +31,7 @@
       <div class="checkout-summary-item">
         <span class="checkout-summary-item__text">{{ $t('orders.totalAmount') }}</span>
         <span class="checkout-summary-item__text checkout-summary-item__text--big">
-          {{ formatAmount(cart.summary) }}
+          {{ formatAmount(cart.summary, currency) }}
         </span>
       </div>
 
@@ -58,6 +62,7 @@ const emit = defineEmits<{
 const $t = useGlobalI18n()
 const cart = useCartStore()
 const checkout = useCheckoutStore()
+const currency = useCurrency()
 </script>
 
 <style lang="scss" scoped>

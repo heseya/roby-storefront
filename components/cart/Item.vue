@@ -24,9 +24,9 @@
 
       <div class="cart-item__price">
         <span v-if="item.totalInitialPrice !== item.totalPrice" class="cart-item__price-initial">
-          {{ formatAmount(item.totalInitialPrice) }}
+          {{ formatAmount(item.totalInitialPrice, currency) }}
         </span>
-        <span class="cart-item__price-current">{{ formatAmount(item.totalPrice) }}</span>
+        <span class="cart-item__price-current">{{ formatAmount(item.totalPrice, currency) }}</span>
       </div>
     </div>
 
@@ -49,6 +49,7 @@ import CrossIcon from '@/assets/icons/cross.svg?component'
 import { useCartStore } from '@/store/cart'
 
 const { t } = useI18n()
+const currency = useCurrency()
 
 const props = withDefaults(
   defineProps<{
