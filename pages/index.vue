@@ -57,9 +57,9 @@ useSeoMeta({
 
 const { data } = useAsyncData('main-banner', async () => {
   const [mainBanner, { data: homepageBanners }, { data: homepageSets }] = await Promise.all([
-    heseya.Banners.getOneBySlug('main-banner'),
-    heseya.Banners.get({ metadata: { homepage: true } }),
-    heseya.ProductSets.get({ metadata: { homepage: true } }),
+    heseya.Banners.getOneBySlug('main-banner').catch(() => null),
+    heseya.Banners.get({ metadata: { homepage: true } }).catch(() => ({ data: [] })),
+    heseya.ProductSets.get({ metadata: { homepage: true } }).catch(() => ({ data: [] })),
   ])
   return {
     mainBanner,

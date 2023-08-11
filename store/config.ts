@@ -5,7 +5,6 @@ export const useConfigStore = defineStore('config', {
   state: () => ({
     env: {} as SettingsRecord,
     seo: {} as SeoMetadata,
-    currency: 'PLN',
   }),
 
   getters: {

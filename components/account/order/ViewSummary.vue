@@ -3,18 +3,18 @@
     <div class="view-summary__section">
       <div class="view-summary__container">
         <div>{{ $t('orders.productsPrice') }}</div>
-        <div>{{ formatAmount(order.cart_total) }}</div>
+        <div>{{ formatAmount(order.cart_total, currency) }}</div>
       </div>
       <div class="view-summary__container">
         <div>{{ $t('orders.delivery') }}</div>
-        <div>{{ formatAmount(order.shipping_price) }}</div>
+        <div>{{ formatAmount(order.shipping_price, currency) }}</div>
       </div>
     </div>
     <div class="view-summary__section">
       <div class="view-summary__container">
         <div>{{ $t('orders.totalAmount') }}</div>
         <div class="view-summary__total">
-          {{ formatAmount(order.summary) }}
+          {{ formatAmount(order.summary, currency) }}
         </div>
       </div>
     </div>
@@ -25,6 +25,7 @@
 import { Order } from '@heseya/store-core'
 
 const $t = useGlobalI18n()
+const currency = useCurrency()
 
 defineProps<{
   order: Order

@@ -7,7 +7,7 @@
       <div class="account-order-product-view__name">{{ product.name }}</div>
       <div class="account-order-product-view__price">
         <div>{{ product.quantity }} {{ t('quantity') }}</div>
-        <div>{{ formatAmount(product.price) }}</div>
+        <div>{{ formatAmount(product.price, currency) }}</div>
       </div>
     </div>
   </div>
@@ -27,6 +27,7 @@
 <script setup lang="ts">
 import { OrderProduct } from '@heseya/store-core'
 const t = useLocalI18n()
+const currency = useCurrency()
 
 defineProps<{
   product: OrderProduct

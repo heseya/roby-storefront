@@ -17,7 +17,7 @@
       class="schema-select__option"
     >
       {{ option.name }}
-      <template v-if="option.price > 0"> (+{{ formatAmount(option.price) }}) </template>
+      <template v-if="option.price > 0"> (+{{ formatAmount(option.price, currency) }}) </template>
     </option>
   </FormSelect>
 </template>
@@ -37,6 +37,7 @@
 import { CartItemSchemaValue, Schema, SchemaType } from '@heseya/store-core'
 
 const t = useLocalI18n()
+const currency = useCurrency()
 
 const props = withDefaults(
   defineProps<{

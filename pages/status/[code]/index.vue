@@ -23,7 +23,7 @@
       <div class="status-page__field">
         <span class="status-page__field-label">{{ t('fields.value') }}:</span>
         <b class="status-page__field-value">
-          {{ formatAmount(order?.summary || 0) }}
+          {{ formatAmount(order?.summary || 0, currency) }}
         </b>
       </div>
 
@@ -64,6 +64,7 @@ const t = useLocalI18n()
 const $t = useGlobalI18n()
 const route = useRoute()
 const localePath = useLocalePath()
+const currency = useCurrency()
 
 const orderCode = computed(() => route.params.code as string)
 
