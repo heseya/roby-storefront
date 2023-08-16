@@ -123,7 +123,11 @@ export const useWishlistStore = defineStore('wishlist', {
       if (!auth.isLogged) return console.warn('User is not logged in')
 
       const { data, pagination } = await heseya.Wishlist.get()
-      this.userWishlist = data
+      this.userWishlist = data.map((wishlistProduct) => ({
+        ...wishlistProduct,
+        product: applyVatForProductPrices(wishlistProduct.product),
+      }))
+
       this.pagination = pagination
     },
   },

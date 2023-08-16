@@ -5,6 +5,7 @@
   >
     <div class="product-purchase-panel__price">
       <LayoutLoading :active="pending" />
+
       <span class="product-price" :class="{ 'product-price--discounted': price !== originalPrice }">
         {{ formatAmount(price, currency) }}
       </span>
