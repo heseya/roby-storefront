@@ -124,7 +124,6 @@ export const useWishlistStore = defineStore('wishlist', {
 
       const { data, pagination } = await heseya.Wishlist.get()
       this.userWishlist = data
-
       this.pagination = pagination
     },
   },

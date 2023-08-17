@@ -19,7 +19,6 @@ export const useChannelsStore = defineStore('channels', {
 
       // TODO: this is temporary mock
       const currencies = await heseya.Currencies.get()
-
       const channels: Channel[] = currencies.map((currency) => ({
         id: currency.code,
         name: currency.name,

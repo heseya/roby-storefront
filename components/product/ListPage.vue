@@ -188,7 +188,6 @@ const {
     limit: perPage.value,
     attribute: Object.keys(attribute).length ? attribute : undefined,
   })
-
   return response
 })
 
