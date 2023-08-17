@@ -1,6 +1,6 @@
 <template>
   <LayoutPopover
-    v-if="languages.length > 1"
+    v-show="languages.length > 1"
     :value="language"
     :options="languages"
     class="language-switch__menu"
