@@ -31,7 +31,8 @@
 </template>
 
 <script setup lang="ts">
-import { ProductList } from '@heseya/store-core'
+import { ProductList, Price } from '@heseya/store-core'
+import { useChannelsStore } from '@/store/channels'
 
 const $t = useGlobalI18n()
 const props = withDefaults(
@@ -44,16 +45,38 @@ const props = withDefaults(
   },
 )
 
+const channelStore = useChannelsStore()
+
+const calculateVatMultiplerRateForCurrency = (currencyCode: string): number => {
+  const channel = channelStore.channels.find((ch) => ch.default_currency.code === currencyCode)
+  return channel ? 1 + Number(channel.vat_rate) / 100 : 1
+}
+
+const applyVatForCurrency = (prices: Price[]): Price[] => {
+  return prices.map(({ gross, currency }) => ({
+    currency,
+    gross: (parseFloat(gross) * calculateVatMultiplerRateForCurrency(currency)).toFixed(2),
+  }))
+}
+
+const getPriceWithVAT = (prices: Price[], targetCurrency: string): number => {
+  const netPriceValue = parsePrices(prices, targetCurrency)
+  const pricesWithVAT = applyVatForCurrency([
+    { currency: targetCurrency, gross: netPriceValue.toString() },
+  ])
+  return parseFloat(pricesWithVAT[0]?.gross || '0') || 0
+}
+
 const currency = useCurrency()
 
 const priceMinInitial = computed(() =>
-  parsePrices(props.product.prices_min_initial, currency.value),
+  getPriceWithVAT(props.product.prices_min_initial, currency.value),
 )
-const priceMin = computed(() => parsePrices(props.product.prices_min, currency.value))
+const priceMin = computed(() => getPriceWithVAT(props.product.prices_min, currency.value))
 const priceMaxInitial = computed(() =>
-  parsePrices(props.product.prices_max_initial, currency.value),
+  getPriceWithVAT(props.product.prices_max_initial, currency.value),
 )
-const priceMax = computed(() => parsePrices(props.product.prices_max, currency.value))
+const priceMax = computed(() => getPriceWithVAT(props.product.prices_max, currency.value))
 
 const isDiscounted = computed(
   () => priceMax.value < priceMaxInitial.value || priceMin.value < priceMinInitial.value,

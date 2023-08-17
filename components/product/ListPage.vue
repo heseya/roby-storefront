@@ -189,8 +189,6 @@ const {
     attribute: Object.keys(attribute).length ? attribute : undefined,
   })
 
-  response.data = response.data.map((product) => applyVatForProductPrices(product))
-
   return response
 })
 
