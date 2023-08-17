@@ -17,7 +17,7 @@
       class="schema-select__option"
     >
       {{ option.name }}
-      <template v-if="option.price > 0"> (+{{ formatAmount(option.price, currency) }}) </template>
+      <template v-if="option.price > 0"> (+{{ optionPrice(option.price) }}) </template>
     </option>
   </FormSelect>
 </template>
@@ -61,6 +61,11 @@ const innerValue = computed({
   get: () => props.value,
   set: (v) => emit('update:value', v),
 })
+
+const optionPrice = (price: number) => {
+  const priceWithVat = price * calculateVatMultiplerRateForCurrency(currency.value)
+  return formatAmount(priceWithVat, currency.value)
+}
 </script>
 
 <style lang="scss" scoped>
