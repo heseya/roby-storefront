@@ -23,9 +23,6 @@ interface Language {
 
 const $t = useGlobalI18n()
 const { setLocale, locale, locales } = useI18n()
-const localePath = useLocalePath()
-const router = useRouter()
-const route = useRoute()
 
 const getIcon = (value: string) => (value === 'pl' ? plFlagUrl : enFlagUrl)
 
@@ -39,7 +36,6 @@ const language = computed(() => ({ key: locale.value }))
 
 const setLanguage = (language: Language) => {
   setLocale(language.key)
-  router.push(localePath(route.path, language.key))
 }
 </script>
 

@@ -190,6 +190,14 @@ const { data: navLinks } = useAsyncData<NavLink[]>('nav-pages', async () => {
   const { data } = await heseya.Pages.get({ metadata: { nav: true } })
   return data.map((p) => ({ text: p.name, path: `/${p.slug}` }))
 })
+
+/**
+ * https://stackoverflow.com/questions/75204169/the-data-from-pinia-store-is-not-reactive-in-nuxt-3-when-switching-language
+ * Needs to be manually invoked because of the pinia bug
+ */
+onBeforeMount(async () => {
+  await categoriesStore.fetchRootCategories()
+})
 </script>
 
 <style lang="scss" scoped>
