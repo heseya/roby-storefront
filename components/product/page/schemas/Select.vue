@@ -63,7 +63,7 @@ const innerValue = computed({
 })
 
 const optionPrice = (price: number) => {
-  const priceWithVat = price * calculateVatMultiplerRateForCurrency(currency.value)
+  const priceWithVat = usePriceGross({ gross: price, currency: currency.value }, currency.value)
   return formatAmount(priceWithVat, currency.value)
 }
 </script>

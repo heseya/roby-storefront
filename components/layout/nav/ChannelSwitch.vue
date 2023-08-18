@@ -1,6 +1,6 @@
 <template>
   <LayoutPopover
-    v-if="channelsList.length > 1"
+    v-show="channelsList.length > 1"
     :value="selected"
     :options="channelsList"
     class="channel-switch__menu"
@@ -11,12 +11,15 @@
 </template>
 
 <script lang="ts" setup>
+import { SalesChannelStatus } from '@heseya/store-core'
 import { useChannelsStore } from '@/store/channels'
 
 const channels = useChannelsStore()
 
 const channelsList = computed(() =>
-  channels.channels.filter((c) => c.status === 'active').map((c) => ({ key: c.id, name: c.name })),
+  channels.channels
+    .filter((c) => c.status === SalesChannelStatus.Active)
+    .map((c) => ({ key: c.id, name: c.name })),
 )
 
 const selected = computed(() => ({
@@ -31,7 +34,11 @@ const setChannel = (data: { key: string }) => {
     console.error(`Channel with id ${data.key} not found, but was selected`)
     return
   }
-  channels.selected = channel
+
+  channels.setChannel(channel.id)
+
+  // maybe better way to reload page?
+  if (window) window.location.reload()
 }
 </script>
 

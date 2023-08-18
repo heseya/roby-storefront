@@ -31,7 +31,7 @@
 </template>
 
 <script setup lang="ts">
-import { ProductList, Price } from '@heseya/store-core'
+import { ProductList } from '@heseya/store-core'
 
 const $t = useGlobalI18n()
 const props = withDefaults(
@@ -44,21 +44,16 @@ const props = withDefaults(
   },
 )
 
-const getPriceWithVAT = (prices: Price[], targetCurrency: string): number => {
-  const nettoPriceValue = parsePrices(prices, targetCurrency)
-  return nettoPriceValue * calculateVatMultiplerRateForCurrency(targetCurrency)
-}
-
 const currency = useCurrency()
 
 const priceMinInitial = computed(() =>
-  getPriceWithVAT(props.product.prices_min_initial, currency.value),
+  usePriceGross(props.product.prices_min_initial, currency.value),
 )
-const priceMin = computed(() => getPriceWithVAT(props.product.prices_min, currency.value))
+const priceMin = computed(() => usePriceGross(props.product.prices_min, currency.value))
 const priceMaxInitial = computed(() =>
-  getPriceWithVAT(props.product.prices_max_initial, currency.value),
+  usePriceGross(props.product.prices_max_initial, currency.value),
 )
-const priceMax = computed(() => getPriceWithVAT(props.product.prices_max, currency.value))
+const priceMax = computed(() => usePriceGross(props.product.prices_max, currency.value))
 
 const isDiscounted = computed(
   () => priceMax.value < priceMaxInitial.value || priceMin.value < priceMinInitial.value,
