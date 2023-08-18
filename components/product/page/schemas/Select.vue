@@ -17,7 +17,7 @@
       class="schema-select__option"
     >
       {{ option.name }}
-      <template v-if="option.price > 0"> (+{{ optionPrice(option.price) }}) </template>
+      <template v-if="option.price > 0"> (+{{ calculateOptionPrice(option.price) }}) </template>
     </option>
   </FormSelect>
 </template>
@@ -62,8 +62,13 @@ const innerValue = computed({
   set: (v) => emit('update:value', v),
 })
 
-const optionPrice = (price: number) => {
-  const priceWithVat = usePriceGross({ gross: price, currency: currency.value }, currency.value)
+const priceGross = usePriceGross()
+
+const calculateOptionPrice = (price: number) => {
+  const priceWithVat = priceGross(
+    [{ gross: price.toString(), currency: currency.value }],
+    currency.value,
+  )
   return formatAmount(priceWithVat, currency.value)
 }
 </script>
