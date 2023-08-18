@@ -1,10 +1,12 @@
-import { Channel } from 'interfaces/Channel'
+import { SalesChannel } from '@heseya/store-core'
 import { defineStore } from 'pinia'
+
+import { SALES_CHANNEL_KEY } from '@/consts/cookiesKeys'
 
 export const useChannelsStore = defineStore('channels', {
   state: () => ({
-    channels: [] as Channel[],
-    selected: null as Channel | null,
+    channels: [] as SalesChannel[],
+    selected: null as SalesChannel | null,
   }),
 
   getters: {
@@ -15,33 +17,27 @@ export const useChannelsStore = defineStore('channels', {
 
   actions: {
     async fetchChannels(): Promise<void> {
-      const heseya = useHeseya()
+      try {
+        const heseya = useHeseya()
 
-      // TODO: this is temporary mock
-      const currencies = await heseya.Currencies.get()
-      const channels: Channel[] = currencies.map((currency) => ({
-        id: currency.code,
-        name: currency.name,
-        slug: currency.code,
-        status: 'active',
-        vat_rate: '0',
-        countries_block_list: false,
-        countries: [],
-        default_currency: currency,
-        default_language: {
-          id: 'en',
-          iso: 'EN',
-          name: 'English',
-          default: true,
-          hidden: false,
-        },
-      }))
+        const { data: channels } = await heseya.SalesChannels.get()
 
-      this.channels = channels
+        this.channels = channels
+      } catch (e) {
+        // eslint-disable-next-line no-console
+        console.error('[CHANNELS] Failed to fetch SalesChannels', e)
+      }
+    },
 
-      if (!this.selected) this.selected = channels[0]
+    setChannel(channelId?: string) {
+      const channelCookie = useStatefulCookie(SALES_CHANNEL_KEY)
+
+      const channel = this.channels.find((c) => c.id === channelId) || this.channels[0]
+
+      this.selected = channel
+      channelCookie.value = channel.id
     },
   },
 
-  persist: true,
+  persist: false,
 })

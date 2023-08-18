@@ -4,8 +4,9 @@ import { setupCache, buildMemoryStorage } from 'axios-cache-interceptor'
 
 import { Pinia } from '@pinia/nuxt/dist/runtime/composables'
 
-import { useLanguageStore } from '~/store/language'
-import { useAuthStore } from '~/store/auth'
+import { useChannelsStore } from '@/store/channels'
+import { useLanguageStore } from '@/store/language'
+import { useAuthStore } from '@/store/auth'
 
 declare module 'axios' {
   interface AxiosRequestConfig {
@@ -39,6 +40,7 @@ export default defineNuxtPlugin((nuxt) => {
   // ? --------------------------------------------------------------------------------------------
   const auth = useAuthStore(nuxt.$pinia as Pinia)
   const languageStore = useLanguageStore(nuxt.$pinia as Pinia)
+  const channelsStore = useChannelsStore(nuxt.$pinia as Pinia)
 
   const accessToken = useAccessToken()
   const identityToken = useIdentityToken()
@@ -76,10 +78,13 @@ export default defineNuxtPlugin((nuxt) => {
     const apiLanguage = languageStore.getLanguageByIso(nuxt.$i18n.locale.value)
     if (apiLanguage && languageStore.languages.length > 0) {
       config.headers['Accept-Language'] = apiLanguage.iso
-    } else {
+    } else if (!config.url?.includes('languages')) {
+      // ignore languages endpoint
       // eslint-disable-next-line no-console
       console.warn('Current language not found in languages provided by api')
     }
+
+    if (channelsStore.selected) config.headers['X-Sales-Channel'] = channelsStore.selected.id
 
     return config
   })
