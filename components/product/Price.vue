@@ -45,15 +45,16 @@ const props = withDefaults(
 )
 
 const currency = useCurrency()
+const calculateGrossPrice = usePriceGross()
 
 const priceMinInitial = computed(() =>
-  parsePrices(props.product.prices_min_initial, currency.value),
+  calculateGrossPrice(props.product.prices_min_initial, currency.value),
 )
-const priceMin = computed(() => parsePrices(props.product.prices_min, currency.value))
+const priceMin = computed(() => calculateGrossPrice(props.product.prices_min, currency.value))
 const priceMaxInitial = computed(() =>
-  parsePrices(props.product.prices_max_initial, currency.value),
+  calculateGrossPrice(props.product.prices_max_initial, currency.value),
 )
-const priceMax = computed(() => parsePrices(props.product.prices_max, currency.value))
+const priceMax = computed(() => calculateGrossPrice(props.product.prices_max, currency.value))
 
 const isDiscounted = computed(
   () => priceMax.value < priceMaxInitial.value || priceMin.value < priceMinInitial.value,
