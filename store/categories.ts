@@ -1,6 +1,5 @@
 import { ProductSet, ProductSetList } from '@heseya/store-core'
 import { defineStore } from 'pinia'
-
 import { useConfigStore } from './config'
 import { CATEGORY_IN_NAV_KEY } from '@/consts/metadataKeys'
 
@@ -39,7 +38,7 @@ export const useCategoriesStore = defineStore('categories', {
 
     async fetchRootCategories() {
       const heseya = useHeseya()
-      if (!this.rootCategory) await this.fetchRootCategory()
+      await this.fetchRootCategory()
 
       if (!this.rootCategory) {
         // eslint-disable-next-line no-console
@@ -49,9 +48,8 @@ export const useCategoriesStore = defineStore('categories', {
 
       const { data } = await heseya.ProductSets.get({ parent_id: this.rootCategory.id })
       this.categories = data
-
       // Preload all subcategories for all root categories
-      await Promise.all(this.categories.map((category) => this.getSubcategories(category.id)))
+      await Promise.all(data.map((category) => this.getSubcategories(category.id)))
     },
 
     async getSubcategories(parentId: string) {

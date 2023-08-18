@@ -190,6 +190,10 @@ const { data: navLinks } = useAsyncData<NavLink[]>('nav-pages', async () => {
   const { data } = await heseya.Pages.get({ metadata: { nav: true } })
   return data.map((p) => ({ text: p.name, path: `/${p.slug}` }))
 })
+
+onBeforeMount(async () => {
+  await categoriesStore.fetchRootCategories()
+})
 </script>
 
 <style lang="scss" scoped>
