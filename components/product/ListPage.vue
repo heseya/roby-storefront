@@ -187,6 +187,7 @@ const {
     sort: sort.value,
     limit: perPage.value,
     attribute: Object.keys(attribute).length ? attribute : undefined,
+    shipping_digital: false,
   })
   return response
 })

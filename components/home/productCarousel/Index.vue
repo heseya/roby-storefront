@@ -53,6 +53,7 @@ const { data: products, refresh: refreshProducts } = useAsyncData(
       sets: [categorySlug],
       limit: 16,
       sort: `set.${categorySlug}`,
+      shipping_digital: false,
     })
 
     return data
