@@ -1,4 +1,4 @@
-import { CartItemSchema, Product, CartItem } from '@heseya/store-core'
+import { CartItemSchema, Product, CartItem, parsePrices } from '@heseya/store-core'
 
 export const useProductPrice = (product: Product, schemaValue: Ref<CartItemSchema[]>) => {
   const heseya = useHeseya()

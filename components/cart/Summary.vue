@@ -75,7 +75,7 @@
 </i18n>
 
 <script setup lang="ts">
-import { ShippingType } from '@heseya/store-core'
+import { ShippingType, parsePrices } from '@heseya/store-core'
 
 import { useCartStore } from '@/store/cart'
 import { useAuthStore } from '@/store/auth'

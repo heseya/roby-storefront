@@ -25,7 +25,7 @@
 
 <script setup lang="ts">
 import axios from 'axios'
-import { Product } from '@heseya/store-core'
+import { Product, parsePrices } from '@heseya/store-core'
 
 const props = defineProps<{
   product: Product

@@ -1,4 +1,4 @@
-import { Product } from '@heseya/store-core'
+import { Product, parsePrices } from '@heseya/store-core'
 import { WithContext, Product as ProductSchema, Thing } from 'schema-dts'
 
 import { MaybeRef } from '@vueuse/core'

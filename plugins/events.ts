@@ -1,5 +1,5 @@
 import { useGtag, isTracking } from 'vue-gtag-next'
-import { createHeseyaEventBusService, HeseyaEvent } from '@heseya/store-core'
+import { createHeseyaEventBusService, HeseyaEvent, parsePrices } from '@heseya/store-core'
 import { Pinia } from '@pinia/nuxt/dist/runtime/composables'
 
 import { useChannelsStore } from '@/store/channels'
