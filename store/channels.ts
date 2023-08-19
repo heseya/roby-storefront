@@ -37,6 +37,12 @@ export const useChannelsStore = defineStore('channels', {
       this.selected = channel
       channelCookie.value = channel.id
     },
+
+    isCountryCodeAllowedInChannel(countryCode: string) {
+      if (!this.selected) return true
+      const isIncludedInList = this.selected.countries.includes(countryCode)
+      return this.selected.countries_block_list ? !isIncludedInList : isIncludedInList
+    },
   },
 
   persist: false,

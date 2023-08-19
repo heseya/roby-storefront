@@ -105,10 +105,13 @@
 
 <script setup lang="ts">
 import { AddressDto } from '@heseya/store-core'
-import { EMPTY_ADDRESS } from '~/consts/address'
+
+import { useChannelsStore } from '@/store/channels'
+import { EMPTY_ADDRESS } from '@/consts/address'
 
 const t = useLocalI18n()
 const heseya = useHeseya()
+const channel = useChannelsStore()
 
 const props = withDefaults(
   defineProps<{
@@ -116,12 +119,14 @@ const props = withDefaults(
     invoice?: boolean
     disabled?: boolean
     namePrefix?: string
+    channelCountriesOnly?: boolean
   }>(),
   {
     address: () => ({ ...EMPTY_ADDRESS }),
     invoice: false,
     disabled: false,
     namePrefix: 'address',
+    channelCountriesOnly: false,
   },
 )
 
@@ -129,9 +134,16 @@ const emit = defineEmits<{
   (event: 'update:address', value: AddressDto): void
 }>()
 
-const { data: countries } = useLazyAsyncData('countries', () =>
+const { data: allCountries } = useLazyAsyncData('countries', () =>
   heseya.ShippingMethods.getCountries(),
 )
+
+const countries = computed(() => {
+  // Return all countries
+  if (!props.channelCountriesOnly) return allCountries.value ?? []
+
+  return allCountries.value?.filter((c) => channel.isCountryCodeAllowedInChannel(c.code)) ?? []
+})
 
 const update = (key: keyof AddressDto, value: string) => {
   emit('update:address', { ...props.address, [key]: value })
