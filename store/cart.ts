@@ -16,8 +16,8 @@ import cloneDeep from 'lodash/cloneDeep'
 import { defineStore } from 'pinia'
 import isEqual from 'lodash/isEqual'
 import uniqBy from 'lodash/uniqBy'
+
 import { useCheckoutStore } from './checkout'
-import { useChannelsStore } from './channels'
 
 export type CartCoupon = Coupon & { effective_value?: number }
 
@@ -62,14 +62,14 @@ export const useCartStore = defineStore('cart', {
     },
     cartDto(): CartDto {
       const checkout = useCheckoutStore()
-      const channel = useChannelsStore()
+      const channel = useSalesChannel()
 
       return {
         items: this.items.map((item) => item.getOrderObject()),
         coupons: this.coupons.map((coupon) => coupon.code),
         shipping_method_id: checkout.shippingMethod?.id,
         digital_shipping_method_id: checkout.digitalShippingMethod?.id,
-        sales_channel_id: channel.selected?.id || '',
+        sales_channel_id: channel.value?.id || '',
       }
     },
 
