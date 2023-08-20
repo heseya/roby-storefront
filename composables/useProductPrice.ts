@@ -1,8 +1,10 @@
 import { CartItemSchema, Product, CartItem, parsePrices } from '@heseya/store-core'
+import { useChannelsStore } from '@/store/channels'
 
 export const useProductPrice = (product: Product, schemaValue: Ref<CartItemSchema[]>) => {
   const heseya = useHeseya()
   const currency = useCurrency()
+  const channel = useChannelsStore()
 
   const pending = ref(false)
 
@@ -22,6 +24,7 @@ export const useProductPrice = (product: Product, schemaValue: Ref<CartItemSchem
     const cart = await heseya.Orders.processCart({
       coupons: [],
       items: [cartItem.getOrderObject()],
+      sales_channel_id: channel.selected?.id || '',
     })
 
     if (cart.items.length !== 1)

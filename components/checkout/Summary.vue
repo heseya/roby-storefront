@@ -3,7 +3,7 @@
     <div class="checkout-summary">
       <div v-for="item in cart.items" :key="item.id" class="checkout-summary-item">
         <span class="checkout-summary-item__text">
-          <span class="primary-text">{{ item.qty }}x</span> {{ item.name }}
+          <span class="primary-text">{{ item.totalQty }}x</span> {{ item.name }}
         </span>
         <span class="checkout-summary-item__text">{{
           formatAmount(item.totalPrice, currency)

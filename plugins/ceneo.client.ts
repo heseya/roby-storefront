@@ -22,7 +22,7 @@ export default defineNuxtPlugin(() => {
       shop_products: items.map((item) => ({
         id: item.id,
         price: item.price,
-        quantity: item.qty,
+        quantity: item.totalQty,
         currency: 'PLN',
       })),
       amount: order.summary,

@@ -18,7 +18,7 @@
         show-label
         :disabled="props.static"
         class="cart-item__quantity"
-        :quantity="item.qty"
+        :quantity="item.totalQty"
         @update:quantity="updateQuantity"
       />
 

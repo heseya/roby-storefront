@@ -17,6 +17,7 @@ import { defineStore } from 'pinia'
 import isEqual from 'lodash/isEqual'
 import uniqBy from 'lodash/uniqBy'
 import { useCheckoutStore } from './checkout'
+import { useChannelsStore } from './channels'
 
 export type CartCoupon = Coupon & { effective_value?: number }
 
@@ -61,11 +62,14 @@ export const useCartStore = defineStore('cart', {
     },
     cartDto(): CartDto {
       const checkout = useCheckoutStore()
+      const channel = useChannelsStore()
+
       return {
         items: this.items.map((item) => item.getOrderObject()),
         coupons: this.coupons.map((coupon) => coupon.code),
         shipping_method_id: checkout.shippingMethod?.id,
         digital_shipping_method_id: checkout.digitalShippingMethod?.id,
+        sales_channel_id: channel.selected?.id || '',
       }
     },
 
@@ -187,7 +191,8 @@ export const useCartStore = defineStore('cart', {
       quantity: number
     }) {
       const ev = useHeseyaEventBus()
-      const newCartItem = new CartItem(product, quantity, schemas, schemaValue)
+      const currency = useCurrency()
+      const newCartItem = new CartItem(product, quantity, schemas, schemaValue, [], currency.value)
       const existingCartItem = this.items.find(
         (item) => item.id === newCartItem.id && isEqual(item.schemas, newCartItem.schemas),
       )
