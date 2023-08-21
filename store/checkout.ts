@@ -38,6 +38,7 @@ export const useCheckoutStore = defineStore('checkout', {
     orderDto(): OrderCreateDto | null {
       const cart = useCartStore()
       const channel = useSalesChannel()
+      const currency = useCurrency()
 
       if (!(this.shippingAddress || this.billingAddress)) return null
       return {
@@ -55,8 +56,8 @@ export const useCheckoutStore = defineStore('checkout', {
           : this.shippingAddress,
         coupons: cart.coupons.map((c) => c.code),
         sales_ids: cart.sales.map((s) => s.id),
-        // @ts-ignore TODO: wait for sdk update
         sales_channel_id: channel.value?.id || '',
+        currency: currency.value,
         metadata: this.isInpostShippingMethod
           ? {
               inpost_phone: this.shippingAddress.phone,

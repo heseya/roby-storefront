@@ -24,6 +24,7 @@ export const useProductPrice = (product: Product, schemaValue: Ref<CartItemSchem
       coupons: [],
       items: [cartItem.getOrderObject()],
       sales_channel_id: channel.value?.id || '',
+      currency: currency.value,
     })
 
     if (cart.items.length !== 1)
@@ -31,8 +32,8 @@ export const useProductPrice = (product: Product, schemaValue: Ref<CartItemSchem
 
     const item = cart.items[0]
 
-    price.value = item.price_discounted
-    originalPrice.value = item.price
+    price.value = parseFloat(item.price_discounted)
+    originalPrice.value = parseFloat(item.price)
 
     return {
       price: item.price_discounted,

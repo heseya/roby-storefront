@@ -27,10 +27,10 @@
 <script setup lang="ts">
 import { OrderProduct } from '@heseya/store-core'
 const t = useLocalI18n()
-const currency = useCurrency()
 
 defineProps<{
   product: OrderProduct
+  currency: string
 }>()
 </script>
 

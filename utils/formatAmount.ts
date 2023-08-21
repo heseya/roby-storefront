@@ -1,6 +1,6 @@
 const formattersMap = new Map<string, Intl.NumberFormat>()
 
-export const formatAmount = (amount: number, currency: string) => {
+export const formatAmount = (amount: number | string, currency: string) => {
   const formatter =
     formattersMap.get(currency) ||
     new Intl.NumberFormat('pl-PL', {
@@ -11,5 +11,7 @@ export const formatAmount = (amount: number, currency: string) => {
 
   formattersMap.set(currency, formatter)
 
-  return formatter.format(amount ?? 0)
+  const value = typeof amount === 'string' ? parseFloat(amount) : amount
+
+  return formatter.format(value ?? 0)
 }

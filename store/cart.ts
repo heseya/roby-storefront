@@ -63,6 +63,7 @@ export const useCartStore = defineStore('cart', {
     cartDto(): CartDto {
       const checkout = useCheckoutStore()
       const channel = useSalesChannel()
+      const currency = useCurrency()
 
       return {
         items: this.items.map((item) => item.getOrderObject()),
@@ -70,6 +71,7 @@ export const useCartStore = defineStore('cart', {
         shipping_method_id: checkout.shippingMethod?.id,
         digital_shipping_method_id: checkout.digitalShippingMethod?.id,
         sales_channel_id: channel.value?.id || '',
+        currency: currency.value,
       }
     },
 
@@ -121,17 +123,17 @@ export const useCartStore = defineStore('cart', {
             const cartItem = this.items.find((cartItem) => cartItem.id === item.cartitem_id)!
             return cloneDeep(cartItem)
               .updateQuantity(item.quantity)
-              .setPrecalculatedPrices(item.price_discounted, item.price)
+              .setPrecalculatedPrices(parseFloat(item.price_discounted), parseFloat(item.price))
           }),
         )
 
-        this.totalValue = cart.cart_total
-        this.totalValueInitial = cart.cart_total_initial
+        this.totalValue = parseFloat(cart.cart_total)
+        this.totalValueInitial = parseFloat(cart.cart_total_initial)
 
-        this.shippingPrice = cart.shipping_price
+        this.shippingPrice = parseFloat(cart.shipping_price)
         this.shippingTime = cart.shipping_time
         this.shippingDate = cart.shipping_date
-        this.summary = cart.summary
+        this.summary = parseFloat(cart.summary)
 
         // Side effect: fetch the shipping method
         // dispatch('shippingMethods/fetch', state.totalValue, { root: true })
