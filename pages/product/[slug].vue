@@ -178,13 +178,11 @@ const $t = useGlobalI18n()
 
 const { data: product } = useAsyncData(`product-${route.params.slug}`, async () => {
   try {
-    const prod = await heseya.Products.getOneBySlug(route.params.slug as string)
-
-    return prod
+    return await heseya.Products.getOneBySlug(route.params.slug as string)
   } catch (e: any) {
     if (e?.response?.status === 404 || e?.response?.status === 406)
       showError({ message: t('notFoundError'), statusCode: e?.response?.status })
-    else showError({ message: e.statusCode, statusCode: 500 })
+    else showError({ message: e.statusCode, statusCode: e?.response?.status || 500 })
     return null
   }
 })
