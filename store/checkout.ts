@@ -91,7 +91,7 @@ export const useCheckoutStore = defineStore('checkout', {
         !isAddressValid(this.orderShippingPlace)
       )
         return false
-      if (!isAddress(this.orderShippingPlace) && !isAddressValid(this.billingAddress)) return false
+      if (!isAddressValid(this.billingAddress)) return false
       if (this.invoiceRequested && !this.billingAddress.vat) return false
       return true
     },
