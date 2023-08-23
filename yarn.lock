@@ -2225,7 +2225,7 @@
     "@volar/typescript" "~1.10.0"
     "@vue/language-core" "1.8.8"
 
-"@vueuse/core@10.3.0", "@vueuse/core@^10.2.0":
+"@vueuse/core@10.3.0", "@vueuse/core@^10.3.0":
   version "10.3.0"
   resolved "https://registry.yarnpkg.com/@vueuse/core/-/core-10.3.0.tgz#b2dab7821ef206811b925fc935163c38056fd82b"
   integrity sha512-BEM5yxcFKb5btFjTSAFjTu5jmwoW66fyV9uJIP4wUXXU8aR5Hl44gndaaXp7dC5HSObmgbnR2RN+Un1p68Mf5Q==
@@ -2240,7 +2240,7 @@
   resolved "https://registry.yarnpkg.com/@vueuse/metadata/-/metadata-10.3.0.tgz#14fe6cc909573785f73a56e4d9351edf3830b796"
   integrity sha512-Ema3YhNOa4swDsV0V7CEY5JXvK19JI/o1szFO1iWxdFg3vhdFtCtSTP26PCvbUpnUtNHBY2wx5y3WDXND5Pvnw==
 
-"@vueuse/nuxt@^10.2.0":
+"@vueuse/nuxt@^10.3.0":
   version "10.3.0"
   resolved "https://registry.yarnpkg.com/@vueuse/nuxt/-/nuxt-10.3.0.tgz#05470d1e673954c4ea6a7880866058d55b2c0cce"
   integrity sha512-Dmkm9H5Ubq279+FHhlJtlFP99wKrn2apuo4hk/0GbEi/6+zif7MJRtAjDBBV4VjmY6XV3kO8dQR8940FStbxsA==
