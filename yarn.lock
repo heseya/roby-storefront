@@ -810,10 +810,10 @@
   resolved "https://registry.yarnpkg.com/@eslint/js/-/js-8.47.0.tgz#5478fdf443ff8158f9de171c704ae45308696c7d"
   integrity sha512-P6omY1zv5MItm93kLM8s2vr1HICJH8v0dvddDhysbIuZ+vcjOHg5Zbkf1mTkcmi2JA9oBG2anOkRnW8WJTS8Og==
 
-"@heseya/store-core@6.0.0-dev.20":
-  version "6.0.0-dev.20"
-  resolved "https://registry.yarnpkg.com/@heseya/store-core/-/store-core-6.0.0-dev.20.tgz#6a780813d2770360b8667853a7de24ed5ffa46dd"
-  integrity sha512-EKo9ksELy68k8FKbdu6xg4BrSHYns70uKG7cMqwuDcfnU85orJuQpUv4GCgX0Y1UU+3/Ev37wA20t4e0DNjuIg==
+"@heseya/store-core@6.0.0-dev.24":
+  version "6.0.0-dev.24"
+  resolved "https://registry.yarnpkg.com/@heseya/store-core/-/store-core-6.0.0-dev.24.tgz#693b0dfcff68809f41a772c5a3384278e28c05dd"
+  integrity sha512-g/8539zJxOrWsGu0fTMwbGF/nHR2F5Cf0ezaDmL6zLaIRcqrt7Hha7jEDPX1b68lOC3k4Zdz9omvtiZr4KhO9w==
   dependencies:
     "@types/flat" "^5.0.2"
     array-to-tree "^3.3.2"
@@ -2225,7 +2225,7 @@
     "@volar/typescript" "~1.10.0"
     "@vue/language-core" "1.8.8"
 
-"@vueuse/core@10.3.0", "@vueuse/core@^10.2.0":
+"@vueuse/core@10.3.0", "@vueuse/core@^10.3.0":
   version "10.3.0"
   resolved "https://registry.yarnpkg.com/@vueuse/core/-/core-10.3.0.tgz#b2dab7821ef206811b925fc935163c38056fd82b"
   integrity sha512-BEM5yxcFKb5btFjTSAFjTu5jmwoW66fyV9uJIP4wUXXU8aR5Hl44gndaaXp7dC5HSObmgbnR2RN+Un1p68Mf5Q==
@@ -2240,7 +2240,7 @@
   resolved "https://registry.yarnpkg.com/@vueuse/metadata/-/metadata-10.3.0.tgz#14fe6cc909573785f73a56e4d9351edf3830b796"
   integrity sha512-Ema3YhNOa4swDsV0V7CEY5JXvK19JI/o1szFO1iWxdFg3vhdFtCtSTP26PCvbUpnUtNHBY2wx5y3WDXND5Pvnw==
 
-"@vueuse/nuxt@^10.2.0":
+"@vueuse/nuxt@^10.3.0":
   version "10.3.0"
   resolved "https://registry.yarnpkg.com/@vueuse/nuxt/-/nuxt-10.3.0.tgz#05470d1e673954c4ea6a7880866058d55b2c0cce"
   integrity sha512-Dmkm9H5Ubq279+FHhlJtlFP99wKrn2apuo4hk/0GbEi/6+zif7MJRtAjDBBV4VjmY6XV3kO8dQR8940FStbxsA==

@@ -48,6 +48,11 @@ const handleError = () => clearError({ redirect: '/' })
 useSeoMeta({
   title: `${$t('common.error')} ${props.error?.statusCode || 500}`,
 })
+
+onMounted(() => {
+  // eslint-disable-next-line no-console
+  console.error(`Error ${props.error?.statusCode}`, props.error?.message, props.error?.stack)
+})
 </script>
 
 <style lang="scss">
