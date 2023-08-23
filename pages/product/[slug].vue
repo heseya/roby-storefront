@@ -182,7 +182,8 @@ const { data: product } = useAsyncData(`product-${route.params.slug}`, async () 
 
     return prod
   } catch (e: any) {
-    if (e?.response?.status === 404) showError({ message: t('notFoundError'), statusCode: 404 })
+    if (e?.response?.status === 404 || e?.response?.status === 406)
+      showError({ message: t('notFoundError'), statusCode: e?.response?.status })
     else showError({ message: e.statusCode, statusCode: 500 })
     return null
   }
