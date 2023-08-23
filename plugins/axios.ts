@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { enhanceAxiosWithAuthTokenRefreshing } from '@heseya/store-core'
-import { setupCache, buildMemoryStorage } from 'axios-cache-interceptor'
+import { setupCache, buildMemoryStorage, buildKeyGenerator } from 'axios-cache-interceptor'
 
 import { Pinia } from '@pinia/nuxt/dist/runtime/composables'
 
@@ -33,6 +33,12 @@ export default defineNuxtPlugin((nuxt) => {
     // TODO: remove this override when API stop returning `Cache-Control: no-cache`
     headerInterpreter: () => axiosCacheTtl,
     storage: cacheStorage,
+    generateKey: buildKeyGenerator((request) => ({
+      method: request.method,
+      url: request.url,
+      salesChannel: request.headers?.['X-Sales-Channel'],
+      acceptLanguage: request.headers?.['Accept-Language'],
+    })),
   })
 
   // ? --------------------------------------------------------------------------------------------
