@@ -1,6 +1,6 @@
 <template>
-  <div v-show="config.env.top_site_text" class="notification">
-    <span class="notification__title">{{ config.env.top_site_text }}</span>
+  <div v-show="config.topSiteText" class="notification">
+    <span class="notification__title">{{ config.topSiteText }}</span>
     <LayoutIconButton
       v-show="false"
       class="notification__button"
@@ -34,8 +34,8 @@ const config = useConfigStore()
 // const navNotificationBar = useNavNotificationBarStore()
 //
 // watch(
-//   () => config.env.top_site_text,
-//   () => navNotificationBar.setIfNew(config.env.top_site_text as string),
+//   () => config.topSiteText,
+//   () => navNotificationBar.setIfNew(config.topSiteText as string),
 //   { deep: true, immediate: true },
 // )
 </script>

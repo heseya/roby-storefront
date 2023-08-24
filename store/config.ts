@@ -20,6 +20,10 @@ export const useConfigStore = defineStore('config', {
     storeName(): string {
       return this.env.store_name as string
     },
+    topSiteText(): string {
+      const { locale } = useI18n()
+      return this.env[`top_site_text_${locale.value}`]?.toString() || ''
+    },
 
     isTraditionalTransfer(): boolean {
       return this.env.allow_traditional_transfer === '1'
