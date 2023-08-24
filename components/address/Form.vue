@@ -106,12 +106,12 @@
 <script setup lang="ts">
 import { AddressDto } from '@heseya/store-core'
 
-import { useChannelsStore } from '@/store/channels'
+import { useCheckoutStore } from '@/store/checkout'
 import { EMPTY_ADDRESS } from '@/consts/address'
 
 const t = useLocalI18n()
 const heseya = useHeseya()
-const channel = useChannelsStore()
+const checkout = useCheckoutStore()
 
 const props = withDefaults(
   defineProps<{
@@ -142,7 +142,7 @@ const countries = computed(() => {
   // Return all countries
   if (!props.channelCountriesOnly) return allCountries.value ?? []
 
-  return allCountries.value?.filter((c) => channel.isCountryCodeAllowedInChannel(c.code)) ?? []
+  return allCountries.value?.filter((c) => checkout.isCountryCodeAllowedInShipping(c.code)) ?? []
 })
 
 const update = (key: keyof AddressDto, value: string) => {
