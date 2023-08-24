@@ -196,7 +196,8 @@ const { data: navLinks } = useAsyncData<NavLink[]>('nav-pages', async () => {
  * Needs to be manually invoked because of the pinia bug
  */
 onBeforeMount(async () => {
-  await categoriesStore.fetchRootCategories()
+  await Promise.all([channels.fetchChannels(), categoriesStore.fetchRootCategories()])
+  categoriesStore.subcategoriesMap = {}
 })
 </script>
 
