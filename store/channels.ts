@@ -40,7 +40,10 @@ export const useChannelsStore = defineStore('channels', {
     setChannel(channelId?: string) {
       const channelCookie = useStatefulCookie(SALES_CHANNEL_KEY)
 
-      const channel = this.channels.find((c) => c.id === channelId) || this.channels[0]
+      const channel =
+        this.channels.find((c) => c.id === channelId) ||
+        this.channels.find((c) => c.slug === 'pl') ||
+        this.channels[0]
 
       this.selected = channel
       channelCookie.value = channel.id
