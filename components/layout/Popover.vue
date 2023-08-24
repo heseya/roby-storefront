@@ -68,6 +68,8 @@ onClickOutside(target, () => {
 
   &__dropdown {
     width: 160px;
+    max-height: 60vh;
+    overflow: auto;
     position: absolute;
     right: 0px;
     top: 30px;
