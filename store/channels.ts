@@ -13,6 +13,14 @@ export const useChannelsStore = defineStore('channels', {
     currency(state) {
       return state.selected?.default_currency.code || 'PLN'
     },
+
+    /**
+     * Returs first allowed country code to limit quantity of shipping methods
+     * TODO: this should be removed, API should have a ShippingMethod <-> SalesChannel relation
+     */
+    countryCode(state) {
+      return state.selected?.countries_block_list ? 'CG' : state.selected?.countries[0]
+    },
   },
 
   actions: {
@@ -20,7 +28,7 @@ export const useChannelsStore = defineStore('channels', {
       try {
         const heseya = useHeseya()
 
-        const { data: channels } = await heseya.SalesChannels.get()
+        const { data: channels } = await heseya.SalesChannels.get({ lang_fallback: 'any' })
 
         this.channels = channels
       } catch (e) {
@@ -36,12 +44,6 @@ export const useChannelsStore = defineStore('channels', {
 
       this.selected = channel
       channelCookie.value = channel.id
-    },
-
-    isCountryCodeAllowedInChannel(countryCode: string) {
-      if (!this.selected) return true
-      const isIncludedInList = this.selected.countries.includes(countryCode)
-      return this.selected.countries_block_list ? !isIncludedInList : isIncludedInList
     },
   },
 

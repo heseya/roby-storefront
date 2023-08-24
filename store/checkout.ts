@@ -119,6 +119,12 @@ export const useCheckoutStore = defineStore('checkout', {
       this.digitalShippingMethod = digitalShippingMethods[0]
     },
 
+    isCountryCodeAllowedInShipping(countryCode: string) {
+      if (!this.shippingMethod) return true
+      const isIncludedInList = !!this.shippingMethod.countries.find((c) => c.code === countryCode)
+      return this.shippingMethod.block_list ? !isIncludedInList : isIncludedInList
+    },
+
     async createOrder() {
       const cart = useCartStore()
       const heseya = useHeseya()

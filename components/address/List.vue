@@ -56,7 +56,7 @@
 
 <script setup lang="ts">
 import { UserSavedAddress } from '@heseya/store-core'
-import { useChannelsStore } from '@/store/channels'
+import { useCheckoutStore } from '@/store/checkout'
 
 const t = useLocalI18n()
 
@@ -65,7 +65,7 @@ const props = defineProps<{
   type: 'billing' | 'shipping'
 }>()
 
-const channel = useChannelsStore()
+const checkout = useCheckoutStore()
 
 const emit = defineEmits<{
   (e: 'update:value', value: UserSavedAddress | null): void
@@ -75,7 +75,7 @@ const { addresses } = useUserAddreses(props.type)
 
 const allowedAddresses = computed(() => {
   return (
-    addresses.value?.filter((c) => channel.isCountryCodeAllowedInChannel(c.address.country)) ?? []
+    addresses.value?.filter((c) => checkout.isCountryCodeAllowedInShipping(c.address.country)) ?? []
   ).map((a) => a.id)
 })
 

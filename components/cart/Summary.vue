@@ -80,6 +80,7 @@ import { ShippingType, parsePrices } from '@heseya/store-core'
 import { useCartStore } from '@/store/cart'
 import { useAuthStore } from '@/store/auth'
 import { useConfigStore } from '@/store/config'
+import { useChannelsStore } from '@/store/channels'
 
 withDefaults(
   defineProps<{
@@ -98,11 +99,13 @@ const auth = useAuthStore()
 const heseya = useHeseya()
 const localePath = useLocalePath()
 const currency = useCurrency()
+const channel = useChannelsStore()
 
 const { data: cheapestShippingMethodPrice, refresh: refreshCheapestShippingMethodPrice } =
   useLazyAsyncData(`shippingMethodPrice`, async () => {
     const { data } = await heseya.ShippingMethods.get({
       cart_value: { value: cart.totalValue, currency: currency.value },
+      country: channel.countryCode,
     })
 
     const filteredData = data.filter((m) => !m.metadata?.paczkomat || cart.allowPaczkomatDelivery)

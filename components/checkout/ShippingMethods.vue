@@ -71,6 +71,7 @@ import {
 } from '@heseya/store-core'
 import { useCartStore } from '@/store/cart'
 import { useCheckoutStore } from '@/store/checkout'
+import { useChannelsStore } from '@/store/channels'
 
 const t = useLocalI18n()
 const $t = useGlobalI18n()
@@ -79,12 +80,14 @@ const cart = useCartStore()
 const checkout = useCheckoutStore()
 const ev = useHeseyaEventBus()
 const currency = useCurrency()
+const channel = useChannelsStore()
 
 const { data: shippingMethods } = useLazyAsyncData(
   `shipping-methods-for-value`,
   async () => {
     const methods = await heseya.ShippingMethods.get({
       cart_value: { value: cart.totalValue, currency: currency.value },
+      country: channel.countryCode,
     })
     return methods.data.filter((m) => m.shipping_type !== ShippingType.Digital)
   },
