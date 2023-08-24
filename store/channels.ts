@@ -19,7 +19,7 @@ export const useChannelsStore = defineStore('channels', {
      * TODO: this should be removed, API should have a ShippingMethod <-> SalesChannel relation
      */
     countryCode(state) {
-      return state.selected?.countries_block_list ? 'AD' : state.selected?.countries[0]
+      return state.selected?.countries_block_list ? 'CG' : state.selected?.countries[0]
     },
   },
 
