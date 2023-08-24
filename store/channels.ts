@@ -28,7 +28,7 @@ export const useChannelsStore = defineStore('channels', {
       try {
         const heseya = useHeseya()
 
-        const { data: channels } = await heseya.SalesChannels.get()
+        const { data: channels } = await heseya.SalesChannels.get({ lang_fallback: 'any' })
 
         this.channels = channels
       } catch (e) {
