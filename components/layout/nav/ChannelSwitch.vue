@@ -6,7 +6,9 @@
     class="channel-switch__menu"
     @update:value="setChannel"
   >
-    <template #option="item"> Region: {{ item.value.name }} </template>
+    <template #option="item">
+      {{ selected === item.value ? 'Region:' : '' }} {{ item.value.name }}
+    </template>
   </LayoutPopover>
 </template>
 
