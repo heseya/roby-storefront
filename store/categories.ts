@@ -52,10 +52,10 @@ export const useCategoriesStore = defineStore('categories', {
       await Promise.all(this.categories.map((category) => this.getSubcategories(category.id)))
     },
 
-    async getSubcategories(parentId: string) {
+    async getSubcategories(parentId: string, force = false) {
       const heseya = useHeseya()
 
-      if (!this.subcategoriesMap[parentId]) {
+      if (!this.subcategoriesMap[parentId] || force) {
         const { data, pagination } = await heseya.ProductSets.get({
           parent_id: parentId,
           limit: 50,
