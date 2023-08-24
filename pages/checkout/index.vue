@@ -224,6 +224,8 @@ onMounted(() => {
   const ev = useHeseyaEventBus()
   const cart = useCartStore()
   ev.emit(HeseyaEvent.InitiateCheckout, cart.items as CartItem[])
+
+  registerForm.values.email = checkout.email
 })
 
 watch(
