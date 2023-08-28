@@ -44,6 +44,7 @@ export default {
   },
 
   orders: {
+    summary: 'Podsumowanie zamówienia',
     title: 'Zamówienia',
     details: 'Szczegóły Zamówienia',
     status: 'Status',

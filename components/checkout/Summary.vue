@@ -1,5 +1,5 @@
 <template>
-  <CheckoutPageArea :title="$t('account.myData')" :placeholder-height="300">
+  <CheckoutPageArea :title="$t('orders.summary')" :placeholder-height="300">
     <div class="checkout-summary">
       <div v-for="item in cart.items" :key="item.id" class="checkout-summary-item">
         <span class="checkout-summary-item__text">

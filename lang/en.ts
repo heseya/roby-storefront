@@ -44,6 +44,7 @@ export default {
   },
 
   orders: {
+    summary: 'Order summary',
     title: 'Orders',
     details: 'Order details',
     status: 'Status',
