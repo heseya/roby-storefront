@@ -239,7 +239,10 @@ onMounted(() => {
   )
 })
 
-useSeo(() => [product.value?.seo, { title: product.value?.name }])
+useSeo(() => [
+  product.value?.seo,
+  { title: product.value?.name, og_image: product.value?.cover || undefined },
+])
 
 useProductJsonLd(product)
 </script>
