@@ -55,6 +55,7 @@ export default {
   offers: {
     renting: 'Zapytaj o wynajem',
     pricing: 'Zapytaj o cenę',
+    unavailable: 'Produkt niedostępny',
   },
 
   cart: {

@@ -55,6 +55,7 @@ export default {
   offers: {
     renting: 'Ask for rental',
     pricing: 'Ask for price',
+    unavailable: 'Product unavailable',
   },
 
   cart: {

@@ -33,9 +33,9 @@
       <span class="product-miniature__subtext">
         {{ getProductSubtext(product, config.productSubtextAttr) }}
       </span>
-      <ProductPrice v-if="showPrice" class="product-miniature__price" :product="product" />
+      <ProductPrice v-if="!hidePrice" class="product-miniature__price" :product="product" />
       <LayoutButton v-else class="product-miniature__btn">
-        {{ $t('offers.pricing') }}
+        {{ askForPrice ? $t('offers.pricing') : $t('offers.unavailable') }}
       </LayoutButton>
 
       <ProductFavouriteButton class="product-miniature__wishlist-btn" :product="product" />
@@ -60,7 +60,9 @@ const props = defineProps<{
   forceSize?: boolean
 }>()
 
-const showPrice = computed(() => !props.product?.metadata?.[ASK_FOR_PRICE_KEY])
+const askForPrice = computed(() => props.product?.metadata?.[ASK_FOR_PRICE_KEY])
+
+const hidePrice = computed(() => askForPrice.value || !props.product.available)
 </script>
 
 <style lang="scss" scoped>
