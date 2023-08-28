@@ -30,7 +30,7 @@ export const useChannelsStore = defineStore('channels', {
 
         const { data: channels } = await heseya.SalesChannels.get({ lang_fallback: 'any' })
 
-        this.channels = channels
+        this.channels = channels.sort((a, b) => a.name.localeCompare(b.name))
       } catch (e) {
         // eslint-disable-next-line no-console
         console.error('[CHANNELS] Failed to fetch SalesChannels', e)
