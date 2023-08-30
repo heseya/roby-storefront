@@ -14,22 +14,24 @@
       </span>
     </template>
 
-    <NuxtLink
-      v-for="cat in subcategories || []"
-      :key="cat.id"
-      class="subcategories-list__link"
-      :class="{
-        'subcategories-list__link--intended': isParent,
-      }"
-      :to="localePath(`/category/${cat.slug}`)"
-    >
-      {{ cat.name }}
-    </NuxtLink>
+    <div ref="containerRef" class="subcategories-list__list">
+      <NuxtLink
+        v-for="cat in subcategories || []"
+        :key="cat.id"
+        class="subcategories-list__link"
+        :class="{
+          'subcategories-list__link--intended': isParent,
+        }"
+        :to="localePath(`/category/${cat.slug}`)"
+      >
+        {{ cat.name }}
+      </NuxtLink>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ProductSet } from '@heseya/store-core'
+import { HeseyaPaginationMeta, ProductSet, ProductSetList } from '@heseya/store-core'
 import ChevronIcon from '@/assets/icons/chevron.svg?component'
 
 const props = defineProps<{
@@ -38,22 +40,50 @@ const props = defineProps<{
 const heseya = useHeseya()
 const localePath = useLocalePath()
 
+const containerRef = ref()
+const subcategories = ref<ProductSetList[]>([])
+const pagination = ref<HeseyaPaginationMeta>({ currentPage: 0, lastPage: 0, perPage: 0, total: 0 })
+const loadedPages = ref<number[]>([])
+
 const isParent = computed(() => !!props.category?.parent)
 
-const { data: subcategories, refresh } = useLazyAsyncData(
-  `subcategories-${props.category.id}`,
-  async () => {
-    const { data } = await heseya.ProductSets.get({
-      parent_id: props.category.id,
-    })
-    return data
-  },
-)
+const loadSubcategories = async (page: number) => {
+  if (loadedPages.value.includes(page)) return
+  loadedPages.value = [...loadedPages.value, page]
+
+  const { data, pagination: p } = await heseya.ProductSets.get({
+    parent_id: props.category.id,
+    page,
+    limit: 20,
+  })
+
+  pagination.value = p
+  subcategories.value = [...subcategories.value, ...data]
+}
 
 watch(
   () => props.category,
-  () => refresh(),
+  () => {
+    subcategories.value = []
+    loadedPages.value = []
+    loadSubcategories(1)
+  },
 )
+
+onBeforeMount(() => {
+  loadSubcategories(1)
+})
+
+onMounted(() => {
+  useInfiniteScroll(
+    containerRef,
+    () => {
+      if (pagination.value.currentPage < pagination.value.lastPage)
+        loadSubcategories(pagination.value.currentPage + 1)
+    },
+    { distance: 10 },
+  )
+})
 </script>
 
 <style lang="scss" scoped>
@@ -63,8 +93,10 @@ watch(
   font-size: rem(14);
   line-height: rem(19);
 
-  > *:not(:last-child) {
-    margin-bottom: 10px;
+  &__list {
+    @include styled-scrollbar;
+    max-height: 400px;
+    overflow: auto;
   }
 
   &__icon {
@@ -78,6 +110,10 @@ watch(
     color: $text-color;
     text-decoration: none;
 
+    &:not(:last-child) {
+      margin-bottom: 6px;
+    }
+
     &--intended {
       margin-left: 20px;
     }
@@ -89,6 +125,10 @@ watch(
 
   &__text {
     font-weight: 600;
+
+    &:not(:last-child) {
+      margin-bottom: 6px;
+    }
   }
 }
 </style>
