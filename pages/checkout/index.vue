@@ -4,6 +4,11 @@
       <LayoutLoading :active="isLoading" />
 
       <section class="checkout-page__section">
+        <CheckoutPageArea v-if="channels.channels.length" :title="t('salesChannel')">
+          <p class="checkout-page__channel-info">{{ t('salesChannelText') }}</p>
+          <LayoutNavChannelSwitch mode="select" />
+        </CheckoutPageArea>
+
         <form>
           <CheckoutPersonalData v-model:email="registerForm.values.email">
             <FormCheckbox
@@ -55,11 +60,15 @@
 {
   "pl": {
     "title": "Podsumowanie zamówienia",
-    "question": "Chce założyć konto"
+    "question": "Chce założyć konto",
+    "salesChannel": "Kanał sprzedaży",
+    "salesChannelText": "Upewnij się, że wybrałeś prawidłowy kanał sprzedaży. Z niektórych kanałów sprzedaży nie będziesz wstanie wysłać zamówienia na wybrany przez siebie adres."
   },
   "en": {
     "title": "Order summary",
-    "question": "I want to create account"
+    "question": "I want to create account",
+    "salesChannel": "Sales channel",
+    "salesChannelText": "Make sure you have selected the correct sales channel. From some sales channels you will not be able to send the order to the address you have chosen."
   }
 }
 </i18n>
@@ -73,9 +82,10 @@ import { CreateUserForm } from '~/components/auth/RegisterForm.vue'
 
 import { TRADITIONAL_PAYMENT_KEY } from '~/consts/traditionalPayment'
 
-import { useCartStore } from '~/store/cart'
-import { useAuthStore } from '~/store/auth'
-import { useCheckoutStore } from '~/store/checkout'
+import { useCartStore } from '@/store/cart'
+import { useAuthStore } from '@/store/auth'
+import { useCheckoutStore } from '@/store/checkout'
+import { useChannelsStore } from '@/store/channels'
 
 const t = useLocalI18n()
 const $t = useGlobalI18n()
@@ -83,6 +93,7 @@ const formatError = useErrorMessage()
 const { notify } = useNotify()
 
 const checkout = useCheckoutStore()
+const channels = useChannelsStore()
 const user = useUser()
 const isLogged = useIsLogged()
 const heseya = useHeseya()
@@ -268,6 +279,13 @@ useHead({
 
   &__checkbox {
     margin-top: 30px;
+  }
+
+  &__channel-info {
+    margin-bottom: 16px;
+    padding: 4px;
+    border: solid 1px var(--warning-color);
+    color: var(--warning-color);
   }
 }
 </style>

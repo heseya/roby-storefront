@@ -145,6 +145,19 @@ const countries = computed(() => {
   return allCountries.value?.filter((c) => checkout.isCountryCodeAllowedInShipping(c.code)) ?? []
 })
 
+watch(
+  [() => props.address.country, countries],
+  () => {
+    /**
+     * Change country to first available if current is not available in selected sales channel
+     */
+    if (countries.value.length && !countries.value.find((c) => c.code === props.address.country)) {
+      emit('update:address', { ...props.address, country: countries.value[0].code })
+    }
+  },
+  { immediate: true },
+)
+
 const update = (key: keyof AddressDto, value: string) => {
   emit('update:address', { ...props.address, [key]: value })
 }

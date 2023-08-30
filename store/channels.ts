@@ -1,4 +1,4 @@
-import { SalesChannel } from '@heseya/store-core'
+import { SalesChannel, SalesChannelStatus } from '@heseya/store-core'
 import { defineStore } from 'pinia'
 
 import { SALES_CHANNEL_KEY } from '@/consts/cookiesKeys'
@@ -30,7 +30,9 @@ export const useChannelsStore = defineStore('channels', {
 
         const { data: channels } = await heseya.SalesChannels.get({ lang_fallback: 'any' })
 
-        this.channels = channels.sort((a, b) => a.name.localeCompare(b.name))
+        this.channels = channels
+          .filter((c) => c.status === SalesChannelStatus.Active)
+          .sort((a, b) => a.name.localeCompare(b.name))
       } catch (e) {
         // eslint-disable-next-line no-console
         console.error('[CHANNELS] Failed to fetch SalesChannels', e)

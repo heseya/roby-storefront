@@ -1,6 +1,6 @@
 <template>
   <LayoutPopover
-    v-show="channelsList.length > 1"
+    v-show="channelsList.length > 1 && mode === 'popover'"
     :value="selected"
     :options="channelsList"
     class="channel-switch__menu"
@@ -10,19 +10,35 @@
       {{ selected === item.value ? 'Region:' : '' }} {{ item.value.name }}
     </template>
   </LayoutPopover>
+
+  <FormSelect
+    v-show="channelsList.length > 1 && mode === 'select'"
+    :model-value="selected.key"
+    class="channel-switch__menu"
+    name="sales_channel"
+    @update:model-value="(key) => setChannel({ key: key?.toString() || '' })"
+  >
+    <option v-for="item in channelsList" :key="item.key" :value="item.key">
+      {{ item.name }}
+    </option>
+  </FormSelect>
 </template>
 
 <script lang="ts" setup>
-import { SalesChannelStatus } from '@heseya/store-core'
 import { useChannelsStore } from '@/store/channels'
+
+withDefaults(
+  defineProps<{
+    mode: 'select' | 'popover'
+  }>(),
+  {
+    mode: 'popover',
+  },
+)
 
 const channels = useChannelsStore()
 
-const channelsList = computed(() =>
-  channels.channels
-    .filter((c) => c.status === SalesChannelStatus.Active)
-    .map((c) => ({ key: c.id, name: c.name })),
-)
+const channelsList = computed(() => channels.channels.map((c) => ({ key: c.id, name: c.name })))
 
 const selected = computed(() => ({
   key: channels.selected?.id || '',
