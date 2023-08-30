@@ -41,38 +41,38 @@ const heseya = useHeseya()
 const localePath = useLocalePath()
 
 const containerRef = ref()
-const loadedCategories = ref<ProductSetList[]>([])
+const subcategories = ref<ProductSetList[]>([])
 const pagination = ref<HeseyaPaginationMeta>({ currentPage: 0, lastPage: 0, perPage: 0, total: 0 })
+const loadedPages = ref<number[]>([])
 
 const isParent = computed(() => !!props.category?.parent)
 
 const loadSubcategories = async (page: number) => {
+  if (loadedPages.value.includes(page)) return
+  loadedPages.value = [...loadedPages.value, page]
+
   const { data, pagination: p } = await heseya.ProductSets.get({
     parent_id: props.category.id,
     page,
     limit: 20,
   })
+
   pagination.value = p
-  /**
-   * This is due to the hydration error
-   */
-  if (!process.server) loadedCategories.value = [...loadedCategories.value, ...data]
-  return data
+  subcategories.value = [...subcategories.value, ...data]
 }
-
-const { data: asyncCategories } = useAsyncData(() => loadSubcategories(1))
-
-const subcategories = computed(() =>
-  loadedCategories.value?.length ? loadedCategories.value : asyncCategories.value,
-)
 
 watch(
   () => props.category,
   () => {
-    loadedCategories.value = []
+    subcategories.value = []
+    loadedPages.value = []
     loadSubcategories(1)
   },
 )
+
+onBeforeMount(() => {
+  loadSubcategories(1)
+})
 
 onMounted(() => {
   useInfiniteScroll(
