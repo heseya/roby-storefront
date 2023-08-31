@@ -1,5 +1,7 @@
 # Roby Storefront Web template
 
+![Requires Heseya v5.1](https://img.shields.io/badge/Requires_Heseya-v5.1-8f022c)
+
 ## IDE
 
 Recommended IDE Plugin: [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
