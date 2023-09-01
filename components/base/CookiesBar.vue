@@ -30,10 +30,12 @@
 </i18n>
 
 <script setup lang="ts">
+import { COOKIE_ACCEPTED_KEY } from '@/consts/cookiesKeys'
+
 const manuallyHidden = ref<boolean>(false)
 const t = useLocalI18n()
 
-const cookie = useCookie<number>('COOKIE_ACCEPTED_KEY', {
+const cookie = useCookie<number>(COOKIE_ACCEPTED_KEY, {
   maxAge: 365 * 24 * 60 * 60,
   path: '/',
 })
