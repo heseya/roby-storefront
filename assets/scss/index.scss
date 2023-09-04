@@ -42,6 +42,15 @@ select {
   font-family: $textFont;
 }
 
+// Callpage plugin
+#callpageWrapper #callpage {
+  .cp-button-section,
+  &.cp-callpage--widget-callback .cp-callpage__bg,
+  &.cp-callpage--widget-callback .cp-callpage__widget-wrapper {
+    z-index: 10000 !important;
+  }
+}
+
 // Hide global reCaptcha badge
 .grecaptcha-badge {
   visibility: hidden;
