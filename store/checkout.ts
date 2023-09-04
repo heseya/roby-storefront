@@ -78,12 +78,19 @@ export const useCheckoutStore = defineStore('checkout', {
       return isAddressValid(this.shippingAddress)
     },
 
+    requirePaymentMethod(): boolean {
+      /**
+       * If selected shipping method has payment on delivery, then payment method is not required
+       */
+      return !this.shippingMethod?.payment_on_delivery ?? true
+    },
+
     isValid(): boolean {
       if (!this.email) return false
 
       // TODO: not all orders requires phisical shipping method
       if (!this.shippingMethod) return false
-      if (!this.paymentMethodId) return false
+      if (this.requirePaymentMethod && !this.paymentMethodId) return false
       if (this.shippingMethod && !this.orderShippingPlace) return false
       if (
         this.shippingMethod &&

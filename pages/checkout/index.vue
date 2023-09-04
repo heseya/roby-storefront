@@ -162,8 +162,7 @@ const saveUserAddresses = async () => {
 
 const createOrder = async () => {
   try {
-    // paymentMethodId must exist at this point, it is validated before
-    const paymentId = checkout.paymentMethodId!
+    const paymentId = checkout.paymentMethodId
 
     const order = await checkout.createOrder()
 
@@ -175,10 +174,13 @@ const createOrder = async () => {
       navigateTo(
         localePath(`/checkout/thank-you?code=${order.code}&payment=${TRADITIONAL_PAYMENT_KEY}`),
       )
-    } else {
+    } else if (paymentId) {
       const paymentUrl = await checkout.createOrderPayment(order.code, paymentId)
       checkout.reset()
       window.location.href = paymentUrl
+    } else {
+      checkout.reset()
+      navigateTo(localePath(`/checkout/thank-you?code=${order.code}`))
     }
   } catch (e: any) {
     const error = formatError(e)
