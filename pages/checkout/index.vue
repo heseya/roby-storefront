@@ -4,7 +4,7 @@
       <LayoutLoading :active="isLoading" />
 
       <section class="checkout-page__section">
-        <CheckoutPageArea v-if="channels.channels.length" :title="t('salesChannel')">
+        <CheckoutPageArea v-if="channels.channels.length > 1" :title="t('salesChannel')">
           <p class="checkout-page__channel-info">{{ t('salesChannelText') }}</p>
           <LayoutNavChannelSwitch mode="select" />
         </CheckoutPageArea>
