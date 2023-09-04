@@ -2,12 +2,25 @@
   <div
     v-if="isCookiesBarVisible"
     class="cookies-bar"
-    :class="{ 'cookies-bar--hidden': manuallyHidden }"
+    :class="{ 'cookies-bar--hidden': !isCookiesBarVisible }"
   >
-    <p class="cookies-bar__text">
-      {{ t('content_line1') }} <br />
-      {{ t('content_line2') }}
-    </p>
+    <div class="cookies-bar__content">
+      <p class="cookies-bar__text">
+        {{ t('content_line1') }} <br />
+        {{ t('content_line2') }}
+      </p>
+
+      <div class="cookies-bar__checkboxes">
+        <FormCheckbox name="cookies-required" model-value disabled>Wymagane</FormCheckbox>
+        <FormCheckbox v-model="optInForm.marketing" name="cookies-marketing">
+          Marketing
+        </FormCheckbox>
+        <FormCheckbox v-model="optInForm.analytics" name="cookies-analytics">
+          Analityczne
+        </FormCheckbox>
+      </div>
+    </div>
+
     <LayoutButton class="cookies-bar__btn" type="white" @click="acceptCookies">
       {{ t('accept') }}
     </LayoutButton>
@@ -30,21 +43,31 @@
 </i18n>
 
 <script setup lang="ts">
+import { CookieOptions } from 'nuxt/app'
 import { COOKIE_ACCEPTED_KEY } from '@/consts/cookiesKeys'
 
-const manuallyHidden = ref<boolean>(false)
 const t = useLocalI18n()
 
-const cookie = useCookie<number>(COOKIE_ACCEPTED_KEY, {
-  maxAge: 365 * 24 * 60 * 60,
-  path: '/',
+const optInForm = reactive({
+  marketing: true,
+  analytics: true,
 })
 
-const isCookiesBarVisible = computed(() => cookie.value !== 1)
+const COOKIES_CONFIG: CookieOptions = {
+  maxAge: 365 * 24 * 60 * 60,
+  path: '/',
+} as const
+
+const primaryCookie = useStatefulCookie<number>(COOKIE_ACCEPTED_KEY, COOKIES_CONFIG)
+const marketingCookie = useStatefulCookie<number>(COOKIE_ACCEPTED_KEY, COOKIES_CONFIG)
+const analyticsCookie = useStatefulCookie<number>(COOKIE_ACCEPTED_KEY, COOKIES_CONFIG)
+
+const isCookiesBarVisible = computed(() => primaryCookie.value !== 1)
 
 const acceptCookies = () => {
-  manuallyHidden.value = true
-  cookie.value = 1
+  primaryCookie.value = 1
+  marketingCookie.value = optInForm.marketing ? 1 : 0
+  analyticsCookie.value = optInForm.analytics ? 1 : 0
 }
 </script>
 
@@ -81,6 +104,12 @@ const acceptCookies = () => {
     @media ($viewport-5) {
       margin-right: 12px;
     }
+  }
+
+  &__checkboxes {
+    color: #fff;
+    display: flex;
+    gap: 32px;
   }
 
   &__btn {
