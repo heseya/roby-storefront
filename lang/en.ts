@@ -25,6 +25,7 @@ export default {
     payment: 'Payment',
     paid: 'Paid',
     unpaid: 'Unpaid',
+    paymentOnDelivery: 'On delivery',
     confirmAndPay: 'Buy and pay',
     traditionalTransfer: 'Bank transfer',
     payForOrder: 'Pay for order',

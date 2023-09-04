@@ -28,13 +28,6 @@
             <div>{{ paymentStatus.status.text }}</div>
           </div>
         </div>
-        <div class="account-order-view__text">
-          {{
-            paymentStatus?.method === 'offline'
-              ? $t('payments.traditionalTransfer')
-              : paymentStatus?.method
-          }}
-        </div>
         <NuxtLink :to="localePath(`/pay/${order.code}`)">
           <LayoutButton
             v-if="order.payable"
@@ -52,12 +45,10 @@
 <i18n lang="json">
 {
   "pl": {
-    "pending": "W trakcie",
     "goToPayment": "Przejdź do płatności"
   },
   "en": {
-    "pending": "Pending",
-    "goToPayment": "Payment"
+    "goToPayment": "Go to payment"
   }
 }
 </i18n>
@@ -76,45 +67,35 @@ const props = defineProps<{
 }>()
 
 const paymentStatus = computed(() => {
-  const { payments } = props.order
+  const { paid, shipping_method: shippingMethod } = props.order
 
-  const successfulPayment = payments.find((p) => p.status === PaymentStatus.Successful)
-  const pendingPayment = payments.find((p) => p.status === PaymentStatus.Pending)
-  const failedPayment = payments.find((p) => p.status === PaymentStatus.Failed)
+  if (paid)
+    return {
+      icon: Successful,
+      class: 'account-order-view__payment-status--successful',
+      status: {
+        text: $t('payments.paid'),
+        value: PaymentStatus.Successful,
+      },
+    }
 
-  const payment = successfulPayment || pendingPayment || failedPayment
+  if (shippingMethod?.payment_on_delivery)
+    return {
+      icon: Pending,
+      class: 'account-order-view__payment-status--pending',
+      status: {
+        text: t('payments.paymentOnDelivery'),
+        value: PaymentStatus.Pending,
+      },
+    }
 
-  switch (payment?.status) {
-    case PaymentStatus.Successful:
-      return {
-        icon: Successful,
-        class: 'account-order-view__payment-status--successful',
-        status: {
-          text: $t('payments.paid'),
-          value: PaymentStatus.Successful,
-        },
-        method: payment.method,
-      }
-    case PaymentStatus.Pending:
-      return {
-        icon: Pending,
-        class: 'account-order-view__payment-status--pending',
-        status: {
-          text: t('pending'),
-          value: PaymentStatus.Pending,
-        },
-        method: payment.method,
-      }
-    default:
-      return {
-        icon: Failed,
-        class: 'account-order-view__payment-status--failed',
-        status: {
-          text: $t('payments.unpaid'),
-          value: PaymentStatus.Failed,
-        },
-        method: payment?.method || '',
-      }
+  return {
+    icon: Failed,
+    class: 'account-order-view__payment-status--failed',
+    status: {
+      text: $t('payments.unpaid'),
+      value: PaymentStatus.Failed,
+    },
   }
 })
 </script>

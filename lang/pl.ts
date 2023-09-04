@@ -25,6 +25,7 @@ export default {
     payment: 'Płatność',
     paid: 'Opłacono',
     unpaid: 'Nie opłacono',
+    paymentOnDelivery: 'Za pobraniem',
     confirmAndPay: 'Potwierdzam i płacę',
     traditionalTransfer: 'Przelew tradycyjny',
     payForOrder: 'Opłać zamówienie',

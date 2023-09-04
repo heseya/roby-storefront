@@ -18,6 +18,12 @@
         <b v-if="order?.paid" class="status-page__field-value green-text">
           {{ $t('payments.paid') }}
         </b>
+        <b
+          v-else-if="order?.shipping_method?.payment_on_delivery"
+          class="status-page__field-value warning-text"
+        >
+          {{ $t('payments.paymentOnDelivery') }}
+        </b>
         <b v-else class="status-page__field-value error-text"> {{ $t('payments.unpaid') }} </b>
       </div>
       <div class="status-page__field">
