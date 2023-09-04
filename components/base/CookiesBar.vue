@@ -51,7 +51,7 @@ const acceptCookies = () => {
   width: 90vw;
   max-width: $container-width;
   position: fixed;
-  z-index: 100000;
+  z-index: 2147483647;
   bottom: 32px;
   left: 50%;
   transform: translateX(-50%);
