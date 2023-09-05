@@ -2,8 +2,8 @@ import { HeseyaEvent, parsePrices } from '@heseya/store-core'
 import VueGtag, { trackRouter, isTracking, useGtag } from 'vue-gtag-next'
 import { Pinia } from '@pinia/nuxt/dist/runtime/composables'
 
-import { mapCartItemToItem, mapProductToItem } from '~/utils/google'
-import { useChannelsStore } from 'store/channels'
+import { mapCartItemToItem, mapProductToItem } from '@/utils/google'
+import { useChannelsStore } from '@/store/channels'
 
 export default defineNuxtPlugin((nuxtApp) => {
   const { googleTagManagerId, isProduction, appHost } = usePublicRuntimeConfig()
