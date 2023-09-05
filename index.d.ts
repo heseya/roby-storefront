@@ -3,4 +3,5 @@ interface Window {
   easyPack: any
   easyPackAsyncInit: any
   ceneo: any
+  _edrone: any
 }

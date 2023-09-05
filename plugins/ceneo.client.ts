@@ -1,4 +1,4 @@
-import { createHeseyaEventBusService, HeseyaEvent } from '@heseya/store-core'
+import { HeseyaEvent } from '@heseya/store-core'
 
 export default defineNuxtPlugin(() => {
   const { ceneoGuid } = usePublicRuntimeConfig()
@@ -14,7 +14,8 @@ export default defineNuxtPlugin(() => {
     ],
   })
 
-  const bus = createHeseyaEventBusService()
+  const bus = useHeseyaEventBus()
+
   bus.on(HeseyaEvent.Purchase, ({ order, items, email }) => {
     window.ceneo('transaction', {
       client_email: email,

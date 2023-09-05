@@ -1,5 +1,5 @@
 import { useGtag, isTracking } from 'vue-gtag-next'
-import { createHeseyaEventBusService, HeseyaEvent, parsePrices } from '@heseya/store-core'
+import { HeseyaEvent, parsePrices } from '@heseya/store-core'
 import { Pinia } from '@pinia/nuxt/dist/runtime/composables'
 
 import { useChannelsStore } from '@/store/channels'
@@ -8,7 +8,7 @@ import { mapCartItemToItem, mapProductToItem } from '~/utils/google'
 export default defineNuxtPlugin((nuxt) => {
   const { event: gTagEvent } = useGtag()
   const channelStore = useChannelsStore(nuxt.$pinia as Pinia)
-  const bus = createHeseyaEventBusService()
+  const bus = useHeseyaEventBus()
 
   bus.on(HeseyaEvent.ViewProduct, (product) => {
     if (!isTracking.value) return
@@ -121,10 +121,4 @@ export default defineNuxtPlugin((nuxt) => {
       ecommerce: { items: items.map(mapCartItemToItem) },
     })
   })
-
-  return {
-    provide: {
-      ev: bus,
-    },
-  }
 })
