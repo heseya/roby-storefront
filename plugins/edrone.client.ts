@@ -26,7 +26,7 @@ export default defineNuxtPlugin(() => {
     ],
   })
 
-  const emitEdroneEvent = (event: string, payload: Record<string, string>) => {
+  const emitEdroneEvent = (event: string, payload: Record<string, string | number>) => {
     if (!window._edrone) return
 
     Object.entries(payload).forEach(([key, value]) => {
@@ -38,23 +38,67 @@ export default defineNuxtPlugin(() => {
 
   const bus = useHeseyaEventBus()
 
+  /**
+   * https://docs.edrone.me/sending-data-client.html#product-view
+   */
   bus.on(HeseyaEvent.ViewProduct, (product) => {
-    // @ts-ignore TODO: fix this
-    emitEdroneEvent('product_view', { ...product })
+    emitEdroneEvent('product_view', {
+      product_skus: '', // TODO: add sku
+      product_ids: product.id,
+      product_titles: product.name,
+      product_images: product.gallery.map((image) => image.url).join('|'),
+      product_urls: `${config.appHost}/product/${product.slug}}`,
+      product_availability: product.available ? 1 : 0,
+      product_category_ids: product.sets.map((set) => set.id).join('|'),
+      product_category_names: product.sets.map((set) => set.name).join('|'),
+    })
   })
 
-  bus.on(HeseyaEvent.ViewProductList, ({ set, items }) => {
-    // @ts-ignore TODO: fix this
-    emitEdroneEvent('category_view', { ...set, ...items })
+  /**
+   * https://docs.edrone.me/sending-data-client.html#category-view
+   */
+  bus.on(HeseyaEvent.ViewProductList, ({ set }) => {
+    if (set && set.id && set.name)
+      emitEdroneEvent('category_view', {
+        product_category_ids: set.id,
+        product_category_names: set.name,
+      })
   })
 
-  bus.on(HeseyaEvent.AddToCart, (item) => {
-    // @ts-ignore TODO: fix this
-    emitEdroneEvent('add_to_cart', { ...item })
+  /**
+   * https://docs.edrone.me/sending-data-client.html#add-to-cart
+   */
+  bus.on(HeseyaEvent.AddToCart, (_item) => {
+    emitEdroneEvent('add_to_cart', {})
   })
 
+  /**
+   * https://docs.edrone.me/sending-data-client.html#order
+   */
   bus.on(HeseyaEvent.Purchase, ({ order, items, email }) => {
     // @ts-ignore TODO: fix this
-    emitEdroneEvent('order', { order, items, email })
+    emitEdroneEvent('order', {
+      email,
+      first_name: '',
+      last_name: '',
+      subscriber_status: '',
+      product_skus: '',
+      product_ids: items.map((item) => item.productId).join('|'),
+      product_titles: items.map((item) => item.name).join('|'),
+      product_images: items.map((item) => item.coverUrl).join('|'),
+      product_urls: items // @ts-ignore TODO: fix this
+        .map((item) => `${config.appHost}/product/${item.product.slug}}`)
+        .join('|'),
+      product_category_ids: '',
+      product_category_names: '',
+      product_counts: items.map((item) => item.totalQty).join('|'),
+      order_id: order.code,
+      country: '',
+      city: '',
+      base_currency: '',
+      order_currency: '',
+      base_payment_value: order.summary,
+      order_payment_value: order.summary,
+    })
   })
 })
