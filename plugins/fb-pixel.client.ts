@@ -11,7 +11,7 @@ export default defineNuxtPlugin(() => {
     window?.fbq?.('track', 'AddToCart')
   })
 
-  bus.on(HeseyaEvent.Purchase, ({ order }) => {
+  bus.on(HeseyaEvent.Purchase, (order) => {
     const currency = useCurrency()
 
     window?.fbq?.('track', 'Purchase', {

@@ -16,15 +16,15 @@ export default defineNuxtPlugin(() => {
 
   const bus = useHeseyaEventBus()
 
-  bus.on(HeseyaEvent.Purchase, ({ order, items, email }) => {
-    window.ceneo('transaction', {
-      client_email: email,
+  bus.on(HeseyaEvent.Purchase, (order) => {
+    window?.ceneo?.('transaction', {
+      client_email: order.email,
       order_id: order.code,
-      shop_products: items.map((item) => ({
+      shop_products: order.products.map((item) => ({
         id: item.id,
         price: item.price,
-        quantity: item.totalQty,
-        currency: 'PLN',
+        quantity: item.quantity,
+        currency: order.currency,
       })),
       amount: order.summary,
     })

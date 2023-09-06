@@ -2,7 +2,7 @@ import { HeseyaEvent, parsePrices } from '@heseya/store-core'
 import VueGtag, { trackRouter, isTracking, useGtag } from 'vue-gtag-next'
 import { Pinia } from '@pinia/nuxt/dist/runtime/composables'
 
-import { mapCartItemToItem, mapProductToItem } from '@/utils/google'
+import { mapCartItemToItem, mapOrderProductToItem, mapProductToItem } from '@/utils/google'
 import { useChannelsStore } from '@/store/channels'
 
 export default defineNuxtPlugin((nuxtApp) => {
@@ -27,22 +27,24 @@ export default defineNuxtPlugin((nuxtApp) => {
   const bus = useHeseyaEventBus()
 
   bus.on(HeseyaEvent.ViewProduct, (product) => {
+    const currency = useCurrency()
     if (!isTracking.value) return
 
     gTagEvent('', { ecommerce: null })
     gTagEvent('view_item', {
-      ecommerce: { items: [mapProductToItem(product)] },
+      ecommerce: { items: [mapProductToItem(product, currency.value)] },
     })
   })
 
   bus.on(HeseyaEvent.ViewProductList, ({ set, items }) => {
+    const currency = useCurrency()
     if (!isTracking.value) return
 
     gTagEvent('', { ecommerce: null })
     gTagEvent('view_item_list', {
       ecommerce: {
         item_list_name: set?.name,
-        items: items.map(mapProductToItem),
+        items: items.map((i) => mapProductToItem(i, currency.value)),
       },
     })
   })
@@ -111,7 +113,7 @@ export default defineNuxtPlugin((nuxtApp) => {
     })
   })
 
-  bus.on(HeseyaEvent.Purchase, ({ order, items }) => {
+  bus.on(HeseyaEvent.Purchase, (order) => {
     if (!isTracking.value) return
 
     gTagEvent('', { ecommerce: null })
@@ -123,7 +125,7 @@ export default defineNuxtPlugin((nuxtApp) => {
         value: order.summary,
         currency: channelStore.currency,
         shipping: order.shipping_price,
-        items: items.map(mapCartItemToItem),
+        items: order.products.map(mapOrderProductToItem),
         items_value: order.cart_total,
       },
     })

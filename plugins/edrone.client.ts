@@ -74,28 +74,38 @@ export default defineNuxtPlugin(() => {
   /**
    * https://docs.edrone.me/sending-data-client.html#order
    */
-  bus.on(HeseyaEvent.Purchase, ({ order, items, email }) => {
-    // TODO: fill data
+  bus.on(HeseyaEvent.Purchase, (order) => {
+    const address =
+      order.shipping_place && typeof order.shipping_place !== 'string'
+        ? order.shipping_place
+        : order.billing_address
+
+    const [firstName, lastName] = address.name.split(' ')
+
     emitEdroneEvent('order', {
-      email,
-      first_name: '',
-      last_name: '',
-      subscriber_status: '',
-      product_skus: '',
-      product_ids: items.map((item) => item.productId).join('|'),
-      product_titles: items.map((item) => item.name).join('|'),
-      product_images: items.map((item) => item.coverUrl).join('|'),
-      product_urls: items // @ts-ignore TODO: fix this
+      email: order.email,
+      first_name: firstName,
+      last_name: lastName || '',
+      // subscriber_status: '', // subscriber status is unknown
+      product_skus: '', // TODO: add sku
+      product_ids: order.products.map((item) => item.product.id).join('|'),
+      product_titles: order.products.map((item) => item.name).join('|'),
+      product_images: order.products.map((item) => item.product.cover?.url).join('|'),
+      product_urls: order.products
         .map((item) => `${config.appHost}/product/${item.product.slug}}`)
         .join('|'),
-      product_category_ids: '',
-      product_category_names: '',
-      product_counts: items.map((item) => item.totalQty).join('|'),
+      product_category_ids: order.products
+        .flatMap((item) => item.product.sets.map((set) => set.id))
+        .join('|'),
+      product_category_names: order.products
+        .flatMap((item) => item.product.sets.map((set) => set.name))
+        .join('|'),
+      product_counts: order.products.map((item) => item.quantity).join('|'),
       order_id: order.code,
-      country: '',
-      city: '',
-      base_currency: '',
-      order_currency: '',
+      country: address.country,
+      city: address.city,
+      base_currency: order.currency,
+      order_currency: order.currency,
       base_payment_value: order.summary,
       order_payment_value: order.summary,
     })
