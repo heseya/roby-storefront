@@ -43,7 +43,7 @@
 </template>
 
 <script setup lang="ts">
-import { ProductSetList } from '@heseya/store-core'
+import { HeseyaEvent, ProductSetList } from '@heseya/store-core'
 import { LinkBox } from '~~/components/home/LinkBox.vue'
 
 const $t = useGlobalI18n()
@@ -96,6 +96,13 @@ const sections = computed<Section[]>(() => {
   return Array.from({ length }, (_, i) => [sets[i], boxes[i]])
     .flat()
     .filter(Boolean)
+})
+
+onMounted(() => {
+  const ev = useHeseyaEventBus()
+  ev.emit(HeseyaEvent.ViewContent, {
+    contentType: 'homepage',
+  })
 })
 </script>
 

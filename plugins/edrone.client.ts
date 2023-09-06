@@ -26,17 +26,16 @@ export default defineNuxtPlugin(() => {
     ],
   })
 
-  const emitEdroneEvent = (event: string, payload: Record<string, string | number>) => {
-    if (!window._edrone) return
-
-    Object.entries(payload).forEach(([key, value]) => {
-      window._edrone[key] = value
-    })
-    window._edrone.action_type = event
-    window._edrone?.init?.()
-  }
-
   const bus = useHeseyaEventBus()
+  const { emit: emitEdroneEvent } = useEdrone()
+
+  /**
+   * https://docs.edrone.me/sending-data-client.html#homepage-view
+   */
+  bus.on(HeseyaEvent.ViewContent, (data: any) => {
+    if (data?.contentType !== 'homepage') return
+    emitEdroneEvent('homepage_view', {})
+  })
 
   /**
    * https://docs.edrone.me/sending-data-client.html#product-view
@@ -76,7 +75,7 @@ export default defineNuxtPlugin(() => {
    * https://docs.edrone.me/sending-data-client.html#order
    */
   bus.on(HeseyaEvent.Purchase, ({ order, items, email }) => {
-    // @ts-ignore TODO: fix this
+    // TODO: fill data
     emitEdroneEvent('order', {
       email,
       first_name: '',
