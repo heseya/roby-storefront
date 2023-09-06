@@ -2,11 +2,13 @@ import { HeseyaEvent } from '@heseya/store-core'
 
 export default defineNuxtPlugin(() => {
   const { ceneoGuid } = usePublicRuntimeConfig()
+
   if (!ceneoGuid) return
 
   useHead({
     script: [
       {
+        hid: 'ceneo',
         defer: true,
         children: `
 (function(w,d,s,i,dl){w._ceneo = w._ceneo || function () {
@@ -16,7 +18,7 @@ const f = d.getElementsByTagName(s)[0], j = d.createElement(s);
 j.defer = true;
 j.src = "https://ssl.ceneo.pl/ct/v5/script.js?accountGuid=" + i + "&t=" +
 Date.now() + (dl ? "&dl=" + dl : ''); f.parentNode.insertBefore(j, f);
-})(window, document, "script", ${ceneoGuid});
+})(window, document, "script", "${ceneoGuid}");
         `,
       },
     ],
