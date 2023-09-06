@@ -8,8 +8,16 @@ export default defineNuxtPlugin(() => {
     script: [
       {
         defer: true,
-        // new version: https://ssl.ceneo.pl/ct/v5/script.js
-        src: `https://ssl.ceneo.pl/shops/sw.js?accountGuid=${ceneoGuid}&t=${Date.now()}`,
+        children: `
+(function(w,d,s,i,dl){w._ceneo = w._ceneo || function () {
+w._ceneo.e = w._ceneo.e || []; w._ceneo.e.push(arguments); };
+w._ceneo.e = w._ceneo.e || [];dl=dl===undefined?"dataLayer":dl;
+const f = d.getElementsByTagName(s)[0], j = d.createElement(s);
+j.defer = true;
+j.src = "https://ssl.ceneo.pl/ct/v5/script.js?accountGuid=" + i + "&t=" +
+Date.now() + (dl ? "&dl=" + dl : ''); f.parentNode.insertBefore(j, f);
+})(window, document, "script", ${ceneoGuid});
+        `,
       },
     ],
   })
@@ -17,7 +25,7 @@ export default defineNuxtPlugin(() => {
   const bus = useHeseyaEventBus()
 
   bus.on(HeseyaEvent.Purchase, ({ order, items, email }) => {
-    window.ceneo('transaction', {
+    window?._ceneo?.('transaction', {
       client_email: email,
       order_id: order.code,
       shop_products: items.map((item) => ({
