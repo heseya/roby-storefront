@@ -29,7 +29,7 @@ import { useChannelsStore } from '@/store/channels'
 
 withDefaults(
   defineProps<{
-    mode: 'select' | 'popover'
+    mode?: 'select' | 'popover'
   }>(),
   {
     mode: 'popover',
