@@ -87,10 +87,6 @@
                 :action-text="t('individualOffer')"
               />
             </ProductPageCard>
-            <LazyProductPageAttributeCard
-              v-else-if="product?.attributes.length"
-              :product="product"
-            />
           </div>
         </template>
 
