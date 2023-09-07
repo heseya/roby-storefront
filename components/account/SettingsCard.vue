@@ -1,9 +1,22 @@
 <template>
   <div class="settings-card">
     <h4 class="settings-card__header">{{ $t('account.myData') }}</h4>
+
     <div class="settings-card__container">
       <p>{{ user?.name }}</p>
       <p>{{ user?.email }}</p>
+
+      <div class="settings-card__row settings-card__row--small">
+        <p v-if="user?.phone">
+          <img :src="PhoneIcon" class="settings-card__icon" />
+          {{ user?.phone }}
+        </p>
+        <p v-if="user?.birthday_date">
+          <img :src="CalendarIcon" class="settings-card__icon" />
+          {{ user?.birthday_date }}
+        </p>
+      </div>
+
       <LayoutIcon
         class="settings-card__action"
         :icon="PencilLine"
@@ -11,6 +24,7 @@
         @click="isEditNameModalVisible = true"
       />
     </div>
+
     <div class="settings-card__container">
       <p>{{ $t('form.password') }}</p>
       <p>{{ '*'.repeat(12) }}</p>
@@ -49,7 +63,11 @@
 
 <script setup lang="ts">
 import { UserConsentDto } from '@heseya/store-core'
+
 import PencilLine from '@/assets/icons/pencil-line-filled.svg?component'
+import PhoneIcon from '@/assets/icons/phone.svg'
+import CalendarIcon from '@/assets/icons/calendar.svg'
+
 import { useUserStore } from '@/store/user'
 
 const t = useLocalI18n()
@@ -102,6 +120,21 @@ const saveConsent = async (consents: UserConsentDto) => {
     border: 1px solid $gray-color-300;
     padding: 16px;
     position: relative;
+  }
+
+  &__row {
+    display: flex;
+    gap: 24px;
+
+    &--small {
+      font-size: 0.8em;
+    }
+  }
+
+  &__icon {
+    height: 1em;
+    width: 1em;
+    opacity: 0.6;
   }
 
   &__delete-account {

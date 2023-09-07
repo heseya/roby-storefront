@@ -78,6 +78,8 @@ export default {
     backToLogin: 'Wróć do logowania',
     currentPassword: 'Aktualne hasło',
     nameAndSurname: 'Imię i nazwisko',
+    phone: 'Telefon',
+    birthdayDate: 'Data urodzenia',
     needInvoice: 'Potrzebuje fakturę VAT',
     name: 'Imię',
     surname: 'Nazwisko',
@@ -143,6 +145,8 @@ export default {
     VALIDATION_PASSWORD_LENGTH: 'Hasło musi mieć przynajmniej 12 znaków.',
     VALIDATION_UNIQUE: 'Podany adres e-mail został już zarejestrowany w systemie.',
     VALIDATION_CONSENT_EXISTS: 'Zaakceptowana zgoda nie istnieje w systemie.',
+    VALIDATION_PHONE:
+      'Podany numer telefonu jest nieprawidłowy, pamiętaj by uwzględnić w nim numer kierunkowy kraju.',
 
     UNPROCESSABLE_ENTITY: 'Błąd walidacji.',
 
