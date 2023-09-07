@@ -11,3 +11,5 @@ Disallow:
 
 User-agent: AdsBot-Google
 Disallow:
+
+Sitemap: /sitemap.xml
