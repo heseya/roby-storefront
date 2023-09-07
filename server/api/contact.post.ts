@@ -1,5 +1,6 @@
-import { ProductList } from '@heseya/store-core'
+import { createHeseyaApiService, ProductList } from '@heseya/store-core'
 import { createTransport, SendMailOptions, SentMessageInfo } from 'nodemailer'
+import axios from 'axios'
 import { verifyRecaptchToken } from '../utils/recaptcha'
 
 interface ContactForm {
@@ -12,12 +13,12 @@ interface ContactForm {
   recaptchaToken: string
 }
 
-const { MAIL_HOST, MAIL_USER, MAIL_PASSWORD, MAIL_RECEIVER, APP_HOST } = process.env
+const { MAIL_HOST, MAIL_USER, MAIL_PASSWORD, MAIL_RECEIVER, APP_HOST, API_URL } = process.env
 
-if (!MAIL_HOST || !MAIL_USER || !MAIL_PASSWORD || !MAIL_RECEIVER || !APP_HOST)
+if (!MAIL_HOST || !MAIL_USER || !MAIL_PASSWORD || !APP_HOST)
   // eslint-disable-next-line no-console
   console.warn(
-    '[Contact Form] Missing required env variables: MAIL_HOST, MAIL_USER, MAIL_PASSWORD, MAIL_RECEIVER, APP_HOST',
+    '[Contact Form] Missing required env variables: MAIL_HOST, MAIL_USER, MAIL_PASSWORD, APP_HOST',
   )
 
 const mailer = createTransport({
@@ -37,6 +38,12 @@ const sendMail = (options: SendMailOptions): Promise<SentMessageInfo> =>
       resolve(info)
     })
   })
+
+const getContactMailReceiver = async (): Promise<string | undefined> => {
+  const sdk = createHeseyaApiService(axios.create({ baseURL: API_URL }))
+  const settings = await sdk.Settings.get({ array: true })
+  return settings.contact_mail_receiver ? settings.contact_mail_receiver.toString() : MAIL_RECEIVER
+}
 
 export default defineEventHandler(async (event) => {
   const { name, email, phone, message, type, product, recaptchaToken } =
@@ -70,9 +77,12 @@ export default defineEventHandler(async (event) => {
 
     const subject = product ? `${title}: ${product.name}` : title
 
+    const mailReceiver = await getContactMailReceiver()
+    if (!mailReceiver) throw new Error('Missing contact mail receiver')
+
     await sendMail({
       from: `${name} <${MAIL_USER}>`,
-      to: MAIL_RECEIVER,
+      to: mailReceiver,
       subject: `${subject} | ${APP_HOST}`,
       replyTo: email,
       text: `
