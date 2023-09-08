@@ -144,7 +144,6 @@ export default defineNuxtConfig({
     sitemapName: 'sitemap.xml',
     autoI18n: true,
     autoLastmod: false,
-    sitemaps: false,
     cacheTtl: 1000 * 60 * 15,
   },
 
