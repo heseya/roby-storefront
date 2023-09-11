@@ -133,19 +133,13 @@ export const useCheckoutStore = defineStore('checkout', {
     },
 
     async createOrder() {
-      const cart = useCartStore()
       const heseya = useHeseya()
       const ev = useHeseyaEventBus()
 
       if (!this.orderDto) throw new Error('Order cannot be made, because data is invalid')
 
       const order = await heseya.Orders.create(this.orderDto)
-
-      ev.emit(HeseyaEvent.Purchase, {
-        order,
-        items: cart.items as CartItem[],
-        email: this.orderDto.email,
-      })
+      ev.emit(HeseyaEvent.Purchase, order)
 
       return order
     },

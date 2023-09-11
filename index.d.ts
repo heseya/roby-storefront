@@ -3,4 +3,6 @@ interface Window {
   easyPack: any
   easyPackAsyncInit: any
   _ceneo: any
+  fbq: any
+  _edrone: any
 }
