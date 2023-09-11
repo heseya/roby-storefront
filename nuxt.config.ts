@@ -59,6 +59,7 @@ export default defineNuxtConfig({
         },
       ],
       link: [
+        { rel: 'sitemap', href: '/sitemap.xml', type: 'application/xml' },
         { rel: 'preconnect', href: API_URL },
         { rel: 'dns-prefetch', href: API_URL },
         { rel: 'preconnect', href: CDN_URL },
@@ -103,6 +104,7 @@ export default defineNuxtConfig({
     '@vueuse/nuxt',
     'nuxt-swiper',
     'nuxt-delay-hydration',
+    'nuxt-simple-sitemap',
   ],
 
   hooks: {
@@ -136,6 +138,13 @@ export default defineNuxtConfig({
 
       if (!DIRECTUS_URL) directusPageNames.forEach((name) => removePageByName(name, pages))
     },
+  },
+
+  sitemap: {
+    sitemapName: 'sitemap.xml',
+    autoI18n: true,
+    autoLastmod: false,
+    cacheTtl: 1000 * 60 * 15,
   },
 
   googleFonts: {
