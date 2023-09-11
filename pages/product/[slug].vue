@@ -87,10 +87,6 @@
                 :action-text="t('individualOffer')"
               />
             </ProductPageCard>
-            <LazyProductPageAttributeCard
-              v-else-if="product?.attributes.length"
-              :product="product"
-            />
           </div>
         </template>
 
@@ -169,7 +165,6 @@ import { Tab } from '@/components/layout/Tabs.vue'
 
 import { useConfigStore } from '@/store/config'
 
-const ev = useHeseyaEventBus()
 const heseya = useHeseya()
 const route = useRoute()
 const config = useConfigStore()
@@ -230,6 +225,8 @@ const breadcrumbs = computed(() => [
 ])
 
 onMounted(() => {
+  const ev = useHeseyaEventBus()
+
   watch(
     product,
     (p) => {

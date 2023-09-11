@@ -18,6 +18,7 @@ import isEqual from 'lodash/isEqual'
 import uniqBy from 'lodash/uniqBy'
 
 import { useCheckoutStore } from './checkout'
+import { useConfigStore } from './config'
 
 export type CartCoupon = Coupon & { effective_value?: number }
 
@@ -55,7 +56,12 @@ export const useCartStore = defineStore('cart', {
       return this.items.some((i) => i.shippingDigital)
     },
     allowPaczkomatDelivery(): boolean {
-      return allowSpecificDelivery(this.items as CartItem[], 'allow_paczkomat_delivery')
+      const config = useConfigStore()
+      // Always allow paczkomat delivery if is not restricted
+      if (config.env.restrict_paczkomat_delivery !== '1') return true
+      // Otherwise, all items must have allow_paczkomat_delivery set to true
+      // @ts-ignore // TODO field product in item exists but its private, we need to fix it in the future
+      return this.items.every((item) => item.product.metadata?.allow_paczkomat_delivery ?? false)
     },
     orderItems(): CartItemDto[] {
       return this.items.map((i) => i.getOrderObject())

@@ -9,6 +9,7 @@ export default defineNuxtPlugin((nuxt) => {
   defineRule('confirmedPassword', confirmed)
   defineRule('alpha', alpha)
   defineRule('alphaSpaces', alphaSpaces)
+  defineRule('beforeNow', (date: string) => new Date(date) < new Date())
 
   configure({
     generateMessage: localize({
@@ -20,6 +21,7 @@ export default defineNuxtPlugin((nuxt) => {
           confirmedPassword: 'Hasła nie są takie same.',
           alpha: 'To pole może składać się tylko z liter.',
           alphaSpaces: 'To pole może składać się tylko z liter i spacji.',
+          beforeNow: 'Data nie może być z przyszłości.',
         },
       },
       en: {
@@ -30,6 +32,7 @@ export default defineNuxtPlugin((nuxt) => {
           confirmedPassword: 'Passwords do not match.',
           alpha: 'This field may only contain alphabetic characters',
           alphaSpaces: 'This field may only contain alphabetic characters and spaces',
+          beforeNow: 'Date cannot be in the future.',
         },
       },
     }),

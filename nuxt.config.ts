@@ -15,6 +15,7 @@ const {
   CENEO_GUID,
   LEASLINK_ID,
   CALLPAGE_ID,
+  EDRONE_ID,
   GOOGLE_SITE_VERIFICATION,
   COLOR_THEME_PICKER,
   AXIOS_CACHE_TTL,
@@ -59,6 +60,7 @@ export default defineNuxtConfig({
         },
       ],
       link: [
+        { rel: 'sitemap', href: '/sitemap.xml', type: 'application/xml' },
         { rel: 'preconnect', href: API_URL },
         { rel: 'dns-prefetch', href: API_URL },
         { rel: 'preconnect', href: CDN_URL },
@@ -90,6 +92,7 @@ export default defineNuxtConfig({
       ceneoGuid: CENEO_GUID,
       leaslinkId: LEASLINK_ID,
       callpageId: CALLPAGE_ID,
+      edroneId: EDRONE_ID,
       showColorThemePicker: COLOR_THEME_PICKER === '1',
       axiosCacheTtl: parseInt(AXIOS_CACHE_TTL || '0') ?? 0,
     },
@@ -103,6 +106,7 @@ export default defineNuxtConfig({
     '@vueuse/nuxt',
     'nuxt-swiper',
     'nuxt-delay-hydration',
+    'nuxt-simple-sitemap',
   ],
 
   hooks: {
@@ -136,6 +140,13 @@ export default defineNuxtConfig({
 
       if (!DIRECTUS_URL) directusPageNames.forEach((name) => removePageByName(name, pages))
     },
+  },
+
+  sitemap: {
+    sitemapName: 'sitemap.xml',
+    autoI18n: true,
+    autoLastmod: false,
+    cacheTtl: 1000 * 60 * 15,
   },
 
   googleFonts: {

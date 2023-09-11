@@ -44,7 +44,11 @@
 
 <script setup lang="ts">
 import { CookieOptions } from 'nuxt/app'
-import { COOKIE_ACCEPTED_KEY } from '@/consts/cookiesKeys'
+import {
+  COOKIE_ACCEPTED_KEY,
+  COOKIE_ANALYTICS_ACCEPTED_KEY,
+  COOKIE_MARKETING_ACCEPTED_KEY,
+} from '@/consts/cookiesKeys'
 
 const t = useLocalI18n()
 
@@ -59,8 +63,8 @@ const COOKIES_CONFIG: CookieOptions = {
 } as const
 
 const primaryCookie = useStatefulCookie<number>(COOKIE_ACCEPTED_KEY, COOKIES_CONFIG)
-const marketingCookie = useStatefulCookie<number>(COOKIE_ACCEPTED_KEY, COOKIES_CONFIG)
-const analyticsCookie = useStatefulCookie<number>(COOKIE_ACCEPTED_KEY, COOKIES_CONFIG)
+const marketingCookie = useStatefulCookie<number>(COOKIE_MARKETING_ACCEPTED_KEY, COOKIES_CONFIG)
+const analyticsCookie = useStatefulCookie<number>(COOKIE_ANALYTICS_ACCEPTED_KEY, COOKIES_CONFIG)
 
 const isCookiesBarVisible = computed(() => primaryCookie.value !== 1)
 

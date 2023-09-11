@@ -2,5 +2,7 @@ interface Window {
   // Inpost global variables
   easyPack: any
   easyPackAsyncInit: any
-  ceneo: any
+  _ceneo: any
+  fbq: any
+  _edrone: any
 }

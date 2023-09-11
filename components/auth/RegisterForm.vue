@@ -95,7 +95,6 @@ const t = useLocalI18n()
 const $t = useGlobalI18n()
 const heseya = useHeseya()
 const formatError = useErrorMessage()
-const ev = useHeseyaEventBus()
 
 const isLoading = ref(false)
 const errorMessage = ref('')
@@ -135,6 +134,8 @@ const registerFormDto = computed<UserRegisterDto>(() => ({
 }))
 
 const onSubmit = form.handleSubmit(async () => {
+  const ev = useHeseyaEventBus()
+
   isLoading.value = true
 
   try {
