@@ -29,12 +29,20 @@ export default defineNuxtPlugin(() => {
   const bus = useHeseyaEventBus()
   const { emit: emitEdroneEvent } = useEdrone()
 
-  /**
-   * https://docs.edrone.me/sending-data-client.html#homepage-view
-   */
   bus.on(HeseyaEvent.ViewContent, (data: any) => {
-    if (data?.contentType !== 'homepage') return
-    emitEdroneEvent('homepage_view', {})
+    /**
+     * https://docs.edrone.me/sending-data-client.html#homepage-view
+     */
+    if (data?.contentType === 'homepage') return emitEdroneEvent('homepage_view', {})
+
+    /**
+     * https://docs.edrone.me/sending-data-client.html#category-view
+     */
+    if (data?.contentType === 'product-set')
+      return emitEdroneEvent('category_view', {
+        product_category_ids: data?.contentId,
+        product_category_names: data?.contentName,
+      })
   })
 
   /**
@@ -51,17 +59,6 @@ export default defineNuxtPlugin(() => {
       product_category_ids: product.sets.map((set) => set.id).join('|'),
       product_category_names: product.sets.map((set) => set.name).join('|'),
     })
-  })
-
-  /**
-   * https://docs.edrone.me/sending-data-client.html#category-view
-   */
-  bus.on(HeseyaEvent.ViewProductList, ({ set }) => {
-    if (set && set.id && set.name)
-      emitEdroneEvent('category_view', {
-        product_category_ids: set.id,
-        product_category_names: set.name,
-      })
   })
 
   /**

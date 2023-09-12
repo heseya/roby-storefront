@@ -78,8 +78,9 @@ const suggestedQuery = computed(() => ({
   available: true,
 }))
 
-onMounted(() => {
+delayedOnMounted(() => {
   const ev = useHeseyaEventBus()
+
   ev.emit(HeseyaEvent.ViewCart, cart.items as CartItem[])
 })
 

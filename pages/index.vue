@@ -98,8 +98,9 @@ const sections = computed<Section[]>(() => {
     .filter(Boolean)
 })
 
-onMounted(() => {
+delayedOnMounted(() => {
   const ev = useHeseyaEventBus()
+
   ev.emit(HeseyaEvent.ViewContent, {
     contentType: 'homepage',
   })
