@@ -11,8 +11,6 @@
       </ClientOnly>
 
       <LazyColorThemePicker v-if="showColorThemePicker" />
-
-      <div id="teleport-target"></div>
     </LayoutThemeContext>
   </Html>
 </template>

@@ -1,6 +1,6 @@
 <template>
   <ClientOnly>
-    <Teleport to="#teleport-target">
+    <Teleport to="body">
       <div class="modal-bg" :class="{ 'modal--open': open }" @click="close" />
       <div
         class="modal"
