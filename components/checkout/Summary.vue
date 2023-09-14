@@ -35,6 +35,12 @@
         </span>
       </div>
 
+      <hr class="checkout-summary__hr hr" />
+
+      <div class="checkout-summary-item">
+        <CheckoutConsents />
+      </div>
+
       <LayoutButton
         variant="primary"
         class="cart-summary__button"
@@ -71,8 +77,7 @@ const currency = useCurrency()
   flex-direction: column;
 
   &__hr {
-    border-top-width: 2px;
-    margin-top: 8px;
+    margin-top: 12px;
   }
 }
 

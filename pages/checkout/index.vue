@@ -104,6 +104,7 @@ const { defaultAddress: defaultBillingAddress } = useUserBillingAddresses()
 
 const wantCreateAccount = ref<boolean>(false)
 const isLoading = ref(false)
+const { subscribe: newsletterSubscribe } = useNewsletter()
 
 const registerErrorMessage = ref('')
 
@@ -165,6 +166,8 @@ const createOrder = async () => {
     const paymentId = checkout.paymentMethodId
 
     const order = await checkout.createOrder()
+
+    if (checkout.consents.newsletter) newsletterSubscribe(checkout.email)
 
     // save user addresses if they don't exist
     await saveUserAddresses()

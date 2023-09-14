@@ -1,5 +1,10 @@
 <template>
-  <FormCheckbox v-model="value" class="newsletter-consent" name="newsletter-consent">
+  <FormCheckbox
+    v-show="enabled"
+    v-model="value"
+    class="newsletter-consent"
+    name="newsletter-consent"
+  >
     {{ t('text') }}
   </FormCheckbox>
 </template>
@@ -7,7 +12,7 @@
 <i18n lang="json">
 {
   "pl": {
-    "text": "Chcę otrzymywać inforacje o aktualnych ofertach oraz promocjach w wiadomości email."
+    "text": "Chcę otrzymywać informacje o aktualnych ofertach oraz promocjach w wiadomości email."
   },
   "en": {
     "text": "I want to receive information about current offers and promotions in an e-mail."
@@ -17,6 +22,8 @@
 
 <script setup lang="ts">
 const t = useLocalI18n()
+
+const { enabled } = useNewsletter()
 
 const props = defineProps<{
   modelValue: boolean
