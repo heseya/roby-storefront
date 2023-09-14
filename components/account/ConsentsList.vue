@@ -11,6 +11,8 @@
     >
       <BaseWysiwygContent :content="consent.description_html" />
     </FormCheckbox>
+
+    <slot></slot>
   </div>
 </template>
 
@@ -35,7 +37,7 @@ const setConsentValue = (consentId: string, value: boolean) => {
 
 const { data: consents } = useAsyncData('consents', async () => {
   try {
-    const { data } = await heseya.Consents.get()
+    const { data } = await heseya.Consents.get({ lang_fallback: 'any' })
 
     return data
   } catch (e: any) {

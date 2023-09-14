@@ -17,7 +17,7 @@
       <LayoutBreadcrumps />
     </div>
     <div class="site__footer">
-      <BaseNewsletter />
+      <NewsletterForm />
       <BaseFooter />
     </div>
     <BaseCookiesBar />
