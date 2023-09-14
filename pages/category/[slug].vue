@@ -12,6 +12,12 @@
           <SubcategoriesLinks v-if="category" :category="category" />
         </template>
       </ProductListPage>
+
+      <BaseWysiwygContent
+        v-show="!!category?.description_html"
+        class="categories-page__description"
+        :content="category?.description_html"
+      />
     </BaseContainer>
   </NuxtLayout>
 </template>
@@ -79,5 +85,8 @@ const breadcrumbs = computed(() => [
 
 <style lang="scss" scoped>
 .categories-page {
+  &__description {
+    margin-top: 32px;
+  }
 }
 </style>
