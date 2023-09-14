@@ -5,7 +5,7 @@
         {{ link.text }}
       </NuxtLink>
     </div>
-    <Teleport to="body">
+    <Teleport to="#teleport-target">
       <div
         v-show="Boolean(link.children?.length)"
         ref="popoverRef"
