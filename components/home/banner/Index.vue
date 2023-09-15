@@ -1,5 +1,9 @@
 <template>
-  <div class="banner" :style="{ height: remainingImages.length > 0 ? '960px' : '480px' }">
+  <div
+    v-if="mainImage"
+    class="banner"
+    :style="{ height: remainingImages.length > 0 ? '960px' : '480px' }"
+  >
     <div class="banner__main-card">
       <HomeBannerCard
         :title="mainImage.title"
