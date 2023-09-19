@@ -11,6 +11,8 @@
           class="index-page__content"
           :class="{ 'index-page__content--wide': section.type === 'box' }"
         >
+          <HomeWysiwygContent v-if="section.type === 'page'" :page-id="section.data.id" />
+
           <HomeProductCarousel
             v-if="section.type === 'set'"
             :category="section.data"
@@ -43,28 +45,34 @@
 </template>
 
 <script setup lang="ts">
-import { HeseyaEvent, ProductSetList } from '@heseya/store-core'
+import { HeseyaEvent, ProductSetList, PageList } from '@heseya/store-core'
 import { LinkBox } from '~~/components/home/LinkBox.vue'
 
 const $t = useGlobalI18n()
 const heseya = useHeseya()
 
-type Section = { type: 'set'; data: ProductSetList } | { type: 'box'; data: LinkBox }
+type Section =
+  | { type: 'set'; data: ProductSetList }
+  | { type: 'box'; data: LinkBox }
+  | { type: 'page'; data: PageList }
 
 useSeoMeta({
   title: () => $t('breadcrumbs.home'),
 })
 
 const { data } = useAsyncData('main-banner', async () => {
-  const [mainBanner, { data: homepageBanners }, { data: homepageSets }] = await Promise.all([
-    heseya.Banners.getOneBySlug('main-banner').catch(() => null),
-    heseya.Banners.get({ metadata: { homepage: true } }).catch(() => ({ data: [] })),
-    heseya.ProductSets.get({ metadata: { homepage: true } }).catch(() => ({ data: [] })),
-  ])
+  const [mainBanner, { data: homepageBanners }, { data: homepageSets }, { data: homepagePages }] =
+    await Promise.all([
+      heseya.Banners.getOneBySlug('main-banner').catch(() => null),
+      heseya.Banners.get({ metadata: { homepage: true } }).catch(() => ({ data: [] })),
+      heseya.ProductSets.get({ metadata: { homepage: true } }).catch(() => ({ data: [] })),
+      heseya.Pages.get({ metadata: { homepage: true } }).catch(() => ({ data: [] })),
+    ])
   return {
     mainBanner,
     homepageBanners,
     homepageSets,
+    homepagePages,
   }
 })
 
@@ -80,6 +88,8 @@ const { data: offertsBanner } = useAsyncData('offer-banner', async (): Promise<L
 })
 
 const sections = computed<Section[]>(() => {
+  const pages = data.value?.homepagePages?.map((p) => ({ type: 'page' as const, data: p })) || []
+
   const sets =
     data.value?.homepageSets?.map((set) => ({
       type: 'set' as const,
@@ -93,7 +103,7 @@ const sections = computed<Section[]>(() => {
     })) || []
 
   const length = Math.max(sets.length, boxes.length)
-  return Array.from({ length }, (_, i) => [sets[i], boxes[i]])
+  return Array.from({ length }, (_, i) => [pages[i], sets[i], boxes[i]])
     .flat()
     .filter(Boolean)
 })
