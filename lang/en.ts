@@ -78,6 +78,8 @@ export default {
     backToLogin: 'Back to login',
     currentPassword: 'Current password',
     nameAndSurname: 'Name and surname',
+    phone: 'Phone',
+    birthdayDate: 'Birthday date',
     needInvoice: 'I need invoice',
     name: 'Name',
     surname: 'Surname',
@@ -142,6 +144,7 @@ export default {
     VALIDATION_PASSWORD_LENGTH: 'The password must be at least 12 characters long.',
     VALIDATION_UNIQUE: 'The given e-mail has already been registered in the system.',
     VALIDATION_CONSENT_EXISTS: 'Accepted consent doesnt exist in the system.',
+    VALIDATION_PHONE: 'The phone number is invalid, remember to enter the country code.',
 
     UNPROCESSABLE_ENTITY: 'Validation error.',
 

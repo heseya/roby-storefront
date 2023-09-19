@@ -60,10 +60,15 @@ import EditIcon from '@/assets/icons/pencil-line-filled.svg?component'
 const t = useLocalI18n()
 const checkout = useCheckoutStore()
 const isPaczkomatModalOpen = ref(false)
+const user = useUser()
 
 const selectPaczkomat = (machine: Paczkomat) => {
   isPaczkomatModalOpen.value = false
   checkout.paczkomat = machine
+
+  if (user.value && user.value.phone) {
+    checkout.shippingAddress.phone = user.value.phone || ''
+  }
 }
 </script>
 
