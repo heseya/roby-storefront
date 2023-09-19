@@ -31,7 +31,8 @@ Date.now() + (dl ? "&dl=" + dl : ''); f.parentNode.insertBefore(j, f);
       client_email: email,
       order_id: order.code,
       shop_products: items.map((item) => ({
-        id: item.id,
+        // @ts-ignore This field exists, but it is private
+        id: item.product.metadata.wp_id,
         price: item.price,
         quantity: item.totalQty,
         currency: 'PLN',
