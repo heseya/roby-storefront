@@ -1,5 +1,5 @@
 <template>
-  <div v-if="edroneEnabled" class="newsletter-form">
+  <div v-if="enabled" class="newsletter-form">
     <div class="newsletter-form__box newsletter-title">
       <LayoutIcon :icon="NewsletterEnvelopeIcon" class="newsletter-title__icon" :size="72" />
       <div class="newsletter-title__content">
@@ -62,14 +62,10 @@ const form = useForm({
   initialValues: { email: '' },
 })
 
-const { subscribe, enabled: edroneEnabled } = useEdrone()
+const { subscribe, enabled } = useNewsletter()
 
 const onSubmit = form.handleSubmit(({ email }) => {
-  subscribe({
-    email,
-    customer_tags: 'Newsletter',
-    first_name: '',
-  })
+  subscribe(email)
   isSuccess.value = true
 })
 </script>
@@ -143,7 +139,7 @@ const onSubmit = form.handleSubmit(({ email }) => {
 
 .newsletter-title {
   display: flex;
-  align-items: start;
+  align-items: flex-start;
 
   &__icon {
     position: relative;

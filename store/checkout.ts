@@ -24,6 +24,10 @@ export const useCheckoutStore = defineStore('checkout', {
     paczkomat: null as Paczkomat | null,
     invoiceRequested: false,
     paymentMethodId: null as string | null,
+    consents: {
+      statute: false,
+      newsletter: false,
+    },
   }),
 
   getters: {
@@ -87,6 +91,8 @@ export const useCheckoutStore = defineStore('checkout', {
 
     isValid(): boolean {
       if (!this.email) return false
+
+      if (!this.consents.statute) return false
 
       // TODO: not all orders requires phisical shipping method
       if (!this.shippingMethod) return false

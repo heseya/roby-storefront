@@ -224,7 +224,7 @@ const breadcrumbs = computed(() => [
   { label: product.value?.name || '', link: route.fullPath },
 ])
 
-onMounted(() => {
+delayedOnMounted(() => {
   const ev = useHeseyaEventBus()
 
   watch(

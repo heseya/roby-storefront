@@ -104,6 +104,7 @@ const { defaultAddress: defaultBillingAddress } = useUserBillingAddresses()
 
 const wantCreateAccount = ref<boolean>(false)
 const isLoading = ref(false)
+const { subscribe: newsletterSubscribe } = useNewsletter()
 
 const registerErrorMessage = ref('')
 
@@ -165,6 +166,8 @@ const createOrder = async () => {
     const paymentId = checkout.paymentMethodId
 
     const order = await checkout.createOrder()
+
+    if (checkout.consents.newsletter) newsletterSubscribe(checkout.email)
 
     // save user addresses if they don't exist
     await saveUserAddresses()
@@ -233,9 +236,10 @@ watch(
   { immediate: true },
 )
 
-onMounted(() => {
+delayedOnMounted(() => {
   const ev = useHeseyaEventBus()
   const cart = useCartStore()
+
   ev.emit(HeseyaEvent.InitiateCheckout, cart.items as CartItem[])
 
   registerForm.values.email = checkout.email
