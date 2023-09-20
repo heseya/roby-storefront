@@ -28,7 +28,10 @@ export const useChannelsStore = defineStore('channels', {
       try {
         const heseya = useHeseya()
 
-        const { data: channels } = await heseya.SalesChannels.get({ lang_fallback: 'any' })
+        const { data: channels } = await heseya.SalesChannels.get({
+          lang_fallback: 'any',
+          limit: 500,
+        })
 
         this.channels = channels
           .filter((c) => c.status === SalesChannelStatus.Active)
