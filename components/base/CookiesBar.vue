@@ -11,12 +11,17 @@
       </p>
 
       <div class="cookies-bar__checkboxes">
-        <FormCheckbox name="cookies-required" model-value disabled>Wymagane</FormCheckbox>
-        <FormCheckbox v-model="optInForm.marketing" name="cookies-marketing">
-          Marketing
+        <FormCheckbox name="cookies-required" model-value disabled>
+          {{ t('consents.required') }}
+        </FormCheckbox>
+        <FormCheckbox v-model="optInForm.functional" name="cookies-functional">
+          {{ t('consents.functional') }}
+        </FormCheckbox>
+        <FormCheckbox v-model="optInForm.ads" name="cookies-ads">
+          {{ t('consents.ads') }}
         </FormCheckbox>
         <FormCheckbox v-model="optInForm.analytics" name="cookies-analytics">
-          Analityczne
+          {{ t('consents.analytics') }}
         </FormCheckbox>
       </div>
     </div>
@@ -32,11 +37,23 @@
   "pl": {
     "content_line1": "Klikając „OK”, wyrażasz zgodę na przechowywanie plików cookie na Twoim urządzeniu w celu poprawy działania serwisu,",
     "content_line2": "analizowania korzystania z witryny oraz lepszego dopasowania treści marketingowych",
+    "consents": {
+      "required": "Wymagane",
+      "functional": "Funkcjonalne",
+      "ads": "Marketing",
+      "analytics": "Analityczne"
+    },
     "accept": "OK"
   },
   "en": {
     "content_line1": "By clicking „OK”, you agree to store cookies on your device to improve the performance of the website,",
     "content_line2": "analyze site usage and better tailor marketing content",
+    "consents": {
+      "required": "Required",
+      "functional": "Functional",
+      "ads": "Marketing",
+      "analytics": "Analytics"
+    },
     "accept": "OK"
   }
 }
@@ -45,16 +62,18 @@
 <script setup lang="ts">
 import { CookieOptions } from 'nuxt/app'
 import {
-  COOKIE_ACCEPTED_KEY,
+  COOKIE_REQUIRED_ACCEPTED_KEY,
   COOKIE_ANALYTICS_ACCEPTED_KEY,
-  COOKIE_MARKETING_ACCEPTED_KEY,
+  COOKIE_ADS_ACCEPTED_KEY,
+  COOKIE_FUNCTIONAL_ACCEPTED_KEY,
 } from '@/consts/cookiesKeys'
 
 const t = useLocalI18n()
 
 const optInForm = reactive({
-  marketing: true,
+  functional: true,
   analytics: true,
+  ads: true,
 })
 
 const COOKIES_CONFIG: CookieOptions = {
@@ -62,16 +81,18 @@ const COOKIES_CONFIG: CookieOptions = {
   path: '/',
 } as const
 
-const primaryCookie = useStatefulCookie<number>(COOKIE_ACCEPTED_KEY, COOKIES_CONFIG)
-const marketingCookie = useStatefulCookie<number>(COOKIE_MARKETING_ACCEPTED_KEY, COOKIES_CONFIG)
+const requiredCookie = useStatefulCookie<number>(COOKIE_REQUIRED_ACCEPTED_KEY, COOKIES_CONFIG)
+const functionalCookie = useStatefulCookie<number>(COOKIE_FUNCTIONAL_ACCEPTED_KEY, COOKIES_CONFIG)
 const analyticsCookie = useStatefulCookie<number>(COOKIE_ANALYTICS_ACCEPTED_KEY, COOKIES_CONFIG)
+const adsCookie = useStatefulCookie<number>(COOKIE_ADS_ACCEPTED_KEY, COOKIES_CONFIG)
 
-const isCookiesBarVisible = computed(() => primaryCookie.value !== 1)
+const isCookiesBarVisible = computed(() => requiredCookie.value !== 1)
 
 const acceptCookies = () => {
-  primaryCookie.value = 1
-  marketingCookie.value = optInForm.marketing ? 1 : 0
+  requiredCookie.value = 1
+  functionalCookie.value = optInForm.functional ? 1 : 0
   analyticsCookie.value = optInForm.analytics ? 1 : 0
+  adsCookie.value = optInForm.ads ? 1 : 0
 }
 </script>
 
