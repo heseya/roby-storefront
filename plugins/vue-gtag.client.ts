@@ -6,15 +6,11 @@ import {
   COOKIE_ADS_ACCEPTED_KEY,
   COOKIE_ANALYTICS_ACCEPTED_KEY,
   COOKIE_FUNCTIONAL_ACCEPTED_KEY,
+  COOKIES_CONFIG,
 } from '@/consts/cookiesKeys'
 
 import { mapCartItemToItem, mapOrderProductToItem, mapProductToItem } from '@/utils/google'
 import { useChannelsStore } from '@/store/channels'
-
-const COOKIES_CONFIG = {
-  maxAge: 365 * 24 * 60 * 60,
-  path: '/',
-} as const
 
 /**
  * Watches for a change in the cookie and sets the value in gtag.

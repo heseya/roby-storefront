@@ -60,12 +60,12 @@
 </i18n>
 
 <script setup lang="ts">
-import { CookieOptions } from 'nuxt/app'
 import {
   COOKIE_REQUIRED_ACCEPTED_KEY,
   COOKIE_ANALYTICS_ACCEPTED_KEY,
   COOKIE_ADS_ACCEPTED_KEY,
   COOKIE_FUNCTIONAL_ACCEPTED_KEY,
+  COOKIES_CONFIG,
 } from '@/consts/cookiesKeys'
 
 const t = useLocalI18n()
@@ -75,11 +75,6 @@ const optInForm = reactive({
   analytics: true,
   ads: true,
 })
-
-const COOKIES_CONFIG: CookieOptions = {
-  maxAge: 365 * 24 * 60 * 60,
-  path: '/',
-} as const
 
 const requiredCookie = useStatefulCookie<number>(COOKIE_REQUIRED_ACCEPTED_KEY, COOKIES_CONFIG)
 const functionalCookie = useStatefulCookie<number>(COOKIE_FUNCTIONAL_ACCEPTED_KEY, COOKIES_CONFIG)
