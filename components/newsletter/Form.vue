@@ -45,6 +45,14 @@
     "consentStatute": "regulaminu",
     "btn": "Zapisz się",
     "successText": "Dziękujemy za zapisanie się do newslettera!"
+  },
+  "en": {
+    "title": "Newsletter",
+    "text": "Sign up for our newsletter to be the first to learn about all promotions and news!",
+    "consent": "By signing up, you accept the content of the",
+    "consentStatute": "regulations",
+    "btn": "Sign up",
+    "successText": "Thank you for signing up for the newsletter!"
   }
 }
 </i18n>
