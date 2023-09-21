@@ -82,13 +82,16 @@ export const useCartStore = defineStore('cart', {
     },
 
     shippingTimeDescription(): string {
-      // TODO: multilanguage
+      const t = useGlobalI18n()
+
       if (this.shippingDate && isAfter(new Date(this.shippingDate), new Date())) {
-        return `od ${formatDate(new Date(this.shippingDate))}`
+        return `${t('shippingTime.from')} ${formatDate(new Date(this.shippingDate))}`
       }
       if (this.shippingTime) {
         const hours = Math.round(this.shippingTime * 24)
-        return `w ${hours <= 72 ? `${hours}h` : `${this.shippingTime} dni roboczych`}`
+        return `${t('shippingTime.in')} ${
+          hours <= 72 ? `${hours}h` : `${this.shippingTime} ${t('shippingTime.workDays')}`
+        }`
       }
       return ''
     },

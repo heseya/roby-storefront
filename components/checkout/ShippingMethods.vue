@@ -22,7 +22,7 @@
               {{ t('packagingTime') }}
               <b
                 >{{ method.shipping_time_min }}-{{ method.shipping_time_max }}
-                {{ $t('custom.workingDays') }}</b
+                {{ $t('shippingTime.workDays') }}</b
               >
             </p>
           </div>

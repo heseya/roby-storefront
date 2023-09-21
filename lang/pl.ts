@@ -68,7 +68,6 @@ export default {
   },
 
   custom: {
-    workingDays: 'dni roboczych',
     showAll: 'Pokaż wszystkie',
   },
 
@@ -117,6 +116,12 @@ export default {
     added: 'Produkt został dodany do listy życzeń.',
     removed: 'Produkt został usunięty z listy życzeń.',
     empty: 'Nie masz żadnego produktu dodanego do listy życzeń',
+  },
+
+  shippingTime: {
+    from: 'od',
+    in: 'w',
+    workDays: 'dni roboczych',
   },
 
   phonePrefix: {

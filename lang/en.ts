@@ -68,7 +68,6 @@ export default {
   },
 
   custom: {
-    workingDays: 'working days',
     showAll: 'Show all',
   },
 
@@ -117,6 +116,12 @@ export default {
     added: 'The product has been added to the wishlist.',
     removed: 'The product has been removed from the wishlist.',
     empty: 'You have no products added to your wishlist',
+  },
+
+  shippingTime: {
+    from: 'from',
+    in: 'in',
+    workDays: 'work days',
   },
 
   phonePrefix: {
