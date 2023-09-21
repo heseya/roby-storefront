@@ -25,6 +25,7 @@
 </template>
 
 <script lang="ts" setup>
+import { Language } from '@heseya/store-core'
 import { useChannelsStore } from '@/store/channels'
 
 withDefaults(
@@ -36,6 +37,7 @@ withDefaults(
   },
 )
 
+const { setLocale, locales } = useI18n()
 const channels = useChannelsStore()
 
 const channelsList = computed(() => channels.channels.map((c) => ({ key: c.id, name: c.name })))
@@ -54,9 +56,20 @@ const setChannel = (data: { key: string }) => {
   }
 
   channels.setChannel(channel.id)
+  setLanguage(channel.default_language)
 
-  // maybe better way to reload page?
-  if (window) window.location.reload()
+  // TODO: this works and looks bad, but if reload is done faster, then the language is not changed
+  setTimeout(() => {
+    // maybe better way to reload page?
+    if (window) window.location.reload()
+  }, 300)
+}
+
+const setLanguage = (language: Language) => {
+  const locale = locales.value.find((l) =>
+    language.iso.includes(typeof l === 'string' ? l : l.code),
+  )
+  if (locale) setLocale(typeof locale === 'string' ? locale : locale.code)
 }
 </script>
 

@@ -17,7 +17,7 @@
 import plFlagUrl from '@/assets/icons/pl.svg'
 import enFlagUrl from '@/assets/icons/en.svg'
 
-interface Language {
+interface InnerLanguage {
   key: string
 }
 
@@ -26,7 +26,7 @@ const { setLocale, locale, locales } = useI18n()
 
 const getIcon = (value: string) => (value === 'pl' ? plFlagUrl : enFlagUrl)
 
-const languages = computed<Language[]>(() =>
+const languages = computed<InnerLanguage[]>(() =>
   locales.value.map((v) => ({
     key: typeof v === 'string' ? v : v.code,
   })),
@@ -34,7 +34,7 @@ const languages = computed<Language[]>(() =>
 
 const language = computed(() => ({ key: locale.value }))
 
-const setLanguage = (language: Language) => {
+const setLanguage = (language: InnerLanguage) => {
   setLocale(language.key)
 }
 </script>
