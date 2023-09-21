@@ -11,6 +11,7 @@ import { defineStore } from 'pinia'
 import { useCartStore } from './cart'
 import { Paczkomat } from '@/interfaces/Paczkomat'
 import { EMPTY_ADDRESS } from '@/consts/address'
+import { Furgonetka } from '~/interfaces/Furgonetka'
 
 export const useCheckoutStore = defineStore('checkout', {
   state: () => ({
@@ -22,6 +23,7 @@ export const useCheckoutStore = defineStore('checkout', {
     shippingMethod: null as ShippingMethod | null,
     digitalShippingMethod: null as ShippingMethod | null,
     paczkomat: null as Paczkomat | null,
+    furgonetka: null as Furgonetka | null,
     invoiceRequested: false,
     paymentMethodId: null as string | null,
     consents: {

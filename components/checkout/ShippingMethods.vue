@@ -38,6 +38,9 @@
           <CheckoutInpostSelect
             v-if="method.shipping_type === ShippingType.PointExternal && method.metadata.paczkomat"
           />
+          <CheckoutDpdSelect
+            v-if="method.shipping_type === ShippingType.PointExternal && method.metadata.dpd_pickup"
+          />
           <CheckoutFormShippingPointSelect
             v-if="method.shipping_type === ShippingType.Point"
             :method="method"

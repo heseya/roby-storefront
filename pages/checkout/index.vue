@@ -259,9 +259,12 @@ useSeoMeta({
 })
 
 useHead({
-  // Import of Inpost map widget
+  // Import of Inpost & Furgonetka map widget
   link: [{ rel: 'stylesheet', href: 'https://geowidget.easypack24.net/css/easypack.css' }],
-  script: [{ src: 'https://geowidget.easypack24.net/js/sdk-for-javascript.js', async: true }],
+  script: [
+    { src: 'https://geowidget.easypack24.net/js/sdk-for-javascript.js', async: true },
+    { src: 'https://furgonetka.pl/js/dist/map/map.js', async: true },
+  ],
 })
 </script>
 
