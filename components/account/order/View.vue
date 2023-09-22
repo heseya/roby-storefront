@@ -61,7 +61,7 @@
   "pl": {
     "goToPayment": "Przejdź do płatności",
     "documents": "Dokumenty",
-    "no_documents": "Brak dokumentów"
+    "noDocuments": "Brak dokumentów"
   },
   "en": {
     "goToPayment": "Go to payment",
