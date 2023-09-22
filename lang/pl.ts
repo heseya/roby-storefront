@@ -52,6 +52,8 @@ export default {
     delivery: 'Dostawa',
     totalAmount: 'Łączna kwota',
     productsPrice: 'Cena produktów',
+    documents: 'Dokumenty',
+    no_documents: 'Brak dokumentów',
   },
 
   offers: {

@@ -36,6 +36,19 @@
           />
         </NuxtLink>
       </div>
+
+      <AccountOrderDetailsContainer :header="$t('orders.documents')">
+        <div v-if="order.documents.length > 0">
+          <a
+            v-for="document in order.documents"
+            :key="document.id"
+            :href="downloadUrl(order.id, document.id)"
+          >
+            {{ document.name }}
+          </a>
+        </div>
+        <div v-else>{{ $t('orders.no_documents') }}</div>
+      </AccountOrderDetailsContainer>
     </div>
 
     <AccountOrderViewProducts v-if="order" :order="order" />
@@ -61,6 +74,7 @@ import Pending from '@/assets/icons/pending.svg?component'
 const t = useLocalI18n()
 const $t = useGlobalI18n()
 const localePath = useLocalePath()
+const heseya = useHeseya()
 
 const props = defineProps<{
   order: Order
@@ -98,6 +112,12 @@ const paymentStatus = computed(() => {
     },
   }
 })
+
+const downloadUrl = async (orderId: string, documentId: string): Promise<string> => {
+  return await heseya.Orders.Documents.download(orderId, documentId).then((response) => {
+    return URL.createObjectURL(response)
+  })
+}
 </script>
 
 <style lang="scss" scoped>
