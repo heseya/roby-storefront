@@ -2,8 +2,33 @@ import { HeseyaEvent, parsePrices } from '@heseya/store-core'
 import VueGtag, { trackRouter, isTracking, useGtag } from 'vue-gtag-next'
 import { Pinia } from '@pinia/nuxt/dist/runtime/composables'
 
+import {
+  COOKIE_ADS_ACCEPTED_KEY,
+  COOKIE_ANALYTICS_ACCEPTED_KEY,
+  COOKIE_FUNCTIONAL_ACCEPTED_KEY,
+  COOKIES_CONFIG,
+} from '@/consts/cookiesKeys'
+
 import { mapCartItemToItem, mapOrderProductToItem, mapProductToItem } from '@/utils/google'
 import { useChannelsStore } from '@/store/channels'
+
+/**
+ * Watches for a change in the cookie and sets the value in gtag.
+ */
+const useGtagCookieWatch = (cookieKey: string, gtagKey: string) => {
+  const { set } = useGtag()
+
+  const cookie = useStatefulCookie<number>(cookieKey, COOKIES_CONFIG)
+
+  watch(
+    cookie,
+    (value) => {
+      if (value) set({ [gtagKey]: true })
+      else if (value !== undefined) set({ [gtagKey]: false })
+    },
+    { immediate: true },
+  )
+}
 
 export default defineNuxtPlugin((nuxtApp) => {
   const { googleTagManagerId, isProduction, appHost } = usePublicRuntimeConfig()
@@ -15,6 +40,10 @@ export default defineNuxtPlugin((nuxtApp) => {
     },
     useDebugger: !isProduction,
   })
+
+  useGtagCookieWatch(COOKIE_FUNCTIONAL_ACCEPTED_KEY, 'functionality_storage')
+  useGtagCookieWatch(COOKIE_ANALYTICS_ACCEPTED_KEY, 'analytics_storage')
+  useGtagCookieWatch(COOKIE_ADS_ACCEPTED_KEY, 'ad_storage')
 
   trackRouter(useRouter())
 

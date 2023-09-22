@@ -137,9 +137,8 @@ watch(
     border-color: var(--primary-color-alt);
   }
 
-  &[disabled='true'] label::before {
+  input:disabled + label::before {
     opacity: 0.6;
-    background-color: $blue-color-100;
     cursor: not-allowed;
   }
 

@@ -87,6 +87,10 @@
                 :action-text="t('individualOffer')"
               />
             </ProductPageCard>
+            <LazyProductPageAttributeCard
+              v-else-if="product && showAttributeCard"
+              :product="product"
+            />
           </div>
         </template>
 
@@ -223,6 +227,11 @@ const breadcrumbs = computed(() => [
     : null,
   { label: product.value?.name || '', link: route.fullPath },
 ])
+
+const showAttributeCard = computed(() => {
+  const config = useConfigStore()
+  return product.value?.attributes.length && config.env.show_attribute_card === '1'
+})
 
 delayedOnMounted(() => {
   const ev = useHeseyaEventBus()
