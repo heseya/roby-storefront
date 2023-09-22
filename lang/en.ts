@@ -52,8 +52,6 @@ export default {
     delivery: 'Delivery',
     totalAmount: 'Total Amount',
     productsPrice: 'Products price',
-    documents: 'Documents',
-    no_documents: 'No documents available',
   },
 
   offers: {

@@ -37,7 +37,7 @@
         </NuxtLink>
       </div>
 
-      <AccountOrderDetailsContainer :header="$t('orders.documents')">
+      <AccountOrderDetailsContainer :header="t('documents')">
         <div v-if="order.documents.length > 0">
           <button
             v-for="document in order.documents"
@@ -48,7 +48,7 @@
             {{ document.name }}
           </button>
         </div>
-        <div v-else>{{ $t('orders.no_documents') }}</div>
+        <div v-else>{{ t('noDocuments') }}</div>
       </AccountOrderDetailsContainer>
     </div>
 
@@ -59,10 +59,14 @@
 <i18n lang="json">
 {
   "pl": {
-    "goToPayment": "Przejdź do płatności"
+    "goToPayment": "Przejdź do płatności",
+    "documents": "Dokumenty",
+    "no_documents": "Brak dokumentów"
   },
   "en": {
-    "goToPayment": "Go to payment"
+    "goToPayment": "Go to payment",
+    "documents": "Documents",
+    "noDocuments": "No documents available"
   }
 }
 </i18n>
