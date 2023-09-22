@@ -3,12 +3,8 @@
     <div v-if="checkout.furgonetka">
       <div class="dpd-select__row">
         <div class="dpd-select__selected">
-          <b>{{ checkout.furgonetka }} </b>
-          <span>{{ checkout.furgonetka.point.code }}</span>
-          <span>{{ checkout.furgonetka.point.name }}</span>
-          <i v-if="checkout.furgonetka.point.type">
-            {{ checkout.furgonetka.point.type }}
-          </i>
+          <b>{{ checkout.furgonetka.code }} </b>
+          <span>{{ checkout.furgonetka.name }}</span>
         </div>
 
         <LayoutIconButton
@@ -36,9 +32,7 @@
       @click="isFurgonetkaModalOpen = true"
     />
 
-    <LayoutModal v-model:open="isFurgonetkaModalOpen">
-      <CheckoutDpdMap v-if="isFurgonetkaModalOpen" @select="selectDpdPickup" />
-    </LayoutModal>
+    <CheckoutDpdMap v-if="isFurgonetkaModalOpen" @select="selectDpdPickup" @close="closeMap" />
   </div>
 </template>
 
@@ -67,13 +61,17 @@ const checkout = useCheckoutStore()
 const isFurgonetkaModalOpen = ref(false)
 const user = useUser()
 
-const selectDpdPickup = (machine: Furgonetka) => {
+const selectDpdPickup = (point: Furgonetka) => {
   isFurgonetkaModalOpen.value = false
-  checkout.furgonetka = machine
+  checkout.furgonetka = point
 
   if (user.value && user.value.phone) {
     checkout.shippingAddress.phone = user.value.phone || ''
   }
+}
+
+const closeMap = () => {
+  isFurgonetkaModalOpen.value = false
 }
 </script>
 
