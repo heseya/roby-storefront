@@ -39,13 +39,14 @@
 
       <AccountOrderDetailsContainer :header="$t('orders.documents')">
         <div v-if="order.documents.length > 0">
-          <a
+          <button
             v-for="document in order.documents"
             :key="document.id"
-            :href="downloadUrl(order.id, document.id)"
+            class="account-order-view__document-link"
+            @click="downloadFile(order.id, document.id, document.name)"
           >
             {{ document.name }}
-          </a>
+          </button>
         </div>
         <div v-else>{{ $t('orders.no_documents') }}</div>
       </AccountOrderDetailsContainer>
@@ -112,11 +113,16 @@ const paymentStatus = computed(() => {
     },
   }
 })
+const downloadFile = async (orderId: string, documentId: string, documentName: string | null) => {
+  const url = await heseya.Orders.Documents.download(orderId, documentId).then((response) =>
+    URL.createObjectURL(response),
+  )
 
-const downloadUrl = async (orderId: string, documentId: string): Promise<string> => {
-  return await heseya.Orders.Documents.download(orderId, documentId).then((response) => {
-    return URL.createObjectURL(response)
-  })
+  const linkElement = document.createElement('a')
+  linkElement.setAttribute('href', url)
+  linkElement.setAttribute('target', '_blank')
+  linkElement.setAttribute('download', documentName ?? '')
+  linkElement.click()
 }
 </script>
 
@@ -187,6 +193,17 @@ const downloadUrl = async (orderId: string, documentId: string): Promise<string>
     width: 100%;
     background-color: $gray-color-900;
     color: #fff !important;
+  }
+
+  &__document-link {
+    background-color: unset;
+    border: unset;
+    color: $blue-color-500;
+    cursor: pointer;
+
+    &:hover {
+      color: $blue-color-700;
+    }
   }
 
   &__icon {
