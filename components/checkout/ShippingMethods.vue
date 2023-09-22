@@ -19,11 +19,11 @@
               <template v-if="cart.shippingTimeDescription">
                 {{ t('shippingTime') }} <b>{{ cart.shippingTimeDescription }}.</b>
               </template>
-              {{ t('packagingTime') }}
-              <b
-                >{{ method.shipping_time_min }}-{{ method.shipping_time_max }}
-                {{ $t('shippingTime.workDays') }}</b
-              >
+              {{ t('packagingTime') }}:
+              <b>
+                {{ method.shipping_time_min }}-{{ method.shipping_time_max }}
+                {{ $t('shippingTime.workDays') }}
+              </b>
             </p>
           </div>
         </template>
