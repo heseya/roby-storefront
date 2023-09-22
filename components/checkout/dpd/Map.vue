@@ -36,7 +36,6 @@ onUnmounted(() => {
 </script>
 
 <style lang="scss">
-.dpd-modal {
-  height: 100%;
+.dpd {
 }
 </style>

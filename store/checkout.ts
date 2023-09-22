@@ -38,6 +38,7 @@ export const useCheckoutStore = defineStore('checkout', {
       if (this.shippingMethod.shipping_type === ShippingType.Point)
         return this.shippingPointId || undefined
       if (this.isInpostShippingMethod) return this.paczkomat?.name
+      if (this.isDpdShippingMethod) return this.furgonetka?.code
       return this.shippingAddress
     },
 
@@ -50,9 +51,10 @@ export const useCheckoutStore = defineStore('checkout', {
       return {
         email: this.email,
         comment: this.comment,
-        shipping_place: this.isInpostShippingMethod
-          ? `${this.orderShippingPlace as string} | tel.: ${this.shippingAddress.phone}`
-          : this.orderShippingPlace,
+        shipping_place:
+          this.isInpostShippingMethod || this.isDpdShippingMethod
+            ? `${this.orderShippingPlace as string} | tel.: ${this.shippingAddress.phone}`
+            : this.orderShippingPlace,
         items: cart.orderItems,
         shipping_method_id: this.shippingMethod?.id,
         digital_shipping_method_id: this.digitalShippingMethod?.id,
@@ -69,6 +71,11 @@ export const useCheckoutStore = defineStore('checkout', {
               inpost_phone: this.shippingAddress.phone,
               inpost_point: this.orderShippingPlace as string,
             }
+          : this.isDpdShippingMethod
+          ? {
+              dpd_phone: this.shippingAddress.phone,
+              dpd_point: this.orderShippingPlace as string,
+            }
           : {},
       }
     },
@@ -77,6 +84,13 @@ export const useCheckoutStore = defineStore('checkout', {
       return !!(
         this.shippingMethod?.shipping_type === ShippingType.PointExternal &&
         this.shippingMethod?.metadata.paczkomat
+      )
+    },
+
+    isDpdShippingMethod(): boolean {
+      return !!(
+        this.shippingMethod?.shipping_type === ShippingType.PointExternal &&
+        this.shippingMethod?.metadata.dpd_pickup
       )
     },
 
