@@ -3,6 +3,7 @@ import {
   AddressDto,
   CartItem,
   HeseyaEvent,
+  MetadataCreateDto,
   OrderCreateDto,
   ShippingMethod,
   ShippingType,
@@ -27,6 +28,7 @@ export const useCheckoutStore = defineStore('checkout', {
     consents: {
       statute: false,
       newsletter: false,
+      ceneo: false,
     },
   }),
 
@@ -37,6 +39,25 @@ export const useCheckoutStore = defineStore('checkout', {
         return this.shippingPointId || undefined
       if (this.isInpostShippingMethod) return this.paczkomat?.name
       return this.shippingAddress
+    },
+
+    metadataOrder(): MetadataCreateDto {
+      const res = {}
+
+      if (this.isInpostShippingMethod) {
+        Object.assign(res, {
+          inpost_phone: this.shippingAddress.phone,
+          inpost_point: this.orderShippingPlace as string,
+        })
+      }
+
+      if (this.consents.ceneo) {
+        Object.assign(res, {
+          ceneo_indented: this.consents.ceneo,
+        })
+      }
+
+      return res
     },
 
     orderDto(): OrderCreateDto | null {
@@ -62,12 +83,7 @@ export const useCheckoutStore = defineStore('checkout', {
         sales_ids: cart.sales.map((s) => s.id),
         sales_channel_id: channel.value?.id || '',
         currency: currency.value,
-        metadata: this.isInpostShippingMethod
-          ? {
-              inpost_phone: this.shippingAddress.phone,
-              inpost_point: this.orderShippingPlace as string,
-            }
-          : {},
+        metadata: this.metadataOrder,
       }
     },
 

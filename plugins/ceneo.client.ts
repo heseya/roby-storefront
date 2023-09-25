@@ -27,16 +27,18 @@ Date.now() + (dl ? "&dl=" + dl : ''); f.parentNode.insertBefore(j, f);
   const bus = useHeseyaEventBus()
 
   bus.on(HeseyaEvent.Purchase, (order) => {
-    window?._ceneo?.('transaction', {
-      client_email: order.email,
-      order_id: order.code,
-      shop_products: order.products.map((item) => ({
-        id: item.id,
-        price: item.price,
-        quantity: item.quantity,
-        currency: order.currency,
-      })),
-      amount: order.summary,
-    })
+    if (order.metadata.ceneo_indented) {
+      window?._ceneo?.('transaction', {
+        client_email: order.email,
+        order_id: order.code,
+        shop_products: order.products.map((item) => ({
+          id: item.id,
+          price: item.price,
+          quantity: item.quantity,
+          currency: order.currency,
+        })),
+        amount: order.summary,
+      })
+    }
   })
 })

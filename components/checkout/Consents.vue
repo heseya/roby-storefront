@@ -23,6 +23,8 @@
       v-model="checkout.consents.newsletter"
       class="checkout-consents__indented"
     />
+
+    <CeneoConsent v-model="checkout.consents.ceneo" class="checkout-consents__indented" />
   </div>
 </template>
 
@@ -50,11 +52,12 @@ const { enabled: newsletterEnabled } = useNewsletter()
 
 const allAccepted = computed({
   get(): boolean {
-    return checkout.consents.newsletter && checkout.consents.statute
+    return checkout.consents.newsletter && checkout.consents.statute && checkout.consents.ceneo
   },
   set(value: boolean) {
     checkout.consents.newsletter = value
     checkout.consents.statute = value
+    checkout.consents.ceneo = value
   },
 })
 </script>
