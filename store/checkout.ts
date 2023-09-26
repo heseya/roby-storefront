@@ -3,6 +3,7 @@ import {
   AddressDto,
   CartItem,
   HeseyaEvent,
+  MetadataCreateDto,
   OrderCreateDto,
   ShippingMethod,
   ShippingType,
@@ -11,6 +12,7 @@ import { defineStore } from 'pinia'
 import { useCartStore } from './cart'
 import { Paczkomat } from '@/interfaces/Paczkomat'
 import { EMPTY_ADDRESS } from '@/consts/address'
+import { useCeneo } from '~/composables/useCeneo'
 
 export const useCheckoutStore = defineStore('checkout', {
   state: () => ({
@@ -27,6 +29,7 @@ export const useCheckoutStore = defineStore('checkout', {
     consents: {
       statute: false,
       newsletter: false,
+      ceneo: false,
     },
   }),
 
@@ -37,6 +40,26 @@ export const useCheckoutStore = defineStore('checkout', {
         return this.shippingPointId || undefined
       if (this.isInpostShippingMethod) return this.paczkomat?.name
       return this.shippingAddress
+    },
+
+    metadataOrder(): MetadataCreateDto {
+      const res: MetadataCreateDto = {}
+      const { enabled: ceneoEnabled } = useCeneo()
+
+      if (this.isInpostShippingMethod) {
+        Object.assign(res, {
+          inpost_phone: this.shippingAddress.phone,
+          inpost_point: this.orderShippingPlace as string,
+        })
+      }
+
+      if (ceneoEnabled && this.consents.ceneo) {
+        Object.assign(res, {
+          ceneo_survey_consent: this.consents.ceneo,
+        })
+      }
+
+      return res
     },
 
     orderDto(): OrderCreateDto | null {
@@ -62,12 +85,7 @@ export const useCheckoutStore = defineStore('checkout', {
         sales_ids: cart.sales.map((s) => s.id),
         sales_channel_id: channel.value?.id || '',
         currency: currency.value,
-        metadata: this.isInpostShippingMethod
-          ? {
-              inpost_phone: this.shippingAddress.phone,
-              inpost_point: this.orderShippingPlace as string,
-            }
-          : {},
+        metadata: this.metadataOrder,
       }
     },
 
