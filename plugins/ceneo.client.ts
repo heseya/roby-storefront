@@ -27,7 +27,7 @@ Date.now() + (dl ? "&dl=" + dl : ''); f.parentNode.insertBefore(j, f);
   const bus = useHeseyaEventBus()
 
   bus.on(HeseyaEvent.Purchase, (order) => {
-    if (order.metadata.ceneo_indented) {
+    if (order.metadata.ceneo_survey_consent) {
       window?._ceneo?.('transaction', {
         client_email: order.email,
         order_id: order.code,
