@@ -12,6 +12,7 @@ import { defineStore } from 'pinia'
 import { useCartStore } from './cart'
 import { Paczkomat } from '@/interfaces/Paczkomat'
 import { EMPTY_ADDRESS } from '@/consts/address'
+import { useCeneo } from "~/composables/useCeneo";
 
 export const useCheckoutStore = defineStore('checkout', {
   state: () => ({
@@ -43,6 +44,7 @@ export const useCheckoutStore = defineStore('checkout', {
 
     metadataOrder(): MetadataCreateDto {
       const res: MetadataCreateDto = {}
+      const { enabled: ceneoEnabled } = useCeneo()
 
       if (this.isInpostShippingMethod) {
         Object.assign(res, {
@@ -51,9 +53,9 @@ export const useCheckoutStore = defineStore('checkout', {
         })
       }
 
-      if (this.consents.ceneo) {
+      if (ceneoEnabled && this.consents.ceneo) {
         Object.assign(res, {
-          ceneo_indented: this.consents.ceneo,
+          ceneo_survey_consent: this.consents.ceneo,
         })
       }
 
