@@ -1,7 +1,7 @@
 <template>
   <div class="checkout-consents">
     <FormCheckbox
-      v-if="newsletterEnabled"
+      v-if="newsletterEnabled || ceneoGuid"
       v-model="allAccepted"
       class="all-consent"
       name="all-consent"
@@ -24,7 +24,11 @@
       class="checkout-consents__indented"
     />
 
-    <CeneoConsent v-model="checkout.consents.ceneo" class="checkout-consents__indented" />
+    <CeneoConsent
+      v-if="ceneoGuid"
+      v-model="checkout.consents.ceneo"
+      class="checkout-consents__indented"
+    />
   </div>
 </template>
 
@@ -49,15 +53,22 @@ const t = useLocalI18n()
 const checkout = useCheckoutStore()
 
 const { enabled: newsletterEnabled } = useNewsletter()
+const { ceneoGuid } = usePublicRuntimeConfig()
 
 const allAccepted = computed({
   get(): boolean {
     return checkout.consents.newsletter && checkout.consents.statute && checkout.consents.ceneo
   },
   set(value: boolean) {
-    checkout.consents.newsletter = value
     checkout.consents.statute = value
-    checkout.consents.ceneo = value
+
+    if (newsletterEnabled) {
+      checkout.consents.newsletter = value
+    }
+
+    if (ceneoGuid) {
+      checkout.consents.ceneo = value
+    }
   },
 })
 </script>
