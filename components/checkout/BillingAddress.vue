@@ -17,6 +17,7 @@
         v-model:address="checkout.billingAddress"
         :invoice="checkout.invoiceRequested ?? false"
         name-prefix="billing_address"
+        exclude-countries="sales-channel"
       />
     </div>
   </CheckoutPageArea>

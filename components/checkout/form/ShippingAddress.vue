@@ -4,7 +4,7 @@
     <AddressForm
       v-model:address="checkout.shippingAddress"
       name-prefix="shipping_address"
-      channel-countries-only
+      exclude-countries="shipping-method"
     />
   </div>
 </template>

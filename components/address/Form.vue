@@ -108,10 +108,12 @@ import { AddressDto } from '@heseya/store-core'
 
 import { useCheckoutStore } from '@/store/checkout'
 import { EMPTY_ADDRESS } from '@/consts/address'
+import { useChannelsStore } from '@/store/channels'
 
 const t = useLocalI18n()
 const heseya = useHeseya()
 const checkout = useCheckoutStore()
+const salesChannel = useChannelsStore()
 
 const props = withDefaults(
   defineProps<{
@@ -120,6 +122,7 @@ const props = withDefaults(
     disabled?: boolean
     namePrefix?: string
     channelCountriesOnly?: boolean
+    excludeCountries?: false | 'sales-channel' | 'shipping-method'
   }>(),
   {
     address: () => ({ ...EMPTY_ADDRESS }),
@@ -127,6 +130,7 @@ const props = withDefaults(
     disabled: false,
     namePrefix: 'address',
     channelCountriesOnly: false,
+    excludeCountries: false,
   },
 )
 
@@ -139,10 +143,16 @@ const { data: allCountries } = useLazyAsyncData('countries', () =>
 )
 
 const countries = computed(() => {
-  // Return all countries
-  if (!props.channelCountriesOnly) return allCountries.value ?? []
+  // Limits countries to those available in selected shipping method
+  if (props.excludeCountries === 'shipping-method')
+    return allCountries.value?.filter((c) => checkout.isCountryCodeAllowedInShipping(c.code)) ?? []
 
-  return allCountries.value?.filter((c) => checkout.isCountryCodeAllowedInShipping(c.code)) ?? []
+  // Limits countries to those available in selected sales channel
+  if (props.excludeCountries === 'sales-channel')
+    return allCountries.value?.filter((c) => salesChannel.isCountryCodeAllowed(c.code)) ?? []
+
+  // Returns all countries
+  return allCountries.value ?? []
 })
 
 watch(

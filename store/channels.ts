@@ -24,6 +24,12 @@ export const useChannelsStore = defineStore('channels', {
   },
 
   actions: {
+    isCountryCodeAllowed(countryCode: string): boolean {
+      if (!this.selected) return true
+      const isIncludedInList = !!this.selected.countries.find((code) => code === countryCode)
+      return this.selected.countries_block_list ? !isIncludedInList : isIncludedInList
+    },
+
     async fetchChannels(): Promise<void> {
       try {
         const heseya = useHeseya()
