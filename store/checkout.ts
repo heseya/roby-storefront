@@ -42,7 +42,7 @@ export const useCheckoutStore = defineStore('checkout', {
     },
 
     metadataOrder(): MetadataCreateDto {
-      const res = {}
+      const res: MetadataCreateDto = {}
 
       if (this.isInpostShippingMethod) {
         Object.assign(res, {
