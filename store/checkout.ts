@@ -12,6 +12,7 @@ import { defineStore } from 'pinia'
 import { useCartStore } from './cart'
 import { Paczkomat } from '@/interfaces/Paczkomat'
 import { EMPTY_ADDRESS } from '@/consts/address'
+import { Furgonetka } from '~/interfaces/Furgonetka'
 import { useCeneo } from '~/composables/useCeneo'
 
 export const useCheckoutStore = defineStore('checkout', {
@@ -24,6 +25,7 @@ export const useCheckoutStore = defineStore('checkout', {
     shippingMethod: null as ShippingMethod | null,
     digitalShippingMethod: null as ShippingMethod | null,
     paczkomat: null as Paczkomat | null,
+    furgonetka: null as Furgonetka | null,
     invoiceRequested: false,
     paymentMethodId: null as string | null,
     consents: {
@@ -39,6 +41,7 @@ export const useCheckoutStore = defineStore('checkout', {
       if (this.shippingMethod.shipping_type === ShippingType.Point)
         return this.shippingPointId || undefined
       if (this.isInpostShippingMethod) return this.paczkomat?.name
+      if (this.isDpdShippingMethod) return this.furgonetka?.code
       return this.shippingAddress
     },
 
@@ -50,6 +53,13 @@ export const useCheckoutStore = defineStore('checkout', {
         Object.assign(res, {
           inpost_phone: this.shippingAddress.phone,
           inpost_point: this.orderShippingPlace as string,
+        })
+      }
+
+      if (this.isDpdShippingMethod) {
+        Object.assign(res, {
+          dpd_phone: this.shippingAddress.phone,
+          dpd_point: this.orderShippingPlace as string,
         })
       }
 
@@ -71,9 +81,10 @@ export const useCheckoutStore = defineStore('checkout', {
       return {
         email: this.email,
         comment: this.comment,
-        shipping_place: this.isInpostShippingMethod
-          ? `${this.orderShippingPlace as string} | tel.: ${this.shippingAddress.phone}`
-          : this.orderShippingPlace,
+        shipping_place:
+          this.isInpostShippingMethod || this.isDpdShippingMethod
+            ? `${this.orderShippingPlace as string} | tel.: ${this.shippingAddress.phone}`
+            : this.orderShippingPlace,
         items: cart.orderItems,
         shipping_method_id: this.shippingMethod?.id,
         digital_shipping_method_id: this.digitalShippingMethod?.id,
@@ -93,6 +104,13 @@ export const useCheckoutStore = defineStore('checkout', {
       return !!(
         this.shippingMethod?.shipping_type === ShippingType.PointExternal &&
         this.shippingMethod?.metadata.paczkomat
+      )
+    },
+
+    isDpdShippingMethod(): boolean {
+      return !!(
+        this.shippingMethod?.shipping_type === ShippingType.PointExternal &&
+        this.shippingMethod?.metadata.dpd_pickup
       )
     },
 
