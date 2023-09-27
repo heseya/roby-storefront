@@ -19,7 +19,7 @@
         v-model:model-value="checkout.shippingAddress.phone"
         name="phone"
         html-type="phone"
-        rules="required"
+        rules="required|phone"
         class="dpd-select__phone-input"
         :label="t('phone')"
       />
@@ -40,7 +40,7 @@
 {
   "pl": {
     "button": "Wybierz punkt DPD Pickup",
-    "phone": "Number telefonu odbiorcy",
+    "phone": "Numer telefonu odbiorcy",
     "change": "Wybierz punkt DPD Pickup"
   },
   "en": {
