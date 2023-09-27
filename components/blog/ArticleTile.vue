@@ -46,6 +46,7 @@ const dateCreated = computed(() => formatDate(props.article.date_created, 'dd LL
     background: $gray-color-300;
     border-radius: 5px;
     position: relative;
+    overflow: hidden;
 
     &::after {
       content: '';
@@ -67,11 +68,13 @@ const dateCreated = computed(() => formatDate(props.article.date_created, 'dd LL
     color: white;
     background: $gray-color-900;
     position: absolute;
+    width: 100%;
     bottom: 20px;
     left: 0;
     font-weight: bold;
     padding: 3px 10px;
     text-transform: uppercase;
+    transition: all 0.25s;
   }
 
   &__title {
@@ -85,6 +88,14 @@ const dateCreated = computed(() => formatDate(props.article.date_created, 'dd LL
     color: $gray-color-700;
     display: flex;
     justify-content: space-between;
+  }
+
+  &:hover &__floating-title {
+    background-color: var(--highlight-color);
+  }
+
+  &:hover &__image-container img {
+    transform: scale(1.1);
   }
 }
 </style>
