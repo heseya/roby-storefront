@@ -23,7 +23,7 @@
         v-model:model-value="checkout.shippingAddress.phone"
         name="phone"
         html-type="phone"
-        rules="required"
+        rules="required|phone"
         class="inpost-select__phone-input"
         :label="t('phone')"
       />
@@ -41,7 +41,7 @@
 {
   "pl": {
     "button": "Wybierz paczkomat",
-    "phone": "Number telefonu odbiorcy",
+    "phone": "Numer telefonu odbiorcy",
     "change": "Wybierz paczkomat"
   },
   "en": {
