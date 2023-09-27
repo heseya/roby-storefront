@@ -1,6 +1,13 @@
 import { defineRule, configure } from 'vee-validate'
 import { localize, setLocale } from '@vee-validate/i18n'
-import { required, email, confirmed, alpha, alpha_spaces as alphaSpaces } from '@vee-validate/rules'
+import {
+  required,
+  email,
+  confirmed,
+  alpha,
+  alpha_spaces as alphaSpaces,
+  max,
+} from '@vee-validate/rules'
 
 export default defineNuxtPlugin((nuxt) => {
   defineRule('email', email)
@@ -21,6 +28,7 @@ export default defineNuxtPlugin((nuxt) => {
   defineRule('plZip', (value: string) => {
     return /^[0-9]{2}-[0-9]{3}$/gm.test(value)
   })
+  defineRule('max', max)
 
   configure({
     generateMessage: localize({
@@ -36,6 +44,7 @@ export default defineNuxtPlugin((nuxt) => {
           phone: 'Numer telefonu jest niepoprawny',
           vatNumber: 'Podany numer NIP jest nieprawidłowy',
           plZip: 'Kod pocztowy jest nieprawidłowy',
+          max: 'Przekroczono maksymalną ilość znaków. Dopuszczalna liczba znaków to 0:{max}',
         },
       },
       en: {
@@ -50,6 +59,7 @@ export default defineNuxtPlugin((nuxt) => {
           phone: 'The phone number is incorrect',
           vatNumber: 'Provided VAT Number is incorrect',
           plZip: 'Zip code is incorrect',
+          max: 'The maximum number of characters has been exceeded. The allowed number of characters is 0:{max}',
         },
       },
     }),
