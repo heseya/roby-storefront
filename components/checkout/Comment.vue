@@ -5,6 +5,7 @@
         v-model="checkout.comment"
         :label="t('comment.label')"
         name="comment"
+        rules="max:100"
         :placeholder="t('comment.placeholder')"
       />
     </div>
