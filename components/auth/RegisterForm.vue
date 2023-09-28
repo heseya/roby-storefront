@@ -49,7 +49,9 @@
     <AccountConsentsList
       v-model:value="form.values.consents"
       @error="(e) => (consentsListError = formatError(e))"
-    />
+    >
+      <NewsletterConsent v-if="newsletterEnabled" v-model="newsletterConsent" />
+    </AccountConsentsList>
 
     <LayoutInfoBox
       v-show="errorMessage || consentsListError"
@@ -95,11 +97,13 @@ const t = useLocalI18n()
 const $t = useGlobalI18n()
 const heseya = useHeseya()
 const formatError = useErrorMessage()
-const ev = useHeseyaEventBus()
 
 const isLoading = ref(false)
 const errorMessage = ref('')
 const consentsListError = ref<string>('')
+
+const newsletterConsent = ref(false)
+const { subscribe: newsletterSubscribe, enabled: newsletterEnabled } = useNewsletter()
 
 const emit = defineEmits<{
   (event: 'registered', value: User): void
@@ -135,10 +139,13 @@ const registerFormDto = computed<UserRegisterDto>(() => ({
 }))
 
 const onSubmit = form.handleSubmit(async () => {
+  const ev = useHeseyaEventBus()
+
   isLoading.value = true
 
   try {
     const user = await heseya.Auth.register(registerFormDto.value)
+    if (newsletterConsent.value) newsletterSubscribe(user.email)
 
     ev.emit(HeseyaEvent.Register, user)
     emit('registered', user)

@@ -34,6 +34,8 @@
 </i18n>
 
 <script setup lang="ts">
+import { HeseyaEvent } from '@heseya/store-core'
+
 const heseya = useHeseya()
 const route = useRoute()
 const t = useLocalI18n()
@@ -46,8 +48,8 @@ const { data: category } = useAsyncData(`category-${route.params.slug}`, async (
 
     return category
   } catch (e: any) {
-    if (e?.response?.status === 404) {
-      showError({ message: t('notFoundError'), statusCode: 404 })
+    if (e?.response?.status === 404 || e?.response?.status === 406) {
+      showError({ message: t('notFoundError'), statusCode: e?.response?.status })
       return null
     }
 
@@ -57,6 +59,15 @@ const { data: category } = useAsyncData(`category-${route.params.slug}`, async (
 })
 
 useSeo(() => [category.value?.seo, { title: category.value?.name }])
+
+delayedOnMounted(() => {
+  const ev = useHeseyaEventBus()
+  ev.emit(HeseyaEvent.ViewContent, {
+    contentType: 'product-set',
+    contentId: category.value?.id,
+    contentName: category.value?.name,
+  })
+})
 
 const breadcrumbs = computed(() => [
   category.value?.parent

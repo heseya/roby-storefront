@@ -6,7 +6,7 @@
     <div
       class="site__content"
       :class="{
-        'site__content--with-notification': config.env.top_site_text,
+        'site__content--with-notification': config.topSiteText,
         'site__content--with-additional-navbar': isAdditionalNavBarVisible,
       }"
     >
@@ -17,6 +17,7 @@
       <LayoutBreadcrumps />
     </div>
     <div class="site__footer">
+      <NewsletterForm />
       <BaseFooter />
     </div>
     <BaseCookiesBar />

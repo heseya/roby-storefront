@@ -87,6 +87,10 @@
                 :action-text="t('individualOffer')"
               />
             </ProductPageCard>
+            <LazyProductPageAttributeCard
+              v-else-if="product && showAttributeCard"
+              :product="product"
+            />
           </div>
         </template>
 
@@ -165,7 +169,6 @@ import { Tab } from '@/components/layout/Tabs.vue'
 
 import { useConfigStore } from '@/store/config'
 
-const ev = useHeseyaEventBus()
 const heseya = useHeseya()
 const route = useRoute()
 const config = useConfigStore()
@@ -174,12 +177,11 @@ const $t = useGlobalI18n()
 
 const { data: product } = useAsyncData(`product-${route.params.slug}`, async () => {
   try {
-    const prod = await heseya.Products.getOneBySlug(route.params.slug as string)
-
-    return prod
+    return await heseya.Products.getOneBySlug(route.params.slug as string)
   } catch (e: any) {
-    if (e?.response?.status === 404) showError({ message: t('notFoundError'), statusCode: 404 })
-    else showError({ message: e.statusCode, statusCode: 500 })
+    if (e?.response?.status === 404 || e?.response?.status === 406)
+      showError({ message: t('notFoundError'), statusCode: e?.response?.status })
+    else showError({ message: e.statusCode, statusCode: e?.response?.status || 500 })
     return null
   }
 })
@@ -226,7 +228,14 @@ const breadcrumbs = computed(() => [
   { label: product.value?.name || '', link: route.fullPath },
 ])
 
-onMounted(() => {
+const showAttributeCard = computed(() => {
+  const config = useConfigStore()
+  return product.value?.attributes.length && config.env.show_attribute_card === '1'
+})
+
+delayedOnMounted(() => {
+  const ev = useHeseyaEventBus()
+
   watch(
     product,
     (p) => {
@@ -236,7 +245,10 @@ onMounted(() => {
   )
 })
 
-useSeo(() => [product.value?.seo, { title: product.value?.name }])
+useSeo(() => [
+  product.value?.seo,
+  { title: product.value?.name, og_image: product.value?.cover || undefined },
+])
 
 useProductJsonLd(product)
 </script>

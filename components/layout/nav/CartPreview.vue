@@ -13,7 +13,7 @@
               >{{ $t('cart.quantity') }} {{ item.qty }}</span
             >
             <span class="cart-preview-item__price">
-              {{ formatAmount(item.totalPrice) }}
+              {{ formatAmount(item.totalPrice, currency) }}
             </span>
           </div>
         </div>
@@ -28,7 +28,7 @@
     </div>
     <div class="cart-preview-summary">
       <span>{{ $t('orders.totalAmount') }}</span>
-      <span class="cart-preview-summary__total">{{ formatAmount(cart.totalValue) }}</span>
+      <span class="cart-preview-summary__total">{{ formatAmount(cart.totalValue, currency) }}</span>
     </div>
   </div>
   <div v-else class="cart-preview cart-preview--empty">{{ $t('cart.empty') }}</div>
@@ -43,6 +43,7 @@ import { useCartStore } from '@/store/cart'
 const $t = useGlobalI18n()
 const cart = useCartStore()
 const config = useConfigStore()
+const currency = useCurrency()
 
 const handleRemove = (id: string) => {
   cart.remove(id)

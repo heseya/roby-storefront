@@ -71,14 +71,16 @@ const loadOptions = async (page = 1) => {
 
 loadOptions(1)
 
-useInfiniteScroll(
-  containerRef,
-  () => {
-    if (pagination.value.currentPage < pagination.value.lastPage)
-      loadOptions(pagination.value.currentPage + 1)
-  },
-  { distance: 10 },
-)
+onMounted(() => {
+  useInfiniteScroll(
+    containerRef,
+    () => {
+      if (pagination.value.currentPage < pagination.value.lastPage)
+        loadOptions(pagination.value.currentPage + 1)
+    },
+    { distance: 10 },
+  )
+})
 
 const innerValue = computed(() => (Array.isArray(props.value) ? props.value : [props.value]))
 const isChecked = (optionId: string) => innerValue.value.includes(optionId)

@@ -5,7 +5,6 @@ export const useConfigStore = defineStore('config', {
   state: () => ({
     env: {} as SettingsRecord,
     seo: {} as SeoMetadata,
-    currency: 'PLN',
   }),
 
   getters: {
@@ -20,6 +19,10 @@ export const useConfigStore = defineStore('config', {
     },
     storeName(): string {
       return this.env.store_name as string
+    },
+    topSiteText(): string {
+      const { locale } = useI18n()
+      return this.env[`top_site_text_${locale.value}`]?.toString() || ''
     },
 
     isTraditionalTransfer(): boolean {

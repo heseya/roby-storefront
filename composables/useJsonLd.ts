@@ -1,9 +1,7 @@
-import { Product } from '@heseya/store-core'
+import { Product, parsePrices } from '@heseya/store-core'
 import { WithContext, Product as ProductSchema, Thing } from 'schema-dts'
 
 import { MaybeRef } from '@vueuse/core'
-
-import { useConfigStore } from '@/store/config'
 
 export const useJsonLd = <T extends MaybeRef<WithContext<Thing>>>(schema: T) => {
   useHead(() => ({
@@ -17,8 +15,8 @@ export const useJsonLd = <T extends MaybeRef<WithContext<Thing>>>(schema: T) => 
 }
 
 export const useProductJsonLd = (productRef?: MaybeRef<Product | null>) => {
-  const config = useConfigStore()
   const { appHost } = usePublicRuntimeConfig()
+  const currency = useCurrency()
 
   const jsonLd = computed<WithContext<ProductSchema>>(() => {
     const product = unref(productRef)
@@ -34,8 +32,8 @@ export const useProductJsonLd = (productRef?: MaybeRef<Product | null>) => {
       offers: {
         '@type': 'Offer',
         url: `${appHost}/produkt/${product.slug}`,
-        priceCurrency: config.currency,
-        price: product.price_min,
+        priceCurrency: currency.value,
+        price: parsePrices(product.prices_min, currency.value),
         availability: product.available
           ? 'https://schema.org/InStock'
           : 'https://schema.org/SoldOut',

@@ -7,8 +7,8 @@
     type="gray"
   >
     <option :value="undefined">{{ t('options.default') }}</option>
-    <option value="price:asc">{{ t('options.price_asc') }}</option>
-    <option value="price:desc">{{ t('options.price_desc') }}</option>
+    <option :value="`price:${currency}:asc`">{{ t('options.price_asc') }}</option>
+    <option :value="`price:${currency}:desc`">{{ t('options.price_desc') }}</option>
     <option value="name">{{ t('options.name') }}</option>
     <option v-for="{ key, label } in sortable" :key="key" :value="key">
       {{ label }}
@@ -53,6 +53,8 @@ const props = defineProps<{
   hideLabel?: boolean
 }>()
 
+const currency = useCurrency()
+
 const emit = defineEmits<{
   (e: 'update:modelValue', value: string | undefined): void
 }>()
@@ -81,5 +83,10 @@ const sortable = computed(
 const innerValue = computed({
   get: () => props.modelValue,
   set: (value) => emit('update:modelValue', value),
+})
+
+onMounted(() => {
+  // Change sort currency when currency changes
+  if (innerValue.value?.startsWith('price:')) innerValue.value = `price:${currency.value}:asc`
 })
 </script>

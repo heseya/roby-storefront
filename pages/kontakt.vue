@@ -29,6 +29,11 @@
           <ContactPersonCard v-for="(person, index) in persons" :key="index" :person="person" />
         </div>
       </div>
+
+      <div class="contact__form">
+        <h2>{{ t('formTitle') }}</h2>
+        <ProductPageContactForm type="contact" :action-text="t('actionText')" />
+      </div>
     </BaseContainer>
   </NuxtLayout>
 </template>
@@ -36,10 +41,14 @@
 <i18n lang="json">
 {
   "pl": {
-    "title": "Kontakt"
+    "title": "Kontakt",
+    "formTitle": "Formularz kontaktowy",
+    "actionText": "Wyślij wiadomość"
   },
   "en": {
-    "title": "Contact"
+    "title": "Contact",
+    "formTitle": "Contact form",
+    "actionText": "Send message"
   }
 }
 </i18n>
@@ -156,6 +165,15 @@ const personGroups = computed(() =>
     @media ($max-viewport-9) {
       grid-template-columns: 1fr;
     }
+  }
+
+  &__form {
+    padding: 24px;
+    border: solid 1px #efefef;
+    border-radius: 4px;
+    max-width: 800px;
+    width: 100%;
+    margin: 0 auto;
   }
 }
 </style>

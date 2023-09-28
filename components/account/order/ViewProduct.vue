@@ -7,7 +7,7 @@
       <div class="account-order-product-view__name">{{ product.name }}</div>
       <div class="account-order-product-view__price">
         <div>{{ product.quantity }} {{ t('quantity') }}</div>
-        <div>{{ formatAmount(product.price) }}</div>
+        <div>{{ formatAmount(product.price, currency) }}</div>
       </div>
     </div>
   </div>
@@ -30,6 +30,7 @@ const t = useLocalI18n()
 
 defineProps<{
   product: OrderProduct
+  currency: string
 }>()
 </script>
 

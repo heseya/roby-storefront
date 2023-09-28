@@ -64,22 +64,24 @@
 <script setup lang="ts">
 import { CartItem, HeseyaEvent } from '@heseya/store-core'
 import { useCartStore } from '@/store/cart'
+import { useConfigStore } from '@/store/config'
 
 const cart = useCartStore()
 const t = useLocalI18n()
 const $t = useGlobalI18n()
+const config = useConfigStore()
 
 const isCartEmpty = computed(() => cart.length === 0)
 
-const suggestedQuery = computed(() => ({
-  // TODO: maybe smarter?
-  page: Math.ceil(Math.random() * 6),
-  limit: 8,
-  available: true,
-}))
+const suggestedQuery = computed(() => {
+  return {
+    sets: [config.env.cart_upsell_set_slug as string],
+  }
+})
 
-onMounted(() => {
+delayedOnMounted(() => {
   const ev = useHeseyaEventBus()
+
   ev.emit(HeseyaEvent.ViewCart, cart.items as CartItem[])
 })
 

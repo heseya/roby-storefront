@@ -25,6 +25,7 @@ export default {
     payment: 'Płatność',
     paid: 'Opłacono',
     unpaid: 'Nie opłacono',
+    paymentOnDelivery: 'Za pobraniem',
     confirmAndPay: 'Potwierdzam i płacę',
     traditionalTransfer: 'Przelew tradycyjny',
     payForOrder: 'Opłać zamówienie',
@@ -44,6 +45,7 @@ export default {
   },
 
   orders: {
+    summary: 'Podsumowanie zamówienia',
     title: 'Zamówienia',
     details: 'Szczegóły Zamówienia',
     status: 'Status',
@@ -55,6 +57,7 @@ export default {
   offers: {
     renting: 'Zapytaj o wynajem',
     pricing: 'Zapytaj o cenę',
+    unavailable: 'Produkt niedostępny',
   },
 
   cart: {
@@ -65,7 +68,6 @@ export default {
   },
 
   custom: {
-    workingDays: 'dni roboczych',
     showAll: 'Pokaż wszystkie',
   },
 
@@ -114,6 +116,12 @@ export default {
     added: 'Produkt został dodany do listy życzeń.',
     removed: 'Produkt został usunięty z listy życzeń.',
     empty: 'Nie masz żadnego produktu dodanego do listy życzeń',
+  },
+
+  shippingTime: {
+    from: 'od',
+    in: 'w',
+    workDays: 'dni roboczych',
   },
 
   phonePrefix: {

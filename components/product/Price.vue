@@ -5,12 +5,12 @@
       class="product-price__price"
       :class="{ 'product-price__price--discounted': isDiscounted }"
     >
-      <template v-if="product.price_min !== product.price_max">
+      <template v-if="priceMin !== priceMax">
         {{ $t('common.from') }}
       </template>
-      {{ formatAmount(product.price_min) }}
-      <!-- <template v-if="product.price_min !== product.price_max">
-        - {{ formatAmount(product.price_max) }}
+      {{ formatAmount(priceMin, currency) }}
+      <!-- <template v-if="priceMin !== priceMax">
+        - {{ formatAmount(priceMax, currency) }}
       </template> -->
     </component>
     {{ ' ' }}
@@ -19,12 +19,12 @@
       v-if="isDiscounted"
       class="product-price__price product-price__price--original"
     >
-      <template v-if="product.price_min_initial !== product.price_max_initial">
+      <template v-if="priceMinInitial !== priceMaxInitial">
         {{ $t('common.from') }}
       </template>
-      {{ formatAmount(product.price_min_initial) }}
-      <!-- <template v-if="product.price_min_initial !== product.price_max_initial">
-        - {{ formatAmount(product.price_max_initial) }}
+      {{ formatAmount(priceMinInitial, currency) }}
+      <!-- <template v-if="priceMinInitial !== priceMaxInitial">
+        - {{ formatAmount(priceMaxInitial, currency) }}
       </template> -->
     </component>
   </div>
@@ -44,12 +44,21 @@ const props = withDefaults(
   },
 )
 
-const isDiscounted = computed(() => {
-  return (
-    props.product.price_max < props.product.price_max_initial ||
-    props.product.price_min < props.product.price_min_initial
-  )
-})
+const currency = useCurrency()
+const calculateGrossPrice = usePriceGross()
+
+const priceMinInitial = computed(() =>
+  calculateGrossPrice(props.product.prices_min_initial, currency.value),
+)
+const priceMin = computed(() => calculateGrossPrice(props.product.prices_min, currency.value))
+const priceMaxInitial = computed(() =>
+  calculateGrossPrice(props.product.prices_max_initial, currency.value),
+)
+const priceMax = computed(() => calculateGrossPrice(props.product.prices_max, currency.value))
+
+const isDiscounted = computed(
+  () => priceMax.value < priceMaxInitial.value || priceMin.value < priceMinInitial.value,
+)
 </script>
 
 <style lang="scss" scoped>

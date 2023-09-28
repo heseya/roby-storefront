@@ -26,7 +26,7 @@ const props = withDefaults(
 )
 
 const { data: products } = useAsyncData('simple-carousel', async () => {
-  const { data } = await heseya.Products.get(props.query)
+  const { data } = await heseya.Products.get({ ...props.query, shipping_digital: false })
   return data
 })
 

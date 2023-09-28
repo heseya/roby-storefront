@@ -3,17 +3,21 @@
     class="product-purchase-panel"
     :class="{ 'product-purchase-panel--no-schemas': !product.has_schemas }"
   >
-    <div class="product-purchase-panel__price">
+    <div v-if="product.available" class="product-purchase-panel__price">
       <LayoutLoading :active="pending" />
       <span class="product-price" :class="{ 'product-price--discounted': price !== originalPrice }">
-        {{ formatAmount(price) }}
+        {{ formatAmount(price, currency) }}
       </span>
       <span v-if="price !== originalPrice" class="product-price product-price--original">
-        {{ formatAmount(originalPrice) }}
+        {{ formatAmount(originalPrice, currency) }}
       </span>
     </div>
 
-    <ProductPageOmnibus :product="product" class="product-purchase-panel__omnibus" />
+    <ProductPageOmnibus
+      v-if="product.available"
+      :product="product"
+      class="product-purchase-panel__omnibus"
+    />
 
     <ProductPageSchemas
       v-model:value="schemaValue"
@@ -35,7 +39,7 @@
     <a
       v-if="isLeaseable && leaselinkEnabled"
       class="product-purchase-panel__lease-btn"
-      :href="getLeasingUrl(product.name, price, false, product.vat_rate)"
+      :href="getLeasingUrl(product.name, price, false, parseFloat(channel?.vat_rate || '0'))"
     >
       <LayoutButton variant="gray" :style="{ width: '100%' }">
         {{ t('actions.lease') }}
@@ -97,11 +101,15 @@ const props = withDefaults(
 const cart = useCartStore()
 const t = useLocalI18n()
 const localePath = useLocalePath()
+const currency = useCurrency()
+const channel = useSalesChannel()
 
 const { enabled: leaselinkEnabled, getUrl: getLeasingUrl } = useLeaselink()
 
 const quantity = ref(1)
-const schemaValue = ref<CartItemSchema[]>(parseSchemasToValues(props.product.schemas))
+const schemaValue = ref<CartItemSchema[]>(
+  parseSchemasToValues(props.product.schemas, currency.value),
+)
 const { price, originalPrice, pending } = useProductPrice(props.product, schemaValue)
 
 const purchaseButtonText = computed((): string => {

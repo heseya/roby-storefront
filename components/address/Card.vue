@@ -3,14 +3,13 @@
     class="address-card"
     :class="{
       'address-card--selected': selected,
+      'address-card--disabled': disabled,
     }"
-    @click="emit('update:selected', value)"
+    @click="!disabled && emit('update:selected', value)"
   >
     <div class="address-card__select" />
     <div>
-      <p :class="{ 'address-card__header': !value.address.vat }">
-        {{ value.name }}
-      </p>
+      <p :class="{ 'address-card__header': !value.address.vat }">{{ value.name }}</p>
       <p>{{ value.address.name }}</p>
       <p v-if="value.address.vat">{{ $t('form.vat') }} {{ value.address.vat }}</p>
       <p>{{ value.address.phone }}</p>
@@ -18,6 +17,7 @@
     <div>
       <p>{{ value.address.address }}</p>
       <p>{{ value.address.zip }} {{ value.address.city }}</p>
+      <p>{{ value.address.country_name }}</p>
     </div>
     <div class="address-card__actions">
       <LayoutIcon
@@ -85,6 +85,7 @@ const props = defineProps<{
   selected: boolean
   value: UserSavedAddress
   type: 'billing' | 'shipping'
+  disabled?: boolean
 }>()
 
 const emit = defineEmits<{
@@ -111,12 +112,22 @@ const openDeleteAddressModal = () => {
   display: grid;
   position: relative;
   align-content: space-between;
-  gap: 26px;
+  gap: 8px;
   padding: 10px 0px 10px 46px;
   border: 1px solid $gray-color-300;
   max-width: 660px;
   background-color: $white-color;
   transition: 0.3s;
+  cursor: pointer;
+
+  &--disabled {
+    background-color: $gray-color-300;
+    cursor: not-allowed;
+
+    &:hover {
+      background-color: $gray-color-300;
+    }
+  }
 
   &__header {
     font-weight: 600;
@@ -124,7 +135,6 @@ const openDeleteAddressModal = () => {
 
   &:hover {
     background-color: $gray-color-050;
-    cursor: pointer;
   }
 
   &__select {
@@ -150,6 +160,7 @@ const openDeleteAddressModal = () => {
 
   &__icon {
     color: $blue-color-500;
+    cursor: pointer;
 
     &:hover {
       opacity: 0.7;

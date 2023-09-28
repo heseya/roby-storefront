@@ -14,7 +14,7 @@
       :model-value="address.vat"
       :name="`${namePrefix}_vat`"
       autocomplete="vat"
-      rules="required"
+      rules="required|vatNumber"
       :label="$t('form.vat')"
       :disabled="disabled"
       @update:model-value="update('vat', $event as string)"
@@ -47,7 +47,7 @@
         :model-value="address.zip"
         :name="`${namePrefix}_postal_code`"
         autocomplete="postal_code"
-        rules="required"
+        :rules="address.country === 'PL' ? 'required|plZip' : 'required'"
         :label="t('postalCode')"
         :disabled="disabled"
         @update:model-value="update('zip', $event as string)"
@@ -67,7 +67,7 @@
       :name="`${namePrefix}_phone`"
       autocomplete="phone"
       html-type="phone"
-      rules="required"
+      rules="required|phone"
       :label="t('phone')"
       :disabled="disabled"
       @update:model-value="update('phone', $event as string)"
@@ -105,10 +105,15 @@
 
 <script setup lang="ts">
 import { AddressDto } from '@heseya/store-core'
-import { EMPTY_ADDRESS } from '~/consts/address'
+
+import { useCheckoutStore } from '@/store/checkout'
+import { EMPTY_ADDRESS } from '@/consts/address'
+import { useChannelsStore } from '@/store/channels'
 
 const t = useLocalI18n()
 const heseya = useHeseya()
+const checkout = useCheckoutStore()
+const salesChannel = useChannelsStore()
 
 const props = withDefaults(
   defineProps<{
@@ -116,12 +121,16 @@ const props = withDefaults(
     invoice?: boolean
     disabled?: boolean
     namePrefix?: string
+    channelCountriesOnly?: boolean
+    excludeCountries?: false | 'sales-channel' | 'shipping-method'
   }>(),
   {
     address: () => ({ ...EMPTY_ADDRESS }),
     invoice: false,
     disabled: false,
     namePrefix: 'address',
+    channelCountriesOnly: false,
+    excludeCountries: false,
   },
 )
 
@@ -129,8 +138,34 @@ const emit = defineEmits<{
   (event: 'update:address', value: AddressDto): void
 }>()
 
-const { data: countries } = useLazyAsyncData('countries', () =>
+const { data: allCountries } = useLazyAsyncData('countries', () =>
   heseya.ShippingMethods.getCountries(),
+)
+
+const countries = computed(() => {
+  // Limits countries to those available in selected shipping method
+  if (props.excludeCountries === 'shipping-method')
+    return allCountries.value?.filter((c) => checkout.isCountryCodeAllowedInShipping(c.code)) ?? []
+
+  // Limits countries to those available in selected sales channel
+  if (props.excludeCountries === 'sales-channel')
+    return allCountries.value?.filter((c) => salesChannel.isCountryCodeAllowed(c.code)) ?? []
+
+  // Returns all countries
+  return allCountries.value ?? []
+})
+
+watch(
+  [() => props.address.country, countries],
+  () => {
+    /**
+     * Change country to first available if current is not available in selected sales channel
+     */
+    if (countries.value.length && !countries.value.find((c) => c.code === props.address.country)) {
+      emit('update:address', { ...props.address, country: countries.value[0].code })
+    }
+  },
+  { immediate: true },
 )
 
 const update = (key: keyof AddressDto, value: string) => {

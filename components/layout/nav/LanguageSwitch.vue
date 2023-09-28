@@ -1,9 +1,10 @@
 <template>
   <LayoutPopover
-    v-if="languages.length > 1"
-    v-model:value="language"
+    v-show="languages.length > 1"
+    :value="language"
     :options="languages"
     class="language-switch__menu"
+    @update:value="setLanguage"
   >
     <template #option="item">
       <img :src="getIcon(item.value.key)" class="language-switch__icon" />
@@ -16,7 +17,7 @@
 import plFlagUrl from '@/assets/icons/pl.svg'
 import enFlagUrl from '@/assets/icons/en.svg'
 
-interface Language {
+interface InnerLanguage {
   key: string
 }
 
@@ -25,16 +26,17 @@ const { setLocale, locale, locales } = useI18n()
 
 const getIcon = (value: string) => (value === 'pl' ? plFlagUrl : enFlagUrl)
 
-const languages = computed<Language[]>(() =>
+const languages = computed<InnerLanguage[]>(() =>
   locales.value.map((v) => ({
     key: typeof v === 'string' ? v : v.code,
   })),
 )
 
-const language = computed({
-  get: () => ({ key: locale.value }),
-  set: (item: Language) => setLocale(item.key),
-})
+const language = computed(() => ({ key: locale.value }))
+
+const setLanguage = (language: InnerLanguage) => {
+  setLocale(language.key)
+}
 </script>
 
 <style lang="scss" scoped>

@@ -25,6 +25,7 @@ export default {
     payment: 'Payment',
     paid: 'Paid',
     unpaid: 'Unpaid',
+    paymentOnDelivery: 'On delivery',
     confirmAndPay: 'Buy and pay',
     traditionalTransfer: 'Bank transfer',
     payForOrder: 'Pay for order',
@@ -44,6 +45,7 @@ export default {
   },
 
   orders: {
+    summary: 'Order summary',
     title: 'Orders',
     details: 'Order details',
     status: 'Status',
@@ -55,6 +57,7 @@ export default {
   offers: {
     renting: 'Ask for rental',
     pricing: 'Ask for price',
+    unavailable: 'Product unavailable',
   },
 
   cart: {
@@ -65,7 +68,6 @@ export default {
   },
 
   custom: {
-    workingDays: 'working days',
     showAll: 'Show all',
   },
 
@@ -114,6 +116,12 @@ export default {
     added: 'The product has been added to the wishlist.',
     removed: 'The product has been removed from the wishlist.',
     empty: 'You have no products added to your wishlist',
+  },
+
+  shippingTime: {
+    from: 'from',
+    in: 'in',
+    workDays: 'work days',
   },
 
   phonePrefix: {

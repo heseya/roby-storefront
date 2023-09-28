@@ -7,6 +7,7 @@
         :value="userAddress"
         :selected="userAddress?.id === value?.id"
         :type="type"
+        :disabled="!allowedAddresses.includes(userAddress.id)"
         @update:selected="(v) => (selectedAddress = v)"
       />
     </div>
@@ -55,6 +56,7 @@
 
 <script setup lang="ts">
 import { UserSavedAddress } from '@heseya/store-core'
+import { useCheckoutStore } from '@/store/checkout'
 
 const t = useLocalI18n()
 
@@ -63,11 +65,19 @@ const props = defineProps<{
   type: 'billing' | 'shipping'
 }>()
 
+const checkout = useCheckoutStore()
+
 const emit = defineEmits<{
   (e: 'update:value', value: UserSavedAddress | null): void
 }>()
 
 const { addresses } = useUserAddreses(props.type)
+
+const allowedAddresses = computed(() => {
+  return (
+    addresses.value?.filter((c) => checkout.isCountryCodeAllowedInShipping(c.address.country)) ?? []
+  ).map((a) => a.id)
+})
 
 const isAddAddressModalVisible = ref(false)
 

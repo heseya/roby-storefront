@@ -3,6 +3,7 @@ import {
   AddressDto,
   CartItem,
   HeseyaEvent,
+  MetadataCreateDto,
   OrderCreateDto,
   ShippingMethod,
   ShippingType,
@@ -11,6 +12,8 @@ import { defineStore } from 'pinia'
 import { useCartStore } from './cart'
 import { Paczkomat } from '@/interfaces/Paczkomat'
 import { EMPTY_ADDRESS } from '@/consts/address'
+import { Furgonetka } from '~/interfaces/Furgonetka'
+import { useCeneo } from '~/composables/useCeneo'
 
 export const useCheckoutStore = defineStore('checkout', {
   state: () => ({
@@ -22,8 +25,14 @@ export const useCheckoutStore = defineStore('checkout', {
     shippingMethod: null as ShippingMethod | null,
     digitalShippingMethod: null as ShippingMethod | null,
     paczkomat: null as Paczkomat | null,
+    furgonetka: null as Furgonetka | null,
     invoiceRequested: false,
     paymentMethodId: null as string | null,
+    consents: {
+      statute: false,
+      newsletter: false,
+      ceneo: false,
+    },
   }),
 
   getters: {
@@ -32,18 +41,50 @@ export const useCheckoutStore = defineStore('checkout', {
       if (this.shippingMethod.shipping_type === ShippingType.Point)
         return this.shippingPointId || undefined
       if (this.isInpostShippingMethod) return this.paczkomat?.name
+      if (this.isDpdShippingMethod) return this.furgonetka?.code
       return this.shippingAddress
+    },
+
+    metadataOrder(): MetadataCreateDto {
+      const res: MetadataCreateDto = {}
+      const { enabled: ceneoEnabled } = useCeneo()
+
+      if (this.isInpostShippingMethod) {
+        Object.assign(res, {
+          inpost_phone: this.shippingAddress.phone,
+          inpost_point: this.orderShippingPlace as string,
+        })
+      }
+
+      if (this.isDpdShippingMethod) {
+        Object.assign(res, {
+          dpd_phone: this.shippingAddress.phone,
+          dpd_point: this.orderShippingPlace as string,
+        })
+      }
+
+      if (ceneoEnabled && this.consents.ceneo) {
+        Object.assign(res, {
+          ceneo_survey_consent: this.consents.ceneo,
+        })
+      }
+
+      return res
     },
 
     orderDto(): OrderCreateDto | null {
       const cart = useCartStore()
+      const channel = useSalesChannel()
+      const currency = useCurrency()
+
       if (!(this.shippingAddress || this.billingAddress)) return null
       return {
         email: this.email,
         comment: this.comment,
-        shipping_place: this.isInpostShippingMethod
-          ? `${this.orderShippingPlace as string} | tel.: ${this.shippingAddress.phone}`
-          : this.orderShippingPlace,
+        shipping_place:
+          this.isInpostShippingMethod || this.isDpdShippingMethod
+            ? `${this.orderShippingPlace as string} | tel.: ${this.shippingAddress.phone}`
+            : this.orderShippingPlace,
         items: cart.orderItems,
         shipping_method_id: this.shippingMethod?.id,
         digital_shipping_method_id: this.digitalShippingMethod?.id,
@@ -53,12 +94,9 @@ export const useCheckoutStore = defineStore('checkout', {
           : this.shippingAddress,
         coupons: cart.coupons.map((c) => c.code),
         sales_ids: cart.sales.map((s) => s.id),
-        metadata: this.isInpostShippingMethod
-          ? {
-              inpost_phone: this.shippingAddress.phone,
-              inpost_point: this.orderShippingPlace as string,
-            }
-          : {},
+        sales_channel_id: channel.value?.id || '',
+        currency: currency.value,
+        metadata: this.metadataOrder,
       }
     },
 
@@ -69,16 +107,32 @@ export const useCheckoutStore = defineStore('checkout', {
       )
     },
 
+    isDpdShippingMethod(): boolean {
+      return !!(
+        this.shippingMethod?.shipping_type === ShippingType.PointExternal &&
+        this.shippingMethod?.metadata.dpd_pickup
+      )
+    },
+
     isShippingAddressValid(): boolean {
       return isAddressValid(this.shippingAddress)
+    },
+
+    requirePaymentMethod(): boolean {
+      /**
+       * If selected shipping method has payment on delivery, then payment method is not required
+       */
+      return !this.shippingMethod?.payment_on_delivery ?? true
     },
 
     isValid(): boolean {
       if (!this.email) return false
 
+      if (!this.consents.statute) return false
+
       // TODO: not all orders requires phisical shipping method
       if (!this.shippingMethod) return false
-      if (!this.paymentMethodId) return false
+      if (this.requirePaymentMethod && !this.paymentMethodId) return false
       if (this.shippingMethod && !this.orderShippingPlace) return false
       if (
         this.shippingMethod &&
@@ -86,7 +140,7 @@ export const useCheckoutStore = defineStore('checkout', {
         !isAddressValid(this.orderShippingPlace)
       )
         return false
-      if (!isAddress(this.orderShippingPlace) && !isAddressValid(this.billingAddress)) return false
+      if (!isAddressValid(this.billingAddress)) return false
       if (this.invoiceRequested && !this.billingAddress.vat) return false
       return true
     },
@@ -114,20 +168,20 @@ export const useCheckoutStore = defineStore('checkout', {
       this.digitalShippingMethod = digitalShippingMethods[0]
     },
 
+    isCountryCodeAllowedInShipping(countryCode: string) {
+      if (!this.shippingMethod) return true
+      const isIncludedInList = !!this.shippingMethod.countries.find((c) => c.code === countryCode)
+      return this.shippingMethod.block_list ? !isIncludedInList : isIncludedInList
+    },
+
     async createOrder() {
-      const cart = useCartStore()
       const heseya = useHeseya()
       const ev = useHeseyaEventBus()
 
       if (!this.orderDto) throw new Error('Order cannot be made, because data is invalid')
 
       const order = await heseya.Orders.create(this.orderDto)
-
-      ev.emit(HeseyaEvent.Purchase, {
-        order,
-        items: cart.items as CartItem[],
-        email: this.orderDto.email,
-      })
+      ev.emit(HeseyaEvent.Purchase, order)
 
       return order
     },

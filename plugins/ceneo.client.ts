@@ -26,18 +26,19 @@ Date.now() + (dl ? "&dl=" + dl : ''); f.parentNode.insertBefore(j, f);
 
   const bus = useHeseyaEventBus()
 
-  bus.on(HeseyaEvent.Purchase, ({ order, items, email }) => {
-    window?._ceneo?.('transaction', {
-      client_email: email,
-      order_id: order.code,
-      shop_products: items.map((item) => ({
-        // @ts-ignore This field exists, but it is private
-        id: item.product.metadata.wp_id,
-        price: item.price,
-        quantity: item.totalQty,
-        currency: 'PLN',
-      })),
-      amount: order.summary,
-    })
+  bus.on(HeseyaEvent.Purchase, (order) => {
+    if (order.metadata.ceneo_survey_consent) {
+      window?._ceneo?.('transaction', {
+        client_email: order.email,
+        order_id: order.code,
+        shop_products: order.products.map((item) => ({
+          id: item.id,
+          price: item.price,
+          quantity: item.quantity,
+          currency: order.currency,
+        })),
+        amount: order.summary,
+      })
+    }
   })
 })

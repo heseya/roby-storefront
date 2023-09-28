@@ -1,11 +1,11 @@
 <template>
   <div class="product-omnibus-note">
     <span v-if="pending"> ... </span>
-    <span v-else-if="price === null || price === product.price_min">
+    <span v-else-if="price === null || price === priceMin">
       {{ t('currentIsLowest') }}
     </span>
     <span v-else>
-      {{ t('lowest') }} <b>{{ formatAmount(price || 0) }}</b>
+      {{ t('lowest') }} <b>{{ formatAmount(price || 0, currency) }}</b>
     </span>
   </div>
 </template>
@@ -25,20 +25,23 @@
 
 <script setup lang="ts">
 import axios from 'axios'
-import { Product } from '@heseya/store-core'
+import { Product, parsePrices } from '@heseya/store-core'
 
 const props = defineProps<{
   product: Product
 }>()
 
 const t = useLocalI18n()
+const currency = useCurrency()
+
+const priceMin = computed(() => parsePrices(props.product.prices_min, currency.value))
 
 const { data: price, pending } = useAsyncData(async () => {
   try {
     const { priceTrackerUrl } = usePublicRuntimeConfig()
 
     const { data } = await axios.get<{ data?: { price_min: number } }>(
-      `/products/${props.product.id}?current_price_min=${props.product.price_min}`,
+      `/products/${props.product.id}?current_price_min=${priceMin.value}`,
       {
         baseURL: priceTrackerUrl,
       },

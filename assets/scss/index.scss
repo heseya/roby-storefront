@@ -85,6 +85,9 @@ h2 {
 .green-text {
   color: $green-color-500;
 }
+.warning-text {
+  color: var(--warning-color);
+}
 .error-text {
   color: var(--error-color);
 }

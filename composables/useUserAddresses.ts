@@ -1,14 +1,36 @@
 import { UserSavedAddressCreateDto, UserSavedAddressUpdateDto } from '@heseya/store-core'
+import { useCheckoutStore } from '@/store/checkout'
+import { useChannelsStore } from '@/store/channels'
 
 export const useUserAddreses = (type: 'billing' | 'shipping') => {
   const user = useUser()
+  const checkout = useCheckoutStore()
+  const salesChannel = useChannelsStore()
 
   const valueKey = `${type}_addresses` as const
   const methodSuffix = type === 'billing' ? 'BillingAddress' : 'ShippingAddress'
 
   const addresses = computed(() => user.value?.[valueKey] || [])
 
-  const defaultAddress = computed(() => addresses.value.find((address) => address.default) || null)
+  const addressesAllowedInChannel = computed(() => {
+    // Allow only addresses from countries allowed in channel
+    if (type === 'billing')
+      return addresses.value.filter((address) =>
+        salesChannel.isCountryCodeAllowed(address.address.country),
+      )
+
+    // Allow only addresses from countries allowed in selected shipping method
+    return addresses.value.filter((address) =>
+      checkout.isCountryCodeAllowedInShipping(address.address.country),
+    )
+  })
+
+  const defaultAddress = computed(
+    () =>
+      addressesAllowedInChannel.value.find((address) => address.default) ??
+      addressesAllowedInChannel.value[0] ??
+      null,
+  )
 
   const addAddress = async (payload: UserSavedAddressCreateDto) => {
     const heseya = useHeseya()
@@ -51,6 +73,7 @@ export const useUserAddreses = (type: 'billing' | 'shipping') => {
 
   return {
     addresses,
+    addressesAllowedInChannel,
     defaultAddress,
     add: addAddress,
     edit: editAddress,
