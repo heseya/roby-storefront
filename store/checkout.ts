@@ -53,7 +53,7 @@ export const useCheckoutStore = defineStore('checkout', {
         Object.assign(res, {
           inpost_phone: this.shippingAddress.phone,
           inpost_point: this.orderShippingPlace as string,
-          inpost_point_address: JSON.stringify(this.paczkomat?.address_details) 
+          inpost_point_address: JSON.stringify(this.paczkomat?.address_details),
         })
       }
 
