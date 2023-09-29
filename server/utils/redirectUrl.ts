@@ -29,7 +29,7 @@ const pushVariablesToUrl = (oldUrl: string, newUrl: string): string => {
 }
 
 const skipVariablesAtUrl = (url: string): string => {
-  return transformBracketsUrl(url).replace(/-\{[^}]*}/g, '')
+  return transformBracketsUrl(url).replaceAll(/-\{[^}]*}/g, '')
 }
 
 const transformBracketsUrl = (url: string): string => {
