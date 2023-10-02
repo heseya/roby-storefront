@@ -162,5 +162,16 @@ export default {
     FORBIDDEN: 'You do not have access to this place.',
     BAD_REQUEST: 'Invalid request.',
     BAD_GATEWAY: 'Server gateway error.',
+
+    checkout: {
+      email: 'Enter a valid email address.',
+      consent: 'Accept all required consents.',
+      shippingMethod: 'Choose a shipping method.',
+      paymentMethod: 'Choose a payment method.',
+      shippingAddress: 'Enter a valid shipping address.',
+      shippingPlace: 'Enter a valid shipping place.',
+      billingAddress: 'Enter a valid billing address.',
+      billingAddressVat: 'Enter a valid billing address VAT.',
+    },
   },
 }

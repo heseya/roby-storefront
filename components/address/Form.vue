@@ -55,7 +55,7 @@
       <FormInput
         :model-value="address.city"
         :name="`${namePrefix}_city`"
-        autocomplete="city"
+        autocomplete="home city"
         rules="required"
         :label="t('city')"
         :disabled="disabled"

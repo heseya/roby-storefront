@@ -127,24 +127,35 @@ export const useCheckoutStore = defineStore('checkout', {
       return !this.shippingMethod?.payment_on_delivery ?? true
     },
 
-    isValid(): boolean {
-      if (!this.email) return false
+    validationError(): string | null {
+      const t = useGlobalI18n()
 
-      if (!this.consents.statute) return false
+      if (!this.email) return t('errors.checkout.email').toString()
+
+      if (!this.consents.statute) return t('errors.checkout.consent').toString()
 
       // TODO: not all orders requires phisical shipping method
-      if (!this.shippingMethod) return false
-      if (this.requirePaymentMethod && !this.paymentMethodId) return false
-      if (this.shippingMethod && !this.orderShippingPlace) return false
+      if (!this.shippingMethod) return t('errors.checkout.shippingMethod').toString()
+
+      if (this.shippingMethod && !this.orderShippingPlace)
+        return t('errors.checkout.shippingPlace').toString()
       if (
         this.shippingMethod &&
         isAddress(this.orderShippingPlace) &&
         !isAddressValid(this.orderShippingPlace)
       )
-        return false
-      if (!isAddressValid(this.billingAddress)) return false
-      if (this.invoiceRequested && !this.billingAddress.vat) return false
-      return true
+        return t('errors.checkout.shippingAddress').toString()
+      if (this.requirePaymentMethod && !this.paymentMethodId)
+        return t('errors.checkout.paymentMethod').toString()
+      if (!isAddressValid(this.billingAddress))
+        return t('errors.checkout.billingAddress').toString()
+      if (this.invoiceRequested && !this.billingAddress.vat)
+        return t('errors.checkout.billingAddressVat').toString()
+      return null
+    },
+
+    isValid(): boolean {
+      return !this.validationError
     },
   },
 
