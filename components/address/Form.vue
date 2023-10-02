@@ -47,7 +47,7 @@
         :model-value="address.zip"
         :name="`${namePrefix}_postal_code`"
         autocomplete="postal_code"
-        rules="required"
+        :rules="address.country === 'PL' ? 'required|plZip' : 'required'"
         :label="t('postalCode')"
         :disabled="disabled"
         @update:model-value="update('zip', $event as string)"
