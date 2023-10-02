@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 import svgLoader from 'vite-svg-loader'
 import { removePageByName, changePagePathOrRemoveByName } from './utils/routing'
+import pkg from './package.json'
 
 const {
   API_URL = 'https://demo-***REMOVED***.***REMOVED***',
@@ -48,6 +49,7 @@ export default defineNuxtConfig({
           name: 'viewport',
           content: 'width=device-width,initial-scale=1,maximum-scale=5',
         },
+        { name: 'version', content: pkg.version },
         {
           hid: isProduction ? 'robots' : 'force-robots',
           name: 'robots',
