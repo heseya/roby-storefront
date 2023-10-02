@@ -80,7 +80,7 @@ watch(
   }
 
   &__label {
-    display: block;
+    display: inline-flex;
     font-size: rem(14);
     line-height: rem(16);
 
@@ -103,7 +103,7 @@ watch(
 
   label {
     padding-left: 24px;
-    display: inline-flex;
+    display: block;
     font-weight: 400;
     position: relative;
 
