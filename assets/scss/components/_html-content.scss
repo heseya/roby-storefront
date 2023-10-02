@@ -577,11 +577,23 @@
     font-size: 100%;
   }
 
+  figure {
+    overflow: hidden;
+  }
+
   figure > img,
   figure > iframe,
   figure > pre,
   figure > div {
     vertical-align: middle;
+  }
+
+  figure img {
+    transition: transform 0.25s;
+
+    &:hover {
+      transform: scale(1.1);
+    }
   }
 
   figure figcaption {
