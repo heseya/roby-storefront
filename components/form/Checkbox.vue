@@ -80,7 +80,7 @@ watch(
   }
 
   &__label {
-    display: block;
+    display: inline-flex;
     font-size: rem(14);
     line-height: rem(16);
 
