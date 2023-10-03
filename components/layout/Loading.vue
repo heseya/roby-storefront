@@ -1,5 +1,8 @@
 <template>
-  <div class="loading" :class="{ 'loading--active': !active, 'loading--additional-blur': !additionalBlur }">
+  <div
+    class="loading"
+    :class="{ 'loading--active': active, 'loading--additional-blur': additionalBlur }"
+  >
     <div class="loading__loader"></div>
   </div>
 </template>
