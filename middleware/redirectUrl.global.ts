@@ -7,7 +7,8 @@ export interface RedirectUrl {
 
 export const getAllRedirects = async (): Promise<Redirect[]> => {
   const heseya = useHeseya()
-  return (await heseya.Redirects.get()).data
+  const { data } = await heseya.Redirects.get({ limit: 500 })
+  return data
 }
 
 export const pushVariablesToUrl = (oldUrl: string, newUrl: string): string => {
@@ -32,7 +33,7 @@ export const transformBracketsUrl = (url: string): string => {
   return url.replaceAll(/%7B/g, '{').replaceAll(/%7D/g, '}')
 }
 
-export const redirectUrl = (url: RouteLocationNormalized): Promise<RedirectUrl> => {
+export const handleRedirect = (url: string): Promise<RedirectUrl> => {
   return getAllRedirects()
     .then((items) => {
       const result: RedirectUrl = {
@@ -43,9 +44,9 @@ export const redirectUrl = (url: RouteLocationNormalized): Promise<RedirectUrl> 
       items.forEach((redirect) => {
         if (
           redirect.enabled &&
-          skipVariablesAtUrl(redirect.source_url) === skipVariablesAtUrl(url.path)
+          skipVariablesAtUrl(redirect.source_url) === skipVariablesAtUrl(url)
         ) {
-          result.target = pushVariablesToUrl(transformBracketsUrl(url.path), redirect.target_url)
+          result.target = pushVariablesToUrl(transformBracketsUrl(url), redirect.target_url)
           result.type = redirect.type
         }
       })
@@ -54,10 +55,12 @@ export const redirectUrl = (url: RouteLocationNormalized): Promise<RedirectUrl> 
     .catch()
 }
 
-export default defineNuxtRouteMiddleware((to, _from) => {
-  redirectUrl(to).then((redirect) => {
+export default defineNuxtRouteMiddleware(async (to, _from) => {
+  try {
+    const redirect = await handleRedirect(to.path)
+
     if (redirect?.target !== '') {
-      return navigateTo(redirect.target, { redirectCode: redirect.type })
+      navigateTo(redirect.target, { redirectCode: redirect.type })
     }
-  })
+  } catch {}
 })
