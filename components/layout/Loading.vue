@@ -1,11 +1,14 @@
 <template>
-  <div class="loading" :class="{ 'loading--active': active }">
+  <div class="loading" :class="{ 'loading--active': active, 'loading--redirect': redirect }">
     <div class="loading__loader"></div>
   </div>
 </template>
 
 <script setup lang="ts">
-withDefaults(defineProps<{ active: boolean }>(), { active: false })
+withDefaults(defineProps<{ active: boolean; redirect: boolean }>(), {
+  active: false,
+  redirect: false,
+})
 </script>
 
 <style lang="scss" scoped>
@@ -38,6 +41,10 @@ withDefaults(defineProps<{ active: boolean }>(), { active: false })
   &--active {
     opacity: 1;
     visibility: visible;
+  }
+
+  &--redirect {
+    backdrop-filter: blur(15px);
   }
 
   &__loader {

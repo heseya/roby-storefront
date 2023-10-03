@@ -1,7 +1,7 @@
 <template>
   <NuxtLayout name="checkout">
     <BaseContainer class="checkout-page">
-      <LayoutLoading :active="isLoading" />
+      <LayoutLoading :active="isLoading" :redirect="paymentRedirect" />
 
       <section class="checkout-page__section">
         <CheckoutPageArea v-if="channels.channels.length > 1" :title="t('salesChannel')">
@@ -104,6 +104,7 @@ const { defaultAddress: defaultBillingAddress } = useUserBillingAddresses()
 
 const wantCreateAccount = ref<boolean>(false)
 const isLoading = ref(false)
+const paymentRedirect = ref(false)
 const { subscribe: newsletterSubscribe } = useNewsletter()
 
 const registerErrorMessage = ref('')
@@ -173,12 +174,16 @@ const createOrder = async () => {
     await saveUserAddresses()
 
     if (paymentId === TRADITIONAL_PAYMENT_KEY) {
+      checkout.reset()
       navigateTo(
         localePath(`/checkout/thank-you?code=${order.code}&payment=${TRADITIONAL_PAYMENT_KEY}`),
       )
     } else if (paymentId) {
+      checkout.reset()
+      paymentRedirect.value = true
       window.location.href = await checkout.createOrderPayment(order.code, paymentId)
     } else {
+      checkout.reset()
       navigateTo(localePath(`/checkout/thank-you?code=${order.code}`))
     }
   } catch (e: any) {
