@@ -1,7 +1,7 @@
 <template>
   <NuxtLayout name="checkout">
     <BaseContainer class="checkout-page">
-      <LayoutLoading :active="isLoading" :redirect="paymentRedirect" />
+      <LayoutLoading :active="isLoading" :additional-blur="paymentRedirect" />
 
       <section class="checkout-page__section">
         <CheckoutPageArea v-if="channels.channels.length > 1" :title="t('salesChannel')">
@@ -179,9 +179,10 @@ const createOrder = async () => {
         localePath(`/checkout/thank-you?code=${order.code}&payment=${TRADITIONAL_PAYMENT_KEY}`),
       )
     } else if (paymentId) {
+      const paymentUrl = await checkout.createOrderPayment(order.code, paymentId)
       checkout.reset()
       paymentRedirect.value = true
-      window.location.href = await checkout.createOrderPayment(order.code, paymentId)
+      window.location.href = paymentUrl
     } else {
       checkout.reset()
       navigateTo(localePath(`/checkout/thank-you?code=${order.code}`))

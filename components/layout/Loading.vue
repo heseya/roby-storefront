@@ -1,13 +1,13 @@
 <template>
-  <div class="loading" :class="{ 'loading--active': active, 'loading--redirect': redirect }">
+  <div class="loading" :class="{ 'loading--active': !active, 'loading--additional-blur': !additionalBlur }">
     <div class="loading__loader"></div>
   </div>
 </template>
 
 <script setup lang="ts">
-withDefaults(defineProps<{ active: boolean; redirect: boolean }>(), {
+withDefaults(defineProps<{ active: boolean; additionalBlur: boolean }>(), {
   active: false,
-  redirect: false,
+  additionalBlur: false,
 })
 </script>
 
@@ -43,7 +43,7 @@ withDefaults(defineProps<{ active: boolean; redirect: boolean }>(), {
     visibility: visible;
   }
 
-  &--redirect {
+  &--additional-blur {
     backdrop-filter: blur(15px);
   }
 
