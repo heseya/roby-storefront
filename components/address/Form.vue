@@ -47,7 +47,7 @@
         :model-value="address.zip"
         :name="`${namePrefix}_postal_code`"
         autocomplete="postal_code"
-        :rules="rules"
+        :rules="zipCodeRules"
         :label="t('postalCode')"
         :disabled="disabled"
         @update:model-value="update('zip', $event as string)"
@@ -155,7 +155,7 @@ const countries = computed(() => {
   return allCountries.value ?? []
 })
 
-const rules = computed(() => {
+const zipCodeRules = computed(() => {
   let rules = 'required'
   if (props.address.country === 'PL') rules += '|plZip'
 
