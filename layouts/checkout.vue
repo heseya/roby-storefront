@@ -47,7 +47,6 @@
 <script setup lang="ts">
 import { useConfigStore } from '@/store/config'
 import { useCartStore } from '@/store/cart'
-import { useCheckoutStore } from '~/store/checkout'
 
 // This forces initialisation of the cart store, somehow it's not hydrating state without it
 useCartStore()
@@ -57,7 +56,6 @@ const config = useConfigStore()
 const t = useLocalI18n()
 const $t = useGlobalI18n()
 const localePath = useLocalePath()
-const checkout = useCheckoutStore()
 
 enum CheckoutStep {
   Cart = 'cart',
