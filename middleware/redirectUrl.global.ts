@@ -60,7 +60,7 @@ export default defineNuxtRouteMiddleware(async (to, _from) => {
     const redirect = await handleRedirect(to.path)
 
     if (redirect?.target !== '') {
-      navigateTo(redirect.target, { redirectCode: redirect.type })
+      return navigateTo(redirect.target, { redirectCode: redirect.type })
     }
   } catch {}
 })
