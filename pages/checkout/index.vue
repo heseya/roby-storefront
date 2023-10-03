@@ -173,16 +173,12 @@ const createOrder = async () => {
     await saveUserAddresses()
 
     if (paymentId === TRADITIONAL_PAYMENT_KEY) {
-      checkout.reset()
       navigateTo(
         localePath(`/checkout/thank-you?code=${order.code}&payment=${TRADITIONAL_PAYMENT_KEY}`),
       )
     } else if (paymentId) {
-      const paymentUrl = await checkout.createOrderPayment(order.code, paymentId)
-      checkout.reset()
-      window.location.href = paymentUrl
+      window.location.href = await checkout.createOrderPayment(order.code, paymentId)
     } else {
-      checkout.reset()
       navigateTo(localePath(`/checkout/thank-you?code=${order.code}`))
     }
   } catch (e: any) {
