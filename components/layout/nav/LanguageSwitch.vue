@@ -16,6 +16,7 @@
 <script lang="ts" setup>
 import plFlagUrl from '@/assets/icons/pl.svg'
 import enFlagUrl from '@/assets/icons/en.svg'
+import { useChannelsStore } from '@/store/channels'
 
 interface InnerLanguage {
   key: string
@@ -23,6 +24,7 @@ interface InnerLanguage {
 
 const $t = useGlobalI18n()
 const { setLocale, locale, locales } = useI18n()
+const channels = useChannelsStore()
 
 const getIcon = (value: string) => (value === 'pl' ? plFlagUrl : enFlagUrl)
 
@@ -36,6 +38,21 @@ const language = computed(() => ({ key: locale.value }))
 
 const setLanguage = (language: InnerLanguage) => {
   setLocale(language.key)
+
+  // TODO: remove this hardcoded rule maybe?
+  // Set channel to PL if PL is a default language for channel
+  if (language.key.includes('pl')) {
+    const channel = channels.channels.find((c) => c.default_language.iso.includes('pl'))
+    if (!channel) return
+
+    channels.setChannel(channel.id)
+
+    // TODO: this works and looks bad, but if reload is done faster, then the language is not changed
+    setTimeout(() => {
+      // maybe better way to reload page?
+      if (window) window.location.reload()
+    }, 300)
+  }
 }
 </script>
 

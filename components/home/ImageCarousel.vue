@@ -7,7 +7,10 @@
       <template #item="media: BannerMedia">
         <Media
           class="image-carousel__picture"
-          :class="{ 'image-carousel__picture--gray-filter': grayFilter }"
+          :class="{
+            'image-carousel__picture--gray-filter': grayFilter,
+            'image-carousel__picture--drop-shadow': dropShadow,
+          }"
           :style="{ height: `${imageHeight}px`, width: `${imageWidth}px` }"
           :media="media.media[0].media"
         />
@@ -32,12 +35,14 @@ withDefaults(
     imageHeight?: number | string
     banner: Banner
     grayFilter?: boolean
+    dropShadow?: boolean
     headerTag?: string
   }>(),
   {
     imageWidth: 160,
     imageHeight: 60,
     grayFilter: false,
+    dropShadow: false,
     headerTag: 'span',
   },
 )
@@ -59,6 +64,7 @@ withDefaults(
   &__picture {
     object-fit: contain;
     flex-shrink: 0;
+    margin: 0.5rem 0;
 
     &--gray-filter {
       filter: grayscale(100%) brightness(150%);
@@ -66,6 +72,13 @@ withDefaults(
 
       &:hover {
         filter: grayscale(0) brightness(100%);
+      }
+    }
+
+    &--drop-shadow {
+      &:hover {
+        transition: 0.3s filter linear, 0.3s -webkit-filter linear;
+        filter: drop-shadow(1px 1px 3px gray);
       }
     }
   }

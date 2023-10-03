@@ -41,12 +41,15 @@
         <CheckoutConsents />
       </div>
 
-      <LayoutButton
-        variant="primary"
-        class="cart-summary__button"
-        :disabled="disabled || !checkout.isValid"
-        @click="emit('submit')"
+      <LayoutInfoBox
+        v-if="checkout.validationError && isErrorVisible"
+        type="danger"
+        class="checkout-summary-item"
       >
+        {{ checkout.validationError }}
+      </LayoutInfoBox>
+
+      <LayoutButton variant="primary" class="cart-summary__button" @click="handleClick">
         {{ $t('payments.confirmAndPay') }}
       </LayoutButton>
     </div>
@@ -69,6 +72,16 @@ const $t = useGlobalI18n()
 const cart = useCartStore()
 const checkout = useCheckoutStore()
 const currency = useCurrency()
+
+const isErrorVisible = ref(false)
+
+const handleClick = () => {
+  if (!checkout.isValid) isErrorVisible.value = true
+  else {
+    isErrorVisible.value = false
+    emit('submit')
+  }
+}
 </script>
 
 <style lang="scss" scoped>

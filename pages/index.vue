@@ -36,6 +36,7 @@
           :banner="banner"
           :title="banner.name"
           :gray-filter="!!banner.metadata.gray_filter"
+          :drop-shadow="!!banner.metadata.drop_shadow"
           :image-height="(banner.metadata.image_height as any)"
           :image-width="(banner.metadata.image_width as any)"
         />

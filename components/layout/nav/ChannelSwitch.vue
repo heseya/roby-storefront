@@ -56,7 +56,12 @@ const setChannel = (data: { key: string }) => {
   }
 
   channels.setChannel(channel.id)
-  setLanguage(channel.default_language)
+
+  // TODO: remove this hardcoded rule maybe?
+  // Set language to PL if PL is a default language for channel
+  if (channel.default_language.iso.includes('pl')) {
+    setLanguage(channel.default_language)
+  }
 
   // TODO: this works and looks bad, but if reload is done faster, then the language is not changed
   setTimeout(() => {
