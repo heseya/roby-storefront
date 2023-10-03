@@ -47,7 +47,7 @@
         :model-value="address.zip"
         :name="`${namePrefix}_postal_code`"
         autocomplete="postal_code"
-        :rules="'required' + (address.country === 'PL' ? '|plZip' : '')"
+        :rules="rules"
         :label="t('postalCode')"
         :disabled="disabled"
         @update:model-value="update('zip', $event as string)"
@@ -55,7 +55,7 @@
       <FormInput
         :model-value="address.city"
         :name="`${namePrefix}_city`"
-        autocomplete="city"
+        autocomplete="home city"
         rules="required"
         :label="t('city')"
         :disabled="disabled"
@@ -153,6 +153,13 @@ const countries = computed(() => {
 
   // Returns all countries
   return allCountries.value ?? []
+})
+
+const rules = computed(() => {
+  let rules = 'required'
+  if (props.address.country === 'PL') rules += '|plZip'
+
+  return rules
 })
 
 watch(
