@@ -105,6 +105,7 @@ const { data: cheapestShippingMethodPrice, refresh: refreshCheapestShippingMetho
   useLazyAsyncData(`shippingMethodPrice`, async () => {
     const { data } = await heseya.ShippingMethods.get({
       cart_value: { value: cart.totalValue, currency: currency.value },
+      items: cart.items.map((item) => item.productId),
       country: channel.countryCode,
     })
 

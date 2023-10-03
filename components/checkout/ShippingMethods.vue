@@ -90,6 +90,7 @@ const { data: shippingMethods } = useLazyAsyncData(
   async () => {
     const methods = await heseya.ShippingMethods.get({
       cart_value: { value: cart.totalValue, currency: currency.value },
+      items: cart.items.map((item) => item.productId),
       country: channel.countryCode,
     })
     return methods.data.filter((m) => m.shipping_type !== ShippingType.Digital)
