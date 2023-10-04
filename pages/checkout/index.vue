@@ -104,7 +104,6 @@ const { defaultAddress: defaultBillingAddress } = useUserBillingAddresses()
 
 const wantCreateAccount = ref<boolean>(false)
 const isLoading = ref(false)
-const paymentRedirect = ref(false)
 const { subscribe: newsletterSubscribe } = useNewsletter()
 
 const registerErrorMessage = ref('')
@@ -181,7 +180,6 @@ const createOrder = async () => {
     } else if (paymentId) {
       const paymentUrl = await checkout.createOrderPayment(order.code, paymentId)
       checkout.reset()
-      paymentRedirect.value = true
       window.location.href = paymentUrl
     } else {
       checkout.reset()
