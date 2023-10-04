@@ -1,7 +1,7 @@
 <template>
   <NuxtLayout name="checkout">
     <BaseContainer class="checkout-page">
-      <LayoutLoading :active="isLoading" :additional-blur="paymentRedirect" />
+      <LayoutLoading :active="isLoading" additional-blur />
 
       <section class="checkout-page__section">
         <CheckoutPageArea v-if="channels.channels.length > 1" :title="t('salesChannel')">
