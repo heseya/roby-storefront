@@ -29,8 +29,8 @@
     "date-fns": "^2.30.0",
     "lodash": "^4.17.21",
     "nodemailer": "^6.9.3",
-    "nuxt-swiper": "^1.1.1",
-    "swiper": "^9.4.1",
+    "nuxt-swiper": "^1.2.2",
+    "swiper": "^10.3.1",
     "vee-validate": "4.9.6",
     "vue-gtag-next": "^1.14.0"
   },

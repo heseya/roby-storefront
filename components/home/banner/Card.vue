@@ -64,10 +64,12 @@ const selectedMedia = computed(() => {
     height: 100%;
     position: relative;
     overflow: hidden;
+
     &--centered {
       flex-direction: column;
       justify-content: center;
       align-items: flex-start;
+      padding: 50px 72px;
       gap: 12px;
     }
 
