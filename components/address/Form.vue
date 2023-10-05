@@ -165,7 +165,7 @@ const zipCodeRules = computed(() => {
 const vatNumberRules = computed(() => {
   let rules = 'required'
   if (props.address.country === 'PL') rules += '|plVatNumber'
-  else rules += 'vatNumber'
+  else rules += '|vatNumber'
 
   return rules
 })
