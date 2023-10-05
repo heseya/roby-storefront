@@ -7,7 +7,7 @@
     @update:value="setLanguage"
   >
     <template #option="item">
-      <img :src="getIcon(item.value.key)" class="language-switch__icon" />
+      <img :key="item.value.key" :src="getIcon(item.value.key)" class="language-switch__icon" />
       {{ $t(`languages.${item.value.key}`) }}
     </template>
   </LayoutPopover>
