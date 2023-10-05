@@ -15,7 +15,7 @@ const props = defineProps<{
   banner: Banner
 }>()
 
-const bannerType = computed(() => props.banner?.metadata?.display_type || BannerType.Carousel)
+const bannerType = computed(() => props.banner?.metadata?.display_type || BannerType.Static)
 </script>
 
 <style lang="scss" scoped>

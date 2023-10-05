@@ -83,6 +83,7 @@ withDefaults(
     top: 0;
     right: -64px;
     z-index: 10;
+    background: $white-color;
 
     @media ($max-viewport-10) {
       display: none;
