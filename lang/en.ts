@@ -16,7 +16,7 @@ export default {
     in: 'in',
     from: 'from',
     to: 'to',
-    message: 'message',
+    message: 'Message',
   },
 
   payments: {
