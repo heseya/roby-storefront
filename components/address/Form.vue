@@ -14,7 +14,7 @@
       :model-value="address.vat"
       :name="`${namePrefix}_vat`"
       autocomplete="vat"
-      rules="required|vatNumber"
+      :rules="vatNumberRules"
       :label="$t('form.vat')"
       :disabled="disabled"
       @update:model-value="update('vat', $event as string)"
@@ -47,7 +47,7 @@
         :model-value="address.zip"
         :name="`${namePrefix}_postal_code`"
         autocomplete="postal_code"
-        :rules="address.country === 'PL' ? 'required|plZip' : 'required'"
+        :rules="zipCodeRules"
         :label="t('postalCode')"
         :disabled="disabled"
         @update:model-value="update('zip', $event as string)"
@@ -153,6 +153,21 @@ const countries = computed(() => {
 
   // Returns all countries
   return allCountries.value ?? []
+})
+
+const zipCodeRules = computed(() => {
+  let rules = 'required'
+  if (props.address.country === 'PL') rules += '|plZip'
+
+  return rules
+})
+
+const vatNumberRules = computed(() => {
+  let rules = 'required'
+  if (props.address.country === 'PL') rules += '|plVatNumber'
+  else rules += '|vatNumber'
+
+  return rules
 })
 
 watch(
