@@ -169,7 +169,7 @@ const { y: scrollY } = useWindowScroll()
 const handleSearch = ({ query, category }: SearchValues) => {
   if (query !== '') {
     searchHistory.addNewQuery(query)
-    const searchPath = localePath(`/search/${query}`)
+    const searchPath = localePath(`/search/${encodeURIComponent(query)}`)
     const pathQuery = ['', 'all'].includes(category) ? {} : { set: category }
 
     navigateTo({
