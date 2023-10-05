@@ -132,8 +132,6 @@ export const useCheckoutStore = defineStore('checkout', {
 
       if (!this.email) return t('errors.checkout.email').toString()
 
-      if (!this.consents.statute) return t('errors.checkout.consent').toString()
-
       // TODO: not all orders requires phisical shipping method
       if (!this.shippingMethod) return t('errors.checkout.shippingMethod').toString()
 
@@ -145,12 +143,16 @@ export const useCheckoutStore = defineStore('checkout', {
         !isAddressValid(this.orderShippingPlace)
       )
         return t('errors.checkout.shippingAddress').toString()
-      if (this.requirePaymentMethod && !this.paymentMethodId)
-        return t('errors.checkout.paymentMethod').toString()
+
       if (!isAddressValid(this.billingAddress))
         return t('errors.checkout.billingAddress').toString()
       if (this.invoiceRequested && !this.billingAddress.vat)
         return t('errors.checkout.billingAddressVat').toString()
+
+      if (this.requirePaymentMethod && !this.paymentMethodId)
+        return t('errors.checkout.paymentMethod').toString()
+
+      if (!this.consents.statute) return t('errors.checkout.consent').toString()
       return null
     },
 
