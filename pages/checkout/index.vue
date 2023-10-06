@@ -49,6 +49,7 @@
       <section class="checkout-page__section">
         <CheckoutSummary
           :disabled="(wantCreateAccount && !isRegisterFormValid) || isLoading"
+          :is-validation-error="isFormValidatonError"
           @submit="processOrder()"
         />
       </section>
@@ -117,6 +118,16 @@ const registerForm = useForm({
     confirmPassword: '',
     consents: {},
   },
+})
+
+/**
+ * This is a hack unfortunately.
+ * registerForm handles all of the form fields in this page, including that used in purposes others than register
+ * Thanks to this, we can determine if there is a validation error in address form
+ */
+const isFormValidatonError = computed(() => {
+  const record = Object.values(registerForm.errors.value).filter(Boolean)
+  return record.length > 0
 })
 
 const isRegisterFormValid = computed(() => {
@@ -206,7 +217,7 @@ const createAccountAndLogin = async () => {
   await auth.login({ email, password })
 }
 
-const processOrder = async () => {
+const processOrder = registerForm.handleSubmit(async () => {
   isLoading.value = true
   try {
     if (wantCreateAccount.value) await createAccountAndLogin()
@@ -215,7 +226,7 @@ const processOrder = async () => {
     registerErrorMessage.value = formatError(e)
     isLoading.value = false
   }
-}
+})
 
 // Autofill billing address if user is logged in
 watch(
@@ -269,6 +280,10 @@ useHead({
 </script>
 
 <style lang="scss" scoped>
+.checkout-form {
+  width: 100%;
+}
+
 .checkout-page {
   width: 100%;
   display: grid;

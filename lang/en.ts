@@ -172,6 +172,7 @@ export default {
       shippingPlace: 'Enter a valid shipping place.',
       billingAddress: 'Enter a valid billing address.',
       billingAddressVat: 'Enter a valid billing address VAT.',
+      validationError: 'Correct the wrong data in the form.',
     },
   },
 }

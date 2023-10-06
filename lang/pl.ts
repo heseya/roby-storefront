@@ -174,6 +174,7 @@ export default {
       shippingPlace: 'Podaj poprawne miejsce dostawy.',
       billingAddress: 'Podaj poprawny adres do rachunku.',
       billingAddressVat: 'Uzupełnij NIP jeśli chcesz fakturę VAT.',
+      validationError: 'Popraw błędne dane w formularzu.',
     },
   },
 }
