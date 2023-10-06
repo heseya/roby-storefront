@@ -33,7 +33,7 @@ withDefaults(defineProps<{ active: boolean; additionalBlur?: boolean }>(), {
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1;
+  z-index: 1000;
   opacity: 0;
   visibility: hidden;
   transition: 0.2s;

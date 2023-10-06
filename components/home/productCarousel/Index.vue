@@ -6,24 +6,37 @@
       </LayoutHeader>
       <HomeShowAllButton :path="`/category/${category.slug}`" />
     </div>
-    <LayoutCarousel
-      v-if="subcategories?.length && !withoutSubcategories"
+    <div
+      v-show="subcategories?.length && !withoutSubcategories"
       class="product-carousel__categories"
       :items="subcategories"
-      :space-between="12"
-      hide-nav
     >
-      <template #item="set: ProductSetList">
-        <HomeProductCarouselCategoryButton
-          :label="set.name"
-          :is-chosen="set.slug === selectedCategory"
-          @click="setNewCategory(set.slug)"
-        />
-      </template>
-    </LayoutCarousel>
-    <HomeProductCarouselSimple :products="products || []" />
+      <HomeProductCarouselCategoryButton
+        v-for="set in subcategories"
+        :key="set.id"
+        :label="set.name"
+        :is-chosen="set.slug === selectedCategory"
+        @click="setNewCategory(set.slug)"
+      />
+    </div>
+    <div class="product-carousel__products">
+      <LayoutLoading :active="pending" />
+      <HomeProductCarouselSimple v-if="products?.length" :products="products" />
+      <LayoutEmpty v-else class="product-carousel__empty">{{ t('empty') }}</LayoutEmpty>
+    </div>
   </div>
 </template>
+
+<i18n lang="json">
+{
+  "pl": {
+    "empty": "Brak produktów w tej kategorii"
+  },
+  "en": {
+    "empty": "No products in this category"
+  }
+}
+</i18n>
 
 <script lang="ts" setup>
 import { ProductSetList } from '@heseya/store-core'
@@ -38,14 +51,18 @@ const props = withDefaults(
   }>(),
   { label: '', withoutSubcategories: false, headerTag: 'span' },
 )
+const t = useLocalI18n()
 const heseya = useHeseya()
 const categoriesStore = useCategoriesStore()
 
-const selectedCategory = ref<string | null>(null)
+const selectedCategory = useState<string | null>(`selected-${props.category.id}`, () => null)
+const subcategories = useState<ProductSetList[]>(`subcategories-${props.category.id}`, () => [])
 
-const subcategories = ref<ProductSetList[]>([])
-
-const { data: products, refresh: refreshProducts } = useAsyncData(
+const {
+  data: products,
+  refresh: refreshProducts,
+  pending,
+} = useAsyncData(
   `products-${props.category.id}`,
   async () => {
     const categorySlug = selectedCategory.value || props.category.slug
@@ -85,12 +102,12 @@ const setNewCategory = (categorySlug: string) => {
 <style lang="scss" scoped>
 .product-carousel {
   @include flex-column;
-  gap: 22px;
 
   &__header {
     @include flex-row;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 22px;
 
     @media ($max-viewport-3) {
       flex-direction: column;
@@ -116,16 +133,29 @@ const setNewCategory = (categorySlug: string) => {
 
   &__categories {
     @include flex-row;
+    overflow: auto;
     justify-content: center;
+    white-space: nowrap;
+    padding-bottom: 8px;
+    margin-bottom: 16px;
+    gap: 12px;
 
     @media ($max-viewport-8) {
       justify-content: flex-start;
     }
   }
 
+  &__products {
+    position: relative;
+  }
+
   &__picture {
     object-fit: contain;
     flex-shrink: 0;
+  }
+
+  &__empty {
+    height: 292px;
   }
 }
 </style>

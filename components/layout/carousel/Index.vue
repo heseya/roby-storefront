@@ -16,11 +16,11 @@
           <slot name="item" v-bind="item" />
         </div>
       </SwiperSlide>
-      <template v-if="!hideNav" #container-start>
-        <LayoutCarouselButton class="carousel__button" />
+      <template #container-start>
+        <LayoutCarouselButton v-show="!hideNav" class="carousel__button" />
       </template>
-      <template v-if="!hideNav" #container-end>
-        <LayoutCarouselButton next class="carousel__button" type="next" />
+      <template #container-end>
+        <LayoutCarouselButton v-show="!hideNav" next class="carousel__button" type="next" />
       </template>
     </Swiper>
   </div>
