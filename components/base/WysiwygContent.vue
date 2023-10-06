@@ -1,12 +1,40 @@
 <template>
   <!-- eslint-disable-next-line vue/no-v-html -->
-  <div class="hs-html-content" v-html="content || ''"></div>
+  <div ref="containerRef" class="hs-html-content" v-html="modifiedContent"></div>
 </template>
 
 <script setup lang="ts">
-defineProps<{
+import { parse } from 'node-html-parser'
+import { stringifyQueryParams } from '@heseya/store-core'
+
+const props = defineProps<{
   content?: string
 }>()
+
+const containerRef = ref<HTMLElement>()
+
+const modifiedContent = ref<string>(props.content || '')
+
+watch(
+  () => props.content,
+  () => {
+    const root = parse(props.content || '')
+    ;[...root.getElementsByTagName('img')].forEach((img) => {
+      img.setAttribute('loading', 'lazy')
+      const imgSrc = img.getAttribute('src')
+
+      const params = {
+        w: 1200,
+        format: 'auto',
+      }
+
+      img.setAttribute('src', `${imgSrc}?${stringifyQueryParams(params)}`)
+    })
+
+    modifiedContent.value = root.innerHTML
+  },
+  { immediate: true },
+)
 </script>
 
 <style lang="scss">
