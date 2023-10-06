@@ -94,8 +94,8 @@ const sections = computed<Section[]>(() => {
   const pages = data.value?.homepagePages?.map((p) => ({ type: 'page' as const, data: p })) || []
 
   const sets =
-    data.value?.homepageSets
-      ?.sort((a, b) => {
+    [...(data.value?.homepageSets || [])]
+      .sort((a, b) => {
         const aOrder = Number(a.metadata[sortKey] || Infinity)
         const bOrder = Number(b.metadata[sortKey] || Infinity)
         return aOrder - bOrder
