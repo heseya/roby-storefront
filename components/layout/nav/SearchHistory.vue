@@ -9,7 +9,7 @@
         <NuxtLink
           v-for="(query, index) in searchHistory.queries"
           :key="index"
-          :to="localePath(`/search/${query}`)"
+          :to="localePath(`/search/${encodeURIComponent(query)}`)"
           class="search-history__link"
         >
           <LayoutIcon :icon="HistoryIcon" size="sm" class="search-history__icon" />
