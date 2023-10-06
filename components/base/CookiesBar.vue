@@ -129,7 +129,18 @@ const acceptCookies = () => {
   &__checkboxes {
     color: #fff;
     display: flex;
-    gap: 32px;
+    flex-direction: column;
+    gap: 4px;
+    margin-top: 8px;
+
+    :deep(.checkbox) {
+      margin: 0;
+    }
+
+    @media ($viewport-6) {
+      gap: 32px;
+      flex-direction: row;
+    }
   }
 
   &__btn {

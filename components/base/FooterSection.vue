@@ -1,14 +1,34 @@
 <template>
   <section :class="['footer-section', { 'footer-section--last': last }]">
-    <button class="footer-section__title" @click="isOpen = !isOpen">
+    <button
+      class="footer-section__title"
+      :name="`${isOpen ? t('close') : t('open')} ${props.title}`"
+      @click="isOpen = !isOpen"
+    >
       {{ props.title }}
-      <ChevronIcon class="footer-section__title-icon" />
+      <ChevronIcon
+        class="footer-section__title-icon"
+        :class="{ 'footer-section__title-icon--open': isOpen }"
+      />
     </button>
     <div class="footer-section__content" :class="{ 'footer-section__content--open': isOpen }">
       <slot></slot>
     </div>
   </section>
 </template>
+
+<i18n lang="json">
+{
+  "pl": {
+    "open": "Rozwiń",
+    "close": "Zwiń"
+  },
+  "en": {
+    "open": "Expand",
+    "close": "Collapse"
+  }
+}
+</i18n>
 
 <script lang="ts" setup>
 import ChevronIcon from '@/assets/icons/chevron.svg?component'
@@ -22,6 +42,8 @@ const props = withDefaults(
     last: false,
   },
 )
+
+const t = useLocalI18n()
 
 const isOpen = ref(false)
 </script>
@@ -62,7 +84,12 @@ const isOpen = ref(false)
   &__title-icon {
     width: 11px;
     margin-top: 4px;
+    transition: transform 0.2s;
     transform: rotate(90deg);
+
+    &--open {
+      transform: rotate(-90deg);
+    }
 
     @media ($viewport-4) {
       display: none;
