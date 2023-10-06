@@ -65,6 +65,7 @@ withDefaults(
     object-fit: contain;
     flex-shrink: 0;
     margin: 0.5rem 0;
+    padding: 4px 8px;
 
     &--gray-filter {
       filter: grayscale(100%) brightness(150%);
@@ -76,9 +77,10 @@ withDefaults(
     }
 
     &--drop-shadow {
+      transition: 0.3s box-shadow linear;
+
       &:hover {
-        transition: 0.3s filter linear, 0.3s -webkit-filter linear;
-        filter: drop-shadow(1px 1px 3px gray);
+        box-shadow: 1px 1px 5px gray;
       }
     }
   }

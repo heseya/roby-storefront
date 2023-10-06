@@ -16,12 +16,16 @@ const data = useAsyncData('page', async () => {
 </script>
 
 <style lang="scss" scoped>
-:deep(figure) {
+:deep(figure),
+:deep(figure > a) {
+  display: block;
   overflow: hidden;
   border-radius: 10px;
 }
 
-:deep(figure img) {
+:deep(figure > img),
+:deep(figure > a > img) {
+  display: block;
   transition: transform 0.25s;
 
   &:hover {
