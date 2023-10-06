@@ -8,7 +8,7 @@
 </template>
 
 <script setup lang="ts">
-withDefaults(defineProps<{ active: boolean; additionalBlur: boolean }>(), {
+withDefaults(defineProps<{ active: boolean; additionalBlur?: boolean }>(), {
   active: false,
   additionalBlur: false,
 })
