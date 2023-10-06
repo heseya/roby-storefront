@@ -89,13 +89,21 @@ const { data: offertsBanner } = useAsyncData('offer-banner', async (): Promise<L
 })
 
 const sections = computed<Section[]>(() => {
+  const sortKey = 'homepage_order'
+
   const pages = data.value?.homepagePages?.map((p) => ({ type: 'page' as const, data: p })) || []
 
   const sets =
-    data.value?.homepageSets?.map((set) => ({
-      type: 'set' as const,
-      data: set,
-    })) || []
+    data.value?.homepageSets
+      ?.sort((a, b) => {
+        const aOrder = Number(a.metadata[sortKey] || Infinity)
+        const bOrder = Number(b.metadata[sortKey] || Infinity)
+        return aOrder - bOrder
+      })
+      .map((set) => ({
+        type: 'set' as const,
+        data: set,
+      })) || []
 
   const boxes =
     offertsBanner.value?.map((box) => ({
@@ -104,7 +112,7 @@ const sections = computed<Section[]>(() => {
     })) || []
 
   const length = Math.max(sets.length, boxes.length)
-  return Array.from({ length }, (_, i) => [pages[i], sets[i], boxes[i]])
+  return Array.from({ length }, (_, i) => [sets[i], pages[i], boxes[i]])
     .flat()
     .filter(Boolean)
 })
