@@ -108,6 +108,7 @@ export default defineNuxtConfig({
     '@vueuse/nuxt',
     'nuxt-swiper',
     'nuxt-delay-hydration',
+    'nuxt-simple-robots',
     'nuxt-simple-sitemap',
   ],
 

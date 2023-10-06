@@ -9,10 +9,12 @@ export const useConfigStore = defineStore('config', {
 
   getters: {
     storeLogoUrl(): string {
-      return this.env.store_logo as string
+      return `${this.env.store_logo}?w=200&format=auto`
     },
     footerLogoUrl(): string {
-      return this.env.footer_store_logo as string
+      return this.env.footer_store_logo
+        ? `${this.env.footer_store_logo}?w=200&format=auto`
+        : this.storeLogoUrl
     },
     faviconUrl(): string {
       return this.env.favicon_url as string

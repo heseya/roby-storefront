@@ -24,7 +24,7 @@ watch(
       const imgSrc = img.getAttribute('src')
 
       const params = {
-        w: 1200,
+        w: 800,
         format: 'auto',
       }
 
