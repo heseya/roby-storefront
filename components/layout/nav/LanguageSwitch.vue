@@ -36,8 +36,8 @@ const languages = computed<InnerLanguage[]>(() =>
 
 const language = computed(() => ({ key: locale.value }))
 
-const setLanguage = (language: InnerLanguage) => {
-  setLocale(language.key)
+const setLanguage = async (language: InnerLanguage) => {
+  await setLocale(language.key)
 
   // TODO: remove this hardcoded rule maybe?
   // Set channel to PL if PL is a default language for channel
@@ -47,11 +47,7 @@ const setLanguage = (language: InnerLanguage) => {
 
     channels.setChannel(channel.id)
 
-    // TODO: this works and looks bad, but if reload is done faster, then the language is not changed
-    setTimeout(() => {
-      // maybe better way to reload page?
-      if (window) window.location.reload()
-    }, 300)
+    if (window) window.location.reload()
   }
 }
 </script>

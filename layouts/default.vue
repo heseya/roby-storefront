@@ -59,12 +59,12 @@ const isAdditionalNavBarVisible = computed(
 
     flex: 1;
     padding-top: 185px;
-    padding-bottom: 190px;
+    padding-bottom: 32px;
     transition: padding-top 200ms ease-in-out;
 
     @media ($max-viewport-12) {
       padding-top: 60px;
-      padding-bottom: 100px;
+      padding-bottom: 32px;
     }
 
     &--with-notification {
@@ -77,11 +77,9 @@ const isAdditionalNavBarVisible = computed(
 
     &--with-additional-navbar {
       padding-top: 235px;
-      padding-bottom: 140px;
 
       @media ($max-viewport-12) {
         padding-top: 110px;
-        padding-bottom: 50px;
       }
     }
 
