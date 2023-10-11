@@ -164,5 +164,17 @@ export default {
     FORBIDDEN: 'Nie posiadasz dostepu do tego miejsca.',
     BAD_REQUEST: 'Nieprawidłowe zapytanie.',
     BAD_GATEWAY: 'Błąd bramy serwera.',
+
+    checkout: {
+      email: 'Podaj poprawny adres e-mail.',
+      consent: 'Zaakceptuj wszystkie wymagane zgody.',
+      shippingMethod: 'Wybierz metodę dostawy.',
+      paymentMethod: 'Wybierz metodę płatności.',
+      shippingAddress: 'Podaj poprawny adres dostawy.',
+      shippingPlace: 'Podaj poprawne miejsce dostawy.',
+      billingAddress: 'Podaj poprawny adres do rachunku.',
+      billingAddressVat: 'Uzupełnij NIP jeśli chcesz fakturę VAT.',
+      validationError: 'Popraw błędne dane w formularzu.',
+    },
   },
 }

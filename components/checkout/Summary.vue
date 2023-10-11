@@ -41,12 +41,11 @@
         <CheckoutConsents />
       </div>
 
-      <LayoutButton
-        variant="primary"
-        class="cart-summary__button"
-        :disabled="disabled || !checkout.isValid"
-        @click="emit('submit')"
-      >
+      <LayoutInfoBox v-if="!isValid && isErrorVisible" type="danger" class="checkout-summary-item">
+        {{ shownError }}
+      </LayoutInfoBox>
+
+      <LayoutButton variant="primary" class="cart-summary__button" @click="handleClick">
         {{ $t('payments.confirmAndPay') }}
       </LayoutButton>
     </div>
@@ -57,8 +56,9 @@
 import { useCartStore } from '@/store/cart'
 import { useCheckoutStore } from '~/store/checkout'
 
-defineProps<{
+const props = defineProps<{
   disabled: boolean
+  isValidationError: boolean
 }>()
 
 const emit = defineEmits<{
@@ -69,6 +69,24 @@ const $t = useGlobalI18n()
 const cart = useCartStore()
 const checkout = useCheckoutStore()
 const currency = useCurrency()
+
+const isErrorVisible = ref(false)
+
+const isValid = computed(() => checkout.isValid && !props.isValidationError)
+
+const shownError = computed(() => {
+  if (props.isValidationError) return $t('errors.checkout.validationError')
+  if (checkout.validationError) return checkout.validationError
+  return ''
+})
+
+const handleClick = () => {
+  if (!isValid.value) isErrorVisible.value = true
+  else {
+    isErrorVisible.value = false
+    emit('submit')
+  }
+}
 </script>
 
 <style lang="scss" scoped>

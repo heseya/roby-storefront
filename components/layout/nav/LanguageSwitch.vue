@@ -7,7 +7,7 @@
     @update:value="setLanguage"
   >
     <template #option="item">
-      <img :src="getIcon(item.value.key)" class="language-switch__icon" />
+      <img :key="item.value.key" :src="getIcon(item.value.key)" class="language-switch__icon" />
       {{ $t(`languages.${item.value.key}`) }}
     </template>
   </LayoutPopover>
@@ -16,6 +16,7 @@
 <script lang="ts" setup>
 import plFlagUrl from '@/assets/icons/pl.svg'
 import enFlagUrl from '@/assets/icons/en.svg'
+import { useChannelsStore } from '@/store/channels'
 
 interface InnerLanguage {
   key: string
@@ -23,6 +24,7 @@ interface InnerLanguage {
 
 const $t = useGlobalI18n()
 const { setLocale, locale, locales } = useI18n()
+const channels = useChannelsStore()
 
 const getIcon = (value: string) => (value === 'pl' ? plFlagUrl : enFlagUrl)
 
@@ -34,8 +36,19 @@ const languages = computed<InnerLanguage[]>(() =>
 
 const language = computed(() => ({ key: locale.value }))
 
-const setLanguage = (language: InnerLanguage) => {
-  setLocale(language.key)
+const setLanguage = async (language: InnerLanguage) => {
+  await setLocale(language.key)
+
+  // TODO: remove this hardcoded rule maybe?
+  // Set channel to PL if PL is a default language for channel
+  if (language.key.includes('pl')) {
+    const channel = channels.channels.find((c) => c.default_language.iso.includes('pl'))
+    if (!channel) return
+
+    channels.setChannel(channel.id)
+
+    if (window) window.location.reload()
+  }
 }
 </script>
 

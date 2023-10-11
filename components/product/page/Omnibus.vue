@@ -41,7 +41,7 @@ const { data: price, pending } = useAsyncData(async () => {
     const { priceTrackerUrl } = usePublicRuntimeConfig()
 
     const { data } = await axios.get<{ data?: { price_min: number } }>(
-      `/products/${props.product.id}?current_price_min=${priceMin.value}`,
+      `/products/${props.product.id}/${currency.value}?current_price_min=${priceMin.value}`,
       {
         baseURL: priceTrackerUrl,
       },

@@ -62,7 +62,8 @@ const copyFromShippingAddress = () => {
 }
 
 onMounted(() => {
-  checkout.invoiceRequested = config.env.select_invoice_by_default === '1'
+  checkout.invoiceRequested =
+    checkout.invoiceRequested || config.env.select_invoice_by_default === '1'
 })
 </script>
 

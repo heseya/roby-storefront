@@ -1,11 +1,17 @@
 <template>
-  <div class="loading" :class="{ 'loading--active': active }">
+  <div
+    class="loading"
+    :class="{ 'loading--active': active, 'loading--additional-blur': additionalBlur }"
+  >
     <div class="loading__loader"></div>
   </div>
 </template>
 
 <script setup lang="ts">
-withDefaults(defineProps<{ active: boolean }>(), { active: false })
+withDefaults(defineProps<{ active: boolean; additionalBlur?: boolean }>(), {
+  active: false,
+  additionalBlur: false,
+})
 </script>
 
 <style lang="scss" scoped>
@@ -27,7 +33,7 @@ withDefaults(defineProps<{ active: boolean }>(), { active: false })
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1;
+  z-index: 1000;
   opacity: 0;
   visibility: hidden;
   transition: 0.2s;
@@ -38,6 +44,10 @@ withDefaults(defineProps<{ active: boolean }>(), { active: false })
   &--active {
     opacity: 1;
     visibility: visible;
+  }
+
+  &--additional-blur {
+    backdrop-filter: blur(15px);
   }
 
   &__loader {

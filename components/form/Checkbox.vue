@@ -103,7 +103,7 @@ watch(
 
   label {
     padding-left: 24px;
-    display: block;
+    display: inline-flex;
     font-weight: 400;
     position: relative;
 

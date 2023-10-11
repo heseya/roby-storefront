@@ -198,6 +198,7 @@ const getSectionName = (section: number) =>
   &__logo {
     width: 130px;
     height: 38px;
+    object-fit: contain;
   }
 
   &__text {

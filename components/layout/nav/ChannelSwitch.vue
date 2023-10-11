@@ -47,7 +47,7 @@ const selected = computed(() => ({
   name: channels.selected?.name || '',
 }))
 
-const setChannel = (data: { key: string }) => {
+const setChannel = async (data: { key: string }) => {
   const channel = channels.channels.find((c) => c.id === data.key)
   if (!channel) {
     // eslint-disable-next-line no-console
@@ -56,20 +56,20 @@ const setChannel = (data: { key: string }) => {
   }
 
   channels.setChannel(channel.id)
-  setLanguage(channel.default_language)
 
-  // TODO: this works and looks bad, but if reload is done faster, then the language is not changed
-  setTimeout(() => {
-    // maybe better way to reload page?
-    if (window) window.location.reload()
-  }, 300)
+  // TODO: remove this hardcoded rule maybe?
+  // Set language to PL if PL is a default language for channel
+  if (channel.default_language.iso.includes('pl')) {
+    await setLanguage(channel.default_language)
+  }
+  if (window) window.location.reload()
 }
 
-const setLanguage = (language: Language) => {
+const setLanguage = async (language: Language) => {
   const locale = locales.value.find((l) =>
     language.iso.includes(typeof l === 'string' ? l : l.code),
   )
-  if (locale) setLocale(typeof locale === 'string' ? locale : locale.code)
+  if (locale) await setLocale(typeof locale === 'string' ? locale : locale.code)
 }
 </script>
 

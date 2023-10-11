@@ -108,6 +108,7 @@ export default defineNuxtConfig({
     '@vueuse/nuxt',
     'nuxt-swiper',
     'nuxt-delay-hydration',
+    'nuxt-simple-robots',
     'nuxt-simple-sitemap',
   ],
 
@@ -215,6 +216,12 @@ export default defineNuxtConfig({
       commonjsOptions: {
         transformMixedEsModules: true,
       },
+    },
+  },
+
+  vue: {
+    compilerOptions: {
+      isCustomElement: (tag) => ['Notifications'].includes(tag),
     },
   },
 })
