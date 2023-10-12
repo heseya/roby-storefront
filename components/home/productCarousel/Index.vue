@@ -20,7 +20,7 @@
       />
     </div>
     <div class="product-carousel__products">
-      <!-- <LayoutLoading :active="pending" /> -->
+      <LayoutLoading v-show="pending" :active="pending" />
       <HomeProductCarouselSimple v-if="products?.length" :products="products" />
       <LayoutEmpty v-else class="product-carousel__empty">{{ t('empty') }}</LayoutEmpty>
     </div>
@@ -58,7 +58,11 @@ const categoriesStore = useCategoriesStore()
 const selectedCategory = useState<string | null>(`selected-${props.category.id}`, () => null)
 const subcategories = useState<ProductSetList[]>(`subcategories-${props.category.id}`, () => [])
 
-const { data: products, refresh: refreshProducts } = useAsyncData(
+const {
+  data: products,
+  refresh: refreshProducts,
+  pending,
+} = useAsyncData(
   `products-${props.category.id}`,
   async () => {
     const categorySlug = selectedCategory.value || props.category.slug

@@ -123,12 +123,11 @@
         </div>
       </template>
 
-      <ProductSimpleCarousel
+      <HomeProductCarousel
         v-for="set in product?.related_sets || []"
         :key="set.id"
         class="product-page__related-products"
-        :title="set.name"
-        :query="{ sets: [set.slug], sort: `set.${set.slug}` }"
+        :category="set"
       />
     </BaseContainer>
   </NuxtLayout>
