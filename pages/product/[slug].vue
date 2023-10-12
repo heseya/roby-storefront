@@ -128,6 +128,8 @@
         :key="set.id"
         class="product-page__related-products"
         :category="set"
+        without-subcategories
+        hide-more-button
       />
     </BaseContainer>
   </NuxtLayout>

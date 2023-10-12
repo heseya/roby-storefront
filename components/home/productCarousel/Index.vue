@@ -1,10 +1,15 @@
 <template>
   <div class="product-carousel">
     <div class="product-carousel__header">
-      <LayoutHeader class="product-carousel__title" variant="black" :tag="headerTag">
+      <LayoutHeader
+        class="product-carousel__title"
+        :class="{ 'product-carousel__title--no-padding': hideMoreButton }"
+        variant="black"
+        :tag="headerTag"
+      >
         {{ label || category.name }}
       </LayoutHeader>
-      <HomeShowAllButton :path="`/category/${category.slug}`" />
+      <HomeShowAllButton v-show="!hideMoreButton" :path="`/category/${category.slug}`" />
     </div>
     <div
       v-show="subcategories?.length && !withoutSubcategories"
@@ -48,8 +53,9 @@ const props = withDefaults(
     label?: string
     withoutSubcategories?: boolean
     headerTag?: string
+    hideMoreButton?: boolean
   }>(),
-  { label: '', withoutSubcategories: false, headerTag: 'span' },
+  { label: '', withoutSubcategories: false, hideMoreButton: false, headerTag: 'span' },
 )
 const t = useLocalI18n()
 const heseya = useHeseya()
@@ -119,6 +125,10 @@ const setNewCategory = (categorySlug: string) => {
     padding-left: 150px;
     flex: 1;
     line-height: 130%;
+
+    &--no-padding {
+      padding-left: 0;
+    }
 
     @media ($max-viewport-8) {
       padding: 0;
