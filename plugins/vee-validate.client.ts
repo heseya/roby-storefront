@@ -28,8 +28,10 @@ export default defineNuxtPlugin((nuxt) => {
   defineRule('plVatNumber', (value: string) => {
     return /^(PL)?[0-9]{10}$/gm.test(value)
   })
-  defineRule('plZip', (value: string) => {
-    return /^[0-9]{2}-[0-9]{3}$/gm.test(value)
+  defineRule('plZip', (_value: string): boolean => {
+    // TODO: disabled vat number validation due to the ST-131 error
+    return true
+    // return /^[0-9]{2}-[0-9]{3}$/gm.test(value)
   })
   defineRule('max', max)
 
@@ -47,7 +49,7 @@ export default defineNuxtPlugin((nuxt) => {
           phone: 'Numer telefonu jest niepoprawny',
           vatNumber: 'Podany numer NIP jest nieprawidłowy',
           plVatNumber: 'Podany numer NIP jest nieprawidłowy',
-          plZip: 'Kod pocztowy jest nieprawidłowy',
+          plZip: 'Kod pocztowy jest nieprawidłowy. Powinien być posiadać format "XX-XXX".',
           max: 'Przekroczono maksymalną ilość znaków. Dopuszczalna liczba znaków to 0:{max}',
         },
       },
@@ -63,7 +65,7 @@ export default defineNuxtPlugin((nuxt) => {
           phone: 'The phone number is incorrect',
           vatNumber: 'Provided VAT Number is incorrect',
           plVatNumber: 'Provided VAT Number is incorrect',
-          plZip: 'Zip code is incorrect',
+          plZip: 'Zip code is incorrect. It should have the format "XX-XXX".',
           max: 'The maximum number of characters has been exceeded. The allowed number of characters is 0:{max}',
         },
       },
