@@ -1,10 +1,15 @@
 <template>
   <div class="product-carousel">
     <div class="product-carousel__header">
-      <LayoutHeader class="product-carousel__title" variant="black" :tag="headerTag">
+      <LayoutHeader
+        class="product-carousel__title"
+        :class="{ 'product-carousel__title--no-padding': hideMoreButton }"
+        variant="black"
+        :tag="headerTag"
+      >
         {{ label || category.name }}
       </LayoutHeader>
-      <HomeShowAllButton :path="`/category/${category.slug}`" />
+      <HomeShowAllButton v-show="!hideMoreButton" :path="`/category/${category.slug}`" />
     </div>
     <div
       v-show="subcategories?.length && !withoutSubcategories"
@@ -20,7 +25,7 @@
       />
     </div>
     <div class="product-carousel__products">
-      <!-- <LayoutLoading :active="pending" /> -->
+      <LayoutLoading v-show="pending" :active="pending" />
       <HomeProductCarouselSimple v-if="products?.length" :products="products" />
       <LayoutEmpty v-else class="product-carousel__empty">{{ t('empty') }}</LayoutEmpty>
     </div>
@@ -48,8 +53,9 @@ const props = withDefaults(
     label?: string
     withoutSubcategories?: boolean
     headerTag?: string
+    hideMoreButton?: boolean
   }>(),
-  { label: '', withoutSubcategories: false, headerTag: 'span' },
+  { label: '', withoutSubcategories: false, hideMoreButton: false, headerTag: 'span' },
 )
 const t = useLocalI18n()
 const heseya = useHeseya()
@@ -58,7 +64,11 @@ const categoriesStore = useCategoriesStore()
 const selectedCategory = useState<string | null>(`selected-${props.category.id}`, () => null)
 const subcategories = useState<ProductSetList[]>(`subcategories-${props.category.id}`, () => [])
 
-const { data: products, refresh: refreshProducts } = useAsyncData(
+const {
+  data: products,
+  refresh: refreshProducts,
+  pending,
+} = useAsyncData(
   `products-${props.category.id}`,
   async () => {
     const categorySlug = selectedCategory.value || props.category.slug
@@ -115,6 +125,10 @@ const setNewCategory = (categorySlug: string) => {
     padding-left: 150px;
     flex: 1;
     line-height: 130%;
+
+    &--no-padding {
+      padding-left: 0;
+    }
 
     @media ($max-viewport-8) {
       padding: 0;
