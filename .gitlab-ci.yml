@@ -24,6 +24,8 @@ eslint:
   rules:
     - if: $CI_COMMIT_BRANCH != "master"
   script:
+    - echo "CI_COMMIT_REF_NAME = $CI_COMMIT_REF_NAME"
+    - echo "***REMOVED***_TRIGGER_BRANCH = $***REMOVED***_TRIGGER_BRANCH"
     - yarn lint:eslint
 
 vue-tsc:
