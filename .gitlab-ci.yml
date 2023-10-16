@@ -40,7 +40,5 @@ vue-tsc:
 
 trigger-external-repo:
   stage: trigger
-  only:
-    - tags
   script:
     - "curl -X POST -F token=glptt-9062a951c2ee6fd23d1ac2ba48f9bbfdcd43fca4 -F ref=main ***REMOVED***/api/v4/projects/929/trigger/pipeline"
