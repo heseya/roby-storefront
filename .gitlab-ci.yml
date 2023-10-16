@@ -54,4 +54,4 @@ trigger-***REMOVED***-repo:
         export IMAGE_NAME=$***REMOVED***_TRIGGER_BRANCH;
       fi
     - apt update -y && apt install -y curl
-    - curl -X POST -F token=$***REMOVED***_TRIGGER_TOKEN -F ref=main -F variables[IMAGE_NAME]=$IMAGE_NAME "***REMOVED***/api/v4/projects/929/trigger/pipeline"
+    - curl -v -X POST -F token=$***REMOVED***_TRIGGER_TOKEN -F ref=main -F variables[IMAGE_NAME]=$IMAGE_NAME "***REMOVED***/api/v4/projects/929/trigger/pipeline"
