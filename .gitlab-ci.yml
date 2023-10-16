@@ -4,17 +4,17 @@ stages:
   - test
   - build
   - deploy
-  - trigger
   - postdeploy
+  - trigger
 
 cache:
   key: ${CI_COMMIT_REF_SLUG}
   paths:
     - node_modules/
 
-# ----------------------------
+# ---------------------------
 # ? TEST
-# ----------------------------
+# ---------------------------
 
 eslint:
   image: node:16-alpine
