@@ -5,15 +5,16 @@ stages:
   - build
   - deploy
   - postdeploy
+  - trigger
 
 cache:
   key: ${CI_COMMIT_REF_SLUG}
   paths:
     - node_modules/
 
-# ----------------------------
+# --------------------------
 # ? TEST
-# ----------------------------
+# --------------------------
 
 eslint:
   image: node:16-alpine
@@ -36,3 +37,20 @@ vue-tsc:
     - yarn lint:vue
   # Hopefully only for some time, until we have fixed all the errors
   allow_failure: true
+
+trigger-***REMOVED***-repo:
+  stage: trigger
+  rules:
+  - if: $CI_COMMIT_REF_NAME == $***REMOVED***_TRIGGER_BRANCH
+    when: always
+  - if: $CI_COMMIT_TAG
+    when: always
+  script:
+    - 'echo "Token: $***REMOVED***_TRIGGER_TOKEN"'
+    - if [ "$CI_COMMIT_TAG" != "" ]; then
+        export IMAGE_NAME=$CI_COMMIT_TAG;
+      else
+        export IMAGE_NAME=$***REMOVED***_TRIGGER_BRANCH;
+      fi
+    - apt update -y && apt install -y curl
+    - curl -X POST -F token=$***REMOVED***_TRIGGER_TOKEN -F ref=main -F variables[IMAGE_NAME]=$IMAGE_NAME "***REMOVED***/api/v4/projects/929/trigger/pipeline"
