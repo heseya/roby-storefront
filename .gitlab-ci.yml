@@ -1,9 +1,9 @@
 image: ubuntu:bionic
 
 stages:
-  - trigger
   - test
   - build
+  - trigger
   - deploy
   - postdeploy
 
