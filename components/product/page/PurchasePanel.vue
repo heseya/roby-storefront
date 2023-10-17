@@ -48,6 +48,12 @@
 
     <div class="product-purchase-panel__detail"><DeliveryIcon /> {{ availability }}</div>
   </div>
+  <upsell-panel
+    v-model:open="upsellVisible"
+    :product="product"
+    :price="price"
+    :currency="currency"
+  />
 </template>
 
 <i18n lang="json">
@@ -91,6 +97,7 @@
 import { CartItemSchema, Product, parseSchemasToValues } from '@heseya/store-core'
 import DeliveryIcon from '@/assets/icons/delivery.svg?component'
 import { useCartStore } from '@/store/cart'
+import UpsellPanel from '~/components/product/page/UpsellModal.vue'
 
 const props = withDefaults(
   defineProps<{
@@ -100,9 +107,9 @@ const props = withDefaults(
 )
 const cart = useCartStore()
 const t = useLocalI18n()
-const localePath = useLocalePath()
 const currency = useCurrency()
 const channel = useSalesChannel()
+const upsellVisible = ref(false)
 
 const { enabled: leaselinkEnabled, getUrl: getLeasingUrl } = useLeaselink()
 
@@ -163,7 +170,7 @@ const addToCart = () => {
     quantity: Number(quantity.value) || 1,
   })
 
-  navigateTo(localePath('/cart'))
+  upsellVisible.value = true
 }
 </script>
 
