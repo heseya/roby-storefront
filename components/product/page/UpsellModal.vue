@@ -1,8 +1,8 @@
 <template>
-  <LayoutModal v-model:open="isModalVisible" :box="true">
+  <LayoutModal v-model:open="isModalVisible" :box="isWide" :fullscreen="true">
     <div class="product-upsell-modal">
       <div class="product-upsell-modal__header">
-        <LayoutIcon :icon="CheckIcon" :size="26" />
+        <LayoutIcon :icon="CheckIcon" :size="isWide ? 26 : 48" />
         <span class="product-upsell-modal__header-title">{{ t('header.title') }}</span>
       </div>
       <div class="product-upsell-modal__product">
@@ -112,6 +112,14 @@ const suggestedQuery = computed(() => {
     sets: [config.env.cart_upsell_set_slug as string],
   }
 })
+
+if (process.browser) {
+  const innerWidth = ref(window.innerWidth)
+}
+
+const isWide = computed(() => {
+  return typeof innerWidth !== 'undefined' ? innerWidth >= 1024 : false
+})
 </script>
 
 <style lang="scss" scoped>
@@ -121,14 +129,25 @@ const suggestedQuery = computed(() => {
   background-color: $gray-color-100;
 
   &__header {
-    padding: 0 21px;
     display: flex;
+    flex-direction: column;
     align-items: center;
+    padding-top: 140px;
+
+    @media ($viewport-10) {
+      padding: 0 21px;
+      flex-direction: row;
+    }
 
     &-title {
       margin-left: 15px;
       font-size: rem(20);
       font-weight: $font-weight-medium;
+      padding-top: 20px;
+
+      @media ($viewport-10) {
+        padding-top: 0;
+      }
     }
   }
 
@@ -136,9 +155,14 @@ const suggestedQuery = computed(() => {
     background-color: #fff;
     display: flex;
     border: 1px solid $gray-color-300;
-    width: 100%;
+    width: 90%;
     padding: 16px 21px;
-    margin: 16px 0;
+    margin: 16px 16px;
+
+    @media ($viewport-10) {
+      margin: 16px 0;
+      width: 100%;
+    }
 
     &-image {
       max-height: 48px;
@@ -162,8 +186,12 @@ const suggestedQuery = computed(() => {
   }
 
   &__upsell {
-    margin-top: 20px;
+    margin-top: 144px;
     padding: 0 21px;
+
+    @media ($viewport-10) {
+      margin-top: 20px;
+    }
 
     &-header {
       display: flex;
@@ -181,6 +209,11 @@ const suggestedQuery = computed(() => {
     &-buttons {
       display: flex;
       justify-content: space-between;
+      margin-top: 60px;
+
+      @media ($viewport-10) {
+        margin-top: 0;
+      }
 
       &-back {
         cursor: pointer;

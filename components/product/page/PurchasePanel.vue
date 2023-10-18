@@ -48,7 +48,7 @@
 
     <div class="product-purchase-panel__detail"><DeliveryIcon /> {{ availability }}</div>
   </div>
-  <upsell-panel
+  <upsell-modal
     v-model:open="upsellVisible"
     :product="product"
     :price="price"
@@ -97,7 +97,7 @@
 import { CartItemSchema, Product, parseSchemasToValues } from '@heseya/store-core'
 import DeliveryIcon from '@/assets/icons/delivery.svg?component'
 import { useCartStore } from '@/store/cart'
-import UpsellPanel from '~/components/product/page/UpsellModal.vue'
+import UpsellModal from '~/components/product/page/UpsellModal.vue'
 
 const props = withDefaults(
   defineProps<{
