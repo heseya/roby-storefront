@@ -113,11 +113,12 @@ const suggestedQuery = computed(() => {
   }
 })
 
-if (process.browser) {
-  const innerWidth = ref(window.innerWidth)
-}
-
 const isWide = computed(() => {
+  if (process.browser) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const innerWidth = ref(window.innerWidth)
+  }
+
   return typeof innerWidth !== 'undefined' ? innerWidth >= 1024 : false
 })
 </script>
