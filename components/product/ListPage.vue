@@ -99,11 +99,13 @@
 </i18n>
 
 <script setup lang="ts">
+import { useConfigStore } from '@/store/config'
+
 const route = useRoute()
 const t = useLocalI18n()
 
 const heseya = useHeseya()
-
+const config = useConfigStore()
 const slots = useSlots()
 
 const props = withDefaults(
@@ -188,6 +190,7 @@ const {
     limit: perPage.value,
     attribute: Object.keys(attribute).length ? attribute : undefined,
     shipping_digital: false,
+    attribute_slug: config.productSubtextAttr,
   })
   return response
 })
