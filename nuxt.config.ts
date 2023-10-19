@@ -218,10 +218,4 @@ export default defineNuxtConfig({
       },
     },
   },
-
-  vue: {
-    compilerOptions: {
-      isCustomElement: (tag) => ['Notifications'].includes(tag),
-    },
-  },
 })

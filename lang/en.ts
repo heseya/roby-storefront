@@ -142,6 +142,7 @@ export default {
     CLIENT_NO_ACCESS: 'You do not have access to these resources.',
 
     ORDER_WITH_THIS_NUMBER_DOESNT_EXIST: 'Order with this number doesnt exist',
+    CLIENT_GENERATE_PAYMENT_URL: 'Error while generating payment link.',
 
     VALIDATION_ERROR: 'Validation error.',
     VALIDATION_PASSWORD_COMPROMISED:
