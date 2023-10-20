@@ -16,29 +16,29 @@
           <span class="product-upsell-modal__product-price"> {{ price }} {{ currency }} </span>
         </div>
       </div>
-      <div class="product-upsell-modal__upsell">
+      <div v-for="set in product.related_sets" :key="set.id" class="product-upsell-modal__upsell">
         <div class="product-upsell-modal__upsell-header">
-          <span class="product-upsell-modal__upsell-text">{{ t('upsell.text') }}</span>
+          <span class="product-upsell-modal__upsell-text">{{ set.name }}</span>
           <span class="product-upsell-modal__upsell-subtext">{{ t('upsell.subtext') }}</span>
         </div>
         <div class="product-upsell-modal__upsell-content">
           <ProductSimpleCarousel
-            :query="suggestedQuery"
+            :query="{ sets: [set.slug] }"
             class="product-upsell-modal__upsell-carousel"
           />
         </div>
-        <div class="product-upsell-modal__upsell-buttons">
-          <button
-            class="product-upsell-modal__upsell-buttons-back"
-            @click="isModalVisible = !isModalVisible"
-          >
-            <LayoutIcon :icon="GoBackIcon" :size="14" />
-            {{ t('buttons.back') }}
-          </button>
-          <NuxtLink :to="localePath('/cart')">
-            <LayoutButton variant="primary">{{ t('buttons.cart') }}</LayoutButton>
-          </NuxtLink>
-        </div>
+      </div>
+      <div class="product-upsell-modal__upsell-buttons">
+        <button
+          class="product-upsell-modal__upsell-buttons-back"
+          @click="isModalVisible = !isModalVisible"
+        >
+          <LayoutIcon :icon="GoBackIcon" :size="14" />
+          {{ t('buttons.back') }}
+        </button>
+        <NuxtLink :to="localePath('/cart')">
+          <LayoutButton variant="primary">{{ t('buttons.cart') }}</LayoutButton>
+        </NuxtLink>
       </div>
     </div>
   </LayoutModal>
@@ -76,14 +76,14 @@
 </i18n>
 
 <script setup lang="ts">
+import { useMediaQuery } from '@vueuse/core'
 import { Product } from '@heseya/store-core'
 import CheckIcon from '@/assets/icons/check-circle.svg?component'
 import GoBackIcon from '@/assets/icons/navigate-back.svg?component'
-import { useConfigStore } from '~/store/config'
 
 const t = useLocalI18n()
 const localePath = useLocalePath()
-const config = useConfigStore()
+const isWide = useMediaQuery('(min-width: 1024px)')
 
 const props = withDefaults(
   defineProps<{
@@ -105,21 +105,6 @@ const isModalVisible = computed({
   set(value) {
     emit('update:open', value)
   },
-})
-
-const suggestedQuery = computed(() => {
-  return {
-    sets: [config.env.cart_upsell_set_slug as string],
-  }
-})
-
-const isWide = computed(() => {
-  if (process.browser) {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const innerWidth = ref(window.innerWidth)
-  }
-
-  return typeof innerWidth !== 'undefined' ? innerWidth >= 1024 : false
 })
 </script>
 
@@ -208,11 +193,13 @@ const isWide = computed(() => {
     }
 
     &-buttons {
+      padding: 30px;
       display: flex;
       justify-content: space-between;
       margin-top: 60px;
 
       @media ($viewport-10) {
+        padding: 14px 21px;
         margin-top: 0;
       }
 
