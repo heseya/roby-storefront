@@ -48,7 +48,7 @@
 
     <div class="product-purchase-panel__detail"><DeliveryIcon /> {{ availability }}</div>
   </div>
-  <upsell-modal
+  <UpsellModal
     v-model:open="upsellVisible"
     :product="product"
     :price="price"
