@@ -82,7 +82,7 @@ export default {
     nameAndSurname: 'Imię i nazwisko',
     phone: 'Telefon',
     birthdayDate: 'Data urodzenia',
-    needInvoice: 'Potrzebuje fakturę VAT',
+    needInvoice: 'Kupuję jako firma, potrzebuje fakturę VAT',
     name: 'Imię',
     surname: 'Nazwisko',
   },

@@ -82,7 +82,7 @@ export default {
     nameAndSurname: 'Name and surname',
     phone: 'Phone',
     birthdayDate: 'Birthday date',
-    needInvoice: 'I need invoice',
+    needInvoice: 'I am buying as a company, need a VAT invoice',
     name: 'Name',
     surname: 'Surname',
   },

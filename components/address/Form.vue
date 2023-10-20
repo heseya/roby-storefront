@@ -57,7 +57,7 @@
         :name="`${namePrefix}_city`"
         autocomplete="home city"
         rules="required"
-        :label="t('city')"
+        :label="address.country !== 'US' ? t('city') : t('cityAndState')"
         :disabled="disabled"
         @update:model-value="update('city', $event as string)"
       />
@@ -86,6 +86,7 @@
     "companyName": "Nazwa firmy",
     "address": "Adres",
     "city": "Miasto",
+    "cityAndState": "Miasto i stan",
     "postalCode": "Kod pocztowy",
     "phone": "Telefon",
     "country": "Kraj",
@@ -95,6 +96,7 @@
     "companyName": "Company name",
     "address": "Address",
     "city": "City",
+    "cityAndState": "City and state",
     "postalCode": "Postal Code",
     "phone": "Phone",
     "country": "Country",
