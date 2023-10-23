@@ -64,14 +64,14 @@ withDefaults(
   &__icon {
     width: 36px;
     height: 36px;
-    background-color: $gray-color-300;
+    background-color: $gray-color-300 !important;
     border-radius: 50%;
     transition: background-color 200ms ease-in-out;
     position: relative;
 
     &:hover {
       filter: none;
-      background-color: $gray-color-400;
+      background-color: $gray-color-400 !important;
     }
 
     &::after {
