@@ -80,6 +80,14 @@ export default defineNuxtConfig({
     },
   },
 
+  experimental: {
+    defaults: {
+      useAsyncData: {
+        deep: false,
+      },
+    },
+  },
+
   css: ['@/assets/scss/index.scss'],
 
   runtimeConfig: {
