@@ -815,10 +815,10 @@
   resolved "https://registry.yarnpkg.com/@fastify/busboy/-/busboy-2.0.0.tgz#f22824caff3ae506b18207bad4126dbc6ccdb6b8"
   integrity sha512-JUFJad5lv7jxj926GPgymrWQxxjPYuJNiNjNMzqT+HiuP6Vl3dk5xzG+8sTX96np0ZAluvaMzPsjhHZ5rNuNQQ==
 
-"@heseya/store-core@6.0.0-dev.40":
-  version "6.0.0-dev.40"
-  resolved "https://registry.yarnpkg.com/@heseya/store-core/-/store-core-6.0.0-dev.40.tgz#f6202ce7d2d0c8105d8b8a5f2b5948571805b97f"
-  integrity sha512-RvfwgA6A/dekRPWTT3B7Em+l8SWGg6P8QbyzYLpTVCEndeEHRaCBFERE/i8ipYHzhqhc+Ym2eK55HmQgkNTyTQ==
+"@heseya/store-core@6.0.0-dev.41":
+  version "6.0.0-dev.41"
+  resolved "https://registry.yarnpkg.com/@heseya/store-core/-/store-core-6.0.0-dev.41.tgz#76c57b38fc33864288143b7976d895a8b53a2796"
+  integrity sha512-XaiZDa1U0/DL7UFgtkzGpb5F5y1wUFkd1tTq1x9lFM/HbPQzOCRazXwhifV1zS2eZma95hPLJSOaduEpQ/qsCw==
   dependencies:
     "@types/flat" "^5.0.2"
     array-to-tree "^3.3.2"
