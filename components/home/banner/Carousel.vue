@@ -50,7 +50,7 @@ const mediaList = computed(() => props.banner?.banner_media)
     position: relative;
     min-height: 36px;
     overflow: visible;
-    width: fit-content;
+    width: 100%;
     max-width: 100%;
     margin: 0;
 
