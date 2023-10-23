@@ -23,7 +23,8 @@
         </div>
         <div class="product-upsell-modal__upsell-content">
           <ProductSimpleCarousel
-            :query="{ sets: [set.slug] }"
+            :key="set.id"
+            :query="{ sets: [set.slug as string] }"
             class="product-upsell-modal__upsell-carousel"
           />
         </div>
@@ -112,6 +113,7 @@ const isModalVisible = computed({
 .product-upsell-modal {
   padding: 18px 0;
   width: 100%;
+  height: 100%;
   background-color: $gray-color-100;
 
   &__header {
