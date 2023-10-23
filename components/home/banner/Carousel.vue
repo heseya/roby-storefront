@@ -39,7 +39,7 @@ const mediaList = computed(() => props.banner?.banner_media)
   width: 100%;
   align-items: center;
   overflow: hidden;
-  max-width: 2550px;
+  max-width: 1920px;
   margin: 0 auto;
 
   @media ($max-viewport-10) {
@@ -62,19 +62,24 @@ const mediaList = computed(() => props.banner?.banner_media)
   &__slide {
     flex: 1;
     flex-direction: row;
-    height: 280px;
+    // height: 280px;
+    height: 400px;
     width: 100%;
 
+    // @media ($viewport-6) {
+    //   height: 380px;
+    // }
+
+    // @media ($viewport-9) {
+    //   height: 480px;
+    // }
+
+    // @media ($viewport-12) {
+    //   height: 580px;
+    // }
+
     @media ($viewport-6) {
-      height: 380px;
-    }
-
-    @media ($viewport-9) {
       height: 480px;
-    }
-
-    @media ($viewport-12) {
-      height: 580px;
     }
 
     :deep(.card__title) {
