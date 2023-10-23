@@ -45,7 +45,7 @@ withDefaults(
   @include flex-column;
   align-items: center;
   padding-left: 36px;
-  padding-right: 64px;
+  padding-right: 36px;
   overflow: hidden;
 
   &--without-button {

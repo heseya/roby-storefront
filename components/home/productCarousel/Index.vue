@@ -26,8 +26,10 @@
     </div>
     <div class="product-carousel__products">
       <LayoutLoading v-show="pending" :active="pending" />
-      <HomeProductCarouselSimple v-if="products?.length" :products="products" />
-      <LayoutEmpty v-else class="product-carousel__empty">{{ t('empty') }}</LayoutEmpty>
+      <HomeProductCarouselSimple v-if="products?.length" :products="products || []" />
+      <LayoutEmpty v-show="!products?.length" class="product-carousel__empty">
+        {{ t('empty') }}
+      </LayoutEmpty>
     </div>
   </div>
 </template>
@@ -71,7 +73,7 @@ const {
   refresh: refreshProducts,
   pending,
 } = useAsyncData(
-  `products-${props.category.id}`,
+  `products-${props.category.id}-${selectedCategory.value}`,
   async () => {
     const categorySlug = selectedCategory.value || props.category.slug
     const { data } = await heseya.Products.get({
@@ -87,7 +89,7 @@ const {
   { immediate: false },
 )
 
-useAsyncData(`subcategories-${props.category.id}`, async () => {
+useLazyAsyncData(`subcategories-${props.category.id}`, async () => {
   if (!props.withoutSubcategories) {
     subcategories.value = await categoriesStore.getSubcategories(props.category.id)
     if (subcategories.value.length) selectedCategory.value = subcategories.value[0].slug
