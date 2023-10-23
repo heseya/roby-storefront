@@ -82,7 +82,7 @@ export default {
     nameAndSurname: 'Imię i nazwisko',
     phone: 'Telefon',
     birthdayDate: 'Data urodzenia',
-    needInvoice: 'Potrzebuje fakturę VAT',
+    needInvoice: 'Kupuję jako firma, potrzebuje fakturę VAT',
     name: 'Imię',
     surname: 'Nazwisko',
   },
@@ -142,6 +142,7 @@ export default {
     CLIENT_NO_ACCESS: 'Nie posiadasz dostępu do tego miejsca.',
 
     ORDER_WITH_THIS_NUMBER_DOESNT_EXIST: 'Zamówienie o tym numerze nie istnieje',
+    CLIENT_GENERATE_PAYMENT_URL: 'Błąd podczas generowania linku do płatności.',
 
     VALIDATION_ERROR: 'Błąd walidacji.',
     VALIDATION_EMAIL: 'Podany adres e-mail jest nieprawidłowy.',

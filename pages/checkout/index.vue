@@ -75,7 +75,7 @@
 </i18n>
 
 <script setup lang="ts">
-import { CartItem, HeseyaEvent, ShippingType } from '@heseya/store-core'
+import { CartItem, HeseyaEvent, Order, ShippingType } from '@heseya/store-core'
 import clone from 'lodash/clone'
 import { useForm } from 'vee-validate'
 
@@ -89,7 +89,6 @@ import { useCheckoutStore } from '@/store/checkout'
 import { useChannelsStore } from '@/store/channels'
 
 const t = useLocalI18n()
-const $t = useGlobalI18n()
 const formatError = useErrorMessage()
 const { notify } = useNotify()
 
@@ -173,36 +172,46 @@ const saveUserAddresses = async () => {
 }
 
 const createOrder = async () => {
+  const paymentId = checkout.paymentMethodId
+  let order: Order
   try {
-    const paymentId = checkout.paymentMethodId
-
-    const order = await checkout.createOrder()
+    order = await checkout.createOrder()
 
     if (checkout.consents.newsletter) newsletterSubscribe(checkout.email)
+  } catch (e: any) {
+    const error = formatError(e)
+    notify({
+      title: error,
+      type: 'error',
+    })
+    isLoading.value = false
+    return
+  }
 
+  try {
     // save user addresses if they don't exist
     await saveUserAddresses()
 
     if (paymentId === TRADITIONAL_PAYMENT_KEY) {
       checkout.reset()
-      navigateTo(
+      return navigateTo(
         localePath(`/checkout/thank-you?code=${order.code}&payment=${TRADITIONAL_PAYMENT_KEY}`),
       )
     } else if (paymentId) {
       const paymentUrl = await checkout.createOrderPayment(order.code, paymentId)
       checkout.reset()
       window.location.href = paymentUrl
-    } else {
-      checkout.reset()
-      navigateTo(localePath(`/checkout/thank-you?code=${order.code}`))
     }
   } catch (e: any) {
     const error = formatError(e)
     notify({
-      title: $t(error),
+      title: error,
       type: 'error',
     })
     isLoading.value = false
+  } finally {
+    checkout.reset()
+    navigateTo(localePath(`/checkout/thank-you?code=${order.code}`))
   }
 }
 

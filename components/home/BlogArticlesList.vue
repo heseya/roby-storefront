@@ -29,8 +29,7 @@ const { data: articles } = useAsyncData('home-blog-articles', () => {
       'id',
       'slug',
       'date_created',
-      // @ts-ignore directus is wrong
-      'image.filename_disk',
+      'image',
       'translations.title',
       'translations.description',
       'translations.languages_code',

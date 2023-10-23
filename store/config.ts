@@ -36,7 +36,7 @@ export const useConfigStore = defineStore('config', {
     },
 
     productSubtextAttr(): string {
-      return String(this.env.product_subtext_attribute_name)
+      return String(this.env.product_subtext_attribute_slug)
     },
 
     customRedirect(): { url: string; text: string; icon: string | null } | null {

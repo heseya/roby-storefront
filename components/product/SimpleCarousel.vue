@@ -13,7 +13,10 @@
 </template>
 
 <script setup lang="ts">
+import { useConfigStore } from '@/store/config'
+
 const heseya = useHeseya()
+const config = useConfigStore()
 
 type ArgumentType<T> = T extends (arg: infer R) => unknown ? R : never
 
@@ -26,7 +29,11 @@ const props = withDefaults(
 )
 
 const { data: products } = useAsyncData(`simple-carousel-${props.query}`, async () => {
-  const { data } = await heseya.Products.get({ ...props.query, shipping_digital: false })
+  const { data } = await heseya.Products.get({
+    ...props.query,
+    shipping_digital: false,
+    attribute_slug: config.productSubtextAttr,
+  })
   return data
 })
 

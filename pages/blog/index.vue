@@ -70,11 +70,13 @@ const {
       'id',
       'slug',
       'date_created',
-      'image.filename_disk',
+      'image',
       'translations.title',
       'translations.description',
       'translations.languages_code',
+      // @ts-ignore directus is wrong
       'tags.BlogTags_id.id',
+      // @ts-ignore directus is wrong
       'tags.BlogTags_id.translations.*',
     ],
     meta: ['filter_count'] as any,

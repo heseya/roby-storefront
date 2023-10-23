@@ -46,6 +46,7 @@
 <script lang="ts" setup>
 import { ProductSetList } from '@heseya/store-core'
 import { useCategoriesStore } from '@/store/categories'
+import { useConfigStore } from '@/store/config'
 
 const props = withDefaults(
   defineProps<{
@@ -60,6 +61,7 @@ const props = withDefaults(
 const t = useLocalI18n()
 const heseya = useHeseya()
 const categoriesStore = useCategoriesStore()
+const config = useConfigStore()
 
 const selectedCategory = useState<string | null>(`selected-${props.category.id}`, () => null)
 const subcategories = useState<ProductSetList[]>(`subcategories-${props.category.id}`, () => [])
@@ -77,6 +79,7 @@ const {
       limit: 16,
       sort: `set.${categorySlug}`,
       shipping_digital: false,
+      attribute_slug: config.productSubtextAttr,
     })
 
     return data

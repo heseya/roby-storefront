@@ -82,7 +82,7 @@ export default {
     nameAndSurname: 'Name and surname',
     phone: 'Phone',
     birthdayDate: 'Birthday date',
-    needInvoice: 'I need invoice',
+    needInvoice: 'I am buying as a company, need a VAT invoice',
     name: 'Name',
     surname: 'Surname',
   },
@@ -142,6 +142,7 @@ export default {
     CLIENT_NO_ACCESS: 'You do not have access to these resources.',
 
     ORDER_WITH_THIS_NUMBER_DOESNT_EXIST: 'Order with this number doesnt exist',
+    CLIENT_GENERATE_PAYMENT_URL: 'Error while generating payment link.',
 
     VALIDATION_ERROR: 'Validation error.',
     VALIDATION_PASSWORD_COMPROMISED:

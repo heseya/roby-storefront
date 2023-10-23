@@ -51,8 +51,7 @@ const { data: article, pending } = useAsyncData(`blog-article-${props.slug}`, as
         'slug',
         'date_created',
         'no_index',
-        // @ts-ignore directus is wrong
-        'image.filename_disk',
+        'image',
         'translations.title',
         'translations.description',
         'translations.languages_code',
@@ -60,7 +59,9 @@ const { data: article, pending } = useAsyncData(`blog-article-${props.slug}`, as
         'translations.seo_description',
         'translations.seo_title',
         'translations.metatags',
+        // @ts-ignore directus is wrong
         'tags.BlogTags_id.id',
+        // @ts-ignore directus is wrong
         'tags.BlogTags_id.translations.*',
       ],
       limit: 1,
@@ -74,6 +75,7 @@ const { data: article, pending } = useAsyncData(`blog-article-${props.slug}`, as
       showError({ message: t('errors.NOT_FOUND'), statusCode: 404 })
     }
 
+    // @ts-ignore directus is wrong
     return response.data?.[0] as BlogArticle
   } catch (e: any) {
     showError({ message: e?.response?.status, statusCode: 500 })
