@@ -21,21 +21,24 @@ const config = useConfigStore()
 type ArgumentType<T> = T extends (arg: infer R) => unknown ? R : never
 
 const props = withDefaults(
-  defineProps<{ query: Omit<ArgumentType<typeof heseya.Products.get>, 'full'>; title: string }>(),
+  defineProps<{ query: Omit<ArgumentType<typeof heseya.Products.get>, 'full'>; title?: string }>(),
   {
     query: () => ({}),
     title: '',
   },
 )
 
-const { data: products } = useAsyncData('simple-carousel', async () => {
-  const { data } = await heseya.Products.get({
-    ...props.query,
-    shipping_digital: false,
-    attribute_slug: config.productSubtextAttr,
-  })
-  return data
-})
+const { data: products } = useAsyncData(
+  `simple-carousel-${JSON.stringify(props.query)}`,
+  async () => {
+    const { data } = await heseya.Products.get({
+      ...props.query,
+      shipping_digital: false,
+      attribute_slug: config.productSubtextAttr,
+    })
+    return data
+  },
+)
 
 useEmitProductsViewEvent(
   computed(() => products.value || []),
