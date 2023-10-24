@@ -3,10 +3,7 @@
     class="product-cover-gallery"
     :class="{ 'product-cover-gallery--singular': media.length < 2 }"
   >
-    <div
-      class="product-cover-gallery__list"
-      :style="{ maxHeight: `${mainImageHeight}px`, maxWidth: '100px' }"
-    >
+    <div class="product-cover-gallery__list" :style="{ maxHeight: `500px`, maxWidth: '100px' }">
       <Media
         v-for="image in props.media"
         :key="image.id"
@@ -19,7 +16,6 @@
     </div>
     <div class="product-cover-gallery__main" style="max-width: 500px; max-height: 500px">
       <Media
-        ref="mainImage"
         class="product-cover-gallery__item"
         :media="active"
         :width="isMobile ? 300 : 500"
@@ -48,9 +44,6 @@
 import { CdnMedia, Tag } from '@heseya/store-core'
 
 const isMobile = useMediaQuery('(max-width: 440px)')
-
-const mainImage = ref<HTMLImageElement | null>(null)
-const { height: mainImageHeight } = useElementSize(mainImage, { height: 500, width: 500 })
 
 const props = defineProps<{
   media: CdnMedia[]
