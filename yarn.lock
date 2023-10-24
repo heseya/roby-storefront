@@ -1008,10 +1008,10 @@
   dependencies:
     purgecss "^5.0.0"
 
-"@heseya/store-core@6.0.0-dev.41":
-  version "6.0.0-dev.41"
-  resolved "https://registry.yarnpkg.com/@heseya/store-core/-/store-core-6.0.0-dev.41.tgz#76c57b38fc33864288143b7976d895a8b53a2796"
-  integrity sha512-XaiZDa1U0/DL7UFgtkzGpb5F5y1wUFkd1tTq1x9lFM/HbPQzOCRazXwhifV1zS2eZma95hPLJSOaduEpQ/qsCw==
+"@heseya/store-core@6.0.0-dev.42":
+  version "6.0.0-dev.42"
+  resolved "https://registry.yarnpkg.com/@heseya/store-core/-/store-core-6.0.0-dev.42.tgz#788ad429456e668ac0eb33ba25db1a10ca6ce41d"
+  integrity sha512-fWsDz8VHtF69cxZBWgtqVIlR/rhLH8kw/W74u9H8MDwgqULD7oeMJ+Eu+dqiKpFpi0/lHnvZv8MK6RrwmhRzxQ==
   dependencies:
     "@types/flat" "^5.0.2"
     array-to-tree "^3.3.2"

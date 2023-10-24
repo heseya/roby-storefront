@@ -43,10 +43,10 @@
 
 <script setup lang="ts">
 import { CartItem, CartItemRawSchemaValue } from '@heseya/store-core'
-import isNil from 'lodash/isNil'
 
 import CrossIcon from '@/assets/icons/cross.svg?component'
 import { useCartStore } from '@/store/cart'
+import { isNil } from '~/utils/utils'
 
 const { t } = useI18n()
 const currency = useCurrency()

@@ -15,10 +15,18 @@ const containerRef = ref<HTMLElement>()
 
 const modifiedContent = ref<string>(props.content || '')
 
+const createElement = (content: string) => {
+  if (process.server) return parse(content)
+
+  const root = document.createElement('div') as HTMLElement
+  root.innerHTML = content
+  return root
+}
+
 watch(
   () => props.content,
   () => {
-    const root = parse(props.content || '')
+    const root = createElement(props.content || '')
     ;[...root.getElementsByTagName('img')].forEach((img) => {
       img.setAttribute('loading', 'lazy')
       const imgSrc = img.getAttribute('src')
