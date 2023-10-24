@@ -1,7 +1,5 @@
-// eslint-disable-next-line import/no-duplicates
 import { format } from 'date-fns'
-// eslint-disable-next-line import/no-duplicates
-import pl from 'date-fns/locale/pl'
+import pl from 'date-fns/locale/pl/index.js'
 
 export const formatDate = (date: string | number | Date | null, pattern = 'dd.MM.yyyy') => {
   if (!date) return null

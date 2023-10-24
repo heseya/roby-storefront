@@ -2,10 +2,12 @@
   <div
     class="product-cover-gallery"
     :class="{ 'product-cover-gallery--singular': media.length < 2 }"
+    style="max-width: 605px; max-height: 500px"
   >
     <div
       class="product-cover-gallery__list"
       :style="{
+        maxWidth: '100px',
         maxHeight: `${mainImageHeight}px`,
       }"
     >
@@ -19,7 +21,7 @@
         @click="setActive(image)"
       />
     </div>
-    <div class="product-cover-gallery__main">
+    <div class="product-cover-gallery__main" style="max-width: 500px; max-height: 500px">
       <Media
         ref="mainImageRef"
         class="product-cover-gallery__item"
@@ -82,6 +84,7 @@ watch(
   display: grid;
   grid-template-columns: 1fr 5fr;
   gap: 5px;
+  margin: 0 auto;
 
   &__list {
     display: flex;

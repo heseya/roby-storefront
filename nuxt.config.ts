@@ -118,7 +118,6 @@ export default defineNuxtConfig({
     'nuxt-delay-hydration',
     'nuxt-simple-robots',
     'nuxt-simple-sitemap',
-    'nuxt-purgecss',
   ],
 
   hooks: {
