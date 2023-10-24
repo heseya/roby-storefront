@@ -12,7 +12,8 @@
     "lint:eslint": "eslint --ext .ts,.js,.vue .",
     "lint:vue": "vue-tsc --noEmit",
     "lint": "yarn lint:eslint && yarn lint:vue",
-    "test:unit": "vitest run"
+    "test:unit": "vitest run",
+    "analyze": "nuxi analyze"
   },
   "dependencies": {
     "@directus/sdk": "^10.3.5",
@@ -52,6 +53,7 @@
     "jest": "^29.5.0",
     "nuxt": "^3.8.0",
     "nuxt-delay-hydration": "^1.2.3",
+    "nuxt-purgecss": "^2.0.0",
     "nuxt-simple-robots": "^3.1.6",
     "nuxt-simple-sitemap": "^3.4.0",
     "prettier": "^2.8.8",
