@@ -10,6 +10,7 @@
             :media="item.media"
             centered
             :title-tag="index === 0 ? 'h1' : 'h2'"
+            :height="isDesktop ? 480 : 400"
           />
         </div>
       </SwiperSlide>
@@ -25,6 +26,8 @@
 
 <script lang="ts" setup>
 import { Banner } from '@heseya/store-core'
+
+const isDesktop = useMediaQuery('(min-width: 640px)')
 
 const props = defineProps<{
   banner: Banner

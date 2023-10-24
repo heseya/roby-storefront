@@ -3,7 +3,12 @@
     class="product-cover-gallery"
     :class="{ 'product-cover-gallery--singular': media.length < 2 }"
   >
-    <div class="product-cover-gallery__list">
+    <div
+      class="product-cover-gallery__list"
+      :style="{
+        maxHeight: `${mainImageHeight}px`,
+      }"
+    >
       <Media
         v-for="image in props.media"
         :key="image.id"
@@ -16,10 +21,12 @@
     </div>
     <div class="product-cover-gallery__main">
       <Media
+        ref="mainImageRef"
         class="product-cover-gallery__item"
         :media="active"
-        width="500"
-        height="500"
+        :width="isMobile ? 300 : 500"
+        :height="isMobile ? 300 : 500"
+        loading="eager"
         @click="openBigGallery"
       />
 
@@ -30,7 +37,7 @@
       </div>
     </div>
 
-    <ProductPageGallery
+    <LazyProductPageGallery
       v-if="isBigGalleryOpen"
       :media="props.media"
       :default-media="active"
@@ -42,14 +49,18 @@
 <script setup lang="ts">
 import { CdnMedia, Tag } from '@heseya/store-core'
 
+const isMobile = useMediaQuery('(max-width: 440px)')
+
 const props = defineProps<{
   media: CdnMedia[]
   tags: Tag[]
 }>()
 
+const mainImageRef = ref<HTMLImageElement | null>(null)
+const { height: mainImageHeight } = useElementSize(mainImageRef)
+
 const isBigGalleryOpen = ref(false)
 const active = ref<CdnMedia | null>(null)
-// const shownImages = computed(() => props.media.filter((m) => m.id !== active.value?.id))
 
 const setActive = (image: CdnMedia) => {
   active.value = image
@@ -69,26 +80,16 @@ watch(
 <style lang="scss" scoped>
 .product-cover-gallery {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: 1fr 5fr;
   gap: 5px;
 
-  @media ($viewport-8) {
-    grid-template-columns: 1fr 5fr;
-  }
-
   &__list {
-    display: none;
+    display: flex;
     flex-direction: column;
     overflow-y: auto;
     gap: 10px;
-    max-height: 500px;
     padding-right: 5px;
-
     @include styled-scrollbar;
-
-    @media ($viewport-8) {
-      display: flex;
-    }
   }
 
   &__main {

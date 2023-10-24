@@ -6,7 +6,7 @@
         object-fit="cover"
         :media="selectedMedia"
         class="card__image"
-        :height="580"
+        :height="height"
         loading="eager"
       />
       <LayoutHeader v-show="subtitle" class="card__subtitle">
@@ -31,8 +31,9 @@ const props = withDefaults(
     }[]
     link?: string | null
     centered?: boolean
+    height?: number
   }>(),
-  { titleTag: 'span', subtitle: '', link: '' },
+  { titleTag: 'span', subtitle: '', link: '', height: 580 },
 )
 
 const { width: windowWidth } = useWindowSize()

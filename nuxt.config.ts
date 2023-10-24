@@ -194,6 +194,10 @@ export default defineNuxtConfig({
     debug: process.env.NODE_ENV === 'development',
   },
 
+  swiper: {
+    modules: ['pagination', 'navigation'],
+  },
+
   // routeRules: {
   //   // '/account/**': { swr: true },
   //   '/category/**': { swr: true },
@@ -225,5 +229,9 @@ export default defineNuxtConfig({
         transformMixedEsModules: true,
       },
     },
+  },
+
+  devtools: {
+    enabled: false,
   },
 })

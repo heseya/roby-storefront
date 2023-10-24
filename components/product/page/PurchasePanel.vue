@@ -14,14 +14,14 @@
     </div>
 
     <ProductPageOmnibus
-      v-if="product.available"
+      v-show="product.available"
       :product="product"
       class="product-purchase-panel__omnibus"
     />
 
     <ProductPageSchemas
+      v-show="product.has_schemas"
       v-model:value="schemaValue"
-      i-if="product.has_schemas"
       class="product-purchase-panel__schemas"
       :product="product"
     />

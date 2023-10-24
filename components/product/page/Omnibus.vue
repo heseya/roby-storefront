@@ -1,7 +1,6 @@
 <template>
   <div class="product-omnibus-note">
-    <span v-if="pending"> ... </span>
-    <span v-else-if="price === null || price === priceMin">
+    <span v-if="price === null || price === priceMin">
       {{ t('currentIsLowest') }}
     </span>
     <span v-else>
@@ -36,7 +35,7 @@ const currency = useCurrency()
 
 const priceMin = computed(() => parsePrices(props.product.prices_min, currency.value))
 
-const { data: price, pending } = useAsyncData(async () => {
+const { data: price } = useAsyncData(`product-omnibus-${props.product.id}`, async () => {
   try {
     const { priceTrackerUrl } = usePublicRuntimeConfig()
 

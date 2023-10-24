@@ -6,8 +6,12 @@ export interface RedirectUrl {
 }
 
 export const getAllRedirects = async (): Promise<Redirect[]> => {
+  const redirectsState = useState<Redirect[] | null>('redirects', () => null)
+  if (redirectsState.value) return redirectsState.value
+
   const heseya = useHeseya()
   const { data } = await heseya.Redirects.get({ limit: 500 })
+  redirectsState.value = data
   return data
 }
 
