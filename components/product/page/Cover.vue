@@ -3,7 +3,7 @@
     class="product-cover-gallery"
     :class="{ 'product-cover-gallery--singular': media.length < 2 }"
   >
-    <div class="product-cover-gallery__list" :style="{ maxHeight: `500px`, maxWidth: '100px' }">
+    <div class="product-cover-gallery__list" style="max-height: 500px; max-width: 100px">
       <Media
         v-for="image in props.media"
         :key="image.id"
@@ -74,6 +74,7 @@ watch(
   display: grid;
   grid-template-columns: 1fr;
   gap: 5px;
+  width: 100%;
   max-width: 605px;
   margin: 0 auto;
 
@@ -97,6 +98,7 @@ watch(
   }
 
   &__main {
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: flex-start;

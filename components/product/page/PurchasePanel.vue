@@ -13,14 +13,14 @@
       </span>
     </div>
 
-    <ProductPageOmnibus
-      v-show="product.available"
+    <LazyProductPageOmnibus
+      v-if="product.available"
       :product="product"
       class="product-purchase-panel__omnibus"
     />
 
-    <ProductPageSchemas
-      v-show="product.has_schemas"
+    <LazyProductPageSchemas
+      v-if="product.has_schemas"
       v-model:value="schemaValue"
       class="product-purchase-panel__schemas"
       :product="product"
