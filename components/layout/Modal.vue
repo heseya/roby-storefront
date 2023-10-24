@@ -87,7 +87,7 @@ onKeyStroke('Escape', () => close())
   width: 100vw;
   height: 100vh;
   background-color: #0000007c;
-  z-index: 1000;
+  z-index: 3000;
   opacity: 0;
   visibility: hidden;
   transform: opacity 0.3s;
@@ -110,7 +110,7 @@ onKeyStroke('Escape', () => close())
   max-width: calc(100vw - 32px);
   max-height: calc(100vh - 32px);
   background-color: $white-color;
-  z-index: 1001;
+  z-index: 3001;
   opacity: 0;
   visibility: hidden;
   transition: 0.3s;

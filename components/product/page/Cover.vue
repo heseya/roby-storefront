@@ -2,14 +2,10 @@
   <div
     class="product-cover-gallery"
     :class="{ 'product-cover-gallery--singular': media.length < 2 }"
-    style="max-width: 605px; max-height: 500px"
   >
     <div
       class="product-cover-gallery__list"
-      :style="{
-        maxWidth: '100px',
-        maxHeight: `${mainImageHeight}px`,
-      }"
+      :style="{ maxHeight: `${mainImageHeight}px`, maxWidth: '100px' }"
     >
       <Media
         v-for="image in props.media"
@@ -23,11 +19,11 @@
     </div>
     <div class="product-cover-gallery__main" style="max-width: 500px; max-height: 500px">
       <Media
-        ref="mainImageRef"
+        ref="mainImage"
         class="product-cover-gallery__item"
         :media="active"
         :width="isMobile ? 300 : 500"
-        :height="isMobile ? 300 : 500"
+        height="500"
         loading="eager"
         @click="openBigGallery"
       />
@@ -39,7 +35,7 @@
       </div>
     </div>
 
-    <LazyProductPageGallery
+    <ProductPageGallery
       v-if="isBigGalleryOpen"
       :media="props.media"
       :default-media="active"
@@ -53,16 +49,17 @@ import { CdnMedia, Tag } from '@heseya/store-core'
 
 const isMobile = useMediaQuery('(max-width: 440px)')
 
+const mainImage = ref<HTMLImageElement | null>(null)
+const { height: mainImageHeight } = useElementSize(mainImage, { height: 500, width: 500 })
+
 const props = defineProps<{
   media: CdnMedia[]
   tags: Tag[]
 }>()
 
-const mainImageRef = ref<HTMLImageElement | null>(null)
-const { height: mainImageHeight } = useElementSize(mainImageRef)
-
 const isBigGalleryOpen = ref(false)
 const active = ref<CdnMedia | null>(null)
+// const shownImages = computed(() => props.media.filter((m) => m.id !== active.value?.id))
 
 const setActive = (image: CdnMedia) => {
   active.value = image
@@ -82,17 +79,28 @@ watch(
 <style lang="scss" scoped>
 .product-cover-gallery {
   display: grid;
-  grid-template-columns: 1fr 5fr;
+  grid-template-columns: 1fr;
   gap: 5px;
+  max-width: 605px;
   margin: 0 auto;
 
+  @media ($viewport-8) {
+    grid-template-columns: 1fr 5fr;
+  }
+
   &__list {
-    display: flex;
+    display: none;
     flex-direction: column;
     overflow-y: auto;
     gap: 10px;
+    max-height: 500px;
     padding-right: 5px;
+
     @include styled-scrollbar;
+
+    @media ($viewport-8) {
+      display: flex;
+    }
   }
 
   &__main {
