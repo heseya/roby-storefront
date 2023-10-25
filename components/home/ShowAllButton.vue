@@ -36,7 +36,7 @@ const localePath = useLocalePath()
   }
   &__label {
     text-transform: uppercase;
-    font-family: $textFont;
+    font-family: var(--text-font-family, $textFont);
     font-size: rem(12);
     white-space: nowrap;
   }

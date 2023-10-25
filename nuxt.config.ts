@@ -9,6 +9,7 @@ const {
   DIRECTUS_URL,
   PRICE_TRACKER_URL = 'https://main-price-tracker.app.***REMOVED***',
   ENVIRONMENT = 'development',
+  FONT_FAMILY = 'Roboto',
   VERCEL_ENV,
   APP_HOST,
   RECAPTCHA_PUBLIC,
@@ -162,7 +163,7 @@ export default defineNuxtConfig({
 
   googleFonts: {
     families: {
-      Roboto: [300, 400, 500, 600, 700],
+      [FONT_FAMILY]: [300, 400, 500, 600, 700],
     },
   },
 

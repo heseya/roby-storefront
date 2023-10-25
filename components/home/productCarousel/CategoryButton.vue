@@ -16,7 +16,7 @@ defineProps<{
   all: unset;
   padding: 6px 0;
 
-  font-family: $textFont;
+  font-family: var(--text-font-family, $textFont);
   font-size: rem(14);
 
   border-bottom: 2px solid transparent;
