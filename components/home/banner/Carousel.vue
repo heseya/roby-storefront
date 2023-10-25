@@ -1,6 +1,15 @@
 <template>
   <div v-if="mediaList.length" class="carousel-banner">
-    <Swiper class="carousel-banner__slider" :slides-per-view="1">
+    <Swiper
+      class="carousel-banner__slider"
+      :slides-per-view="1"
+      :loop="true"
+      :modules="[SwiperAutoplay, SwiperPagination]"
+      :autoplay="{
+        delay: 6000,
+        disableOnInteraction: true,
+      }"
+    >
       <SwiperSlide v-for="(item, index) in mediaList" :key="index">
         <div class="carousel-banner__slide">
           <HomeBannerCard
@@ -15,10 +24,13 @@
         </div>
       </SwiperSlide>
       <template #container-start>
-        <LayoutCarouselButton class="carousel-banner__button carousel-banner__button--prev" />
+        <LayoutCarouselButton
+          always-visible
+          class="carousel-banner__button carousel-banner__button--prev"
+        />
       </template>
       <template #container-end>
-        <LayoutCarouselButton next class="carousel-banner__button" type="next" />
+        <LayoutCarouselButton always-visible next class="carousel-banner__button" type="next" />
       </template>
     </Swiper>
   </div>
@@ -104,12 +116,12 @@ const mediaList = computed(() => props.banner?.banner_media)
   &__button {
     position: absolute;
     top: 0;
-    right: 16px;
+    right: 16px !important;
     z-index: 1000;
 
     &--prev {
       right: auto;
-      left: 16px;
+      left: 16px !important;
     }
 
     @media ($max-viewport-10) {

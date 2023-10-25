@@ -196,7 +196,7 @@ export default defineNuxtConfig({
   },
 
   swiper: {
-    modules: ['pagination', 'navigation'],
+    modules: ['pagination', 'navigation', 'autoplay'],
   },
 
   // routeRules: {

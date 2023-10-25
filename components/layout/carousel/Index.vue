@@ -13,7 +13,7 @@
           class="carousel__content-container"
           :class="{ 'carousel__content-container--visible': isVisible }"
         >
-          <slot name="item" v-bind="item" />
+          <slot name="item" v-bind="(item as any)" />
         </div>
       </SwiperSlide>
       <template #container-start>
@@ -81,7 +81,7 @@ withDefaults(
   &__button {
     position: absolute;
     top: 0;
-    right: -64px;
+    right: -36px;
     z-index: 10;
     background: $white-color;
 

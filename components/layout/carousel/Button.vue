@@ -1,7 +1,15 @@
 <template>
   <div class="carousel-button" :class="{ 'carousel-button--prev': type === 'prev' }">
     <IconButton
-      v-show="firstTimeAllVisible ? false : type === 'next' ? !swiper.isEnd : !swiper.isBeginning"
+      v-show="
+        alwaysVisible
+          ? true
+          : firstTimeAllVisible
+          ? false
+          : type === 'next'
+          ? !swiper.isEnd
+          : !swiper.isBeginning
+      "
       class="carousel-button__icon"
       :icon="ArrowNext"
       :icon-size="12"
@@ -47,9 +55,10 @@ const firstTimeAllVisible = computed(() => {
 
 withDefaults(
   defineProps<{
+    alwaysVisible?: boolean
     type?: 'next' | 'prev'
   }>(),
-  { type: 'prev' },
+  { type: 'prev', alwaysVisible: false },
 )
 </script>
 
