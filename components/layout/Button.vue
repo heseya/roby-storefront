@@ -52,10 +52,10 @@ const textColorThemePrimary = useContrastColorFromCssVar('primary-color-alt')
 
   &--primary {
     color: $white-color;
-    background-color: var(--primary-color-alt);
+    background-color: var(--primary-color);
 
     &:not([disabled]):hover {
-      background-color: var(--primary-color);
+      background-color: var(--primary-color-alt);
     }
   }
 

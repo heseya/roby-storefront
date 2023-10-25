@@ -7,7 +7,8 @@
     >
       <input :id="colorKey" v-model="colors[colorKey as ColorKeys]" type="color" />
       <label :for="colorKey">
-        {{ t(`colors.${colorKey}`) }}
+        {{ t(`colors.${colorKey}`) }} <br />
+        ({{ colors[colorKey as ColorKeys] }})
       </label>
     </div>
 
@@ -64,9 +65,14 @@
 
 <script setup lang="ts">
 import ChevronIcon from '@/assets/icons/chevron.svg?component'
+import { useConfigStore } from '~/store/config'
 
 const { notify } = useNotify()
 const t = useLocalI18n()
+const config = useConfigStore()
+
+const safeToString = (value: string | number | undefined): undefined | string =>
+  typeof value === 'number' ? value.toString() : value
 
 type ColorKeys =
   | 'primaryColor'
@@ -76,14 +82,14 @@ type ColorKeys =
   | 'errorColor'
   | 'warningColor'
 
-const defaultColors: Record<ColorKeys, string> = {
-  primaryColor: '#ffca2b',
-  primaryColorAlt: '#e1a044',
-  secondaryColor: '#c63225',
-  highlightColor: '#c63225',
-  errorColor: '#f05454',
-  warningColor: '#ffca2b',
-}
+const defaultColors = computed<Record<ColorKeys, string>>(() => ({
+  primaryColor: safeToString(config.env.primary_color) || '#ffca2b',
+  primaryColorAlt: safeToString(config.env.primary_color_alt) || '#e1a044',
+  secondaryColor: safeToString(config.env.secondary_color) || '#c63225',
+  highlightColor: safeToString(config.env.highlight_color) || '#c63225',
+  errorColor: safeToString(config.env.error_color) || '#f05454',
+  warningColor: safeToString(config.env.warning_color) || '#ffca2b',
+}))
 
 const cssVariables: Record<ColorKeys, string> = {
   primaryColor: '--primary-color',
@@ -95,19 +101,21 @@ const cssVariables: Record<ColorKeys, string> = {
 }
 
 const isVisible = ref(false)
-const parentEl = useParentElement()
-const colors = useLocalStorage('colors', { ...defaultColors })
+const colors = useLocalStorage('colors', { ...defaultColors.value })
 
 watchEffect(() => {
   if (process.server) return
 
   Object.entries(cssVariables).forEach(([key, value]) => {
-    parentEl.value?.style.setProperty(value, colors.value[key as ColorKeys])
+    // This is highly invasive as its overrides styles in all DOM elements, but it is debug feature so its okey
+    document.querySelectorAll(`[data-theme-context], [style]`).forEach((el) => {
+      ;(el as HTMLElement).style.setProperty(value, `${colors.value[key as ColorKeys]}`)
+    })
   })
 })
 
 const restoreDefaultColors = () => {
-  colors.value = { ...defaultColors }
+  colors.value = { ...defaultColors.value }
 }
 
 const copy = async () => {
@@ -169,6 +177,7 @@ const copy = async () => {
       text-align: center;
       pointer-events: none;
       font-weight: 500;
+      font-size: rem(12);
     }
   }
 
