@@ -155,6 +155,10 @@ const setNewCategory = (categorySlug: string) => {
     margin-bottom: 16px;
     gap: 12px;
 
+    @media ($viewport-10) {
+      gap: 24px;
+    }
+
     @media ($max-viewport-8) {
       justify-content: flex-start;
     }
