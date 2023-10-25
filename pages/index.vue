@@ -134,10 +134,10 @@ delayedOnMounted(() => {
     }
 
     > * {
-      margin-top: 50px;
+      margin-top: 40px;
 
       @media ($viewport-9) {
-        margin-top: 140px;
+        margin-top: 80px;
       }
     }
   }
