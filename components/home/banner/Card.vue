@@ -1,5 +1,5 @@
 <template>
-  <NuxtLink class="card" :class="{ 'card--centered': centered }" :to="localePath(link || '')">
+  <SmartLink class="card" :class="{ 'card--centered': centered }" :to="link || ''">
     <div class="card__container" :class="{ 'card__container--centered': centered }">
       <div class="card__gray-filter" />
       <Media
@@ -14,7 +14,7 @@
       </LayoutHeader>
       <LayoutHeader class="card__title" :tag="titleTag"> {{ title }} </LayoutHeader>
     </div>
-  </NuxtLink>
+  </SmartLink>
 </template>
 
 <script lang="ts" setup>
@@ -37,7 +37,6 @@ const props = withDefaults(
 )
 
 const { width: windowWidth } = useWindowSize()
-const localePath = useLocalePath()
 
 const sortedMedia = computed(() =>
   [...props.media].sort((a, b) => a.min_screen_width - b.min_screen_width),
@@ -60,6 +59,7 @@ const selectedMedia = computed(() => {
 .card {
   flex: 1;
   text-decoration: none;
+  height: 100%;
 
   &__container {
     position: relative;

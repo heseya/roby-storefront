@@ -1,12 +1,16 @@
 <template>
-  <div class="link-box">
+  <SmartLink :to="link.link || ''" class="link-box">
     <Media :media="link.media" class="link-box__media" height="400" object-fit="cover" />
 
     <LayoutHeader class="link-box__header" tag="h2">{{ link.text }}</LayoutHeader>
-    <NuxtLink v-if="link.link" :to="localePath(link.link)">
-      <LayoutButton class="link-box__btn" :label="link.linkText || ''" variant="secondary" />
-    </NuxtLink>
-  </div>
+
+    <LayoutButton
+      v-if="link.linkText"
+      class="link-box__btn"
+      :label="link.linkText"
+      variant="secondary"
+    />
+  </SmartLink>
 </template>
 
 <script lang="ts" setup>
@@ -22,8 +26,6 @@ export type LinkBox = {
 defineProps<{
   link: LinkBox
 }>()
-
-const localePath = useLocalePath()
 </script>
 
 <style lang="scss" scoped>
@@ -36,6 +38,7 @@ const localePath = useLocalePath()
   align-items: center;
   gap: 14px;
   position: relative;
+  overflow: hidden;
 
   &__media {
     width: 100%;
@@ -44,6 +47,11 @@ const localePath = useLocalePath()
     left: 0;
     top: 0;
     z-index: -1;
+    transition: 0.3s;
+  }
+
+  &:hover &__media {
+    transform: scale(1.05);
   }
 
   &__btn {
