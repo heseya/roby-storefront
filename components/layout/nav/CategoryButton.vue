@@ -24,7 +24,7 @@ const categoriesStore = useCategoriesStore()
 
 const subcategories = ref<ProductSetList[]>([])
 
-onBeforeMount(async () => {
+delayedOnMounted(async () => {
   subcategories.value = await categoriesStore.getSubcategories(props.category.id)
 })
 
