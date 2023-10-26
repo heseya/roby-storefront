@@ -25,7 +25,7 @@ const { data: content } = useAsyncData('why-us-content', async () => {
     if (!directus.url) return
 
     const data = await directus.items('WhyUsComponent').readOne(1, {
-      fields: ['*.*'],
+      fields: ['active', 'image', 'translations.*'],
     })
     return {
       active: data?.active,
@@ -77,15 +77,13 @@ const imageUrl = computed(() => getImageUrl(content.value?.image))
   }
 
   &__partner {
-    margin-top: 20px;
-
     @include flex-column;
+    margin-top: 20px;
     align-items: center;
     align-self: center;
     gap: 20px;
 
     @media ($viewport-9) {
-      margin-top: 70px;
       max-width: 80%;
       flex-direction: row;
     }
