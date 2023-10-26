@@ -5,11 +5,7 @@
 
 <script lang="ts" setup>
 import { Banner } from '@heseya/store-core'
-
-const BannerType = {
-  Static: 'static',
-  Carousel: 'carousel',
-} as const
+import { BannerType } from '~/consts/banner'
 
 const props = defineProps<{
   banner: Banner

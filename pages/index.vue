@@ -3,6 +3,12 @@
     <div class="index-page">
       <HomeBanner v-if="data?.mainBanner" class="index-page__banner" :banner="data?.mainBanner" />
 
+      <HomeBannerSecondary
+        v-if="data?.secondaryBanner"
+        class="index-page__banner-cards"
+        :banner="data?.secondaryBanner"
+      />
+
       <template
         v-for="section in sections"
         :key="section.type === 'box' ? section.data.text : section.data.id"
@@ -62,15 +68,22 @@ useSeoMeta({
 })
 
 const { data } = useAsyncData('main-banner', async () => {
-  const [mainBanner, { data: homepageBanners }, { data: homepageSets }, { data: homepagePages }] =
-    await Promise.all([
-      heseya.Banners.getOneBySlug('main-banner').catch(() => null),
-      heseya.Banners.get({ metadata: { homepage: true } }).catch(() => ({ data: [] })),
-      heseya.ProductSets.get({ metadata: { homepage: true } }).catch(() => ({ data: [] })),
-      heseya.Pages.get({ metadata: { homepage: true } }).catch(() => ({ data: [] })),
-    ])
+  const [
+    mainBanner,
+    secondaryBanner,
+    { data: homepageBanners },
+    { data: homepageSets },
+    { data: homepagePages },
+  ] = await Promise.all([
+    heseya.Banners.getOneBySlug('main-banner').catch(() => null),
+    heseya.Banners.getOneBySlug('secondary-banner').catch(() => null),
+    heseya.Banners.get({ metadata: { homepage: true } }).catch(() => ({ data: [] })),
+    heseya.ProductSets.get({ metadata: { homepage: true } }).catch(() => ({ data: [] })),
+    heseya.Pages.get({ metadata: { homepage: true } }).catch(() => ({ data: [] })),
+  ])
   return {
     mainBanner,
+    secondaryBanner,
     homepageBanners,
     homepageSets,
     homepagePages,
@@ -140,6 +153,10 @@ delayedOnMounted(() => {
         margin-top: 80px;
       }
     }
+  }
+
+  &__banner-cards {
+    display: flex;
   }
 
   &__image-carousel {

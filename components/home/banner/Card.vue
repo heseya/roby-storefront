@@ -57,8 +57,8 @@ const selectedMedia = computed(() => {
 
 <style lang="scss" scoped>
 .card {
-  flex: 1;
   text-decoration: none;
+  width: 100%;
   height: 100%;
 
   &__container {

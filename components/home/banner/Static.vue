@@ -14,20 +14,8 @@
         title-tag="h1"
       />
     </div>
-    <div
-      v-if="remainingImages.length"
-      class="banner__cards"
-      :style="{ flex: remainingImages.length }"
-    >
-      <HomeBannerCard
-        v-for="image in remainingImages"
-        :key="image.id"
-        :title="image.title"
-        :subtitle="image.subtitle"
-        :link="image.url"
-        :media="image.media"
-      />
-    </div>
+
+    <HomeBannerCards v-if="remainingImages.length" class="banner__cards" :media="remainingImages" />
   </div>
 </template>
 
@@ -66,11 +54,6 @@ const remainingImages = computed(() => props.banner?.banner_media.slice(1) as Ba
   }
 
   &__cards {
-    @include flex-column;
-    @media ($viewport-9) {
-      flex: 1 !important;
-      flex-direction: row;
-    }
   }
 }
 </style>

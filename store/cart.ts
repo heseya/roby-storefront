@@ -20,7 +20,7 @@ import uniqBy from 'lodash/uniqBy'
 import { useCheckoutStore } from './checkout'
 import { useConfigStore } from './config'
 
-export type CartCoupon = Coupon & { effective_value?: number }
+export type CartCoupon = Coupon & { effective_value?: string }
 
 export const useCartStore = defineStore('cart', {
   state: () => ({
