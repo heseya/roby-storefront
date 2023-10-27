@@ -5,8 +5,8 @@
       <LayoutLoading :active="pending" />
       <article class="blog-page">
         <h1 class="blog-page__title">{{ translatedArticle?.title }}</h1>
-        <div class="blog-page__img">
-          <img :src="imageUrl" :alt="translatedArticle?.description" />
+        <div v-if="!article?.hide_cover" class="blog-page__img">
+          <img :src="coverUrl || imageUrl" :alt="translatedArticle?.description" />
         </div>
         <div class="blog-page__info">
           <div class="blog-page__tags">
@@ -52,6 +52,8 @@ const { data: article, pending } = useAsyncData(`blog-article-${props.slug}`, as
         'date_created',
         'no_index',
         'image',
+        'cover_image',
+        'hide_cover',
         'translations.title',
         'translations.description',
         'translations.languages_code',
@@ -84,6 +86,7 @@ const { data: article, pending } = useAsyncData(`blog-article-${props.slug}`, as
 })
 
 const imageUrl = computed(() => getImageUrl(article.value?.image, { width: 900 }))
+const coverUrl = computed(() => getImageUrl(article.value?.cover_image, { width: 900 }))
 const translatedArticle = computed(() =>
   article.value ? getTranslated(article.value.translations, 'PL-pl') : null,
 )

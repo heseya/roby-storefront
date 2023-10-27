@@ -6,6 +6,8 @@ import { DirectusTranslated } from './DirectusTranslated'
 export interface BlogArticle {
   id: ID
   image: DirectusImage
+  cover_image?: DirectusImage
+  hide_cover?: boolean
   no_index: boolean
   date_created: string
   date_updated: string
@@ -33,6 +35,8 @@ export interface BlogArticle {
 export interface TranslatedBlogArticle {
   id: ID
   image_url: string
+  cover_image_url: string
+  hide_cover: boolean
   date_created: string
   date_updated: string
   status: 'draft' | 'published' | 'archived'
