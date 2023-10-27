@@ -5,7 +5,6 @@
 
 <script setup lang="ts">
 import { parse } from 'node-html-parser'
-import { stringifyQueryParams } from '@heseya/store-core'
 
 const props = defineProps<{
   content?: string
@@ -30,13 +29,14 @@ watch(
     ;[...root.getElementsByTagName('img')].forEach((img) => {
       img.setAttribute('loading', 'lazy')
       const imgSrc = img.getAttribute('src')
+      if (!imgSrc) return
 
-      const params = {
-        w: 800,
-        format: 'auto',
-      }
+      const imgUrl = new URL(imgSrc)
 
-      img.setAttribute('src', `${imgSrc}?${stringifyQueryParams(params)}`)
+      if (!imgUrl.searchParams.get('w')) imgUrl.searchParams.set('w', '800')
+      if (!imgUrl.searchParams.get('format')) imgUrl.searchParams.set('format', 'auto')
+
+      img.setAttribute('src', imgUrl.toString())
     })
 
     modifiedContent.value = root.innerHTML
