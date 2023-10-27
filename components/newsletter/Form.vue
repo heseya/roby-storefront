@@ -134,14 +134,9 @@ const onSubmit = form.handleSubmit(({ email }) => {
 
   &__btn {
     width: 132px;
-    font-weight: 500;
     position: relative;
     transform: translateX(-4px);
     white-space: nowrap;
-
-    @media ($viewport-10) {
-      font-size: rem(16);
-    }
   }
 }
 
