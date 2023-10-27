@@ -36,7 +36,7 @@
 {
   "pl": {
     "acceptAllText": "Akceptuję wszystkie zgody",
-    "statuteText": "Akceptuje regulamin oraz politykę prywatności."
+    "statuteText": "Akceptuję regulamin oraz politykę prywatności."
   },
   "en": {
     "acceptAllText": "I accept all consents",

@@ -143,7 +143,7 @@ watch(
   }
 
   &__error {
-    font-size: rem(10);
+    font-size: rem(12);
     color: var(--error-color);
     padding-left: 24px;
     font-weight: 500;

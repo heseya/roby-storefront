@@ -26,7 +26,7 @@
 {
   "pl": {
     "default": "Ustaw jako domyślny",
-    "invoice": "Chce otrzymać fakture VAT"
+    "invoice": "Chcę otrzymać fakture VAT"
   },
   "en": {
     "default": "Set as default",

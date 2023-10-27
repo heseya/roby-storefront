@@ -61,7 +61,7 @@
 {
   "pl": {
     "title": "Podsumowanie zamówienia",
-    "question": "Chce założyć konto",
+    "question": "Chcę założyć konto",
     "salesChannel": "Kanał sprzedaży",
     "salesChannelText": "Upewnij się, że wybrałeś prawidłowy kanał sprzedaży. Z niektórych kanałów sprzedaży nie będziesz wstanie wysłać zamówienia na wybrany przez siebie adres."
   },
