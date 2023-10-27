@@ -2,6 +2,7 @@
   <CheckoutPageArea v-show="requirePaymentMethod" :title="t('payment')" :placeholder-height="100">
     <CheckoutPaymentMethodsSelect
       v-model:value="checkout.paymentMethodId"
+      :shipping-method-id="checkout.shippingMethod?.id"
       class="checkout-payment-methods"
     />
   </CheckoutPageArea>
