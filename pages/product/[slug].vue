@@ -107,7 +107,7 @@
         </template>
       </LayoutTabs>
 
-      <IntegrationEkomiWidget :token="ekomiMiniStarsToken" :product-id="product?.id" />
+      <IntegrationEkomiProductWidget :token="ekomiMiniStarsToken" :product-id="product?.id" />
       <IntegrationEkomiProductWidget :token="ekomiReviewsToken" :product-id="product?.id" />
 
       <template v-if="product?.sales.length">
