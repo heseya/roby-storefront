@@ -10,7 +10,7 @@
         <LayoutHeader class="why-us__header" variant="black">
           {{ content.image_title }}
         </LayoutHeader>
-        <span> {{ content.image_description }} </span>
+        <div v-html="content.image_description"></div>
       </div>
     </div>
   </div>
@@ -94,6 +94,7 @@ const imageUrl = computed(() => getImageUrl(content.value?.image))
   &__image {
     height: 150px;
     width: 150px;
+    object-fit: contain;
   }
 
   &__description {
