@@ -1,12 +1,13 @@
 export default defineNuxtPlugin(() => {
-  const { ekomiCustomerId, ekomiToken } = usePublicRuntimeConfig()
+  const { ekomiCustomerId } = usePublicRuntimeConfig()
 
-  if (!ekomiCustomerId || !ekomiToken) return
+  if (!ekomiCustomerId) return
 
   useHead({
     script: [
       {
-        hid: 'ekomi-widget-sprzedawcy',
+        hid: 'ekomi-script',
+        id: 'ekomi',
         defer: true,
         children: `
         function registerWidget (w, token) {
@@ -28,11 +29,6 @@ export default defineNuxtPlugin(() => {
           } else {if (typeof ekomiWidgetMain != 'undefined') {ekomiWidgetMain('ajax', token);}}
           return true;
       }
-      (function (w) {
-          var token = '${ekomiToken}';
-          var k = document.getElementsByClassName("ekomi-widget-" + token);
-          for(var x=0;x<k.length;x++){ registerWidget(w,token); }
-      })(window);
         `,
       },
     ],

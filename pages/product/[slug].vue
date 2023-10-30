@@ -107,6 +107,9 @@
         </template>
       </LayoutTabs>
 
+      <IntegrationEkomiWidget :token="ekomiMiniStarsToken" :product-id="product?.id" />
+      <IntegrationEkomiProductWidget :token="ekomiReviewsToken" :product-id="product?.id" />
+
       <template v-if="product?.sales.length">
         <h2 class="primary-text">
           {{ t('salesTitle') }}
@@ -164,6 +167,8 @@ import { ALLOW_RENTING_KEY, ASK_FOR_PRICE_KEY } from '@/consts/metadataKeys'
 import { Tab } from '@/components/layout/Tabs.vue'
 
 import { useConfigStore } from '@/store/config'
+
+const { ekomiMiniStarsToken, ekomiReviewsToken } = usePublicRuntimeConfig()
 
 const ev = useHeseyaEventBus()
 const heseya = useHeseya()
