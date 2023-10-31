@@ -8,6 +8,7 @@
       :link="image.url"
       :media="image.media"
       class="banner-cards__card"
+      :gradient="gradient"
     />
   </div>
 </template>
@@ -17,6 +18,7 @@ import { BannerMedia } from '@heseya/store-core'
 
 defineProps<{
   media?: BannerMedia[]
+  gradient?: boolean
 }>()
 </script>
 

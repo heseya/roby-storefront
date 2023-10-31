@@ -1,6 +1,10 @@
 <template>
-  <HomeBannerCarousel v-if="bannerType === BannerType.Carousel" :banner="banner" />
-  <HomeBannerStatic v-else :banner="banner" />
+  <HomeBannerCarousel
+    v-if="bannerType === BannerType.Carousel"
+    :banner="banner"
+    :gradient="isGradient"
+  />
+  <HomeBannerStatic v-else :banner="banner" :gradient="isGradient" />
 </template>
 
 <script lang="ts" setup>
@@ -12,6 +16,8 @@ const props = defineProps<{
 }>()
 
 const bannerType = computed(() => props.banner?.metadata?.display_type || BannerType.Static)
+
+const isGradient = computed(() => !props.banner?.metadata?.hide_gradient)
 </script>
 
 <style lang="scss" scoped>

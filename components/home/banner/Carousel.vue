@@ -20,6 +20,7 @@
             centered
             :title-tag="index === 0 ? 'h1' : 'h2'"
             :height="isDesktop ? 480 : 400"
+            :gradient="gradient"
           />
         </div>
       </SwiperSlide>
@@ -30,7 +31,13 @@
         />
       </template>
       <template #container-end>
-        <LayoutCarouselButton always-visible next class="carousel-banner__button" type="next" />
+        <LayoutCarouselButton
+          always-visible
+          next
+          class="carousel-banner__button"
+          type="next"
+          :gradient="gradient"
+        />
       </template>
     </Swiper>
   </div>
@@ -43,6 +50,7 @@ const isDesktop = useMediaQuery('(min-width: 640px)')
 
 const props = defineProps<{
   banner: Banner
+  gradient?: boolean
 }>()
 
 const mediaList = computed(() => props.banner?.banner_media)

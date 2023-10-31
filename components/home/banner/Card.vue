@@ -1,7 +1,7 @@
 <template>
   <SmartLink class="card" :class="{ 'card--centered': centered }" :to="link || ''">
     <div class="card__container" :class="{ 'card__container--centered': centered }">
-      <div class="card__gray-filter" />
+      <div v-show="gradient" class="card__gray-filter" />
       <Media
         object-fit="cover"
         :media="selectedMedia"
@@ -32,8 +32,9 @@ const props = withDefaults(
     link?: string | null
     centered?: boolean
     height?: number
+    gradient?: boolean
   }>(),
-  { titleTag: 'span', subtitle: '', link: '', height: 580 },
+  { titleTag: 'span', subtitle: '', link: '', height: 580, gradient: false },
 )
 
 const { width: windowWidth } = useWindowSize()

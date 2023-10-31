@@ -1,15 +1,17 @@
 <template>
   <div class="secondary-banner">
-    <HomeBannerCards :media="banner?.banner_media" />
+    <HomeBannerCards :media="banner?.banner_media" :gradient="isGradient" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { Banner } from '@heseya/store-core'
 
-defineProps<{
+const props = defineProps<{
   banner: Banner
 }>()
+
+const isGradient = computed(() => !props.banner?.metadata?.hide_gradient)
 </script>
 
 <style lang="scss" scoped>

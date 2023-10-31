@@ -12,10 +12,16 @@
         :media="mainImage.media"
         centered
         title-tag="h1"
+        :gradient="gradient"
       />
     </div>
 
-    <HomeBannerCards v-if="remainingImages.length" class="banner__cards" :media="remainingImages" />
+    <HomeBannerCards
+      v-if="remainingImages.length"
+      class="banner__cards"
+      :media="remainingImages"
+      :gradient="gradient"
+    />
   </div>
 </template>
 
@@ -24,6 +30,7 @@ import { Banner, BannerMedia } from '@heseya/store-core'
 
 const props = defineProps<{
   banner: Banner
+  gradient?: boolean
 }>()
 
 const mainImage = computed(() => props.banner?.banner_media[0])
