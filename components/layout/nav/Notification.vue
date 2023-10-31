@@ -1,13 +1,6 @@
 <template>
   <div v-show="config.topSiteText" class="notification">
-    <span class="notification__title">{{ config.topSiteText }}</span>
-    <LayoutIconButton
-      v-show="false"
-      class="notification__button"
-      :icon="Close"
-      icon-size="sm"
-      :title="t('close')"
-    />
+    <div class="notification__text" v-html="config.topSiteText"></div>
   </div>
 </template>
 
@@ -23,21 +16,8 @@
 </i18n>
 
 <script lang="ts" setup>
-import Close from '@/assets/icons/cross.svg?component'
 import { useConfigStore } from '@/store/config'
-// import { useNavNotificationBarStore } from '@/store/navNotificationBar'
-
-const t = useLocalI18n()
 const config = useConfigStore()
-
-// TODO load notification without hydration & layout shift problem
-// const navNotificationBar = useNavNotificationBarStore()
-//
-// watch(
-//   () => config.topSiteText,
-//   () => navNotificationBar.setIfNew(config.topSiteText as string),
-//   { deep: true, immediate: true },
-// )
 </script>
 
 <style lang="scss" scoped>
@@ -55,15 +35,13 @@ const config = useConfigStore()
     font-size: 1rem;
   }
 
-  &__title {
+  &__text {
     flex: 1;
     text-align: center;
-  }
 
-  &__button {
-    height: 40px;
-    width: 40px;
-    color: $white-color;
+    :deep(a) {
+      color: $white-color;
+    }
   }
 }
 </style>
