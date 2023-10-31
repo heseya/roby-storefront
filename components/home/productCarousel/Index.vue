@@ -26,10 +26,10 @@
     </div>
     <div class="product-carousel__products">
       <LayoutLoading v-show="pending" :active="pending" />
-      <HomeProductCarouselSimple v-if="products?.length" :products="products || []" />
       <LayoutEmpty v-show="!products?.length" class="product-carousel__empty">
         {{ t('empty') }}
       </LayoutEmpty>
+      <HomeProductCarouselSimple v-show="products?.length" :products="products || []" />
     </div>
   </div>
 </template>

@@ -94,3 +94,11 @@ h2 {
 .gray-600-text {
   color: $gray-color-600;
 }
+
+a {
+  color: var(--primary-color);
+
+  &:hover {
+    color: var(--primary-color-alt);
+  }
+}
