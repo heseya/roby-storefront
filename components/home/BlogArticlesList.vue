@@ -35,6 +35,7 @@ const { data: articles } = useAsyncData('home-blog-articles', () => {
       'translations.languages_code',
     ],
     limit: 4,
+    sort: ['-date_created'],
     filter: {
       status: 'published',
     },
