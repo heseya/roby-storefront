@@ -15,7 +15,16 @@
       :class="{ 'checkout-consents__indented': newsletterEnabled }"
       name="statute-consent"
     >
-      {{ t('statuteText') }}
+      {{ t('statute.accept') }}
+      <a v-if="statuteUrl" :href="statuteUrl.toString()" target="_blank">
+        {{ t('statute.statute') }}
+      </a>
+      <template v-else>{{ t('statute.statute') }}</template>
+      {{ t('statute.and') }}
+      <a v-if="privacyPolicyUrl" :href="privacyPolicyUrl.toString()" target="_blank">
+        {{ t('statute.privacyPolicy') }}
+      </a>
+      <template v-else>{{ t('statute.privacyPolicy') }}</template>
     </FormCheckbox>
 
     <NewsletterConsent
@@ -36,10 +45,22 @@
 {
   "pl": {
     "acceptAllText": "Akceptuję wszystkie zgody",
+    "statute": {
+      "accept": "Akceptuję",
+      "statute": "regulamin",
+      "and": "oraz",
+      "privacyPolicy": "politykę prywatności"
+    },
     "statuteText": "Akceptuję regulamin oraz politykę prywatności."
   },
   "en": {
     "acceptAllText": "I accept all consents",
+    "statute": {
+      "accept": "I accept",
+      "statute": "the terms and conditions",
+      "and": "and",
+      "privacyPolicy": "privacy policy"
+    },
     "statuteText": "I accept the terms and conditions and privacy policy."
   }
 }
@@ -48,9 +69,11 @@
 <script setup lang="ts">
 import { useCheckoutStore } from '@/store/checkout'
 import { useCeneo } from '~/composables/useCeneo'
+import { useConfigStore } from '~/store/config'
 
 const t = useLocalI18n()
 
+const config = useConfigStore()
 const checkout = useCheckoutStore()
 
 const { enabled: newsletterEnabled } = useNewsletter()
@@ -72,6 +95,9 @@ const allAccepted = computed({
     }
   },
 })
+
+const statuteUrl = computed(() => config.env.statute_url)
+const privacyPolicyUrl = computed(() => config.env.privacy_policy_url)
 </script>
 
 <style lang="scss" scoped>
