@@ -78,13 +78,11 @@ const imageUrl = computed(() => getImageUrl(content.value?.image))
 
   &__partner {
     @include flex-column;
-    margin-top: 20px;
     align-items: center;
     align-self: center;
     gap: 20px;
 
     @media ($viewport-9) {
-      max-width: 80%;
       flex-direction: row;
     }
   }
@@ -92,8 +90,10 @@ const imageUrl = computed(() => getImageUrl(content.value?.image))
 
 .partner {
   &__image {
-    height: 150px;
-    width: 150px;
+    width: 100%;
+    height: 100%;
+    max-height: 250px;
+    max-width: 250px;
     object-fit: contain;
   }
 
