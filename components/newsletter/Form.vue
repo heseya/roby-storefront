@@ -130,6 +130,13 @@ const onSubmit = form.handleSubmit(({ email }) => {
     > :deep(.btn) {
       height: 43px;
     }
+
+    :deep(.input__error) {
+      position: absolute;
+      bottom: -16px;
+      left: 0;
+      width: 100%;
+    }
   }
 
   &__btn {
