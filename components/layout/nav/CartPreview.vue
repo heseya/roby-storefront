@@ -27,7 +27,7 @@
           :icon="CrossIcon"
           icon-size="sm"
           :title="$t('cart.remove')"
-          @click="handleRemove(item.id)"
+          @click.prevent="handleRemove(item.id)"
         />
       </SmartLink>
     </div>
