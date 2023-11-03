@@ -1,9 +1,11 @@
 <template>
   <div class="cart-item">
-    <Media width="120" class="cart-item__cover" :media="item.coverMedia" />
+    <SmartLink :to="`/product/${item.product.slug}`" class="cart-item__cover-wrapper">
+      <Media width="120" class="cart-item__cover" :media="item.coverMedia" />
+    </SmartLink>
 
     <div class="cart-item__content">
-      <div class="cart-item__main">
+      <SmartLink :to="`/product/${item.product.slug}`" class="cart-item__main">
         <span class="cart-item__name">{{ item.name }}</span>
         <span
           v-for="[name, value] in filterSchemaVariant(item.variant)"
@@ -12,7 +14,7 @@
         >
           {{ name }}: <b>{{ formatSchemaValue(value) }}</b>
         </span>
-      </div>
+      </SmartLink>
 
       <ProductQuantityInput
         show-label
@@ -89,7 +91,7 @@ const filterSchemaVariant = (variant: [string, CartItemRawSchemaValue][]) => {
   grid-template-columns: auto 1fr auto;
   grid-gap: 20px;
 
-  &__cover {
+  &__cover-wrapper {
     width: 100px;
     height: 100px;
     border: solid 1px $gray-color-300;
@@ -98,6 +100,11 @@ const filterSchemaVariant = (variant: [string, CartItemRawSchemaValue][]) => {
       width: 120px;
       height: 120px;
     }
+  }
+
+  &__cover {
+    width: 100%;
+    height: 100%;
   }
 
   &__content {
@@ -116,12 +123,19 @@ const filterSchemaVariant = (variant: [string, CartItemRawSchemaValue][]) => {
   &__main {
     display: flex;
     flex-direction: column;
+    text-decoration: none;
+    color: $text-color;
   }
 
   &__name {
     font-weight: 600;
     font-size: rem(16);
     margin-bottom: 4px;
+    transition: 0.3s;
+  }
+
+  &__main:hover &__name {
+    color: var(--highlight-color);
   }
 
   &__schema {
