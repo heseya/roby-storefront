@@ -75,9 +75,5 @@ useMediaQueriesForMediaBanners(props.link.media)
       font-size: rem(16);
     }
   }
-
-  @media ($max-viewport-9) {
-    height: 200px;
-  }
 }
 </style>
