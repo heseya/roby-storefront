@@ -39,6 +39,7 @@ defineProps<{
   gap: 14px;
   position: relative;
   overflow: hidden;
+  text-decoration: none;
 
   &__media {
     width: 100%;
