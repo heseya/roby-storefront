@@ -101,7 +101,7 @@ const { data: offertsBanner } = useAsyncData('offer-banner', async (): Promise<L
 
   return bannerMedia.map(({ title, media, url, subtitle }) => ({
     text: title,
-    media: media[0].media,
+    media,
     link: url,
     linkText: subtitle,
   }))

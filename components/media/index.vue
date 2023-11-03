@@ -1,6 +1,7 @@
 <template>
   <MediaPicture
     v-if="canRenderPicture"
+    :id="`media-${media?.id}`"
     class="hs-media"
     :src="url"
     :width="width"
@@ -18,6 +19,7 @@
 
   <MediaVideo
     v-else-if="canRenderVideo"
+    :id="`media-${media?.id}`"
     class="hs-media"
     :src="url"
     :autoplay="autoplay"
@@ -32,7 +34,12 @@
     </template>
   </MediaVideo>
 
-  <MediaPlaceholder v-else class="hs-media" :placeholder-class-name="placeholderClassName">
+  <MediaPlaceholder
+    v-else
+    :id="`media-${media?.id}`"
+    class="hs-media"
+    :placeholder-class-name="placeholderClassName"
+  >
     <slot name="placeholder"></slot>
   </MediaPlaceholder>
 </template>

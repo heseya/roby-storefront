@@ -1,6 +1,13 @@
 <template>
   <SmartLink :to="link.link || ''" class="link-box">
-    <Media :media="link.media" class="link-box__media" height="400" object-fit="cover" />
+    <Media
+      v-for="m in link.media"
+      :key="m.media.id"
+      :media="m.media"
+      class="link-box__media"
+      height="400"
+      object-fit="cover"
+    />
 
     <LayoutHeader class="link-box__header" tag="h2">{{ link.text }}</LayoutHeader>
 
@@ -14,18 +21,20 @@
 </template>
 
 <script lang="ts" setup>
-import { CdnMedia } from '@heseya/store-core'
+import { BannerMedia } from '@heseya/store-core'
 
 export type LinkBox = {
   text: string | null
-  media: CdnMedia
+  media: BannerMedia['media']
   link: string | null
   linkText: string | null
 }
 
-defineProps<{
+const props = defineProps<{
   link: LinkBox
 }>()
+
+useMediaQueriesForMediaBanners(props.link.media)
 </script>
 
 <style lang="scss" scoped>
@@ -45,6 +54,7 @@ defineProps<{
     width: 100%;
     height: 100%;
     position: absolute;
+    display: none;
     left: 0;
     top: 0;
     z-index: -1;
