@@ -6,13 +6,18 @@
     class="prod-data-emp"
     style="visibility: hidden"
   >
-    {{ productId }}
+    {{ id }}
   </div>
 </template>
 
 <script setup lang="ts">
 const { ekomiCustomerId } = usePublicRuntimeConfig()
 const props = defineProps<{ token: string; productId?: string }>()
+
+/**
+ * Ekomi widget handle max 32 characters log product id, UUID has 36 characters and 4 dashes
+ */
+const id = computed(() => props.productId?.replaceAll('-', '') || '')
 </script>
 
 <style lang="scss" scoped>
