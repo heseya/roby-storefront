@@ -11,7 +11,12 @@
     <FormInput v-model="form.values.name" rules="required" :label="$t('common.name')" name="name" />
     <AddressForm v-model:address="form.values.address" :invoice="isInvoice" />
 
-    <FormCheckbox v-model="isInvoice" name="invoice" :label="t('invoice')" />
+    <FormCheckbox
+      v-if="type === 'billing'"
+      v-model="isInvoice"
+      name="invoice"
+      :label="t('invoice')"
+    />
 
     <FormCheckbox
       v-model="form.values.default"

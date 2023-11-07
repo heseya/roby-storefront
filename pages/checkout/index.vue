@@ -241,8 +241,10 @@ const processOrder = registerForm.handleSubmit(async () => {
 watch(
   () => defaultBillingAddress,
   () => {
-    if (defaultBillingAddress.value)
+    if (defaultBillingAddress.value) {
       checkout.billingAddress = clone(defaultBillingAddress.value.address)
+      checkout.invoiceRequested = !!defaultBillingAddress.value.address.vat
+    }
   },
   { immediate: true },
 )
