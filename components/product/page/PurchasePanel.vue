@@ -14,7 +14,7 @@
     </div>
 
     <LazyProductPageOmnibus
-      v-if="product.available"
+      v-if="showOmnibus"
       :product="product"
       class="product-purchase-panel__omnibus"
     />
@@ -94,7 +94,7 @@
 </i18n>
 
 <script setup lang="ts">
-import { CartItemSchema, Product, parseSchemasToValues } from '@heseya/store-core'
+import { CartItemSchema, Product, parsePrices, parseSchemasToValues } from '@heseya/store-core'
 import DeliveryIcon from '@/assets/icons/delivery.svg?component'
 import { useCartStore } from '@/store/cart'
 import UpsellModal from '~/components/product/page/UpsellModal.vue'
@@ -155,6 +155,13 @@ const availability = computed(() => {
   }
   return props.product.available ? t('availability.available') : t('availability.unavailable')
 })
+
+const showOmnibus = computed(
+  () =>
+    props.product.available &&
+    parsePrices(props.product.prices_min, currency.value) !==
+      parsePrices(props.product.prices_min_initial, currency.value),
+)
 
 const isLeaseable = computed(() => {
   return !!props.product.metadata.allow_lease
