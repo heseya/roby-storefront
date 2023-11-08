@@ -27,16 +27,21 @@ watch(
   () => {
     const root = createElement(props.content || '')
     ;[...root.getElementsByTagName('img')].forEach((img) => {
-      img.setAttribute('loading', 'lazy')
-      const imgSrc = img.getAttribute('src')
-      if (!imgSrc) return
+      try {
+        img.setAttribute('loading', 'lazy')
+        const imgSrc = img.getAttribute('src')
+        if (!imgSrc) return
 
-      const imgUrl = new URL(imgSrc)
+        const imgUrl = new URL(imgSrc)
 
-      if (!imgUrl.searchParams.get('w')) imgUrl.searchParams.set('w', '800')
-      if (!imgUrl.searchParams.get('format')) imgUrl.searchParams.set('format', 'auto')
+        if (!imgUrl.searchParams.get('w')) imgUrl.searchParams.set('w', '800')
+        if (!imgUrl.searchParams.get('format')) imgUrl.searchParams.set('format', 'auto')
 
-      img.setAttribute('src', imgUrl.toString())
+        img.setAttribute('src', imgUrl.toString())
+      } catch (e) {
+        // eslint-disable-next-line no-console
+        console.warn('Failed to optimise image', img)
+      }
     })
 
     modifiedContent.value = root.innerHTML
