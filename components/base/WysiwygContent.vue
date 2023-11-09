@@ -5,7 +5,6 @@
 
 <script setup lang="ts">
 import { parse } from 'node-html-parser'
-import { stringifyQueryParams } from '@heseya/store-core'
 
 const props = defineProps<{
   content?: string
@@ -15,20 +14,34 @@ const containerRef = ref<HTMLElement>()
 
 const modifiedContent = ref<string>(props.content || '')
 
+const createElement = (content: string) => {
+  if (process.server) return parse(content)
+
+  const root = document.createElement('div') as HTMLElement
+  root.innerHTML = content
+  return root
+}
+
 watch(
   () => props.content,
   () => {
-    const root = parse(props.content || '')
+    const root = createElement(props.content || '')
     ;[...root.getElementsByTagName('img')].forEach((img) => {
-      img.setAttribute('loading', 'lazy')
-      const imgSrc = img.getAttribute('src')
+      try {
+        img.setAttribute('loading', 'lazy')
+        const imgSrc = img.getAttribute('src')
+        if (!imgSrc) return
 
-      const params = {
-        w: 800,
-        format: 'auto',
+        const imgUrl = new URL(imgSrc)
+
+        if (!imgUrl.searchParams.get('w')) imgUrl.searchParams.set('w', '800')
+        if (!imgUrl.searchParams.get('format')) imgUrl.searchParams.set('format', 'auto')
+
+        img.setAttribute('src', imgUrl.toString())
+      } catch (e) {
+        // eslint-disable-next-line no-console
+        console.warn('Failed to optimise image', img)
       }
-
-      img.setAttribute('src', `${imgSrc}?${stringifyQueryParams(params)}`)
     })
 
     modifiedContent.value = root.innerHTML

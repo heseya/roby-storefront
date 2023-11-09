@@ -10,7 +10,7 @@
         <LayoutHeader class="why-us__header" variant="black">
           {{ content.image_title }}
         </LayoutHeader>
-        <span> {{ content.image_description }} </span>
+        <div v-html="content.image_description"></div>
       </div>
     </div>
   </div>
@@ -25,7 +25,7 @@ const { data: content } = useAsyncData('why-us-content', async () => {
     if (!directus.url) return
 
     const data = await directus.items('WhyUsComponent').readOne(1, {
-      fields: ['*.*'],
+      fields: ['active', 'image', 'translations.*'],
     })
     return {
       active: data?.active,
@@ -77,16 +77,12 @@ const imageUrl = computed(() => getImageUrl(content.value?.image))
   }
 
   &__partner {
-    margin-top: 20px;
-
     @include flex-column;
     align-items: center;
     align-self: center;
     gap: 20px;
 
     @media ($viewport-9) {
-      margin-top: 70px;
-      max-width: 80%;
       flex-direction: row;
     }
   }
@@ -94,8 +90,11 @@ const imageUrl = computed(() => getImageUrl(content.value?.image))
 
 .partner {
   &__image {
-    height: 150px;
-    width: 150px;
+    width: 100%;
+    height: 100%;
+    max-height: 250px;
+    max-width: 250px;
+    object-fit: contain;
   }
 
   &__description {

@@ -62,20 +62,20 @@
 </i18n>
 
 <script setup lang="ts">
-import { CartItem, HeseyaEvent } from '@heseya/store-core'
+import { CartItem, HeseyaEvent, Product } from '@heseya/store-core'
 import { useCartStore } from '@/store/cart'
-import { useConfigStore } from '@/store/config'
 
 const cart = useCartStore()
 const t = useLocalI18n()
 const $t = useGlobalI18n()
-const config = useConfigStore()
 
 const isCartEmpty = computed(() => cart.length === 0)
 
 const suggestedQuery = computed(() => {
+  const relatedSets = cart.items.map((p) => (p.product as Product).related_sets || []).flat()
+
   return {
-    sets: [config.env.cart_upsell_set_slug as string],
+    sets: relatedSets.map((s) => s.slug),
   }
 })
 

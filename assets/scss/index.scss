@@ -2,8 +2,21 @@
 @import './variables';
 @import './mixins';
 
+:root {
+  // Fallback colors to SCSS variables, but they should be declared somewhere in root html element
+  --primary-color: #{$primary-color};
+  --primary-color-alt: #{$primary-color-alt};
+  --secondary-color: #{$secondary-color};
+  --highlight-color: #{$highlight-color};
+  --warning-color: #{$warning-color};
+  --error-color: #{$error-color};
+
+  --header-font-family-family: #{$headerFont};
+  --text-font-family: #{$textFont};
+}
+
 html {
-  font-family: $textFont;
+  font-family: var(--text-font-family, $textFont);
   color: $text-color;
   font-size: $base-font-size;
   line-height: rem(19);
@@ -23,23 +36,10 @@ html {
   margin: 0;
 }
 
-:root {
-  // Fallback colors to SCSS variables, but they should be declared somewhere in root html element
-  --primary-color: #{$primary-color};
-  --primary-color-alt: #{$primary-color-alt};
-  --secondary-color: #{$secondary-color};
-  --highlight-color: #{$highlight-color};
-  --warning-color: #{$warning-color};
-  --error-color: #{$error-color};
-
-  --header-font-family-family: #{$headerFont};
-  --text-font-family: #{$textFont};
-}
-
 button,
 input,
 select {
-  font-family: $textFont;
+  font-family: var(--text-font-family, $textFont);
 }
 
 // Callpage plugin
@@ -93,4 +93,12 @@ h2 {
 }
 .gray-600-text {
   color: $gray-color-600;
+}
+
+a {
+  color: var(--primary-color);
+
+  &:hover {
+    color: var(--primary-color-alt);
+  }
 }

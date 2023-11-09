@@ -32,4 +32,8 @@ const data = useAsyncData('page', async () => {
     transform: scale(1.1);
   }
 }
+
+:deep(h3) {
+  font-weight: 500;
+}
 </style>

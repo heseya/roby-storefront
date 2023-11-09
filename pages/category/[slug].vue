@@ -3,6 +3,13 @@
     <LayoutBreadcrumpsProvider :breadcrumbs="breadcrumbs" />
 
     <BaseContainer class="categories-page">
+      <Media
+        v-if="category?.cover"
+        class="categories-page__cover"
+        :media="category?.cover"
+        object-fit="cover"
+      />
+
       <ProductListPage
         :title="category?.name"
         :sets="[route.params.slug as string]"
@@ -85,6 +92,13 @@ const breadcrumbs = computed(() => [
 
 <style lang="scss" scoped>
 .categories-page {
+  &__cover {
+    width: 100%;
+    max-height: 400px;
+    margin-bottom: 24px;
+    display: block;
+  }
+
   &__description {
     margin-top: 32px;
   }

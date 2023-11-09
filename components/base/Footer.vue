@@ -86,6 +86,8 @@
         </div>
       </div>
     </div>
+
+    <BaseFooterSocialmedia />
   </footer>
 </template>
 

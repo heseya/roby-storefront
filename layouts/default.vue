@@ -25,13 +25,15 @@
 </template>
 
 <script lang="ts" setup>
+import { useChannelsStore } from '~/store/channels'
 import { useConfigStore } from '~/store/config'
 
 const config = useConfigStore()
+const channels = useChannelsStore()
 const { locales } = useI18n()
 
 const isAdditionalNavBarVisible = computed(
-  () => locales.value.length > 1 || !!config.customRedirect,
+  () => locales.value.length > 1 || !!config.customRedirect || channels.channels.length > 1,
 )
 
 // TODO load notification without hydration & layout shift problem

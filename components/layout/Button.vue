@@ -3,6 +3,7 @@
     :class="[
       `btn`,
       `btn--${variant}`,
+      `btn--size-${size}`,
       { 'btn--text-dark': textColorThemePrimary === 'dark' && variant === 'primary' },
     ]"
     :disabled="disabled"
@@ -21,8 +22,9 @@ withDefaults(
     variant?: ButtonVariant
     htmlType?: 'button' | 'submit' | 'reset'
     disabled?: boolean
+    size?: 'small' | 'medium'
   }>(),
-  { variant: 'primary', label: '', htmlType: 'button', disabled: false },
+  { variant: 'primary', label: '', htmlType: 'button', disabled: false, size: 'medium' },
 )
 
 const textColorThemePrimary = useContrastColorFromCssVar('primary-color-alt')
@@ -35,11 +37,24 @@ const textColorThemePrimary = useContrastColorFromCssVar('primary-color-alt')
   border: none;
   padding: 8px 16px;
   border-radius: 4px;
-  font-family: $textFont;
+  font-family: var(--text-font-family, $textFont);
   font-size: rem(14);
+  font-weight: 500;
   transition: background-color 200ms ease-in-out;
   cursor: pointer;
   border: solid 1px $transparent;
+  text-decoration: none;
+
+  &--size-small {
+    padding: 4px 8px;
+    font-size: rem(12);
+  }
+
+  &--size-medium {
+    @media ($viewport-10) {
+      font-size: rem(16);
+    }
+  }
 
   &[disabled] {
     cursor: not-allowed;
@@ -52,10 +67,10 @@ const textColorThemePrimary = useContrastColorFromCssVar('primary-color-alt')
 
   &--primary {
     color: $white-color;
-    background-color: var(--primary-color-alt);
+    background-color: var(--primary-color);
 
     &:not([disabled]):hover {
-      background-color: var(--primary-color);
+      background-color: var(--primary-color-alt);
     }
   }
 

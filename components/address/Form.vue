@@ -30,7 +30,7 @@
         @update:model-value="update('country', $event as string)"
       >
         <option v-for="country in countries" :key="country.code" :value="country.code">
-          {{ country.name }}
+          {{ $te(`countries.${country.code}`) ? $t(`countries.${country.code}`) : country.name }}
         </option>
       </FormSelect>
       <FormInput

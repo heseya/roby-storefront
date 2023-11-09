@@ -130,18 +130,20 @@ const onSubmit = form.handleSubmit(({ email }) => {
     > :deep(.btn) {
       height: 43px;
     }
+
+    :deep(.input__error) {
+      position: absolute;
+      bottom: -16px;
+      left: 0;
+      width: 100%;
+    }
   }
 
   &__btn {
     width: 132px;
-    font-weight: 500;
     position: relative;
     transform: translateX(-4px);
     white-space: nowrap;
-
-    @media ($viewport-10) {
-      font-size: rem(16);
-    }
   }
 }
 

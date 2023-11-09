@@ -14,13 +14,11 @@
         />
 
         <div class="product-header__summary">
-          <ClientOnly>
-            <ProductPageFavouriteButton
-              v-if="product"
-              class="product-header__fav-btn"
-              :product="product"
-            />
-          </ClientOnly>
+          <LazyProductPageFavouriteButton
+            v-if="product"
+            class="product-header__fav-btn"
+            :product="product"
+          />
 
           <h1 class="product-header__title">{{ product?.name }}</h1>
           <span class="product-header__subtitle">
@@ -123,7 +121,7 @@
         </div>
       </template>
 
-      <HomeProductCarousel
+      <LazyHomeProductCarousel
         v-for="set in product?.related_sets || []"
         :key="set.id"
         class="product-page__related-products"

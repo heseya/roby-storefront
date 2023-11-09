@@ -13,15 +13,15 @@
       </span>
     </div>
 
-    <ProductPageOmnibus
-      v-if="product.available"
+    <LazyProductPageOmnibus
+      v-if="showOmnibus"
       :product="product"
       class="product-purchase-panel__omnibus"
     />
 
-    <ProductPageSchemas
+    <LazyProductPageSchemas
+      v-if="product.has_schemas"
       v-model:value="schemaValue"
-      i-if="product.has_schemas"
       class="product-purchase-panel__schemas"
       :product="product"
     />
@@ -48,6 +48,12 @@
 
     <div class="product-purchase-panel__detail"><DeliveryIcon /> {{ availability }}</div>
   </div>
+  <UpsellModal
+    v-model:open="upsellVisible"
+    :product="product"
+    :price="price"
+    :currency="currency"
+  />
 </template>
 
 <i18n lang="json">
@@ -88,9 +94,10 @@
 </i18n>
 
 <script setup lang="ts">
-import { CartItemSchema, Product, parseSchemasToValues } from '@heseya/store-core'
+import { CartItemSchema, Product, parsePrices, parseSchemasToValues } from '@heseya/store-core'
 import DeliveryIcon from '@/assets/icons/delivery.svg?component'
 import { useCartStore } from '@/store/cart'
+import UpsellModal from '~/components/product/page/UpsellModal.vue'
 
 const props = withDefaults(
   defineProps<{
@@ -100,9 +107,9 @@ const props = withDefaults(
 )
 const cart = useCartStore()
 const t = useLocalI18n()
-const localePath = useLocalePath()
 const currency = useCurrency()
 const channel = useSalesChannel()
+const upsellVisible = ref(false)
 
 const { enabled: leaselinkEnabled, getUrl: getLeasingUrl } = useLeaselink()
 
@@ -149,6 +156,13 @@ const availability = computed(() => {
   return props.product.available ? t('availability.available') : t('availability.unavailable')
 })
 
+const showOmnibus = computed(
+  () =>
+    props.product.available &&
+    parsePrices(props.product.prices_min, currency.value) !==
+      parsePrices(props.product.prices_min_initial, currency.value),
+)
+
 const isLeaseable = computed(() => {
   return !!props.product.metadata.allow_lease
 })
@@ -163,7 +177,7 @@ const addToCart = () => {
     quantity: Number(quantity.value) || 1,
   })
 
-  navigateTo(localePath('/cart'))
+  upsellVisible.value = true
 }
 </script>
 

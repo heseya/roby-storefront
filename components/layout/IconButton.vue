@@ -4,7 +4,7 @@
       <LayoutIcon :icon="icon" :size="iconSize" :is-resize="isResize" />
       <ClientOnly>
         <span
-          v-show="isNumber(count)"
+          v-show="typeof count === 'number'"
           class="icon-btn__notification"
           :class="`icon-btn__notification--${iconColorTheme}`"
           >{{ count }}</span
@@ -18,7 +18,6 @@
 </template>
 
 <script lang="ts" setup>
-import isNumber from 'lodash/isNumber'
 import { FunctionalComponent } from 'vue'
 import { IconSize } from '@/components/layout/Icon.vue'
 

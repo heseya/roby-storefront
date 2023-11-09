@@ -9,6 +9,7 @@ const {
   DIRECTUS_URL,
   PRICE_TRACKER_URL = 'https://main-price-tracker.app.***REMOVED***',
   ENVIRONMENT = 'development',
+  FONT_FAMILY = 'Roboto',
   VERCEL_ENV,
   APP_HOST,
   RECAPTCHA_PUBLIC,
@@ -77,6 +78,14 @@ export default defineNuxtConfig({
           src: 'https://polyfill.io/v3/polyfill.min.js?features=Intl.NumberFormat%2CIntl.PluralRules.~locale.pl',
         },
       ],
+    },
+  },
+
+  experimental: {
+    defaults: {
+      useAsyncData: {
+        deep: false,
+      },
     },
   },
 
@@ -154,7 +163,7 @@ export default defineNuxtConfig({
 
   googleFonts: {
     families: {
-      Roboto: [300, 400, 500, 600, 700],
+      [FONT_FAMILY]: [300, 400, 500, 600, 700],
     },
   },
 
@@ -184,6 +193,10 @@ export default defineNuxtConfig({
     mode: 'mount',
     // enables nuxt-delay-hydration in dev mode for testing
     debug: process.env.NODE_ENV === 'development',
+  },
+
+  swiper: {
+    modules: ['pagination', 'navigation', 'autoplay'],
   },
 
   // routeRules: {
@@ -219,9 +232,7 @@ export default defineNuxtConfig({
     },
   },
 
-  vue: {
-    compilerOptions: {
-      isCustomElement: (tag) => ['Notifications'].includes(tag),
-    },
+  devtools: {
+    enabled: false,
   },
 })

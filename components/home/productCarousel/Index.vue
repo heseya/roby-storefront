@@ -26,8 +26,10 @@
     </div>
     <div class="product-carousel__products">
       <LayoutLoading v-show="pending" :active="pending" />
-      <HomeProductCarouselSimple v-if="products?.length" :products="products" />
-      <LayoutEmpty v-else class="product-carousel__empty">{{ t('empty') }}</LayoutEmpty>
+      <LayoutEmpty v-show="!products?.length" class="product-carousel__empty">
+        {{ t('empty') }}
+      </LayoutEmpty>
+      <HomeProductCarouselSimple v-show="products?.length" :products="products || []" />
     </div>
   </div>
 </template>
@@ -46,6 +48,7 @@
 <script lang="ts" setup>
 import { ProductSetList } from '@heseya/store-core'
 import { useCategoriesStore } from '@/store/categories'
+import { useConfigStore } from '@/store/config'
 
 const props = withDefaults(
   defineProps<{
@@ -60,6 +63,7 @@ const props = withDefaults(
 const t = useLocalI18n()
 const heseya = useHeseya()
 const categoriesStore = useCategoriesStore()
+const config = useConfigStore()
 
 const selectedCategory = useState<string | null>(`selected-${props.category.id}`, () => null)
 const subcategories = useState<ProductSetList[]>(`subcategories-${props.category.id}`, () => [])
@@ -69,7 +73,7 @@ const {
   refresh: refreshProducts,
   pending,
 } = useAsyncData(
-  `products-${props.category.id}`,
+  `products-${props.category.id}-${selectedCategory.value}`,
   async () => {
     const categorySlug = selectedCategory.value || props.category.slug
     const { data } = await heseya.Products.get({
@@ -77,6 +81,7 @@ const {
       limit: 16,
       sort: `set.${categorySlug}`,
       shipping_digital: false,
+      attribute_slug: config.productSubtextAttr,
     })
 
     return data
@@ -84,7 +89,7 @@ const {
   { immediate: false },
 )
 
-useAsyncData(`subcategories-${props.category.id}`, async () => {
+useLazyAsyncData(`subcategories-${props.category.id}`, async () => {
   if (!props.withoutSubcategories) {
     subcategories.value = await categoriesStore.getSubcategories(props.category.id)
     if (subcategories.value.length) selectedCategory.value = subcategories.value[0].slug
@@ -149,6 +154,10 @@ const setNewCategory = (categorySlug: string) => {
     padding-bottom: 8px;
     margin-bottom: 16px;
     gap: 12px;
+
+    @media ($viewport-10) {
+      gap: 24px;
+    }
 
     @media ($max-viewport-8) {
       justify-content: flex-start;

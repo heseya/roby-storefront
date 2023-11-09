@@ -186,7 +186,7 @@ export const useCheckoutStore = defineStore('checkout', {
     isCountryCodeAllowedInShipping(countryCode: string) {
       if (!this.shippingMethod) return true
       const isIncludedInList = !!this.shippingMethod.countries.find((c) => c.code === countryCode)
-      return this.shippingMethod.block_list ? !isIncludedInList : isIncludedInList
+      return this.shippingMethod.is_block_list_countries ? !isIncludedInList : isIncludedInList
     },
 
     async createOrder() {

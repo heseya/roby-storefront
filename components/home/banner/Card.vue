@@ -1,12 +1,14 @@
 <template>
-  <NuxtLink class="card" :class="{ 'card--centered': centered }" :to="localePath(link || '')">
+  <SmartLink class="card" :class="{ 'card--centered': centered }" :to="link || ''">
     <div class="card__container" :class="{ 'card__container--centered': centered }">
-      <div class="card__gray-filter" />
+      <div v-show="gradient" class="card__gray-filter" />
       <Media
+        v-for="m in media"
+        :key="m.media?.id"
         object-fit="cover"
-        :media="selectedMedia"
+        :media="m.media"
         class="card__image"
-        :height="580"
+        :height="height"
         loading="eager"
       />
       <LayoutHeader v-show="subtitle" class="card__subtitle">
@@ -14,7 +16,7 @@
       </LayoutHeader>
       <LayoutHeader class="card__title" :tag="titleTag"> {{ title }} </LayoutHeader>
     </div>
-  </NuxtLink>
+  </SmartLink>
 </template>
 
 <script lang="ts" setup>
@@ -31,34 +33,20 @@ const props = withDefaults(
     }[]
     link?: string | null
     centered?: boolean
+    height?: number
+    gradient?: boolean
   }>(),
-  { titleTag: 'span', subtitle: '', link: '' },
+  { titleTag: 'span', subtitle: '', link: '', height: 580, gradient: false },
 )
 
-const { width: windowWidth } = useWindowSize()
-const localePath = useLocalePath()
-
-const sortedMedia = computed(() =>
-  [...props.media].sort((a, b) => a.min_screen_width - b.min_screen_width),
-)
-
-const selectedMedia = computed(() => {
-  if (!sortedMedia.value[0]) return null
-
-  const { media } = sortedMedia.value.reduce((prev, curr) => {
-    if (prev.min_screen_width <= windowWidth.value && curr.min_screen_width > windowWidth.value)
-      return prev
-
-    return curr
-  }, sortedMedia.value[0])
-  return media
-})
+useMediaQueriesForMediaBanners(props.media)
 </script>
 
 <style lang="scss" scoped>
 .card {
-  flex: 1;
   text-decoration: none;
+  width: 100%;
+  height: 100%;
 
   &__container {
     position: relative;
@@ -106,6 +94,7 @@ const selectedMedia = computed(() => {
     background-color: $gray-color-600;
     transition: 0.3s;
     transform: scale(1.01);
+    display: none;
   }
 
   &__title {

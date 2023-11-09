@@ -1,7 +1,12 @@
 <template>
   <div v-if="cart.items.length" class="cart-preview">
     <div class="cart-preview__item-list">
-      <div v-for="item in cart.items" :key="item.id" class="cart-preview-item">
+      <SmartLink
+        v-for="item in cart.items"
+        :key="item.id"
+        :to="`/product/${item.product.slug}`"
+        class="cart-preview-item"
+      >
         <Media width="100" class="cart-preview-item__cover" :media="item.coverMedia" />
         <div class="cart-preview-item__content">
           <span class="cart-preview-item__name">{{ item.name }}</span>
@@ -22,9 +27,9 @@
           :icon="CrossIcon"
           icon-size="sm"
           :title="$t('cart.remove')"
-          @click="handleRemove(item.id)"
+          @click.prevent="handleRemove(item.id)"
         />
-      </div>
+      </SmartLink>
     </div>
     <div class="cart-preview-summary">
       <span>{{ $t('orders.totalAmount') }}</span>
@@ -80,6 +85,8 @@ const handleRemove = (id: string) => {
   @include flex-row;
   padding: 10px 0;
   gap: 10px;
+  text-decoration: none;
+  color: $text-color;
 
   border-bottom: solid 1px $gray-color-400;
 
@@ -102,6 +109,11 @@ const handleRemove = (id: string) => {
 
   &__name {
     padding-right: 24px;
+    transition: 0.3s;
+  }
+
+  &:hover &__name {
+    color: var(--highlight-color);
   }
 
   &__brand {

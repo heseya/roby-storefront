@@ -212,7 +212,7 @@ onBeforeMount(async () => {
 
 <style lang="scss" scoped>
 .nav-bar {
-  z-index: 100;
+  z-index: 2000;
   position: fixed;
   top: 0;
   left: 0;

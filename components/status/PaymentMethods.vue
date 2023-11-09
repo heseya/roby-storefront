@@ -3,6 +3,7 @@
     <h2 class="order-status-payment__title">{{ t('title') }}</h2>
     <CheckoutPaymentMethodsSelect
       v-model:value="selectedPaymentMethodId"
+      :shipping-method-id="order?.shipping_method?.id"
       class="order-status-payment__payment-methods"
     />
     <LayoutButton
@@ -45,6 +46,20 @@ const formatError = useErrorMessage()
 const selectedPaymentMethodId = ref<string | null>(null)
 const checkout = useCheckoutStore()
 
+const { data: order } = useAsyncData(`order-summary-${props.code}`, async () => {
+  try {
+    const heseya = useHeseya()
+    const order = await heseya.Orders.getOneByCode(props.code)
+
+    if (!order.payable) navigateTo(localePath(`/status/${props.code}`), { replace: true })
+
+    return order
+  } catch (e: any) {
+    const code = e?.response?.status
+    showError({ message: $t('errors.ORDER_WITH_THIS_NUMBER_DOESNT_EXIST'), statusCode: code })
+  }
+})
+
 const pay = async () => {
   try {
     if (!selectedPaymentMethodId.value) return
@@ -75,7 +90,7 @@ const pay = async () => {
   }
 
   &__payment-methods {
-    margin: 8px 0;
+    margin: 24px 0;
   }
 }
 </style>

@@ -103,7 +103,6 @@ watch(
 
   label {
     padding-left: 24px;
-    display: inline-flex;
     font-weight: 400;
     position: relative;
 
@@ -143,7 +142,7 @@ watch(
   }
 
   &__error {
-    font-size: rem(10);
+    font-size: rem(12);
     color: var(--error-color);
     padding-left: 24px;
     font-weight: 500;

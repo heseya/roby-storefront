@@ -1,7 +1,17 @@
 <template>
   <NuxtLayout>
     <div class="index-page">
-      <HomeBanner v-if="data?.mainBanner" class="index-page__banner" :banner="data?.mainBanner" />
+      <HomeBanner
+        v-if="data?.mainBanner && data?.mainBanner.active"
+        class="index-page__banner"
+        :banner="data?.mainBanner"
+      />
+
+      <HomeBannerSecondary
+        v-if="data?.secondaryBanner && data?.secondaryBanner.active"
+        class="index-page__banner-cards"
+        :banner="data?.secondaryBanner"
+      />
 
       <template
         v-for="section in sections"
@@ -62,15 +72,22 @@ useSeoMeta({
 })
 
 const { data } = useAsyncData('main-banner', async () => {
-  const [mainBanner, { data: homepageBanners }, { data: homepageSets }, { data: homepagePages }] =
-    await Promise.all([
-      heseya.Banners.getOneBySlug('main-banner').catch(() => null),
-      heseya.Banners.get({ metadata: { homepage: true } }).catch(() => ({ data: [] })),
-      heseya.ProductSets.get({ metadata: { homepage: true } }).catch(() => ({ data: [] })),
-      heseya.Pages.get({ metadata: { homepage: true } }).catch(() => ({ data: [] })),
-    ])
+  const [
+    mainBanner,
+    secondaryBanner,
+    { data: homepageBanners },
+    { data: homepageSets },
+    { data: homepagePages },
+  ] = await Promise.all([
+    heseya.Banners.getOneBySlug('main-banner').catch(() => null),
+    heseya.Banners.getOneBySlug('secondary-banner').catch(() => null),
+    heseya.Banners.get({ metadata: { homepage: true } }).catch(() => ({ data: [] })),
+    heseya.ProductSets.get({ metadata: { homepage: true } }).catch(() => ({ data: [] })),
+    heseya.Pages.get({ metadata: { homepage: true } }).catch(() => ({ data: [] })),
+  ])
   return {
     mainBanner,
+    secondaryBanner,
     homepageBanners,
     homepageSets,
     homepagePages,
@@ -78,11 +95,13 @@ const { data } = useAsyncData('main-banner', async () => {
 })
 
 const { data: offertsBanner } = useAsyncData('offer-banner', async (): Promise<LinkBox[]> => {
-  const { banner_media: bannerMedia } = await heseya.Banners.getOneBySlug('offer-banner')
+  const { active, banner_media: bannerMedia } = await heseya.Banners.getOneBySlug('offer-banner')
+
+  if (!active) return []
 
   return bannerMedia.map(({ title, media, url, subtitle }) => ({
     text: title,
-    media: media[0].media,
+    media,
     link: url,
     linkText: subtitle,
   }))
@@ -134,12 +153,16 @@ delayedOnMounted(() => {
     }
 
     > * {
-      margin-top: 50px;
+      margin-top: 40px;
 
       @media ($viewport-9) {
-        margin-top: 140px;
+        margin-top: 80px;
       }
     }
+  }
+
+  &__banner-cards {
+    display: flex;
   }
 
   &__image-carousel {

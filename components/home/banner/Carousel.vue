@@ -1,6 +1,15 @@
 <template>
   <div v-if="mediaList.length" class="carousel-banner">
-    <Swiper class="carousel-banner__slider" :slides-per-view="1">
+    <Swiper
+      class="carousel-banner__slider"
+      :slides-per-view="1"
+      :loop="true"
+      :modules="[SwiperAutoplay, SwiperPagination]"
+      :autoplay="{
+        delay: 6000,
+        disableOnInteraction: true,
+      }"
+    >
       <SwiperSlide v-for="(item, index) in mediaList" :key="index">
         <div class="carousel-banner__slide">
           <HomeBannerCard
@@ -10,14 +19,25 @@
             :media="item.media"
             centered
             :title-tag="index === 0 ? 'h1' : 'h2'"
+            :height="isDesktop ? 480 : 400"
+            :gradient="gradient"
           />
         </div>
       </SwiperSlide>
       <template #container-start>
-        <LayoutCarouselButton class="carousel-banner__button carousel-banner__button--prev" />
+        <LayoutCarouselButton
+          always-visible
+          class="carousel-banner__button carousel-banner__button--prev"
+        />
       </template>
       <template #container-end>
-        <LayoutCarouselButton next class="carousel-banner__button" type="next" />
+        <LayoutCarouselButton
+          always-visible
+          next
+          class="carousel-banner__button"
+          type="next"
+          :gradient="gradient"
+        />
       </template>
     </Swiper>
   </div>
@@ -26,8 +46,11 @@
 <script lang="ts" setup>
 import { Banner } from '@heseya/store-core'
 
+const isDesktop = useMediaQuery('(min-width: 640px)')
+
 const props = defineProps<{
   banner: Banner
+  gradient?: boolean
 }>()
 
 const mediaList = computed(() => props.banner?.banner_media)
@@ -39,7 +62,7 @@ const mediaList = computed(() => props.banner?.banner_media)
   width: 100%;
   align-items: center;
   overflow: hidden;
-  max-width: 2550px;
+  max-width: 1920px;
   margin: 0 auto;
 
   @media ($max-viewport-10) {
@@ -50,7 +73,7 @@ const mediaList = computed(() => props.banner?.banner_media)
     position: relative;
     min-height: 36px;
     overflow: visible;
-    width: fit-content;
+    width: 100%;
     max-width: 100%;
     margin: 0;
 
@@ -62,19 +85,24 @@ const mediaList = computed(() => props.banner?.banner_media)
   &__slide {
     flex: 1;
     flex-direction: row;
-    height: 280px;
+    // height: 280px;
+    height: 400px;
     width: 100%;
 
+    // @media ($viewport-6) {
+    //   height: 380px;
+    // }
+
+    // @media ($viewport-9) {
+    //   height: 480px;
+    // }
+
+    // @media ($viewport-12) {
+    //   height: 580px;
+    // }
+
     @media ($viewport-6) {
-      height: 380px;
-    }
-
-    @media ($viewport-9) {
       height: 480px;
-    }
-
-    @media ($viewport-12) {
-      height: 580px;
     }
 
     :deep(.card__title) {
@@ -96,12 +124,12 @@ const mediaList = computed(() => props.banner?.banner_media)
   &__button {
     position: absolute;
     top: 0;
-    right: 16px;
+    right: 16px !important;
     z-index: 1000;
 
     &--prev {
       right: auto;
-      left: 16px;
+      left: 16px !important;
     }
 
     @media ($max-viewport-10) {

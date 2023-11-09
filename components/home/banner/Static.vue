@@ -12,22 +12,16 @@
         :media="mainImage.media"
         centered
         title-tag="h1"
+        :gradient="gradient"
       />
     </div>
-    <div
+
+    <HomeBannerCards
       v-if="remainingImages.length"
       class="banner__cards"
-      :style="{ flex: remainingImages.length }"
-    >
-      <HomeBannerCard
-        v-for="image in remainingImages"
-        :key="image.id"
-        :title="image.title"
-        :subtitle="image.subtitle"
-        :link="image.url"
-        :media="image.media"
-      />
-    </div>
+      :media="remainingImages"
+      :gradient="gradient"
+    />
   </div>
 </template>
 
@@ -36,6 +30,7 @@ import { Banner, BannerMedia } from '@heseya/store-core'
 
 const props = defineProps<{
   banner: Banner
+  gradient?: boolean
 }>()
 
 const mainImage = computed(() => props.banner?.banner_media[0])
@@ -66,11 +61,6 @@ const remainingImages = computed(() => props.banner?.banner_media.slice(1) as Ba
   }
 
   &__cards {
-    @include flex-column;
-    @media ($viewport-9) {
-      flex: 1 !important;
-      flex-direction: row;
-    }
   }
 }
 </style>
