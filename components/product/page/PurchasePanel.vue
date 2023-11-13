@@ -31,7 +31,7 @@
     <LayoutButton
       :disabled="!product.available || isProductPurchaseLimitReached"
       class="product-purchase-panel__cart-btn"
-      @click="addToCart"
+      @click="handleAddToCart"
     >
       {{ purchaseButtonText }}
     </LayoutButton>
@@ -42,7 +42,7 @@
       :href="getLeasingUrl(product.name, price, false, parseFloat(channel?.vat_rate || '0'))"
     >
       <LayoutButton variant="gray" :style="{ width: '100%' }">
-        {{ t('actions.lease') }}
+        {{ t('offers.lease') }}
       </LayoutButton>
     </a>
 
@@ -59,10 +59,6 @@
 <i18n lang="json">
 {
   "pl": {
-    "actions": {
-      "addToCart": "Dodaj do koszyka",
-      "lease": "Zapytaj o leasing"
-    },
     "availability": {
       "available": "Produkt dostępny",
       "availableOnRequest": "Produkt dostępny na zamówienie",
@@ -75,10 +71,6 @@
     }
   },
   "en": {
-    "actions": {
-      "addToCart": "Add to cart",
-      "lease": "Ask about leasing"
-    },
     "availability": {
       "available": "Product available",
       "availableOnRequest": "Product available on request",
@@ -96,7 +88,6 @@
 <script setup lang="ts">
 import { CartItemSchema, Product, parsePrices, parseSchemasToValues } from '@heseya/store-core'
 import DeliveryIcon from '@/assets/icons/delivery.svg?component'
-import { useCartStore } from '@/store/cart'
 import UpsellModal from '~/components/product/page/UpsellModal.vue'
 
 const props = withDefaults(
@@ -105,7 +96,6 @@ const props = withDefaults(
   }>(),
   {},
 )
-const cart = useCartStore()
 const t = useLocalI18n()
 const currency = useCurrency()
 const channel = useSalesChannel()
@@ -113,7 +103,8 @@ const upsellVisible = ref(false)
 
 const { enabled: leaselinkEnabled, getUrl: getLeasingUrl } = useLeaselink()
 
-const quantity = ref(1)
+const { quantity, isProductPurchaseLimitReached, addToCart } = useAddToCart(props.product)
+
 const schemaValue = ref<CartItemSchema[]>(
   parseSchemasToValues(props.product.schemas, currency.value),
 )
@@ -122,17 +113,9 @@ const { price, originalPrice, pending } = useProductPrice(props.product, schemaV
 const purchaseButtonText = computed((): string => {
   if (isProductPurchaseLimitReached.value) return t('availability.reachedLimit')
 
-  if (props.product.available) return t('actions.addToCart')
+  if (props.product.available) return t('offers.addToCart')
 
   return t('availability.unavailable')
-})
-
-const isProductPurchaseLimitReached = computed((): boolean => {
-  if (!props.product.purchase_limit_per_user) return false
-
-  const productsInBasket = cart.items.find((p) => p.productId === props.product.id)?.totalQty || 0
-
-  return props.product.purchase_limit_per_user < productsInBasket + quantity.value
 })
 
 const availability = computed(() => {
@@ -167,17 +150,9 @@ const isLeaseable = computed(() => {
   return !!props.product.metadata.allow_lease
 })
 
-const addToCart = () => {
-  if (!props.product.available || isProductPurchaseLimitReached.value) return
-
-  cart.add({
-    product: props.product,
-    schemas: props.product.schemas,
-    schemaValue: schemaValue.value,
-    quantity: Number(quantity.value) || 1,
-  })
-
-  upsellVisible.value = true
+const handleAddToCart = () => {
+  const success = addToCart(schemaValue.value)
+  if (success) upsellVisible.value = true
 }
 </script>
 

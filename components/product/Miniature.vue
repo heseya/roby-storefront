@@ -33,7 +33,26 @@
       <span class="product-miniature__subtext">
         {{ getProductSubtext(product, config.productSubtextAttr) }}
       </span>
-      <ProductPrice v-if="!hidePrice" class="product-miniature__price" :product="product" />
+      <template v-if="!hidePrice">
+        <ProductPrice class="product-miniature__price" :product="product" />
+
+        <template v-if="showAddToCart">
+          <LayoutButton
+            v-if="product.has_schemas"
+            class="product-miniature__btn product-miniature__btn--cart"
+          >
+            {{ $t('offers.configure') }}
+          </LayoutButton>
+          <LayoutButton
+            v-else
+            class="product-miniature__btn product-miniature__btn--cart"
+            @click.prevent="handleAddToCart"
+          >
+            {{ $t('offers.addToCart') }}
+          </LayoutButton>
+        </template>
+      </template>
+
       <LayoutButton v-else-if="askForPrice" class="product-miniature__btn">
         {{ $t('offers.pricing') }}
       </LayoutButton>
@@ -61,9 +80,23 @@ const props = defineProps<{
   forceSize?: boolean
 }>()
 
+const { notify } = useNotify()
+
 const askForPrice = computed(() => props.product?.metadata?.[ASK_FOR_PRICE_KEY])
 
 const hidePrice = computed(() => askForPrice.value || !props.product.available)
+
+const showAddToCart = computed(() => config.env.show_add_to_cart_on_lists === '1')
+
+const { addToCart } = useAddToCart(props.product)
+
+const handleAddToCart = () => {
+  addToCart([])
+  notify({
+    title: $t('cart.added'),
+    type: 'success',
+  })
+}
 </script>
 
 <style lang="scss" scoped>
@@ -171,6 +204,10 @@ const hidePrice = computed(() => askForPrice.value || !props.product.available)
 
   &__btn {
     width: 100%;
+
+    &--cart {
+      margin-top: 8px;
+    }
   }
 
   &:hover &__name {

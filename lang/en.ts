@@ -58,11 +58,15 @@ export default {
     renting: 'Ask for rental',
     pricing: 'Ask for price',
     unavailable: 'Product unavailable',
+    configure: 'Configure',
+    addToCart: 'Add to cart',
+    lease: 'Ask about leasing',
   },
 
   cart: {
     title: 'Cart',
     empty: 'Your shopping cart is empty',
+    added: 'The product has been added to the cart.',
     quantity: 'Quantity:',
     remove: 'Remove the product from the cart',
   },

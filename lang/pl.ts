@@ -58,11 +58,15 @@ export default {
     renting: 'Zapytaj o wynajem',
     pricing: 'Zapytaj o cenę',
     unavailable: 'Produkt niedostępny',
+    configure: 'Skonfiguruj',
+    addToCart: 'Dodaj do koszyka',
+    lease: 'Zapytaj o leasing',
   },
 
   cart: {
     title: 'Koszyk',
     empty: 'Twój koszyk jest pusty',
+    added: 'Produkt został dodany do koszyka.',
     quantity: 'Ilość:',
     remove: 'Usuń produkt z koszyka',
   },
