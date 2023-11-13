@@ -7,8 +7,6 @@
         :banner="data?.mainBanner"
       />
 
-      {{ hideUnavailableOnHomepage }}
-
       <HomeBannerSecondary
         v-if="data?.secondaryBanner && data?.secondaryBanner.active"
         class="index-page__banner-cards"
