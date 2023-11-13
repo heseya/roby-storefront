@@ -7,6 +7,8 @@
         :banner="data?.mainBanner"
       />
 
+      {{ hideUnavailableOnHomepage }}
+
       <HomeBannerSecondary
         v-if="data?.secondaryBanner && data?.secondaryBanner.active"
         class="index-page__banner-cards"
@@ -26,6 +28,7 @@
           <HomeProductCarousel
             v-if="section.type === 'set'"
             :category="section.data"
+            :hide-unavailable="hideUnavailableOnHomepage"
             header-tag="h2"
           />
 
@@ -57,10 +60,12 @@
 
 <script setup lang="ts">
 import { HeseyaEvent, ProductSetList, PageList } from '@heseya/store-core'
+import { useConfigStore } from '~/store/config'
 import { LinkBox } from '~~/components/home/LinkBox.vue'
 
 const $t = useGlobalI18n()
 const heseya = useHeseya()
+const config = useConfigStore()
 
 type Section =
   | { type: 'set'; data: ProductSetList }
@@ -70,6 +75,8 @@ type Section =
 useSeoMeta({
   title: () => $t('breadcrumbs.home'),
 })
+
+const hideUnavailableOnHomepage = computed(() => config.env.hide_unavailable_on_homepage === '1')
 
 const { data } = useAsyncData('main-banner', async () => {
   const [

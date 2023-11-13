@@ -76,6 +76,7 @@ const suggestedQuery = computed(() => {
 
   return {
     sets: relatedSets.map((s) => s.slug),
+    available: true,
   }
 })
 

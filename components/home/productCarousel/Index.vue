@@ -57,8 +57,15 @@ const props = withDefaults(
     withoutSubcategories?: boolean
     headerTag?: string
     hideMoreButton?: boolean
+    hideUnavailable?: boolean
   }>(),
-  { label: '', withoutSubcategories: false, hideMoreButton: false, headerTag: 'span' },
+  {
+    label: '',
+    withoutSubcategories: false,
+    hideMoreButton: false,
+    headerTag: 'span',
+    hideUnavailable: false,
+  },
 )
 const t = useLocalI18n()
 const heseya = useHeseya()
@@ -82,6 +89,7 @@ const {
       sort: `set.${categorySlug}`,
       shipping_digital: false,
       attribute_slug: config.productSubtextAttr,
+      available: props.hideUnavailable ? true : undefined,
     })
 
     return data
