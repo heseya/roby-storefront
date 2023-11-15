@@ -12,9 +12,7 @@
 const $t = useGlobalI18n()
 const localePath = useLocalePath()
 
-useSeoMeta({
-  title: () => $t('account.registerTitle'),
-})
+useSeoTitle($t('account.registerTitle'))
 
 const breadcrumbs = computed(() => [{ label: $t('account.registerTitle'), link: '/register' }])
 </script>

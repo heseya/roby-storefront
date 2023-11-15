@@ -70,9 +70,7 @@ type Section =
   | { type: 'box'; data: LinkBox }
   | { type: 'page'; data: PageList }
 
-useSeoMeta({
-  title: () => $t('breadcrumbs.home'),
-})
+useSeoTitle($t('breadcrumbs.home'))
 
 const hideUnavailableOnHomepage = computed(() => config.env.hide_unavailable_on_homepage === '1')
 

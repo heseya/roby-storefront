@@ -86,9 +86,7 @@ delayedOnMounted(() => {
   ev.emit(HeseyaEvent.ViewCart, cart.items as CartItem[])
 })
 
-useSeoMeta({
-  title: () => $t('cart.title'),
-})
+useSeoTitle($t('cart.title'))
 </script>
 
 <style lang="scss" scoped>

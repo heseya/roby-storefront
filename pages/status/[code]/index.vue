@@ -87,9 +87,7 @@ const { data: order } = useAsyncData(`order-summary-${orderCode}`, async () => {
 
 const isPayable = computed(() => order.value?.payable || false)
 
-useSeoMeta({
-  title: () => $t('orders.details'),
-})
+useSeoTitle(t('orders.details'))
 </script>
 
 <style lang="scss" scoped>

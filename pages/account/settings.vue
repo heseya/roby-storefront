@@ -15,9 +15,7 @@
 <script setup lang="ts">
 const $t = useGlobalI18n()
 
-useSeoMeta({
-  title: () => $t('account.settings'),
-})
+useSeoTitle($t('account.settings'))
 
 definePageMeta({
   middleware: 'auth',

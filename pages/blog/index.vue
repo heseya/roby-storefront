@@ -113,9 +113,7 @@ const changePage = (page: number | string) => {
   })
 }
 
-useSeoMeta({
-  title: () => $t('breadcrumbs.blog'),
-})
+useSeoTitle($t('breadcrumbs.blog'))
 
 const breadcrumbs = computed(() => [{ label: $t('breadcrumbs.blog'), link: `/blog` }])
 

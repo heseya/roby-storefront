@@ -41,9 +41,7 @@ const formatError = useErrorMessage()
 const route = useRoute()
 const heseya = useHeseya()
 
-useSeoMeta({
-  title: () => $t('orders.title'),
-})
+useSeoTitle($t('orders.title'))
 
 definePageMeta({
   middleware: 'auth',

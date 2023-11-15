@@ -34,9 +34,7 @@ const preparedSets = computed(() => {
   return (Array.isArray(route.query.set) ? route.query.set : [route.query.set]) as string[]
 })
 
-useSeoMeta({
-  title: () => t('searchResult'),
-})
+useSeoTitle(t('searchResult'))
 
 const breadcrumbs = computed(() => [
   {

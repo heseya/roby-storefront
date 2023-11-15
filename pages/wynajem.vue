@@ -51,9 +51,7 @@ import { TranslatedRentPage } from '~/interfaces/rentPage'
 
 const t = useLocalI18n()
 
-useSeoMeta({
-  title: () => t('title'),
-})
+useSeoTitle(t('title'))
 
 const breadcrumbs = computed(() => {
   const route = useRoute()

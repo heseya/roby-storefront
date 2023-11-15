@@ -276,9 +276,7 @@ watch(
   },
 )
 
-useSeoMeta({
-  title: () => t('title'),
-})
+useSeoTitle(t('title'))
 
 useHead({
   // Import of Inpost & Furgonetka map widget

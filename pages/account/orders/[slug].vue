@@ -43,9 +43,7 @@ definePageMeta({
   middleware: 'auth',
 })
 
-useSeoMeta({
-  title: () => `${$t('orders.details')} ${route.params.slug}`,
-})
+useSeoTitle(`${$t('orders.details')} ${route.params.slug}`)
 
 const errorMessage = ref('')
 

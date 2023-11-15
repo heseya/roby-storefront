@@ -62,9 +62,7 @@ const breadcrumbs = computed(() => {
   ]
 })
 
-useSeoMeta({
-  title: t('title'),
-})
+useSeoTitle(t('title'))
 
 const { data: aboutPage } = useAsyncData('about-page', async () => {
   try {
