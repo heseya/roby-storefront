@@ -1,13 +1,13 @@
 <template>
-  <IntegrationEkomiWidget v-if="ekomiCustomerId" :token="props.token" />
-  <div
-    v-if="ekomiCustomerId"
-    id="ekomi-product-widget-identifier"
-    class="prod-data-emp"
-    style="visibility: hidden"
-  >
-    {{ id }}
-  </div>
+  <IntegrationEkomiWidget v-if="ekomiCustomerId" :token="props.token" :delay-time="1000">
+    <div
+      v-if="ekomiCustomerId"
+      id="ekomi-product-widget-identifier"
+      class="prod-data-emp"
+      style="visibility: hidden"
+      v-html="id"
+    ></div>
+  </IntegrationEkomiWidget>
 </template>
 
 <script setup lang="ts">

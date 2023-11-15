@@ -107,8 +107,16 @@
         </template>
       </LayoutTabs>
 
-      <IntegrationEkomiProductWidget :token="ekomiMiniStarsToken" :product-id="product?.id" />
-      <IntegrationEkomiProductWidget :token="ekomiReviewsToken" :product-id="product?.id" />
+      <IntegrationEkomiProductWidget
+        v-if="product?.id"
+        :token="ekomiMiniStarsToken"
+        :product-id="product.id"
+      />
+      <IntegrationEkomiProductWidget
+        v-if="product?.id"
+        :token="ekomiReviewsToken"
+        :product-id="product.id"
+      />
 
       <template v-if="product?.sales.length">
         <h2 class="primary-text">
