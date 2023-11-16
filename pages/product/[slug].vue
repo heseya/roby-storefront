@@ -63,7 +63,7 @@
         <template #description>
           <div class="product-page__description-wrapper">
             <div>
-              <LayoutDropDownContainer>
+              <LayoutDropDownContainer :min-expand-height="productDescriptionExpandHeight">
                 <LazyBaseWysiwygContent :content="product?.description_html" />
               </LayoutDropDownContainer>
 
@@ -219,6 +219,12 @@ const productDescriptionTabs = computed<Tab[]>(() => {
     ...(globalPages.value?.map((p) => ({ key: p.slug, label: p.name })) || []),
   ]
 })
+
+const productDescriptionExpandHeight = computed(() =>
+  config.env.product_description_expand_height
+    ? parseInt(config.env.product_description_expand_height.toString())
+    : 700,
+)
 
 const breadcrumbs = computed(() => [
   category.value
