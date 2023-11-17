@@ -37,8 +37,33 @@
       </div>
     </div>
 
+    <div v-for="attribute in numberAttributes" :key="attribute.id" class="product-filters__section">
+      <FormInputLabel label-uppercase> {{ attribute.name }} </FormInputLabel>
+
+      <div class="product-filters__row">
+        <span> {{ $t('common.from') }} </span>
+        <FormInput
+          type="gray"
+          html-type="number"
+          :name="`attribute_${attribute.slug}_min`"
+          :model-value="filters[`attribute.${attribute.slug}.min`]"
+          label-uppercase
+          @update:model-value="(v) => updateKey(`attribute.${attribute.slug}.min`, v)"
+        />
+        <span> {{ $t('common.to') }} </span>
+        <FormInput
+          type="gray"
+          html-type="number"
+          :name="`attribute_${attribute.slug}_min`"
+          :model-value="filters[`attribute.${attribute.slug}.max`]"
+          label-uppercase
+          @update:model-value="(v) => updateKey(`attribute.${attribute.slug}.max`, v)"
+        />
+      </div>
+    </div>
+
     <ProductFiltersCheckboxGroup
-      v-for="attribute in attributes || []"
+      v-for="attribute in optionAttributes"
       :key="attribute.id"
       class="product-filters__section"
       :attribute="attribute"
@@ -90,12 +115,24 @@ const { data: attributes } = useLazyAsyncData(async () => {
   // TODO: this is not optimal
   const sets = await Promise.all(props.sets.map((set) => heseya.ProductSets.getOneBySlug(set)))
 
-  // TODO: add support for date and number attributes
-  const attrs = await heseya.Products.getFilters({ sets: sets.map((s) => s.id) })
-  return attrs.filter(
-    (a) => a.type === AttributeType.MultiChoiceOption || a.type === AttributeType.SingleOption,
-  )
+  return heseya.Products.getFilters({ sets: sets.map((s) => s.id) })
 })
+
+const optionAttributes = computed(
+  () =>
+    attributes.value?.filter(
+      (a) => a.type === AttributeType.MultiChoiceOption || a.type === AttributeType.SingleOption,
+    ) || [],
+)
+
+const numberAttributes = computed(
+  () => attributes.value?.filter((a) => a.type === AttributeType.Number) || [],
+)
+
+// TODO: add support for date attributes
+// const dateAttributes = computed(
+//   () => attributes.value?.filter((a) => a.type === AttributeType.Date) || [],
+// )
 
 const updateKey = (key: string, value: any) => {
   emit('update:filters', { ...props.filters, [key]: value })

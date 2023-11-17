@@ -13,7 +13,6 @@
       v-for="option in schema.options"
       :key="option.id"
       :value="option.id"
-      :disabled="option.disabled || !option.available"
       class="schema-select__option"
     >
       {{ option.name }}
