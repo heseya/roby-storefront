@@ -13,7 +13,15 @@ interface ContactForm {
   recaptchaToken: string
 }
 
-const { MAIL_HOST, MAIL_USER, MAIL_PASSWORD, MAIL_RECEIVER, APP_HOST, API_URL } = process.env
+const {
+  MAIL_HOST,
+  MAIL_USER,
+  MAIL_PASSWORD,
+  MAIL_RECEIVER,
+  MAIL_PORT = '587',
+  APP_HOST,
+  API_URL,
+} = process.env
 
 if (!MAIL_HOST || !MAIL_USER || !MAIL_PASSWORD || !APP_HOST)
   // eslint-disable-next-line no-console
@@ -23,7 +31,7 @@ if (!MAIL_HOST || !MAIL_USER || !MAIL_PASSWORD || !APP_HOST)
 
 const mailer = createTransport({
   host: MAIL_HOST,
-  port: 587,
+  port: parseInt(MAIL_PORT),
   secure: false, // upgrade later with STARTTLS
   auth: {
     user: MAIL_USER,
