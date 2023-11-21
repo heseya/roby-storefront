@@ -37,7 +37,7 @@
       </div>
     </div>
 
-    <div v-for="attribute in numberAttributes" :key="attribute.id" class="product-filters__section">
+    <div v-for="attribute in rangeFilters" :key="attribute.id" class="product-filters__section">
       <FormInputLabel label-uppercase> {{ attribute.name }} </FormInputLabel>
 
       <div class="product-filters__row">
@@ -63,7 +63,7 @@
     </div>
 
     <ProductFiltersCheckboxGroup
-      v-for="attribute in optionAttributes"
+      v-for="attribute in checkboxableFilters"
       :key="attribute.id"
       class="product-filters__section"
       :attribute="attribute"
@@ -87,7 +87,7 @@
 </i18n>
 
 <script setup lang="ts">
-import { AttributeType } from '@heseya/store-core'
+import { Attribute, AttributeType } from '@heseya/store-core'
 
 const props = withDefaults(
   defineProps<{
@@ -128,6 +128,13 @@ const optionAttributes = computed(
 const numberAttributes = computed(
   () => attributes.value?.filter((a) => a.type === AttributeType.Number) || [],
 )
+
+const checkboxableFilters = computed<Attribute[]>(() => [
+  ...optionAttributes.value,
+  ...numberAttributes.value,
+])
+// TODO: this is intentionally empty
+const rangeFilters = computed<Attribute[]>(() => [])
 
 // TODO: add support for date attributes
 // const dateAttributes = computed(
