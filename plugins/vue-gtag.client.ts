@@ -59,7 +59,6 @@ export default defineNuxtPlugin((nuxtApp) => {
     const currency = useCurrency()
     if (!isTracking.value) return
 
-    gTagEvent('', { ecommerce: null })
     gTagEvent('view_item', {
       ecommerce: { items: [mapProductToItem(product, currency.value)] },
     })
@@ -69,7 +68,6 @@ export default defineNuxtPlugin((nuxtApp) => {
     const currency = useCurrency()
     if (!isTracking.value) return
 
-    gTagEvent('', { ecommerce: null })
     gTagEvent('view_item_list', {
       ecommerce: {
         item_list_name: set?.name,
@@ -81,7 +79,6 @@ export default defineNuxtPlugin((nuxtApp) => {
   bus.on(HeseyaEvent.AddToCart, (item) => {
     if (!isTracking.value) return
 
-    gTagEvent('', { ecommerce: null })
     gTagEvent('add_to_cart', {
       ecommerce: {
         currency: channelStore.currency,
@@ -94,7 +91,6 @@ export default defineNuxtPlugin((nuxtApp) => {
   bus.on(HeseyaEvent.RemoveFromCart, (item) => {
     if (!isTracking.value) return
 
-    gTagEvent('', { ecommerce: null })
     gTagEvent('remove_from_cart', {
       ecommerce: {
         currency: channelStore.currency,
@@ -107,7 +103,6 @@ export default defineNuxtPlugin((nuxtApp) => {
   bus.on(HeseyaEvent.AddShippingInfo, ({ shipping, items }) => {
     if (!isTracking.value) return
 
-    gTagEvent('', { ecommerce: null })
     gTagEvent('add_shipping_info', {
       ecommerce: {
         currency: channelStore.currency,
@@ -120,7 +115,6 @@ export default defineNuxtPlugin((nuxtApp) => {
   bus.on(HeseyaEvent.InitiateCheckout, (items) => {
     if (!isTracking.value) return
 
-    gTagEvent('', { ecommerce: null })
     gTagEvent('begin_checkout', {
       ecommerce: { items: items.map(mapCartItemToItem) },
     })
@@ -145,7 +139,6 @@ export default defineNuxtPlugin((nuxtApp) => {
   bus.on(HeseyaEvent.Purchase, (order) => {
     if (!isTracking.value) return
 
-    gTagEvent('', { ecommerce: null })
     // TODO: add coupons?
     gTagEvent('purchase', {
       ecommerce: {
@@ -163,7 +156,6 @@ export default defineNuxtPlugin((nuxtApp) => {
   bus.on(HeseyaEvent.ViewCart, (items) => {
     if (!isTracking.value) return
 
-    gTagEvent('', { ecommerce: null })
     gTagEvent('view_cart', {
       ecommerce: { items: items.map(mapCartItemToItem) },
     })
