@@ -54,6 +54,9 @@ const { data: article, pending } = useAsyncData(`blog-article-${props.slug}`, as
         'image',
         'cover_image',
         'hide_cover',
+        'date_created',
+        'date_updated',
+        'user_created.*',
         'translations.title',
         'translations.description',
         'translations.languages_code',
@@ -88,7 +91,9 @@ const { data: article, pending } = useAsyncData(`blog-article-${props.slug}`, as
 const imageUrl = computed(() => getImageUrl(article.value?.image, { width: 900 }))
 const coverUrl = computed(() => getImageUrl(article.value?.cover_image, { width: 900 }))
 const translatedArticle = computed(() =>
-  article.value ? getTranslated(article.value.translations, 'PL-pl') : null,
+  article.value
+    ? { ...article.value, ...getTranslated(article.value.translations, 'PL-pl') }
+    : null,
 )
 const dateCreated = computed(() =>
   article.value ? formatDate(article.value.date_created, 'dd LLLL yyyy') : '',
@@ -110,6 +115,9 @@ useSeo(() => [
     no_index: article.value?.no_index,
   },
 ])
+
+// TODO: this types are working, but they are showing errors
+useBlogJsonLd(translatedArticle as any)
 
 const breadcrumbs = computed(() => [
   { label: t('breadcrumbs.blog'), link: `/blog` },

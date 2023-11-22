@@ -31,6 +31,8 @@ const props = defineProps<{
 
 useSeo(() => [props.page?.seo, { title: props.page?.name }])
 
+usePageJsonLd(props.page)
+
 const breadcrumbs = computed(() => [
   { label: props.page?.name || '', link: `/${props.page?.slug}` },
 ])
