@@ -46,7 +46,7 @@ export const useProductJsonLd = (productRef?: MaybeRef<Product | null>) => {
 }
 
 export const useBlogJsonLd = (articleRef?: MaybeRef<TranslatedBlogArticle | null>) => {
-  const { appHost } = usePublicRuntimeConfig()
+  const { appHost, directusUrl } = usePublicRuntimeConfig()
 
   const jsonLd = computed<WithContext<BlogPosting>>(() => {
     const article = unref(articleRef)
@@ -56,7 +56,7 @@ export const useBlogJsonLd = (articleRef?: MaybeRef<TranslatedBlogArticle | null
       '@context': 'https://schema.org',
       '@type': 'BlogPosting',
       headline: article.seo_title || article.title,
-      image: getImageUrl(article.cover_image || article.image),
+      image: `${directusUrl}/assets/${article.cover_image || article.image}`,
       editor: `${article.user_created?.first_name} ${article.user_created?.last_name}`,
       keywords: article.metatags?.split(',').join(' ') || '',
       url: `${appHost}/${article.slug}`,
