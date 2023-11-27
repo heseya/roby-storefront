@@ -52,7 +52,9 @@ select {
 }
 
 #ceneo-widget {
-  bottom: 180px !important;
+  @media ($viewport-7) {
+    bottom: 180px !important;
+  }
 }
 
 // Hide global reCaptcha badge
