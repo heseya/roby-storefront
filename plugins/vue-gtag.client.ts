@@ -1,5 +1,5 @@
 import { HeseyaEvent, parsePrices } from '@heseya/store-core'
-import VueGtag, { trackRouter, isTracking, useGtag } from 'vue-gtag-next'
+import { createGtm, useGtm } from '@gtm-support/vue-gtm'
 import { Pinia } from '@pinia/nuxt/dist/runtime/composables'
 
 import {
@@ -16,15 +16,15 @@ import { useChannelsStore } from '@/store/channels'
  * Watches for a change in the cookie and sets the value in gtag.
  */
 const useGtagCookieWatch = (cookieKey: string, gtagKey: string) => {
-  const { set } = useGtag()
+  const gtm = useGtm()
 
   const cookie = useStatefulCookie<number>(cookieKey, COOKIES_CONFIG)
 
   watch(
     cookie,
     (value) => {
-      if (value) set({ [gtagKey]: true })
-      else if (value !== undefined) set({ [gtagKey]: false })
+      if (value) gtm?.push({ event: 'set', [gtagKey]: true })
+      else if (value !== undefined) gtm?.push({ event: 'set', [gtagKey]: false })
     },
     { immediate: true },
   )
@@ -34,41 +34,48 @@ export default defineNuxtPlugin((nuxtApp) => {
   const { googleTagManagerId, isProduction, appHost } = usePublicRuntimeConfig()
   if (!googleTagManagerId) return
 
-  nuxtApp.vueApp.use(VueGtag, {
-    property: {
+  nuxtApp.vueApp.use(
+    createGtm({
       id: googleTagManagerId,
-    },
-    useDebugger: !isProduction,
-  })
+      defer: true,
+      debug: !isProduction,
+      vueRouter: useRouter(),
+      loadScript: true,
+    }),
+  )
 
   useGtagCookieWatch(COOKIE_FUNCTIONAL_ACCEPTED_KEY, 'functionality_storage')
   useGtagCookieWatch(COOKIE_ANALYTICS_ACCEPTED_KEY, 'analytics_storage')
   useGtagCookieWatch(COOKIE_ADS_ACCEPTED_KEY, 'ad_storage')
 
-  trackRouter(useRouter())
-
   /**
    * * EVENTS
    */
 
-  const { event: gTagEvent } = useGtag()
+  const gtm = useGtm()
   const channelStore = useChannelsStore(nuxtApp.$pinia as Pinia)
   const bus = useHeseyaEventBus()
 
+  gtm?.push({ event: 'config', value: 'G-EYZH3KQD3H' })
+
   bus.on(HeseyaEvent.ViewProduct, (product) => {
     const currency = useCurrency()
-    if (!isTracking.value) return
+    if (!gtm?.enabled()) return
 
-    gTagEvent('view_item', {
+    gtm?.trackEvent({ ecommerce: null })
+    gtm?.trackEvent({
+      event: 'view_item',
       ecommerce: { items: [mapProductToItem(product, currency.value)] },
     })
   })
 
   bus.on(HeseyaEvent.ViewProductList, ({ set, items }) => {
     const currency = useCurrency()
-    if (!isTracking.value) return
+    if (!gtm?.enabled()) return
 
-    gTagEvent('view_item_list', {
+    gtm?.trackEvent({ ecommerce: null })
+    gtm?.trackEvent({
+      event: 'view_item_list',
       ecommerce: {
         item_list_name: set?.name,
         items: items.map((i) => mapProductToItem(i, currency.value)),
@@ -77,9 +84,11 @@ export default defineNuxtPlugin((nuxtApp) => {
   })
 
   bus.on(HeseyaEvent.AddToCart, (item) => {
-    if (!isTracking.value) return
+    if (!gtm?.enabled()) return
 
-    gTagEvent('add_to_cart', {
+    gtm?.trackEvent({ ecommerce: null })
+    gtm?.trackEvent({
+      event: 'add_to_cart',
       ecommerce: {
         currency: channelStore.currency,
         value: item.price,
@@ -89,9 +98,11 @@ export default defineNuxtPlugin((nuxtApp) => {
   })
 
   bus.on(HeseyaEvent.RemoveFromCart, (item) => {
-    if (!isTracking.value) return
+    if (!gtm?.enabled()) return
 
-    gTagEvent('remove_from_cart', {
+    gtm?.trackEvent({ ecommerce: null })
+    gtm?.trackEvent({
+      event: 'remove_from_cart',
       ecommerce: {
         currency: channelStore.currency,
         value: item.price,
@@ -101,9 +112,11 @@ export default defineNuxtPlugin((nuxtApp) => {
   })
 
   bus.on(HeseyaEvent.AddShippingInfo, ({ shipping, items }) => {
-    if (!isTracking.value) return
+    if (!gtm?.enabled()) return
 
-    gTagEvent('add_shipping_info', {
+    gtm?.trackEvent({ ecommerce: null })
+    gtm?.trackEvent({
+      event: 'add_shipping_info',
       ecommerce: {
         currency: channelStore.currency,
         value: parsePrices(shipping.prices, channelStore.currency),
@@ -113,34 +126,40 @@ export default defineNuxtPlugin((nuxtApp) => {
   })
 
   bus.on(HeseyaEvent.InitiateCheckout, (items) => {
-    if (!isTracking.value) return
+    if (!gtm?.enabled()) return
 
-    gTagEvent('begin_checkout', {
+    gtm?.trackEvent({ ecommerce: null })
+    gtm?.trackEvent({
+      event: 'begin_checkout',
       ecommerce: { items: items.map(mapCartItemToItem) },
     })
   })
 
   bus.on(HeseyaEvent.Login, () => {
-    if (!isTracking.value) return
+    if (!gtm?.enabled()) return
 
-    gTagEvent('login', {
+    gtm?.trackEvent({
+      event: 'login',
       method: 'email',
     })
   })
 
   bus.on(HeseyaEvent.Register, () => {
-    if (!isTracking.value) return
+    if (!gtm?.enabled()) return
 
-    gTagEvent('sign_up', {
+    gtm?.trackEvent({
+      event: 'sign_up',
       method: 'email',
     })
   })
 
   bus.on(HeseyaEvent.Purchase, (order) => {
-    if (!isTracking.value) return
+    if (!gtm?.enabled()) return
 
     // TODO: add coupons?
-    gTagEvent('purchase', {
+    gtm?.trackEvent({ ecommerce: null })
+    gtm?.trackEvent({
+      event: 'purchase',
       ecommerce: {
         transaction_id: order.code,
         affiliation: appHost,
@@ -154,9 +173,11 @@ export default defineNuxtPlugin((nuxtApp) => {
   })
 
   bus.on(HeseyaEvent.ViewCart, (items) => {
-    if (!isTracking.value) return
+    if (!gtm?.enabled()) return
 
-    gTagEvent('view_cart', {
+    gtm?.trackEvent({ ecommerce: null })
+    gtm?.trackEvent({
+      event: 'view_cart',
       ecommerce: { items: items.map(mapCartItemToItem) },
     })
   })

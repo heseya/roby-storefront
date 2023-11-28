@@ -1001,6 +1001,20 @@
   resolved "https://registry.yarnpkg.com/@fastify/busboy/-/busboy-2.0.0.tgz#f22824caff3ae506b18207bad4126dbc6ccdb6b8"
   integrity sha512-JUFJad5lv7jxj926GPgymrWQxxjPYuJNiNjNMzqT+HiuP6Vl3dk5xzG+8sTX96np0ZAluvaMzPsjhHZ5rNuNQQ==
 
+"@gtm-support/core@^2.0.0":
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/@gtm-support/core/-/core-2.2.0.tgz#e69474192d89031bf8672451f7d6729982145715"
+  integrity sha512-GYA9LfLUcsWJBpL24e3UXjbzl/E9qYWWsEtEJU2hiDFUC07WhxgKnH7cuZk82Ld+7Iz2ZVQaDDGT0kxZxQwPLQ==
+
+"@gtm-support/vue-gtm@^2.2.0":
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/@gtm-support/vue-gtm/-/vue-gtm-2.2.0.tgz#b6b17da2f27ff186aae731c8c32fdcb8a6738f25"
+  integrity sha512-7nhBTRkTG0mD+7r7JvNalJz++YwszZk0oP1HIY6fCgz6wNKxT6LuiXCqdPrZmNPe/WbPIKuqxGZN5s+i6NZqow==
+  dependencies:
+    "@gtm-support/core" "^2.0.0"
+  optionalDependencies:
+    vue-router ">= 4.1.0 < 5.0.0"
+
 "@heseya/store-core@6.0.0-dev.45":
   version "6.0.0-dev.45"
   resolved "https://registry.yarnpkg.com/@heseya/store-core/-/store-core-6.0.0-dev.45.tgz#5f20953802e7526b4f7f3a21c46565415bdd134d"
@@ -9938,11 +9952,6 @@ vue-eslint-parser@^9.3.1:
     lodash "^4.17.21"
     semver "^7.3.6"
 
-vue-gtag-next@^1.14.0:
-  version "1.14.0"
-  resolved "https://registry.yarnpkg.com/vue-gtag-next/-/vue-gtag-next-1.14.0.tgz#793aef0b90dff4213b9f3a79827cd99b06e678dd"
-  integrity sha512-iJl+cOG2GU5NuxqzSSIpt03WVOvZqyKB9TOy7d55KiuvRklcnb2nlqxW5B/a3/sbIt7fla+XEkRyMCcoz0zAHw==
-
 vue-i18n-routing@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/vue-i18n-routing/-/vue-i18n-routing-1.1.1.tgz#5fbf100807e1bc6a7f7bcb7c11c4ccee5fffeee2"
@@ -9963,7 +9972,7 @@ vue-i18n@9.5.0:
     "@intlify/shared" "9.5.0"
     "@vue/devtools-api" "^6.5.0"
 
-vue-router@^4.2.5:
+"vue-router@>= 4.1.0 < 5.0.0", vue-router@^4.2.5:
   version "4.2.5"
   resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-4.2.5.tgz#b9e3e08f1bd9ea363fdd173032620bc50cf0e98a"
   integrity sha512-DIUpKcyg4+PTQKfFPX88UWhlagBEBEfJ5A8XDXRJLUnZOvcpMF8o/dnL90vpVkGaPbjvXazV/rC1qBKrZlFugw==
