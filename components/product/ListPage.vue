@@ -99,6 +99,7 @@
 </i18n>
 
 <script setup lang="ts">
+import { uniqBy } from 'lodash'
 import { useConfigStore } from '@/store/config'
 
 const route = useRoute()
@@ -192,7 +193,9 @@ const {
     shipping_digital: false,
     attribute_slug: config.productSubtextAttr,
   })
-  return response
+
+  // TODO: remove this crazy unique, it's only here because of the API returns duplicated entries
+  return { pagination: response.pagination, data: uniqBy(response.data, 'id') }
 })
 
 useEmitProductsViewEvent(
