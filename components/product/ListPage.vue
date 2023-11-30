@@ -99,7 +99,7 @@
 </i18n>
 
 <script setup lang="ts">
-import { uniqBy } from 'lodash'
+import uniqBy from 'lodash/uniqBy'
 import { useConfigStore } from '@/store/config'
 
 const route = useRoute()

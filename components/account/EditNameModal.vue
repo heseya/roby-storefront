@@ -75,7 +75,12 @@ const isModalVisible = computed({
 const onSubmit = form.handleSubmit(async () => {
   error.value = null
   try {
-    const user = await heseya.UserProfile.update(form.values)
+    const user = await heseya.UserProfile.update({
+      name: form.values.name,
+      // TODO: maybe null should be sent? Or API should allow empty strings?
+      phone: form.values.phone || undefined,
+      birthday_date: form.values.birthday_date || undefined,
+    })
     userStore.setUser(user)
     isModalVisible.value = false
     notify({
