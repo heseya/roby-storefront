@@ -59,6 +59,7 @@ export default defineNuxtPlugin((nuxt) => {
     'cart/process',
     'wishlist',
     'users/self-remove',
+    'users/password',
   ]
 
   enhanceAxiosWithAuthTokenRefreshing(ax, {
