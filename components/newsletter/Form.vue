@@ -23,8 +23,9 @@
           <LayoutButton html-type="submit" class="newsletter-form__btn" :label="t('btn')" />
         </div>
         <small class="newsletter-form__consent-text">
-          {{ t('consent') }}
-          <NuxtLink class="primary-text" to="/regulamin"> {{ t('consentStatute') }} </NuxtLink>.
+          {{ t('consent.text1', { name: companyName }) }}
+          <NuxtLink class="primary-text" to="/regulamin"> {{ t('consent.statute') }} </NuxtLink
+          >{{ t('consent.text2') }}
         </small>
       </form>
 
@@ -41,16 +42,22 @@
   "pl": {
     "title": "Newsletter",
     "text": "Zapisz się do naszego newslettera, aby jako pierwszy dowiadywać się o wszystkich promocjach i nowościach!",
-    "consent": "Zapisując się akceptujesz treść",
-    "consentStatute": "regulaminu",
+    "consent": {
+      "text1": "Chcę otrzymywać od {name}, zgodnie z ",
+      "statute": "regulaminem",
+      "text2": ", informacje handlowe dot. produktów {name} na adres e-mail i w związku z tym wyrażam zgodę na przesyłanie takich informacji."
+    },
     "btn": "Zapisz się",
     "successText": "Dziękujemy za zapisanie się do newslettera!"
   },
   "en": {
     "title": "Newsletter",
     "text": "Sign up for our newsletter to be the first to learn about all promotions and news!",
-    "consent": "By signing up, you accept the content of the",
-    "consentStatute": "regulations",
+    "consent": {
+      "text1": "I want to receive personalized commercial information about {name} products from {name}, in accordance with the ",
+      "statute": "regulations",
+      "text2": ", to the e-mail address and therefore I agree to send such information."
+    },
     "btn": "Sign up",
     "successText": "Thank you for signing up for the newsletter!"
   }
@@ -62,6 +69,7 @@ import { useForm } from 'vee-validate'
 
 import NewsletterEnvelopeIcon from '@/assets/icons/newsletter-envelope.svg?component'
 import CheckIcon from '@/assets/icons/check-circle.svg?component'
+import { useConfigStore } from '~/store/config'
 
 const t = useLocalI18n()
 
@@ -71,6 +79,9 @@ const form = useForm({
 })
 
 const { subscribe, enabled } = useNewsletter()
+const config = useConfigStore()
+
+const companyName = computed(() => config.env.company_name)
 
 const onSubmit = form.handleSubmit(({ email }) => {
   subscribe(email)

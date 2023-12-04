@@ -5,22 +5,34 @@
     class="newsletter-consent"
     name="newsletter-consent"
   >
-    {{ t('text') }}
+    {{ t('consent.text1', { name: companyName }) }}
+    <NuxtLink class="primary-text" to="/regulamin"> {{ t('consent.statute') }} </NuxtLink
+    >{{ t('consent.text2') }}
   </FormCheckbox>
 </template>
 
 <i18n lang="json">
 {
   "pl": {
-    "text": "Chcę otrzymywać informacje o aktualnych ofertach oraz promocjach w wiadomości email."
+    "consent": {
+      "text1": "Chcę otrzymywać od {name}, zgodnie z ",
+      "statute": "regulaminem",
+      "text2": ", informacje handlowe dot. produktów {name} na adres e-mail i w związku z tym wyrażam zgodę na przesyłanie takich informacji."
+    }
   },
   "en": {
-    "text": "I want to receive information about current offers and promotions in an e-mail."
+    "consent": {
+      "text1": "I want to receive personalized commercial information about {name} products from {name}, in accordance with the ",
+      "statute": "regulations",
+      "text2": ", to the e-mail address and therefore I agree to send such information."
+    }
   }
 }
 </i18n>
 
 <script setup lang="ts">
+import { useConfigStore } from '~/store/config'
+
 const t = useLocalI18n()
 
 const { enabled } = useNewsletter()
@@ -32,6 +44,10 @@ const props = defineProps<{
 const emit = defineEmits<{
   (event: 'update:modelValue', value: boolean): void
 }>()
+
+const config = useConfigStore()
+
+const companyName = computed(() => config.env.company_name)
 
 const value = computed({
   get(): boolean {
