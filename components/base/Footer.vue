@@ -32,7 +32,7 @@
         <div v-if="companyAddress" class="footer__text">
           <div class="footer__icon"><PinIcon /></div>
           <div>
-            <span>{{ companyAddress }}</span> <br />
+            <span v-html="companyAddress"></span> <br />
             <span v-if="companyNip">NIP: {{ companyNip }}</span> <br />
             <span v-if="companyKrs">KRS: {{ companyKrs }}</span> <br />
             <span v-if="companyKrs">REGON: {{ companyRegon }}</span> <br />
@@ -40,7 +40,7 @@
         </div>
         <div v-if="companyPhone" class="footer__text">
           <div class="footer__icon"><PhoneIcon /></div>
-          {{ companyPhone }}
+          <div v-html="companyPhone"></div>
         </div>
         <div v-if="companyEmail" class="footer__text">
           <div class="footer__icon"><MailIcon /></div>

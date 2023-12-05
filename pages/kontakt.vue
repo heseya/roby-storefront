@@ -7,9 +7,10 @@
           <LayoutHeader class="contact__title" variant="black" tag="h1">
             {{ config.env.company_name }}
           </LayoutHeader>
-          <span class="contact__subtitle">
-            {{ config.env.contact_page_text || config.env.company_address }}
-          </span>
+          <div
+            class="contact__subtitle"
+            v-html="config.env.contact_page_text || config.env.company_address"
+          ></div>
         </div>
 
         <div class="contact__info">
