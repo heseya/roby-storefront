@@ -35,6 +35,12 @@
       </span>
       <template v-if="!hidePrice">
         <ProductPrice class="product-miniature__price" :product="product" />
+        <LazyProductPageOmnibus
+          v-if="showOmnibus"
+          :product="product"
+          :lowest-price="omnibusPrice"
+          class="product-miniature__omnibus"
+        />
 
         <template v-if="showAddToCart">
           <LayoutButton
@@ -78,6 +84,7 @@ const props = defineProps<{
   product: ProductList
   horizontal?: boolean
   forceSize?: boolean
+  omnibusPrice?: number
 }>()
 
 const { notify } = useNotify()
@@ -87,6 +94,8 @@ const askForPrice = computed(() => props.product?.metadata?.[ASK_FOR_PRICE_KEY])
 const hidePrice = computed(() => askForPrice.value || !props.product.available)
 
 const showAddToCart = computed(() => config.env.show_add_to_cart_on_lists === '1')
+
+const showOmnibus = useShowOmnibus(props.product)
 
 const { addToCart } = useAddToCart(props.product)
 
@@ -200,6 +209,12 @@ const handleAddToCart = () => {
   &__unavailable {
     font-size: rem(14);
     color: $gray-color-700;
+  }
+
+  &__omnibus {
+    font-size: rem(10) !important;
+    line-height: rem(14);
+    margin-top: 12px;
   }
 
   &__btn {

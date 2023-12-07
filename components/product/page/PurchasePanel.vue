@@ -86,7 +86,7 @@
 </i18n>
 
 <script setup lang="ts">
-import { CartItemSchema, Product, parsePrices, parseSchemasToValues } from '@heseya/store-core'
+import { CartItemSchema, Product, parseSchemasToValues } from '@heseya/store-core'
 import DeliveryIcon from '@/assets/icons/delivery.svg?component'
 import UpsellModal from '~/components/product/page/UpsellModal.vue'
 
@@ -139,12 +139,7 @@ const availability = computed(() => {
   return props.product.available ? t('availability.available') : t('availability.unavailable')
 })
 
-const showOmnibus = computed(
-  () =>
-    props.product.available &&
-    parsePrices(props.product.prices_min, currency.value) !==
-      parsePrices(props.product.prices_min_initial, currency.value),
-)
+const showOmnibus = useShowOmnibus(props.product)
 
 const isLeaseable = computed(() => {
   return !!props.product.metadata.allow_lease

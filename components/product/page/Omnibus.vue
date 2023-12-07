@@ -23,35 +23,37 @@
 </i18n>
 
 <script setup lang="ts">
-import axios from 'axios'
-import { Product, parsePrices } from '@heseya/store-core'
+import { ProductList, parsePrices } from '@heseya/store-core'
 
-const props = defineProps<{
-  product: Product
-}>()
+const props = withDefaults(
+  defineProps<{
+    product: ProductList
+    lowestPrice?: number
+  }>(),
+  {
+    lowestPrice: undefined,
+  },
+)
 
 const t = useLocalI18n()
+const omnibus = useOmnibus()
 const currency = useCurrency()
 
 const priceMin = computed(() => parsePrices(props.product.prices_min, currency.value))
 
-const { data: price } = useAsyncData(`product-omnibus-${props.product.id}`, async () => {
+const { data: fetchedPrice } = useAsyncData(`product-omnibus-${props.product.id}`, async () => {
+  // Ignore fetching omnibus price if price is already provided from props
+  if (typeof props.lowestPrice === 'number') return
+
   try {
-    const { priceTrackerUrl } = usePublicRuntimeConfig()
-
-    const { data } = await axios.get<{ data?: { price_min: number } }>(
-      `/products/${props.product.id}/${currency.value}?current_price_min=${priceMin.value}`,
-      {
-        baseURL: priceTrackerUrl,
-      },
-    )
-
-    return data?.data?.price_min || null
+    return await omnibus.getPrice(props.product.id, priceMin.value)
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error('Nie udało się załadować najniższej ceny z ostatnich 30 dni', error)
   }
 })
+
+const price = computed(() => props.lowestPrice || fetchedPrice.value)
 </script>
 
 <style lang="scss" scoped>
