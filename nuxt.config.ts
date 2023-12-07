@@ -4,10 +4,10 @@ import { removePageByName, changePagePathOrRemoveByName } from './utils/routing'
 import pkg from './package.json'
 
 const {
-  API_URL = 'https://demo-***REMOVED***.***REMOVED***',
+  API_URL,
   CDN_URL = 'https://cdn-dev.heseya.com"',
   DIRECTUS_URL,
-  PRICE_TRACKER_URL = 'https://main-price-tracker.app.***REMOVED***',
+  PRICE_TRACKER_URL,
   ENVIRONMENT = 'development',
   FONT_FAMILY = 'Roboto',
   VERCEL_ENV,
