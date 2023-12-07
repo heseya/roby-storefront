@@ -90,6 +90,14 @@ defineProps<{
 }>()
 
 const searchButtonColorTheme = useContrastColorFromCssVar('primary-color')
+
+onMounted(() => {
+  const route = useRoute()
+  if (route.name?.toString().includes('search-query')) {
+    const query = route.params.query as string
+    formCtx.setValues({ query })
+  }
+})
 </script>
 
 <style lang="scss" scoped>

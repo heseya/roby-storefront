@@ -25,7 +25,7 @@
             {{ getProductSubtext(product, config.productSubtextAttr) }}
           </span>
           <div class="product-header__sales">
-            <ProductTag v-for="sale in product?.sales || []" :key="sale.id" type="sale">
+            <ProductTag v-for="sale in visibleSales" :key="sale.id" type="sale">
               {{ sale.name }}
             </ProductTag>
           </div>
@@ -117,7 +117,7 @@
           </span>
         </h2>
         <div class="product-page__sales">
-          <LazyProductPageSale v-for="sale in product?.sales || []" :key="sale.id" :sale="sale" />
+          <LazyProductPageSale v-for="sale in visibleSales" :key="sale.id" :sale="sale" />
         </div>
       </template>
 
@@ -237,6 +237,10 @@ const showAttributeCard = computed(() => {
   const config = useConfigStore()
   return product.value?.attributes.length && config.env.show_attribute_card === '1'
 })
+
+const visibleSales = computed(() =>
+  (product.value?.sales || []).filter((sale) => sale.metadata.show_on_product_page),
+)
 
 delayedOnMounted(() => {
   const ev = useHeseyaEventBus()
