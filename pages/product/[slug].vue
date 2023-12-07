@@ -109,11 +109,11 @@
         </template>
       </LayoutTabs>
 
-      <template v-if="product?.sales.length">
+      <template v-if="visibleSales.length">
         <h2 class="primary-text">
           {{ t('salesTitle') }}
           <span class="gray-600-text" :style="{ fontWeight: 400 }">
-            ({{ product?.sales.length }})
+            ({{ visibleSales.length }})
           </span>
         </h2>
         <div class="product-page__sales">
