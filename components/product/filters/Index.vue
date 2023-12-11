@@ -67,6 +67,7 @@
       :key="attribute.id"
       class="product-filters__section"
       :attribute="attribute"
+      :product-set-slug="sets[0]"
       :value="filters[`attribute.${attribute.slug}`]"
       @update:value="(v) => updateKey(`attribute.${attribute.slug}`, v)"
     />

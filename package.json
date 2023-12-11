@@ -18,7 +18,7 @@
   "dependencies": {
     "@directus/sdk": "^10.3.5",
     "@gtm-support/vue-gtm": "^2.2.0",
-    "@heseya/store-core": "6.0.0-dev.48",
+    "@heseya/store-core": "6.0.0-dev.49",
     "@kyvg/vue3-notification": "^3.0.2",
     "@pinia-plugin-persistedstate/nuxt": "1.1.2",
     "@pinia/nuxt": "^0.5.1",

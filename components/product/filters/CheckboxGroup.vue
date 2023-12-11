@@ -31,10 +31,12 @@ import { Attribute, AttributeOption, HeseyaPaginationMeta } from '@heseya/store-
 const props = withDefaults(
   defineProps<{
     attribute: Attribute
+    productSetSlug?: string
     value?: string[] | string
   }>(),
   {
     value: () => [],
+    productSetSlug: undefined,
   },
 )
 const emit = defineEmits<{
@@ -56,6 +58,7 @@ const loadOptions = async (page = 1) => {
   try {
     const { data, pagination: meta } = await heseya.Attributes.getOptions(props.attribute.id, {
       page,
+      product_set_slug: props.productSetSlug,
     })
     options.value = [...options.value, ...data]
     pagination.value = meta
