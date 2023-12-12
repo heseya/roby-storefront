@@ -43,7 +43,6 @@
 
 <script setup lang="ts">
 import { useForm } from 'vee-validate'
-import { UserProfileUpdateDto } from '@heseya/store-core'
 import { useUserStore } from '@/store/user'
 const { notify } = useNotify()
 
@@ -59,7 +58,7 @@ const userStore = useUserStore()
 
 const error = ref<Error | null>(null)
 
-const form = useForm<UserProfileUpdateDto>({
+const form = useForm({
   initialValues: { name: '', phone: '', birthday_date: '' },
 })
 
@@ -77,8 +76,7 @@ const onSubmit = form.handleSubmit(async () => {
   try {
     const user = await heseya.UserProfile.update({
       name: form.values.name,
-      // TODO: maybe null should be sent? Or API should allow empty strings?
-      phone: form.values.phone || undefined,
+      phone: form.values.phone || null,
       birthday_date: form.values.birthday_date || undefined,
     })
     userStore.setUser(user)
@@ -95,7 +93,7 @@ const onSubmit = form.handleSubmit(async () => {
 watch(
   () => props.open,
   () => {
-    form.values.name = userStore.user?.name
+    form.values.name = userStore.user?.name || ''
     form.values.phone = userStore.user?.phone || ''
     form.values.birthday_date = userStore.user?.birthday_date || ''
   },
