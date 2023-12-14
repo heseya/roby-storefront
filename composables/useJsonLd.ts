@@ -28,7 +28,7 @@ export const useProductJsonLd = (productRef?: MaybeRef<Product | null>) => {
       '@type': 'Product',
       image: product.gallery.map((m) => m.url),
       name: product.name,
-      description: product.seo?.description ?? product.description_short,
+      description: product.seo?.description || '',
       // sku: p.metadata.ean?.toString(),
       offers: {
         '@type': 'Offer',

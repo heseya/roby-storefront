@@ -1,6 +1,19 @@
 <template>
   <div class="product-attributes">
-    <ul class="product-attributes__list">
+    <template v-if="showDescriptionShortInAttributes">
+      <!-- This is a ***REMOVED*** specific rule, maybe refactor somehow in the future? -->
+      <div class="attributes-description-short" v-html="product.description_short"></div>
+
+      <br />
+      <LayoutDropDownButton
+        v-model:expanded="isExpanded"
+        :expand-text="t('expand')"
+        :collapse-text="t('collapse')"
+      />
+      <br />
+    </template>
+
+    <ul v-show="isExpanded || !showDescriptionShortInAttributes" class="product-attributes__list">
       <li v-for="[name, value] in parsedAttributes" :key="name" class="product-attributes__item">
         <b>{{ name }}</b>
         <span>{{ value }}</span>
@@ -9,12 +22,36 @@
   </div>
 </template>
 
+<i18n lang="json">
+{
+  "pl": {
+    "expand": "Pokaż więcej",
+    "collapse": "Ukryj dodatkowe informacje"
+  },
+  "en": {
+    "expand": "Show more",
+    "collapse": "Hide additional information"
+  }
+}
+</i18n>
+
 <script setup lang="ts">
 import { Product } from '@heseya/store-core'
+import { useConfigStore } from '~/store/config'
 
 const props = defineProps<{
   product: Product
 }>()
+
+const config = useConfigStore()
+
+const t = useLocalI18n()
+
+const isExpanded = ref(false)
+
+const showDescriptionShortInAttributes = computed(
+  () => config.env.show_description_short_in_attributes === '1',
+)
 
 const parsedAttributes = computed(() => {
   return (
@@ -60,6 +97,14 @@ const parsedAttributes = computed(() => {
     &:last-of-type {
       border-bottom: none;
     }
+  }
+}
+
+.attributes-description-short {
+  // Force to hide any <a> elements in content
+  :deep(a),
+  :deep(button) {
+    display: none;
   }
 }
 </style>

@@ -5,46 +5,32 @@
         maxHeight: (showButton && isExpanded ? slotHeight : minExpandHeight) + 'px',
       }"
       class="drop-down-container__slot"
+      :class="{ 'drop-down-container__slot--disable-on-mobile': disableOnMobile }"
     >
       <div ref="slotRef">
         <slot />
       </div>
     </div>
-    <button
+    <LayoutDropDownButton
       v-show="showButton"
-      class="drop-down-container__button"
-      :class="{ 'drop-down-container__button--expand': isExpanded }"
-      @click="isExpanded = !isExpanded"
-    >
-      {{ isExpanded ? t('collapse') : t('expand') }}
-      <LayoutIcon
-        class="drop-down-container__button-icon"
-        :class="{ 'drop-down-container__button-icon--expand': isExpanded }"
-        :icon="Chevron"
-        :size="8"
-      />
-    </button>
+      v-model:expanded="isExpanded"
+      class="drop-down-container__btn"
+      :class="{ 'drop-down-container__btn-disable-on-mobile': disableOnMobile }"
+    />
   </div>
 </template>
 
-<i18n lang="json">
-{
-  "pl": {
-    "expand": "Rozwiń",
-    "collapse": "Zwiń"
-  },
-  "en": {
-    "expand": "Expand",
-    "collapse": "Collapse"
-  }
-}
-</i18n>
-
 <script lang="ts" setup>
-import Chevron from '@/assets/icons/chevron.svg?component'
-const t = useLocalI18n()
-
-const props = withDefaults(defineProps<{ minExpandHeight?: number }>(), { minExpandHeight: 700 })
+const props = withDefaults(
+  defineProps<{
+    minExpandHeight?: number
+    disableOnMobile?: boolean
+  }>(),
+  {
+    minExpandHeight: 700,
+    disableOnMobile: true,
+  },
+)
 
 const isExpanded = ref(false)
 const slotRef = ref<HTMLElement>()
@@ -58,48 +44,18 @@ const showButton = computed(() => (slotHeight.value ?? 0) > props.minExpandHeigh
     overflow: hidden;
     transition: max-height 500ms ease-in-out;
 
-    @media ($viewport-8) {
-      max-height: 100% !important;
+    &--disable-on-mobile {
+      @media ($viewport-8) {
+        max-height: 100% !important;
+      }
     }
   }
 
-  &__button {
-    @include reset-button;
-    position: relative;
-    z-index: 1;
-    width: 100%;
-    padding: 8px;
-
-    @include flex-row;
-    gap: 4px;
-    align-items: center;
-    justify-content: center;
-
-    background-color: $white-color;
-    box-shadow: 0 -20px 16px $white-color;
-    transition: all 500ms ease-in-out;
-
-    color: $blue-color-500;
-
-    &--expand {
-      box-shadow: none;
-    }
-
-    &:hover {
-      cursor: pointer;
-    }
-
-    @media ($viewport-8) {
-      display: none;
-    }
-  }
-  &__button-icon {
-    color: $blue-color-500;
-    transform: rotate(90deg);
-    transition: all 500ms ease-in-out;
-
-    &--expand {
-      transform: rotate(-90deg);
+  &__btn {
+    &--disable-on-mobile {
+      @media ($viewport-8) {
+        display: none;
+      }
     }
   }
 }
