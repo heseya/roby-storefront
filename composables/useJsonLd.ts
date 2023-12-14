@@ -23,7 +23,7 @@ export const useProductJsonLd = (productRef?: MaybeRef<Product | null>) => {
     const product = unref(productRef)
     if (!product) return {} as WithContext<ProductSchema>
 
-    return {
+    const schema: WithContext<ProductSchema> = {
       '@context': 'https://schema.org',
       '@type': 'Product',
       image: product.gallery.map((m) => m.url),
@@ -40,6 +40,8 @@ export const useProductJsonLd = (productRef?: MaybeRef<Product | null>) => {
           : 'https://schema.org/SoldOut',
       },
     }
+
+    return schema
   })
 
   useJsonLd(jsonLd)
