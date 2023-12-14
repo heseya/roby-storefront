@@ -11,19 +11,40 @@
           >.
         </p>
 
-        <div class="cookies-bar__checkboxes">
-          <FormCheckbox name="cookies-required" model-value disabled>
-            {{ t('consents.required.title') }}
-          </FormCheckbox>
-          <FormCheckbox v-model="optInForm.functional" name="cookies-functional">
-            {{ t('consents.functional.title') }}
-          </FormCheckbox>
-          <FormCheckbox v-model="optInForm.ads" name="cookies-ads">
-            {{ t('consents.ads.title') }}
-          </FormCheckbox>
-          <FormCheckbox v-model="optInForm.analytics" name="cookies-analytics">
-            {{ t('consents.analytics.title') }}
-          </FormCheckbox>
+        <div class="cookies-bar__sections cookies-tabs">
+          <div class="cookies-tabs__menu">
+            <button
+              v-for="section in cookiesCategories"
+              :key="section"
+              type="button"
+              class="cookies-tabs__menu-item"
+              :class="{ 'cookies-tabs__menu-item--active': section === visibleTab }"
+              @click="visibleTab = section"
+            >
+              {{ t(`consents.${section}.title`) }}
+            </button>
+          </div>
+
+          <div class="cookies-tabs__content">
+            <div
+              v-for="section in cookiesCategories"
+              :key="section"
+              class="cookies-tabs__tab"
+              :class="{ 'cookies-tabs__tab--active': section === visibleTab }"
+            >
+              <div class="cookies-tabs__row">
+                <span class="cookies-bar__text cookies-bar__text--bold">
+                  {{ t(`consents.${section}.title`) }}
+                </span>
+                <FormCheckbox
+                  v-model="optInForm[section]"
+                  :name="`cookies-${section}`"
+                  :disabled="section === 'required'"
+                />
+              </div>
+              <p class="cookies-bar__text">{{ t(`consents.${section}.text`) }}</p>
+            </div>
+          </div>
         </div>
 
         <div class="cookies-bar__action">
@@ -81,7 +102,37 @@
       "accept": "Zezwól na wszystkie"
     }
   },
-  "en": {}
+  "en": {
+    "content": {
+      "title": "This site uses cookies",
+      "text": "In order to improve the quality of services, adapt the content of the page to the needs of users, as well as to use analytical, advertising and social tools, we use cookies and derivative technologies. By clicking the \"Allow all\" button, you consent to the storage of cookies on your device, their use for analysis, personalization and marketing. You can find out more about this",
+      "privacyPolicy": "here",
+      "question": "Do you agree to the use of cookies other than necessary on the terms described in the privacy policy?"
+    },
+    "consents": {
+      "required": {
+        "title": "Required",
+        "text": "Required cookies contribute to the usability of the site by enabling basic functions such as page navigation and access to secure areas of the website. The website cannot function properly without these cookies."
+      },
+      "functional": {
+        "title": "Functional",
+        "text": "Preference cookies allow the website to remember information that changes the appearance or behavior of the website, e.g. preferred language or region in which the user is located."
+      },
+      "analytics": {
+        "title": "Analytics",
+        "text": "Statistical cookies help website owners understand how different users behave on the website by collecting and reporting anonymous information."
+      },
+      "ads": {
+        "title": "Advertising",
+        "text": "Marketing cookies are used to track users on websites. The purpose is to display ads that are relevant and engaging to individual users, and thus more valuable to publishers and third-party advertisers."
+      }
+    },
+    "actions": {
+      "reject": "Reject all",
+      "selected": "Confirm my choices",
+      "accept": "Allow all"
+    }
+  }
 }
 </i18n>
 
@@ -96,9 +147,8 @@ import {
 
 const t = useLocalI18n()
 
-// const cookiesCategories = ['required', 'functional', 'analytics', 'ads'] as const
-
 const optInForm = reactive({
+  required: true,
   functional: true,
   analytics: true,
   ads: true,
@@ -130,6 +180,10 @@ const setCookies = ([required, functional, analytics, ads]: [
   analyticsCookie.value = analytics ? 1 : 0
   adsCookie.value = ads ? 1 : 0
 }
+
+// Tabs
+const cookiesCategories = ['required', 'functional', 'analytics', 'ads'] as const
+const visibleTab = ref('required')
 </script>
 
 <style lang="scss" scoped>
@@ -152,23 +206,17 @@ const setCookies = ([required, functional, analytics, ads]: [
   left: 0;
   bottom: 0;
   z-index: 10000;
-  padding: 32px 16px 250px;
+  padding: 24px 12px 280px;
   overflow: auto;
 
   @media ($viewport-8) {
     height: auto;
-    padding-bottom: 32px;
+    padding: 32px 16px;
   }
 
   &__content {
     max-width: 1080px;
     margin: 0 auto;
-  }
-
-  &__checkboxes {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 24px;
   }
 
   &__text {
@@ -180,6 +228,10 @@ const setCookies = ([required, functional, analytics, ads]: [
       font-weight: bold;
       font-size: rem(15);
     }
+  }
+
+  &__sections {
+    margin: 32px 0 40px;
   }
 
   &__action {
@@ -203,6 +255,104 @@ const setCookies = ([required, functional, analytics, ads]: [
     @media ($viewport-5) {
       gap: 16px;
       grid-template-columns: 1fr 1fr 1fr;
+    }
+  }
+}
+
+.cookies-tabs {
+  display: flex;
+  border: solid 1px $gray-color-300;
+  border-radius: 4px;
+  padding: 8px;
+  gap: 16px;
+
+  &__menu {
+    width: 100%;
+    max-width: 200px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    position: relative;
+
+    @media ($max-viewport-8) {
+      display: none;
+    }
+
+    &::before {
+      content: '';
+      display: block;
+      width: 1px;
+      height: calc(100% + 16px);
+      background-color: $gray-color-300;
+      position: absolute;
+      right: -8px;
+      top: -8px;
+    }
+  }
+
+  &__menu-item {
+    padding: 8px 16px;
+    background-color: $transparent;
+    font-family: var(--text-font-family, $textFont);
+    font-size: rem(14);
+    font-weight: 500;
+    text-align: left;
+    transition: 200ms ease-in-out;
+    cursor: pointer;
+    border: solid 1px $transparent;
+    text-decoration: none;
+    position: relative;
+
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: var(--primary-color);
+      border-radius: 4px;
+      z-index: -1;
+      opacity: 0;
+      transition: 0.3s;
+    }
+
+    &:hover::before {
+      opacity: 0.6;
+    }
+
+    &--active::before {
+      opacity: 0.2;
+    }
+  }
+
+  &__content {
+    width: 100%;
+    padding: 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+
+    @media ($viewport-8) {
+      padding: 8px;
+    }
+  }
+
+  &__row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__tab {
+    display: none;
+
+    @media ($max-viewport-8) {
+      display: block;
+    }
+
+    &--active {
+      display: block;
     }
   }
 }
