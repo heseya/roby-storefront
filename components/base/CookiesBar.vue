@@ -7,7 +7,7 @@
         </span>
         <p class="cookies-bar__text">
           {{ t('content.text') }}
-          <NuxtLink to="/polityka-prywatnosci">{{ t('content.privacyPolicy') }}</NuxtLink
+          <NuxtLink :to="localePath(privacyPolicyUrl)">{{ t('content.privacyPolicy') }}</NuxtLink
           >.
         </p>
 
@@ -36,8 +36,8 @@
                 <span class="cookies-bar__text cookies-bar__text--bold">
                   {{ t(`consents.${section}.title`) }}
                 </span>
-                <FormCheckbox
-                  v-model="optInForm[section]"
+                <FormSwitch
+                  v-model:checked="optInForm[section]"
                   :name="`cookies-${section}`"
                   :disabled="section === 'required'"
                 />
@@ -144,8 +144,11 @@ import {
   COOKIE_FUNCTIONAL_ACCEPTED_KEY,
   COOKIES_CONFIG,
 } from '@/consts/cookiesKeys'
+import { useConfigStore } from '~/store/config'
 
 const t = useLocalI18n()
+const config = useConfigStore()
+const localePath = useLocalePath()
 
 const optInForm = reactive({
   required: true,
@@ -159,10 +162,9 @@ const functionalCookie = useStatefulCookie<number>(COOKIE_FUNCTIONAL_ACCEPTED_KE
 const analyticsCookie = useStatefulCookie<number>(COOKIE_ANALYTICS_ACCEPTED_KEY, COOKIES_CONFIG)
 const adsCookie = useStatefulCookie<number>(COOKIE_ADS_ACCEPTED_KEY, COOKIES_CONFIG)
 
-// TODO: remove debug
-const DEBUG = true
+const privacyPolicyUrl = computed(() => config.env.privacy_policy_url.toString())
 
-const isCookiesBarVisible = computed(() => DEBUG || requiredCookie.value !== 1)
+const isCookiesBarVisible = computed(() => requiredCookie.value !== 1)
 
 const acceptAllCookies = () => setCookies([true, true, true, true])
 const acceptSelectedCookies = () =>
@@ -340,7 +342,7 @@ const visibleTab = ref('required')
 
   &__row {
     display: flex;
-    align-items: center;
+    align-items: start;
     justify-content: space-between;
   }
 
