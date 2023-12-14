@@ -1,4 +1,4 @@
-import { HeseyaEvent } from '@heseya/store-core'
+import { HeseyaEvent, Product, ProductList } from '@heseya/store-core'
 
 export default defineNuxtPlugin(() => {
   const config = usePublicRuntimeConfig()
@@ -64,8 +64,22 @@ export default defineNuxtPlugin(() => {
   /**
    * https://docs.edrone.me/sending-data-client.html#add-to-cart
    */
-  bus.on(HeseyaEvent.AddToCart, (_item) => {
-    emitEdroneEvent('add_to_cart', {})
+  bus.on(HeseyaEvent.AddToCart, (item) => {
+    const product = item.product as Product | ProductList
+
+    emitEdroneEvent('add_to_cart', {
+      product_skus: '', // TODO: add sku
+      product_ids: product?.id,
+      product_titles: product.name,
+      product_images:
+        'gallery' in product ? product.gallery.map((image: any) => image.url).join('|') : '',
+      product_urls: `${config.appHost}/product/${product.slug}}`,
+      product_availability: product.available ? 1 : 0,
+      product_category_ids:
+        'sets' in product ? product.sets.map((set: any) => set.id).join('|') : '',
+      product_category_names:
+        'sets' in product ? product.sets.map((set: any) => set.name).join('|') : '',
+    })
   })
 
   /**
