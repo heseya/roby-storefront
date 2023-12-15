@@ -1,5 +1,6 @@
 <template>
   <div
+    v-if="options.length > 0"
     class="filter-checkbox-group"
     :class="{
       'filter-checkbox-group--scrollable-up': isScrollable && !containerScrollState.top,
