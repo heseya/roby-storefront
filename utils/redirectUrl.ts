@@ -37,23 +37,27 @@ export const extractVariables = (path: string, pattern: string) => {
   return match ? match.slice(1) : null
 }
 
-export const handleRedirect = (url: string): Promise<RedirectUrl> => {
-  return getAllRedirects()
-    .then((items) => {
-      const result: RedirectUrl = {
-        target: '',
-        type: 0,
-      }
+export const trimSlash = (path: string) => path.replace(/\/$/, '')
 
-      items.forEach((redirect) => {
-        const regExp = new RegExp(replaceVariablesInPathPattern(redirect.source_url))
-        if (redirect.enabled && regExp.test(url)) {
-          const variables = extractVariables(url, redirect.source_url)
-          result.target = pushVariablesToUrl(redirect.target_url, variables)
-          result.type = redirect.type
-        }
-      })
-      return result
-    })
+export const resolveRedirect = (redirectsList: Redirect[], currentUrl: string): RedirectUrl => {
+  const result: RedirectUrl = {
+    target: '',
+    type: 0,
+  }
+
+  redirectsList.forEach((redirect) => {
+    const regExp = new RegExp(replaceVariablesInPathPattern(trimSlash(redirect.source_url)))
+    if (redirect.enabled && regExp.test(currentUrl)) {
+      const variables = extractVariables(currentUrl, trimSlash(redirect.source_url))
+      result.target = pushVariablesToUrl(trimSlash(redirect.target_url), variables)
+      result.type = redirect.type
+    }
+  })
+  return result
+}
+
+export const handleRedirect = (currentUrl: string): Promise<RedirectUrl> => {
+  return getAllRedirects()
+    .then((redirectsList) => resolveRedirect(redirectsList, currentUrl))
     .catch()
 }
