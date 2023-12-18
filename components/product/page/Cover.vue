@@ -118,10 +118,13 @@ watch(
   }
 
   &__item {
+    display: block;
+    height: auto;
     width: 100%;
     border: solid 1px $gray-color-300;
     cursor: pointer;
     aspect-ratio: 1/1;
+    object-position: center;
   }
 
   &--singular {

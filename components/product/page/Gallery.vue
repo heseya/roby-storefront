@@ -185,6 +185,7 @@ $btn-position-desktop: 48px;
 
   &__item {
     border: solid 1px $gray-color-300;
+    object-position: center;
   }
 
   &__list {
