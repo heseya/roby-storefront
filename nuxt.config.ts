@@ -28,6 +28,15 @@ const {
   PAGE_ABOUT_PATH = '/o-nas',
   PAGE_RENT_PATH = '/wynajem',
   PAGE_STATUTE_PATH = '/regulamin',
+
+  // Private
+  MAIL_HOST,
+  MAIL_USER,
+  MAIL_PASSWORD,
+  MAIL_RECEIVER,
+  MAIL_PORT = '587',
+  MIN_RECAPTCHA_SCORE,
+  RECAPTCHA_SECRET,
 } = process.env
 
 const ALLOWED_UI_LANGUAGES = process.env.ALLOWED_UI_LANGUAGES?.split(',') || ['pl']
@@ -92,6 +101,14 @@ export default defineNuxtConfig({
   css: ['@/assets/scss/index.scss'],
 
   runtimeConfig: {
+    mailHost: MAIL_HOST,
+    mailUser: MAIL_USER,
+    mailPassword: MAIL_PASSWORD,
+    mailReceiver: MAIL_RECEIVER,
+    mailPort: MAIL_PORT,
+    minRecaptchaScore: MIN_RECAPTCHA_SCORE,
+    recaptchaSecret: RECAPTCHA_SECRET,
+
     public: {
       apiUrl: API_URL,
       directusUrl: DIRECTUS_URL,
