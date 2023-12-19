@@ -118,8 +118,22 @@ export default defineNuxtPlugin((nuxtApp) => {
     gtm?.trackEvent({
       event: 'add_shipping_info',
       ecommerce: {
+        shipping_tier: shipping.name,
         currency: channelStore.currency,
         value: parsePrices(shipping.prices, channelStore.currency),
+        items: items.map(mapCartItemToItem),
+      },
+    })
+  })
+
+  bus.on(HeseyaEvent.AddPaymentInfo, ({ payment, items }) => {
+    if (!gtm?.enabled()) return
+
+    gtm?.trackEvent({ ecommerce: null })
+    gtm?.trackEvent({
+      event: 'add_payment_info',
+      ecommerce: {
+        payment_type: payment.name,
         items: items.map(mapCartItemToItem),
       },
     })
@@ -156,6 +170,11 @@ export default defineNuxtPlugin((nuxtApp) => {
   bus.on(HeseyaEvent.Purchase, (order) => {
     if (!gtm?.enabled()) return
 
+    const vatPercentage = parseFloat(channelStore.selected?.vat_rate || '0') || 23
+    const vatRate = vatPercentage / 100
+
+    const taxValue = Math.round(parseFloat(order.summary) * vatRate * 100) / 100
+
     // TODO: add coupons?
     gtm?.trackEvent({ ecommerce: null })
     gtm?.trackEvent({
@@ -163,11 +182,12 @@ export default defineNuxtPlugin((nuxtApp) => {
       ecommerce: {
         transaction_id: order.code,
         affiliation: appHost,
-        value: order.summary,
         currency: channelStore.currency,
-        shipping: order.shipping_price,
         items: order.products.map(mapOrderProductToItem),
-        items_value: order.cart_total,
+        shipping: parseFloat(order.shipping_price),
+        items_value: parseFloat(order.cart_total),
+        value: parseFloat(order.summary),
+        tax: taxValue,
       },
     })
   })
