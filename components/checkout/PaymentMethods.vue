@@ -42,11 +42,13 @@ watch(
 )
 
 const onSelect = (method: PaymentMethodList | null) => {
-  if (method)
+  if (method) {
+    checkout.paymentMethod = method
     ev.emit(HeseyaEvent.AddPaymentInfo, {
       items: cart.items as CartItem[],
       payment: method,
     })
+  }
 }
 </script>
 

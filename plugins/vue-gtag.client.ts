@@ -183,6 +183,9 @@ export default defineNuxtPlugin((nuxtApp) => {
         transaction_id: order.code,
         affiliation: appHost,
         currency: channelStore.currency,
+        shipping_tier: order.shipping_method?.name,
+        // @ts-expect-error payment_method does not exists on Order type, but it is passed in event
+        payment_type: order.payment_method?.name,
         items: order.products.map(mapOrderProductToItem),
         shipping: parseFloat(order.shipping_price),
         items_value: parseFloat(order.cart_total),
