@@ -11,6 +11,7 @@
     />
     <FormInput
       v-if="invoice"
+      :key="vatNumberRules"
       :model-value="address.vat"
       :name="`${namePrefix}_vat`"
       autocomplete="vat"
@@ -44,6 +45,7 @@
     </div>
     <div class="address-form__row">
       <FormInput
+        :key="zipCodeRules"
         :model-value="address.zip"
         :name="`${namePrefix}_postal_code`"
         autocomplete="postal_code"
@@ -158,18 +160,16 @@ const countries = computed(() => {
 })
 
 const zipCodeRules = computed(() => {
-  let rules = 'required'
-  if (props.address.country === 'PL') rules += '|plZip'
-
-  return rules
+  const rules = ['required']
+  if (props.address.country === 'PL') rules.push('plZip')
+  return rules.join('|')
 })
 
 const vatNumberRules = computed(() => {
-  let rules = 'required'
-  if (props.address.country === 'PL') rules += '|plVatNumber'
-  else rules += '|vatNumber'
-
-  return rules
+  const rules = ['required']
+  if (props.address.country === 'PL') rules.push('plVatNumber')
+  else rules.push('vatNumber')
+  return rules.join('|')
 })
 
 watch(
