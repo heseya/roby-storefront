@@ -3,4 +3,5 @@ interface Window {
   easyPack: any
   easyPackAsyncInit: any
   _ceneo: any
+  registerWidget?: (w: any, token: string) => boolean
 }

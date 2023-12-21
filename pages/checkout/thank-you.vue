@@ -24,6 +24,8 @@
 
       <CheckoutTraditionalPaymentDetails v-if="isTraditionalPayment" :code="orderCode" />
     </div>
+
+    <IntegrationEkomiSurvey :order-code="orderCode" />
   </NuxtLayout>
 </template>
 

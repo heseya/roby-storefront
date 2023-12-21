@@ -51,6 +51,12 @@ select {
   }
 }
 
+#ceneo-widget {
+  @media ($viewport-7) {
+    bottom: 180px !important;
+  }
+}
+
 // Hide global reCaptcha badge
 .grecaptcha-badge {
   visibility: hidden;
