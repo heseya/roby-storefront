@@ -15,16 +15,18 @@
         :sets="[route.params.slug as string]"
         :default-sort="`set.${route.params.slug}`"
       >
+        <template #header>
+          <BaseWysiwygContent
+            v-show="!!category?.description_html"
+            class="categories-page__description"
+            :content="category?.description_html"
+          />
+        </template>
+
         <template #aside>
           <SubcategoriesLinks v-if="category" :category="category" />
         </template>
       </ProductListPage>
-
-      <BaseWysiwygContent
-        v-show="!!category?.description_html"
-        class="categories-page__description"
-        :content="category?.description_html"
-      />
     </BaseContainer>
   </NuxtLayout>
 </template>
@@ -100,7 +102,7 @@ const breadcrumbs = computed(() => [
   }
 
   &__description {
-    margin-top: 32px;
+    margin: 16px 0;
   }
 }
 </style>
