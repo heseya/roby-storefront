@@ -17,6 +17,7 @@
       >
         <template #header>
           <BaseWysiwygContent
+            v-if="showDescriptionAtTop"
             v-show="!!category?.description_html"
             class="categories-page__description"
             :content="category?.description_html"
@@ -27,6 +28,13 @@
           <SubcategoriesLinks v-if="category" :category="category" />
         </template>
       </ProductListPage>
+
+      <BaseWysiwygContent
+        v-if="!showDescriptionAtTop"
+        v-show="!!category?.description_html"
+        class="categories-page__description"
+        :content="category?.description_html"
+      />
     </BaseContainer>
   </NuxtLayout>
 </template>
@@ -66,6 +74,8 @@ const { data: category } = useAsyncData(`category-${route.params.slug}`, async (
     return null
   }
 })
+
+const showDescriptionAtTop = computed(() => !!category.value?.metadata.show_description_at_top)
 
 useSeo(() => [category.value?.seo, { title: category.value?.name }])
 
