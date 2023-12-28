@@ -13,6 +13,7 @@
     "lint:vue": "vue-tsc --noEmit",
     "lint": "yarn lint:eslint && yarn lint:vue",
     "test:unit": "vitest run",
+    "test": "yarn test:unit",
     "analyze": "nuxi analyze"
   },
   "dependencies": {
