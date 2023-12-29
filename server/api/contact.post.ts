@@ -1,6 +1,8 @@
 import { createHeseyaApiService, ProductList } from '@heseya/store-core'
 import { createTransport, SendMailOptions, SentMessageInfo } from 'nodemailer'
 import axios from 'axios'
+import escape from 'lodash/escape'
+
 import { verifyRecaptchToken } from '../utils/recaptcha'
 
 interface ContactForm {
@@ -48,14 +50,23 @@ const sendMail = (options: SendMailOptions): Promise<SentMessageInfo> =>
   })
 
 const getContactMailReceiver = async (): Promise<string | undefined> => {
+  return MAIL_RECEIVER
+
   const sdk = createHeseyaApiService(axios.create({ baseURL: API_URL }))
   const settings = await sdk.Settings.get({ array: true })
   return settings.contact_mail_receiver ? settings.contact_mail_receiver.toString() : MAIL_RECEIVER
 }
 
+const stripTags = <T extends Record<string, any>>(obj: T): T => {
+  return Object.entries(obj).reduce((acc, [key, value]) => {
+    return { ...acc, [key]: typeof value === 'string' ? escape(value) : value }
+  }, {} as T)
+}
+
 export default defineEventHandler(async (event) => {
-  const { name, email, phone, message, type, product, recaptchaToken } =
-    await readBody<ContactForm>(event)
+  const { name, email, phone, message, type, product, recaptchaToken } = stripTags(
+    await readBody<ContactForm>(event),
+  )
 
   if (!name || !email || !message || !type || !recaptchaToken)
     throw createError({
