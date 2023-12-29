@@ -50,8 +50,6 @@ const sendMail = (options: SendMailOptions): Promise<SentMessageInfo> =>
   })
 
 const getContactMailReceiver = async (): Promise<string | undefined> => {
-  return MAIL_RECEIVER
-
   const sdk = createHeseyaApiService(axios.create({ baseURL: API_URL }))
   const settings = await sdk.Settings.get({ array: true })
   return settings.contact_mail_receiver ? settings.contact_mail_receiver.toString() : MAIL_RECEIVER
