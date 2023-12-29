@@ -1,6 +1,8 @@
 import { createHeseyaApiService, ProductList } from '@heseya/store-core'
 import { createTransport, SendMailOptions, SentMessageInfo } from 'nodemailer'
 import axios from 'axios'
+import escape from 'lodash/escape'
+
 import { verifyRecaptchToken } from '../utils/recaptcha'
 
 interface ContactForm {
@@ -26,6 +28,12 @@ const getTitle = (type: ContactForm['type']) => {
   }
 }
 
+const stripTags = <T extends Record<string, any>>(obj: T): T => {
+  return Object.entries(obj).reduce((acc, [key, value]) => {
+    return { ...acc, [key]: typeof value === 'string' ? escape(value) : value }
+  }, {} as T)
+}
+
 export default defineEventHandler(async (event) => {
   // @ts-ignore Docs suggest to pass event to useRuntimeConfig, but it's not typed? https://nuxt.com/docs/guide/going-further/runtime-config#server-routes
   const config = useRuntimeConfig(event)
@@ -36,8 +44,9 @@ export default defineEventHandler(async (event) => {
       '[Contact Form] Missing required env variables: MAIL_HOST, MAIL_USER, MAIL_PASSWORD, APP_HOST',
     )
 
-  const { name, email, phone, message, type, product, recaptchaToken } =
-    await readBody<ContactForm>(event)
+  const { name, email, phone, message, type, product, recaptchaToken } = stripTags(
+    await readBody<ContactForm>(event),
+  )
 
   if (!name || !email || !message || !type || !recaptchaToken)
     throw createError({

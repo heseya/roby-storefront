@@ -80,10 +80,37 @@ describe('Redirects | resolveRedirect', () => {
   })
 
   test('should create redirect to given path', () => {
+    const source = '/products/some-prod'
+    const target = '/promotions'
+    const redirects = [mockRedirect(source, target, 301)]
+    expect(resolveRedirect(redirects, source)).toEqual({ target, type: 301 })
+  })
+
+  test('should create redirect to given path and ignore slashes', () => {
     const source = '/produkty/prod-slug/'
     const target = '/products/prod-slug'
     const redirects = [mockRedirect(source, target, 301)]
     expect(resolveRedirect(redirects, source)).toEqual({ target, type: 301 })
+  })
+
+  test('should not redirect if pattern match only partialy', () => {
+    const sourceUrl = '/category/promocje-t-mobile'
+
+    const sourcePattern = '/category/promo'
+    const targetPattern = '/category/promocje'
+    const redirects = [mockRedirect(sourcePattern, targetPattern)]
+
+    expect(resolveRedirect(redirects, sourceUrl)).toEqual({ target: '', type: 0 })
+  })
+
+  test('should redirect if pattern has unused variable at the end', () => {
+    const sourceUrl = '/category/promocje-t-mobile'
+
+    const sourcePattern = '/category/promo{any}'
+    const targetPattern = '/promocje'
+    const redirects = [mockRedirect(sourcePattern, targetPattern)]
+
+    expect(resolveRedirect(redirects, sourceUrl)).toEqual({ target: targetPattern, type: 301 })
   })
 
   test('should handle multiple variables in path', () => {

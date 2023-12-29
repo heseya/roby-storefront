@@ -8,6 +8,8 @@
         <span class="product-list-page__quantity"> ({{ products?.pagination.total }}) </span>
       </h1>
 
+      <slot name="header"></slot>
+
       <div class="product-list-page__header-content">
         <button class="product-list-page__aside-btn" @click="isAsideOpen = true">
           {{ asideOpenText || t('openAside') }}

@@ -13,12 +13,13 @@
     "lint:vue": "vue-tsc --noEmit",
     "lint": "yarn lint:eslint && yarn lint:vue",
     "test:unit": "vitest run",
+    "test": "yarn test:unit",
     "analyze": "nuxi analyze"
   },
   "dependencies": {
     "@directus/sdk": "^10.3.5",
     "@gtm-support/vue-gtm": "^2.2.0",
-    "@heseya/store-core": "6.0.0-dev.51",
+    "@heseya/store-core": "6.0.0-dev.54",
     "@kyvg/vue3-notification": "^3.0.2",
     "@pinia-plugin-persistedstate/nuxt": "1.1.2",
     "@pinia/nuxt": "^0.5.1",

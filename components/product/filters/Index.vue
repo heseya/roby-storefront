@@ -119,21 +119,26 @@ const { data: attributes } = useLazyAsyncData(async () => {
   return heseya.Products.getFilters({ sets: sets.map((s) => s.id) })
 })
 
-const optionAttributes = computed(
+// const optionAttributes = computed(
+//   () =>
+//     attributes.value?.filter(
+//       (a) => a.type === AttributeType.MultiChoiceOption || a.type === AttributeType.SingleOption,
+//     ) || [],
+// )
+
+// const numberAttributes = computed(
+//   () => attributes.value?.filter((a) => a.type === AttributeType.Number) || [],
+// )
+
+// TODO: remember the order of the attributes if splitted into range and checkboxes
+const checkboxableFilters = computed<Attribute[]>(
   () =>
-    attributes.value?.filter(
-      (a) => a.type === AttributeType.MultiChoiceOption || a.type === AttributeType.SingleOption,
+    attributes.value?.filter((a) =>
+      [AttributeType.MultiChoiceOption, AttributeType.SingleOption, AttributeType.Number].includes(
+        a.type,
+      ),
     ) || [],
 )
-
-const numberAttributes = computed(
-  () => attributes.value?.filter((a) => a.type === AttributeType.Number) || [],
-)
-
-const checkboxableFilters = computed<Attribute[]>(() => [
-  ...optionAttributes.value,
-  ...numberAttributes.value,
-])
 // TODO: this is intentionally empty
 const rangeFilters = computed<Attribute[]>(() => [])
 

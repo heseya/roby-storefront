@@ -46,9 +46,9 @@ export const resolveRedirect = (redirectsList: Redirect[], currentUrl: string): 
   }
 
   redirectsList.forEach((redirect) => {
-    const regExp = new RegExp(replaceVariablesInPathPattern(trimSlash(redirect.source_url)))
-    if (redirect.enabled && regExp.test(currentUrl)) {
-      const variables = extractVariables(currentUrl, trimSlash(redirect.source_url))
+    const regExp = new RegExp(`^${replaceVariablesInPathPattern(trimSlash(redirect.source_url))}$`)
+    if (redirect.enabled && regExp.test(trimSlash(currentUrl))) {
+      const variables = extractVariables(trimSlash(currentUrl), trimSlash(redirect.source_url))
       result.target = pushVariablesToUrl(trimSlash(redirect.target_url), variables)
       result.type = redirect.type
     }

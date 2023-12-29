@@ -342,7 +342,7 @@ const visibleTab = ref('required')
 
   &__row {
     display: flex;
-    align-items: start;
+    align-items: flex-start;
     justify-content: space-between;
   }
 

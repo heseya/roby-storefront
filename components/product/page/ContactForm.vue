@@ -1,5 +1,6 @@
 <template>
   <form
+    :key="submitIteration"
     class="product-contact-form"
     :class="{ 'product-contact-form--vertical': vertical }"
     @submit.prevent="onSubmit"
@@ -49,7 +50,12 @@
 
     <LayoutRecaptchaBadge class="product-contact-form__recaptcha" />
 
-    <FormCheckbox v-model="form.values.consent" :name="`${type}_consent`" rules="required">
+    <FormCheckbox
+      :key="submitIteration"
+      v-model="form.values.consent"
+      :name="`${type}_consent`"
+      rules="required"
+    >
       {{ t('consent', { companyName }) }}
     </FormCheckbox>
 
@@ -106,6 +112,8 @@ const { notify } = useNotify()
 const { recaptchaPublic } = usePublicRuntimeConfig()
 const config = useConfigStore()
 
+const submitIteration = ref(0)
+
 const isLoading = ref(false)
 const form = useForm({
   initialValues: {
@@ -137,16 +145,10 @@ const onSubmit = form.handleSubmit(async () => {
     })
 
     form.resetForm()
-
     // Hack for clearing error messages
     setTimeout(() => {
-      form.setErrors({
-        name: '',
-        email: '',
-        message: '',
-        consent: '',
-      })
-    }, 0)
+      submitIteration.value += 1
+    }, 10)
   } catch (e: any) {
     notify({
       type: 'error',
