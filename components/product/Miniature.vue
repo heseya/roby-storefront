@@ -27,6 +27,11 @@
     </div>
 
     <div class="product-miniature__content">
+      <IntegrationEkomiProductWidget
+        v-if="product?.id"
+        :token="ekomiMiniStarsToken"
+        :product-id="product.id"
+      />
       <span class="product-miniature__name">
         {{ product.name }}
       </span>
@@ -49,6 +54,8 @@ import { ProductList } from '@heseya/store-core'
 
 import { useConfigStore } from '@/store/config'
 import { ASK_FOR_PRICE_KEY } from '@/consts/metadataKeys'
+
+const { ekomiMiniStarsToken } = usePublicRuntimeConfig()
 
 const $t = useGlobalI18n()
 const localePath = useLocalePath()
