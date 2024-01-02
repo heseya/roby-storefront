@@ -1,7 +1,7 @@
 import { createHeseyaApiService, ProductList } from '@heseya/store-core'
 import { createTransport, SendMailOptions, SentMessageInfo } from 'nodemailer'
 import axios from 'axios'
-import escape from 'lodash/escape'
+import _ from 'lodash'
 
 import { verifyRecaptchToken } from '../utils/recaptcha'
 
@@ -57,7 +57,7 @@ const getContactMailReceiver = async (): Promise<string | undefined> => {
 
 const stripTags = <T extends Record<string, any>>(obj: T): T => {
   return Object.entries(obj).reduce((acc, [key, value]) => {
-    return { ...acc, [key]: typeof value === 'string' ? escape(value) : value }
+    return { ...acc, [key]: typeof value === 'string' ? _.escape(value) : value }
   }, {} as T)
 }
 
