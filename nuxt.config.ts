@@ -106,6 +106,10 @@ export default defineNuxtConfig({
       edroneId: EDRONE_ID,
       showColorThemePicker: COLOR_THEME_PICKER === '1',
       axiosCacheTtl: parseInt(AXIOS_CACHE_TTL || '0') ?? 0,
+      sentry: {
+        dsn: '',
+        environment: 'development',
+      },
     },
   },
 
