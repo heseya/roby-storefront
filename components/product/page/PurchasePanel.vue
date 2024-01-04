@@ -25,6 +25,7 @@
       class="product-purchase-panel__schemas"
       :product="product"
     />
+    <LazyProductPageVariants class="product-purchase-panel__variants" :product="product" />
 
     <ProductQuantityInput v-model:quantity="quantity" class="product-purchase-panel__quantity" />
 
@@ -158,20 +159,20 @@ const handleAddToCart = () => {
   align-items: center;
   grid-template-columns: 80px 1fr;
   grid-gap: 16px;
-  grid-template-areas: 'schemas schemas' 'quantity price' 'omnibus omnibus' 'cart-btn cart-btn' 'lease-btn lease-btn' 'details details';
+  grid-template-areas: 'schemas schemas' 'variants variants' 'quantity price' 'omnibus omnibus' 'cart-btn cart-btn' 'lease-btn lease-btn' 'details details';
 
   @media ($viewport-6) {
     grid-template-columns: 80px 1fr 1fr;
     justify-content: strech;
     justify-content: stretch;
-    grid-template-areas: 'price price price' 'omnibus omnibus omnibus' 'schemas schemas schemas' 'quantity cart-btn lease-btn' 'details details details';
+    grid-template-areas: 'price price price' 'omnibus omnibus omnibus' 'schemas schemas schemas' 'variants variants variants' 'quantity cart-btn lease-btn' 'details details details';
   }
 
   &--no-schemas {
-    grid-template-areas: 'quantity price' 'omnibus omnibus' 'cart-btn cart-btn' 'lease-btn lease-btn' 'details details';
+    grid-template-areas: 'quantity price' 'omnibus omnibus' 'variants variants' 'cart-btn cart-btn' 'lease-btn lease-btn' 'details details';
 
     @media ($viewport-6) {
-      grid-template-areas: 'price price price' 'omnibus omnibus omnibus' 'quantity cart-btn lease-btn' 'details details details';
+      grid-template-areas: 'price price price' 'omnibus omnibus omnibus' 'variants variants variants' 'quantity cart-btn lease-btn' 'details details details';
     }
   }
 
@@ -223,6 +224,10 @@ const handleAddToCart = () => {
 
   &__schemas {
     grid-area: schemas;
+  }
+
+  &__variants {
+    grid-area: variants;
   }
 }
 

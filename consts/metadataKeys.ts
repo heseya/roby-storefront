@@ -18,3 +18,8 @@ export const CATEGORY_IN_NAV_KEY = 'nav'
  * If true, the product set will be highlited in the navigation
  */
 export const CATEGORY_HIGHLIGHTED_KEY = 'highlighted'
+
+/**
+ * If true, the product set will be displayed as a variant select, not as a related products list
+ */
+export const PRODUCT_SET_SHOW_AS_VARIANT = 'show_as_variant'
