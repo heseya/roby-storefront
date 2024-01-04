@@ -16,7 +16,7 @@
           <span class="product-upsell-modal__product-price"> {{ price }} {{ currency }} </span>
         </div>
       </div>
-      <div v-for="set in product.related_sets" :key="set.id" class="product-upsell-modal__upsell">
+      <div v-for="set in relatedSets" :key="set.id" class="product-upsell-modal__upsell">
         <div class="product-upsell-modal__upsell-header">
           <span class="product-upsell-modal__upsell-text">{{ set.name }}</span>
           <span class="product-upsell-modal__upsell-subtext">{{ t('upsell.subtext') }}</span>
@@ -81,6 +81,7 @@ import { useMediaQuery } from '@vueuse/core'
 import { Product } from '@heseya/store-core'
 import CheckIcon from '@/assets/icons/check-circle.svg?component'
 import GoBackIcon from '@/assets/icons/navigate-back.svg?component'
+import { PRODUCT_SET_SHOW_AS_VARIANT } from '~/consts/metadataKeys'
 
 const t = useLocalI18n()
 const localePath = useLocalePath()
@@ -107,6 +108,10 @@ const isModalVisible = computed({
     emit('update:open', value)
   },
 })
+
+const relatedSets = computed(() =>
+  props.product.related_sets.filter((set) => !set.metadata[PRODUCT_SET_SHOW_AS_VARIANT]),
+)
 </script>
 
 <style lang="scss" scoped>
