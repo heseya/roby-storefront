@@ -35,7 +35,7 @@
       </div>
 
       <ProductSimpleCarousel
-        v-if="!isCartEmpty"
+        v-if="!isCartEmpty && suggestedQuery.sets.length > 0"
         class="cart-page__suggested"
         :query="suggestedQuery"
         :title="t('cart.suggested')"
@@ -64,6 +64,7 @@
 <script setup lang="ts">
 import { CartItem, HeseyaEvent, Product } from '@heseya/store-core'
 import { useCartStore } from '@/store/cart'
+import { PRODUCT_SET_SHOW_AS_VARIANT } from '~/consts/metadataKeys'
 
 const cart = useCartStore()
 const t = useLocalI18n()
@@ -72,7 +73,14 @@ const $t = useGlobalI18n()
 const isCartEmpty = computed(() => cart.length === 0)
 
 const suggestedQuery = computed(() => {
-  const relatedSets = cart.items.map((p) => (p.product as Product).related_sets || []).flat()
+  const relatedSets = cart.items
+    .map(
+      (p) =>
+        (p.product as Product).related_sets.filter(
+          (set) => !set.metadata[PRODUCT_SET_SHOW_AS_VARIANT],
+        ) || [],
+    )
+    .flat()
 
   return {
     sets: relatedSets.map((s) => s.slug),
