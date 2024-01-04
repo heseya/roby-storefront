@@ -1015,10 +1015,10 @@
   optionalDependencies:
     vue-router ">= 4.1.0 < 5.0.0"
 
-"@heseya/store-core@6.0.0-dev.55":
-  version "6.0.0-dev.55"
-  resolved "https://registry.yarnpkg.com/@heseya/store-core/-/store-core-6.0.0-dev.55.tgz#22d8ac6b307190897a8dc5acd50a29841ca14186"
-  integrity sha512-d5lI24+MSI+kPYHya2jCzEflKJrKqVlQrDk2mogO24Uq+XjdLeKHEFheJsFE3raybP1GEs/alSn3pyCgw4x3xQ==
+"@heseya/store-core@6.0.0-dev.57":
+  version "6.0.0-dev.57"
+  resolved "https://registry.yarnpkg.com/@heseya/store-core/-/store-core-6.0.0-dev.57.tgz#96e8bf3142727a1fdf27640afafa64fadbb745e9"
+  integrity sha512-wdEbmeuyU+8Kp2iPhY3MwQ1rqalz6RyvRv7ZaMNup8Vv4LHzxaUTZm/hH5fywpkEdf5u45x2lrhPezorg0amIQ==
   dependencies:
     "@types/flat" "^5.0.2"
     array-to-tree "^3.3.2"
