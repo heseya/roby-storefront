@@ -76,7 +76,7 @@ const suggestedQuery = computed(() => {
   const relatedSets = cart.items
     .map(
       (p) =>
-        (p.product as Product).related_sets.filter(
+        (p.product as Product).related_sets?.filter(
           (set) => !set.metadata[PRODUCT_SET_SHOW_AS_VARIANT],
         ) || [],
     )
