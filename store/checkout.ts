@@ -126,7 +126,7 @@ export const useCheckoutStore = defineStore('checkout', {
       /**
        * If selected shipping method has payment on delivery, then payment method is not required
        */
-      return !this.shippingMethod?.payment_on_delivery ?? true
+      return this.shippingMethod ? this.shippingMethod?.payment_on_delivery : true
     },
 
     validationError(): string | null {
