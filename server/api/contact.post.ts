@@ -72,6 +72,12 @@ export default defineEventHandler(async (event) => {
       statusMessage: 'Missing required fields',
     })
 
+  if (message.length > 2048)
+    throw createError({
+      statusCode: 422,
+      statusMessage: 'Message is too long, max 2048 characters',
+    })
+
   const isTokenValid = await verifyRecaptchToken(recaptchaToken)
   if (!isTokenValid)
     throw createError({
