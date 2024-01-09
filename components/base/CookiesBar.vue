@@ -152,9 +152,9 @@ const localePath = useLocalePath()
 
 const optInForm = reactive({
   required: true,
-  functional: true,
-  analytics: true,
-  ads: true,
+  functional: false,
+  analytics: false,
+  ads: false,
 })
 
 const requiredCookie = useStatefulCookie<number>(COOKIE_REQUIRED_ACCEPTED_KEY, COOKIES_CONFIG)

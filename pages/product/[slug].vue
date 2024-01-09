@@ -122,7 +122,7 @@
       </template>
 
       <LazyHomeProductCarousel
-        v-for="set in product?.related_sets || []"
+        v-for="set in relatedSets"
         :key="set.id"
         class="product-page__related-products"
         :category="set"
@@ -163,7 +163,11 @@
 <script setup lang="ts">
 import { HeseyaEvent } from '@heseya/store-core'
 
-import { ALLOW_RENTING_KEY, ASK_FOR_PRICE_KEY } from '@/consts/metadataKeys'
+import {
+  ALLOW_RENTING_KEY,
+  ASK_FOR_PRICE_KEY,
+  PRODUCT_SET_SHOW_AS_VARIANT,
+} from '@/consts/metadataKeys'
 import { Tab } from '@/components/layout/Tabs.vue'
 
 import { useConfigStore } from '@/store/config'
@@ -240,6 +244,11 @@ const showAttributeCard = computed(() => {
 
 const visibleSales = computed(() =>
   (product.value?.sales || []).filter((sale) => sale.metadata.show_on_product_page),
+)
+
+const relatedSets = computed(
+  () =>
+    product.value?.related_sets?.filter((set) => !set.metadata[PRODUCT_SET_SHOW_AS_VARIANT]) || [],
 )
 
 delayedOnMounted(() => {
