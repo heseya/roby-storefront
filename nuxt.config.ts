@@ -29,6 +29,9 @@ const {
   PAGE_RENT_PATH = '/wynajem',
   PAGE_STATUTE_PATH = '/regulamin',
 
+  NUXT_PUBLIC_SENTRY_DSN = '',
+  NUXT_PUBLIC_SENTRY_ENVIRONMENT = 'development',
+
   // Private
   MAIL_HOST,
   MAIL_USER,
@@ -124,8 +127,8 @@ export default defineNuxtConfig({
       showColorThemePicker: COLOR_THEME_PICKER === '1',
       axiosCacheTtl: parseInt(AXIOS_CACHE_TTL || '0') ?? 0,
       sentry: {
-        dsn: '',
-        environment: 'development',
+        dsn: NUXT_PUBLIC_SENTRY_DSN,
+        environment: NUXT_PUBLIC_SENTRY_ENVIRONMENT,
       },
     },
   },
