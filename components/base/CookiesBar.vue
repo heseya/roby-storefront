@@ -152,9 +152,9 @@ const localePath = useLocalePath()
 
 const optInForm = reactive({
   required: true,
-  functional: true,
-  analytics: true,
-  ads: true,
+  functional: false,
+  analytics: false,
+  ads: false,
 })
 
 const requiredCookie = useStatefulCookie<number>(COOKIE_REQUIRED_ACCEPTED_KEY, COOKIES_CONFIG)
@@ -162,7 +162,9 @@ const functionalCookie = useStatefulCookie<number>(COOKIE_FUNCTIONAL_ACCEPTED_KE
 const analyticsCookie = useStatefulCookie<number>(COOKIE_ANALYTICS_ACCEPTED_KEY, COOKIES_CONFIG)
 const adsCookie = useStatefulCookie<number>(COOKIE_ADS_ACCEPTED_KEY, COOKIES_CONFIG)
 
-const privacyPolicyUrl = computed(() => config.env.privacy_policy_url.toString())
+const privacyPolicyUrl = computed(
+  () => config.env.privacy_policy_url?.toString() ?? 'polityka-prywatnosci',
+)
 
 const isCookiesBarVisible = computed(() => requiredCookie.value !== 1)
 

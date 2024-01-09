@@ -96,8 +96,10 @@ const allAccepted = computed({
   },
 })
 
-const statuteUrl = computed(() => config.env.statute_url)
-const privacyPolicyUrl = computed(() => config.env.privacy_policy_url)
+const statuteUrl = computed(() => config.env.statute_url?.toString() ?? 'regulamin')
+const privacyPolicyUrl = computed(
+  () => config.env.privacy_policy_url?.toString() ?? 'polityka-prywatnosci',
+)
 </script>
 
 <style lang="scss" scoped>

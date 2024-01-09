@@ -40,7 +40,7 @@ const breadcrumbs = computed(() => [
 
 <style lang="scss" scoped>
 .page {
-  max-width: $content-width;
+  max-width: $container-width;
   margin: auto;
 
   &__title {

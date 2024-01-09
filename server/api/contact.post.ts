@@ -1,7 +1,7 @@
 import { createHeseyaApiService, ProductList } from '@heseya/store-core'
 import { createTransport, SendMailOptions, SentMessageInfo } from 'nodemailer'
 import axios from 'axios'
-import escape from 'lodash/escape'
+import _ from 'lodash'
 
 import { verifyRecaptchToken } from '../utils/recaptcha'
 
@@ -30,7 +30,7 @@ const getTitle = (type: ContactForm['type']) => {
 
 const stripTags = <T extends Record<string, any>>(obj: T): T => {
   return Object.entries(obj).reduce((acc, [key, value]) => {
-    return { ...acc, [key]: typeof value === 'string' ? escape(value) : value }
+    return { ...acc, [key]: typeof value === 'string' ? _.escape(value) : value }
   }, {} as T)
 }
 
@@ -52,6 +52,12 @@ export default defineEventHandler(async (event) => {
     throw createError({
       statusCode: 422,
       statusMessage: 'Missing required fields',
+    })
+
+  if (message.length > 2048)
+    throw createError({
+      statusCode: 422,
+      statusMessage: 'Message is too long, max 2048 characters',
     })
 
   const isTokenValid = await verifyRecaptchToken(

@@ -17,7 +17,7 @@
       autocomplete="name"
       class="product-contact-form__input"
       :label="t('name')"
-      rules="required"
+      rules="required|max:128"
     />
 
     <div class="product-contact-form__row">
@@ -28,7 +28,7 @@
         html-type="email"
         class="product-contact-form__input"
         :label="$t('form.email')"
-        rules="required|email"
+        rules="required|email|max:128"
       />
       <FormInput
         v-model="form.values.phone"
@@ -36,6 +36,7 @@
         autocomplete="phone"
         class="product-contact-form__input"
         :label="t('phone')"
+        rules="max:32"
       />
     </div>
 
@@ -45,7 +46,7 @@
       autocomplete="message"
       class="product-contact-form__input"
       :label="$t('common.message')"
-      rules="required"
+      rules="required|max:2048"
     />
 
     <LayoutRecaptchaBadge class="product-contact-form__recaptcha" />

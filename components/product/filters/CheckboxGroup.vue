@@ -60,6 +60,7 @@ const loadOptions = async (page = 1) => {
     const { data, pagination: meta } = await heseya.Attributes.getOptions(props.attribute.id, {
       page,
       product_set_slug: props.productSetSlug,
+      sort: 'desc',
     })
     options.value = [...options.value, ...data]
     pagination.value = meta
