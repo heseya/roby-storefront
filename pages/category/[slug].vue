@@ -3,12 +3,14 @@
     <LayoutBreadcrumpsProvider :breadcrumbs="breadcrumbs" />
 
     <BaseContainer class="categories-page">
-      <Media
-        v-if="category?.cover"
-        class="categories-page__cover"
-        :media="category?.cover"
-        object-fit="cover"
-      />
+      <SmartLink :to="category?.metadata?.cover_banner_url?.toString()">
+        <Media
+          v-if="category?.cover"
+          class="categories-page__cover"
+          :media="category?.cover"
+          object-fit="cover"
+        />
+      </SmartLink>
 
       <ProductListPage
         :title="category?.name"
