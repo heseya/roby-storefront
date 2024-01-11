@@ -22,7 +22,7 @@ export default defineNuxtPlugin((nuxt) => {
   const { apiUrl: baseURL, isProduction, axiosCacheTtl } = usePublicRuntimeConfig()
   const localePath = useLocalePath()
 
-  const baseAxios = axios.create({ baseURL })
+  const baseAxios = axios.create({ baseURL, timeout: 20 * 1000 })
 
   // ? --------------------------------------------------------------------------------------------
   // ? Cache

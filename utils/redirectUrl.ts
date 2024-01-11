@@ -11,7 +11,10 @@ export const getAllRedirects = async (): Promise<Redirect[]> => {
 }
 
 export const handleRedirect = (currentUrl: string) => {
-  return getAllRedirects()
-    .then((redirectsList) => resolveRedirect(redirectsList, currentUrl))
-    .catch()
+  return (
+    getAllRedirects()
+      .then((redirectsList) => resolveRedirect(redirectsList, currentUrl))
+      // eslint-disable-next-line no-console
+      .catch((e) => console.error('Failed to resolve redirects', e))
+  )
 }
