@@ -26,7 +26,6 @@ export default defineNuxtPlugin((nuxtApp) => {
     ],
 
     // Configure this whole part as you need it!
-
     tracesSampleRate: 0.2, // TODO: Change in prod
 
     // Set `tracePropagationTargets` to control for which URLs distributed tracing should be enabled
