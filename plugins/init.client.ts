@@ -19,6 +19,8 @@ export default defineNuxtPlugin((nuxtApp) => {
         await wishlistStore.syncLocal()
         await wishlistStore.fetch()
       }
+
+      window.addEventListener('online', () => cart.processCart())
     },
     { immediate: true },
   )

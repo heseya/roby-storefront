@@ -7,6 +7,7 @@ import { Pinia } from '@pinia/nuxt/dist/runtime/composables'
 import { useChannelsStore } from '@/store/channels'
 import { useLanguageStore } from '@/store/language'
 import { useAuthStore } from '@/store/auth'
+import { enhanceAxiosWithRequestCancellation } from '~/utils/axiosCancelation'
 
 declare module 'axios' {
   interface AxiosRequestConfig {
@@ -27,18 +28,21 @@ export default defineNuxtPlugin((nuxt) => {
   // ? --------------------------------------------------------------------------------------------
   // ? Cache
   // ? --------------------------------------------------------------------------------------------
+
+  const generateCacheKey = buildKeyGenerator((request) => ({
+    method: request.method,
+    url: request.url,
+    salesChannel: request.headers?.['X-Sales-Channel'],
+    acceptLanguage: request.headers?.['Accept-Language'],
+  }))
+
   const ax = setupCache(baseAxios, {
     // This time is a fallback value, by default time is determined by the `Cache-Control` header
     ttl: axiosCacheTtl,
     // TODO: remove this override when API stop returning `Cache-Control: no-cache`
     headerInterpreter: () => axiosCacheTtl,
     storage: cacheStorage,
-    generateKey: buildKeyGenerator((request) => ({
-      method: request.method,
-      url: request.url,
-      salesChannel: request.headers?.['X-Sales-Channel'],
-      acceptLanguage: request.headers?.['Accept-Language'],
-    })),
+    generateKey: generateCacheKey,
   })
 
   // ? --------------------------------------------------------------------------------------------
@@ -76,6 +80,11 @@ export default defineNuxtPlugin((nuxt) => {
       auth.clearAuth()
       navigateTo(localePath('/'), { replace: true })
     },
+  })
+
+  enhanceAxiosWithRequestCancellation(ax, {
+    generateKey: generateCacheKey,
+    allowedRoutes: [['POST', 'cart/process']],
   })
 
   ax.interceptors.request.use((config) => {
