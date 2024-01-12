@@ -15,44 +15,17 @@ interface ContactForm {
   recaptchaToken: string
 }
 
-const {
-  MAIL_HOST,
-  MAIL_USER,
-  MAIL_PASSWORD,
-  MAIL_RECEIVER,
-  MAIL_PORT = '587',
-  APP_HOST,
-  API_URL,
-} = process.env
-
-if (!MAIL_HOST || !MAIL_USER || !MAIL_PASSWORD || !APP_HOST)
-  // eslint-disable-next-line no-console
-  console.warn(
-    '[Contact Form] Missing required env variables: MAIL_HOST, MAIL_USER, MAIL_PASSWORD, APP_HOST',
-  )
-
-const mailer = createTransport({
-  host: MAIL_HOST,
-  port: parseInt(MAIL_PORT),
-  secure: false, // upgrade later with STARTTLS
-  auth: {
-    user: MAIL_USER,
-    pass: MAIL_PASSWORD,
-  },
-})
-
-const sendMail = (options: SendMailOptions): Promise<SentMessageInfo> =>
-  new Promise((resolve, reject) => {
-    mailer.sendMail(options, (err, info) => {
-      if (err) reject(err)
-      resolve(info)
-    })
-  })
-
-const getContactMailReceiver = async (): Promise<string | undefined> => {
-  const sdk = createHeseyaApiService(axios.create({ baseURL: API_URL }))
-  const settings = await sdk.Settings.get({ array: true })
-  return settings.contact_mail_receiver ? settings.contact_mail_receiver.toString() : MAIL_RECEIVER
+const getTitle = (type: ContactForm['type']) => {
+  switch (type) {
+    case 'offer':
+      return 'Zapytanie o ofertę indywidualną'
+    case 'price':
+      return 'Zapytanie o cenę'
+    case 'renting':
+      return 'Zapytanie o wynajem'
+    case 'contact':
+      return 'Formularz kontaktowy'
+  }
 }
 
 const stripTags = <T extends Record<string, any>>(obj: T): T => {
@@ -62,6 +35,15 @@ const stripTags = <T extends Record<string, any>>(obj: T): T => {
 }
 
 export default defineEventHandler(async (event) => {
+  // @ts-ignore Docs suggest to pass event to useRuntimeConfig, but it's not typed? https://nuxt.com/docs/guide/going-further/runtime-config#server-routes
+  const config = useRuntimeConfig(event)
+
+  if (!config.mailHost || !config.mailUser || !config.mailPassword || !config.public.appHost)
+    // eslint-disable-next-line no-console
+    console.warn(
+      '[Contact Form] Missing required env variables: MAIL_HOST, MAIL_USER, MAIL_PASSWORD, APP_HOST',
+    )
+
   const { name, email, phone, message, type, product, recaptchaToken } = stripTags(
     await readBody<ContactForm>(event),
   )
@@ -78,7 +60,11 @@ export default defineEventHandler(async (event) => {
       statusMessage: 'Message is too long, max 2048 characters',
     })
 
-  const isTokenValid = await verifyRecaptchToken(recaptchaToken)
+  const isTokenValid = await verifyRecaptchToken(
+    config.recaptchaSecret,
+    recaptchaToken,
+    Number(config.minRecaptchaScore) || 0.7,
+  )
   if (!isTokenValid)
     throw createError({
       statusCode: 422,
@@ -86,18 +72,32 @@ export default defineEventHandler(async (event) => {
     })
 
   try {
-    const getTitle = (type: ContactForm['type']) => {
-      switch (type) {
-        case 'offer':
-          return 'Zapytanie o ofertę indywidualną'
-        case 'price':
-          return 'Zapytanie o cenę'
-        case 'renting':
-          return 'Zapytanie o wynajem'
-        case 'contact':
-          return 'Formularz kontaktowy'
-      }
+    const mailer = createTransport({
+      host: config.mailHost,
+      port: parseInt(config.mailPort),
+      secure: false, // upgrade later with STARTTLS
+      auth: {
+        user: config.mailUser,
+        pass: config.mailPassword,
+      },
+    })
+
+    const sendMail = (options: SendMailOptions): Promise<SentMessageInfo> =>
+      new Promise((resolve, reject) => {
+        mailer.sendMail(options, (err, info) => {
+          if (err) reject(err)
+          resolve(info)
+        })
+      })
+
+    const getContactMailReceiver = async (): Promise<string | undefined> => {
+      const sdk = createHeseyaApiService(axios.create({ baseURL: config.public.apiUrl }))
+      const settings = await sdk.Settings.get({ array: true })
+      return settings.contact_mail_receiver
+        ? settings.contact_mail_receiver.toString()
+        : config.mailReceiver
     }
+
     const title = getTitle(type)
 
     const subject = product ? `${title}: ${product.name}` : title
@@ -106,9 +106,9 @@ export default defineEventHandler(async (event) => {
     if (!mailReceiver) throw new Error('Missing contact mail receiver')
 
     await sendMail({
-      from: `${name} <${MAIL_USER}>`,
+      from: `${name} <${config.mailUser}>`,
       to: mailReceiver,
-      subject: `${subject} | ${APP_HOST}`,
+      subject: `${subject} | ${config.public.appHost}`,
       replyTo: email,
       text: `
       Wiadomość od ${name} \n
@@ -116,7 +116,7 @@ export default defineEventHandler(async (event) => {
       Telefon kontaktowy: ${phone || '-'}\n
       ${
         product
-          ? `Dotyczy produktu: ${product.name} (${APP_HOST}/product/${product.slug}) \n\n`
+          ? `Dotyczy produktu: ${product.name} (${config.public.appHost}/product/${product.slug}) \n\n`
           : ''
       }
       ${message}
@@ -127,7 +127,7 @@ export default defineEventHandler(async (event) => {
       <p>Telefon kontaktowy: ${phone || '-'}</p>
       ${
         product
-          ? `<p>Dotyczy produktu: ${product.name} (<a href="${APP_HOST}/product/${product.slug}">${APP_HOST}/product/${product.slug}</a>)</p><br />`
+          ? `<p>Dotyczy produktu: ${product.name} (<a href="${config.public.appHost}/product/${product.slug}">${config.public.appHost}/product/${product.slug}</a>)</p><br />`
           : ''
       }
 
