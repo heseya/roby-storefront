@@ -17,6 +17,7 @@ import { defineStore } from 'pinia'
 import isEqual from 'lodash/isEqual'
 import uniqBy from 'lodash/uniqBy'
 
+import { CanceledError } from 'axios'
 import { useCheckoutStore } from './checkout'
 import { useConfigStore } from './config'
 
@@ -146,9 +147,12 @@ export const useCartStore = defineStore('cart', {
 
         // Side effect: fetch the shipping method
         // dispatch('shippingMethods/fetch', state.totalValue, { root: true })
-      } catch (e) {
+      } catch (e: any) {
+        // Ignore canceled or failed requests
+        if (e instanceof CanceledError || e.code === 'ERR_NETWORK') return
+
+        // If request is ended with an error, reset checkout data
         const checkout = useCheckoutStore()
-        // TODO: handle if process cart fails
         this.error = e
         this.unavailableItems = this.items
         this.items = []
