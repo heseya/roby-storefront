@@ -1,7 +1,7 @@
 <template>
   <div class="product-omnibus-note">
     <span v-if="price === null || price === priceMin">
-      {{ t('currentIsLowest') }}
+      {{ t('currentIsLowest') }} {{ price }}
     </span>
     <span v-else>
       {{ t('lowest') }} <b>{{ formatAmount(price || 0, currency) }}</b>
@@ -28,7 +28,7 @@ import { ProductList, parsePrices } from '@heseya/store-core'
 const props = withDefaults(
   defineProps<{
     product: ProductList
-    lowestPrice?: number
+    lowestPrice?: number | 'promised'
   }>(),
   {
     lowestPrice: undefined,
@@ -42,8 +42,10 @@ const currency = useCurrency()
 const priceMin = computed(() => parsePrices(props.product.prices_min, currency.value))
 
 const { data: fetchedPrice } = useAsyncData(`product-omnibus-${props.product.id}`, async () => {
-  // Ignore fetching omnibus price if price is already provided from props
-  if (typeof props.lowestPrice === 'number') return
+  // Ignore fetching omnibus price if price is already provided or promised from props
+  if (typeof props.lowestPrice === 'number' || props.lowestPrice === 'promised') return
+
+  console.warn('Fetching omnibus price for singular product', props.product.id)
 
   try {
     return await omnibus.getPrice(props.product.id, priceMin.value)
@@ -53,7 +55,9 @@ const { data: fetchedPrice } = useAsyncData(`product-omnibus-${props.product.id}
   }
 })
 
-const price = computed(() => props.lowestPrice || fetchedPrice.value)
+const price = computed(() =>
+  typeof props.lowestPrice === 'number' ? props.lowestPrice : fetchedPrice.value,
+)
 </script>
 
 <style lang="scss" scoped>

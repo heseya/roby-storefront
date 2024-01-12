@@ -84,7 +84,7 @@ const props = defineProps<{
   product: ProductList
   horizontal?: boolean
   forceSize?: boolean
-  omnibusPrice?: number
+  omnibusPrice?: number | 'promised'
 }>()
 
 const { notify } = useNotify()
@@ -214,7 +214,6 @@ const handleAddToCart = () => {
   &__omnibus {
     font-size: rem(10) !important;
     line-height: rem(14);
-    margin-top: 12px;
   }
 
   &__btn {

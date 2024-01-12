@@ -28,8 +28,8 @@ export default defineNuxtPlugin(() => {
       return response.data.data?.price_min || null
     },
 
-    // TODO: this request is currently unused, but it should be used on all product lists
-    getPrices: async (productIds: string[]) => {
+    getPrices: async (productIds: string[]): Promise<OmnibusPrice[]> => {
+      if (!productIds.length) return Promise.resolve([])
       const response = await axiosInstance.get<{
         data: OmnibusPrice[]
       }>(
@@ -38,7 +38,7 @@ export default defineNuxtPlugin(() => {
           currency: currency.value,
         })}`,
       )
-      return response.data
+      return response.data.data
     },
   }
 
