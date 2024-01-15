@@ -45,9 +45,6 @@ const { data: fetchedPrice } = useAsyncData(`product-omnibus-${props.product.id}
   // Ignore fetching omnibus price if price is already provided
   if (props.product.omnibus) return
 
-  // eslint-disable-next-line no-console
-  console.warn('Fetching omnibus price for singular product', props.product.id)
-
   try {
     return await omnibus.getPrice(props.product.id, priceMin.value)
   } catch (error) {

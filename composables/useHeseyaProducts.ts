@@ -1,10 +1,6 @@
 import { ListResponse } from '@heseya/store-core'
-import { ProductsService } from '@heseya/store-core/dist/src/services/api/modules/products'
-import { ExtendedProductList } from '~/types/Product'
 
-type ArgumentType<T> = T extends (arg: infer R) => unknown ? R : never
-
-export type ProductGetParams = Omit<ArgumentType<ProductsService['get']>, 'full'>
+import { ExtendedProductList, ProductGetParams } from '@/types/Product'
 
 export const useHeseyaProducts = () => {
   const heseya = useHeseya()
