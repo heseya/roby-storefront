@@ -30,7 +30,7 @@
     "@vueuse/nuxt": "^10.7.2",
     "axios": "^1.6.5",
     "axios-cache-interceptor": "^1.4.1",
-    "date-fns": "^2.30.0",
+    "date-fns": "^3.2.0",
     "lodash": "^4.17.21",
     "node-html-parser": "^6.1.12",
     "nodemailer": "^6.9.8",
