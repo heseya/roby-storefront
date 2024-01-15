@@ -13,7 +13,7 @@
         <BlogArticleTile
           v-for="article in articles?.data || []"
           :key="article.id"
-          :article="(article as any)"
+          :article="article"
         />
       </div>
     </div>

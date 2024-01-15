@@ -19,7 +19,7 @@
       </p>
 
       <div class="unavailable-modal__products">
-        <LazyCartItem v-for="(item, i) in items" :key="item.id + i" :item="(item as any)" static />
+        <LazyCartItem v-for="(item, i) in items" :key="item.id + i" :item="item" static />
       </div>
 
       <LayoutButton type="purchase" class="unavailable-modal__btn" @click="close">
