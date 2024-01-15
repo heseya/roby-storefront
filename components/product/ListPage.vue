@@ -106,7 +106,7 @@ import { useConfigStore } from '@/store/config'
 const route = useRoute()
 const t = useLocalI18n()
 
-const heseya = useHeseya()
+const { get: getProducts } = useHeseyaProducts()
 const config = useConfigStore()
 const slots = useSlots()
 
@@ -186,7 +186,7 @@ const {
       {} as Record<string, string[]>,
     )
 
-  const response = await heseya.Products.get({
+  const response = await getProducts({
     ...props.queryParams,
     ...route.query,
     sets: props.sets,

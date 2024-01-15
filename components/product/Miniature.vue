@@ -38,7 +38,6 @@
         <LazyProductPageOmnibus
           v-if="showOmnibus"
           :product="product"
-          :lowest-price="omnibusPrice"
           class="product-miniature__omnibus"
         />
 
@@ -71,20 +70,19 @@
 </template>
 
 <script lang="ts" setup>
-import { ProductList } from '@heseya/store-core'
-
 import { useConfigStore } from '@/store/config'
 import { ASK_FOR_PRICE_KEY } from '@/consts/metadataKeys'
+
+import { ExtendedProductList } from '~/types/Product'
 
 const $t = useGlobalI18n()
 const localePath = useLocalePath()
 const config = useConfigStore()
 
 const props = defineProps<{
-  product: ProductList
+  product: ExtendedProductList
   horizontal?: boolean
   forceSize?: boolean
-  omnibusPrice?: number
 }>()
 
 const { notify } = useNotify()
@@ -214,7 +212,6 @@ const handleAddToCart = () => {
   &__omnibus {
     font-size: rem(10) !important;
     line-height: rem(14);
-    margin-top: 12px;
   }
 
   &__btn {
