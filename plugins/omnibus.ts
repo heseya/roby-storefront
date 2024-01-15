@@ -1,14 +1,7 @@
 import { stringifyQueryParams } from '@heseya/store-core'
 import axios from 'axios'
 
-interface OmnibusPrice {
-  id: string | null
-  product_id: string | null
-  price_max: number | null
-  price_min: number | null
-  changed_at: string | null
-  currency: string | null
-}
+import { OmnibusPrice } from '~/types/OmnibusPrice'
 
 export default defineNuxtPlugin(() => {
   const { priceTrackerUrl } = usePublicRuntimeConfig()

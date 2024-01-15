@@ -68,7 +68,7 @@ const props = withDefaults(
   },
 )
 const t = useLocalI18n()
-const heseya = useHeseya()
+const { get: getProducts } = useHeseyaProducts()
 const categoriesStore = useCategoriesStore()
 const config = useConfigStore()
 
@@ -83,7 +83,7 @@ const {
   `products-${props.category.id}-${selectedCategory.value}`,
   async () => {
     const categorySlug = selectedCategory.value || props.category.slug
-    const { data } = await heseya.Products.get({
+    const { data } = await getProducts({
       sets: [categorySlug],
       limit: 16,
       sort: `set.${categorySlug}`,

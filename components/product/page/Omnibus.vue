@@ -1,10 +1,10 @@
 <template>
   <div class="product-omnibus-note">
-    <span v-if="price === null || price === priceMin">
-      {{ t('currentIsLowest') }} {{ price }}
+    <span v-if="isNil(price) || price === priceMin">
+      {{ t('currentIsLowest') }}
     </span>
     <span v-else>
-      {{ t('lowest') }} <b>{{ formatAmount(price || 0, currency) }}</b>
+      {{ t('lowest') }} <b>{{ formatAmount(price, currency) }}</b>
     </span>
   </div>
 </template>
@@ -23,16 +23,16 @@
 </i18n>
 
 <script setup lang="ts">
-import { ProductList, parsePrices } from '@heseya/store-core'
+import { parsePrices } from '@heseya/store-core'
+import isNil from 'lodash/isNil'
+
+import { ExtendedProductList } from '~/types/Product'
 
 const props = withDefaults(
   defineProps<{
-    product: ProductList
-    lowestPrice?: number | 'promised'
+    product: ExtendedProductList
   }>(),
-  {
-    lowestPrice: undefined,
-  },
+  {},
 )
 
 const t = useLocalI18n()
@@ -42,8 +42,8 @@ const currency = useCurrency()
 const priceMin = computed(() => parsePrices(props.product.prices_min, currency.value))
 
 const { data: fetchedPrice } = useAsyncData(`product-omnibus-${props.product.id}`, async () => {
-  // Ignore fetching omnibus price if price is already provided or promised from props
-  if (typeof props.lowestPrice === 'number' || props.lowestPrice === 'promised') return
+  // Ignore fetching omnibus price if price is already provided
+  if (props.product.omnibus) return
 
   // eslint-disable-next-line no-console
   console.warn('Fetching omnibus price for singular product', props.product.id)
@@ -57,7 +57,7 @@ const { data: fetchedPrice } = useAsyncData(`product-omnibus-${props.product.id}
 })
 
 const price = computed(() =>
-  typeof props.lowestPrice === 'number' ? props.lowestPrice : fetchedPrice.value,
+  props.product.omnibus?.price_min ? props.product.omnibus?.price_min : fetchedPrice.value,
 )
 </script>
 
