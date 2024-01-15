@@ -20,7 +20,9 @@ defineProps<{
   font-size: rem(14);
 
   border-bottom: 2px solid transparent;
-  transition: border-bottom-color 200ms ease-in-out, color 200ms ease-in-out;
+  transition:
+    border-bottom-color 200ms ease-in-out,
+    color 200ms ease-in-out;
 
   &:hover {
     cursor: pointer;

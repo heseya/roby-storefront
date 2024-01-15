@@ -15,7 +15,7 @@
               <LazyCartItem
                 v-for="item in cart.items"
                 :key="item.id"
-                :item="(item as any)"
+                :item="item"
                 class="cart-page__item"
               />
             </div>

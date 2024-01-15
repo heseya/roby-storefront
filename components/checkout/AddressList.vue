@@ -3,7 +3,7 @@
 </template>
 
 <script setup lang="ts">
-import { Address } from '@heseya/store-core'
+import { Address, UserSavedAddress } from '@heseya/store-core'
 import clone from 'lodash/clone'
 
 const props = defineProps<{
@@ -18,7 +18,7 @@ const emit = defineEmits<{
 const { addresses } = useUserAddreses(props.type)
 
 const selectedSavedAddress = computed({
-  get() {
+  get(): UserSavedAddress | null {
     // We need to map the Address in checkout to UserSavedAddress interface that comes from API
     return addresses.value.find((a) => a.address.id === props.address?.id) || null
   },

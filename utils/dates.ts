@@ -1,5 +1,5 @@
-import { format } from 'date-fns'
-import pl from 'date-fns/locale/pl/index.js'
+import { format } from 'date-fns/format'
+import { pl } from 'date-fns/locale/pl'
 
 export const formatDate = (date: string | number | Date | null, pattern = 'dd.MM.yyyy') => {
   if (!date) return null

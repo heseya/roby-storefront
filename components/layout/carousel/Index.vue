@@ -13,7 +13,7 @@
           class="carousel__content-container"
           :class="{ 'carousel__content-container--visible': isVisible }"
         >
-          <slot name="item" v-bind="(item as any)" />
+          <slot name="item" v-bind="item" />
         </div>
       </SwiperSlide>
       <template #container-start>

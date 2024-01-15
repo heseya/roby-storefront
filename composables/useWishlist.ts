@@ -30,7 +30,10 @@ export const useWishlist = (product: ProductList) => {
     return isInWishlist.value ? remove() : add()
   }
 
-  watch(() => auth.isLogged, refresh)
+  watch(
+    () => auth.isLogged,
+    () => refresh(),
+  )
 
   return { isInWishlist, add, remove, toggle }
 }
