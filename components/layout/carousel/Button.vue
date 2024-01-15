@@ -5,10 +5,10 @@
         alwaysVisible
           ? true
           : firstTimeAllVisible
-          ? false
-          : type === 'next'
-          ? !swiper.isEnd
-          : !swiper.isBeginning
+            ? false
+            : type === 'next'
+              ? !swiper.isEnd
+              : !swiper.isBeginning
       "
       class="carousel-button__icon"
       :icon="ArrowNext"

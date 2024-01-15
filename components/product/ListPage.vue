@@ -175,13 +175,16 @@ const {
   // Override attributes to make sure they are arrays
   const attribute = Object.entries(route.query)
     .filter(([key]) => key.startsWith('attribute'))
-    .reduce((acc, [key, value]) => {
-      const [, attributeId] = key.split('.')
-      return {
-        ...acc,
-        [attributeId]: Array.isArray(value) ? (value as string[]) : [value as string],
-      }
-    }, {} as Record<string, string[]>)
+    .reduce(
+      (acc, [key, value]) => {
+        const [, attributeId] = key.split('.')
+        return {
+          ...acc,
+          [attributeId]: Array.isArray(value) ? (value as string[]) : [value as string],
+        }
+      },
+      {} as Record<string, string[]>,
+    )
 
   const response = await heseya.Products.get({
     ...props.queryParams,

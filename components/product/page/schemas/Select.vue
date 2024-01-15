@@ -16,7 +16,9 @@
       class="schema-select__option"
     >
       {{ option.name }}
-      <template v-if="option.price > 0"> (+{{ calculateOptionPrice(option.price) }}) </template>
+      <template v-if="parsePrices(option.prices, currency) > 0">
+        (+{{ calculateOptionPrice(parsePrices(option.prices, currency)) }})
+      </template>
     </option>
   </FormSelect>
 </template>
@@ -33,7 +35,7 @@
 </i18n>
 
 <script setup lang="ts">
-import { CartItemSchemaValue, Schema, SchemaType } from '@heseya/store-core'
+import { CartItemSchemaValue, Schema, SchemaType, parsePrices } from '@heseya/store-core'
 
 const t = useLocalI18n()
 const currency = useCurrency()
@@ -65,7 +67,7 @@ const priceGross = usePriceGross()
 
 const calculateOptionPrice = (price: number) => {
   const priceWithVat = priceGross(
-    [{ gross: price.toString(), currency: currency.value }],
+    [{ net: price.toString(), gross: price.toString(), currency: currency.value }],
     currency.value,
   )
   return formatAmount(priceWithVat, currency.value)

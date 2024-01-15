@@ -10,7 +10,7 @@
     <div class="blog-article__date">
       <div>{{ dateCreated }}</div>
       <div>
-        <LazyBlogSimpleTag v-for="tag in article.tags" :key="tag.id" :tag="(tag as any)" />
+        <LazyBlogSimpleTag v-for="tag in article.tags" :key="tag.id" :tag="tag" />
       </div>
     </div>
   </div>

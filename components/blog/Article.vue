@@ -10,11 +10,7 @@
         </div>
         <div class="blog-page__info">
           <div class="blog-page__tags">
-            <BlogTranslatedTag
-              v-for="tag in article?.tags ?? []"
-              :key="tag.id"
-              :tag="(tag as any)"
-            />
+            <BlogTranslatedTag v-for="tag in article?.tags ?? []" :key="tag.id" :tag="tag as any" />
           </div>
           <div class="blog-page__date">{{ dateCreated }}</div>
         </div>
