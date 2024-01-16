@@ -9,6 +9,8 @@ node_modules
 .cache
 .output
 .env
+.env.*
+!.env.example
 dist
 
 # IDE
