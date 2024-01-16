@@ -32,10 +32,6 @@ onMounted(() => {
     emit('select', machine)
   })
 })
-
-onUnmounted(() => {
-  mapWidget.value?.close()
-})
 </script>
 
 <style lang="scss">
