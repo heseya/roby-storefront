@@ -4,25 +4,27 @@ import { removePageByName, changePagePathOrRemoveByName } from './utils/routing'
 import pkg from './package.json'
 
 const {
-  API_URL,
-  CDN_URL = 'https://cdn-dev.heseya.com"',
-  DIRECTUS_URL,
-  PRICE_TRACKER_URL,
-  ENVIRONMENT = 'development',
-  FONT_FAMILY = 'Roboto',
-  VERCEL_ENV,
-  APP_HOST,
-  RECAPTCHA_PUBLIC,
-  GOOGLE_TAG_MANAGER_ID,
-  CENEO_GUID,
-  LEASLINK_ID,
-  CALLPAGE_ID,
-  EDRONE_ID,
-  GOOGLE_SITE_VERIFICATION,
-  COLOR_THEME_PICKER,
-  AXIOS_CACHE_TTL,
+  ENVIRONMENT = 'development', // TODO
+  NUXT_PUBLIC_API_URL,
+  NUXT_PUBLIC_CDN_URL = 'https://cdn-dev.heseya.com"',
+  NUXT_PUBLIC_DIRECTUS_URL,
+  NUXT_PUBLIC_PRICE_TRACKER_URL,
+  NUXT_PUBLIC_FONT_FAMILY = 'Roboto',
+  NUXT_PUBLIC_VERCEL_ENV,
+  NUXT_PUBLIC_APP_HOST,
+  NUXT_PUBLIC_I18N_BASE_URL,
+  NUXT_PUBLIC_RECAPTCHA_PUBLIC,
+  NUXT_PUBLIC_GOOGLE_TAG_MANAGER_ID,
+  NUXT_PUBLIC_CENEO_GUID,
+  NUXT_PUBLIC_LEASLINK_ID,
+  NUXT_PUBLIC_CALLPAGE_ID,
+  NUXT_PUBLIC_EDRONE_ID,
+  NUXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
+  NUXT_PUBLIC_COLOR_THEME_PICKER,
+  NUXT_PUBLIC_AXIOS_CACHE_TTL,
 
   // Custom pages paths
+  // TODO
   PAGE_BLOG_PATH = '/blog',
   PAGE_CONTACT_PATH = '/kontakt',
   PAGE_ABOUT_PATH = '/o-nas',
@@ -33,24 +35,25 @@ const {
   NUXT_PUBLIC_SENTRY_ENVIRONMENT = 'development',
 
   // Private
-  MAIL_HOST,
-  MAIL_USER,
-  MAIL_PASSWORD,
-  MAIL_RECEIVER,
-  MAIL_PORT = '587',
-  MIN_RECAPTCHA_SCORE,
-  RECAPTCHA_SECRET,
+  NUXT_MAIL_HOST,
+  NUXT_MAIL_USER,
+  NUXT_MAIL_PASSWORD,
+  NUXT_MAIL_RECEIVER,
+  NUXT_MAIL_PORT = '587',
+  NUXT_MIN_RECAPTCHA_SCORE,
+  NUXT_RECAPTCHA_SECRET,
 } = process.env
 
+// TODO
 const ALLOWED_UI_LANGUAGES = process.env.ALLOWED_UI_LANGUAGES?.split(',') || ['pl']
 const DEFAULT_LANGUAGE = process.env.DEFAULT_LANGUAGE || ALLOWED_UI_LANGUAGES[0]
 
-const isProduction = (VERCEL_ENV || ENVIRONMENT) === 'production'
+const isProduction = (NUXT_PUBLIC_VERCEL_ENV || ENVIRONMENT) === 'production'
 
-if (!API_URL) console.warn('API_URL env is not defined')
-if (!PRICE_TRACKER_URL) console.warn('PRICE_TRACKER_URL env is not defined')
-if (!APP_HOST) console.warn('APP_HOST env is not defined')
-if (!RECAPTCHA_PUBLIC) console.warn('RECAPTCHA_PUBLIC env is not defined')
+if (!NUXT_PUBLIC_API_URL) console.warn('NUXT_PUBLIC_API_URL env is not defined')
+if (!NUXT_PUBLIC_PRICE_TRACKER_URL) console.warn('NUXT_PUBLIC_PRICE_TRACKER_URL env is not defined')
+if (!NUXT_PUBLIC_APP_HOST) console.warn('NUXT_PUBLIC_APP_HOST env is not defined')
+if (!NUXT_PUBLIC_RECAPTCHA_PUBLIC) console.warn('NUXT_PUBLIC_RECAPTCHA_PUBLIC env is not defined')
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -71,17 +74,17 @@ export default defineNuxtConfig({
         {
           hid: 'google-site-verification',
           name: 'google-site-verification',
-          content: GOOGLE_SITE_VERIFICATION,
+          content: NUXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
         },
       ],
       link: [
         { rel: 'sitemap', href: '/sitemap.xml', type: 'application/xml' },
-        { rel: 'preconnect', href: API_URL },
-        { rel: 'dns-prefetch', href: API_URL },
-        { rel: 'preconnect', href: CDN_URL },
-        { rel: 'dns-prefetch', href: CDN_URL },
-        { rel: 'preconnect', href: DIRECTUS_URL },
-        { rel: 'dns-prefetch', href: DIRECTUS_URL },
+        { rel: 'preconnect', href: NUXT_PUBLIC_API_URL },
+        { rel: 'dns-prefetch', href: NUXT_PUBLIC_API_URL },
+        { rel: 'preconnect', href: NUXT_PUBLIC_CDN_URL },
+        { rel: 'dns-prefetch', href: NUXT_PUBLIC_CDN_URL },
+        { rel: 'preconnect', href: NUXT_PUBLIC_DIRECTUS_URL },
+        { rel: 'dns-prefetch', href: NUXT_PUBLIC_DIRECTUS_URL },
       ],
       script: [
         {
@@ -104,31 +107,34 @@ export default defineNuxtConfig({
   css: ['@/assets/scss/index.scss'],
 
   runtimeConfig: {
-    mailHost: MAIL_HOST,
-    mailUser: MAIL_USER,
-    mailPassword: MAIL_PASSWORD,
-    mailReceiver: MAIL_RECEIVER,
-    mailPort: MAIL_PORT,
-    minRecaptchaScore: MIN_RECAPTCHA_SCORE,
-    recaptchaSecret: RECAPTCHA_SECRET,
+    mailHost: NUXT_MAIL_HOST,
+    mailUser: NUXT_MAIL_USER,
+    mailPassword: NUXT_MAIL_PASSWORD,
+    mailReceiver: NUXT_MAIL_RECEIVER,
+    mailPort: NUXT_MAIL_PORT,
+    minRecaptchaScore: NUXT_MIN_RECAPTCHA_SCORE,
+    recaptchaSecret: NUXT_RECAPTCHA_SECRET,
 
     public: {
-      apiUrl: API_URL,
-      directusUrl: DIRECTUS_URL,
-      priceTrackerUrl: PRICE_TRACKER_URL,
-      appHost: APP_HOST,
+      apiUrl: NUXT_PUBLIC_API_URL,
+      directusUrl: NUXT_PUBLIC_DIRECTUS_URL,
+      priceTrackerUrl: NUXT_PUBLIC_PRICE_TRACKER_URL,
+      appHost: NUXT_PUBLIC_APP_HOST,
       isProduction,
-      recaptchaPublic: RECAPTCHA_PUBLIC,
-      googleTagManagerId: GOOGLE_TAG_MANAGER_ID,
-      ceneoGuid: CENEO_GUID,
-      leaslinkId: LEASLINK_ID,
-      callpageId: CALLPAGE_ID,
-      edroneId: EDRONE_ID,
-      showColorThemePicker: COLOR_THEME_PICKER === '1',
-      axiosCacheTtl: parseInt(AXIOS_CACHE_TTL || '0') ?? 0,
+      recaptchaPublic: NUXT_PUBLIC_RECAPTCHA_PUBLIC,
+      googleTagManagerId: NUXT_PUBLIC_GOOGLE_TAG_MANAGER_ID,
+      ceneoGuid: NUXT_PUBLIC_CENEO_GUID,
+      leaslinkId: NUXT_PUBLIC_LEASLINK_ID,
+      callpageId: NUXT_PUBLIC_CALLPAGE_ID,
+      edroneId: NUXT_PUBLIC_EDRONE_ID,
+      showColorThemePicker: NUXT_PUBLIC_COLOR_THEME_PICKER === '1',
+      axiosCacheTtl: parseInt(NUXT_PUBLIC_AXIOS_CACHE_TTL || '0') ?? 0,
       sentry: {
         dsn: NUXT_PUBLIC_SENTRY_DSN,
         environment: NUXT_PUBLIC_SENTRY_ENVIRONMENT,
+      },
+      i18n: {
+        baseUrl: NUXT_PUBLIC_APP_HOST,
       },
     },
   },
@@ -174,7 +180,8 @@ export default defineNuxtConfig({
         CUSTOM_PAGE_NAMES.Rent,
       ]
 
-      if (!DIRECTUS_URL) directusPageNames.forEach((name) => removePageByName(name, pages))
+      if (!NUXT_PUBLIC_DIRECTUS_URL)
+        directusPageNames.forEach((name) => removePageByName(name, pages))
     },
   },
 
@@ -187,12 +194,12 @@ export default defineNuxtConfig({
 
   googleFonts: {
     families: {
-      [FONT_FAMILY]: [300, 400, 500, 600, 700],
+      [NUXT_PUBLIC_FONT_FAMILY]: [300, 400, 500, 600, 700],
     },
   },
 
   i18n: {
-    baseUrl: APP_HOST,
+    baseUrl: NUXT_PUBLIC_I18N_BASE_URL,
     defaultLocale: DEFAULT_LANGUAGE,
     // @ts-ignore TODO: where to put this?
     fallbackLocale: DEFAULT_LANGUAGE,
