@@ -21,9 +21,17 @@
           />
 
           <h1 class="product-header__title">{{ product?.name }}</h1>
+
           <span class="product-header__subtitle">
             {{ getProductSubtext(product, config.productSubtextAttr) }}
           </span>
+
+          <div
+            v-if="attributesSummaryHtml"
+            class="product-header__attributes"
+            v-html="attributesSummaryHtml"
+          ></div>
+
           <div class="product-header__sales">
             <ProductTag v-for="sale in visibleSales" :key="sale.id" type="sale">
               {{ sale.name }}
@@ -183,6 +191,7 @@ const route = useRoute()
 const config = useConfigStore()
 const t = useLocalI18n()
 const $t = useGlobalI18n()
+const i18n = useI18n()
 
 const { data: product } = useAsyncData(`product-${route.params.slug}`, async () => {
   try {
@@ -255,6 +264,10 @@ const visibleSales = computed(() =>
 const relatedSets = computed(
   () =>
     product.value?.related_sets?.filter((set) => !set.metadata[PRODUCT_SET_SHOW_AS_VARIANT]) || [],
+)
+
+const attributesSummaryHtml = computed(() =>
+  product.value?.metadata[`attributes_summary_${i18n.locale.value}`]?.toString(),
 )
 
 delayedOnMounted(() => {
@@ -346,6 +359,11 @@ useProductJsonLd(product)
     font-weight: 600;
     margin-top: 12px;
     margin-bottom: 8px;
+  }
+
+  &__attributes {
+    font-size: rem(12);
+    line-height: rem(16);
   }
 
   &__subtitle {
