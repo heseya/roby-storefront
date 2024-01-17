@@ -59,6 +59,12 @@
         </div>
       </div>
 
+      <ProductPageBanner
+        v-if="product?.banner_media"
+        class="product-page__banner"
+        :banner="product.banner_media"
+      />
+
       <LayoutTabs class="product-page__main" :tabs="productDescriptionTabs">
         <template #description>
           <div class="product-page__description-wrapper">
@@ -275,6 +281,11 @@ useProductJsonLd(product)
 .product-page {
   &__main {
     margin-top: 38px;
+  }
+
+  &__banner {
+    margin-top: 38px;
+    margin-bottom: -24px;
   }
 
   &__description-wrapper {
