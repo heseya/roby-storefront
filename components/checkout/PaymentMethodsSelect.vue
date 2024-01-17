@@ -16,6 +16,9 @@
             loading="lazy"
           />
         </div>
+        <div class="payment-methods-select__label-description">
+          BLIK, Przelew ekspresowy, Visa, Mastercard, Raty 0%, Płatność odroczona - PayPo, Twisto
+        </div>
       </template>
     </FormRadioGroup>
   </div>
@@ -26,7 +29,7 @@
   "pl": {
     "paymentMethods": {
       "traditional": "Przelew bankowy",
-      "quick": "Przelew natychmiastowy"
+      "quick": "Płatność online"
     }
   },
   "en": {
@@ -121,6 +124,11 @@ const optionGroups = computed<RadioGroupOption[]>(() => [
 
   &__notice {
     font-size: rem(12);
+  }
+
+  &__label-description {
+    font-size: rem(12);
+    margin-top: 8px;
   }
 }
 </style>
