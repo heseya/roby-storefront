@@ -53,10 +53,10 @@
           </span>
 
           <div class="cookies-bar__btns">
-            <LayoutButton class="cookies-bar__btn" variant="white" @click="rejectCookies">
+            <!-- <LayoutButton class="cookies-bar__btn" variant="white" @click="rejectCookies">
               {{ t('actions.reject') }}
-            </LayoutButton>
-            <LayoutButton class="cookies-bar__btn" variant="primary" @click="acceptSelectedCookies">
+            </LayoutButton> -->
+            <LayoutButton class="cookies-bar__btn" variant="white" @click="acceptSelectedCookies">
               {{ t('actions.selected') }}
             </LayoutButton>
             <LayoutButton class="cookies-bar__btn" variant="primary" @click="acceptAllCookies">
@@ -97,8 +97,7 @@
       }
     },
     "actions": {
-      "reject": "Odmowa wszystkich",
-      "selected": "Potwierdzenie moich wyborów",
+      "selected": "Zezwól na wybrane",
       "accept": "Zezwól na wszystkie"
     }
   },
@@ -128,7 +127,6 @@
       }
     },
     "actions": {
-      "reject": "Reject all",
       "selected": "Confirm my choices",
       "accept": "Allow all"
     }
@@ -152,9 +150,9 @@ const localePath = useLocalePath()
 
 const optInForm = reactive({
   required: true,
-  functional: false,
-  analytics: false,
-  ads: false,
+  functional: true,
+  analytics: true,
+  ads: true,
 })
 
 const requiredCookie = useStatefulCookie<number>(COOKIE_REQUIRED_ACCEPTED_KEY, COOKIES_CONFIG)
@@ -166,12 +164,11 @@ const privacyPolicyUrl = computed(
   () => config.env.privacy_policy_url?.toString() ?? 'polityka-prywatnosci',
 )
 
-const isCookiesBarVisible = computed(() => requiredCookie.value !== 1)
+const isCookiesBarVisible = computed(() => true ?? requiredCookie.value !== 1)
 
 const acceptAllCookies = () => setCookies([true, true, true, true])
 const acceptSelectedCookies = () =>
   setCookies([true, optInForm.functional, optInForm.analytics, optInForm.ads])
-const rejectCookies = () => setCookies([true, false, false, false])
 
 const setCookies = ([required, functional, analytics, ads]: [
   boolean,
@@ -258,7 +255,7 @@ const visibleTab = ref('required')
 
     @media ($viewport-5) {
       gap: 16px;
-      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-columns: 1fr 1fr;
     }
   }
 }
