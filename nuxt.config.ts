@@ -1,16 +1,36 @@
-/* eslint-disable no-console */
 import svgLoader from 'vite-svg-loader'
 import { removePageByName, changePagePathOrRemoveByName } from './utils/routing'
 import pkg from './package.json'
 
 const {
-  ENVIRONMENT = 'development', // TODO
+  /**
+   * * Build envs
+   */
+  NODE_ENV,
+  VERCEL_ENV,
+  ENVIRONMENT = 'development',
+
+  // Custom pages paths
+  BUILD_PAGE_BLOG_PATH = '/blog',
+  BUILD_PAGE_CONTACT_PATH = '/kontakt',
+  BUILD_PAGE_ABOUT_PATH = '/o-nas',
+  BUILD_PAGE_RENT_PATH = '/wynajem',
+  BUILD_PAGE_STATUTE_PATH = '/regulamin',
+
+  // Font
+  BUILD_FONT_FAMILY = 'Roboto',
+
+  // Languages
+  BUILD_DEFAULT_LANGUAGE,
+  BUILD_ALLOWED_UI_LANGUAGES,
+
+  /**
+   * * Runtime envs
+   */
   NUXT_PUBLIC_API_URL,
   NUXT_PUBLIC_CDN_URL = 'https://cdn-dev.heseya.com"',
   NUXT_PUBLIC_DIRECTUS_URL,
   NUXT_PUBLIC_PRICE_TRACKER_URL,
-  NUXT_PUBLIC_FONT_FAMILY = 'Roboto',
-  NUXT_PUBLIC_VERCEL_ENV,
   NUXT_PUBLIC_APP_HOST,
   NUXT_PUBLIC_I18N_BASE_URL,
   NUXT_PUBLIC_RECAPTCHA_PUBLIC,
@@ -23,18 +43,13 @@ const {
   NUXT_PUBLIC_COLOR_THEME_PICKER,
   NUXT_PUBLIC_AXIOS_CACHE_TTL,
 
-  // Custom pages paths
-  // TODO
-  PAGE_BLOG_PATH = '/blog',
-  PAGE_CONTACT_PATH = '/kontakt',
-  PAGE_ABOUT_PATH = '/o-nas',
-  PAGE_RENT_PATH = '/wynajem',
-  PAGE_STATUTE_PATH = '/regulamin',
-
+  // Sentry
   NUXT_PUBLIC_SENTRY_DSN = '',
   NUXT_PUBLIC_SENTRY_ENVIRONMENT = 'development',
 
-  // Private
+  /**
+   * * Runtime private envs
+   */
   NUXT_MAIL_HOST,
   NUXT_MAIL_USER,
   NUXT_MAIL_PASSWORD,
@@ -44,20 +59,21 @@ const {
   NUXT_RECAPTCHA_SECRET,
 } = process.env
 
-// TODO
-const ALLOWED_UI_LANGUAGES = process.env.ALLOWED_UI_LANGUAGES?.split(',') || ['pl']
-const DEFAULT_LANGUAGE = process.env.DEFAULT_LANGUAGE || ALLOWED_UI_LANGUAGES[0]
+const allowedUiLanguages = BUILD_ALLOWED_UI_LANGUAGES?.split(',') || ['pl']
+const defaultLanguage = BUILD_DEFAULT_LANGUAGE || allowedUiLanguages[0]
 
-const isProduction = (NUXT_PUBLIC_VERCEL_ENV || ENVIRONMENT) === 'production'
+// TODO: this happens on build time but should be on runtime
+const isProduction = (VERCEL_ENV || ENVIRONMENT) === 'production'
 
-if (!NUXT_PUBLIC_API_URL) console.warn('NUXT_PUBLIC_API_URL env is not defined')
-if (!NUXT_PUBLIC_PRICE_TRACKER_URL) console.warn('NUXT_PUBLIC_PRICE_TRACKER_URL env is not defined')
-if (!NUXT_PUBLIC_APP_HOST) console.warn('NUXT_PUBLIC_APP_HOST env is not defined')
-if (!NUXT_PUBLIC_RECAPTCHA_PUBLIC) console.warn('NUXT_PUBLIC_RECAPTCHA_PUBLIC env is not defined')
+// if (!NUXT_PUBLIC_API_URL) console.warn('NUXT_PUBLIC_API_URL env is not defined')
+// if (!NUXT_PUBLIC_PRICE_TRACKER_URL) console.warn('NUXT_PUBLIC_PRICE_TRACKER_URL env is not defined')
+// if (!NUXT_PUBLIC_APP_HOST) console.warn('NUXT_PUBLIC_APP_HOST env is not defined')
+// if (!NUXT_PUBLIC_RECAPTCHA_PUBLIC) console.warn('NUXT_PUBLIC_RECAPTCHA_PUBLIC env is not defined')
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   app: {
+    // TODO: remove envs from head
     head: {
       meta: [
         { charset: 'utf-8' },
@@ -134,7 +150,7 @@ export default defineNuxtConfig({
         environment: NUXT_PUBLIC_SENTRY_ENVIRONMENT,
       },
       i18n: {
-        baseUrl: NUXT_PUBLIC_APP_HOST,
+        baseUrl: NUXT_PUBLIC_I18N_BASE_URL || NUXT_PUBLIC_APP_HOST,
       },
     },
   },
@@ -164,11 +180,11 @@ export default defineNuxtConfig({
       /**
        * All custom pages can be disabled or their path can be changed
        */
-      changePagePathOrRemoveByName(pages, CUSTOM_PAGE_NAMES.Blog, PAGE_BLOG_PATH)
-      changePagePathOrRemoveByName(pages, CUSTOM_PAGE_NAMES.Contact, PAGE_CONTACT_PATH)
-      changePagePathOrRemoveByName(pages, CUSTOM_PAGE_NAMES.AboutUs, PAGE_ABOUT_PATH)
-      changePagePathOrRemoveByName(pages, CUSTOM_PAGE_NAMES.Rent, PAGE_RENT_PATH)
-      changePagePathOrRemoveByName(pages, CUSTOM_PAGE_NAMES.Statute, PAGE_STATUTE_PATH)
+      changePagePathOrRemoveByName(pages, CUSTOM_PAGE_NAMES.Blog, BUILD_PAGE_BLOG_PATH)
+      changePagePathOrRemoveByName(pages, CUSTOM_PAGE_NAMES.Contact, BUILD_PAGE_CONTACT_PATH)
+      changePagePathOrRemoveByName(pages, CUSTOM_PAGE_NAMES.AboutUs, BUILD_PAGE_ABOUT_PATH)
+      changePagePathOrRemoveByName(pages, CUSTOM_PAGE_NAMES.Rent, BUILD_PAGE_RENT_PATH)
+      changePagePathOrRemoveByName(pages, CUSTOM_PAGE_NAMES.Statute, BUILD_PAGE_STATUTE_PATH)
 
       /**
        * These pages must be disabled, when directus is not available
@@ -180,6 +196,7 @@ export default defineNuxtConfig({
         CUSTOM_PAGE_NAMES.Rent,
       ]
 
+      // TODO this is runtime env
       if (!NUXT_PUBLIC_DIRECTUS_URL)
         directusPageNames.forEach((name) => removePageByName(name, pages))
     },
@@ -194,21 +211,20 @@ export default defineNuxtConfig({
 
   googleFonts: {
     families: {
-      [NUXT_PUBLIC_FONT_FAMILY]: [300, 400, 500, 600, 700],
+      [BUILD_FONT_FAMILY]: [300, 400, 500, 600, 700],
     },
   },
 
   i18n: {
-    baseUrl: NUXT_PUBLIC_I18N_BASE_URL,
-    defaultLocale: DEFAULT_LANGUAGE,
+    defaultLocale: defaultLanguage,
     // @ts-ignore TODO: where to put this?
-    fallbackLocale: DEFAULT_LANGUAGE,
+    fallbackLocale: defaultLanguage,
     langDir: 'lang',
     strategy: 'prefix_except_default',
     locales: [
       { code: 'pl', iso: 'pl-PL', file: 'pl.ts' },
       { code: 'en', iso: 'en-US', file: 'en.ts' },
-    ].filter((locale) => ALLOWED_UI_LANGUAGES.includes(locale.code)),
+    ].filter((locale) => allowedUiLanguages.includes(locale.code)),
     detectBrowserLanguage: {
       useCookie: true,
       cookieKey: 'i18n_redirected',
@@ -223,7 +239,8 @@ export default defineNuxtConfig({
   delayHydration: {
     mode: 'mount',
     // enables nuxt-delay-hydration in dev mode for testing
-    debug: process.env.NODE_ENV === 'development',
+    // on build it will be always disabled
+    debug: NODE_ENV === 'development',
   },
 
   swiper: {
