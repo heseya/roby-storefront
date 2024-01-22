@@ -861,10 +861,10 @@
   optionalDependencies:
     vue-router ">= 4.1.0 < 5.0.0"
 
-"@heseya/store-core@6.0.0-dev.59":
-  version "6.0.0-dev.59"
-  resolved "https://registry.yarnpkg.com/@heseya/store-core/-/store-core-6.0.0-dev.59.tgz#5ce16f76e434586ea3aa23378f72d43322ce8f2b"
-  integrity sha512-yWXOrF0xrk4y00w9SH55AIMSTDybU8wd60/DOqykizWndTaKpafdLvDNKh4NQ7zrJ/Ab8mbEokWCVnzTHRDuSg==
+"@heseya/store-core@6.0.0-dev.62":
+  version "6.0.0-dev.62"
+  resolved "https://registry.yarnpkg.com/@heseya/store-core/-/store-core-6.0.0-dev.62.tgz#a99192a495b9f02cd488212d1eb0c75bb622def6"
+  integrity sha512-tRsjBxOMgwkYAyopYgYhk0Q60F/3wobSb1hm+X1srg4Pd1FQNk7TJh7509u5GaulCf7j7KhW9MhbBe7sfpEenw==
   dependencies:
     "@types/flat" "^5.0.2"
     array-to-tree "^3.3.2"
