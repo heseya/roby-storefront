@@ -68,9 +68,9 @@
       </div>
 
       <ProductPageBanner
-        v-if="product?.banner_media"
+        v-if="product?.banner"
         class="product-page__banner"
-        :banner="product.banner_media"
+        :banner="product.banner"
       />
 
       <LayoutTabs class="product-page__main" :tabs="productDescriptionTabs">
