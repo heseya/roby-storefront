@@ -7,8 +7,6 @@ const {
    * * Build envs
    */
   NODE_ENV,
-  VERCEL_ENV,
-  ENVIRONMENT = 'development',
 
   // Custom pages paths
   BUILD_PAGE_BLOG_PATH = '/blog',
@@ -27,6 +25,7 @@ const {
   /**
    * * Runtime envs
    */
+  NUXT_PUBLIC_PRODUCTION = 'false',
   NUXT_PUBLIC_API_URL,
   NUXT_PUBLIC_CDN_URL = 'https://cdn-dev.heseya.com"',
   NUXT_PUBLIC_DIRECTUS_URL,
@@ -62,9 +61,6 @@ const {
 const allowedUiLanguages = BUILD_ALLOWED_UI_LANGUAGES?.split(',') || ['pl']
 const defaultLanguage = BUILD_DEFAULT_LANGUAGE || allowedUiLanguages[0]
 
-// TODO: this happens on build time but should be on runtime
-const isProduction = (VERCEL_ENV || ENVIRONMENT) === 'production'
-
 // if (!NUXT_PUBLIC_API_URL) console.warn('NUXT_PUBLIC_API_URL env is not defined')
 // if (!NUXT_PUBLIC_PRICE_TRACKER_URL) console.warn('NUXT_PUBLIC_PRICE_TRACKER_URL env is not defined')
 // if (!NUXT_PUBLIC_APP_HOST) console.warn('NUXT_PUBLIC_APP_HOST env is not defined')
@@ -73,7 +69,6 @@ const isProduction = (VERCEL_ENV || ENVIRONMENT) === 'production'
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   app: {
-    // TODO: remove envs from head
     head: {
       meta: [
         { charset: 'utf-8' },
@@ -82,26 +77,8 @@ export default defineNuxtConfig({
           content: 'width=device-width,initial-scale=1,maximum-scale=5',
         },
         { name: 'version', content: pkg.version },
-        {
-          hid: isProduction ? 'robots' : 'force-robots',
-          name: 'robots',
-          content: isProduction ? 'index, follow' : 'noindex, nofollow',
-        },
-        {
-          hid: 'google-site-verification',
-          name: 'google-site-verification',
-          content: NUXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
-        },
       ],
-      link: [
-        { rel: 'sitemap', href: '/sitemap.xml', type: 'application/xml' },
-        { rel: 'preconnect', href: NUXT_PUBLIC_API_URL },
-        { rel: 'dns-prefetch', href: NUXT_PUBLIC_API_URL },
-        { rel: 'preconnect', href: NUXT_PUBLIC_CDN_URL },
-        { rel: 'dns-prefetch', href: NUXT_PUBLIC_CDN_URL },
-        { rel: 'preconnect', href: NUXT_PUBLIC_DIRECTUS_URL },
-        { rel: 'dns-prefetch', href: NUXT_PUBLIC_DIRECTUS_URL },
-      ],
+      link: [{ rel: 'sitemap', href: '/sitemap.xml', type: 'application/xml' }],
       script: [
         {
           hid: 'polyfill',
@@ -132,13 +109,15 @@ export default defineNuxtConfig({
     recaptchaSecret: NUXT_RECAPTCHA_SECRET,
 
     public: {
+      production: NUXT_PUBLIC_PRODUCTION,
       apiUrl: NUXT_PUBLIC_API_URL,
+      cdnUrl: NUXT_PUBLIC_CDN_URL,
       directusUrl: NUXT_PUBLIC_DIRECTUS_URL,
       priceTrackerUrl: NUXT_PUBLIC_PRICE_TRACKER_URL,
       appHost: NUXT_PUBLIC_APP_HOST,
-      isProduction,
       recaptchaPublic: NUXT_PUBLIC_RECAPTCHA_PUBLIC,
       googleTagManagerId: NUXT_PUBLIC_GOOGLE_TAG_MANAGER_ID,
+      googleSiteVerification: NUXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
       ceneoGuid: NUXT_PUBLIC_CENEO_GUID,
       leaslinkId: NUXT_PUBLIC_LEASLINK_ID,
       callpageId: NUXT_PUBLIC_CALLPAGE_ID,
