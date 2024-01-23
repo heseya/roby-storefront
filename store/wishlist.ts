@@ -83,9 +83,8 @@ export const useWishlistStore = defineStore('wishlist', {
 
       if (!auth.isLogged) return this.products.some((product) => product.id === productId)
       try {
-        // If procuct is not in wishlist, it will throw an error
-        await heseya.Wishlist.getOne(productId)
-        return true
+        const data = await heseya.Wishlist.check([productId])
+        return data.includes(productId)
       } catch {
         return false
       }

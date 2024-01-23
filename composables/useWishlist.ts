@@ -1,8 +1,9 @@
-import { ProductList } from '@heseya/store-core'
 import { useWishlistStore } from '@/store/wishlist'
-import { useAuthStore } from '~/store/auth'
+import { useAuthStore } from '@/store/auth'
 
-export const useWishlist = (product: ProductList) => {
+import { ExtendedProductList } from '@/types/Product'
+
+export const useWishlist = (product: ExtendedProductList) => {
   const auth = useAuthStore()
   const wishlist = useWishlistStore()
   const { notify } = useNotify()
@@ -10,7 +11,12 @@ export const useWishlist = (product: ProductList) => {
 
   const isInWishlist = ref(false)
 
-  const { refresh } = useLazyAsyncData(`is-in-wishlist-${product.id}`, async () => {
+  const { refresh } = useLazyAsyncData(async () => {
+    if (typeof product.isInWishlist !== 'undefined') {
+      isInWishlist.value = product.isInWishlist
+      return
+    }
+
     isInWishlist.value = await wishlist.isInWishlist(product.id)
   })
 
