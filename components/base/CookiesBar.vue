@@ -164,7 +164,7 @@ const privacyPolicyUrl = computed(
   () => config.env.privacy_policy_url?.toString() ?? 'polityka-prywatnosci',
 )
 
-const isCookiesBarVisible = computed(() => true ?? requiredCookie.value !== 1)
+const isCookiesBarVisible = computed(() => requiredCookie.value !== 1)
 
 const acceptAllCookies = () => setCookies([true, true, true, true])
 const acceptSelectedCookies = () =>
