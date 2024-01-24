@@ -1,6 +1,7 @@
 import { HeseyaPaginationMeta, ProductList, WishlistProduct } from '@heseya/store-core'
 import { defineStore } from 'pinia'
 import { useAuthStore } from './auth'
+import { ExtendedProductList } from '~/types/Product'
 
 export const useWishlistStore = defineStore('wishlist', {
   state: () => ({
@@ -26,17 +27,17 @@ export const useWishlistStore = defineStore('wishlist', {
   },
 
   actions: {
-    async add(product: ProductList) {
+    async add(product: ProductList | ExtendedProductList) {
       const auth = useAuthStore()
       if (await this.isInWishlist(product.id)) return
 
       if (!auth.isLogged) this.localWishlist.push(product)
       else {
-        await this.authAdd(product)
+        await this.authAdd({ ...product, isInWishlist: undefined })
       }
     },
 
-    async authAdd(product: ProductList) {
+    async authAdd(product: ProductList | ExtendedProductList) {
       const auth = useAuthStore()
       const heseya = useHeseya()
 

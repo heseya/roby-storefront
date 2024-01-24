@@ -12,7 +12,7 @@ export const useWishlist = (product: ExtendedProductList) => {
   const isInWishlist = ref(false)
 
   const { refresh } = useLazyAsyncData(async () => {
-    if (typeof product.isInWishlist !== 'undefined') {
+    if (product.isInWishlist !== undefined) {
       isInWishlist.value = product.isInWishlist
       return
     }
