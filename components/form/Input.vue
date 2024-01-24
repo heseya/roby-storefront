@@ -16,6 +16,8 @@
         :type="htmlType"
         :autocomplete="autocomplete"
         :name="name"
+        :min="min"
+        :max="max"
         :placeholder="placeholder"
         :disabled="disabled"
         :inputmode="htmlType === 'phone' ? 'tel' : undefined"
@@ -41,6 +43,8 @@ const props = withDefaults(
     postfix?: string
     errorMessage?: string
     modelValue?: string | number
+    max?: number
+    min?: number
     rules?: string
     labelUppercase?: boolean
     disabled?: boolean
@@ -55,6 +59,8 @@ const props = withDefaults(
     errorMessage: '',
     modelValue: '',
     rules: '',
+    max: undefined,
+    min: undefined,
     autocomplete: undefined,
     labelUppercase: false,
   },

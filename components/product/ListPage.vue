@@ -170,35 +170,39 @@ const {
   pending,
   error,
 } = useAsyncData(async () => {
-  const page = Number(route.query.page ?? 1)
+  try {
+    const page = Number(route.query.page ?? 1)
 
-  // Override attributes to make sure they are arrays
-  const attribute = Object.entries(route.query)
-    .filter(([key]) => key.startsWith('attribute'))
-    .reduce(
-      (acc, [key, value]) => {
-        const [, attributeId] = key.split('.')
-        return {
-          ...acc,
-          [attributeId]: Array.isArray(value) ? (value as string[]) : [value as string],
-        }
-      },
-      {} as Record<string, string[]>,
-    )
+    // Override attributes to make sure they are arrays
+    const attribute = Object.entries(route.query)
+      .filter(([key]) => key.startsWith('attribute'))
+      .reduce(
+        (acc, [key, value]) => {
+          const [, attributeId] = key.split('.')
+          return {
+            ...acc,
+            [attributeId]: Array.isArray(value) ? (value as string[]) : [value as string],
+          }
+        },
+        {} as Record<string, string[]>,
+      )
 
-  const response = await getProducts({
-    ...props.queryParams,
-    ...route.query,
-    sets: props.sets,
-    page,
-    sort: sort.value,
-    limit: perPage.value,
-    attribute: Object.keys(attribute).length ? attribute : undefined,
-    shipping_digital: false,
-    attribute_slug: config.productSubtextAttr,
-  })
+    const response = await getProducts({
+      ...props.queryParams,
+      ...route.query,
+      sets: props.sets,
+      page,
+      sort: sort.value,
+      limit: perPage.value,
+      attribute: Object.keys(attribute).length ? attribute : undefined,
+      shipping_digital: false,
+      attribute_slug: config.productSubtextAttr,
+    })
 
-  return { pagination: response.pagination, data: response.data }
+    return { pagination: response.pagination, data: response.data }
+  } catch (e) {
+    return { pagination: { total: 0, lastPage: 0, currentPage: 0 }, data: [] }
+  }
 })
 
 useEmitProductsViewEvent(

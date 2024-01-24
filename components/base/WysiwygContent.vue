@@ -44,7 +44,7 @@ watch(
       }
     })
 
-    modifiedContent.value = root.innerHTML
+    modifiedContent.value = root.innerHTML.replace('&#xfeff', '')
   },
   { immediate: true },
 )

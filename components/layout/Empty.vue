@@ -19,6 +19,7 @@
 
   &__title {
     font-size: 1.6em;
+    line-height: 1.4em;
     text-align: center;
     margin-top: 16px;
 

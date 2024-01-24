@@ -86,7 +86,7 @@ watch(
 
     &--required::after {
       content: ' *';
-      color: var(--secondary-color);
+      color: var(--error-color);
       font-weight: bold;
     }
   }
