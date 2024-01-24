@@ -89,6 +89,10 @@ watch(
       color: var(--error-color);
       font-weight: bold;
     }
+
+    * {
+      display: inline;
+    }
   }
 
   &__text {

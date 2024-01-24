@@ -6,7 +6,8 @@
     name="newsletter-consent"
   >
     {{ t('consent.text1', { name: companyName }) }}
-    <NuxtLink class="primary-text" to="/regulamin"> {{ t('consent.statute') }} </NuxtLink
+    <a class="primary-text" :href="localePath('/regulamin')" target="_blank">
+      {{ t('consent.statute') }} </a
     >{{ t('consent.text2') }}
   </FormCheckbox>
 </template>
@@ -36,6 +37,7 @@ import { useConfigStore } from '~/store/config'
 const t = useLocalI18n()
 
 const { enabled } = useNewsletter()
+const localePath = useLocalePath()
 
 const props = defineProps<{
   modelValue: boolean
