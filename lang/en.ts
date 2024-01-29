@@ -158,6 +158,11 @@ export default {
     VALIDATION_UNIQUE: 'The given e-mail has already been registered in the system.',
     VALIDATION_CONSENT_EXISTS: 'Accepted consent doesnt exist in the system.',
     VALIDATION_PHONE: 'The phone number is invalid, remember to enter the country code.',
+    VALIDATION_SHIPPING_PLACE: 'The shipping place is invalid.',
+    VALIDATION_FULL_NAME: 'Both first and last name should be included.',
+    VALIDATION_STREET_NUMBER: 'The address must include the street name and house number.',
+    VALIDATION_PRODUCT_SCHEMA_OPTION:
+      'The selected product configuration is incorrect. Remove the products from the cart and add them again.',
 
     UNPROCESSABLE_ENTITY: 'Validation error.',
 

@@ -160,6 +160,11 @@ export default {
     VALIDATION_CONSENT_EXISTS: 'Zaakceptowana zgoda nie istnieje w systemie.',
     VALIDATION_PHONE:
       'Podany numer telefonu jest nieprawidłowy, pamiętaj by uwzględnić w nim numer kierunkowy kraju.',
+    VALIDATION_SHIPPING_PLACE: 'Podane miejsce dostawy jest nieprawidłowe.',
+    VALIDATION_FULL_NAME: 'Należy podać zarówno imię jak i nazwisko.',
+    VALIDATION_STREET_NUMBER: 'Adres musi zawierać nazwę ulicy oraz numer domu.',
+    VALIDATION_PRODUCT_SCHEMA_OPTION:
+      'Wybrana konfiguracja produktów jest nieprawidłowa. Usuń produkty z koszyka i dodaj je ponownie.',
 
     UNPROCESSABLE_ENTITY: 'Błąd walidacji.',
 
