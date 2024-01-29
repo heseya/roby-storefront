@@ -47,6 +47,8 @@ export default defineNuxtPlugin((nuxtApp) => {
   useGtagCookieWatch(COOKIE_FUNCTIONAL_ACCEPTED_KEY, 'functionality_storage')
   useGtagCookieWatch(COOKIE_ANALYTICS_ACCEPTED_KEY, 'analytics_storage')
   useGtagCookieWatch(COOKIE_ADS_ACCEPTED_KEY, 'ad_storage')
+  useGtagCookieWatch(COOKIE_ADS_ACCEPTED_KEY, 'ad_user_data')
+  useGtagCookieWatch(COOKIE_ADS_ACCEPTED_KEY, 'ad_personalization')
 
   /**
    * * EVENTS
