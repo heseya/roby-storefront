@@ -3,12 +3,9 @@
     <div class="account-order-card-header__content">
       <div class="account-order-card-header__box">
         <b>{{ t('orderNumber') }}: </b>
-        <NuxtLink
-          :to="localePath(`/account/orders/${code}`)"
-          class="account-order-card-header__link"
-        >
+        <span class="account-order-card-header__code">
           {{ code }}
-        </NuxtLink>
+        </span>
       </div>
       <div class="account-order-card-header__box">
         <b>{{ t('orderCreatingDate') }}:</b>
@@ -53,8 +50,6 @@ const props = defineProps<{
   name: string
 }>()
 
-const localePath = useLocalePath()
-
 const statusTagTheme = useContrastColor(props.color)
 </script>
 
@@ -87,7 +82,7 @@ const statusTagTheme = useContrastColor(props.color)
     }
   }
 
-  &__link {
+  &__code {
     text-decoration: none;
     color: $blue-color-500;
   }

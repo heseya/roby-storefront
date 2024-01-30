@@ -26,12 +26,12 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script lang="ts" setup generic="T">
 import { SwiperOptions } from 'swiper/types'
 
 withDefaults(
   defineProps<{
-    items: unknown[]
+    items: T[]
     breakpoints?: SwiperOptions['breakpoints']
     hideNav?: boolean
     spaceBetween?: number
@@ -83,7 +83,7 @@ withDefaults(
     top: 0;
     right: -36px;
     z-index: 10;
-    background: $white-color;
+    background: transparent;
 
     @media ($max-viewport-10) {
       display: none;

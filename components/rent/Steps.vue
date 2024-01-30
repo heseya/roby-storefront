@@ -38,7 +38,7 @@ const { data: steps } = useAsyncData('rent-page-steps', async () => {
   })
 
   return (data?.map((step) => ({
-    ...getTranslated(step.translations as any, 'pl-PL'),
+    ...getTranslated(step.translations, 'pl-PL'),
     order: step.order,
     button: step.button,
   })) || []) as TranslatedRentPageStep[]

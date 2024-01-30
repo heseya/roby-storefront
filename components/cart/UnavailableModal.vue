@@ -19,7 +19,12 @@
       </p>
 
       <div class="unavailable-modal__products">
-        <LazyCartItem v-for="(item, i) in items" :key="item.id + i" :item="item" static />
+        <LazyCartItem
+          v-for="(item, i) in unavailableItems"
+          :key="item.id + i"
+          :item="item"
+          static
+        />
       </div>
 
       <LayoutButton type="purchase" class="unavailable-modal__btn" @click="close">
@@ -59,6 +64,7 @@
 </i18n>
 
 <script setup lang="ts">
+import { CartItem } from '@heseya/store-core'
 import { useCartStore } from '~/store/cart'
 
 /**
@@ -70,12 +76,14 @@ const MAX_CART_AGE = 1000 * 60
 const cart = useCartStore()
 const t = useLocalI18n()
 
-const items = computed(() => cart.unavailableItems)
-const isOpen = computed(() => items.value.length > 0)
+// It assumes some weird type, even if it is same as CartItem
+const unavailableItems = computed(() => cart.unavailableItems as CartItem[])
+const isOpen = computed(() => unavailableItems.value.length > 0)
 
 const cartAge = computed(
   () =>
-    Date.now() - items.value.reduce((maxAge, item) => Math.max(maxAge, item.toJSON().createdAt), 0),
+    Date.now() -
+    unavailableItems.value.reduce((maxAge, item) => Math.max(maxAge, item.toJSON().createdAt), 0),
 )
 
 const close = () => {

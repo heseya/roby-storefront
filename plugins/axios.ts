@@ -29,6 +29,8 @@ export default defineNuxtPlugin((nuxt) => {
   // ? Cache
   // ? --------------------------------------------------------------------------------------------
 
+  const pathsWithoutCache = ['wishlist']
+
   const generateCacheKey = buildKeyGenerator((request) => ({
     method: request.method,
     url: request.url,
@@ -89,6 +91,9 @@ export default defineNuxtPlugin((nuxt) => {
 
   ax.interceptors.request.use((config) => {
     config._beginTime = Date.now()
+
+    // Disable cache for some paths
+    if (pathsWithoutCache.some((url) => config.url?.includes(url))) config.cache = false
 
     // @ts-ignore this $i18n exists, but it's not in the Nuxt types for some reason
     const apiLanguage = languageStore.getLanguageByIso(nuxt.$i18n.locale.value)

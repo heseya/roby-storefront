@@ -3,9 +3,10 @@
     v-model:open="isModalVisible"
     :values="formValues"
     :header="header"
-    :error="errorMessage"
+    :error="requestError"
     :ok-text="$t('common.save')"
     :fullscreen="fullscreen"
+    class="address-form-modal"
     @submit="onSubmit"
   >
     <FormInput v-model="formValues.name" rules="required" :label="$t('common.name')" name="name" />
@@ -15,6 +16,7 @@
       v-if="type === 'billing'"
       v-model="isInvoice"
       name="invoice"
+      class="address-form-modal__checkbox"
       :label="t('invoice')"
     />
 
@@ -22,6 +24,7 @@
       v-model="formValues.default"
       :disabled="props.address && props.address.default"
       name="default"
+      class="address-form-modal__checkbox"
       :label="t('default')"
     />
   </FormModal>
@@ -49,9 +52,11 @@ import {
 } from '@heseya/store-core'
 import { EMPTY_ADDRESS } from '~/consts/address'
 
+// Without import, it assumes that it is recursive component
+import FormModal from '~/components/form/Modal.vue'
+
 const t = useLocalI18n()
 const $t = useGlobalI18n()
-const formatError = useErrorMessage()
 const { notify } = useNotify()
 
 const props = withDefaults(
@@ -81,7 +86,7 @@ const isModalVisible = computed({
 
 const { add, edit } = useUserAddreses(props.type)
 
-const errorMessage = ref<string>()
+const requestError = ref<any>()
 
 const isInvoice = ref<boolean>(!!props.address?.address.vat)
 
@@ -97,7 +102,7 @@ const onSubmit = async () => {
     : await add(formValues.value)
 
   if (!success) {
-    errorMessage.value = formatError(error)
+    requestError.value = error
   } else {
     notify({
       title: props.successUpdateMessage,
@@ -128,3 +133,11 @@ watch(
   },
 )
 </script>
+
+<style lang="scss" scoped>
+.address-form-modal {
+  &__checkbox {
+    margin: 0;
+  }
+}
+</style>

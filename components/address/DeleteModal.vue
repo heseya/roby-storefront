@@ -3,7 +3,7 @@
     v-model:open="isModalVisible"
     :fullscreen="false"
     :values="{}"
-    :error="errorMessage"
+    :error="requestError"
     :header="t(`${type}.header`)"
     :ok-text="t(`${type}.delete`)"
     @submit="onSubmit"
@@ -59,7 +59,6 @@ const emit = defineEmits<{
 }>()
 
 const t = useLocalI18n()
-const formatError = useErrorMessage()
 const { notify } = useNotify()
 const { remove } = useUserAddreses(props.type)
 
@@ -68,13 +67,13 @@ const isModalVisible = computed({
   set: (value) => emit('update:open', value),
 })
 
-const errorMessage = ref<string>('')
+const requestError = ref<any>('')
 
 const onSubmit = async () => {
   const { success, error } = await remove(props.address.id)
 
   if (!success) {
-    errorMessage.value = formatError(error)
+    requestError.value = error
   } else {
     notify({
       title: t(`${props.type}.sucessUpdate`),

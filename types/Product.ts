@@ -8,4 +8,5 @@ export type ProductGetParams = Omit<ArgumentType<ProductsService['get']>, 'full'
 
 export type ExtendedProductList = ProductList & {
   omnibus?: OmnibusPrice
+  isInWishlist?: boolean
 }

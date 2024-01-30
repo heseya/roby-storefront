@@ -210,7 +210,7 @@ const update = (key: keyof AddressDto, value: string) => {
     font-size: rem(12);
   }
   &__info-star {
-    color: var(--secondary-color);
+    color: var(--error-color);
   }
 }
 </style>

@@ -20,6 +20,7 @@
           html-type="number"
           name="price_min"
           :model-value="filters['price.min']"
+          :min="0"
           :postfix="currency"
           label-uppercase
           @update:model-value="(v) => updatePrice('min', v)"
@@ -31,6 +32,7 @@
           name="price_max"
           :postfix="currency"
           :model-value="filters['price.max']"
+          :min="0"
           label-uppercase
           @update:model-value="(v) => updatePrice('max', v)"
         />
@@ -47,6 +49,7 @@
           html-type="number"
           :name="`attribute_${attribute.slug}_min`"
           :model-value="filters[`attribute.${attribute.slug}.min`]"
+          :min="0"
           label-uppercase
           @update:model-value="(v) => updateKey(`attribute.${attribute.slug}.min`, v)"
         />
@@ -56,6 +59,7 @@
           html-type="number"
           :name="`attribute_${attribute.slug}_min`"
           :model-value="filters[`attribute.${attribute.slug}.max`]"
+          :min="0"
           label-uppercase
           @update:model-value="(v) => updateKey(`attribute.${attribute.slug}.max`, v)"
         />
