@@ -20,6 +20,7 @@ export interface TranslatedRentPage {
 export interface TranslatedRentPageAdvantage {
   id: ID
   image: DirectusImage
+  order: number
   title: string
   description: string
 }
@@ -27,6 +28,7 @@ export interface TranslatedRentPageAdvantage {
 export interface TranslatedRentPageStep {
   id: ID
   title: string
+  order: number
   description?: string
   button: boolean
 }
@@ -38,6 +40,7 @@ export interface TranslatedRentPageDecision {
 
 export interface TranslatedRentPageFaq {
   id: ID
+  order: number
   title: string
   question: string
   answer: string
@@ -57,12 +60,14 @@ export interface RentPage {
 
 export interface RentPageStep {
   id: ID
+  order: number
   translations: DirectusTranslated<TranslatedRentPageStep>
   button: boolean
 }
 
 export interface RentPageAdvantage {
   id: ID
+  order: number
   translations: DirectusTranslated<TranslatedRentPageAdvantage>
   image: DirectusImage
 }
@@ -79,5 +84,6 @@ export interface RentPageForm {
 
 export interface RentPageFaq {
   id: ID
+  order: number
   translations: DirectusTranslated<TranslatedRentPageFaq>
 }
