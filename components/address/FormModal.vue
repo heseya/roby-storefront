@@ -27,7 +27,6 @@
       class="address-form-modal__checkbox"
       :label="t('default')"
     />
-    {{ errorMessage }}
   </FormModal>
 </template>
 
@@ -52,6 +51,9 @@ import {
   UserSavedAddressUpdateDto,
 } from '@heseya/store-core'
 import { EMPTY_ADDRESS } from '~/consts/address'
+
+// Without import, it assumes that it is recursive component
+import FormModal from '~/components/form/Modal.vue'
 
 const t = useLocalI18n()
 const $t = useGlobalI18n()

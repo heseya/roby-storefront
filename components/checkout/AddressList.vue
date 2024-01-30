@@ -6,6 +6,9 @@
 import { Address, UserSavedAddress } from '@heseya/store-core'
 import clone from 'lodash/clone'
 
+// Without import, it assumes that it is recursive component
+import AddressList from '@/components/address/List.vue'
+
 const props = defineProps<{
   address: Address | null
   type: 'billing' | 'shipping'

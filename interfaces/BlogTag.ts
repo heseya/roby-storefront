@@ -1,11 +1,17 @@
 import { ID } from '@directus/sdk'
 import { DirectusTranslated } from './DirectusTranslated'
 
-export interface BlogTag {
-  BlogTags_id: string | undefined
+interface RawBlogTag {
   id: ID
   translations: DirectusTranslated<{ name: string }>
 }
+
+interface NestedBlogTag {
+  id: ID
+  BlogTags_id: RawBlogTag
+}
+
+export type BlogTag = RawBlogTag | NestedBlogTag
 
 export interface TranslatedBlogTag {
   id: ID

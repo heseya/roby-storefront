@@ -13,7 +13,7 @@
           <ClientOnly>
             <div v-if="!isCartEmpty" class="cart-page__list">
               <LazyCartItem
-                v-for="item in cart.items"
+                v-for="item in cartItems"
                 :key="item.id"
                 :item="item"
                 class="cart-page__item"
@@ -71,6 +71,9 @@ const t = useLocalI18n()
 const $t = useGlobalI18n()
 
 const isCartEmpty = computed(() => cart.length === 0)
+
+// It assumes some weird type, even if it is same as CartItem
+const cartItems = computed(() => cart.items as CartItem[])
 
 const suggestedQuery = computed(() => {
   const relatedSets = cart.items
