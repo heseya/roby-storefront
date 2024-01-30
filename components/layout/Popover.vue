@@ -1,6 +1,6 @@
 <template>
   <div ref="target" class="layout-popover" @click="toggleDropdown">
-    <slot name="option" :value="value"> {{ value.key }}</slot>
+    <slot name="option" :value="props.value"> {{ props.value.key }}</slot>
 
     <LayoutIcon
       :icon="showDropdown ? arrowUp : arrowDown"
@@ -33,7 +33,7 @@ defineSlots<{
   option(props: { value: T }): any
 }>()
 
-defineProps<{
+const props = defineProps<{
   value: T
   options: T[]
 }>()
