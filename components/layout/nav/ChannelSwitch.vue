@@ -58,10 +58,8 @@ const setChannel = async (data: { key: string }) => {
   channels.setChannel(channel.id)
 
   // TODO: remove this hardcoded rule maybe?
-  // Set language to PL if PL is a default language for channel
-  if (channel.default_language.iso.includes('pl')) {
-    await setLanguage(channel.default_language)
-  }
+  // Set language to a default language for channel
+  await setLanguage(channel.default_language)
   if (window) window.location.reload()
 }
 

@@ -40,14 +40,19 @@ const setLanguage = async (language: InnerLanguage) => {
   await setLocale(language.key)
 
   // TODO: remove this hardcoded rule maybe?
-  // Set channel to PL if PL is a default language for channel
-  if (language.key.includes('pl')) {
-    const channel = channels.channels.find((c) => c.default_language.iso.includes('pl'))
-    if (!channel) return
+  // Set channel to a default channel for language
+  const langChannels = channels.channels.filter((c) =>
+    c.default_language.iso.includes(language.key),
+  )
+  // If lang switched to EN, select UK channel
+  const channelSlug = language.key === 'en' ? 'uk' : 'pl'
+  const channel = langChannels.find((c) => c.slug.includes(channelSlug)) || langChannels[0]
 
+  if (channel) {
     channels.setChannel(channel.id)
-
-    if (window) window.location.reload()
+    setTimeout(() => {
+      if (window) window.location.reload()
+    }, 100)
   }
 }
 </script>
