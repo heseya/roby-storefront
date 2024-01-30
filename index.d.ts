@@ -7,4 +7,5 @@ interface Window {
   _ceneo: any
   fbq: any
   _edrone: any
+  registerWidget?: (w: any, token: string) => boolean
 }

@@ -7,6 +7,11 @@ const {
    * * Build envs
    */
   NODE_ENV,
+  EKOMI_CUSTOMER_ID,
+  EKOMI_POPUP_TOKEN,
+  EKOMI_MINI_STARS_TOKEN,
+  EKOMI_REVIEWS_TOKEN,
+  EKOMI_SURVEY_FORM_ID,
 
   // Custom pages paths
   BUILD_PAGE_BLOG_PATH = '/blog',
@@ -124,6 +129,11 @@ export default defineNuxtConfig({
       edroneId: NUXT_PUBLIC_EDRONE_ID,
       showColorThemePicker: NUXT_PUBLIC_COLOR_THEME_PICKER === '1',
       axiosCacheTtl: parseInt(NUXT_PUBLIC_AXIOS_CACHE_TTL || '0') ?? 0,
+      ekomiCustomerId: EKOMI_CUSTOMER_ID,
+      ekomiPopupToken: EKOMI_POPUP_TOKEN,
+      ekomiMiniStarsToken: EKOMI_MINI_STARS_TOKEN,
+      ekomiReviewsToken: EKOMI_REVIEWS_TOKEN,
+      ekomiSurveyFormId: EKOMI_SURVEY_FORM_ID,
       sentry: {
         dsn: NUXT_PUBLIC_SENTRY_DSN,
         environment: NUXT_PUBLIC_SENTRY_ENVIRONMENT,
