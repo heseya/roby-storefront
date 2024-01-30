@@ -5,7 +5,7 @@
     </LayoutHeader>
 
     <LayoutCarousel :items="partners || []" :breakpoints="breakpoints">
-      <template #item="partner: TranslatedAboutPartner">
+      <template #item="partner">
         <AboutPartnerCarouselItem :partner="partner" />
       </template>
     </LayoutCarousel>

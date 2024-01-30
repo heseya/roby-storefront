@@ -8,7 +8,7 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare && yarn husky install",
+    "postinstall": "nuxt prepare && yarn husky",
     "lint:eslint": "eslint --ext .ts,.js,.vue .",
     "lint:vue": "vue-tsc --noEmit",
     "lint": "yarn lint:eslint && yarn lint:vue",
