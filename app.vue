@@ -1,7 +1,7 @@
 <template>
   <Html :lang="i18nHead.htmlAttrs?.lang" :dir="i18nHead.htmlAttrs?.dir">
     <IntegrationCallpage />
-    <IntegrationEkomiWidget :token="ekomiPopupToken" />
+    <IntegrationEkomiWidget :token="ekomi.popupToken" />
 
     <LayoutThemeContext>
       <NuxtLoadingIndicator />
@@ -21,7 +21,7 @@
 <script setup lang="ts">
 import { useConfigStore } from './store/config'
 
-const { showColorThemePicker, ekomiPopupToken } = usePublicRuntimeConfig()
+const { showColorThemePicker, ekomi } = usePublicRuntimeConfig()
 
 const config = useConfigStore()
 const runtimeConfig = usePublicRuntimeConfig()

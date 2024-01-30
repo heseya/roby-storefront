@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      v-if="ekomiCustomerId"
+      v-if="ekomi.customerId"
       id="widget-container"
       :class="`ekomi-widget-container ekomi-widget-${props.token}`"
     ></div>
@@ -10,7 +10,7 @@
 </template>
 
 <script setup lang="ts">
-const { ekomiCustomerId } = usePublicRuntimeConfig()
+const { ekomi } = usePublicRuntimeConfig()
 const props = withDefaults(
   defineProps<{
     token: string
@@ -19,7 +19,7 @@ const props = withDefaults(
   { delayTime: 0 },
 )
 
-if (ekomiCustomerId)
+if (ekomi.customerId)
   useHead(() => ({
     script: [
       {
@@ -27,7 +27,7 @@ if (ekomiCustomerId)
         children: `
         function registerWidget(w, token) {
           w['_ekomiWidgetsServerUrl'] = 'https://widgets.ekomi.com'
-          w['_customerId'] = ${ekomiCustomerId}
+          w['_customerId'] = ${ekomi.customerId}
 
           if (w['_language'] == undefined) {
             w['_language'] = new Array()
@@ -58,7 +58,7 @@ if (ekomiCustomerId)
   }))
 
 onMounted(() => {
-  if (!ekomiCustomerId) return
+  if (!ekomi.customerId) return
 
   setTimeout(() => {
     // eslint-disable-next-line no-console

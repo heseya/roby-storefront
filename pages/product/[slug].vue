@@ -125,12 +125,12 @@
 
       <IntegrationEkomiProductWidget
         v-if="product?.id"
-        :token="ekomiMiniStarsToken"
+        :token="ekomi.miniStarsToken"
         :product-id="product.id"
       />
       <IntegrationEkomiProductWidget
         v-if="product?.id"
-        :token="ekomiReviewsToken"
+        :token="ekomi.reviewsToken"
         :product-id="product.id"
       />
 
@@ -197,7 +197,7 @@ import { Tab } from '@/components/layout/Tabs.vue'
 
 import { useConfigStore } from '@/store/config'
 
-const { ekomiMiniStarsToken, ekomiReviewsToken } = usePublicRuntimeConfig()
+const { ekomi } = usePublicRuntimeConfig()
 const heseya = useHeseya()
 const route = useRoute()
 const config = useConfigStore()
