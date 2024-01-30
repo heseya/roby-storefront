@@ -109,6 +109,17 @@
         </template>
       </LayoutTabs>
 
+      <IntegrationEkomiProductWidget
+        v-if="product?.id"
+        :token="ekomiMiniStarsToken"
+        :product-id="product.id"
+      />
+      <IntegrationEkomiProductWidget
+        v-if="product?.id"
+        :token="ekomiReviewsToken"
+        :product-id="product.id"
+      />
+
       <template v-if="product?.sales.length">
         <h2 class="primary-text">
           {{ t('salesTitle') }}
@@ -168,6 +179,7 @@ import { Tab } from '@/components/layout/Tabs.vue'
 
 import { useConfigStore } from '@/store/config'
 
+const { ekomiMiniStarsToken, ekomiReviewsToken } = usePublicRuntimeConfig()
 const heseya = useHeseya()
 const route = useRoute()
 const config = useConfigStore()
