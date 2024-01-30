@@ -1,4 +1,5 @@
 import svgLoader from 'vite-svg-loader'
+
 import { removePageByName, changePagePathOrRemoveByName } from './utils/routing'
 import pkg from './package.json'
 
@@ -7,11 +8,6 @@ const {
    * * Build envs
    */
   NODE_ENV,
-  NUXT_PUBLIC_EKOMI_CUSTOMER_ID,
-  NUXT_PUBLIC_EKOMI_POPUP_TOKEN,
-  NUXT_PUBLIC_EKOMI_MINI_STARS_TOKEN,
-  NUXT_PUBLIC_EKOMI_REVIEWS_TOKEN,
-  NUXT_PUBLIC_EKOMI_SURVEY_FORM_ID,
 
   // Custom pages paths
   BUILD_PAGE_BLOG_PATH = '/blog',
@@ -46,6 +42,13 @@ const {
   NUXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
   NUXT_PUBLIC_COLOR_THEME_PICKER,
   NUXT_PUBLIC_AXIOS_CACHE_TTL,
+
+  // Ekomi
+  NUXT_PUBLIC_EKOMI_CUSTOMER_ID,
+  NUXT_PUBLIC_EKOMI_POPUP_TOKEN,
+  NUXT_PUBLIC_EKOMI_MINI_STARS_TOKEN,
+  NUXT_PUBLIC_EKOMI_REVIEWS_TOKEN,
+  NUXT_PUBLIC_EKOMI_SURVEY_FORM_ID,
 
   // Sentry
   NUXT_PUBLIC_SENTRY_DSN = '',
@@ -127,8 +130,8 @@ export default defineNuxtConfig({
       leaslinkId: NUXT_PUBLIC_LEASLINK_ID,
       callpageId: NUXT_PUBLIC_CALLPAGE_ID,
       edroneId: NUXT_PUBLIC_EDRONE_ID,
-      showColorThemePicker: NUXT_PUBLIC_COLOR_THEME_PICKER === '1',
-      axiosCacheTtl: parseInt(NUXT_PUBLIC_AXIOS_CACHE_TTL || '0') ?? 0,
+      showColorThemePicker: NUXT_PUBLIC_COLOR_THEME_PICKER,
+      axiosCacheTtl: NUXT_PUBLIC_AXIOS_CACHE_TTL,
       ekomi: {
         customerId: NUXT_PUBLIC_EKOMI_CUSTOMER_ID,
         popupToken: NUXT_PUBLIC_EKOMI_POPUP_TOKEN,
