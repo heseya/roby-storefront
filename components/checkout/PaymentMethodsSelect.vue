@@ -39,22 +39,22 @@
 </i18n>
 
 <script setup lang="ts">
-import { useCheckoutStore } from '@/store/checkout'
 import { RadioGroupOption } from '@/components/form/RadioGroup.vue'
 import { useConfigStore } from '~/store/config'
 import { TRADITIONAL_PAYMENT_KEY } from '~/consts/traditionalPayment'
 
 const t = useLocalI18n()
-const checkout = useCheckoutStore()
 const config = useConfigStore()
 const heseya = useHeseya()
 
 const props = withDefaults(
   defineProps<{
     value: string | null
+    shippingMethodId?: string
   }>(),
   {
     value: null,
+    shippingMethodId: undefined,
   },
 )
 
@@ -73,13 +73,13 @@ const value = computed<string | null>({
 
 const { data: paymentMethods, refresh } = useLazyAsyncData('payment-methods-select', async () => {
   const { data } = await heseya.PaymentMethods.get({
-    shipping_method_id: checkout.shippingMethod?.id,
+    shipping_method_id: props.shippingMethodId,
   })
   return data
 })
 
 watch(
-  () => checkout.shippingMethod?.id,
+  () => props.shippingMethodId,
   () => refresh(),
 )
 

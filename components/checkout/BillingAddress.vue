@@ -17,6 +17,7 @@
         v-model:address="checkout.billingAddress"
         :invoice="checkout.invoiceRequested ?? false"
         name-prefix="billing_address"
+        exclude-countries="sales-channel"
       />
     </div>
   </CheckoutPageArea>
@@ -61,7 +62,8 @@ const copyFromShippingAddress = () => {
 }
 
 onMounted(() => {
-  checkout.invoiceRequested = config.env.select_invoice_by_default === '1'
+  checkout.invoiceRequested =
+    checkout.invoiceRequested || config.env.select_invoice_by_default === '1'
 })
 </script>
 

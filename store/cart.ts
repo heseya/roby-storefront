@@ -16,9 +16,11 @@ import cloneDeep from 'lodash/cloneDeep'
 import { defineStore } from 'pinia'
 import isEqual from 'lodash/isEqual'
 import uniqBy from 'lodash/uniqBy'
-import { useCheckoutStore } from './checkout'
 
-export type CartCoupon = Coupon & { effective_value?: number }
+import { useCheckoutStore } from './checkout'
+import { useConfigStore } from './config'
+
+export type CartCoupon = Coupon & { effective_value?: string }
 
 export const useCartStore = defineStore('cart', {
   state: () => ({
@@ -54,29 +56,42 @@ export const useCartStore = defineStore('cart', {
       return this.items.some((i) => i.shippingDigital)
     },
     allowPaczkomatDelivery(): boolean {
-      return allowSpecificDelivery(this.items as CartItem[], 'allow_paczkomat_delivery')
+      const config = useConfigStore()
+      // Always allow paczkomat delivery if is not restricted
+      if (config.env.restrict_paczkomat_delivery !== '1') return true
+      // Otherwise, all items must have allow_paczkomat_delivery set to true
+      // @ts-ignore // TODO field product in item exists but its private, we need to fix it in the future
+      return this.items.every((item) => item.product.metadata?.allow_paczkomat_delivery ?? false)
     },
     orderItems(): CartItemDto[] {
       return this.items.map((i) => i.getOrderObject())
     },
     cartDto(): CartDto {
       const checkout = useCheckoutStore()
+      const channel = useSalesChannel()
+      const currency = useCurrency()
+
       return {
         items: this.items.map((item) => item.getOrderObject()),
         coupons: this.coupons.map((coupon) => coupon.code),
         shipping_method_id: checkout.shippingMethod?.id,
         digital_shipping_method_id: checkout.digitalShippingMethod?.id,
+        sales_channel_id: channel.value?.id || '',
+        currency: currency.value,
       }
     },
 
     shippingTimeDescription(): string {
-      // TODO: multilanguage
+      const t = useGlobalI18n()
+
       if (this.shippingDate && isAfter(new Date(this.shippingDate), new Date())) {
-        return `od ${formatDate(new Date(this.shippingDate))}`
+        return `${t('shippingTime.from')} ${formatDate(new Date(this.shippingDate))}`
       }
       if (this.shippingTime) {
         const hours = Math.round(this.shippingTime * 24)
-        return `w ${hours <= 72 ? `${hours}h` : `${this.shippingTime} dni roboczych`}`
+        return `${t('shippingTime.in')} ${
+          hours <= 72 ? `${hours}h` : `${this.shippingTime} ${t('shippingTime.workDays')}`
+        }`
       }
       return ''
     },
@@ -117,17 +132,17 @@ export const useCartStore = defineStore('cart', {
             const cartItem = this.items.find((cartItem) => cartItem.id === item.cartitem_id)!
             return cloneDeep(cartItem)
               .updateQuantity(item.quantity)
-              .setPrecalculatedPrices(item.price_discounted, item.price)
+              .setPrecalculatedPrices(parseFloat(item.price_discounted), parseFloat(item.price))
           }),
         )
 
-        this.totalValue = cart.cart_total
-        this.totalValueInitial = cart.cart_total_initial
+        this.totalValue = parseFloat(cart.cart_total)
+        this.totalValueInitial = parseFloat(cart.cart_total_initial)
 
-        this.shippingPrice = cart.shipping_price
+        this.shippingPrice = parseFloat(cart.shipping_price)
         this.shippingTime = cart.shipping_time
         this.shippingDate = cart.shipping_date
-        this.summary = cart.summary
+        this.summary = parseFloat(cart.summary)
 
         // Side effect: fetch the shipping method
         // dispatch('shippingMethods/fetch', state.totalValue, { root: true })
@@ -187,7 +202,8 @@ export const useCartStore = defineStore('cart', {
       quantity: number
     }) {
       const ev = useHeseyaEventBus()
-      const newCartItem = new CartItem(product, quantity, schemas, schemaValue)
+      const currency = useCurrency()
+      const newCartItem = new CartItem(product, quantity, schemas, schemaValue, [], currency.value)
       const existingCartItem = this.items.find(
         (item) => item.id === newCartItem.id && isEqual(item.schemas, newCartItem.schemas),
       )

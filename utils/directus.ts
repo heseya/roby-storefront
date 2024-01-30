@@ -13,7 +13,7 @@ export const getImageUrl = (
     if (value) query.set(key, value.toString())
   })
 
-  return `${directusUrl}/assets/${file.filename_disk}?${query.toString()}`
+  return `${directusUrl}/assets/${file}?${query.toString()}`
 }
 
 export const getTranslated = <T>(translated: DirectusTranslated<T>, lang: string): T => {

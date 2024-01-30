@@ -86,6 +86,8 @@
         </div>
       </div>
     </div>
+
+    <BaseFooterSocialmedia />
   </footer>
 </template>
 
@@ -118,6 +120,7 @@ import PhoneIcon from '@/assets/icons/phone.svg?component'
 import MailIcon from '@/assets/icons/mail.svg?component'
 
 const t = useLocalI18n()
+const { locale } = useI18n()
 const config = useConfigStore()
 const heseya = useHeseya()
 const localePath = useLocalePath()
@@ -155,7 +158,7 @@ const { data: sections } = useAsyncData('footer-pages', async () => {
 const getSectionPages = (section: number) => sections.value?.[section - 1] || []
 
 const getSectionName = (section: number) =>
-  String(config.env[`footer_section_name${section}`] || '')
+  String(config.env[`footer_section_name${section}_${locale.value}`] || '')
 </script>
 
 <style lang="scss" scoped>
@@ -197,6 +200,7 @@ const getSectionName = (section: number) =>
   &__logo {
     width: 130px;
     height: 38px;
+    object-fit: contain;
   }
 
   &__text {

@@ -5,8 +5,8 @@
       <LayoutLoading :active="pending" />
       <article class="blog-page">
         <h1 class="blog-page__title">{{ translatedArticle?.title }}</h1>
-        <div class="blog-page__img">
-          <img :src="imageUrl" :alt="translatedArticle?.description" />
+        <div v-if="!article?.hide_cover" class="blog-page__img">
+          <img :src="coverUrl || imageUrl" :alt="translatedArticle?.description" />
         </div>
         <div class="blog-page__info">
           <div class="blog-page__tags">
@@ -51,8 +51,9 @@ const { data: article, pending } = useAsyncData(`blog-article-${props.slug}`, as
         'slug',
         'date_created',
         'no_index',
-        // @ts-ignore directus is wrong
-        'image.filename_disk',
+        'image',
+        'cover_image',
+        'hide_cover',
         'translations.title',
         'translations.description',
         'translations.languages_code',
@@ -60,7 +61,9 @@ const { data: article, pending } = useAsyncData(`blog-article-${props.slug}`, as
         'translations.seo_description',
         'translations.seo_title',
         'translations.metatags',
+        // @ts-ignore directus is wrong
         'tags.BlogTags_id.id',
+        // @ts-ignore directus is wrong
         'tags.BlogTags_id.translations.*',
       ],
       limit: 1,
@@ -74,6 +77,7 @@ const { data: article, pending } = useAsyncData(`blog-article-${props.slug}`, as
       showError({ message: t('errors.NOT_FOUND'), statusCode: 404 })
     }
 
+    // @ts-ignore directus is wrong
     return response.data?.[0] as BlogArticle
   } catch (e: any) {
     showError({ message: e?.response?.status, statusCode: 500 })
@@ -82,6 +86,7 @@ const { data: article, pending } = useAsyncData(`blog-article-${props.slug}`, as
 })
 
 const imageUrl = computed(() => getImageUrl(article.value?.image, { width: 900 }))
+const coverUrl = computed(() => getImageUrl(article.value?.cover_image, { width: 900 }))
 const translatedArticle = computed(() =>
   article.value ? getTranslated(article.value.translations, 'PL-pl') : null,
 )

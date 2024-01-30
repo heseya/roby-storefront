@@ -20,19 +20,19 @@
           html-type="number"
           name="price_min"
           :model-value="filters['price.min']"
-          postfix="zł"
+          :postfix="currency"
           label-uppercase
-          @update:model-value="(v) => updateKey('price.min', v)"
+          @update:model-value="(v) => updatePrice('min', v)"
         />
         <span> {{ $t('common.to') }} </span>
         <FormInput
           type="gray"
           html-type="number"
           name="price_max"
-          postfix="zł"
+          :postfix="currency"
           :model-value="filters['price.max']"
           label-uppercase
-          @update:model-value="(v) => updateKey('price.max', v)"
+          @update:model-value="(v) => updatePrice('max', v)"
         />
       </div>
     </div>
@@ -80,6 +80,8 @@ const emit = defineEmits<{
   (event: 'update:filters', filters: Record<string, any>): void
 }>()
 
+const currency = useCurrency()
+
 const heseya = useHeseya()
 const t = useLocalI18n()
 const $t = useGlobalI18n()
@@ -98,6 +100,20 @@ const { data: attributes } = useLazyAsyncData(async () => {
 const updateKey = (key: string, value: any) => {
   emit('update:filters', { ...props.filters, [key]: value })
 }
+
+const updatePrice = (key: 'max' | 'min', value: any) => {
+  const data: Record<string, any> = { ...props.filters }
+  data[`price.${key}`] = value
+
+  if (data[`price.min`] || data[`price.max`]) data[`price.currency`] = currency.value
+  else data[`price.currency`] = undefined
+
+  emit('update:filters', data)
+}
+
+watch(currency, () => {
+  if (props.filters[`price.currency`]) updateKey('price.currency', currency.value)
+})
 </script>
 
 <style lang="scss" scoped>

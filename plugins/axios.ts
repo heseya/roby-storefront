@@ -1,10 +1,12 @@
 import axios from 'axios'
 import { enhanceAxiosWithAuthTokenRefreshing } from '@heseya/store-core'
-import { setupCache, buildMemoryStorage } from 'axios-cache-interceptor'
+import { setupCache, buildMemoryStorage, buildKeyGenerator } from 'axios-cache-interceptor'
 
 import { Pinia } from '@pinia/nuxt/dist/runtime/composables'
 
-import { useAuthStore } from '~/store/auth'
+import { useChannelsStore } from '@/store/channels'
+import { useLanguageStore } from '@/store/language'
+import { useAuthStore } from '@/store/auth'
 
 declare module 'axios' {
   interface AxiosRequestConfig {
@@ -31,12 +33,20 @@ export default defineNuxtPlugin((nuxt) => {
     // TODO: remove this override when API stop returning `Cache-Control: no-cache`
     headerInterpreter: () => axiosCacheTtl,
     storage: cacheStorage,
+    generateKey: buildKeyGenerator((request) => ({
+      method: request.method,
+      url: request.url,
+      salesChannel: request.headers?.['X-Sales-Channel'],
+      acceptLanguage: request.headers?.['Accept-Language'],
+    })),
   })
 
   // ? --------------------------------------------------------------------------------------------
   // ? Auth
   // ? --------------------------------------------------------------------------------------------
   const auth = useAuthStore(nuxt.$pinia as Pinia)
+  const languageStore = useLanguageStore(nuxt.$pinia as Pinia)
+  const channelsStore = useChannelsStore(nuxt.$pinia as Pinia)
 
   const accessToken = useAccessToken()
   const identityToken = useIdentityToken()
@@ -69,6 +79,19 @@ export default defineNuxtPlugin((nuxt) => {
 
   ax.interceptors.request.use((config) => {
     config._beginTime = Date.now()
+
+    // @ts-ignore this $i18n exists, but it's not in the Nuxt types for some reason
+    const apiLanguage = languageStore.getLanguageByIso(nuxt.$i18n.locale.value)
+    if (apiLanguage && languageStore.languages.length > 0) {
+      config.headers['Accept-Language'] = apiLanguage.iso
+    } else if (!config.url?.includes('languages')) {
+      // ignore languages endpoint
+      // eslint-disable-next-line no-console
+      console.warn('Current language not found in languages provided by api')
+    }
+
+    if (channelsStore.selected) config.headers['X-Sales-Channel'] = channelsStore.selected.id
+
     return config
   })
 

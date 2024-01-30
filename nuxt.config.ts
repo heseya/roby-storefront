@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 import svgLoader from 'vite-svg-loader'
 import { removePageByName, changePagePathOrRemoveByName } from './utils/routing'
+import pkg from './package.json'
 
 const {
   API_URL = 'https://demo-***REMOVED***.***REMOVED***',
@@ -8,6 +9,7 @@ const {
   DIRECTUS_URL,
   PRICE_TRACKER_URL = 'https://main-price-tracker.app.***REMOVED***',
   ENVIRONMENT = 'development',
+  FONT_FAMILY = 'Roboto',
   VERCEL_ENV,
   APP_HOST,
   RECAPTCHA_PUBLIC,
@@ -15,6 +17,7 @@ const {
   CENEO_GUID,
   LEASLINK_ID,
   CALLPAGE_ID,
+  EDRONE_ID,
   EKOMI_CUSTOMER_ID,
   EKOMI_POPUP_TOKEN,
   EKOMI_MINI_STARS_TOKEN,
@@ -52,6 +55,7 @@ export default defineNuxtConfig({
           name: 'viewport',
           content: 'width=device-width,initial-scale=1,maximum-scale=5',
         },
+        { name: 'version', content: pkg.version },
         {
           hid: isProduction ? 'robots' : 'force-robots',
           name: 'robots',
@@ -64,6 +68,7 @@ export default defineNuxtConfig({
         },
       ],
       link: [
+        { rel: 'sitemap', href: '/sitemap.xml', type: 'application/xml' },
         { rel: 'preconnect', href: API_URL },
         { rel: 'dns-prefetch', href: API_URL },
         { rel: 'preconnect', href: CDN_URL },
@@ -81,6 +86,14 @@ export default defineNuxtConfig({
     },
   },
 
+  experimental: {
+    defaults: {
+      useAsyncData: {
+        deep: false,
+      },
+    },
+  },
+
   css: ['@/assets/scss/index.scss'],
 
   runtimeConfig: {
@@ -95,6 +108,7 @@ export default defineNuxtConfig({
       ceneoGuid: CENEO_GUID,
       leaslinkId: LEASLINK_ID,
       callpageId: CALLPAGE_ID,
+      edroneId: EDRONE_ID,
       ekomiCustomerId: EKOMI_CUSTOMER_ID,
       ekomiPopupToken: EKOMI_POPUP_TOKEN,
       ekomiMiniStarsToken: EKOMI_MINI_STARS_TOKEN,
@@ -113,6 +127,8 @@ export default defineNuxtConfig({
     '@vueuse/nuxt',
     'nuxt-swiper',
     'nuxt-delay-hydration',
+    'nuxt-simple-robots',
+    'nuxt-simple-sitemap',
   ],
 
   hooks: {
@@ -148,9 +164,16 @@ export default defineNuxtConfig({
     },
   },
 
+  sitemap: {
+    sitemapName: 'sitemap.xml',
+    autoI18n: true,
+    autoLastmod: false,
+    cacheTtl: 1000 * 60 * 15,
+  },
+
   googleFonts: {
     families: {
-      Roboto: [300, 400, 500, 600, 700],
+      [FONT_FAMILY]: [300, 400, 500, 600, 700],
     },
   },
 
@@ -180,6 +203,10 @@ export default defineNuxtConfig({
     mode: 'mount',
     // enables nuxt-delay-hydration in dev mode for testing
     debug: process.env.NODE_ENV === 'development',
+  },
+
+  swiper: {
+    modules: ['pagination', 'navigation', 'autoplay'],
   },
 
   // routeRules: {
@@ -213,5 +240,9 @@ export default defineNuxtConfig({
         transformMixedEsModules: true,
       },
     },
+  },
+
+  devtools: {
+    enabled: false,
   },
 })

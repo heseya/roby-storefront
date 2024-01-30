@@ -11,7 +11,12 @@
           @click="isOpenCategories = true"
         />
         <NuxtLink :to="localePath('/')" class="nav-items__logo-link">
-          <img class="nav-items__logo" :src="config.storeLogoUrl" :alt="config.storeName" />
+          <img
+            class="nav-items__logo"
+            :src="config.storeLogoUrl"
+            :alt="config.storeName"
+            loading="eager"
+          />
         </NuxtLink>
         <LayoutNavSearch
           class="nav-items__search--wide"
@@ -143,6 +148,7 @@ import { useCategoriesStore } from '@/store/categories'
 import { NavLink } from '@/interfaces/NavLink'
 import { SearchValues } from '@/components/layout/nav/Search.vue'
 import { useSearchHistoryStore } from '@/store/searchHistory'
+import { useChannelsStore } from '@/store/channels'
 
 const t = useLocalI18n()
 const $t = useGlobalI18n()
@@ -152,6 +158,7 @@ const { notify } = useNotify()
 
 const auth = useAuthStore()
 const config = useConfigStore()
+const channels = useChannelsStore()
 const wishlist = useWishlistStore()
 const cart = useCartStore()
 const categoriesStore = useCategoriesStore()
@@ -162,7 +169,9 @@ const isOpenSearch = ref(false)
 
 const { locales } = useI18n()
 
-const isTopBarVisible = computed(() => locales.value.length > 1 || !!config.customRedirect)
+const isTopBarVisible = computed(
+  () => locales.value.length > 1 || !!config.customRedirect || channels.channels.length > 1,
+)
 
 const { y: scrollY } = useWindowScroll()
 
@@ -190,11 +199,20 @@ const { data: navLinks } = useAsyncData<NavLink[]>('nav-pages', async () => {
   const { data } = await heseya.Pages.get({ metadata: { nav: true } })
   return data.map((p) => ({ text: p.name, path: `/${p.slug}` }))
 })
+
+/**
+ * https://stackoverflow.com/questions/75204169/the-data-from-pinia-store-is-not-reactive-in-nuxt-3-when-switching-language
+ * Needs to be manually invoked because of the pinia bug
+ */
+onBeforeMount(async () => {
+  await Promise.all([channels.fetchChannels(), categoriesStore.fetchRootCategories()])
+  categoriesStore.subcategoriesMap = {}
+})
 </script>
 
 <style lang="scss" scoped>
 .nav-bar {
-  z-index: 100;
+  z-index: 2000;
   position: fixed;
   top: 0;
   left: 0;

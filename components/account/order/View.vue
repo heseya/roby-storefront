@@ -28,13 +28,6 @@
             <div>{{ paymentStatus.status.text }}</div>
           </div>
         </div>
-        <div class="account-order-view__text">
-          {{
-            paymentStatus?.method === 'offline'
-              ? $t('payments.traditionalTransfer')
-              : paymentStatus?.method
-          }}
-        </div>
         <NuxtLink :to="localePath(`/pay/${order.code}`)">
           <LayoutButton
             v-if="order.payable"
@@ -43,6 +36,20 @@
           />
         </NuxtLink>
       </div>
+
+      <AccountOrderDetailsContainer :header="t('documents')">
+        <div v-if="order.documents.length > 0">
+          <button
+            v-for="document in order.documents"
+            :key="document.id"
+            class="account-order-view__document-link"
+            @click="downloadFile(order.id, document.id, document.name)"
+          >
+            {{ document.name }}
+          </button>
+        </div>
+        <div v-else>{{ t('noDocuments') }}</div>
+      </AccountOrderDetailsContainer>
     </div>
 
     <AccountOrderViewProducts v-if="order" :order="order" />
@@ -52,12 +59,14 @@
 <i18n lang="json">
 {
   "pl": {
-    "pending": "W trakcie",
-    "goToPayment": "Przejdź do płatności"
+    "goToPayment": "Przejdź do płatności",
+    "documents": "Dokumenty",
+    "noDocuments": "Brak dokumentów"
   },
   "en": {
-    "pending": "Pending",
-    "goToPayment": "Payment"
+    "goToPayment": "Go to payment",
+    "documents": "Documents",
+    "noDocuments": "No documents available"
   }
 }
 </i18n>
@@ -70,53 +79,55 @@ import Pending from '@/assets/icons/pending.svg?component'
 const t = useLocalI18n()
 const $t = useGlobalI18n()
 const localePath = useLocalePath()
+const heseya = useHeseya()
 
 const props = defineProps<{
   order: Order
 }>()
 
 const paymentStatus = computed(() => {
-  const { payments } = props.order
+  const { paid, shipping_method: shippingMethod } = props.order
 
-  const successfulPayment = payments.find((p) => p.status === PaymentStatus.Successful)
-  const pendingPayment = payments.find((p) => p.status === PaymentStatus.Pending)
-  const failedPayment = payments.find((p) => p.status === PaymentStatus.Failed)
+  if (paid)
+    return {
+      icon: Successful,
+      class: 'account-order-view__payment-status--successful',
+      status: {
+        text: $t('payments.paid'),
+        value: PaymentStatus.Successful,
+      },
+    }
 
-  const payment = successfulPayment || pendingPayment || failedPayment
+  if (shippingMethod?.payment_on_delivery)
+    return {
+      icon: Pending,
+      class: 'account-order-view__payment-status--pending',
+      status: {
+        text: t('payments.paymentOnDelivery'),
+        value: PaymentStatus.Pending,
+      },
+    }
 
-  switch (payment?.status) {
-    case PaymentStatus.Successful:
-      return {
-        icon: Successful,
-        class: 'account-order-view__payment-status--successful',
-        status: {
-          text: $t('payments.paid'),
-          value: PaymentStatus.Successful,
-        },
-        method: payment.method,
-      }
-    case PaymentStatus.Pending:
-      return {
-        icon: Pending,
-        class: 'account-order-view__payment-status--pending',
-        status: {
-          text: t('pending'),
-          value: PaymentStatus.Pending,
-        },
-        method: payment.method,
-      }
-    default:
-      return {
-        icon: Failed,
-        class: 'account-order-view__payment-status--failed',
-        status: {
-          text: $t('payments.unpaid'),
-          value: PaymentStatus.Failed,
-        },
-        method: payment?.method || '',
-      }
+  return {
+    icon: Failed,
+    class: 'account-order-view__payment-status--failed',
+    status: {
+      text: $t('payments.unpaid'),
+      value: PaymentStatus.Failed,
+    },
   }
 })
+const downloadFile = async (orderId: string, documentId: string, documentName: string | null) => {
+  const url = await heseya.Orders.Documents.download(orderId, documentId).then((response) =>
+    URL.createObjectURL(response),
+  )
+
+  const linkElement = document.createElement('a')
+  linkElement.setAttribute('href', url)
+  linkElement.setAttribute('target', '_blank')
+  linkElement.setAttribute('download', documentName ?? '')
+  linkElement.click()
+}
 </script>
 
 <style lang="scss" scoped>
@@ -186,6 +197,17 @@ const paymentStatus = computed(() => {
     width: 100%;
     background-color: $gray-color-900;
     color: #fff !important;
+  }
+
+  &__document-link {
+    background-color: unset;
+    border: unset;
+    color: $blue-color-500;
+    cursor: pointer;
+
+    &:hover {
+      color: $blue-color-700;
+    }
   }
 
   &__icon {

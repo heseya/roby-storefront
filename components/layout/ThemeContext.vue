@@ -1,5 +1,5 @@
 <template>
-  <div id="theme-context" :style="colorStyles">
+  <div data-theme-context :style="colorStyles">
     <slot />
   </div>
 </template>

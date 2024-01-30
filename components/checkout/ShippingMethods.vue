@@ -10,18 +10,20 @@
         <template v-for="method in shippingMethods" :key="method.id" v-slot:[`${method.id}-label`]>
           <div class="shipping-method">
             <span class="shipping-method__name">{{ method.name }}</span>
-            <span class="shipping-method__price">{{ formatAmount(method.price || 0) }}</span>
+            <span class="shipping-method__price">{{
+              formatAmount(parsePrices(method.prices, currency), currency)
+            }}</span>
           </div>
           <div class="shipping-method-description">
             <p>
               <template v-if="cart.shippingTimeDescription">
                 {{ t('shippingTime') }} <b>{{ cart.shippingTimeDescription }}.</b>
               </template>
-              {{ t('packagingTime') }}
-              <b
-                >{{ method.shipping_time_min }}-{{ method.shipping_time_max }}
-                {{ $t('custom.workingDays') }}</b
-              >
+              {{ t('packagingTime') }}:
+              <b>
+                {{ method.shipping_time_min }}-{{ method.shipping_time_max }}
+                {{ $t('shippingTime.workDays') }}
+              </b>
             </p>
           </div>
         </template>
@@ -35,6 +37,9 @@
           />
           <CheckoutInpostSelect
             v-if="method.shipping_type === ShippingType.PointExternal && method.metadata.paczkomat"
+          />
+          <CheckoutDpdSelect
+            v-if="method.shipping_type === ShippingType.PointExternal && method.metadata.dpd_pickup"
           />
           <CheckoutFormShippingPointSelect
             v-if="method.shipping_type === ShippingType.Point"
@@ -60,9 +65,16 @@
 </i18n>
 
 <script setup lang="ts">
-import { CartItem, HeseyaEvent, ShippingMethod, ShippingType } from '@heseya/store-core'
+import {
+  CartItem,
+  HeseyaEvent,
+  ShippingMethod,
+  ShippingType,
+  parsePrices,
+} from '@heseya/store-core'
 import { useCartStore } from '@/store/cart'
 import { useCheckoutStore } from '@/store/checkout'
+import { useChannelsStore } from '@/store/channels'
 
 const t = useLocalI18n()
 const $t = useGlobalI18n()
@@ -70,12 +82,18 @@ const heseya = useHeseya()
 const cart = useCartStore()
 const checkout = useCheckoutStore()
 const ev = useHeseyaEventBus()
+const currency = useCurrency()
+const channel = useChannelsStore()
 
 const { data: shippingMethods } = useLazyAsyncData(
   `shipping-methods-for-value`,
   async () => {
-    const methods = await heseya.ShippingMethods.get({ cart_value: cart.totalValue })
-    return methods.data
+    const methods = await heseya.ShippingMethods.get({
+      cart_value: { value: cart.totalValue, currency: currency.value },
+      items: cart.items.map((item) => item.productId),
+      country: channel.countryCode,
+    })
+    return methods.data.filter((m) => m.shipping_type !== ShippingType.Digital)
   },
   { server: false, default: () => [] as ShippingMethod[] },
 )

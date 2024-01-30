@@ -1,11 +1,13 @@
 <template>
-  <CheckoutPageArea :title="$t('account.myData')" :placeholder-height="300">
+  <CheckoutPageArea :title="$t('orders.summary')" :placeholder-height="300">
     <div class="checkout-summary">
       <div v-for="item in cart.items" :key="item.id" class="checkout-summary-item">
         <span class="checkout-summary-item__text">
-          <span class="primary-text">{{ item.qty }}x</span> {{ item.name }}
+          <span class="primary-text">{{ item.totalQty }}x</span> {{ item.name }}
         </span>
-        <span class="checkout-summary-item__text">{{ formatAmount(item.totalPrice) }}</span>
+        <span class="checkout-summary-item__text">{{
+          formatAmount(item.totalPrice, currency)
+        }}</span>
       </div>
 
       <div v-if="cart.totalDiscountValue !== 0" class="checkout-summary-item">
@@ -13,13 +15,15 @@
           {{ $t('payments.discount') }}
         </span>
         <span class="checkout-summary-item__text checkout-summary-item__text--green">
-          {{ formatAmount(-cart.totalDiscountValue) }}
+          {{ formatAmount(-cart.totalDiscountValue, currency) }}
         </span>
       </div>
 
       <div class="checkout-summary-item">
         <span class="checkout-summary-item__text">{{ $t('orders.delivery') }}</span>
-        <span class="checkout-summary-item__text"> {{ formatAmount(cart.shippingPrice) }} </span>
+        <span class="checkout-summary-item__text">
+          {{ formatAmount(cart.shippingPrice, currency) }}
+        </span>
       </div>
 
       <hr class="checkout-summary__hr hr" />
@@ -27,16 +31,21 @@
       <div class="checkout-summary-item">
         <span class="checkout-summary-item__text">{{ $t('orders.totalAmount') }}</span>
         <span class="checkout-summary-item__text checkout-summary-item__text--big">
-          {{ formatAmount(cart.summary) }}
+          {{ formatAmount(cart.summary, currency) }}
         </span>
       </div>
 
-      <LayoutButton
-        variant="primary"
-        class="cart-summary__button"
-        :disabled="disabled || !checkout.isValid"
-        @click="emit('submit')"
-      >
+      <hr class="checkout-summary__hr hr" />
+
+      <div class="checkout-summary-item">
+        <CheckoutConsents />
+      </div>
+
+      <LayoutInfoBox v-if="!isValid && isErrorVisible" type="danger" class="checkout-summary-item">
+        {{ shownError }}
+      </LayoutInfoBox>
+
+      <LayoutButton variant="primary" class="cart-summary__button" @click="handleClick">
         {{ $t('payments.confirmAndPay') }}
       </LayoutButton>
     </div>
@@ -47,8 +56,9 @@
 import { useCartStore } from '@/store/cart'
 import { useCheckoutStore } from '~/store/checkout'
 
-defineProps<{
+const props = defineProps<{
   disabled: boolean
+  isValidationError: boolean
 }>()
 
 const emit = defineEmits<{
@@ -58,6 +68,25 @@ const emit = defineEmits<{
 const $t = useGlobalI18n()
 const cart = useCartStore()
 const checkout = useCheckoutStore()
+const currency = useCurrency()
+
+const isErrorVisible = ref(false)
+
+const isValid = computed(() => checkout.isValid && !props.isValidationError)
+
+const shownError = computed(() => {
+  if (props.isValidationError) return $t('errors.checkout.validationError')
+  if (checkout.validationError) return checkout.validationError
+  return ''
+})
+
+const handleClick = () => {
+  if (!isValid.value) isErrorVisible.value = true
+  else {
+    isErrorVisible.value = false
+    emit('submit')
+  }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -66,8 +95,7 @@ const checkout = useCheckoutStore()
   flex-direction: column;
 
   &__hr {
-    border-top-width: 2px;
-    margin-top: 8px;
+    margin-top: 12px;
   }
 }
 

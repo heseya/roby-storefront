@@ -1,20 +1,25 @@
 <template>
   <FormModal
     v-model:open="isModalVisible"
-    :values="form.values"
+    :values="formValues"
     :header="header"
     :error="errorMessage"
     :ok-text="$t('common.save')"
     :fullscreen="fullscreen"
     @submit="onSubmit"
   >
-    <FormInput v-model="form.values.name" rules="required" :label="$t('common.name')" name="name" />
-    <AddressForm v-model:address="form.values.address" :invoice="isInvoice" />
-
-    <FormCheckbox v-model="isInvoice" name="invoice" :label="t('invoice')" />
+    <FormInput v-model="formValues.name" rules="required" :label="$t('common.name')" name="name" />
+    <AddressForm v-model:address="formValues.address" :invoice="isInvoice" />
 
     <FormCheckbox
-      v-model="form.values.default"
+      v-if="type === 'billing'"
+      v-model="isInvoice"
+      name="invoice"
+      :label="t('invoice')"
+    />
+
+    <FormCheckbox
+      v-model="formValues.default"
       :disabled="props.address && props.address.default"
       name="default"
       :label="t('default')"
@@ -26,7 +31,7 @@
 {
   "pl": {
     "default": "Ustaw jako domyślny",
-    "invoice": "Chce otrzymać fakture VAT"
+    "invoice": "Chcę otrzymać fakture VAT"
   },
   "en": {
     "default": "Set as default",
@@ -36,7 +41,7 @@
 </i18n>
 
 <script setup lang="ts">
-import { useForm } from 'vee-validate'
+import cloneDeep from 'lodash/cloneDeep'
 import {
   UserSavedAddress,
   UserSavedAddressCreateDto,
@@ -80,18 +85,16 @@ const errorMessage = ref<string>()
 
 const isInvoice = ref<boolean>(!!props.address?.address.vat)
 
-const form = useForm<UserSavedAddressCreateDto | UserSavedAddressUpdateDto>({
-  initialValues: {
-    default: false,
-    name: '',
-    address: { ...EMPTY_ADDRESS },
-  },
+const formValues = ref<UserSavedAddressCreateDto | UserSavedAddressUpdateDto>({
+  default: false,
+  name: '',
+  address: { ...EMPTY_ADDRESS },
 })
 
 const onSubmit = async () => {
   const { success, error } = props.address
-    ? await edit(props.address.id, form.values)
-    : await add(form.values)
+    ? await edit(props.address.id, formValues.value)
+    : await add(formValues.value)
 
   if (!success) {
     errorMessage.value = formatError(error)
@@ -105,14 +108,22 @@ const onSubmit = async () => {
   }
 }
 
+watch(isInvoice, (value) => {
+  if (!value) formValues.value.address.vat = ''
+})
+
 watch(
   () => props.open,
   () => {
     if (!props.open) return
     if (props.address) {
-      form.values = { ...props.address }
+      formValues.value = cloneDeep(props.address)
     } else {
-      form.handleReset()
+      formValues.value = {
+        default: false,
+        name: '',
+        address: { ...EMPTY_ADDRESS },
+      }
     }
   },
 )

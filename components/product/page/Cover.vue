@@ -3,7 +3,7 @@
     class="product-cover-gallery"
     :class="{ 'product-cover-gallery--singular': media.length < 2 }"
   >
-    <div class="product-cover-gallery__list">
+    <div class="product-cover-gallery__list" style="max-height: 500px; max-width: 100px">
       <Media
         v-for="image in props.media"
         :key="image.id"
@@ -14,12 +14,13 @@
         @click="setActive(image)"
       />
     </div>
-    <div class="product-cover-gallery__main">
+    <div class="product-cover-gallery__main" style="max-width: 500px; max-height: 500px">
       <Media
         class="product-cover-gallery__item"
         :media="active"
-        width="500"
+        :width="isMobile ? 300 : 500"
         height="500"
+        loading="eager"
         @click="openBigGallery"
       />
 
@@ -41,6 +42,8 @@
 
 <script setup lang="ts">
 import { CdnMedia, Tag } from '@heseya/store-core'
+
+const isMobile = useMediaQuery('(max-width: 440px)')
 
 const props = defineProps<{
   media: CdnMedia[]
@@ -71,6 +74,9 @@ watch(
   display: grid;
   grid-template-columns: 1fr;
   gap: 5px;
+  width: 100%;
+  max-width: 605px;
+  margin: 0 auto;
 
   @media ($viewport-8) {
     grid-template-columns: 1fr 5fr;
@@ -92,6 +98,7 @@ watch(
   }
 
   &__main {
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: flex-start;

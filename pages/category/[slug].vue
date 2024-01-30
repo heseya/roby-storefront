@@ -3,6 +3,13 @@
     <LayoutBreadcrumpsProvider :breadcrumbs="breadcrumbs" />
 
     <BaseContainer class="categories-page">
+      <Media
+        v-if="category?.cover"
+        class="categories-page__cover"
+        :media="category?.cover"
+        object-fit="cover"
+      />
+
       <ProductListPage
         :title="category?.name"
         :sets="[route.params.slug as string]"
@@ -34,6 +41,8 @@
 </i18n>
 
 <script setup lang="ts">
+import { HeseyaEvent } from '@heseya/store-core'
+
 const heseya = useHeseya()
 const route = useRoute()
 const t = useLocalI18n()
@@ -46,8 +55,8 @@ const { data: category } = useAsyncData(`category-${route.params.slug}`, async (
 
     return category
   } catch (e: any) {
-    if (e?.response?.status === 404) {
-      showError({ message: t('notFoundError'), statusCode: 404 })
+    if (e?.response?.status === 404 || e?.response?.status === 406) {
+      showError({ message: t('notFoundError'), statusCode: e?.response?.status })
       return null
     }
 
@@ -57,6 +66,15 @@ const { data: category } = useAsyncData(`category-${route.params.slug}`, async (
 })
 
 useSeo(() => [category.value?.seo, { title: category.value?.name }])
+
+delayedOnMounted(() => {
+  const ev = useHeseyaEventBus()
+  ev.emit(HeseyaEvent.ViewContent, {
+    contentType: 'product-set',
+    contentId: category.value?.id,
+    contentName: category.value?.name,
+  })
+})
 
 const breadcrumbs = computed(() => [
   category.value?.parent
@@ -74,6 +92,13 @@ const breadcrumbs = computed(() => [
 
 <style lang="scss" scoped>
 .categories-page {
+  &__cover {
+    width: 100%;
+    max-height: 400px;
+    margin-bottom: 24px;
+    display: block;
+  }
+
   &__description {
     margin-top: 32px;
   }

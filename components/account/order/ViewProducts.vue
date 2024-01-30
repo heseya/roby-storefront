@@ -4,7 +4,7 @@
       <div class="products-and-summary__header">{{ t('header') }}</div>
       <div class="products-and-summary__products-list">
         <div v-for="product in order.products" :key="product.id">
-          <AccountOrderViewProduct :product="product" />
+          <AccountOrderViewProduct :product="product" :currency="order.currency" />
         </div>
       </div>
     </div>

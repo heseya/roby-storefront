@@ -103,7 +103,6 @@ watch(
 
   label {
     padding-left: 24px;
-    display: block;
     font-weight: 400;
     position: relative;
 
@@ -137,14 +136,13 @@ watch(
     border-color: var(--primary-color-alt);
   }
 
-  &[disabled='true'] label::before {
+  input:disabled + label::before {
     opacity: 0.6;
-    background-color: $blue-color-100;
     cursor: not-allowed;
   }
 
   &__error {
-    font-size: rem(10);
+    font-size: rem(12);
     color: var(--error-color);
     padding-left: 24px;
     font-weight: 500;

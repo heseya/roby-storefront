@@ -1,18 +1,30 @@
-import { CartItemSchema, Product, CartItem } from '@heseya/store-core'
+import { CartItemSchema, Product, CartItem, parsePrices } from '@heseya/store-core'
 
 export const useProductPrice = (product: Product, schemaValue: Ref<CartItemSchema[]>) => {
   const heseya = useHeseya()
+  const currency = useCurrency()
+  const channel = useSalesChannel()
 
   const pending = ref(false)
-  const price = ref(product.price_min)
-  const originalPrice = ref(product.price_min_initial)
+
+  const originalPrice = ref(parsePrices(product.prices_min_initial, currency.value))
+  const price = ref(parsePrices(product.prices_min, currency.value))
 
   const calc = async () => {
-    const cartItem = new CartItem(product, 1, product.schemas, schemaValue.value)
+    const cartItem = new CartItem(
+      product,
+      1,
+      product.schemas,
+      schemaValue.value,
+      [],
+      currency.value,
+    )
 
     const cart = await heseya.Orders.processCart({
       coupons: [],
       items: [cartItem.getOrderObject()],
+      sales_channel_id: channel.value?.id || '',
+      currency: currency.value,
     })
 
     if (cart.items.length !== 1)
@@ -20,8 +32,8 @@ export const useProductPrice = (product: Product, schemaValue: Ref<CartItemSchem
 
     const item = cart.items[0]
 
-    price.value = item.price_discounted
-    originalPrice.value = item.price
+    price.value = parseFloat(item.price_discounted)
+    originalPrice.value = parseFloat(item.price)
 
     return {
       price: item.price_discounted,

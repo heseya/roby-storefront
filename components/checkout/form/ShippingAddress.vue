@@ -1,7 +1,11 @@
 <template>
   <div class="shipping-address-form">
     <h2 class="shipping-address-form__title">{{ $t('payments.deliveryAddress') }}</h2>
-    <AddressForm v-model:address="checkout.shippingAddress" name-prefix="shipping_address" />
+    <AddressForm
+      v-model:address="checkout.shippingAddress"
+      name-prefix="shipping_address"
+      exclude-countries="shipping-method"
+    />
   </div>
 </template>
 

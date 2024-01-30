@@ -13,14 +13,14 @@
           class="carousel__content-container"
           :class="{ 'carousel__content-container--visible': isVisible }"
         >
-          <slot name="item" v-bind="item" />
+          <slot name="item" v-bind="(item as any)" />
         </div>
       </SwiperSlide>
-      <template v-if="!hideNav" #container-start>
-        <LayoutCarouselButton class="carousel__button" />
+      <template #container-start>
+        <LayoutCarouselButton v-show="!hideNav" class="carousel__button" />
       </template>
-      <template v-if="!hideNav" #container-end>
-        <LayoutCarouselButton next class="carousel__button" type="next" />
+      <template #container-end>
+        <LayoutCarouselButton v-show="!hideNav" next class="carousel__button" type="next" />
       </template>
     </Swiper>
   </div>
@@ -45,7 +45,7 @@ withDefaults(
   @include flex-column;
   align-items: center;
   padding-left: 36px;
-  padding-right: 64px;
+  padding-right: 36px;
   overflow: hidden;
 
   &--without-button {
@@ -81,8 +81,9 @@ withDefaults(
   &__button {
     position: absolute;
     top: 0;
-    right: -64px;
+    right: -36px;
     z-index: 10;
+    background: $white-color;
 
     @media ($max-viewport-10) {
       display: none;

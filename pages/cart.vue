@@ -62,7 +62,7 @@
 </i18n>
 
 <script setup lang="ts">
-import { CartItem, HeseyaEvent } from '@heseya/store-core'
+import { CartItem, HeseyaEvent, Product } from '@heseya/store-core'
 import { useCartStore } from '@/store/cart'
 
 const cart = useCartStore()
@@ -71,15 +71,17 @@ const $t = useGlobalI18n()
 
 const isCartEmpty = computed(() => cart.length === 0)
 
-const suggestedQuery = computed(() => ({
-  // TODO: maybe smarter?
-  page: Math.ceil(Math.random() * 6),
-  limit: 8,
-  available: true,
-}))
+const suggestedQuery = computed(() => {
+  const relatedSets = cart.items.map((p) => (p.product as Product).related_sets || []).flat()
 
-onMounted(() => {
+  return {
+    sets: relatedSets.map((s) => s.slug),
+  }
+})
+
+delayedOnMounted(() => {
   const ev = useHeseyaEventBus()
+
   ev.emit(HeseyaEvent.ViewCart, cart.items as CartItem[])
 })
 

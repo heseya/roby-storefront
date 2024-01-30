@@ -5,21 +5,26 @@ export const useConfigStore = defineStore('config', {
   state: () => ({
     env: {} as SettingsRecord,
     seo: {} as SeoMetadata,
-    currency: 'PLN',
   }),
 
   getters: {
     storeLogoUrl(): string {
-      return this.env.store_logo as string
+      return `${this.env.store_logo}?w=200&format=auto`
     },
     footerLogoUrl(): string {
-      return this.env.footer_store_logo as string
+      return this.env.footer_store_logo
+        ? `${this.env.footer_store_logo}?w=200&format=auto`
+        : this.storeLogoUrl
     },
     faviconUrl(): string {
       return this.env.favicon_url as string
     },
     storeName(): string {
       return this.env.store_name as string
+    },
+    topSiteText(): string {
+      const { locale } = useI18n()
+      return this.env[`top_site_text_${locale.value}`]?.toString() || ''
     },
 
     isTraditionalTransfer(): boolean {
@@ -31,7 +36,7 @@ export const useConfigStore = defineStore('config', {
     },
 
     productSubtextAttr(): string {
-      return String(this.env.product_subtext_attribute_name)
+      return String(this.env.product_subtext_attribute_slug)
     },
 
     customRedirect(): { url: string; text: string; icon: string | null } | null {

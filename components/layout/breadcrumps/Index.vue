@@ -28,8 +28,8 @@ router.beforeEach((prev, next) => {
   width: 100%;
   display: flex;
   align-items: center;
-  padding-top: 22px;
-  padding-bottom: 22px;
+  padding-top: 22px !important;
+  padding-bottom: 22px !important;
 
   &:empty {
     display: none;

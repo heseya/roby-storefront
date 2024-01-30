@@ -8,7 +8,10 @@
       @click.stop="toggleDropdown"
     />
 
-    <div v-show="showDropdown" class="layout-popover__dropdown">
+    <div
+      class="layout-popover__dropdown"
+      :class="{ 'layout-popover__dropdown--visible': showDropdown }"
+    >
       <button
         v-for="(item, index) in options"
         :key="index"
@@ -64,14 +67,25 @@ onClickOutside(target, () => {
   user-select: none;
 
   &__dropdown {
-    width: 250px;
+    width: 160px;
+    max-height: 60vh;
+    overflow: auto;
     position: absolute;
     right: 0px;
-    top: 42px;
+    top: 30px;
     border: 1px solid $gray-color-300;
     background-color: $white-color;
     z-index: 10;
-    padding: 16px;
+    padding: 8px;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s ease-in-out;
+
+    &--visible {
+      opacity: 1;
+      visibility: visible;
+      top: 42px;
+    }
   }
 
   &__option {
@@ -84,6 +98,8 @@ onClickOutside(target, () => {
     border: none;
     background: transparent;
     cursor: pointer;
+    padding: 8px;
+
     &:hover {
       background: $blue-color-100;
     }

@@ -8,7 +8,7 @@ interface ContactForm {
   email: string
   phone?: string
   message: string
-  type: 'renting' | 'price' | 'offer'
+  type: 'renting' | 'price' | 'offer' | 'contact'
   product?: ProductList
   recaptchaToken: string
 }
@@ -71,6 +71,8 @@ export default defineEventHandler(async (event) => {
           return 'Zapytanie o cenę'
         case 'renting':
           return 'Zapytanie o wynajem'
+        case 'contact':
+          return 'Formularz kontaktowy'
       }
     }
     const title = getTitle(type)

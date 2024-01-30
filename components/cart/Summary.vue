@@ -2,18 +2,18 @@
   <div class="cart-summary" :class="{ 'cart-summary--disabled': disabled }">
     <div class="cart-summary__item">
       <div class="cart-summary__label">{{ $t('orders.productsPrice') }}</div>
-      <div class="cart-summary__value">{{ formatAmount(cart.totalValueInitial) }}</div>
+      <div class="cart-summary__value">{{ formatAmount(cart.totalValueInitial, currency) }}</div>
     </div>
 
     <div v-if="cart.totalDiscountValue > 0" class="cart-summary__item cart-summary__item--green">
       <div class="cart-summary__label">{{ $t('payments.discount') }}</div>
-      <div class="cart-summary__value">{{ formatAmount(cart.totalDiscountValue) }}</div>
+      <div class="cart-summary__value">{{ formatAmount(cart.totalDiscountValue, currency) }}</div>
     </div>
 
     <div class="cart-summary__item">
       <div class="cart-summary__label">{{ $t('orders.delivery') }}</div>
       <div class="cart-summary__value">
-        {{ t('summary.from') }} {{ formatAmount(cheapestShippingMethodPrice || 0) }}
+        {{ t('summary.from') }} {{ formatAmount(cheapestShippingMethodPrice || 0, currency) }}
       </div>
     </div>
 
@@ -22,7 +22,7 @@
     <div class="cart-summary__item">
       <div class="cart-summary__label">{{ $t('orders.totalAmount') }}</div>
       <div class="cart-summary__value cart-summary__value--big">
-        {{ formatAmount(cart.totalValue) }}
+        {{ formatAmount(cart.totalValue, currency) }}
       </div>
     </div>
 
@@ -75,11 +75,12 @@
 </i18n>
 
 <script setup lang="ts">
-import { ShippingType } from '@heseya/store-core'
+import { ShippingType, parsePrices } from '@heseya/store-core'
 
 import { useCartStore } from '@/store/cart'
 import { useAuthStore } from '@/store/auth'
 import { useConfigStore } from '@/store/config'
+import { useChannelsStore } from '@/store/channels'
 
 withDefaults(
   defineProps<{
@@ -97,17 +98,23 @@ const config = useConfigStore()
 const auth = useAuthStore()
 const heseya = useHeseya()
 const localePath = useLocalePath()
+const currency = useCurrency()
+const channel = useChannelsStore()
 
 const { data: cheapestShippingMethodPrice, refresh: refreshCheapestShippingMethodPrice } =
   useLazyAsyncData(`shippingMethodPrice`, async () => {
-    const { data } = await heseya.ShippingMethods.get({ cart_value: cart.totalValue })
+    const { data } = await heseya.ShippingMethods.get({
+      cart_value: { value: cart.totalValue, currency: currency.value },
+      items: cart.items.map((item) => item.productId),
+      country: channel.countryCode,
+    })
 
     const filteredData = data.filter((m) => !m.metadata?.paczkomat || cart.allowPaczkomatDelivery)
 
     // TODO: ShippingType.Point can also have own price? Maybe ignore free shipping?
     const prices = filteredData
       .filter((m) => m.shipping_type !== ShippingType.Point)
-      .map((m) => m.price || 0)
+      .map((m) => parsePrices(m.prices, currency.value))
     return prices.length ? Math.min(...prices) : 0
   })
 

@@ -48,7 +48,10 @@ const handleEdit = () => {
 }
 
 const onSave = () => {
-  if (selectedAddress.value) checkout.billingAddress = clone(selectedAddress.value)
+  if (selectedAddress.value) {
+    checkout.billingAddress = clone(selectedAddress.value)
+    checkout.invoiceRequested = !!selectedAddress.value.vat
+  }
   isEditOpen.value = false
 }
 </script>

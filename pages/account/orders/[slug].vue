@@ -44,7 +44,7 @@ definePageMeta({
 })
 
 useSeoMeta({
-  title: () => $t('orders.details'),
+  title: () => `${$t('orders.details')} ${route.params.slug}`,
 })
 
 const errorMessage = ref('')

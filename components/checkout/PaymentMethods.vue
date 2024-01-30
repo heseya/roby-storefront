@@ -1,7 +1,8 @@
 <template>
-  <CheckoutPageArea :title="t('payment')" :placeholder-height="100">
+  <CheckoutPageArea v-show="requirePaymentMethod" :title="t('payment')" :placeholder-height="100">
     <CheckoutPaymentMethodsSelect
       v-model:value="checkout.paymentMethodId"
+      :shipping-method-id="checkout.shippingMethod?.id"
       class="checkout-payment-methods"
     />
   </CheckoutPageArea>
@@ -24,6 +25,16 @@ import { useCheckoutStore } from '@/store/checkout'
 const t = useLocalI18n()
 
 const checkout = useCheckoutStore()
+
+const requirePaymentMethod = computed(() => checkout.requirePaymentMethod)
+
+watch(
+  () => requirePaymentMethod,
+  () => {
+    if (!requirePaymentMethod.value) checkout.paymentMethodId = null
+  },
+  { immediate: true },
+)
 </script>
 
 <style lang="scss" scoped>

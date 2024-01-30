@@ -88,7 +88,7 @@ const props = withDefaults(
   defineProps<{
     product?: ProductList
     actionText?: string
-    type: 'price' | 'renting' | 'offer'
+    type: 'price' | 'renting' | 'offer' | 'contact'
     description?: string
     vertical?: boolean
   }>(),

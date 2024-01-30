@@ -33,10 +33,11 @@
       <span class="product-miniature__subtext">
         {{ getProductSubtext(product, config.productSubtextAttr) }}
       </span>
-      <ProductPrice v-if="showPrice" class="product-miniature__price" :product="product" />
-      <LayoutButton v-else class="product-miniature__btn">
+      <ProductPrice v-if="!hidePrice" class="product-miniature__price" :product="product" />
+      <LayoutButton v-else-if="askForPrice" class="product-miniature__btn">
         {{ $t('offers.pricing') }}
       </LayoutButton>
+      <span v-else class="product-miniature__unavailable"> {{ $t('offers.unavailable') }} </span>
 
       <ProductFavouriteButton class="product-miniature__wishlist-btn" :product="product" />
       <slot />
@@ -60,7 +61,9 @@ const props = defineProps<{
   forceSize?: boolean
 }>()
 
-const showPrice = computed(() => !props.product?.metadata?.[ASK_FOR_PRICE_KEY])
+const askForPrice = computed(() => props.product?.metadata?.[ASK_FOR_PRICE_KEY])
+
+const hidePrice = computed(() => askForPrice.value || !props.product.available)
 </script>
 
 <style lang="scss" scoped>
@@ -159,6 +162,11 @@ const showPrice = computed(() => !props.product?.metadata?.[ASK_FOR_PRICE_KEY])
     font-size: rem(16);
     margin-top: 16px;
     font-weight: 600;
+  }
+
+  &__unavailable {
+    font-size: rem(14);
+    color: $gray-color-700;
   }
 
   &__btn {
