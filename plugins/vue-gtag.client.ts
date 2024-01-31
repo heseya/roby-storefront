@@ -1,6 +1,6 @@
 import { HeseyaEvent, parsePrices } from '@heseya/store-core'
 import { createGtm, useGtm } from '@gtm-support/vue-gtm'
-import { Pinia } from '@pinia/nuxt/dist/runtime/composables'
+import type { Pinia } from '@pinia/nuxt/dist/runtime/composables'
 
 import {
   COOKIE_ADS_ACCEPTED_KEY,

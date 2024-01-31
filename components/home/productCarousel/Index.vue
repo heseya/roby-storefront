@@ -46,7 +46,8 @@
 </i18n>
 
 <script lang="ts" setup>
-import { ProductSetList } from '@heseya/store-core'
+import type { ProductSetList } from '@heseya/store-core'
+
 import { useCategoriesStore } from '@/store/categories'
 import { useConfigStore } from '@/store/config'
 

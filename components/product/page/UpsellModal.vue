@@ -78,7 +78,7 @@
 
 <script setup lang="ts">
 import { useMediaQuery } from '@vueuse/core'
-import { Product } from '@heseya/store-core'
+import type { Product } from '@heseya/store-core'
 import CheckIcon from '@/assets/icons/check-circle.svg?component'
 import GoBackIcon from '@/assets/icons/navigate-back.svg?component'
 import { PRODUCT_SET_SHOW_AS_VARIANT } from '~/consts/metadataKeys'

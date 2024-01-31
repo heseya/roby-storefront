@@ -27,7 +27,7 @@
 </template>
 
 <script setup lang="ts">
-import { Attribute, AttributeOption, HeseyaPaginationMeta } from '@heseya/store-core'
+import type { Attribute, AttributeOption, HeseyaPaginationMeta } from '@heseya/store-core'
 
 const props = withDefaults(
   defineProps<{

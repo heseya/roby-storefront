@@ -1,4 +1,5 @@
-import { Redirect, resolveRedirect } from '@heseya/store-core'
+import { resolveRedirect } from '@heseya/store-core'
+import type { Redirect } from '@heseya/store-core'
 
 export const getAllRedirects = async (): Promise<Redirect[]> => {
   const redirectsState = useState<Redirect[] | null>('redirects', () => null)

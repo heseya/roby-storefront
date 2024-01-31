@@ -1,5 +1,5 @@
-import { ID } from '@directus/sdk'
-import { DirectusTranslated } from './DirectusTranslated'
+import type { ID } from '@directus/sdk'
+import type { DirectusTranslated } from './DirectusTranslated'
 
 interface RawBlogTag {
   id: ID

@@ -1,5 +1,6 @@
-import { HeseyaEvent, ProductList } from '@heseya/store-core'
-import { MaybeRef } from '@vueuse/core'
+import { HeseyaEvent } from '@heseya/store-core'
+import type { ProductList } from '@heseya/store-core'
+import type { MaybeRef } from '@vueuse/core'
 
 export const useEmitProductsViewEvent = (
   products: MaybeRef<ProductList[]>,

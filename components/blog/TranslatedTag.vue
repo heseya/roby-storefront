@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts" setup>
-import { BlogTag as Tag } from '~/interfaces/BlogTag'
+import type { BlogTag as Tag } from '~/interfaces/BlogTag'
 
 const localePath = useLocalePath()
 const props = defineProps<{

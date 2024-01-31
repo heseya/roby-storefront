@@ -1,8 +1,9 @@
-import { Page, Product, parsePrices } from '@heseya/store-core'
-import { WithContext, Product as ProductSchema, Thing, BlogPosting, WebPage } from 'schema-dts'
+import { parsePrices } from '@heseya/store-core'
+import type { Page, Product } from '@heseya/store-core'
+import type { WithContext, Product as ProductSchema, Thing, BlogPosting, WebPage } from 'schema-dts'
+import type { MaybeRef } from '@vueuse/core'
 
-import { MaybeRef } from '@vueuse/core'
-import { TranslatedBlogArticle } from '~/interfaces/BlogArticle'
+import type { TranslatedBlogArticle } from '~/interfaces/BlogArticle'
 
 export const useJsonLd = <T extends MaybeRef<WithContext<Thing>>>(schema: T) => {
   useHead(() => ({

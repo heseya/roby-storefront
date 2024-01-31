@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts" setup>
-import { TranslatedRentPageAdvantage } from '~/interfaces/rentPage'
+import type { TranslatedRentPageAdvantage } from '~/interfaces/rentPage'
 
 defineProps<{
   title: string

@@ -3,7 +3,7 @@
 </template>
 
 <script setup lang="ts">
-import { BreadcrumbLink, BreadcrumbsDto } from '~/interfaces/Breadcrumbs'
+import type { BreadcrumbLink, BreadcrumbsDto } from '~/interfaces/Breadcrumbs'
 
 const props = withDefaults(
   defineProps<{

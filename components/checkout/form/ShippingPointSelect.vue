@@ -32,7 +32,7 @@
 </i18n>
 
 <script setup lang="ts">
-import { Address, ShippingMethod } from '@heseya/store-core'
+import type { Address, ShippingMethod } from '@heseya/store-core'
 import { useCheckoutStore } from '~/store/checkout'
 
 const t = useLocalI18n()

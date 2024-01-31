@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-import { Paczkomat } from '@/interfaces/Paczkomat'
+import type { Paczkomat } from '@/interfaces/Paczkomat'
 
 const emit = defineEmits<{
   (event: 'select', machine: Paczkomat): void

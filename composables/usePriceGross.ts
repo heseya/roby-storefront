@@ -1,4 +1,5 @@
-import { Price, parsePrices } from '@heseya/store-core'
+import { parsePrices } from '@heseya/store-core'
+import type { Price } from '@heseya/store-core'
 import { useChannelsStore } from '@/store/channels'
 
 export const usePriceGross = () => {

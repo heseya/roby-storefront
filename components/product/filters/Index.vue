@@ -92,7 +92,8 @@
 </i18n>
 
 <script setup lang="ts">
-import { Attribute, AttributeType } from '@heseya/store-core'
+import { AttributeType } from '@heseya/store-core'
+import type { Attribute } from '@heseya/store-core'
 
 const props = withDefaults(
   defineProps<{

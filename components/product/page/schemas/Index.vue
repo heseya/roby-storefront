@@ -20,7 +20,8 @@
 </template>
 
 <script setup lang="ts">
-import { CartItemSchema, Product, Schema, SchemaType } from '@heseya/store-core'
+import { SchemaType } from '@heseya/store-core'
+import type { CartItemSchema, Product, Schema } from '@heseya/store-core'
 
 const props = defineProps<{
   product: Product

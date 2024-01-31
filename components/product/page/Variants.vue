@@ -18,7 +18,7 @@
 </template>
 
 <script setup lang="ts">
-import { Product } from '@heseya/store-core'
+import type { Product } from '@heseya/store-core'
 
 import { PRODUCT_SET_SHOW_AS_VARIANT } from '@/consts/metadataKeys'
 

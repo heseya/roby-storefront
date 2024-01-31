@@ -1,4 +1,4 @@
-import { SeoMetadata, SettingsRecord } from '@heseya/store-core'
+import type { SeoMetadata, SettingsRecord } from '@heseya/store-core'
 import { defineStore } from 'pinia'
 
 export const useConfigStore = defineStore('config', {

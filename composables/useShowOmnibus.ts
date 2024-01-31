@@ -1,4 +1,4 @@
-import { ProductList } from '@heseya/store-core'
+import type { ProductList } from '@heseya/store-core'
 
 export const useShowOmnibus = (product: MaybeRef<ProductList | null>) => {
   const currency = useCurrency()

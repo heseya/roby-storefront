@@ -25,7 +25,7 @@
 </template>
 
 <script setup lang="ts">
-import { BlogArticle } from '~/interfaces/BlogArticle'
+import type { BlogArticle } from '~/interfaces/BlogArticle'
 
 const props = defineProps<{
   slug: string

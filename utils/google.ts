@@ -1,4 +1,5 @@
-import { CartItem, OrderProduct, ProductList, parsePrices } from '@heseya/store-core'
+import { CartItem, parsePrices } from '@heseya/store-core'
+import type { OrderProduct, ProductList } from '@heseya/store-core'
 
 interface GoogleItem {
   item_id: string

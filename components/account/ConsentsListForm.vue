@@ -21,7 +21,7 @@
 </i18n>
 
 <script setup lang="ts">
-import { UserConsentDto } from '@heseya/store-core'
+import type { UserConsentDto } from '@heseya/store-core'
 import { useForm } from 'vee-validate'
 
 const t = useLocalI18n()

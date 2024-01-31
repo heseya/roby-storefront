@@ -62,7 +62,7 @@
 </i18n>
 
 <script setup lang="ts">
-import { UserConsentDto } from '@heseya/store-core'
+import type { UserConsentDto } from '@heseya/store-core'
 
 import PencilLine from '@/assets/icons/pencil-line-filled.svg?component'
 import PhoneIcon from '@/assets/icons/phone.svg'

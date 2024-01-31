@@ -1,7 +1,7 @@
-import { ID } from '@directus/sdk'
-import { DirectusImage } from './DirectusImage'
-import { BlogTag } from './BlogTag'
-import { DirectusTranslated } from './DirectusTranslated'
+import type { ID } from '@directus/sdk'
+import type { DirectusImage } from './DirectusImage'
+import type { BlogTag } from './BlogTag'
+import type { DirectusTranslated } from './DirectusTranslated'
 
 export interface BlogArticle {
   id: ID

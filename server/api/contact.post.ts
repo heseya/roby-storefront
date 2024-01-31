@@ -1,5 +1,7 @@
-import { createHeseyaApiService, ProductList } from '@heseya/store-core'
-import { createTransport, SendMailOptions, SentMessageInfo } from 'nodemailer'
+import { createHeseyaApiService } from '@heseya/store-core'
+import type { ProductList } from '@heseya/store-core'
+import { createTransport } from 'nodemailer'
+import type { SendMailOptions, SentMessageInfo } from 'nodemailer'
 import axios from 'axios'
 import _ from 'lodash'
 

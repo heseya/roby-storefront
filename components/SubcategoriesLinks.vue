@@ -31,7 +31,7 @@
 </template>
 
 <script setup lang="ts">
-import { HeseyaPaginationMeta, ProductSet, ProductSetList } from '@heseya/store-core'
+import type { HeseyaPaginationMeta, ProductSet, ProductSetList } from '@heseya/store-core'
 import ChevronIcon from '@/assets/icons/chevron.svg?component'
 
 const props = defineProps<{

@@ -34,7 +34,7 @@ import { useForm } from 'vee-validate'
 
 import Search from '@/assets/icons/search.svg?component'
 import ArrowBack from '@/assets/icons/arrow-back.svg?component'
-import { SearchValues } from '@/components/layout/nav/Search.vue'
+import type { SearchValues } from '@/components/layout/nav/Search.vue'
 import { useSearchHistoryStore } from '@/store/searchHistory'
 
 const $t = useGlobalI18n()

@@ -193,7 +193,7 @@ import {
   ASK_FOR_PRICE_KEY,
   PRODUCT_SET_SHOW_AS_VARIANT,
 } from '@/consts/metadataKeys'
-import { Tab } from '@/components/layout/Tabs.vue'
+import type { Tab } from '@/components/layout/Tabs.vue'
 
 import { useConfigStore } from '@/store/config'
 

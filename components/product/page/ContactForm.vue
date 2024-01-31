@@ -86,9 +86,10 @@
 </i18n>
 
 <script setup lang="ts">
-import { ProductList } from '@heseya/store-core'
+import type { ProductList } from '@heseya/store-core'
 import axios from 'axios'
 import { useForm } from 'vee-validate'
+
 import { useConfigStore } from '~/store/config'
 
 const props = withDefaults(

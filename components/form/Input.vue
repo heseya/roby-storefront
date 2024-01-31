@@ -70,8 +70,8 @@ const emit = defineEmits<{
   (event: 'update:modelValue', value: string | number): void
 }>()
 
-const uniqueId = Math.random().toString(36).substr(2, 9)
-const id = computed(() => `${props.name}-${uniqueId}`)
+// TODO: maybe use useId() in the future?
+const id = computed(() => props.name)
 const isRequired = computed(() => props.rules.includes('required'))
 
 const { errors, validate } = useField(props.name, props.rules, {

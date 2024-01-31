@@ -57,9 +57,11 @@
 </template>
 
 <script setup lang="ts">
-import { HeseyaEvent, ProductSetList, PageList } from '@heseya/store-core'
+import { HeseyaEvent } from '@heseya/store-core'
+import type { ProductSetList, PageList } from '@heseya/store-core'
+
 import { useConfigStore } from '~/store/config'
-import { LinkBox } from '~~/components/home/LinkBox.vue'
+import type { LinkBox } from '~~/components/home/LinkBox.vue'
 
 const $t = useGlobalI18n()
 const heseya = useHeseya()

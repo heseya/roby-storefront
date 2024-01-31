@@ -36,7 +36,7 @@
 </i18n>
 
 <script setup lang="ts">
-import { Product } from '@heseya/store-core'
+import type { Product } from '@heseya/store-core'
 import { useConfigStore } from '~/store/config'
 
 const props = defineProps<{

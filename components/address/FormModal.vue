@@ -9,13 +9,18 @@
     class="address-form-modal"
     @submit="onSubmit"
   >
-    <FormInput v-model="formValues.name" rules="required" :label="$t('common.name')" name="name" />
+    <FormInput
+      v-model="formValues.name"
+      rules="required"
+      :label="$t('common.name')"
+      name="address_name"
+    />
     <AddressForm v-model:address="formValues.address" :invoice="isInvoice" />
 
     <FormCheckbox
       v-if="type === 'billing'"
       v-model="isInvoice"
-      name="invoice"
+      name="address_invoice"
       class="address-form-modal__checkbox"
       :label="t('invoice')"
     />
@@ -23,7 +28,7 @@
     <FormCheckbox
       v-model="formValues.default"
       :disabled="props.address && props.address.default"
-      name="default"
+      name="address_default"
       class="address-form-modal__checkbox"
       :label="t('default')"
     />
@@ -45,7 +50,7 @@
 
 <script setup lang="ts">
 import cloneDeep from 'lodash/cloneDeep'
-import {
+import type {
   UserSavedAddress,
   UserSavedAddressCreateDto,
   UserSavedAddressUpdateDto,

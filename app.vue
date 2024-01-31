@@ -1,6 +1,5 @@
 <template>
   <Html :lang="i18nHead.htmlAttrs?.lang" :dir="i18nHead.htmlAttrs?.dir">
-    <IntegrationCallpage />
     <IntegrationEkomiWidget :token="ekomiPopupToken" />
 
     <LayoutThemeContext>

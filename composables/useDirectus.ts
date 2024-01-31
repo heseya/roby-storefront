@@ -1,5 +1,5 @@
 import { Auth, Directus } from '@directus/sdk'
-import { DirectusCollections } from '~/plugins/directus'
+import type { DirectusCollections } from '~/plugins/directus'
 
 export const useDirectus = (): Directus<DirectusCollections, Auth> => {
   const { $directus } = useNuxtApp()

@@ -23,7 +23,7 @@
 </i18n>
 
 <script setup lang="ts">
-import { Page } from '@heseya/store-core'
+import type { Page } from '@heseya/store-core'
 
 const props = defineProps<{
   page: Page
