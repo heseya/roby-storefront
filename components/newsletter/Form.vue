@@ -15,7 +15,8 @@
         <div class="newsletter-form__form">
           <FormInput
             v-model="form.values.email"
-            name="email"
+            name="newsletter_email"
+            autocomplete="email"
             type="gray"
             :label="$t('form.email')"
             rules="required|email"
