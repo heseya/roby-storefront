@@ -1,4 +1,4 @@
 export const useNotify = () => {
-  const notify = useNotification()
-  return notify || {}
+  const { $notify } = useNuxtApp()
+  return $notify || {}
 }

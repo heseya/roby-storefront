@@ -9,7 +9,7 @@
 
       <ClientOnly>
         <CartUnavailableModal />
-        <NuxtNotifications class="notifications" position="bottom right" />
+        <Notifications class="notifications" position="bottom right" />
       </ClientOnly>
 
       <LazyColorThemePicker v-if="showColorThemePicker" />
