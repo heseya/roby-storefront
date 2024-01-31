@@ -1,7 +1,7 @@
-import { HeseyaPaginationMeta, ProductList, WishlistProduct } from '@heseya/store-core'
+import type { HeseyaPaginationMeta, ProductList, WishlistProduct } from '@heseya/store-core'
 import { defineStore } from 'pinia'
 import { useAuthStore } from './auth'
-import { ExtendedProductList } from '~/types/Product'
+import type { ExtendedProductList } from '~/types/Product'
 
 export const useWishlistStore = defineStore('wishlist', {
   state: () => ({

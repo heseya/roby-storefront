@@ -90,7 +90,8 @@
 </i18n>
 
 <script setup lang="ts">
-import { HeseyaEvent, User, UserConsentDto, UserRegisterDto } from '@heseya/store-core'
+import { HeseyaEvent } from '@heseya/store-core'
+import type { User, UserConsentDto, UserRegisterDto } from '@heseya/store-core'
 import { useForm } from 'vee-validate'
 
 const t = useLocalI18n()

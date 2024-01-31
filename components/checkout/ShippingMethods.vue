@@ -65,13 +65,9 @@
 </i18n>
 
 <script setup lang="ts">
-import {
-  CartItem,
-  HeseyaEvent,
-  ShippingMethod,
-  ShippingType,
-  parsePrices,
-} from '@heseya/store-core'
+import { CartItem, HeseyaEvent, ShippingType, parsePrices } from '@heseya/store-core'
+import type { ShippingMethod } from '@heseya/store-core'
+
 import { useCartStore } from '@/store/cart'
 import { useCheckoutStore } from '@/store/checkout'
 import { useChannelsStore } from '@/store/channels'

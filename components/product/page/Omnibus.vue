@@ -26,7 +26,7 @@
 import { parsePrices } from '@heseya/store-core'
 import isNil from 'lodash/isNil'
 
-import { ExtendedProductList } from '~/types/Product'
+import type { ExtendedProductList } from '~/types/Product'
 
 const props = withDefaults(
   defineProps<{

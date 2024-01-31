@@ -1,4 +1,4 @@
-import { ProductSet, ProductSetList } from '@heseya/store-core'
+import type { ProductSet, ProductSetList } from '@heseya/store-core'
 import { defineStore } from 'pinia'
 import { useConfigStore } from './config'
 import { CATEGORY_IN_NAV_KEY } from '@/consts/metadataKeys'

@@ -1,4 +1,4 @@
-import { CookieOptions } from 'nuxt/app'
+import type { CookieOptions } from 'nuxt/app'
 
 const COOKIES_OPTS: CookieOptions = {
   path: '/',

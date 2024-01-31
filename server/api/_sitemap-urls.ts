@@ -1,8 +1,9 @@
 import { Auth, Directus } from '@directus/sdk'
 import axios from 'axios'
-import { createHeseyaApiService, ListResponse } from '@heseya/store-core'
+import { createHeseyaApiService } from '@heseya/store-core'
+import type { ListResponse } from '@heseya/store-core'
 
-import { DirectusCollections } from '@/plugins/directus'
+import type { DirectusCollections } from '@/plugins/directus'
 
 interface SitemapEntry {
   loc: string

@@ -7,7 +7,7 @@
 </template>
 
 <script setup lang="ts">
-import { ExtendedProductList } from '~/types/Product'
+import type { ExtendedProductList } from '~/types/Product'
 
 withDefaults(
   defineProps<{

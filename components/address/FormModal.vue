@@ -50,7 +50,7 @@
 
 <script setup lang="ts">
 import cloneDeep from 'lodash/cloneDeep'
-import {
+import type {
   UserSavedAddress,
   UserSavedAddressCreateDto,
   UserSavedAddressUpdateDto,

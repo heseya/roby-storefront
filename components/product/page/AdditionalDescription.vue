@@ -6,7 +6,7 @@
 </template>
 
 <script setup lang="ts">
-import { PageList } from '@heseya/store-core'
+import type { PageList } from '@heseya/store-core'
 
 const heseya = useHeseya()
 

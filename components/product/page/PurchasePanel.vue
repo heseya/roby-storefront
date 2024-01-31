@@ -87,7 +87,9 @@
 </i18n>
 
 <script setup lang="ts">
-import { CartItemSchema, Product, parseSchemasToValues } from '@heseya/store-core'
+import { parseSchemasToValues } from '@heseya/store-core'
+import type { CartItemSchema, Product } from '@heseya/store-core'
+
 import DeliveryIcon from '@/assets/icons/delivery.svg?component'
 import UpsellModal from '~/components/product/page/UpsellModal.vue'
 

@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts" setup>
-import { BannerMedia } from '@heseya/store-core'
+import type { BannerMedia } from '@heseya/store-core'
 
 const props = defineProps<{
   banner: Omit<BannerMedia, 'published'>

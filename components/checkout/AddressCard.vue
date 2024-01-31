@@ -22,7 +22,7 @@
 </template>
 
 <script setup lang="ts">
-import { Address } from '@heseya/store-core'
+import type { Address } from '@heseya/store-core'
 import PencilLine from '@/assets/icons/pencil-line-filled.svg?component'
 
 const $t = useGlobalI18n()

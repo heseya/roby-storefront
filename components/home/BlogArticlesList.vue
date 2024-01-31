@@ -21,7 +21,7 @@
 </template>
 
 <script lang="ts" setup>
-import { BlogArticle } from '~/interfaces/BlogArticle'
+import type { BlogArticle } from '~/interfaces/BlogArticle'
 
 const $t = useGlobalI18n()
 const directus = useDirectus()

@@ -5,7 +5,8 @@
 </template>
 
 <script setup lang="ts">
-import { Order, ShippingType, Address } from '@heseya/store-core'
+import { ShippingType } from '@heseya/store-core'
+import type { Order, Address } from '@heseya/store-core'
 
 const props = defineProps<{
   order: Order

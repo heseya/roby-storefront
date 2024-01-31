@@ -1,5 +1,5 @@
-import { AxiosInstance } from 'axios'
-import { KeyGenerator } from 'axios-cache-interceptor'
+import type { AxiosInstance } from 'axios'
+import type { KeyGenerator } from 'axios-cache-interceptor'
 
 export const enhanceAxiosWithRequestCancellation = (
   axios: AxiosInstance,

@@ -39,8 +39,9 @@
 </i18n>
 
 <script setup lang="ts">
-import { PaymentMethodList } from '@heseya/store-core'
-import { RadioGroupOption } from '@/components/form/RadioGroup.vue'
+import type { PaymentMethodList } from '@heseya/store-core'
+import type { RadioGroupOption } from '@/components/form/RadioGroup.vue'
+
 import { useConfigStore } from '~/store/config'
 import { TRADITIONAL_PAYMENT_KEY } from '~/consts/traditionalPayment'
 

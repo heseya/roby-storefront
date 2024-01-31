@@ -108,7 +108,7 @@
 </i18n>
 
 <script setup lang="ts">
-import { AddressDto } from '@heseya/store-core'
+import type { AddressDto } from '@heseya/store-core'
 
 import { useCheckoutStore } from '@/store/checkout'
 import { EMPTY_ADDRESS } from '@/consts/address'

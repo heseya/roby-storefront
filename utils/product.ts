@@ -1,4 +1,4 @@
-import { ProductListAttribute } from '@heseya/store-core'
+import type { ProductListAttribute } from '@heseya/store-core'
 
 export const getProductSubtext = <T extends { attributes: ProductListAttribute[] }>(
   item: T | null,

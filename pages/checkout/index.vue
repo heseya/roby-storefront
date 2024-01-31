@@ -75,11 +75,12 @@
 </i18n>
 
 <script setup lang="ts">
-import { CartItem, HeseyaEvent, Order, ShippingType } from '@heseya/store-core'
+import { CartItem, HeseyaEvent, ShippingType } from '@heseya/store-core'
+import type { Order } from '@heseya/store-core'
 import clone from 'lodash/clone'
 import { useForm } from 'vee-validate'
 
-import { CreateUserForm } from '~/components/auth/RegisterForm.vue'
+import type { CreateUserForm } from '~/components/auth/RegisterForm.vue'
 
 import { TRADITIONAL_PAYMENT_KEY } from '~/consts/traditionalPayment'
 

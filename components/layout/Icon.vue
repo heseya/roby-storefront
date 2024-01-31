@@ -8,7 +8,7 @@
 </template>
 
 <script lang="ts" setup>
-import { FunctionalComponent } from 'vue'
+import type { FunctionalComponent } from 'vue'
 
 export type IconSize = 'sm' | 'md' | 'lg' | number
 

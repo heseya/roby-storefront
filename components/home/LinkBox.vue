@@ -21,7 +21,7 @@
 </template>
 
 <script lang="ts" setup>
-import { BannerMedia } from '@heseya/store-core'
+import type { BannerMedia } from '@heseya/store-core'
 
 export type LinkBox = {
   text: string | null

@@ -3,7 +3,7 @@
 </template>
 
 <script setup lang="ts">
-import { Furgonetka } from '@/interfaces/Furgonetka'
+import type { Furgonetka } from '@/interfaces/Furgonetka'
 
 const emit = defineEmits<{
   (event: 'select', point: Furgonetka): void

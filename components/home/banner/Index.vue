@@ -8,7 +8,7 @@
 </template>
 
 <script lang="ts" setup>
-import { Banner } from '@heseya/store-core'
+import type { Banner } from '@heseya/store-core'
 import { BannerType } from '~/consts/banner'
 
 const props = defineProps<{

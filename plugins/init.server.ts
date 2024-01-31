@@ -1,4 +1,4 @@
-import { Pinia } from '@pinia/nuxt/dist/runtime/composables'
+import type { Pinia } from '@pinia/nuxt/dist/runtime/composables'
 import { useConfigStore } from '@/store/config'
 import { useCategoriesStore } from '@/store/categories'
 import { useAuthStore } from '@/store/auth'

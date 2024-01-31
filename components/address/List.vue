@@ -55,7 +55,7 @@
 </i18n>
 
 <script setup lang="ts">
-import { UserSavedAddress } from '@heseya/store-core'
+import type { UserSavedAddress } from '@heseya/store-core'
 import { useCheckoutStore } from '@/store/checkout'
 
 const t = useLocalI18n()

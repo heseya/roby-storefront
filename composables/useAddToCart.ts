@@ -1,4 +1,4 @@
-import { ProductList, Product, CartItemSchema } from '@heseya/store-core'
+import type { ProductList, Product, CartItemSchema } from '@heseya/store-core'
 import { useCartStore } from '~/store/cart'
 
 export const useAddToCart = (product: ProductList | Product) => {

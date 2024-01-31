@@ -73,7 +73,7 @@
 import { useConfigStore } from '@/store/config'
 import { ASK_FOR_PRICE_KEY } from '@/consts/metadataKeys'
 
-import { ExtendedProductList } from '~/types/Product'
+import type { ExtendedProductList } from '~/types/Product'
 
 const $t = useGlobalI18n()
 const localePath = useLocalePath()

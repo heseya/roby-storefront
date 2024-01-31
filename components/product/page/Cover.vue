@@ -41,7 +41,7 @@
 </template>
 
 <script setup lang="ts">
-import { CdnMedia, Tag } from '@heseya/store-core'
+import type { CdnMedia, Tag } from '@heseya/store-core'
 
 const isMobile = useMediaQuery('(max-width: 440px)')
 

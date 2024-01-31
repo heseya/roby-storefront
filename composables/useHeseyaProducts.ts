@@ -1,6 +1,6 @@
-import { ListResponse, ProductList } from '@heseya/store-core'
+import type { ListResponse, ProductList } from '@heseya/store-core'
 
-import { ExtendedProductList, ProductGetParams } from '@/types/Product'
+import type { ExtendedProductList, ProductGetParams } from '@/types/Product'
 import { useAuthStore } from '~/store/auth'
 
 export const useHeseyaProducts = () => {

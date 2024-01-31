@@ -19,7 +19,7 @@
 </template>
 
 <script lang="ts" setup>
-import { TranslatedRentPageStep } from '~/interfaces/rentPage'
+import type { TranslatedRentPageStep } from '~/interfaces/rentPage'
 
 defineProps<{
   bannerUrl: string

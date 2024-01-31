@@ -43,7 +43,7 @@
 </i18n>
 
 <script setup lang="ts">
-import { UserSavedAddress } from '@heseya/store-core'
+import type { UserSavedAddress } from '@heseya/store-core'
 
 const t = useLocalI18n()
 const { notify } = useNotify()

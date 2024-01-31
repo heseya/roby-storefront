@@ -48,7 +48,7 @@
 </i18n>
 
 <script setup lang="ts">
-import { TranslatedAboutPage } from '~/interfaces/aboutPage'
+import type { TranslatedAboutPage } from '~/interfaces/aboutPage'
 
 const t = useLocalI18n()
 

@@ -18,8 +18,8 @@
 </template>
 
 <script lang="ts" setup>
-import { FunctionalComponent } from 'vue'
-import { IconSize } from '@/components/layout/Icon.vue'
+import type { FunctionalComponent } from 'vue'
+import type { IconSize } from '@/components/layout/Icon.vue'
 
 withDefaults(
   defineProps<{

@@ -1,4 +1,4 @@
-import { UserSavedAddressCreateDto, UserSavedAddressUpdateDto } from '@heseya/store-core'
+import type { UserSavedAddressCreateDto, UserSavedAddressUpdateDto } from '@heseya/store-core'
 import { useCheckoutStore } from '@/store/checkout'
 import { useChannelsStore } from '@/store/channels'
 

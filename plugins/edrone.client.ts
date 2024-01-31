@@ -1,4 +1,5 @@
-import { HeseyaEvent, Product, ProductList } from '@heseya/store-core'
+import { HeseyaEvent } from '@heseya/store-core'
+import type { Product, ProductList } from '@heseya/store-core'
 
 export default defineNuxtPlugin(() => {
   const config = usePublicRuntimeConfig()

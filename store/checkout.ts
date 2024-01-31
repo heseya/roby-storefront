@@ -1,19 +1,17 @@
-import {
+import { CartItem, HeseyaEvent, ShippingType } from '@heseya/store-core'
+import type {
   Address,
   AddressDto,
-  CartItem,
-  HeseyaEvent,
   MetadataCreateDto,
   OrderCreateDto,
   PaymentMethodList,
   ShippingMethod,
-  ShippingType,
 } from '@heseya/store-core'
 import { defineStore } from 'pinia'
 import { useCartStore } from './cart'
-import { Paczkomat } from '@/interfaces/Paczkomat'
+import type { Paczkomat } from '@/interfaces/Paczkomat'
 import { EMPTY_ADDRESS } from '@/consts/address'
-import { Furgonetka } from '~/interfaces/Furgonetka'
+import type { Furgonetka } from '~/interfaces/Furgonetka'
 import { useCeneo } from '~/composables/useCeneo'
 
 export const useCheckoutStore = defineStore('checkout', {

@@ -26,7 +26,7 @@
 </template>
 
 <script lang="ts" setup>
-import { Banner, BannerMedia } from '@heseya/store-core'
+import type { Banner, BannerMedia } from '@heseya/store-core'
 
 const props = defineProps<{
   banner: Banner

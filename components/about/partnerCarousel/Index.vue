@@ -13,8 +13,8 @@
 </template>
 
 <script lang="ts" setup>
-import { SwiperOptions } from 'swiper/types'
-import { TranslatedAboutPartner } from '@/interfaces/aboutPage'
+import type { SwiperOptions } from 'swiper/types'
+import type { TranslatedAboutPartner } from '@/interfaces/aboutPage'
 
 defineProps<{
   title: string
