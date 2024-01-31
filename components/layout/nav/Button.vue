@@ -6,24 +6,26 @@
       </NuxtLink>
     </div>
     <Teleport to="body">
-      <LayoutThemeContext>
-        <div
-          v-show="Boolean(link.children?.length)"
-          ref="popoverRef"
-          class="category-btn__list"
-          :class="{ 'category-btn__list--active': isActive }"
-          :style="{ left: `${left}px`, top: `${topHeight}px` }"
-        >
-          <NuxtLink
-            v-for="sub in link.children"
-            :key="sub.path"
-            class="category-btn__list-item"
-            :to="localePath(sub.path)"
+      <ClientOnly>
+        <LayoutThemeContext>
+          <div
+            v-show="Boolean(link.children?.length)"
+            ref="popoverRef"
+            class="category-btn__list"
+            :class="{ 'category-btn__list--active': isActive }"
+            :style="{ left: `${left}px`, top: `${topHeight}px` }"
           >
-            {{ sub.text }}
-          </NuxtLink>
-        </div>
-      </LayoutThemeContext>
+            <NuxtLink
+              v-for="sub in link.children"
+              :key="sub.path"
+              class="category-btn__list-item"
+              :to="localePath(sub.path)"
+            >
+              {{ sub.text }}
+            </NuxtLink>
+          </div>
+        </LayoutThemeContext>
+      </ClientOnly>
     </Teleport>
   </div>
 </template>

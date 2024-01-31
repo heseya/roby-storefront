@@ -1,6 +1,5 @@
 <template>
   <Html :lang="i18nHead.htmlAttrs?.lang" :dir="i18nHead.htmlAttrs?.dir">
-    <IntegrationCallpage />
     <IntegrationEkomiWidget :token="ekomiPopupToken" />
 
     <LayoutThemeContext>
@@ -10,7 +9,7 @@
 
       <ClientOnly>
         <CartUnavailableModal />
-        <Notifications class="notifications" position="bottom right" />
+        <NuxtNotifications class="notifications" position="bottom right" />
       </ClientOnly>
 
       <LazyColorThemePicker v-if="showColorThemePicker" />

@@ -195,12 +195,16 @@ const handleAddToCart = () => {
     display: block;
     margin-top: 6px;
     color: $gray-color-600;
+
+    &:empty {
+      margin: 0;
+    }
   }
 
   &__price {
     display: block;
     font-size: rem(16);
-    margin-top: 16px;
+    margin-top: 12px;
     font-weight: 600;
   }
 

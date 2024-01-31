@@ -153,6 +153,7 @@ export default defineNuxtConfig({
     'nuxt-delay-hydration',
     'nuxt-simple-robots',
     'nuxt-simple-sitemap',
+    'nuxt3-notifications',
   ],
 
   hooks: {
