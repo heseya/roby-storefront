@@ -61,8 +61,8 @@ export default defineEventHandler(async (event): Promise<SitemapEntry[]> => {
   const directus = new Directus<DirectusCollections>(config.public.directusUrl || '')
 
   const [products, productSets, pages, blogPosts] = await Promise.all([
-    fullPaginationFetch((params) => sdk.Products.get(params)),
-    fullPaginationFetch((params) => sdk.ProductSets.get(params)),
+    fullPaginationFetch((params) => sdk.Products.get({ ...params, public: true })),
+    fullPaginationFetch((params) => sdk.ProductSets.get({ ...params, public: true })),
     fullPaginationFetch((params) => sdk.Pages.get(params)),
     directus.url ? fullPaginationFetch((params) => fetchDirectusPosts(directus)(params)) : [],
   ])

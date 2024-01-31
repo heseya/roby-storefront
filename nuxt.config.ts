@@ -151,7 +151,7 @@ export default defineNuxtConfig({
     '@vueuse/nuxt',
     'nuxt-swiper',
     'nuxt-delay-hydration',
-    'nuxt-simple-sitemap',
+    '@nuxtjs/sitemap',
   ],
 
   hooks: {
@@ -192,6 +192,7 @@ export default defineNuxtConfig({
     autoI18n: true,
     autoLastmod: false,
     cacheTtl: 1000 * 60 * 15,
+    _route: '_sitemap-urls',
   },
 
   googleFonts: {
