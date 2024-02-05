@@ -13,11 +13,11 @@
 {
   "pl": {
     "currentIsLowest": "Powyższa cena jest również najniższą ceną z 30 dni przed wprowadzeniem ceny aktualnej.",
-    "lowest": "Najniższa cena przed promocją (z 30 dni):"
+    "lowest": "Najniższa cena z 30 dni przed obniżką:"
   },
   "en": {
     "currentIsLowest": "The above price is also the lowest price in the 30 days prior to the introduction of the current price.",
-    "lowest": "Lowest price before promotion (from 30 days):"
+    "lowest": "Lowest price from 30 days before the promotion:"
   }
 }
 </i18n>
