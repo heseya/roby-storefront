@@ -16,9 +16,6 @@ const {
   BUILD_PAGE_RENT_PATH = '/wynajem',
   BUILD_PAGE_STATUTE_PATH = '/regulamin',
 
-  // Font
-  BUILD_FONT_FAMILY = 'Roboto',
-
   // Languages
   BUILD_DEFAULT_LANGUAGE,
   BUILD_ALLOWED_UI_LANGUAGES,
@@ -43,6 +40,9 @@ const {
   NUXT_PUBLIC_COLOR_THEME_PICKER,
   NUXT_PUBLIC_AXIOS_CACHE_TTL,
 
+  // Font
+  NUXT_PUBLIC_FONT_FAMILY = 'Roboto',
+
   // Ekomi
   NUXT_PUBLIC_EKOMI_CUSTOMER_ID,
   NUXT_PUBLIC_EKOMI_POPUP_TOKEN,
@@ -57,16 +57,20 @@ const {
   /**
    * * Runtime private envs
    */
+  // Email
   NUXT_MAIL_HOST,
   NUXT_MAIL_SENDER,
   NUXT_MAIL_USER,
   NUXT_MAIL_PASSWORD,
   NUXT_MAIL_RECEIVER,
   NUXT_MAIL_PORT = '587',
+
+  // reCAPTCHA
   NUXT_MIN_RECAPTCHA_SCORE,
   NUXT_RECAPTCHA_SECRET,
 } = process.env
 
+// TODO: remove that envs
 const allowedUiLanguages = BUILD_ALLOWED_UI_LANGUAGES?.split(',') || ['pl']
 const defaultLanguage = BUILD_DEFAULT_LANGUAGE || allowedUiLanguages[0]
 
@@ -135,6 +139,7 @@ export default defineNuxtConfig({
       callpageId: NUXT_PUBLIC_CALLPAGE_ID,
       edroneId: NUXT_PUBLIC_EDRONE_ID,
       showColorThemePicker: NUXT_PUBLIC_COLOR_THEME_PICKER,
+      fontFamily: NUXT_PUBLIC_FONT_FAMILY,
       axiosCacheTtl: NUXT_PUBLIC_AXIOS_CACHE_TTL,
       ekomi: {
         customerId: NUXT_PUBLIC_EKOMI_CUSTOMER_ID,
@@ -209,14 +214,13 @@ export default defineNuxtConfig({
 
   googleFonts: {
     families: {
-      [BUILD_FONT_FAMILY]: [300, 400, 500, 600, 700],
+      Rubik: [300, 400, 500, 600, 700],
+      Roboto: [300, 400, 500, 600, 700],
     },
   },
 
   i18n: {
     defaultLocale: defaultLanguage,
-    // @ts-ignore TODO: where to put this?
-    fallbackLocale: defaultLanguage,
     langDir: 'lang',
     strategy: 'prefix_except_default',
     locales: [

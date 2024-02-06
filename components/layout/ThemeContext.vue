@@ -8,14 +8,21 @@
 import { useConfigStore } from '~/store/config'
 
 const config = useConfigStore()
+const runtimeConfig = usePublicRuntimeConfig()
 
 const colorStyles = computed(() => ({
+  // Colors
   '--primary-color': config.env.primary_color,
   '--primary-color-alt': config.env.primary_color_alt,
   '--secondary-color': config.env.secondary_color,
   '--highlight-color': config.env.highlight_color,
   '--error-color': config.env.error_color,
   '--warning-color': config.env.warning_color,
+
+  // Fonts
+  '--header-font-family-family': runtimeConfig.fontFamily,
+  '--text-font-family': runtimeConfig.fontFamily,
+  'font-family': runtimeConfig.fontFamily,
 }))
 </script>
 
