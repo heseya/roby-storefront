@@ -1,5 +1,8 @@
-import { createHeseyaApiService, ProductList } from '@heseya/store-core'
-import { createTransport, SendMailOptions, SentMessageInfo } from 'nodemailer'
+import { createHeseyaApiService } from '@heseya/store-core'
+import type { ProductList } from '@heseya/store-core'
+import { createTransport } from 'nodemailer'
+import * as Sentry from '@sentry/node'
+import type { SendMailOptions, SentMessageInfo } from 'nodemailer'
 import axios from 'axios'
 import _ from 'lodash'
 
@@ -72,13 +75,18 @@ export default defineEventHandler(async (event) => {
     })
 
   try {
+    const port = parseInt(config.mailPort)
     const mailer = createTransport({
       host: config.mailHost,
-      port: parseInt(config.mailPort),
-      secure: false, // upgrade later with STARTTLS
+      port,
+      secure: port === 465,
       auth: {
         user: config.mailUser,
         pass: config.mailPassword,
+      },
+      tls: {
+        // do not fail on invalid certs
+        rejectUnauthorized: false,
       },
     })
 
@@ -91,6 +99,8 @@ export default defineEventHandler(async (event) => {
       })
 
     const getContactMailReceiver = async (): Promise<string | undefined> => {
+      if (config.public.appHost?.includes('localhost')) return config.mailReceiver
+
       const sdk = createHeseyaApiService(axios.create({ baseURL: config.public.apiUrl }))
       const settings = await sdk.Settings.get({ array: true })
       return settings.contact_mail_receiver
@@ -106,7 +116,7 @@ export default defineEventHandler(async (event) => {
     if (!mailReceiver) throw new Error('Missing contact mail receiver')
 
     await sendMail({
-      from: `${name} <${config.mailUser}>`,
+      from: `${name} <${config.mailSender || config.mailUser}>`,
       to: mailReceiver,
       subject: `${subject} | ${config.public.appHost}`,
       replyTo: email,
@@ -136,6 +146,9 @@ export default defineEventHandler(async (event) => {
       `,
     })
   } catch (e: any) {
+    // eslint-disable-next-line no-console
+    console.error('Failed to send email', e)
+    Sentry.captureException(e)
     throw createError({
       statusCode: 500,
       statusMessage: `Failed to send email - ${e.message}`,

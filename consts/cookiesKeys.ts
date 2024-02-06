@@ -1,4 +1,4 @@
-import { CookieOptions } from 'nuxt/app'
+import type { CookieOptions } from 'nuxt/app'
 
 /**
  * Names of the cookies used by the application.

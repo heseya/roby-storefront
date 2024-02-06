@@ -35,7 +35,8 @@
 </i18n>
 
 <script setup lang="ts">
-import { CartItemSchemaValue, Schema, SchemaType, parsePrices } from '@heseya/store-core'
+import { SchemaType, parsePrices } from '@heseya/store-core'
+import type { CartItemSchemaValue, Schema } from '@heseya/store-core'
 
 const t = useLocalI18n()
 const currency = useCurrency()

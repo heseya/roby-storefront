@@ -52,7 +52,7 @@
 </i18n>
 
 <script setup lang="ts">
-import { Furgonetka } from '~/interfaces/Furgonetka'
+import type { Furgonetka } from '~/interfaces/Furgonetka'
 import { useCheckoutStore } from '~/store/checkout'
 import EditIcon from '@/assets/icons/pencil-line-filled.svg?component'
 

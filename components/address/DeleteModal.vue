@@ -46,7 +46,7 @@
 </i18n>
 
 <script setup lang="ts">
-import { UserSavedAddress } from '@heseya/store-core'
+import type { UserSavedAddress } from '@heseya/store-core'
 
 const props = defineProps<{
   open: boolean

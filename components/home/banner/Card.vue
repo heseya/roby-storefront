@@ -20,7 +20,7 @@
 </template>
 
 <script lang="ts" setup>
-import { CdnMedia } from '@heseya/store-core'
+import type { CdnMedia } from '@heseya/store-core'
 
 const props = withDefaults(
   defineProps<{

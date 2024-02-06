@@ -1,4 +1,5 @@
-import { ProductList, parsePrices } from '@heseya/store-core'
+import { parsePrices } from '@heseya/store-core'
+import type { ProductList } from '@heseya/store-core'
 
 export const isOmnibusShowable = (product: ProductList | null, currency: string) => {
   if (!product) return false

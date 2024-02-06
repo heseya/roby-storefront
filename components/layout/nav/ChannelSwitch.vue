@@ -25,7 +25,7 @@
 </template>
 
 <script lang="ts" setup>
-import { Language } from '@heseya/store-core'
+import type { Language } from '@heseya/store-core'
 import { useChannelsStore } from '@/store/channels'
 
 withDefaults(

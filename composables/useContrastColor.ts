@@ -1,4 +1,4 @@
-import { MaybeRef } from 'vue'
+import type { MaybeRef } from 'vue'
 import { useConfigStore } from '~/store/config'
 
 export const useContrastColor = (color: MaybeRef<string>): ComputedRef<'dark' | 'light'> => {

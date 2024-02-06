@@ -87,7 +87,9 @@
 </i18n>
 
 <script setup lang="ts">
-import { CartItemSchema, Product, parseSchemasToValues } from '@heseya/store-core'
+import { parseSchemasToValues } from '@heseya/store-core'
+import type { CartItemSchema, Product } from '@heseya/store-core'
+
 import DeliveryIcon from '@/assets/icons/delivery.svg?component'
 import UpsellModal from '~/components/product/page/UpsellModal.vue'
 
@@ -98,6 +100,7 @@ const props = withDefaults(
   {},
 )
 const t = useLocalI18n()
+const $t = useGlobalI18n()
 const currency = useCurrency()
 const channel = useSalesChannel()
 const upsellVisible = ref(false)
@@ -114,7 +117,7 @@ const { price, originalPrice, pending } = useProductPrice(props.product, schemaV
 const purchaseButtonText = computed((): string => {
   if (isProductPurchaseLimitReached.value) return t('availability.reachedLimit')
 
-  if (props.product.available) return t('offers.addToCart')
+  if (props.product.available) return $t('offers.addToCart')
 
   return t('availability.unavailable')
 })

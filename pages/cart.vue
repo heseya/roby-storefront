@@ -62,7 +62,8 @@
 </i18n>
 
 <script setup lang="ts">
-import { CartItem, HeseyaEvent, Product } from '@heseya/store-core'
+import { CartItem, HeseyaEvent } from '@heseya/store-core'
+import type { Product } from '@heseya/store-core'
 import { useCartStore } from '@/store/cart'
 import { PRODUCT_SET_SHOW_AS_VARIANT } from '~/consts/metadataKeys'
 

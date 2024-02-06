@@ -1,4 +1,4 @@
-import { NuxtPage } from 'nuxt/schema'
+import type { NuxtPage } from 'nuxt/schema'
 
 export const removePageByName = (name?: string, pages: NuxtPage[] = []): void => {
   const pagesToRemove = []

@@ -1,4 +1,5 @@
-import { SalesChannel, SalesChannelStatus } from '@heseya/store-core'
+import { SalesChannelStatus } from '@heseya/store-core'
+import type { SalesChannel } from '@heseya/store-core'
 import { defineStore } from 'pinia'
 
 import { SALES_CHANNEL_KEY } from '@/consts/cookiesKeys'

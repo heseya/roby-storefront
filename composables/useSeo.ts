@@ -1,5 +1,6 @@
-import { SeoMetadata, createSeoMetatags, getSeoValues } from '@heseya/store-core'
-import { MaybeRef } from '@vueuse/core'
+import { createSeoMetatags, getSeoValues } from '@heseya/store-core'
+import type { SeoMetadata } from '@heseya/store-core'
+import type { MaybeRef } from '@vueuse/core'
 import { useConfigStore } from '~/store/config'
 
 export const useSeo = (getSeoArray: () => Array<MaybeRef<SeoMetadata> | null | undefined>) => {

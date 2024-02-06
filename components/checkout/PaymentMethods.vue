@@ -21,7 +21,8 @@
 </i18n>
 
 <script setup lang="ts">
-import { CartItem, HeseyaEvent, PaymentMethodList } from '@heseya/store-core'
+import { CartItem, HeseyaEvent } from '@heseya/store-core'
+import type { PaymentMethodList } from '@heseya/store-core'
 import { useCheckoutStore } from '@/store/checkout'
 import { useCartStore } from '~/store/cart'
 

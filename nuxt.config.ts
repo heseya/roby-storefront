@@ -58,6 +58,7 @@ const {
    * * Runtime private envs
    */
   NUXT_MAIL_HOST,
+  MAIL_SENDER,
   NUXT_MAIL_USER,
   NUXT_MAIL_PASSWORD,
   NUXT_MAIL_RECEIVER,
@@ -109,6 +110,7 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     mailHost: NUXT_MAIL_HOST,
+    mailSender: MAIL_SENDER,
     mailUser: NUXT_MAIL_USER,
     mailPassword: NUXT_MAIL_PASSWORD,
     mailReceiver: NUXT_MAIL_RECEIVER,
@@ -157,8 +159,7 @@ export default defineNuxtConfig({
     '@vueuse/nuxt',
     'nuxt-swiper',
     'nuxt-delay-hydration',
-    'nuxt-simple-robots',
-    'nuxt-simple-sitemap',
+    '@nuxtjs/sitemap',
   ],
 
   hooks: {
@@ -201,6 +202,7 @@ export default defineNuxtConfig({
     autoI18n: true,
     autoLastmod: false,
     cacheTtl: 1000 * 60 * 15,
+    _route: '_sitemap-urls',
   },
 
   googleFonts: {

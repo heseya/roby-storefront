@@ -3,7 +3,7 @@
 </template>
 
 <script setup lang="ts">
-import { Address, UserSavedAddress } from '@heseya/store-core'
+import type { Address, UserSavedAddress } from '@heseya/store-core'
 import clone from 'lodash/clone'
 
 // Without import, it assumes that it is recursive component

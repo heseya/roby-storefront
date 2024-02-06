@@ -50,7 +50,7 @@
 </i18n>
 
 <script setup lang="ts">
-import { BlogArticle } from '~/interfaces/BlogArticle'
+import type { BlogArticle } from '~/interfaces/BlogArticle'
 
 const route = useRoute()
 const t = useLocalI18n()

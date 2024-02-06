@@ -20,8 +20,8 @@
 </template>
 
 <script lang="ts" setup>
-import { Banner } from '@heseya/store-core'
-import { SwiperOptions } from 'swiper/types'
+import type { Banner } from '@heseya/store-core'
+import type { SwiperOptions } from 'swiper/types'
 
 const breakpoints: Record<number, SwiperOptions> = {
   320: { slidesPerView: 1 },

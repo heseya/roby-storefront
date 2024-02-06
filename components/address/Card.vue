@@ -74,7 +74,7 @@
 </i18n>
 
 <script setup lang="ts">
-import { UserSavedAddress } from '@heseya/store-core'
+import type { UserSavedAddress } from '@heseya/store-core'
 import Trash from '@/assets/icons/trash.svg?component'
 import PencilLine from '@/assets/icons/pencil-line-filled.svg?component'
 

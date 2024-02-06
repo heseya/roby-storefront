@@ -14,7 +14,7 @@
 </template>
 
 <script setup lang="ts">
-import { BannerMedia } from '@heseya/store-core'
+import type { BannerMedia } from '@heseya/store-core'
 
 defineProps<{
   media?: BannerMedia[]

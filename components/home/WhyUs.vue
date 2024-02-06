@@ -17,7 +17,7 @@
 </template>
 
 <script lang="ts" setup>
-import { TranslatedWhyUsComponent, TranslatedWhyUsReason } from '@/interfaces/whyUsComponent'
+import type { TranslatedWhyUsComponent, TranslatedWhyUsReason } from '@/interfaces/whyUsComponent'
 
 const { data: content } = useAsyncData('why-us-content', async () => {
   try {

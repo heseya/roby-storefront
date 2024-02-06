@@ -7,7 +7,7 @@
 </template>
 
 <script setup lang="ts">
-import { ProductList } from '@heseya/store-core'
+import type { ProductList } from '@heseya/store-core'
 
 defineProps<{
   product: ProductList

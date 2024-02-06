@@ -1,10 +1,10 @@
 <template>
   <div class="product-omnibus-note">
-    <span v-if="isNil(price) || price === priceMin">
+    <span v-if="isNil(omnibusPrice) || omnibusPrice === currentPriceMin">
       {{ t('currentIsLowest') }}
     </span>
     <span v-else>
-      {{ t('lowest') }} <b>{{ formatAmount(price, currency) }}</b>
+      {{ t('lowest') }} <b>{{ formatAmount(omnibusPrice, currency) }}</b>
     </span>
   </div>
 </template>
@@ -13,11 +13,11 @@
 {
   "pl": {
     "currentIsLowest": "Powyższa cena jest również najniższą ceną z 30 dni przed wprowadzeniem ceny aktualnej.",
-    "lowest": "Najniższa cena przed promocją (z 30 dni):"
+    "lowest": "Najniższa cena z 30 dni przed obniżką:"
   },
   "en": {
     "currentIsLowest": "The above price is also the lowest price in the 30 days prior to the introduction of the current price.",
-    "lowest": "Lowest price before promotion (from 30 days):"
+    "lowest": "Lowest price from 30 days before the promotion:"
   }
 }
 </i18n>
@@ -26,7 +26,7 @@
 import { parsePrices } from '@heseya/store-core'
 import isNil from 'lodash/isNil'
 
-import { ExtendedProductList } from '~/types/Product'
+import type { ExtendedProductList } from '~/types/Product'
 
 const props = withDefaults(
   defineProps<{
@@ -39,22 +39,25 @@ const t = useLocalI18n()
 const omnibus = useOmnibus()
 const currency = useCurrency()
 
-const priceMin = computed(() => parsePrices(props.product.prices_min, currency.value))
+const currentPriceMin = computed(() => parsePrices(props.product.prices_min, currency.value))
 
-const { data: fetchedPrice } = useAsyncData(`product-omnibus-${props.product.id}`, async () => {
-  // Ignore fetching omnibus price if price is already provided
-  if (props.product.omnibus) return
+const { data: fetchedOmnibusPrice } = useAsyncData(
+  `product-omnibus-${props.product.id}-${!!props.product.omnibus}`,
+  async () => {
+    // Ignore fetching omnibus price if price is already provided
+    if (props.product.omnibus) return
 
-  try {
-    return await omnibus.getPrice(props.product.id, priceMin.value)
-  } catch (error) {
-    // eslint-disable-next-line no-console
-    console.error('Nie udało się załadować najniższej ceny z ostatnich 30 dni', error)
-  }
-})
+    try {
+      return await omnibus.getPrice(props.product.id, currentPriceMin.value)
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error('Nie udało się załadować najniższej ceny z ostatnich 30 dni', error)
+    }
+  },
+)
 
-const price = computed(() =>
-  props.product.omnibus?.price_min ? props.product.omnibus?.price_min : fetchedPrice.value,
+const omnibusPrice = computed(() =>
+  props.product.omnibus?.price_min ? props.product.omnibus?.price_min : fetchedOmnibusPrice.value,
 )
 </script>
 

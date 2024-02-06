@@ -41,8 +41,9 @@
 </template>
 
 <script setup lang="ts">
-import { UserConsentDto } from '@heseya/store-core'
-import { CreateUserForm } from '../auth/RegisterForm.vue'
+import type { UserConsentDto } from '@heseya/store-core'
+
+import type { CreateUserForm } from '../auth/RegisterForm.vue'
 
 const props = defineProps<{
   name: string

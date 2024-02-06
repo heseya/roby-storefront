@@ -17,8 +17,8 @@
 </template>
 
 <script lang="ts" setup>
-import { BlogArticle } from '~/interfaces/BlogArticle'
-import { BlogTag } from '~/interfaces/BlogTag'
+import type { BlogArticle } from '~/interfaces/BlogArticle'
+import type { BlogTag } from '~/interfaces/BlogTag'
 
 const props = defineProps<{
   article: BlogArticle

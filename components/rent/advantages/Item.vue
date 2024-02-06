@@ -11,7 +11,7 @@
 </template>
 
 <script lang="ts" setup>
-import { TranslatedRentPageAdvantage } from '~/interfaces/rentPage'
+import type { TranslatedRentPageAdvantage } from '~/interfaces/rentPage'
 
 const props = defineProps<{ item: TranslatedRentPageAdvantage }>()
 

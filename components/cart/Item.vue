@@ -44,7 +44,8 @@
 </template>
 
 <script setup lang="ts">
-import { CartItem, CartItemRawSchemaValue } from '@heseya/store-core'
+import { CartItem } from '@heseya/store-core'
+import type { CartItemRawSchemaValue } from '@heseya/store-core'
 
 import CrossIcon from '@/assets/icons/cross.svg?component'
 import { useCartStore } from '@/store/cart'

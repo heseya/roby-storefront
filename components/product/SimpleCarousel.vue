@@ -14,7 +14,7 @@
 
 <script setup lang="ts">
 import { useConfigStore } from '@/store/config'
-import { ProductGetParams } from '@/types/Product'
+import type { ProductGetParams } from '@/types/Product'
 
 const { get: getProducts } = useHeseyaProducts()
 const config = useConfigStore()

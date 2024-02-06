@@ -32,7 +32,7 @@
 </i18n>
 
 <script setup lang="ts">
-import { ProductAttachment } from '@heseya/store-core'
+import type { ProductAttachment } from '@heseya/store-core'
 import DownloadIcon from '~/assets/icons/download-blue.svg?component'
 
 const t = useLocalI18n()

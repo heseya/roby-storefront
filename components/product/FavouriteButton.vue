@@ -24,7 +24,7 @@
 </i18n>
 
 <script setup lang="ts">
-import { ProductList } from '@heseya/store-core'
+import type { ProductList } from '@heseya/store-core'
 
 import HeartIcon from '@/assets/icons/heart.svg?component'
 import FilledHeartIcon from '@/assets/icons/filled-heart.svg?component'

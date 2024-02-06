@@ -27,7 +27,7 @@
 </template>
 
 <script lang="ts" setup generic="T">
-import { SwiperOptions } from 'swiper/types'
+import type { SwiperOptions } from 'swiper/types'
 
 withDefaults(
   defineProps<{

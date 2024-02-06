@@ -25,7 +25,7 @@
 </i18n>
 
 <script setup lang="ts">
-import { OrderProduct } from '@heseya/store-core'
+import type { OrderProduct } from '@heseya/store-core'
 const t = useLocalI18n()
 
 defineProps<{

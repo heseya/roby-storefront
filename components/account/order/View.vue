@@ -72,7 +72,9 @@
 </i18n>
 
 <script setup lang="ts">
-import { Order, PaymentStatus } from '@heseya/store-core'
+import { PaymentStatus } from '@heseya/store-core'
+import type { Order } from '@heseya/store-core'
+
 import Successful from '@/assets/icons/mark-circle.svg?component'
 import Failed from '@/assets/icons/x-mark-circle.svg?component'
 import Pending from '@/assets/icons/pending.svg?component'

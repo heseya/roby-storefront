@@ -47,7 +47,7 @@
 </i18n>
 
 <script setup lang="ts">
-import { TranslatedRentPage } from '~/interfaces/rentPage'
+import type { TranslatedRentPage } from '~/interfaces/rentPage'
 
 const t = useLocalI18n()
 

@@ -1,12 +1,10 @@
-import {
+import { CartItem, HeseyaEvent, restoreCart } from '@heseya/store-core'
+import type {
   CartDto,
-  CartItem,
   CartItemDto,
   CartItemSchema,
   Coupon,
-  HeseyaEvent,
   ProductList,
-  restoreCart,
   SaleShort,
   SavedCartItem,
   Schema,

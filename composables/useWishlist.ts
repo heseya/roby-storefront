@@ -1,7 +1,7 @@
 import { useWishlistStore } from '@/store/wishlist'
 import { useAuthStore } from '@/store/auth'
 
-import { ExtendedProductList } from '@/types/Product'
+import type { ExtendedProductList } from '@/types/Product'
 
 export const useWishlist = (product: ExtendedProductList) => {
   const auth = useAuthStore()
