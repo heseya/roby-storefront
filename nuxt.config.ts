@@ -58,7 +58,7 @@ const {
    * * Runtime private envs
    */
   NUXT_MAIL_HOST,
-  MAIL_SENDER,
+  NUXT_MAIL_SENDER,
   NUXT_MAIL_USER,
   NUXT_MAIL_PASSWORD,
   NUXT_MAIL_RECEIVER,
@@ -109,12 +109,14 @@ export default defineNuxtConfig({
   css: ['@/assets/scss/index.scss'],
 
   runtimeConfig: {
-    mailHost: NUXT_MAIL_HOST,
-    mailSender: MAIL_SENDER,
-    mailUser: NUXT_MAIL_USER,
-    mailPassword: NUXT_MAIL_PASSWORD,
-    mailReceiver: NUXT_MAIL_RECEIVER,
-    mailPort: NUXT_MAIL_PORT,
+    mail: {
+      host: NUXT_MAIL_HOST,
+      sender: NUXT_MAIL_SENDER,
+      user: NUXT_MAIL_USER,
+      password: NUXT_MAIL_PASSWORD,
+      receiver: NUXT_MAIL_RECEIVER,
+      port: NUXT_MAIL_PORT,
+    },
     minRecaptchaScore: NUXT_MIN_RECAPTCHA_SCORE,
     recaptchaSecret: NUXT_RECAPTCHA_SECRET,
 
