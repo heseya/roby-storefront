@@ -40,6 +40,7 @@ const {
   // Private
   MAIL_HOST,
   MAIL_USER,
+  MAIL_SENDER,
   MAIL_PASSWORD,
   MAIL_RECEIVER,
   MAIL_PORT = '587',
@@ -111,6 +112,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     mailHost: MAIL_HOST,
     mailUser: MAIL_USER,
+    mailSender: MAIL_SENDER,
     mailPassword: MAIL_PASSWORD,
     mailReceiver: MAIL_RECEIVER,
     mailPort: MAIL_PORT,
