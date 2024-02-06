@@ -74,11 +74,6 @@ const {
 const allowedUiLanguages = BUILD_ALLOWED_UI_LANGUAGES?.split(',') || ['pl']
 const defaultLanguage = BUILD_DEFAULT_LANGUAGE || allowedUiLanguages[0]
 
-// if (!NUXT_PUBLIC_API_URL) console.warn('NUXT_PUBLIC_API_URL env is not defined')
-// if (!NUXT_PUBLIC_PRICE_TRACKER_URL) console.warn('NUXT_PUBLIC_PRICE_TRACKER_URL env is not defined')
-// if (!NUXT_PUBLIC_APP_HOST) console.warn('NUXT_PUBLIC_APP_HOST env is not defined')
-// if (!NUXT_PUBLIC_RECAPTCHA_PUBLIC) console.warn('NUXT_PUBLIC_RECAPTCHA_PUBLIC env is not defined')
-
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   app: {
