@@ -52,10 +52,13 @@ const { arrivedState: containerScrollState } = useScroll(containerRef)
 const containerScrollHeight = useElementScrollHeight(containerRef)
 const isScrollable = computed(() => containerScrollHeight.value > containerHeight.value)
 
+const isLoading = ref(false)
 const pagination = ref<HeseyaPaginationMeta>({ currentPage: 0, lastPage: 0, perPage: 0, total: 0 })
 const options = ref<AttributeOption[]>([])
 
 const loadOptions = async (page = 1) => {
+  if (isLoading.value) return
+  isLoading.value = true
   try {
     const { data, pagination: meta } = await heseya.Attributes.getOptions(props.attribute.id, {
       page,
@@ -72,6 +75,7 @@ const loadOptions = async (page = 1) => {
       text: formatError(e),
     })
   }
+  isLoading.value = false
 }
 
 loadOptions(1)
