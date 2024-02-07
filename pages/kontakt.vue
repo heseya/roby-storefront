@@ -7,10 +7,7 @@
           <LayoutHeader class="contact__title" variant="black" tag="h1">
             {{ config.env.company_name }}
           </LayoutHeader>
-          <div
-            class="contact__subtitle"
-            v-html="config.env.contact_page_text || config.env.company_address"
-          ></div>
+          <div v-show="subtext" class="contact__subtitle" v-html="subtext"></div>
         </div>
 
         <div class="contact__info">
@@ -114,6 +111,10 @@ const { data: allPersons } = useAsyncData('contact-persons', async () => {
 const personGroups = computed(() =>
   Object.entries(groupBy(allPersons.value, 'group')).filter(([group]) => group !== 'null'),
 )
+
+const subtext = computed(() => {
+  return config.env.contact_page_text || config.env.company_address || ''
+})
 </script>
 
 <style lang="scss" scoped>
