@@ -17,7 +17,7 @@
       </form>
       <div v-else>
         <p>
-          {{ t('message') }}<b>{{ formStatus.email }}</b
+          {{ t('message') }} <b>{{ formStatus.email }}</b
           >{{ t('message2') }}
         </p>
       </div>
