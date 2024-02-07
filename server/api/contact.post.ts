@@ -85,8 +85,9 @@ export default defineEventHandler(async (event) => {
         pass: config.mailPassword,
       },
       tls: {
-        // do not fail on invalid certs
-        rejectUnauthorized: false,
+        // fail on invalid certs
+        // TODO: env maybe?
+        rejectUnauthorized: true,
       },
     })
 
