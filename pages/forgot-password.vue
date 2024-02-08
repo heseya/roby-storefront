@@ -114,7 +114,7 @@ const breadcrumbs = computed(() => [{ label: t('title'), link: '/forgot-password
 
   &__header {
     font-size: 26px;
-    font-weight: 800;
+    font-weight: 700;
   }
 
   &__btn {
