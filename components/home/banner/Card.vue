@@ -1,5 +1,10 @@
 <template>
-  <SmartLink class="card" :class="{ 'card--centered': centered }" :to="link || ''">
+  <SmartLink
+    class="card"
+    :class="{ 'card--centered': centered }"
+    :to="link || ''"
+    :aria-label="title || `Redirect to ${link}`"
+  >
     <div class="card__container" :class="{ 'card__container--centered': centered }">
       <div v-show="gradient" class="card__gray-filter" />
       <Media
