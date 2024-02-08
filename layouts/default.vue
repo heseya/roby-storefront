@@ -35,11 +35,6 @@ const { locales } = useI18n()
 const isAdditionalNavBarVisible = computed(
   () => locales.value.length > 1 || !!config.customRedirect || channels.channels.length > 1,
 )
-
-// TODO load notification without hydration & layout shift problem
-// import { useNavNotificationBarStore } from '@/store/navNotificationBar'
-//
-// const notificationBar = useNavNotificationBarStore()
 </script>
 
 <style lang="scss">

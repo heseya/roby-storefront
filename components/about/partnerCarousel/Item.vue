@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts" setup>
-import { TranslatedAboutPartner } from '@/interfaces/aboutPage'
+import type { TranslatedAboutPartner } from '@/interfaces/aboutPage'
 
 const props = defineProps<{ partner: TranslatedAboutPartner }>()
 

@@ -13,7 +13,7 @@
         <BlogArticleTile
           v-for="article in articles?.data || []"
           :key="article.id"
-          :article="(article as any)"
+          :article="article"
         />
       </div>
     </div>
@@ -21,10 +21,12 @@
 </template>
 
 <script lang="ts" setup>
+import type { BlogArticle } from '~/interfaces/BlogArticle'
+
 const $t = useGlobalI18n()
 const directus = useDirectus()
-const { data: articles } = useAsyncData('home-blog-articles', () => {
-  return directus.items('Articles').readByQuery({
+const { data: articles } = useAsyncData('home-blog-articles', async () => {
+  const data = await directus.items('Articles').readByQuery({
     fields: [
       'id',
       'slug',
@@ -40,6 +42,7 @@ const { data: articles } = useAsyncData('home-blog-articles', () => {
       status: 'published',
     },
   })
+  return { ...data, data: data.data as BlogArticle[] }
 })
 </script>
 

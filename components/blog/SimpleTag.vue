@@ -1,25 +1,19 @@
 <template>
-  <nuxt-link
-    :to="`${localePath(`/blog`)}?tag=${tag.id ?? tag.BlogTags_id.id}`"
-    class="simple-blog-tag"
-  >
+  <nuxt-link :to="`${localePath(`/blog`)}?tag=${tag.id}`" class="simple-blog-tag">
     {{ translatedTag.name }}
   </nuxt-link>
 </template>
 
 <script lang="ts" setup>
-import { BlogTag } from '~/interfaces/BlogTag'
+import type { BlogTag } from '~/interfaces/BlogTag'
 
 const localePath = useLocalePath()
 const props = defineProps<{
   tag: BlogTag
 }>()
 
-const translatedTag = computed(() =>
-  props.tag.BlogTags_id
-    ? getTranslated(props.tag.BlogTags_id.translations, 'PL-pl')
-    : getTranslated(props.tag.translations, 'PL-pl'),
-)
+const tag = computed(() => ('BlogTags_id' in props.tag ? props.tag.BlogTags_id : props.tag))
+const translatedTag = computed(() => getTranslated(tag.value.translations, 'PL-pl'))
 </script>
 
 <style lang="scss" scoped>

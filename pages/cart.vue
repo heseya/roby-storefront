@@ -13,9 +13,9 @@
           <ClientOnly>
             <div v-if="!isCartEmpty" class="cart-page__list">
               <LazyCartItem
-                v-for="item in cart.items"
+                v-for="item in cartItems"
                 :key="item.id"
-                :item="(item as any)"
+                :item="item"
                 class="cart-page__item"
               />
             </div>
@@ -35,7 +35,7 @@
       </div>
 
       <ProductSimpleCarousel
-        v-if="!isCartEmpty"
+        v-if="!isCartEmpty && suggestedQuery.sets.length > 0"
         class="cart-page__suggested"
         :query="suggestedQuery"
         :title="t('cart.suggested')"
@@ -62,8 +62,10 @@
 </i18n>
 
 <script setup lang="ts">
-import { CartItem, HeseyaEvent, Product } from '@heseya/store-core'
+import { CartItem, HeseyaEvent } from '@heseya/store-core'
+import type { Product } from '@heseya/store-core'
 import { useCartStore } from '@/store/cart'
+import { PRODUCT_SET_SHOW_AS_VARIANT } from '~/consts/metadataKeys'
 
 const cart = useCartStore()
 const t = useLocalI18n()
@@ -71,11 +73,22 @@ const $t = useGlobalI18n()
 
 const isCartEmpty = computed(() => cart.length === 0)
 
+// It assumes some weird type, even if it is same as CartItem
+const cartItems = computed(() => cart.items as CartItem[])
+
 const suggestedQuery = computed(() => {
-  const relatedSets = cart.items.map((p) => (p.product as Product).related_sets || []).flat()
+  const relatedSets = cart.items
+    .map(
+      (p) =>
+        (p.product as Product).related_sets?.filter(
+          (set) => !set.metadata[PRODUCT_SET_SHOW_AS_VARIANT],
+        ) || [],
+    )
+    .flat()
 
   return {
     sets: relatedSets.map((s) => s.slug),
+    available: true,
   }
 })
 
@@ -85,9 +98,7 @@ delayedOnMounted(() => {
   ev.emit(HeseyaEvent.ViewCart, cart.items as CartItem[])
 })
 
-useSeoMeta({
-  title: () => $t('cart.title'),
-})
+useSeoTitle($t('cart.title'))
 </script>
 
 <style lang="scss" scoped>

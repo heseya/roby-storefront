@@ -1,11 +1,31 @@
-FROM node:18-alpine as builder
+# syntax = docker/dockerfile:1
 
-EXPOSE 3000
+ARG NODE_VERSION=18.15.0
 
-WORKDIR /app
-COPY / /app
+FROM node:${NODE_VERSION}-slim as base
 
-RUN yarn install
+ARG PORT=3000
+
+ENV NODE_ENV=production
+
+WORKDIR /src
+
+# Build
+FROM base as build
+
+COPY --link package.json yarn.lock ./
+RUN yarn install --production=false
+
+COPY --link . .
+
 RUN yarn build
 
-CMD ["yarn", "start", "--hostname", "0.0.0.0"]
+# Run
+FROM base
+
+ENV PORT=$PORT
+EXPOSE $PORT
+
+COPY --from=build /src/.output /src/.output
+
+CMD [ "node", ".output/server/index.mjs" ]

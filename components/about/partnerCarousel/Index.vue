@@ -5,7 +5,7 @@
     </LayoutHeader>
 
     <LayoutCarousel :items="partners || []" :breakpoints="breakpoints">
-      <template #item="partner: TranslatedAboutPartner">
+      <template #item="partner">
         <AboutPartnerCarouselItem :partner="partner" />
       </template>
     </LayoutCarousel>
@@ -13,8 +13,8 @@
 </template>
 
 <script lang="ts" setup>
-import { SwiperOptions } from 'swiper/types'
-import { TranslatedAboutPartner } from '@/interfaces/aboutPage'
+import type { SwiperOptions } from 'swiper/types'
+import type { TranslatedAboutPartner } from '@/interfaces/aboutPage'
 
 defineProps<{
   title: string

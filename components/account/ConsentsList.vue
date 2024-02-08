@@ -17,7 +17,7 @@
 </template>
 
 <script setup lang="ts">
-import { UserConsentDto } from '@heseya/store-core'
+import type { UserConsentDto } from '@heseya/store-core'
 
 const heseya = useHeseya()
 

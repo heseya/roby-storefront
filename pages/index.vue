@@ -26,6 +26,7 @@
           <HomeProductCarousel
             v-if="section.type === 'set'"
             :category="section.data"
+            :hide-unavailable="hideUnavailableOnHomepage"
             header-tag="h2"
           />
 
@@ -47,8 +48,8 @@
           :title="banner.name"
           :gray-filter="!!banner.metadata.gray_filter"
           :drop-shadow="!!banner.metadata.drop_shadow"
-          :image-height="(banner.metadata.image_height as any)"
-          :image-width="(banner.metadata.image_width as any)"
+          :image-height="banner.metadata.image_height?.toString()"
+          :image-width="banner.metadata.image_width?.toString()"
         />
       </BaseContainer>
     </div>
@@ -56,20 +57,24 @@
 </template>
 
 <script setup lang="ts">
-import { HeseyaEvent, ProductSetList, PageList } from '@heseya/store-core'
-import { LinkBox } from '~~/components/home/LinkBox.vue'
+import { HeseyaEvent } from '@heseya/store-core'
+import type { ProductSetList, PageList } from '@heseya/store-core'
+
+import { useConfigStore } from '~/store/config'
+import type { LinkBox } from '~~/components/home/LinkBox.vue'
 
 const $t = useGlobalI18n()
 const heseya = useHeseya()
+const config = useConfigStore()
 
 type Section =
   | { type: 'set'; data: ProductSetList }
   | { type: 'box'; data: LinkBox }
   | { type: 'page'; data: PageList }
 
-useSeoMeta({
-  title: () => $t('breadcrumbs.home'),
-})
+useSeoTitle($t('breadcrumbs.home'))
+
+const hideUnavailableOnHomepage = computed(() => config.env.hide_unavailable_on_homepage === '1')
 
 const { data } = useAsyncData('main-banner', async () => {
   const [

@@ -13,7 +13,7 @@
           class="carousel__content-container"
           :class="{ 'carousel__content-container--visible': isVisible }"
         >
-          <slot name="item" v-bind="(item as any)" />
+          <slot name="item" v-bind="item" />
         </div>
       </SwiperSlide>
       <template #container-start>
@@ -26,12 +26,12 @@
   </div>
 </template>
 
-<script lang="ts" setup>
-import { SwiperOptions } from 'swiper/types'
+<script lang="ts" setup generic="T">
+import type { SwiperOptions } from 'swiper/types'
 
 withDefaults(
   defineProps<{
-    items: unknown[]
+    items: T[]
     breakpoints?: SwiperOptions['breakpoints']
     hideNav?: boolean
     spaceBetween?: number
@@ -83,7 +83,7 @@ withDefaults(
     top: 0;
     right: -36px;
     z-index: 10;
-    background: $white-color;
+    background: transparent;
 
     @media ($max-viewport-10) {
       display: none;

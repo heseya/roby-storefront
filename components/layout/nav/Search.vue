@@ -46,7 +46,7 @@
 
 <script lang="ts" setup>
 import { useForm } from 'vee-validate'
-import { ProductSetList } from '@heseya/store-core'
+import type { ProductSetList } from '@heseya/store-core'
 
 import Search from '@/assets/icons/search.svg?component'
 import { useSearchHistoryStore } from '@/store/searchHistory'
@@ -90,6 +90,14 @@ defineProps<{
 }>()
 
 const searchButtonColorTheme = useContrastColorFromCssVar('primary-color')
+
+onMounted(() => {
+  const route = useRoute()
+  if (route.name?.toString().includes('search-query')) {
+    const query = route.params.query as string
+    formCtx.setValues({ query })
+  }
+})
 </script>
 
 <style lang="scss" scoped>

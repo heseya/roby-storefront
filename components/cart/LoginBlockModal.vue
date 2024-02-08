@@ -91,7 +91,7 @@ const isModalVisible = computed({
 
   &__header {
     font-size: 20px;
-    font-weight: 700;
+    font-weight: 600;
   }
 
   &__btn,

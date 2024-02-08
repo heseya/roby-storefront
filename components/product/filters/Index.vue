@@ -20,6 +20,7 @@
           html-type="number"
           name="price_min"
           :model-value="filters['price.min']"
+          :min="0"
           :postfix="currency"
           label-uppercase
           @update:model-value="(v) => updatePrice('min', v)"
@@ -31,17 +32,46 @@
           name="price_max"
           :postfix="currency"
           :model-value="filters['price.max']"
+          :min="0"
           label-uppercase
           @update:model-value="(v) => updatePrice('max', v)"
         />
       </div>
     </div>
 
+    <div v-for="attribute in rangeFilters" :key="attribute.id" class="product-filters__section">
+      <FormInputLabel label-uppercase> {{ attribute.name }} </FormInputLabel>
+
+      <div class="product-filters__row">
+        <span> {{ $t('common.from') }} </span>
+        <FormInput
+          type="gray"
+          html-type="number"
+          :name="`attribute_${attribute.slug}_min`"
+          :model-value="filters[`attribute.${attribute.slug}.min`]"
+          :min="0"
+          label-uppercase
+          @update:model-value="(v) => updateKey(`attribute.${attribute.slug}.min`, v)"
+        />
+        <span> {{ $t('common.to') }} </span>
+        <FormInput
+          type="gray"
+          html-type="number"
+          :name="`attribute_${attribute.slug}_min`"
+          :model-value="filters[`attribute.${attribute.slug}.max`]"
+          :min="0"
+          label-uppercase
+          @update:model-value="(v) => updateKey(`attribute.${attribute.slug}.max`, v)"
+        />
+      </div>
+    </div>
+
     <ProductFiltersCheckboxGroup
-      v-for="attribute in attributes || []"
+      v-for="attribute in checkboxableFilters"
       :key="attribute.id"
       class="product-filters__section"
       :attribute="attribute"
+      :product-set-slug="sets[0]"
       :value="filters[`attribute.${attribute.slug}`]"
       @update:value="(v) => updateKey(`attribute.${attribute.slug}`, v)"
     />
@@ -63,6 +93,7 @@
 
 <script setup lang="ts">
 import { AttributeType } from '@heseya/store-core'
+import type { Attribute } from '@heseya/store-core'
 
 const props = withDefaults(
   defineProps<{
@@ -90,12 +121,36 @@ const { data: attributes } = useLazyAsyncData(async () => {
   // TODO: this is not optimal
   const sets = await Promise.all(props.sets.map((set) => heseya.ProductSets.getOneBySlug(set)))
 
-  // TODO: add support for date and number attributes
-  const attrs = await heseya.Products.getFilters({ sets: sets.map((s) => s.id) })
-  return attrs.filter(
-    (a) => a.type === AttributeType.MultiChoiceOption || a.type === AttributeType.SingleOption,
-  )
+  return heseya.Products.getFilters({ sets: sets.map((s) => s.id) })
 })
+
+// const optionAttributes = computed(
+//   () =>
+//     attributes.value?.filter(
+//       (a) => a.type === AttributeType.MultiChoiceOption || a.type === AttributeType.SingleOption,
+//     ) || [],
+// )
+
+// const numberAttributes = computed(
+//   () => attributes.value?.filter((a) => a.type === AttributeType.Number) || [],
+// )
+
+// TODO: remember the order of the attributes if splitted into range and checkboxes
+const checkboxableFilters = computed<Attribute[]>(
+  () =>
+    attributes.value?.filter((a) =>
+      [AttributeType.MultiChoiceOption, AttributeType.SingleOption, AttributeType.Number].includes(
+        a.type,
+      ),
+    ) || [],
+)
+// TODO: this is intentionally empty
+const rangeFilters = computed<Attribute[]>(() => [])
+
+// TODO: add support for date attributes
+// const dateAttributes = computed(
+//   () => attributes.value?.filter((a) => a.type === AttributeType.Date) || [],
+// )
 
 const updateKey = (key: string, value: any) => {
   emit('update:filters', { ...props.filters, [key]: value })

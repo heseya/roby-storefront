@@ -53,7 +53,7 @@
 </i18n>
 
 <script setup lang="ts">
-import { Paczkomat } from '~/interfaces/Paczkomat'
+import type { Paczkomat } from '~/interfaces/Paczkomat'
 import { useCheckoutStore } from '~/store/checkout'
 import EditIcon from '@/assets/icons/pencil-line-filled.svg?component'
 

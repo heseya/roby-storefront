@@ -16,7 +16,7 @@ export default defineNuxtPlugin((nuxt) => {
   defineRule('confirmedPassword', confirmed)
   defineRule('alpha', alpha)
   defineRule('alphaSpaces', alphaSpaces)
-  defineRule('beforeNow', (date: string) => new Date(date) < new Date())
+  defineRule('beforeNow', (date: string) => (date ? new Date(date) < new Date() : true))
   defineRule('phone', (value: string) => {
     return /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{3,6}$/g.test(value)
   })

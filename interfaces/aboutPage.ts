@@ -1,6 +1,6 @@
-import { ID } from '@directus/sdk'
-import { DirectusTranslated } from './DirectusTranslated'
-import { DirectusImage } from './DirectusImage'
+import type { ID } from '@directus/sdk'
+import type { DirectusTranslated } from './DirectusTranslated'
+import type { DirectusImage } from './DirectusImage'
 
 export interface AboutPartner {
   id: ID

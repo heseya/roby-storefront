@@ -54,7 +54,7 @@
 </i18n>
 
 <script setup lang="ts">
-import { CdnMedia } from '@heseya/store-core'
+import type { CdnMedia } from '@heseya/store-core'
 import ChevronIcon from '@/assets/icons/chevron.svg?component'
 import CrossIcon from '@/assets/icons/cross.svg?component'
 
@@ -185,6 +185,7 @@ $btn-position-desktop: 48px;
 
   &__item {
     border: solid 1px $gray-color-300;
+    object-position: center;
   }
 
   &__list {

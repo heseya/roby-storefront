@@ -1,4 +1,4 @@
-import { BannerMedia } from '@heseya/store-core'
+import type { BannerMedia } from '@heseya/store-core'
 
 export const useMediaQueriesForMediaBanners = (media: MaybeRef<BannerMedia['media']>) => {
   const sortedMedia = computed(() =>

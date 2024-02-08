@@ -16,6 +16,8 @@
         :type="htmlType"
         :autocomplete="autocomplete"
         :name="name"
+        :min="min"
+        :max="max"
         :placeholder="placeholder"
         :disabled="disabled"
         :inputmode="htmlType === 'phone' ? 'tel' : undefined"
@@ -41,6 +43,8 @@ const props = withDefaults(
     postfix?: string
     errorMessage?: string
     modelValue?: string | number
+    max?: number
+    min?: number
     rules?: string
     labelUppercase?: boolean
     disabled?: boolean
@@ -55,6 +59,8 @@ const props = withDefaults(
     errorMessage: '',
     modelValue: '',
     rules: '',
+    max: undefined,
+    min: undefined,
     autocomplete: undefined,
     labelUppercase: false,
   },
@@ -64,8 +70,8 @@ const emit = defineEmits<{
   (event: 'update:modelValue', value: string | number): void
 }>()
 
-const uniqueId = Math.random().toString(36).substr(2, 9)
-const id = computed(() => `${props.name}-${uniqueId}`)
+// TODO: maybe use useId() in the future?
+const id = computed(() => props.name)
 const isRequired = computed(() => props.rules.includes('required'))
 
 const { errors, validate } = useField(props.name, props.rules, {

@@ -50,6 +50,8 @@
 </i18n>
 
 <script setup lang="ts">
+import type { BlogArticle } from '~/interfaces/BlogArticle'
+
 const route = useRoute()
 const t = useLocalI18n()
 const $t = useGlobalI18n()
@@ -64,8 +66,8 @@ const {
   data: articles,
   pending,
   refresh,
-} = useAsyncData(`blog-articles-${route.query.page}-${route.query.tag}`, () => {
-  return directus.items('Articles').readByQuery({
+} = useAsyncData(`blog-articles-${route.query.page}-${route.query.tag}`, async () => {
+  const data = await directus.items('Articles').readByQuery({
     fields: [
       'id',
       'slug',
@@ -94,6 +96,8 @@ const {
         : undefined,
     } as any, // this any exists because of directus weird typing
   })
+  // TODO: fix directus types
+  return { ...data, data: data.data as unknown as BlogArticle[] }
 })
 
 const { data: tags } = useLazyAsyncData(`blog-tags`, () => {
@@ -113,9 +117,7 @@ const changePage = (page: number | string) => {
   })
 }
 
-useSeoMeta({
-  title: () => $t('breadcrumbs.blog'),
-})
+useSeoTitle($t('breadcrumbs.blog'))
 
 const breadcrumbs = computed(() => [{ label: $t('breadcrumbs.blog'), link: `/blog` }])
 

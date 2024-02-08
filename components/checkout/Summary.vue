@@ -76,7 +76,7 @@ const isValid = computed(() => checkout.isValid && !props.isValidationError)
 
 const shownError = computed(() => {
   if (props.isValidationError) return $t('errors.checkout.validationError')
-  if (checkout.validationError) return checkout.validationError
+  if (checkout.validationError) return $t(checkout.validationError)
   return ''
 })
 

@@ -23,13 +23,15 @@
 </i18n>
 
 <script setup lang="ts">
-import { Page } from '@heseya/store-core'
+import type { Page } from '@heseya/store-core'
 
 const props = defineProps<{
   page: Page
 }>()
 
 useSeo(() => [props.page?.seo, { title: props.page?.name }])
+
+usePageJsonLd(props.page)
 
 const breadcrumbs = computed(() => [
   { label: props.page?.name || '', link: `/${props.page?.slug}` },
@@ -38,7 +40,7 @@ const breadcrumbs = computed(() => [
 
 <style lang="scss" scoped>
 .page {
-  max-width: $content-width;
+  max-width: $container-width;
   margin: auto;
 
   &__title {

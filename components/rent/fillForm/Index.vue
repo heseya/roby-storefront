@@ -20,7 +20,7 @@
 
 <script lang="ts" setup>
 import DoubleIcon from '@/assets/icons/double-chevron.svg?component'
-import { TranslatedRentPageForm } from '~/interfaces/rentPage'
+import type { TranslatedRentPageForm } from '~/interfaces/rentPage'
 
 const $t = useGlobalI18n()
 

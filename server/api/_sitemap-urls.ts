@@ -1,10 +1,9 @@
 import { Auth, Directus } from '@directus/sdk'
 import axios from 'axios'
-import { createHeseyaApiService, ListResponse } from '@heseya/store-core'
+import { createHeseyaApiService } from '@heseya/store-core'
+import type { ListResponse } from '@heseya/store-core'
 
-import { DirectusCollections } from '@/plugins/directus'
-
-const { API_URL, DIRECTUS_URL } = process.env
+import type { DirectusCollections } from '@/plugins/directus'
 
 interface SitemapEntry {
   loc: string
@@ -54,13 +53,16 @@ const fullPaginationFetch = async <T>(
 /**
  * https://nuxtseo.com/sitemap/guides/dynamic-urls
  */
-export default defineEventHandler(async (): Promise<SitemapEntry[]> => {
-  const sdk = createHeseyaApiService(axios.create({ baseURL: API_URL }))
-  const directus = new Directus<DirectusCollections>(DIRECTUS_URL || '')
+export default defineEventHandler(async (event): Promise<SitemapEntry[]> => {
+  // @ts-ignore Docs suggest to pass event to useRuntimeConfig, but it's not typed? https://nuxt.com/docs/guide/going-further/runtime-config#server-routes
+  const config = useRuntimeConfig(event)
+
+  const sdk = createHeseyaApiService(axios.create({ baseURL: config.public.apiUrl }))
+  const directus = new Directus<DirectusCollections>(config.public.directusUrl || '')
 
   const [products, productSets, pages, blogPosts] = await Promise.all([
-    fullPaginationFetch((params) => sdk.Products.get(params)),
-    fullPaginationFetch((params) => sdk.ProductSets.get(params)),
+    fullPaginationFetch((params) => sdk.Products.get({ ...params, public: true })),
+    fullPaginationFetch((params) => sdk.ProductSets.get({ ...params, public: true })),
     fullPaginationFetch((params) => sdk.Pages.get(params)),
     directus.url ? fullPaginationFetch((params) => fetchDirectusPosts(directus)(params)) : [],
   ])

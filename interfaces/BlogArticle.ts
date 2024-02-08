@@ -1,7 +1,7 @@
-import { ID } from '@directus/sdk'
-import { DirectusImage } from './DirectusImage'
-import { BlogTag } from './BlogTag'
-import { DirectusTranslated } from './DirectusTranslated'
+import type { ID } from '@directus/sdk'
+import type { DirectusImage } from './DirectusImage'
+import type { BlogTag } from './BlogTag'
+import type { DirectusTranslated } from './DirectusTranslated'
 
 export interface BlogArticle {
   id: ID
@@ -34,8 +34,8 @@ export interface BlogArticle {
 
 export interface TranslatedBlogArticle {
   id: ID
-  image_url: string
-  cover_image_url: string
+  image: string
+  cover_image: string
   hide_cover: boolean
   date_created: string
   date_updated: string
@@ -46,6 +46,7 @@ export interface TranslatedBlogArticle {
   description: string
   seo_title: string
   seo_description: string
+  metatags: string | null
   tags: string[]
   user_created: {
     first_name: string

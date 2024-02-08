@@ -3,8 +3,11 @@
 </template>
 
 <script setup lang="ts">
-import { Address } from '@heseya/store-core'
+import type { Address, UserSavedAddress } from '@heseya/store-core'
 import clone from 'lodash/clone'
+
+// Without import, it assumes that it is recursive component
+import AddressList from '@/components/address/List.vue'
 
 const props = defineProps<{
   address: Address | null
@@ -18,7 +21,7 @@ const emit = defineEmits<{
 const { addresses } = useUserAddreses(props.type)
 
 const selectedSavedAddress = computed({
-  get() {
+  get(): UserSavedAddress | null {
     // We need to map the Address in checkout to UserSavedAddress interface that comes from API
     return addresses.value.find((a) => a.address.id === props.address?.id) || null
   },

@@ -1,10 +1,10 @@
 import { Directus } from '@directus/sdk'
 
-import { BlogArticle } from '@/interfaces/BlogArticle'
-import { AboutPage, AboutPartner } from '@/interfaces/aboutPage'
-import { ContactDepartment, ContactPerson } from '@/interfaces/contactPage'
-import { WhyUsComponent, WhyUsReason } from '@/interfaces/whyUsComponent'
-import {
+import type { BlogArticle } from '@/interfaces/BlogArticle'
+import type { AboutPage, AboutPartner } from '@/interfaces/aboutPage'
+import type { ContactDepartment, ContactPerson } from '@/interfaces/contactPage'
+import type { WhyUsComponent, WhyUsReason } from '@/interfaces/whyUsComponent'
+import type {
   RentPage,
   RentPageAdvantage,
   RentPageDecision,

@@ -1,4 +1,4 @@
-import { Address } from '@heseya/store-core'
+import type { Address } from '@heseya/store-core'
 import isObject from 'lodash/isObject'
 
 export const isAddressValid = (address?: Address | null): boolean => {

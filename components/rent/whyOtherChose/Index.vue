@@ -19,7 +19,7 @@
 </template>
 
 <script lang="ts" setup>
-import { TranslatedRentPageDecision } from '~/interfaces/rentPage'
+import type { TranslatedRentPageDecision } from '~/interfaces/rentPage'
 
 defineProps<{ title: string; description: string }>()
 

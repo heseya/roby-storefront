@@ -73,9 +73,7 @@ import { useWishlistStore } from '@/store/wishlist'
 const t = useLocalI18n()
 const $t = useGlobalI18n()
 
-useSeoMeta({
-  title: () => $t('breadcrumbs.account'),
-})
+useSeoTitle($t('breadcrumbs.account'))
 
 definePageMeta({
   middleware: 'auth',

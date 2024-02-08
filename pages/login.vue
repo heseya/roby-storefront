@@ -82,9 +82,7 @@ onBeforeMount(() => {
   if (auth.isLogged) navigateTo(localePath('/'))
 })
 
-useSeoMeta({
-  title: () => $t('account.login'),
-})
+useSeoTitle($t('account.login'))
 
 const breadcrumbs = computed(() => [{ label: $t('account.login'), link: '/login' }])
 </script>

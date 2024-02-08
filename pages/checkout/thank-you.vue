@@ -69,9 +69,7 @@ const orderCode = computed(() => route.query.code as string)
 
 const isTraditionalPayment = computed(() => route.query.payment === TRADITIONAL_PAYMENT_KEY)
 
-useSeoMeta({
-  title: () => t('container.header'),
-})
+useSeoTitle(t('container.header'))
 </script>
 
 <style lang="scss" scoped>
@@ -106,7 +104,7 @@ useSeoMeta({
   }
 
   &__header {
-    font-weight: 800;
+    font-weight: 700;
     font-size: 25px;
     line-height: 2rem;
   }

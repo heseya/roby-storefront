@@ -1,5 +1,5 @@
-import { DirectusImage } from '~/interfaces/DirectusImage'
-import { DirectusTranslated } from '~/interfaces/DirectusTranslated'
+import type { DirectusImage } from '~/interfaces/DirectusImage'
+import type { DirectusTranslated } from '~/interfaces/DirectusTranslated'
 
 export const getImageUrl = (
   file?: DirectusImage,

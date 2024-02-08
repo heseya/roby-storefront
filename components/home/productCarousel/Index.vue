@@ -46,7 +46,8 @@
 </i18n>
 
 <script lang="ts" setup>
-import { ProductSetList } from '@heseya/store-core'
+import type { ProductSetList } from '@heseya/store-core'
+
 import { useCategoriesStore } from '@/store/categories'
 import { useConfigStore } from '@/store/config'
 
@@ -57,11 +58,18 @@ const props = withDefaults(
     withoutSubcategories?: boolean
     headerTag?: string
     hideMoreButton?: boolean
+    hideUnavailable?: boolean
   }>(),
-  { label: '', withoutSubcategories: false, hideMoreButton: false, headerTag: 'span' },
+  {
+    label: '',
+    withoutSubcategories: false,
+    hideMoreButton: false,
+    headerTag: 'span',
+    hideUnavailable: false,
+  },
 )
 const t = useLocalI18n()
-const heseya = useHeseya()
+const { get: getProducts } = useHeseyaProducts()
 const categoriesStore = useCategoriesStore()
 const config = useConfigStore()
 
@@ -76,12 +84,13 @@ const {
   `products-${props.category.id}-${selectedCategory.value}`,
   async () => {
     const categorySlug = selectedCategory.value || props.category.slug
-    const { data } = await heseya.Products.get({
+    const { data } = await getProducts({
       sets: [categorySlug],
       limit: 16,
       sort: `set.${categorySlug}`,
       shipping_digital: false,
       attribute_slug: config.productSubtextAttr,
+      available: props.hideUnavailable ? true : undefined,
     })
 
     return data

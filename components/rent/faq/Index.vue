@@ -14,7 +14,7 @@
 
 <script lang="ts" setup>
 import groupBy from 'lodash/groupBy'
-import { TranslatedRentPageFaq } from '~/interfaces/rentPage'
+import type { TranslatedRentPageFaq } from '~/interfaces/rentPage'
 
 const { data: faq } = useAsyncData('rent-page-faq', async () => {
   const directus = useDirectus()
@@ -25,7 +25,7 @@ const { data: faq } = useAsyncData('rent-page-faq', async () => {
   })
 
   const translatedData = (data?.map((faq) => ({
-    ...getTranslated(faq.translations as any, 'pl-PL'),
+    ...getTranslated(faq.translations, 'pl-PL'),
     order: faq.order,
   })) || []) as TranslatedRentPageFaq[]
 

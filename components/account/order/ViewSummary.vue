@@ -22,7 +22,7 @@
 </template>
 
 <script setup lang="ts">
-import { Order } from '@heseya/store-core'
+import type { Order } from '@heseya/store-core'
 
 const $t = useGlobalI18n()
 

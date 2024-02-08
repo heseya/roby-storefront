@@ -14,24 +14,20 @@
 
 <script setup lang="ts">
 import { useConfigStore } from '@/store/config'
+import type { ProductGetParams } from '@/types/Product'
 
-const heseya = useHeseya()
+const { get: getProducts } = useHeseyaProducts()
 const config = useConfigStore()
 
-type ArgumentType<T> = T extends (arg: infer R) => unknown ? R : never
-
-const props = withDefaults(
-  defineProps<{ query: Omit<ArgumentType<typeof heseya.Products.get>, 'full'>; title?: string }>(),
-  {
-    query: () => ({}),
-    title: '',
-  },
-)
+const props = withDefaults(defineProps<{ query: ProductGetParams; title?: string }>(), {
+  query: () => ({}),
+  title: '',
+})
 
 const { data: products } = useAsyncData(
   `simple-carousel-${JSON.stringify(props.query)}`,
   async () => {
-    const { data } = await heseya.Products.get({
+    const { data } = await getProducts({
       ...props.query,
       shipping_digital: false,
       attribute_slug: config.productSubtextAttr,

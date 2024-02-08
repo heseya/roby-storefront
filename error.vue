@@ -45,9 +45,7 @@ const $t = useGlobalI18n()
 
 const handleError = () => clearError({ redirect: '/' })
 
-useSeoMeta({
-  title: `${$t('common.error')} ${props.error?.statusCode || 500}`,
-})
+useSeoTitle(`${$t('common.error')} ${props.error?.statusCode || 500}`)
 
 onMounted(() => {
   // eslint-disable-next-line no-console

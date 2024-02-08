@@ -90,7 +90,8 @@
 </i18n>
 
 <script setup lang="ts">
-import { HeseyaEvent, User, UserConsentDto, UserRegisterDto } from '@heseya/store-core'
+import { HeseyaEvent } from '@heseya/store-core'
+import type { User, UserConsentDto, UserRegisterDto } from '@heseya/store-core'
 import { useForm } from 'vee-validate'
 
 const t = useLocalI18n()
@@ -198,7 +199,7 @@ const onSubmit = form.handleSubmit(async () => {
 
   &__header {
     font-size: 20px;
-    font-weight: 800;
+    font-weight: 700;
     margin-top: 10px;
 
     @media ($viewport-11) {

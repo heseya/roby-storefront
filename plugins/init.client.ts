@@ -1,4 +1,4 @@
-import { Pinia } from '@pinia/nuxt/dist/runtime/composables'
+import type { Pinia } from '@pinia/nuxt/dist/runtime/composables'
 import { useCartStore } from '@/store/cart'
 import { useAuthStore } from '~/store/auth'
 import { useWishlistStore } from '~/store/wishlist'
@@ -19,6 +19,8 @@ export default defineNuxtPlugin((nuxtApp) => {
         await wishlistStore.syncLocal()
         await wishlistStore.fetch()
       }
+
+      window.addEventListener('online', () => cart.processCart())
     },
     { immediate: true },
   )

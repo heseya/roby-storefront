@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts" setup>
-import { TranslatedRentPageAdvantage } from '~/interfaces/rentPage'
+import type { TranslatedRentPageAdvantage } from '~/interfaces/rentPage'
 
 defineProps<{
   title: string
@@ -25,7 +25,7 @@ const { data: advantages } = useAsyncData('rent-page-advantages', async () => {
   })
 
   return (data?.map((advantage) => ({
-    ...getTranslated(advantage.translations as any, 'pl-PL'),
+    ...getTranslated(advantage.translations, 'pl-PL'),
     order: advantage.order,
     image: advantage.image,
   })) || []) as TranslatedRentPageAdvantage[]

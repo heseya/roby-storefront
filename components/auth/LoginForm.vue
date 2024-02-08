@@ -9,7 +9,7 @@
     <div class="login-form__form">
       <FormInput
         v-model="form.values.email"
-        name="email"
+        name="login_email"
         :label="$t('form.email')"
         autocomplete="username"
         rules="required|email"
@@ -17,7 +17,7 @@
       <FormInputPassword
         v-model="form.values.password"
         :label="$t('form.password')"
-        name="password"
+        name="login_password"
         autocomplete="current-password"
         rules="required"
       />

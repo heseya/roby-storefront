@@ -29,7 +29,7 @@
 
 <script lang="ts" setup>
 import Chevron from '@/assets/icons/chevron.svg?component'
-import { NavLink } from '@/interfaces/NavLink'
+import type { NavLink } from '@/interfaces/NavLink'
 
 withDefaults(
   defineProps<{

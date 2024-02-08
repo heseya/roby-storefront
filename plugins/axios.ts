@@ -2,11 +2,12 @@ import axios from 'axios'
 import { enhanceAxiosWithAuthTokenRefreshing } from '@heseya/store-core'
 import { setupCache, buildMemoryStorage, buildKeyGenerator } from 'axios-cache-interceptor'
 
-import { Pinia } from '@pinia/nuxt/dist/runtime/composables'
+import type { Pinia } from '@pinia/nuxt/dist/runtime/composables'
 
 import { useChannelsStore } from '@/store/channels'
 import { useLanguageStore } from '@/store/language'
 import { useAuthStore } from '@/store/auth'
+import { enhanceAxiosWithRequestCancellation } from '~/utils/axiosCancelation'
 
 declare module 'axios' {
   interface AxiosRequestConfig {
@@ -22,23 +23,28 @@ export default defineNuxtPlugin((nuxt) => {
   const { apiUrl: baseURL, isProduction, axiosCacheTtl } = usePublicRuntimeConfig()
   const localePath = useLocalePath()
 
-  const baseAxios = axios.create({ baseURL })
+  const baseAxios = axios.create({ baseURL, timeout: 20 * 1000 })
 
   // ? --------------------------------------------------------------------------------------------
   // ? Cache
   // ? --------------------------------------------------------------------------------------------
+
+  const pathsWithoutCache = ['wishlist']
+
+  const generateCacheKey = buildKeyGenerator((request) => ({
+    method: request.method,
+    url: request.url,
+    salesChannel: request.headers?.['X-Sales-Channel'],
+    acceptLanguage: request.headers?.['Accept-Language'],
+  }))
+
   const ax = setupCache(baseAxios, {
     // This time is a fallback value, by default time is determined by the `Cache-Control` header
     ttl: axiosCacheTtl,
     // TODO: remove this override when API stop returning `Cache-Control: no-cache`
     headerInterpreter: () => axiosCacheTtl,
     storage: cacheStorage,
-    generateKey: buildKeyGenerator((request) => ({
-      method: request.method,
-      url: request.url,
-      salesChannel: request.headers?.['X-Sales-Channel'],
-      acceptLanguage: request.headers?.['Accept-Language'],
-    })),
+    generateKey: generateCacheKey,
   })
 
   // ? --------------------------------------------------------------------------------------------
@@ -59,6 +65,7 @@ export default defineNuxtPlugin((nuxt) => {
     'cart/process',
     'wishlist',
     'users/self-remove',
+    'users/password',
   ]
 
   enhanceAxiosWithAuthTokenRefreshing(ax, {
@@ -77,8 +84,16 @@ export default defineNuxtPlugin((nuxt) => {
     },
   })
 
+  enhanceAxiosWithRequestCancellation(ax, {
+    generateKey: generateCacheKey,
+    allowedRoutes: [['POST', 'cart/process']],
+  })
+
   ax.interceptors.request.use((config) => {
     config._beginTime = Date.now()
+
+    // Disable cache for some paths
+    if (pathsWithoutCache.some((url) => config.url?.includes(url))) config.cache = false
 
     // @ts-ignore this $i18n exists, but it's not in the Nuxt types for some reason
     const apiLanguage = languageStore.getLanguageByIso(nuxt.$i18n.locale.value)

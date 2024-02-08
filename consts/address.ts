@@ -1,4 +1,4 @@
-import { AddressDto } from '@heseya/store-core'
+import type { AddressDto } from '@heseya/store-core'
 
 export const EMPTY_ADDRESS: AddressDto = {
   name: '',

@@ -1,4 +1,5 @@
-import { CartItem, OrderSummary } from '@heseya/store-core'
+import { CartItem } from '@heseya/store-core'
+import type { OrderSummary } from '@heseya/store-core'
 
 /**
  * 'default' - shipping only with phisical shipping method

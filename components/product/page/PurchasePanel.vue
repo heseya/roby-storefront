@@ -25,13 +25,14 @@
       class="product-purchase-panel__schemas"
       :product="product"
     />
+    <LazyProductPageVariants class="product-purchase-panel__variants" :product="product" />
 
     <ProductQuantityInput v-model:quantity="quantity" class="product-purchase-panel__quantity" />
 
     <LayoutButton
       :disabled="!product.available || isProductPurchaseLimitReached"
       class="product-purchase-panel__cart-btn"
-      @click="addToCart"
+      @click="handleAddToCart"
     >
       {{ purchaseButtonText }}
     </LayoutButton>
@@ -42,7 +43,7 @@
       :href="getLeasingUrl(product.name, price, false, parseFloat(channel?.vat_rate || '0'))"
     >
       <LayoutButton variant="gray" :style="{ width: '100%' }">
-        {{ t('actions.lease') }}
+        {{ t('offers.lease') }}
       </LayoutButton>
     </a>
 
@@ -59,10 +60,6 @@
 <i18n lang="json">
 {
   "pl": {
-    "actions": {
-      "addToCart": "Dodaj do koszyka",
-      "lease": "Zapytaj o leasing"
-    },
     "availability": {
       "available": "Produkt dostępny",
       "availableOnRequest": "Produkt dostępny na zamówienie",
@@ -75,10 +72,6 @@
     }
   },
   "en": {
-    "actions": {
-      "addToCart": "Add to cart",
-      "lease": "Ask about leasing"
-    },
     "availability": {
       "available": "Product available",
       "availableOnRequest": "Product available on request",
@@ -94,9 +87,10 @@
 </i18n>
 
 <script setup lang="ts">
-import { CartItemSchema, Product, parsePrices, parseSchemasToValues } from '@heseya/store-core'
+import { parseSchemasToValues } from '@heseya/store-core'
+import type { CartItemSchema, Product } from '@heseya/store-core'
+
 import DeliveryIcon from '@/assets/icons/delivery.svg?component'
-import { useCartStore } from '@/store/cart'
 import UpsellModal from '~/components/product/page/UpsellModal.vue'
 
 const props = withDefaults(
@@ -105,15 +99,16 @@ const props = withDefaults(
   }>(),
   {},
 )
-const cart = useCartStore()
 const t = useLocalI18n()
+const $t = useGlobalI18n()
 const currency = useCurrency()
 const channel = useSalesChannel()
 const upsellVisible = ref(false)
 
 const { enabled: leaselinkEnabled, getUrl: getLeasingUrl } = useLeaselink()
 
-const quantity = ref(1)
+const { quantity, isProductPurchaseLimitReached, addToCart } = useAddToCart(props.product)
+
 const schemaValue = ref<CartItemSchema[]>(
   parseSchemasToValues(props.product.schemas, currency.value),
 )
@@ -122,17 +117,9 @@ const { price, originalPrice, pending } = useProductPrice(props.product, schemaV
 const purchaseButtonText = computed((): string => {
   if (isProductPurchaseLimitReached.value) return t('availability.reachedLimit')
 
-  if (props.product.available) return t('actions.addToCart')
+  if (props.product.available) return $t('offers.addToCart')
 
   return t('availability.unavailable')
-})
-
-const isProductPurchaseLimitReached = computed((): boolean => {
-  if (!props.product.purchase_limit_per_user) return false
-
-  const productsInBasket = cart.items.find((p) => p.productId === props.product.id)?.totalQty || 0
-
-  return props.product.purchase_limit_per_user < productsInBasket + quantity.value
 })
 
 const availability = computed(() => {
@@ -156,28 +143,15 @@ const availability = computed(() => {
   return props.product.available ? t('availability.available') : t('availability.unavailable')
 })
 
-const showOmnibus = computed(
-  () =>
-    props.product.available &&
-    parsePrices(props.product.prices_min, currency.value) !==
-      parsePrices(props.product.prices_min_initial, currency.value),
-)
+const showOmnibus = useShowOmnibus(props.product)
 
 const isLeaseable = computed(() => {
   return !!props.product.metadata.allow_lease
 })
 
-const addToCart = () => {
-  if (!props.product.available || isProductPurchaseLimitReached.value) return
-
-  cart.add({
-    product: props.product,
-    schemas: props.product.schemas,
-    schemaValue: schemaValue.value,
-    quantity: Number(quantity.value) || 1,
-  })
-
-  upsellVisible.value = true
+const handleAddToCart = () => {
+  const success = addToCart(schemaValue.value)
+  if (success) upsellVisible.value = true
 }
 </script>
 
@@ -188,20 +162,20 @@ const addToCart = () => {
   align-items: center;
   grid-template-columns: 80px 1fr;
   grid-gap: 16px;
-  grid-template-areas: 'schemas schemas' 'quantity price' 'omnibus omnibus' 'cart-btn cart-btn' 'lease-btn lease-btn' 'details details';
+  grid-template-areas: 'schemas schemas' 'variants variants' 'quantity price' 'omnibus omnibus' 'cart-btn cart-btn' 'lease-btn lease-btn' 'details details';
 
   @media ($viewport-6) {
     grid-template-columns: 80px 1fr 1fr;
     justify-content: strech;
     justify-content: stretch;
-    grid-template-areas: 'price price price' 'omnibus omnibus omnibus' 'schemas schemas schemas' 'quantity cart-btn lease-btn' 'details details details';
+    grid-template-areas: 'price price price' 'omnibus omnibus omnibus' 'schemas schemas schemas' 'variants variants variants' 'quantity cart-btn lease-btn' 'details details details';
   }
 
   &--no-schemas {
-    grid-template-areas: 'quantity price' 'omnibus omnibus' 'cart-btn cart-btn' 'lease-btn lease-btn' 'details details';
+    grid-template-areas: 'quantity price' 'omnibus omnibus' 'variants variants' 'cart-btn cart-btn' 'lease-btn lease-btn' 'details details';
 
     @media ($viewport-6) {
-      grid-template-areas: 'price price price' 'omnibus omnibus omnibus' 'quantity cart-btn lease-btn' 'details details details';
+      grid-template-areas: 'price price price' 'omnibus omnibus omnibus' 'variants variants variants' 'quantity cart-btn lease-btn' 'details details details';
     }
   }
 
@@ -253,6 +227,10 @@ const addToCart = () => {
 
   &__schemas {
     grid-area: schemas;
+  }
+
+  &__variants {
+    grid-area: variants;
   }
 }
 

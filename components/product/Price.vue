@@ -31,7 +31,7 @@
 </template>
 
 <script setup lang="ts">
-import { ProductList } from '@heseya/store-core'
+import type { ProductList } from '@heseya/store-core'
 
 const $t = useGlobalI18n()
 const props = withDefaults(

@@ -1,6 +1,5 @@
 <template>
   <Html :lang="i18nHead.htmlAttrs?.lang" :dir="i18nHead.htmlAttrs?.dir">
-    <IntegrationCallpage />
     <IntegrationEkomiWidget :token="ekomiPopupToken" />
 
     <LayoutThemeContext>
@@ -36,11 +35,16 @@ const isShopDisabled = computed(() => config.storeFrontDisabled)
 
 useSeoMeta({
   titleTemplate: (titleChunk) => (titleChunk ? `${titleChunk} - ${title.value}` : title.value),
-  description: () => seo.value.description,
-  ogImage: () => seo.value.og_image?.url,
-  twitterCard: () => seo.value.twitter_card,
-  robots: 'index, follow',
 })
+
+useSeo(() => [
+  {
+    description: seo.value.description,
+    ogImage: seo.value.og_image?.url,
+    twitterCard: seo.value.twitter_card,
+    robots: 'index, follow',
+  },
+])
 
 useHead({
   link: [

@@ -1,4 +1,4 @@
-import { CookieOptions } from 'nuxt/app'
+import type { CookieOptions } from 'nuxt/app'
 
 const COOKIES_OPTS: CookieOptions = {
   path: '/',
@@ -13,9 +13,10 @@ const COOKIES_OPTS: CookieOptions = {
  */
 export const useStatefulCookie = <T = string | null>(
   name: string,
-  opts: CookieOptions = COOKIES_OPTS,
+  opts: CookieOptions<T> = COOKIES_OPTS,
 ) => {
   const key = `cookies:${name}`
+  // @ts-ignore
   const cookie = useCookie<T>(name, opts)
   const state = useState(key, () => cookie.value)
 

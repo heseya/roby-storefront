@@ -1,17 +1,17 @@
 <template>
   <LayoutCarousel :items="products" :space-between="spaceBetween">
-    <template #item="product: ProductList">
+    <template #item="product">
       <ProductMiniature :product="product" force-size />
     </template>
   </LayoutCarousel>
 </template>
 
 <script setup lang="ts">
-import { ProductList } from '@heseya/store-core'
+import type { ExtendedProductList } from '~/types/Product'
 
 withDefaults(
   defineProps<{
-    products?: ProductList[]
+    products?: ExtendedProductList[]
     spaceBetween?: number
   }>(),
   { products: () => [], spaceBetween: 10 },

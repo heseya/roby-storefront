@@ -1,5 +1,6 @@
 <template>
   <div
+    v-if="options.length > 0"
     class="filter-checkbox-group"
     :class="{
       'filter-checkbox-group--scrollable-up': isScrollable && !containerScrollState.top,
@@ -26,15 +27,17 @@
 </template>
 
 <script setup lang="ts">
-import { Attribute, AttributeOption, HeseyaPaginationMeta } from '@heseya/store-core'
+import type { Attribute, AttributeOption, HeseyaPaginationMeta } from '@heseya/store-core'
 
 const props = withDefaults(
   defineProps<{
     attribute: Attribute
+    productSetSlug?: string
     value?: string[] | string
   }>(),
   {
     value: () => [],
+    productSetSlug: undefined,
   },
 )
 const emit = defineEmits<{
@@ -49,13 +52,18 @@ const { arrivedState: containerScrollState } = useScroll(containerRef)
 const containerScrollHeight = useElementScrollHeight(containerRef)
 const isScrollable = computed(() => containerScrollHeight.value > containerHeight.value)
 
+const isLoading = ref(false)
 const pagination = ref<HeseyaPaginationMeta>({ currentPage: 0, lastPage: 0, perPage: 0, total: 0 })
 const options = ref<AttributeOption[]>([])
 
 const loadOptions = async (page = 1) => {
+  if (isLoading.value) return
+  isLoading.value = true
   try {
     const { data, pagination: meta } = await heseya.Attributes.getOptions(props.attribute.id, {
       page,
+      product_set_slug: props.productSetSlug,
+      sort: 'desc',
     })
     options.value = [...options.value, ...data]
     pagination.value = meta
@@ -67,6 +75,7 @@ const loadOptions = async (page = 1) => {
       text: formatError(e),
     })
   }
+  isLoading.value = false
 }
 
 loadOptions(1)

@@ -19,7 +19,7 @@
             :media="item.media"
             centered
             :title-tag="index === 0 ? 'h1' : 'h2'"
-            :height="isDesktop ? 480 : 400"
+            :height="480"
             :gradient="gradient"
           />
         </div>
@@ -44,9 +44,7 @@
 </template>
 
 <script lang="ts" setup>
-import { Banner } from '@heseya/store-core'
-
-const isDesktop = useMediaQuery('(min-width: 640px)')
+import type { Banner } from '@heseya/store-core'
 
 const props = defineProps<{
   banner: Banner

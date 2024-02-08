@@ -1,22 +1,21 @@
-import {
+import { CartItem, HeseyaEvent, restoreCart } from '@heseya/store-core'
+import type {
   CartDto,
-  CartItem,
   CartItemDto,
   CartItemSchema,
   Coupon,
-  HeseyaEvent,
   ProductList,
-  restoreCart,
   SaleShort,
   SavedCartItem,
   Schema,
 } from '@heseya/store-core'
-import { isAfter } from 'date-fns'
+import { isAfter } from 'date-fns/isAfter'
 import cloneDeep from 'lodash/cloneDeep'
 import { defineStore } from 'pinia'
 import isEqual from 'lodash/isEqual'
 import uniqBy from 'lodash/uniqBy'
 
+import { CanceledError } from 'axios'
 import { useCheckoutStore } from './checkout'
 import { useConfigStore } from './config'
 
@@ -60,7 +59,6 @@ export const useCartStore = defineStore('cart', {
       // Always allow paczkomat delivery if is not restricted
       if (config.env.restrict_paczkomat_delivery !== '1') return true
       // Otherwise, all items must have allow_paczkomat_delivery set to true
-      // @ts-ignore // TODO field product in item exists but its private, we need to fix it in the future
       return this.items.every((item) => item.product.metadata?.allow_paczkomat_delivery ?? false)
     },
     orderItems(): CartItemDto[] {
@@ -146,9 +144,12 @@ export const useCartStore = defineStore('cart', {
 
         // Side effect: fetch the shipping method
         // dispatch('shippingMethods/fetch', state.totalValue, { root: true })
-      } catch (e) {
+      } catch (e: any) {
+        // Ignore canceled or failed requests
+        if (e instanceof CanceledError || e.code === 'ERR_NETWORK') return
+
+        // If request is ended with an error, reset checkout data
         const checkout = useCheckoutStore()
-        // TODO: handle if process cart fails
         this.error = e
         this.unavailableItems = this.items
         this.items = []

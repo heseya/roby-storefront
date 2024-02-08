@@ -59,11 +59,10 @@ const emit = defineEmits<{
   (e: 'update:modelValue', value: string | undefined): void
 }>()
 
-const { data: sortableAttributes } = useAsyncData(async () => {
+const { data: sortableAttributes } = useLazyAsyncData('sortable-attributes', async () => {
   const heseya = useHeseya()
-  // TODO: API should allow to filter on db level
-  const { data } = await heseya.Attributes.get()
-  return data.filter((attribute) => attribute.sortable)
+  const { data } = await heseya.Attributes.get({ sortable: true })
+  return data
 })
 
 const sortable = computed(

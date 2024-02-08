@@ -33,9 +33,7 @@ useAsyncData(`order-summary-${orderCode}`, async () => {
   }
 })
 
-useSeoMeta({
-  title: () => $t('payments.payForOrder'),
-})
+useSeoTitle($t('payments.payForOrder'))
 </script>
 
 <style lang="scss" scoped>

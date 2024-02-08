@@ -47,13 +47,11 @@
 </i18n>
 
 <script setup lang="ts">
-import { TranslatedRentPage } from '~/interfaces/rentPage'
+import type { TranslatedRentPage } from '~/interfaces/rentPage'
 
 const t = useLocalI18n()
 
-useSeoMeta({
-  title: () => t('title'),
-})
+useSeoTitle(t('title'))
 
 const breadcrumbs = computed(() => {
   const route = useRoute()

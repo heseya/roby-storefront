@@ -1,4 +1,4 @@
-import { MaybeComputedElementRef } from '@vueuse/core'
+import type { MaybeComputedElementRef } from '@vueuse/core'
 
 export const useElementScrollHeight = (target: MaybeComputedElementRef) => {
   const height = ref(0)

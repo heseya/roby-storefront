@@ -10,14 +10,15 @@
     <div class="blog-article__date">
       <div>{{ dateCreated }}</div>
       <div>
-        <LazyBlogSimpleTag v-for="tag in article.tags" :key="tag.id" :tag="(tag as any)" />
+        <LazyBlogSimpleTag v-for="tag in articleTags" :key="tag.id" :tag="tag" />
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { BlogArticle } from '~/interfaces/BlogArticle'
+import type { BlogArticle } from '~/interfaces/BlogArticle'
+import type { BlogTag } from '~/interfaces/BlogTag'
 
 const props = defineProps<{
   article: BlogArticle
@@ -33,6 +34,9 @@ const imageUrl = computed(() =>
 )
 const translatedArticle = computed(() => getTranslated(props.article.translations, 'PL-pl'))
 const dateCreated = computed(() => formatDate(props.article.date_created, 'dd LLLL yyyy'))
+
+// This omits some type error
+const articleTags = computed(() => props.article.tags as BlogTag[])
 </script>
 
 <style lang="scss" scoped>

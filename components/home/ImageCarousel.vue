@@ -4,7 +4,7 @@
       {{ banner.name }}
     </LayoutHeader>
     <LayoutCarousel :items="banner.banner_media" :breakpoints="breakpoints">
-      <template #item="media: BannerMedia">
+      <template #item="media">
         <Media
           class="image-carousel__picture"
           :class="{
@@ -20,8 +20,8 @@
 </template>
 
 <script lang="ts" setup>
-import { Banner, BannerMedia } from '@heseya/store-core'
-import { SwiperOptions } from 'swiper/types'
+import type { Banner } from '@heseya/store-core'
+import type { SwiperOptions } from 'swiper/types'
 
 const breakpoints: Record<number, SwiperOptions> = {
   320: { slidesPerView: 1 },

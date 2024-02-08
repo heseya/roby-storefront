@@ -46,9 +46,7 @@ const route = useRoute()
 
 const content = ref<HTMLElement>()
 
-useSeoMeta({
-  title: () => t('title'),
-})
+useSeoTitle(t('title'))
 
 const breadcrumbs = computed(() => [
   {

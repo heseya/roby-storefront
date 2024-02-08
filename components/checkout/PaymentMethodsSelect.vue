@@ -39,7 +39,9 @@
 </i18n>
 
 <script setup lang="ts">
-import { RadioGroupOption } from '@/components/form/RadioGroup.vue'
+import type { PaymentMethodList } from '@heseya/store-core'
+import type { RadioGroupOption } from '@/components/form/RadioGroup.vue'
+
 import { useConfigStore } from '~/store/config'
 import { TRADITIONAL_PAYMENT_KEY } from '~/consts/traditionalPayment'
 
@@ -60,6 +62,7 @@ const props = withDefaults(
 
 const emit = defineEmits<{
   (e: 'update:value', value: string | null): void
+  (e: 'select', value: PaymentMethodList | null): void
 }>()
 
 const value = computed<string | null>({
@@ -81,6 +84,11 @@ const { data: paymentMethods, refresh } = useLazyAsyncData('payment-methods-sele
 watch(
   () => props.shippingMethodId,
   () => refresh(),
+)
+
+watch(
+  () => value.value,
+  () => emit('select', paymentMethods.value?.find((method) => method.id === value.value) ?? null),
 )
 
 const TRADITIONAL_TRANSFER: RadioGroupOption = {

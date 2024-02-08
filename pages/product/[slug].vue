@@ -21,11 +21,19 @@
           />
 
           <h1 class="product-header__title">{{ product?.name }}</h1>
+
           <span class="product-header__subtitle">
             {{ getProductSubtext(product, config.productSubtextAttr) }}
           </span>
+
+          <div
+            v-if="attributesSummaryHtml"
+            class="product-header__attributes"
+            v-html="attributesSummaryHtml"
+          ></div>
+
           <div class="product-header__sales">
-            <ProductTag v-for="sale in product?.sales || []" :key="sale.id" type="sale">
+            <ProductTag v-for="sale in visibleSales" :key="sale.id" type="sale">
               {{ sale.name }}
             </ProductTag>
           </div>
@@ -59,11 +67,17 @@
         </div>
       </div>
 
+      <ProductPageBanner
+        v-if="product?.banner"
+        class="product-page__banner"
+        :banner="product.banner"
+      />
+
       <LayoutTabs class="product-page__main" :tabs="productDescriptionTabs">
         <template #description>
           <div class="product-page__description-wrapper">
             <div>
-              <LayoutDropDownContainer>
+              <LayoutDropDownContainer :min-expand-height="productDescriptionExpandHeight">
                 <LazyBaseWysiwygContent :content="product?.description_html" />
               </LayoutDropDownContainer>
 
@@ -120,20 +134,20 @@
         :product-id="product.id"
       />
 
-      <template v-if="product?.sales.length">
+      <template v-if="visibleSales.length">
         <h2 class="primary-text">
           {{ t('salesTitle') }}
           <span class="gray-600-text" :style="{ fontWeight: 400 }">
-            ({{ product?.sales.length }})
+            ({{ visibleSales.length }})
           </span>
         </h2>
         <div class="product-page__sales">
-          <LazyProductPageSale v-for="sale in product?.sales || []" :key="sale.id" :sale="sale" />
+          <LazyProductPageSale v-for="sale in visibleSales" :key="sale.id" :sale="sale" />
         </div>
       </template>
 
       <LazyHomeProductCarousel
-        v-for="set in product?.related_sets || []"
+        v-for="set in relatedSets"
         :key="set.id"
         class="product-page__related-products"
         :category="set"
@@ -174,8 +188,12 @@
 <script setup lang="ts">
 import { HeseyaEvent } from '@heseya/store-core'
 
-import { ALLOW_RENTING_KEY, ASK_FOR_PRICE_KEY } from '@/consts/metadataKeys'
-import { Tab } from '@/components/layout/Tabs.vue'
+import {
+  ALLOW_RENTING_KEY,
+  ASK_FOR_PRICE_KEY,
+  PRODUCT_SET_SHOW_AS_VARIANT,
+} from '@/consts/metadataKeys'
+import type { Tab } from '@/components/layout/Tabs.vue'
 
 import { useConfigStore } from '@/store/config'
 
@@ -185,6 +203,7 @@ const route = useRoute()
 const config = useConfigStore()
 const t = useLocalI18n()
 const $t = useGlobalI18n()
+const i18n = useI18n()
 
 const { data: product } = useAsyncData(`product-${route.params.slug}`, async () => {
   try {
@@ -232,6 +251,12 @@ const productDescriptionTabs = computed<Tab[]>(() => {
   ]
 })
 
+const productDescriptionExpandHeight = computed(() =>
+  config.env.product_description_expand_height
+    ? parseInt(config.env.product_description_expand_height.toString())
+    : 700,
+)
+
 const breadcrumbs = computed(() => [
   category.value
     ? { label: category.value.name || '', link: `/category/${category.value.slug}` }
@@ -243,6 +268,19 @@ const showAttributeCard = computed(() => {
   const config = useConfigStore()
   return product.value?.attributes.length && config.env.show_attribute_card === '1'
 })
+
+const visibleSales = computed(() =>
+  (product.value?.sales || []).filter((sale) => sale.metadata.show_on_product_page),
+)
+
+const relatedSets = computed(
+  () =>
+    product.value?.related_sets?.filter((set) => !set.metadata[PRODUCT_SET_SHOW_AS_VARIANT]) || [],
+)
+
+const attributesSummaryHtml = computed(() =>
+  product.value?.metadata[`attributes_summary_${i18n.locale.value}`]?.toString(),
+)
 
 delayedOnMounted(() => {
   const ev = useHeseyaEventBus()
@@ -268,6 +306,11 @@ useProductJsonLd(product)
 .product-page {
   &__main {
     margin-top: 38px;
+  }
+
+  &__banner {
+    margin-top: 38px;
+    margin-bottom: -24px;
   }
 
   &__description-wrapper {
@@ -328,6 +371,11 @@ useProductJsonLd(product)
     font-weight: 600;
     margin-top: 12px;
     margin-bottom: 8px;
+  }
+
+  &__attributes {
+    font-size: rem(12);
+    line-height: rem(16);
   }
 
   &__subtitle {

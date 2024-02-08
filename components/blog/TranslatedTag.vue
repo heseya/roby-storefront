@@ -1,20 +1,17 @@
 <template>
-  <BlogTag :link="`${localePath(`/blog`)}?tag=${tag.id ?? tag.BlogTags_id.id}`">
+  <BlogTag :link="`${localePath(`/blog`)}?tag=${tag.id}`">
     {{ translatedTag.name }}
   </BlogTag>
 </template>
 
 <script lang="ts" setup>
-import { BlogTag as Tag } from '~/interfaces/BlogTag'
+import type { BlogTag as Tag } from '~/interfaces/BlogTag'
 
 const localePath = useLocalePath()
 const props = defineProps<{
   tag: Tag
 }>()
 
-const translatedTag = computed(() =>
-  props.tag.BlogTags_id
-    ? getTranslated(props.tag.BlogTags_id.translations, 'PL-pl')
-    : getTranslated(props.tag.translations, 'PL-pl'),
-)
+const tag = computed(() => ('BlogTags_id' in props.tag ? props.tag.BlogTags_id : props.tag))
+const translatedTag = computed(() => getTranslated(tag.value.translations, 'PL-pl'))
 </script>

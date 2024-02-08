@@ -4,10 +4,10 @@ import { removePageByName, changePagePathOrRemoveByName } from './utils/routing'
 import pkg from './package.json'
 
 const {
-  API_URL = 'https://demo-***REMOVED***.***REMOVED***',
+  API_URL,
   CDN_URL = 'https://cdn-dev.heseya.com"',
   DIRECTUS_URL,
-  PRICE_TRACKER_URL = 'https://main-price-tracker.app.***REMOVED***',
+  PRICE_TRACKER_URL,
   ENVIRONMENT = 'development',
   FONT_FAMILY = 'Roboto',
   VERCEL_ENV,
@@ -33,6 +33,19 @@ const {
   PAGE_ABOUT_PATH = '/o-nas',
   PAGE_RENT_PATH = '/wynajem',
   PAGE_STATUTE_PATH = '/regulamin',
+
+  NUXT_PUBLIC_SENTRY_DSN = '',
+  NUXT_PUBLIC_SENTRY_ENVIRONMENT = 'development',
+
+  // Private
+  MAIL_HOST,
+  MAIL_USER,
+  MAIL_SENDER,
+  MAIL_PASSWORD,
+  MAIL_RECEIVER,
+  MAIL_PORT = '587',
+  MIN_RECAPTCHA_SCORE,
+  RECAPTCHA_SECRET,
 } = process.env
 
 const ALLOWED_UI_LANGUAGES = process.env.ALLOWED_UI_LANGUAGES?.split(',') || ['pl']
@@ -97,6 +110,15 @@ export default defineNuxtConfig({
   css: ['@/assets/scss/index.scss'],
 
   runtimeConfig: {
+    mailHost: MAIL_HOST,
+    mailUser: MAIL_USER,
+    mailSender: MAIL_SENDER,
+    mailPassword: MAIL_PASSWORD,
+    mailReceiver: MAIL_RECEIVER,
+    mailPort: MAIL_PORT,
+    minRecaptchaScore: MIN_RECAPTCHA_SCORE,
+    recaptchaSecret: RECAPTCHA_SECRET,
+
     public: {
       apiUrl: API_URL,
       directusUrl: DIRECTUS_URL,
@@ -116,6 +138,10 @@ export default defineNuxtConfig({
       ekomiSurveyFormId: EKOMI_SURVEY_FORM_ID,
       showColorThemePicker: COLOR_THEME_PICKER === '1',
       axiosCacheTtl: parseInt(AXIOS_CACHE_TTL || '0') ?? 0,
+      sentry: {
+        dsn: NUXT_PUBLIC_SENTRY_DSN,
+        environment: NUXT_PUBLIC_SENTRY_ENVIRONMENT,
+      },
     },
   },
 
@@ -127,8 +153,7 @@ export default defineNuxtConfig({
     '@vueuse/nuxt',
     'nuxt-swiper',
     'nuxt-delay-hydration',
-    'nuxt-simple-robots',
-    'nuxt-simple-sitemap',
+    '@nuxtjs/sitemap',
   ],
 
   hooks: {
@@ -169,11 +194,15 @@ export default defineNuxtConfig({
     autoI18n: true,
     autoLastmod: false,
     cacheTtl: 1000 * 60 * 15,
+    _route: '_sitemap-urls',
   },
 
   googleFonts: {
+    base64: true,
+    overwriting: true,
+    display: 'swap',
     families: {
-      [FONT_FAMILY]: [300, 400, 500, 600, 700],
+      [FONT_FAMILY]: [400, 500, 600, 700],
     },
   },
 

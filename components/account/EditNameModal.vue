@@ -43,7 +43,6 @@
 
 <script setup lang="ts">
 import { useForm } from 'vee-validate'
-import { UserProfileUpdateDto } from '@heseya/store-core'
 import { useUserStore } from '@/store/user'
 const { notify } = useNotify()
 
@@ -59,7 +58,7 @@ const userStore = useUserStore()
 
 const error = ref<Error | null>(null)
 
-const form = useForm<UserProfileUpdateDto>({
+const form = useForm({
   initialValues: { name: '', phone: '', birthday_date: '' },
 })
 
@@ -75,7 +74,11 @@ const isModalVisible = computed({
 const onSubmit = form.handleSubmit(async () => {
   error.value = null
   try {
-    const user = await heseya.UserProfile.update(form.values)
+    const user = await heseya.UserProfile.update({
+      name: form.values.name,
+      phone: form.values.phone || null,
+      birthday_date: form.values.birthday_date || undefined,
+    })
     userStore.setUser(user)
     isModalVisible.value = false
     notify({
@@ -90,7 +93,7 @@ const onSubmit = form.handleSubmit(async () => {
 watch(
   () => props.open,
   () => {
-    form.values.name = userStore.user?.name
+    form.values.name = userStore.user?.name || ''
     form.values.phone = userStore.user?.phone || ''
     form.values.birthday_date = userStore.user?.birthday_date || ''
   },

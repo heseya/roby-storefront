@@ -1,18 +1,17 @@
-import {
+import { CartItem, HeseyaEvent, ShippingType } from '@heseya/store-core'
+import type {
   Address,
   AddressDto,
-  CartItem,
-  HeseyaEvent,
   MetadataCreateDto,
   OrderCreateDto,
+  PaymentMethodList,
   ShippingMethod,
-  ShippingType,
 } from '@heseya/store-core'
 import { defineStore } from 'pinia'
 import { useCartStore } from './cart'
-import { Paczkomat } from '@/interfaces/Paczkomat'
+import type { Paczkomat } from '@/interfaces/Paczkomat'
 import { EMPTY_ADDRESS } from '@/consts/address'
-import { Furgonetka } from '~/interfaces/Furgonetka'
+import type { Furgonetka } from '~/interfaces/Furgonetka'
 import { useCeneo } from '~/composables/useCeneo'
 
 export const useCheckoutStore = defineStore('checkout', {
@@ -28,6 +27,7 @@ export const useCheckoutStore = defineStore('checkout', {
     furgonetka: null as Furgonetka | null,
     invoiceRequested: false,
     paymentMethodId: null as string | null,
+    paymentMethod: null as PaymentMethodList | null,
     consents: {
       statute: false,
       newsletter: false,
@@ -124,35 +124,30 @@ export const useCheckoutStore = defineStore('checkout', {
       /**
        * If selected shipping method has payment on delivery, then payment method is not required
        */
-      return !this.shippingMethod?.payment_on_delivery ?? true
+      return this.shippingMethod ? !this.shippingMethod.payment_on_delivery : true
     },
 
     validationError(): string | null {
-      const t = useGlobalI18n()
-
-      if (!this.email) return t('errors.checkout.email').toString()
+      if (!this.email) return 'errors.checkout.email'
 
       // TODO: not all orders requires phisical shipping method
-      if (!this.shippingMethod) return t('errors.checkout.shippingMethod').toString()
+      if (!this.shippingMethod) return 'errors.checkout.shippingMethod'
 
-      if (this.shippingMethod && !this.orderShippingPlace)
-        return t('errors.checkout.shippingPlace').toString()
+      if (this.shippingMethod && !this.orderShippingPlace) return 'errors.checkout.shippingPlace'
       if (
         this.shippingMethod &&
         isAddress(this.orderShippingPlace) &&
         !isAddressValid(this.orderShippingPlace)
       )
-        return t('errors.checkout.shippingAddress').toString()
+        return 'errors.checkout.shippingAddress'
 
-      if (!isAddressValid(this.billingAddress))
-        return t('errors.checkout.billingAddress').toString()
+      if (!isAddressValid(this.billingAddress)) return 'errors.checkout.billingAddress'
       if (this.invoiceRequested && !this.billingAddress.vat)
-        return t('errors.checkout.billingAddressVat').toString()
+        return 'errors.checkout.billingAddressVat'
 
-      if (this.requirePaymentMethod && !this.paymentMethodId)
-        return t('errors.checkout.paymentMethod').toString()
+      if (this.requirePaymentMethod && !this.paymentMethodId) return 'errors.checkout.paymentMethod'
 
-      if (!this.consents.statute) return t('errors.checkout.consent').toString()
+      if (!this.consents.statute) return 'errors.checkout.consent'
       return null
     },
 
@@ -196,7 +191,8 @@ export const useCheckoutStore = defineStore('checkout', {
       if (!this.orderDto) throw new Error('Order cannot be made, because data is invalid')
 
       const order = await heseya.Orders.create(this.orderDto)
-      ev.emit(HeseyaEvent.Purchase, order)
+      // @ts-expect-error Purposely pass this data to event
+      ev.emit(HeseyaEvent.Purchase, { ...order, payment_method: this.paymentMethod })
 
       return order
     },

@@ -2,10 +2,13 @@ import { handleRedirect } from '~/utils/redirectUrl'
 
 export default defineNuxtRouteMiddleware(async (to, _from) => {
   try {
-    const redirect = await handleRedirect(to.path)
+    const redirect = await handleRedirect(to.fullPath)
 
-    if (redirect.target !== '' && redirect.target !== to.path) {
-      return navigateTo(redirect.target, { redirectCode: redirect.type })
+    if (!redirect) return
+    const [redirectTarget, redirectCode] = redirect
+
+    if (redirectTarget !== '' && redirectTarget !== to.fullPath) {
+      return navigateTo(redirectTarget, { redirectCode })
     }
   } catch (e) {
     // eslint-disable-next-line no-console

@@ -23,9 +23,7 @@ watch(
   { immediate: true },
 )
 
-useSeoMeta({
-  title: () => $t('wishlist.title'),
-})
+useSeoTitle($t('wishlist.title'))
 
 const breadcrumbs = computed(() => [{ label: $t('wishlist.title'), link: '/wishlist' }])
 </script>

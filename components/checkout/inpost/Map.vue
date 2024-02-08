@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-import { Paczkomat } from '@/interfaces/Paczkomat'
+import type { Paczkomat } from '@/interfaces/Paczkomat'
 
 const emit = defineEmits<{
   (event: 'select', machine: Paczkomat): void
@@ -31,10 +31,6 @@ onMounted(() => {
   mapWidget.value = window.easyPack.mapWidget('easypack-map', (machine: Paczkomat) => {
     emit('select', machine)
   })
-})
-
-onUnmounted(() => {
-  mapWidget.value?.close()
 })
 </script>
 

@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { Language } from '@heseya/store-core'
+import type { Language } from '@heseya/store-core'
 
 export const useLanguageStore = defineStore('language', {
   state: () => ({

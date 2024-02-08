@@ -9,7 +9,7 @@
 </template>
 
 <script lang="ts" setup>
-import { TranslatedWhyUsReason } from '@/interfaces/whyUsComponent'
+import type { TranslatedWhyUsReason } from '@/interfaces/whyUsComponent'
 
 const props = defineProps<{
   reason: TranslatedWhyUsReason

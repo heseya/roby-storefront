@@ -26,16 +26,21 @@
           loading="lazy"
         />
 
-        <!-- <div v-if="companyName" class="footer__text footer__text--bold">
+        <div v-if="companyName" class="footer__text footer__text--bold">
           {{ companyName }}
-        </div> -->
+        </div>
         <div v-if="companyAddress" class="footer__text">
           <div class="footer__icon"><PinIcon /></div>
-          {{ companyAddress }}
+          <div>
+            <span v-html="companyAddress"></span> <br />
+            <span v-if="companyNip">NIP: {{ companyNip }}</span> <br />
+            <span v-if="companyKrs">KRS: {{ companyKrs }}</span> <br />
+            <span v-if="companyKrs">REGON: {{ companyRegon }}</span> <br />
+          </div>
         </div>
         <div v-if="companyPhone" class="footer__text">
           <div class="footer__icon"><PhoneIcon /></div>
-          {{ companyPhone }}
+          <div v-html="companyPhone"></div>
         </div>
         <div v-if="companyEmail" class="footer__text">
           <div class="footer__icon"><MailIcon /></div>
@@ -134,8 +139,11 @@ const companyInstagram = computed(() => getFromConfig('instagram_url'))
 const companyLinkedin = computed(() => getFromConfig('linkedin_url'))
 const companyYoutube = computed(() => getFromConfig('youtube_url'))
 
-// const companyName = computed(() => getFromConfig('company_name'))
+const companyName = computed(() => getFromConfig('company_name'))
 const companyAddress = computed(() => getFromConfig('company_address'))
+const companyNip = computed(() => getFromConfig('company_nip'))
+const companyKrs = computed(() => getFromConfig('company_krs'))
+const companyRegon = computed(() => getFromConfig('company_regon'))
 const companyPhone = computed(() => getFromConfig('company_phone'))
 const companyEmail = computed(() => getFromConfig('company_email'))
 
@@ -207,6 +215,7 @@ const getSectionName = (section: number) =>
     margin: 12px 0;
     font-size: rem(14);
     display: flex;
+    align-items: flex-start;
 
     &--bold {
       font-weight: bold;
@@ -225,6 +234,7 @@ const getSectionName = (section: number) =>
 
   &__icon {
     width: 24px;
+    height: 1.4em;
     margin-right: 8px;
     display: flex;
     justify-content: center;
