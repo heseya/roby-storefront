@@ -3,6 +3,7 @@
     <button
       class="footer-section__title"
       :name="`${isOpen ? t('close') : t('open')} ${props.title}`"
+      :aria-label="`${isOpen ? t('close') : t('open')} ${props.title}`"
       @click="isOpen = !isOpen"
     >
       {{ props.title }}

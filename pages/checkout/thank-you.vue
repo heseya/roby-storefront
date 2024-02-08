@@ -104,7 +104,7 @@ useSeoTitle(t('container.header'))
   }
 
   &__header {
-    font-weight: 800;
+    font-weight: 700;
     font-size: 25px;
     line-height: 2rem;
   }

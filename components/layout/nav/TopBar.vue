@@ -1,8 +1,8 @@
 <template>
   <div class="layout-nav-top-bar">
-    <LayoutNavCustomRedirect />
-    <LayoutNavChannelSwitch />
-    <LayoutNavLanguageSwitch />
+    <LazyLayoutNavCustomRedirect />
+    <LazyLayoutNavChannelSwitch />
+    <LazyLayoutNavLanguageSwitch />
   </div>
 </template>
 

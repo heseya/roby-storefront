@@ -198,8 +198,11 @@ export default defineNuxtConfig({
   },
 
   googleFonts: {
+    base64: true,
+    overwriting: true,
+    display: 'swap',
     families: {
-      [FONT_FAMILY]: [300, 400, 500, 600, 700],
+      [FONT_FAMILY]: [400, 500, 600, 700],
     },
   },
 

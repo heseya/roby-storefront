@@ -199,7 +199,7 @@ const onSubmit = form.handleSubmit(async () => {
 
   &__header {
     font-size: 20px;
-    font-weight: 800;
+    font-weight: 700;
     margin-top: 10px;
 
     @media ($viewport-11) {
