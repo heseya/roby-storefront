@@ -1,6 +1,6 @@
 {
   "name": "store",
-  "version": "2.1.0-rc.1",
+  "version": "2.1.0",
   "private": true,
   "scripts": {
     "start": "nuxt start",
