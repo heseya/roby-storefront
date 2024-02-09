@@ -72,7 +72,7 @@ export default defineNuxtConfig({
         {
           hid: isProduction ? 'robots' : 'force-robots',
           name: 'robots',
-          content: 'User-agent: *\nDisallow: /',
+          content: isProduction ? 'index, follow' : 'noindex, nofollow',
         },
         {
           hid: 'google-site-verification',
