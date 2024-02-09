@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-named-as-default
 import Notifications, { useNotification } from '@kyvg/vue3-notification'
 import { defineNuxtPlugin } from '#app'
 
