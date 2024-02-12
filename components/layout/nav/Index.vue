@@ -11,7 +11,12 @@
           @click="isOpenCategories = true"
         />
         <NuxtLink :to="localePath('/')" class="nav-items__logo-link">
-          <img class="nav-items__logo" :src="config.storeLogoUrl" :alt="config.storeName" />
+          <img
+            class="nav-items__logo"
+            :src="config.storeLogoUrl"
+            :alt="config.storeName"
+            loading="eager"
+          />
         </NuxtLink>
         <LazyLayoutNavSearch
           class="nav-items__search--wide"
