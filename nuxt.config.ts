@@ -229,7 +229,7 @@ export default defineNuxtConfig({
   },
 
   delayHydration: {
-    mode: 'mount',
+    mode: 'init', // mount
     // enables nuxt-delay-hydration in dev mode for testing
     debug: process.env.NODE_ENV === 'development',
   },
