@@ -989,10 +989,10 @@
   optionalDependencies:
     vue-router ">= 4.1.0 < 5.0.0"
 
-"@heseya/store-core@6.0.0-dev.67":
-  version "6.0.0-dev.67"
-  resolved "https://registry.yarnpkg.com/@heseya/store-core/-/store-core-6.0.0-dev.67.tgz#53c102b92390a5304f0bdef08215a03d0461618b"
-  integrity sha512-66Ed+vZopJo+OVtHzxa5niolXp8yHf/2GRsxlpNvBiTqgXfeFFrPiTBVS22D6Q+aOkpEbGqgKMu4XccH3cr07Q==
+"@heseya/store-core@6.0.0-dev.68":
+  version "6.0.0-dev.68"
+  resolved "https://registry.yarnpkg.com/@heseya/store-core/-/store-core-6.0.0-dev.68.tgz#9b25804782c011ad37fd1d8e7782338cc17377f8"
+  integrity sha512-kbzC2+z9dqnz/Jz5Y0963xTV4ZOme5sXJt/gc0LbvMD5NnlQPobm9upAFiiKa7EwFYO5KiFDnfryHzhiGwywpQ==
   dependencies:
     flat "^5.0.2"
     form-data "^4.0.0"
