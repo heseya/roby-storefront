@@ -33,12 +33,12 @@
           ></div>
 
           <div class="product-header__sales">
-            <ProductTag v-for="sale in visibleSales" :key="sale.id" type="sale">
+            <LazyProductTag v-for="sale in visibleSales" :key="sale.id" type="sale">
               {{ sale.name }}
-            </ProductTag>
+            </LazyProductTag>
           </div>
 
-          <LayoutTabs
+          <LazyLayoutTabs
             class="product-header__tabs"
             type="gray"
             hide-single-tab
@@ -52,7 +52,7 @@
                 type="price"
                 :action-text="$t('offers.pricing')"
               />
-              <ProductPagePurchasePanel v-else-if="product" :product="product" />
+              <LazyProductPagePurchasePanel v-else-if="product" :product="product" />
             </template>
             <template #renting>
               <LazyProductPageContactForm
@@ -63,23 +63,23 @@
                 :action-text="$t('offers.renting')"
               />
             </template>
-          </LayoutTabs>
+          </LazyLayoutTabs>
         </div>
       </div>
 
-      <ProductPageBanner
+      <LazyProductPageBanner
         v-if="product?.banner"
         class="product-page__banner"
         :banner="product.banner"
       />
 
-      <LayoutTabs class="product-page__main" :tabs="productDescriptionTabs">
+      <LazyLayoutTabs class="product-page__main" :tabs="productDescriptionTabs">
         <template #description>
           <div class="product-page__description-wrapper">
             <div>
-              <LayoutDropDownContainer :min-expand-height="productDescriptionExpandHeight">
+              <LazyLayoutDropDownContainer :min-expand-height="productDescriptionExpandHeight">
                 <LazyBaseWysiwygContent :content="product?.description_html" />
-              </LayoutDropDownContainer>
+              </LazyLayoutDropDownContainer>
 
               <LazyProductPageAttachments
                 v-if="product?.attachments.length"
@@ -88,7 +88,7 @@
               />
             </div>
 
-            <ProductPageCard
+            <LazyProductPageCard
               v-if="product?.metadata.allow_individual_offer"
               :title="t('individualOffer')"
             >
@@ -98,7 +98,7 @@
                 type="offer"
                 :action-text="t('individualOffer')"
               />
-            </ProductPageCard>
+            </LazyProductPageCard>
             <LazyProductPageAttributeCard
               v-else-if="product && showAttributeCard"
               :product="product"
@@ -121,14 +121,14 @@
         >
           <LazyProductPageAdditionalDescription :page="page" />
         </template>
-      </LayoutTabs>
+      </LazyLayoutTabs>
 
-      <IntegrationEkomiProductWidget
+      <LazyIntegrationEkomiProductWidget
         v-if="product?.id"
         :token="ekomiMiniStarsToken"
         :product-id="product.id"
       />
-      <IntegrationEkomiProductWidget
+      <LazyIntegrationEkomiProductWidget
         v-if="product?.id"
         :token="ekomiReviewsToken"
         :product-id="product.id"

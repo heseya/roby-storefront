@@ -5,7 +5,7 @@
     </LayoutHeader>
     <LayoutCarousel :items="banner.banner_media" :breakpoints="breakpoints">
       <template #item="media">
-        <Media
+        <LazyMedia
           class="image-carousel__picture"
           :class="{
             'image-carousel__picture--gray-filter': grayFilter,

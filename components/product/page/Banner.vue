@@ -4,7 +4,7 @@
     class="product-page-banner"
     :class="{ 'product-page-banner--interactive': banner.url }"
   >
-    <Media
+    <LazyMedia
       v-for="m in banner.media"
       :key="m.media.id"
       :media="m.media"

@@ -1,22 +1,22 @@
 <template>
   <div class="product-carousel">
     <div class="product-carousel__header">
-      <LayoutHeader
+      <LazyLayoutHeader
         class="product-carousel__title"
         :class="{ 'product-carousel__title--no-padding': hideMoreButton }"
         variant="black"
         :tag="headerTag"
       >
         {{ label || category.name }}
-      </LayoutHeader>
-      <HomeShowAllButton v-show="!hideMoreButton" :path="`/category/${category.slug}`" />
+      </LazyLayoutHeader>
+      <LazyHomeShowAllButton v-show="!hideMoreButton" :path="`/category/${category.slug}`" />
     </div>
     <div
       v-show="subcategories?.length && !withoutSubcategories"
       class="product-carousel__categories"
       :items="subcategories"
     >
-      <HomeProductCarouselCategoryButton
+      <LazyHomeProductCarouselCategoryButton
         v-for="set in subcategories"
         :key="set.id"
         :label="set.name"
@@ -25,11 +25,11 @@
       />
     </div>
     <div class="product-carousel__products">
-      <LayoutLoading v-show="pending" :active="pending" />
-      <LayoutEmpty v-show="!products?.length" class="product-carousel__empty">
+      <LazyLayoutLoading v-show="pending" :active="pending" />
+      <LazyLayoutEmpty v-show="!products?.length" class="product-carousel__empty">
         {{ t('empty') }}
-      </LayoutEmpty>
-      <HomeProductCarouselSimple v-show="products?.length" :products="products || []" />
+      </LazyLayoutEmpty>
+      <LazyHomeProductCarouselSimple v-show="products?.length" :products="products || []" />
     </div>
   </div>
 </template>

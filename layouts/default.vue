@@ -17,10 +17,10 @@
       <LayoutBreadcrumps />
     </div>
     <div class="site__footer">
-      <NewsletterForm />
+      <LazyNewsletterForm />
       <BaseFooter />
     </div>
-    <BaseCookiesBar />
+    <LazyBaseCookiesBar />
   </div>
 </template>
 

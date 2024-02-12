@@ -20,18 +20,17 @@
         :media="active"
         :width="isMobile ? 300 : 500"
         height="500"
-        loading="eager"
         @click="openBigGallery"
       />
 
       <div class="product-cover-gallery__tags">
-        <ProductTag v-for="tag in tags" :key="tag.id" :color="`#${tag.color}`" size="big">
+        <LazyProductTag v-for="tag in tags" :key="tag.id" :color="`#${tag.color}`" size="big">
           {{ tag.name }}
-        </ProductTag>
+        </LazyProductTag>
       </div>
     </div>
 
-    <ProductPageGallery
+    <LazyProductPageGallery
       v-if="isBigGalleryOpen"
       :media="props.media"
       :default-media="active"

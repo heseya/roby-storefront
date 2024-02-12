@@ -1,24 +1,19 @@
 <template>
   <nav class="nav-bar">
-    <LayoutNavNotification class="nav-bar__notification" />
+    <LazyLayoutNavNotification class="nav-bar__notification" />
     <LayoutNavTopBar v-if="isTopBarVisible" />
     <div class="nav-items" :class="{ 'nav-items--small': scrollY > 100 }">
       <div class="nav-items__left">
-        <LayoutIconButton
+        <LazyLayoutIconButton
           class="nav-items__menu-btn"
           :icon="Menu"
           :title="$t('nav.showCategories')"
           @click="isOpenCategories = true"
         />
         <NuxtLink :to="localePath('/')" class="nav-items__logo-link">
-          <img
-            class="nav-items__logo"
-            :src="config.storeLogoUrl"
-            :alt="config.storeName"
-            loading="eager"
-          />
+          <img class="nav-items__logo" :src="config.storeLogoUrl" :alt="config.storeName" />
         </NuxtLink>
-        <LayoutNavSearch
+        <LazyLayoutNavSearch
           class="nav-items__search--wide"
           :categories="categoriesStore.navCategories"
           @search="handleSearch"
@@ -26,7 +21,7 @@
       </div>
 
       <div class="nav-items__buttons">
-        <LayoutIconButton
+        <LazyLayoutIconButton
           icon-size="sm"
           class="nav-items__search--narrow"
           :icon="Search"
@@ -38,7 +33,7 @@
             class="nav-link-button"
             :to="auth.isLogged ? localePath('/account') : localePath('/login')"
           >
-            <LayoutIconButton
+            <LazyLayoutIconButton
               class="nav-link-button__button"
               :icon="Profile"
               :label="auth.isLogged ? $t('breadcrumbs.account') : $t('account.login')"
@@ -70,7 +65,7 @@
           class="nav-link-button"
           :to="localePath(auth.isLogged ? '/account/wishlist' : '/wishlist')"
         >
-          <LayoutIconButton
+          <LazyLayoutIconButton
             class="nav-link-button__button"
             :icon="Favorite"
             :label="$t('wishlist.title')"
@@ -80,7 +75,7 @@
         </NuxtLink>
         <div class="nav-items__button-wrapper">
           <NuxtLink class="nav-link-button" :to="localePath('/cart')">
-            <LayoutIconButton
+            <LazyLayoutIconButton
               class="nav-link-button__button"
               :icon="Shopping"
               :label="$t('cart.title')"
@@ -89,16 +84,16 @@
             />
           </NuxtLink>
           <ClientOnly>
-            <LayoutNavCartPreview class="nav-items__cart-preview" />
+            <LazyLayoutNavCartPreview class="nav-items__cart-preview" />
           </ClientOnly>
         </div>
       </div>
-      <LayoutNavMobileMenu
+      <LazyLayoutNavMobileMenu
         v-show="isOpenCategories"
         :links="navLinks || []"
         @close="isOpenCategories = false"
       />
-      <LayoutNavMobileSearch
+      <LazyLayoutNavMobileSearch
         v-show="isOpenSearch"
         @close="isOpenSearch = false"
         @search="handleSearch"
@@ -107,12 +102,12 @@
 
     <div class="nav-bar__categories">
       <div class="nav-bar__categories-scroll">
-        <LayoutNavCategoryButton
+        <LazyLayoutNavCategoryButton
           v-for="category in categoriesStore.navCategories"
           :key="category.id"
           :category="category"
         />
-        <LayoutNavButton v-for="link in navLinks" :key="link.path" :link="link" />
+        <LazyLayoutNavButton v-for="link in navLinks" :key="link.path" :link="link" />
       </div>
     </div>
   </nav>
