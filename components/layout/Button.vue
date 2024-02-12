@@ -36,7 +36,6 @@ const textColorThemePrimary = useContrastColorFromCssVar('primary-color-alt')
   outline: none;
   border: none;
   padding: 8px 16px;
-  height: 37px;
   border-radius: 4px;
   font-family: var(--text-font-family, $textFont);
   font-size: rem(14);

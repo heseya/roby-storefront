@@ -18,7 +18,8 @@ const data = useAsyncData('page', async () => {
 <style lang="scss" scoped>
 :deep(figure),
 :deep(figure > a) {
-  display: block;
+  display: flex;
+  justify-content: center;
   overflow: hidden;
   border-radius: 10px;
 }
