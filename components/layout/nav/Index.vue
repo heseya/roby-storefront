@@ -84,7 +84,7 @@
             />
           </NuxtLink>
           <ClientOnly>
-            <LazyLayoutNavCartPreview class="nav-items__cart-preview" />
+            <LayoutNavCartPreview class="nav-items__cart-preview" />
           </ClientOnly>
         </div>
       </div>
@@ -324,21 +324,21 @@ onBeforeMount(async () => {
   &__search {
     &--wide {
       @media ($max-viewport-12) {
-        display: none;
+        display: none !important;
       }
     }
 
     &--narrow {
       color: $gray-color-600;
       @media ($viewport-12) {
-        display: none;
+        display: none !important;
       }
     }
   }
 
   &__menu-btn {
     @media ($viewport-12) {
-      display: none;
+      display: none !important;
     }
   }
 }
