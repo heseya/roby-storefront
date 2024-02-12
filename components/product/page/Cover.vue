@@ -20,6 +20,7 @@
         :media="active"
         :width="isMobile ? 300 : 500"
         height="500"
+        loading="eager"
         @click="openBigGallery"
       />
 

@@ -14,6 +14,7 @@
         :media="m.media"
         class="card__image"
         :height="height"
+        loading="eager"
       />
       <LayoutHeader v-show="subtitle" class="card__subtitle">
         {{ subtitle }}
