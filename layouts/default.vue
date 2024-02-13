@@ -20,7 +20,7 @@
       <LazyNewsletterForm />
       <LazyBaseFooter />
     </div>
-    <LazyBaseCookiesBar />
+    <LazyBaseCookiesBar v-if="isShowCookies" />
   </div>
 </template>
 
@@ -31,10 +31,15 @@ import { useConfigStore } from '~/store/config'
 const config = useConfigStore()
 const channels = useChannelsStore()
 const { locales } = useI18n()
+const isShowCookies = ref(false)
 
 const isAdditionalNavBarVisible = computed(
   () => locales.value.length > 1 || !!config.customRedirect || channels.channels.length > 1,
 )
+
+delayedOnMounted(() => {
+  isShowCookies.value = true
+}, 5000)
 </script>
 
 <style lang="scss">

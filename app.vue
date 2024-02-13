@@ -63,7 +63,7 @@ useHead({
 delayedOnMounted(() => {
   const gtm = useGtm()
   gtm?.enable()
-}, 3000)
+}, 1000)
 </script>
 
 <style lang="scss" scoped>
