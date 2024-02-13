@@ -18,7 +18,6 @@
 </template>
 
 <script setup lang="ts">
-import { useGtm } from '@gtm-support/vue-gtm'
 import { useConfigStore } from './store/config'
 
 const { showColorThemePicker, ekomiPopupToken } = usePublicRuntimeConfig()
@@ -61,9 +60,9 @@ useHead({
 })
 
 delayedOnMounted(() => {
-  const gtm = useGtm()
-  gtm?.enable()
-}, 0)
+  const { $enableGtm } = useNuxtApp()
+  $enableGtm()
+}, 3000)
 </script>
 
 <style lang="scss" scoped>

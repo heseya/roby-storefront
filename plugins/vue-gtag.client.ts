@@ -15,16 +15,14 @@ import { useChannelsStore } from '@/store/channels'
 /**
  * Watches for a change in the cookie and sets the value in gtag.
  */
-const useGtagCookieWatch = (cookieKey: string, gtagKey: string) => {
-  const gtm = useGtm()
-
+const useGtagCookieWatch = (cookieKey: string, gtagKey: string, track: (data: object) => void) => {
   const cookie = useStatefulCookie<number>(cookieKey, COOKIES_CONFIG)
 
   watch(
     cookie,
     (value) => {
-      if (value) gtm?.push({ event: 'set', [gtagKey]: true })
-      else if (value !== undefined) gtm?.push({ event: 'set', [gtagKey]: false })
+      if (value) track({ event: 'set', [gtagKey]: true })
+      else if (value !== undefined) track({ event: 'set', [gtagKey]: false })
     },
     { immediate: true },
   )
@@ -45,28 +43,54 @@ export default defineNuxtPlugin((nuxtApp) => {
     }),
   )
 
-  useGtagCookieWatch(COOKIE_FUNCTIONAL_ACCEPTED_KEY, 'functionality_storage')
-  useGtagCookieWatch(COOKIE_ANALYTICS_ACCEPTED_KEY, 'analytics_storage')
-  useGtagCookieWatch(COOKIE_ADS_ACCEPTED_KEY, 'ad_storage')
-  useGtagCookieWatch(COOKIE_ADS_ACCEPTED_KEY, 'ad_user_data')
-  useGtagCookieWatch(COOKIE_ADS_ACCEPTED_KEY, 'ad_personalization')
+  /**
+   * * TRACKING
+   */
+  const gtm = useGtm()
+  const pushEventsQueue = useState<object[]>('gtag-push-queue', () => [])
+  const trackEventsQueue = useState<object[]>('gtag-track-queue', () => [])
+
+  const push = (event: object) => {
+    if (gtm?.enabled()) gtm?.push(event)
+    else pushEventsQueue.value.push(event)
+  }
+
+  const trackEvent = (event: object) => {
+    if (gtm?.enabled()) gtm?.trackEvent(event)
+    else trackEventsQueue.value.push(event)
+  }
+
+  const enableGtm = () => {
+    if (gtm?.enabled()) return
+
+    gtm?.enable()
+
+    // Is this push necessary? This is a fixed value from ***REMOVED***.
+    push({ event: 'config', value: 'G-EYZH3KQD3H' })
+
+    // Clear the queue
+    pushEventsQueue.value.forEach((event) => gtm?.push(event))
+    trackEventsQueue.value.forEach((event) => gtm?.trackEvent(event))
+    pushEventsQueue.value = []
+    trackEventsQueue.value = []
+  }
+
+  useGtagCookieWatch(COOKIE_FUNCTIONAL_ACCEPTED_KEY, 'functionality_storage', push)
+  useGtagCookieWatch(COOKIE_ANALYTICS_ACCEPTED_KEY, 'analytics_storage', push)
+  useGtagCookieWatch(COOKIE_ADS_ACCEPTED_KEY, 'ad_storage', push)
+  useGtagCookieWatch(COOKIE_ADS_ACCEPTED_KEY, 'ad_user_data', push)
+  useGtagCookieWatch(COOKIE_ADS_ACCEPTED_KEY, 'ad_personalization', push)
 
   /**
    * * EVENTS
    */
-
-  const gtm = useGtm()
   const channelStore = useChannelsStore(nuxtApp.$pinia as Pinia)
   const bus = useHeseyaEventBus()
-
-  gtm?.push({ event: 'config', value: 'G-EYZH3KQD3H' })
-
   bus.on(HeseyaEvent.ViewProduct, (product) => {
     const currency = useCurrency()
-    if (!gtm?.enabled()) return
 
-    gtm?.trackEvent({ ecommerce: null })
-    gtm?.trackEvent({
+    trackEvent({ ecommerce: null })
+    trackEvent({
       event: 'view_item',
       ecommerce: { items: [mapProductToItem(product, currency.value)] },
     })
@@ -74,10 +98,9 @@ export default defineNuxtPlugin((nuxtApp) => {
 
   bus.on(HeseyaEvent.ViewProductList, ({ set, items }) => {
     const currency = useCurrency()
-    if (!gtm?.enabled()) return
 
-    gtm?.trackEvent({ ecommerce: null })
-    gtm?.trackEvent({
+    trackEvent({ ecommerce: null })
+    trackEvent({
       event: 'view_item_list',
       ecommerce: {
         item_list_name: set?.name,
@@ -87,10 +110,8 @@ export default defineNuxtPlugin((nuxtApp) => {
   })
 
   bus.on(HeseyaEvent.AddToCart, (item) => {
-    if (!gtm?.enabled()) return
-
-    gtm?.trackEvent({ ecommerce: null })
-    gtm?.trackEvent({
+    trackEvent({ ecommerce: null })
+    trackEvent({
       event: 'add_to_cart',
       ecommerce: {
         currency: channelStore.currency,
@@ -101,10 +122,8 @@ export default defineNuxtPlugin((nuxtApp) => {
   })
 
   bus.on(HeseyaEvent.RemoveFromCart, (item) => {
-    if (!gtm?.enabled()) return
-
-    gtm?.trackEvent({ ecommerce: null })
-    gtm?.trackEvent({
+    trackEvent({ ecommerce: null })
+    trackEvent({
       event: 'remove_from_cart',
       ecommerce: {
         currency: channelStore.currency,
@@ -115,10 +134,8 @@ export default defineNuxtPlugin((nuxtApp) => {
   })
 
   bus.on(HeseyaEvent.AddShippingInfo, ({ shipping, items }) => {
-    if (!gtm?.enabled()) return
-
-    gtm?.trackEvent({ ecommerce: null })
-    gtm?.trackEvent({
+    trackEvent({ ecommerce: null })
+    trackEvent({
       event: 'add_shipping_info',
       ecommerce: {
         shipping_tier: shipping.name,
@@ -130,10 +147,8 @@ export default defineNuxtPlugin((nuxtApp) => {
   })
 
   bus.on(HeseyaEvent.AddPaymentInfo, ({ payment, items }) => {
-    if (!gtm?.enabled()) return
-
-    gtm?.trackEvent({ ecommerce: null })
-    gtm?.trackEvent({
+    trackEvent({ ecommerce: null })
+    trackEvent({
       event: 'add_payment_info',
       ecommerce: {
         payment_type: payment.name,
@@ -143,44 +158,36 @@ export default defineNuxtPlugin((nuxtApp) => {
   })
 
   bus.on(HeseyaEvent.InitiateCheckout, (items) => {
-    if (!gtm?.enabled()) return
-
-    gtm?.trackEvent({ ecommerce: null })
-    gtm?.trackEvent({
+    trackEvent({ ecommerce: null })
+    trackEvent({
       event: 'begin_checkout',
       ecommerce: { items: items.map(mapCartItemToItem) },
     })
   })
 
   bus.on(HeseyaEvent.Login, () => {
-    if (!gtm?.enabled()) return
-
-    gtm?.trackEvent({
+    trackEvent({
       event: 'login',
       method: 'email',
     })
   })
 
   bus.on(HeseyaEvent.Register, () => {
-    if (!gtm?.enabled()) return
-
-    gtm?.trackEvent({
+    trackEvent({
       event: 'sign_up',
       method: 'email',
     })
   })
 
   bus.on(HeseyaEvent.Purchase, (order) => {
-    if (!gtm?.enabled()) return
-
     const vatPercentage = parseFloat(channelStore.selected?.vat_rate || '0') || 23
     const vatRate = vatPercentage / 100
 
     const taxValue = Math.round(parseFloat(order.summary) * vatRate * 100) / 100
 
     // TODO: add coupons?
-    gtm?.trackEvent({ ecommerce: null })
-    gtm?.trackEvent({
+    trackEvent({ ecommerce: null })
+    trackEvent({
       event: 'purchase',
       ecommerce: {
         transaction_id: order.code,
@@ -199,12 +206,16 @@ export default defineNuxtPlugin((nuxtApp) => {
   })
 
   bus.on(HeseyaEvent.ViewCart, (items) => {
-    if (!gtm?.enabled()) return
-
-    gtm?.trackEvent({ ecommerce: null })
-    gtm?.trackEvent({
+    trackEvent({ ecommerce: null })
+    trackEvent({
       event: 'view_cart',
       ecommerce: { items: items.map(mapCartItemToItem) },
     })
   })
+
+  return {
+    provide: {
+      enableGtm,
+    },
+  }
 })
