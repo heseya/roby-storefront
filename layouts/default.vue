@@ -1,7 +1,7 @@
 <template>
   <div class="site">
     <div class="site__nav">
-      <LayoutNav />
+      <LazyLayoutNav />
     </div>
     <div
       class="site__content"
@@ -14,11 +14,11 @@
         <slot></slot>
       </main>
 
-      <LayoutBreadcrumps />
+      <LazyLayoutBreadcrumps />
     </div>
     <div class="site__footer">
       <LazyNewsletterForm />
-      <BaseFooter />
+      <LazyBaseFooter />
     </div>
     <LazyBaseCookiesBar />
   </div>

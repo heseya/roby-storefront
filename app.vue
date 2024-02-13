@@ -4,11 +4,11 @@
 
     <LayoutThemeContext>
       <NuxtLoadingIndicator />
-      <ShopOff v-if="isShopDisabled" />
+      <LazyShopOff v-if="isShopDisabled" />
       <NuxtPage v-else />
 
       <ClientOnly>
-        <CartUnavailableModal />
+        <LazyCartUnavailableModal />
         <Notifications class="notifications" position="bottom right" />
       </ClientOnly>
 

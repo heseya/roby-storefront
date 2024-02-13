@@ -7,9 +7,9 @@
       'filter-checkbox-group--scrollable-down': isScrollable && !containerScrollState.bottom,
     }"
   >
-    <FormInputLabel class="filter-checkbox-group__label" uppercase>
+    <LazyFormInputLabel class="filter-checkbox-group__label" uppercase>
       {{ attribute.name }}
-    </FormInputLabel>
+    </LazyFormInputLabel>
 
     <div ref="containerRef" class="filter-checkbox-group__items">
       <FormCheckbox

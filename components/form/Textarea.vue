@@ -4,9 +4,9 @@
     :class="[`input--${type}`, !!errors.length && `input--error`, postfix && 'input--postfix']"
     :data-postfix="postfix"
   >
-    <FormInputLabel v-if="label" :uppercase="labelUppercase" class="input__label" :for="id">
+    <LazyFormInputLabel v-if="label" :uppercase="labelUppercase" class="input__label" :for="id">
       {{ label }} <span v-if="isRequired && label" class="input__required-star">*</span>
-    </FormInputLabel>
+    </LazyFormInputLabel>
     <div class="input__content">
       <textarea
         :id="id"
@@ -90,7 +90,3 @@ watch(
   () => validate(),
 )
 </script>
-
-<style lang="scss" scoped>
-@import '@/assets/scss/components/input.scss';
-</style>

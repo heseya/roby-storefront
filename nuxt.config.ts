@@ -107,7 +107,7 @@ export default defineNuxtConfig({
     },
   },
 
-  css: ['@/assets/scss/index.scss'],
+  css: ['@/assets/scss/index.scss', '@/assets/scss/components/_input.scss'],
 
   runtimeConfig: {
     mailHost: MAIL_HOST,
