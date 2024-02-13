@@ -26,10 +26,10 @@
     </div>
     <div class="product-carousel__products">
       <LazyLayoutLoading v-show="pending" :active="pending" />
-      <LazyLayoutEmpty v-show="!products?.length" class="product-carousel__empty">
+      <LazyLayoutEmpty v-show="!products.length" class="product-carousel__empty">
         {{ t('empty') }}
       </LazyLayoutEmpty>
-      <LazyHomeProductCarouselSimple v-show="products?.length" :products="products || []" />
+      <HomeProductCarouselSimple v-show="products?.length" :products="products || []" />
     </div>
   </div>
 </template>
@@ -46,7 +46,7 @@
 </i18n>
 
 <script lang="ts" setup>
-import type { ProductSetList } from '@heseya/store-core'
+import type { ProductList, ProductSetList } from '@heseya/store-core'
 
 import { useCategoriesStore } from '@/store/categories'
 import { useConfigStore } from '@/store/config'
@@ -76,34 +76,31 @@ const config = useConfigStore()
 const selectedCategory = useState<string | null>(`selected-${props.category.id}`, () => null)
 const subcategories = useState<ProductSetList[]>(`subcategories-${props.category.id}`, () => [])
 
-const {
-  data: products,
-  refresh: refreshProducts,
-  pending,
-} = useAsyncData(
-  `products-${props.category.id}-${selectedCategory.value}`,
-  async () => {
-    const categorySlug = selectedCategory.value || props.category.slug
-    const { data } = await getProducts({
-      sets: [categorySlug],
-      limit: 16,
-      sort: `set.${categorySlug}`,
-      shipping_digital: false,
-      attribute_slug: config.productSubtextAttr,
-      available: props.hideUnavailable ? true : undefined,
-    })
+const products = useState<ProductList[]>(`products-${props.category.id}`, () => [])
+const pending = ref(false)
 
-    return data
-  },
-  { immediate: false },
-)
+const fetchProducts = async () => {
+  pending.value = true
+  const categorySlug = selectedCategory.value || props.category.slug
+  const { data } = await getProducts({
+    sets: [categorySlug],
+    limit: 16,
+    sort: `set.${categorySlug}`,
+    shipping_digital: false,
+    attribute_slug: config.productSubtextAttr,
+    available: props.hideUnavailable ? true : undefined,
+  })
+
+  products.value = data
+  pending.value = false
+}
 
 useLazyAsyncData(`subcategories-${props.category.id}`, async () => {
   if (!props.withoutSubcategories) {
     subcategories.value = await categoriesStore.getSubcategories(props.category.id)
     if (subcategories.value.length) selectedCategory.value = subcategories.value[0].slug
   }
-  refreshProducts()
+  await fetchProducts()
 })
 
 useEmitProductsViewEvent(
@@ -111,10 +108,10 @@ useEmitProductsViewEvent(
   props.category.name,
 )
 
-const setNewCategory = (categorySlug: string) => {
+const setNewCategory = async (categorySlug: string) => {
   if (categorySlug !== selectedCategory.value) {
     selectedCategory.value = categorySlug
-    refreshProducts()
+    await fetchProducts()
   }
 }
 </script>

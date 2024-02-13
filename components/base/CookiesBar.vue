@@ -209,8 +209,8 @@ const visibleTab = ref('required')
   z-index: 10000;
   padding: 24px 12px 280px;
   overflow: auto;
-  --text-font-family: Arial, Helvetica, sans-serif;
-  font-family: Arial, Helvetica, sans-serif;
+  // --text-font-family: Arial, Helvetica, sans-serif;
+  // font-family: Arial, Helvetica, sans-serif;
 
   @media ($viewport-8) {
     height: auto;
@@ -257,9 +257,9 @@ const visibleTab = ref('required')
     gap: 8px;
     margin-top: 20px;
 
-    * {
-      font-weight: 600;
-    }
+    // * {
+    //   font-weight: 600;
+    // }
 
     @media ($viewport-5) {
       gap: 16px;
