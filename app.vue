@@ -18,6 +18,7 @@
 </template>
 
 <script setup lang="ts">
+import { useGtm } from '@gtm-support/vue-gtm'
 import { useConfigStore } from './store/config'
 
 const { showColorThemePicker, ekomiPopupToken } = usePublicRuntimeConfig()
@@ -58,6 +59,11 @@ useHead({
   ],
   script: [...(seo.value.header_tags?.filter((tag) => tag.type === 'script') || [])],
 })
+
+delayedOnMounted(() => {
+  const gtm = useGtm()
+  gtm?.enable()
+}, 3000)
 </script>
 
 <style lang="scss" scoped>

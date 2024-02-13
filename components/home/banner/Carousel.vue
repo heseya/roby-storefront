@@ -21,6 +21,7 @@
             :title-tag="index === 0 ? 'h1' : 'h2'"
             :height="480"
             :gradient="gradient"
+            :loading="index === 0 ? 'eager' : 'lazy'"
           />
         </div>
       </SwiperSlide>

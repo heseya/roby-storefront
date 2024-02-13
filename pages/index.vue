@@ -1,11 +1,11 @@
 <template>
   <NuxtLayout>
     <div class="index-page">
-      <!-- <LazyHomeBanner
+      <LazyHomeBanner
         v-if="data?.mainBanner && data?.mainBanner.active"
         class="index-page__banner"
         :banner="data?.mainBanner"
-      /> -->
+      />
 
       <LazyHomeBannerSecondary
         v-if="data?.secondaryBanner && data?.secondaryBanner.active"

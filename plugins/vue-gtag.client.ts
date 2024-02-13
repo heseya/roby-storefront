@@ -41,6 +41,7 @@ export default defineNuxtPlugin((nuxtApp) => {
       debug: !isProduction,
       vueRouter: useRouter(),
       loadScript: true,
+      enabled: false,
     }),
   )
 
