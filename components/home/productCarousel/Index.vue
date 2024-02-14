@@ -25,7 +25,7 @@
       />
     </div>
     <div class="product-carousel__products">
-      <LazyLayoutLoading v-show="pending" :active="pending" />
+      <ClientOnly><LazyLayoutLoading v-show="pending" :active="pending" /></ClientOnly>
       <LazyLayoutEmpty v-show="!products.length" class="product-carousel__empty">
         {{ t('empty') }}
       </LazyLayoutEmpty>
@@ -75,6 +75,10 @@ const config = useConfigStore()
 
 const selectedCategory = useState<string | null>(`selected-${props.category.id}`, () => null)
 const subcategories = useState<ProductSetList[]>(`subcategories-${props.category.id}`, () => [])
+const subcategoriesFetched = useState<boolean>(
+  `subcategories-fetched-${props.category.id}`,
+  () => false,
+)
 
 const products = useState<ProductList[]>(`products-${props.category.id}`, () => [])
 const pending = ref(false)
@@ -95,11 +99,15 @@ const fetchProducts = async () => {
   pending.value = false
 }
 
-useLazyAsyncData(`subcategories-${props.category.id}`, async () => {
+useAsyncData(`subcategories-${props.category.id}`, async () => {
+  if (subcategoriesFetched.value) return
+
   if (!props.withoutSubcategories) {
     subcategories.value = await categoriesStore.getSubcategories(props.category.id)
     if (subcategories.value.length) selectedCategory.value = subcategories.value[0].slug
   }
+
+  subcategoriesFetched.value = true
   await fetchProducts()
 })
 
