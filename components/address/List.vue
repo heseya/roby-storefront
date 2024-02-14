@@ -16,7 +16,7 @@
       :label="t(`${type}.button`)"
       @click="isAddAddressModalVisible = true"
     />
-    <AddressFormModal
+    <LazyAddressFormModal
       v-model:open="isAddAddressModalVisible"
       :type="type"
       :success-update-message="t(`${type}.sucessUpdate`)"
