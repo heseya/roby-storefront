@@ -12,7 +12,7 @@
     >
       <SwiperSlide v-for="(item, index) in mediaList" :key="index">
         <div class="carousel-banner__slide">
-          <HomeBannerCard
+          <LazyHomeBannerCard
             :title="item.title"
             :subtitle="item.subtitle"
             :link="item.url"
@@ -21,17 +21,18 @@
             :title-tag="index === 0 ? 'h1' : 'h2'"
             :height="480"
             :gradient="gradient"
+            :loading="index === 0 ? 'eager' : 'lazy'"
           />
         </div>
       </SwiperSlide>
       <template #container-start>
-        <LayoutCarouselButton
+        <LazyLayoutCarouselButton
           always-visible
           class="carousel-banner__button carousel-banner__button--prev"
         />
       </template>
       <template #container-end>
-        <LayoutCarouselButton
+        <LazyLayoutCarouselButton
           always-visible
           next
           class="carousel-banner__button"

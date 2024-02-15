@@ -5,7 +5,7 @@
     :style="{ height: remainingImages.length > 0 ? '960px' : '480px' }"
   >
     <div class="banner__main-card">
-      <HomeBannerCard
+      <LazyHomeBannerCard
         :title="mainImage.title"
         :subtitle="mainImage.subtitle"
         :link="mainImage.url"
@@ -16,7 +16,7 @@
       />
     </div>
 
-    <HomeBannerCards
+    <LazyHomeBannerCards
       v-if="remainingImages.length"
       class="banner__cards"
       :media="remainingImages"

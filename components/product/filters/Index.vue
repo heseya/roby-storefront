@@ -11,7 +11,7 @@
     </div>
 
     <div class="product-filters__section">
-      <FormInputLabel label-uppercase> {{ t('price') }} </FormInputLabel>
+      <LazyFormInputLabel label-uppercase> {{ t('price') }} </LazyFormInputLabel>
 
       <div class="product-filters__row">
         <span> {{ $t('common.from') }} </span>
@@ -40,7 +40,7 @@
     </div>
 
     <div v-for="attribute in rangeFilters" :key="attribute.id" class="product-filters__section">
-      <FormInputLabel label-uppercase> {{ attribute.name }} </FormInputLabel>
+      <LazyFormInputLabel label-uppercase> {{ attribute.name }} </LazyFormInputLabel>
 
       <div class="product-filters__row">
         <span> {{ $t('common.from') }} </span>

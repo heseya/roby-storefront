@@ -1,5 +1,10 @@
 <template>
-  <SmartLink class="card" :class="{ 'card--centered': centered }" :to="link || ''">
+  <SmartLink
+    class="card"
+    :class="{ 'card--centered': centered }"
+    :to="link || ''"
+    :aria-label="title || `Redirect to ${link}`"
+  >
     <div class="card__container" :class="{ 'card__container--centered': centered }">
       <div v-show="gradient" class="card__gray-filter" />
       <Media
@@ -9,7 +14,7 @@
         :media="m.media"
         class="card__image"
         :height="height"
-        loading="eager"
+        :loading="loading"
       />
       <LayoutHeader v-show="subtitle" class="card__subtitle">
         {{ subtitle }}
@@ -35,8 +40,9 @@ const props = withDefaults(
     centered?: boolean
     height?: number
     gradient?: boolean
+    loading?: 'lazy' | 'eager'
   }>(),
-  { titleTag: 'span', subtitle: '', link: '', height: 580, gradient: false },
+  { titleTag: 'span', subtitle: '', link: '', height: 580, gradient: false, loading: 'lazy' },
 )
 
 useMediaQueriesForMediaBanners(props.media)

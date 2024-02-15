@@ -2,7 +2,12 @@
   <div class="checkout">
     <div class="checkout__header">
       <NuxtLink :to="localePath('/')" class="checkout__logo">
-        <img class="checkout__logo-img" :src="config.storeLogoUrl" :alt="config.storeName" />
+        <img
+          class="checkout__logo-img"
+          :src="config.storeLogoUrl"
+          :alt="config.storeName"
+          loading="eager"
+        />
       </NuxtLink>
     </div>
     <div v-if="activeStep" class="checkout__bar">

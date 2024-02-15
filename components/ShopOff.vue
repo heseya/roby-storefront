@@ -1,6 +1,11 @@
 <template>
   <div class="shop-off">
-    <img class="shop-off__logo" :src="config.storeLogoUrl" :alt="config.storeName" />
+    <img
+      class="shop-off__logo"
+      :src="config.storeLogoUrl"
+      :alt="config.storeName"
+      loading="eager"
+    />
     <LayoutHeader class="shop-off__title" variant="black"> {{ t('title') }} </LayoutHeader>
     <span class="shop-off__text"> {{ t('text') }} </span>
   </div>

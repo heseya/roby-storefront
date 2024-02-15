@@ -1,7 +1,7 @@
 <template>
   <div class="site">
     <div class="site__nav">
-      <LayoutNav />
+      <LazyLayoutNav />
     </div>
     <div
       class="site__content"
@@ -14,13 +14,13 @@
         <slot></slot>
       </main>
 
-      <LayoutBreadcrumps />
+      <LazyLayoutBreadcrumps />
     </div>
     <div class="site__footer">
-      <NewsletterForm />
-      <BaseFooter />
+      <LazyNewsletterForm />
+      <LazyBaseFooter />
     </div>
-    <BaseCookiesBar />
+    <LazyBaseCookiesBar v-if="isShowCookies" />
   </div>
 </template>
 
@@ -31,10 +31,15 @@ import { useConfigStore } from '~/store/config'
 const config = useConfigStore()
 const channels = useChannelsStore()
 const { locales } = useI18n()
+const isShowCookies = ref(false)
 
 const isAdditionalNavBarVisible = computed(
   () => locales.value.length > 1 || !!config.customRedirect || channels.channels.length > 1,
 )
+
+delayedOnMounted(() => {
+  isShowCookies.value = true
+}, 5000)
 </script>
 
 <style lang="scss">

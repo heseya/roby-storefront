@@ -1,22 +1,22 @@
 <template>
   <div class="product-carousel">
     <div class="product-carousel__header">
-      <LayoutHeader
+      <LazyLayoutHeader
         class="product-carousel__title"
         :class="{ 'product-carousel__title--no-padding': hideMoreButton }"
         variant="black"
         :tag="headerTag"
       >
         {{ label || category.name }}
-      </LayoutHeader>
-      <HomeShowAllButton v-show="!hideMoreButton" :path="`/category/${category.slug}`" />
+      </LazyLayoutHeader>
+      <LazyHomeShowAllButton v-show="!hideMoreButton" :path="`/category/${category.slug}`" />
     </div>
     <div
       v-show="subcategories?.length && !withoutSubcategories"
       class="product-carousel__categories"
       :items="subcategories"
     >
-      <HomeProductCarouselCategoryButton
+      <LazyHomeProductCarouselCategoryButton
         v-for="set in subcategories"
         :key="set.id"
         :label="set.name"
@@ -25,10 +25,10 @@
       />
     </div>
     <div class="product-carousel__products">
-      <LayoutLoading v-show="pending" :active="pending" />
-      <LayoutEmpty v-show="!products?.length" class="product-carousel__empty">
+      <ClientOnly><LazyLayoutLoading v-show="pending" :active="pending" /></ClientOnly>
+      <LazyLayoutEmpty v-show="!products.length" class="product-carousel__empty">
         {{ t('empty') }}
-      </LayoutEmpty>
+      </LazyLayoutEmpty>
       <HomeProductCarouselSimple v-show="products?.length" :products="products || []" />
     </div>
   </div>
@@ -46,7 +46,7 @@
 </i18n>
 
 <script lang="ts" setup>
-import type { ProductSetList } from '@heseya/store-core'
+import type { ProductList, ProductSetList } from '@heseya/store-core'
 
 import { useCategoriesStore } from '@/store/categories'
 import { useConfigStore } from '@/store/config'
@@ -75,35 +75,40 @@ const config = useConfigStore()
 
 const selectedCategory = useState<string | null>(`selected-${props.category.id}`, () => null)
 const subcategories = useState<ProductSetList[]>(`subcategories-${props.category.id}`, () => [])
-
-const {
-  data: products,
-  refresh: refreshProducts,
-  pending,
-} = useAsyncData(
-  `products-${props.category.id}-${selectedCategory.value}`,
-  async () => {
-    const categorySlug = selectedCategory.value || props.category.slug
-    const { data } = await getProducts({
-      sets: [categorySlug],
-      limit: 16,
-      sort: `set.${categorySlug}`,
-      shipping_digital: false,
-      attribute_slug: config.productSubtextAttr,
-      available: props.hideUnavailable ? true : undefined,
-    })
-
-    return data
-  },
-  { immediate: false },
+const subcategoriesFetched = useState<boolean>(
+  `subcategories-fetched-${props.category.id}`,
+  () => false,
 )
 
-useLazyAsyncData(`subcategories-${props.category.id}`, async () => {
+const products = useState<ProductList[]>(`products-${props.category.id}`, () => [])
+const pending = ref(false)
+
+const fetchProducts = async () => {
+  pending.value = true
+  const categorySlug = selectedCategory.value || props.category.slug
+  const { data } = await getProducts({
+    sets: [categorySlug],
+    limit: 16,
+    sort: `set.${categorySlug}`,
+    shipping_digital: false,
+    attribute_slug: config.productSubtextAttr,
+    available: props.hideUnavailable ? true : undefined,
+  })
+
+  products.value = data
+  pending.value = false
+}
+
+useAsyncData(`subcategories-${props.category.id}`, async () => {
+  if (subcategoriesFetched.value) return
+
   if (!props.withoutSubcategories) {
     subcategories.value = await categoriesStore.getSubcategories(props.category.id)
     if (subcategories.value.length) selectedCategory.value = subcategories.value[0].slug
   }
-  refreshProducts()
+
+  subcategoriesFetched.value = true
+  await fetchProducts()
 })
 
 useEmitProductsViewEvent(
@@ -111,10 +116,10 @@ useEmitProductsViewEvent(
   props.category.name,
 )
 
-const setNewCategory = (categorySlug: string) => {
+const setNewCategory = async (categorySlug: string) => {
   if (categorySlug !== selectedCategory.value) {
     selectedCategory.value = categorySlug
-    refreshProducts()
+    await fetchProducts()
   }
 }
 </script>

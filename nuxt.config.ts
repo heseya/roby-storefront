@@ -32,6 +32,8 @@ const {
   NUXT_PUBLIC_I18N_BASE_URL,
   NUXT_PUBLIC_RECAPTCHA_PUBLIC,
   NUXT_PUBLIC_GOOGLE_TAG_MANAGER_ID,
+  NUXT_PUBLIC_GOOGLE_ANALYTICS_ID,
+  NUXT_PUBLIC_GOOGLE_ADS_ID,
   NUXT_PUBLIC_CENEO_GUID,
   NUXT_PUBLIC_LEASLINK_ID,
   NUXT_PUBLIC_CALLPAGE_ID,
@@ -105,7 +107,7 @@ export default defineNuxtConfig({
     },
   },
 
-  css: ['@/assets/scss/index.scss'],
+  css: ['@/assets/scss/index.scss', '@/assets/scss/components/_input.scss'],
 
   runtimeConfig: {
     mail: {
@@ -129,6 +131,8 @@ export default defineNuxtConfig({
       recaptchaPublic: NUXT_PUBLIC_RECAPTCHA_PUBLIC,
       googleTagManagerId: NUXT_PUBLIC_GOOGLE_TAG_MANAGER_ID,
       googleSiteVerification: NUXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
+      googleAnalyticsId: NUXT_PUBLIC_GOOGLE_ANALYTICS_ID,
+      googleAdsId: NUXT_PUBLIC_GOOGLE_ADS_ID,
       ceneoGuid: NUXT_PUBLIC_CENEO_GUID,
       leaslinkId: NUXT_PUBLIC_LEASLINK_ID,
       callpageId: NUXT_PUBLIC_CALLPAGE_ID,
@@ -208,9 +212,12 @@ export default defineNuxtConfig({
   },
 
   googleFonts: {
+    base64: true,
+    overwriting: true,
+    display: 'swap',
     families: {
-      Rubik: [300, 400, 500, 600, 700],
-      Roboto: [300, 400, 500, 600, 700],
+      Rubik: [400, 500, 600, 700],
+      Roboto: [400, 500, 600, 700],
     },
   },
 

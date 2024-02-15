@@ -1,7 +1,7 @@
 <template>
   <button class="icon-btn" :title="title || label">
     <div class="icon-btn__icon-container">
-      <LayoutIcon :icon="icon" :size="iconSize" :is-resize="isResize" />
+      <LazyLayoutIcon :icon="icon" :size="iconSize" :is-resize="isResize" />
       <ClientOnly>
         <span
           v-show="typeof count === 'number'"

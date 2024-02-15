@@ -200,15 +200,17 @@ const visibleTab = ref('required')
 }
 
 .cookies-bar {
-  height: 100vh;
+  height: 60vh;
   width: 100vw;
   background-color: #fff;
   position: fixed;
   left: 0;
   bottom: 0;
   z-index: 10000;
-  padding: 24px 12px 280px;
+  padding: 24px 12px 165px;
   overflow: auto;
+  // --text-font-family: Arial, Helvetica, sans-serif;
+  // font-family: Arial, Helvetica, sans-serif;
 
   @media ($viewport-8) {
     height: auto;
@@ -223,11 +225,13 @@ const visibleTab = ref('required')
   &__text {
     display: block;
     font-size: rem(13);
+    line-height: rem(20);
     margin-bottom: 14px;
 
     &--bold {
       font-weight: bold;
       font-size: rem(15);
+      line-height: rem(20);
     }
   }
 
@@ -252,6 +256,10 @@ const visibleTab = ref('required')
     grid-template-columns: 1fr;
     gap: 8px;
     margin-top: 20px;
+
+    // * {
+    //   font-weight: 600;
+    // }
 
     @media ($viewport-5) {
       gap: 16px;
@@ -296,6 +304,7 @@ const visibleTab = ref('required')
     background-color: $transparent;
     font-family: var(--text-font-family, $textFont);
     font-size: rem(14);
+    line-height: rem(18);
     font-weight: 500;
     text-align: left;
     transition: 200ms ease-in-out;
