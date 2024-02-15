@@ -65,9 +65,6 @@ export default defineNuxtPlugin((nuxtApp) => {
 
     gtm?.enable()
 
-    // Is this push necessary? This is a fixed value from ***REMOVED***.
-    push({ event: 'config', value: 'G-EYZH3KQD3H' })
-
     // Clear the queue
     pushEventsQueue.value.forEach((event) => gtm?.push(event))
     trackEventsQueue.value.forEach((event) => gtm?.trackEvent(event))
