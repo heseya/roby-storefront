@@ -4,7 +4,7 @@
       class="carousel-banner__slider"
       :slides-per-view="1"
       :loop="true"
-      :modules="[SwiperAutoplay, SwiperPagination]"
+      :modules="[SwiperAutoplay]"
       :autoplay="{
         delay: 6000,
         disableOnInteraction: true,
@@ -25,14 +25,15 @@
           />
         </div>
       </SwiperSlide>
+
       <template #container-start>
-        <LazyLayoutCarouselButton
+        <LayoutCarouselButton
           always-visible
           class="carousel-banner__button carousel-banner__button--prev"
         />
       </template>
       <template #container-end>
-        <LazyLayoutCarouselButton
+        <LayoutCarouselButton
           always-visible
           next
           class="carousel-banner__button"
