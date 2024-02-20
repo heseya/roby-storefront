@@ -1,7 +1,10 @@
 <template>
-  <IntegrationEkomiWidget v-if="ekomiCustomerId" :token="props.token" :delay-time="1000">
-    <div v-html="html"></div>
-  </IntegrationEkomiWidget>
+  <IntegrationEkomiWidget
+    v-if="ekomiCustomerId"
+    :token="props.token"
+    :delay-time="1000"
+    :content-html="html"
+  />
 </template>
 
 <script setup lang="ts">
@@ -20,6 +23,6 @@ const html = computed(
 </script>
 
 <style lang="scss" scoped>
-.ekomi-widget-container {
+.tmp {
 }
 </style>
