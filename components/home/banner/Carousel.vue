@@ -133,7 +133,7 @@ const mediaList = computed(() => props.banner?.banner_media)
     }
 
     @media ($max-viewport-10) {
-      display: none;
+      display: none !important;
     }
   }
 }
