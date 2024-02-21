@@ -12,6 +12,7 @@
         <div
           class="carousel__content-container"
           :class="{ 'carousel__content-container--visible': isVisible }"
+          :style="{ '--space-between': `${spaceBetween / 2}px` }"
         >
           <slot name="item" v-bind="item" />
         </div>
@@ -96,11 +97,15 @@ withDefaults(
     justify-content: center;
     align-items: center;
 
-    opacity: 0;
+    // opacity: 0;
     transition: opacity 200ms ease-in-out;
 
-    &--visible {
-      opacity: 100%;
+    > :deep(*) {
+      margin: 0 var(--space-between);
+    }
+
+    &--visible > :deep(*) {
+      margin: 0;
     }
   }
 }

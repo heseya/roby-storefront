@@ -1,10 +1,10 @@
 <template>
-  <HomeBannerCarousel
+  <LazyHomeBannerCarousel
     v-if="bannerType === BannerType.Carousel"
     :banner="banner"
     :gradient="isGradient"
   />
-  <HomeBannerStatic v-else :banner="banner" :gradient="isGradient" />
+  <LazyHomeBannerStatic v-else :banner="banner" :gradient="isGradient" />
 </template>
 
 <script lang="ts" setup>

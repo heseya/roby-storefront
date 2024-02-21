@@ -53,6 +53,7 @@ const props = withDefaults(
     media?: CdnMedia | null
     alt?: string
     loading?: 'lazy' | 'eager'
+    fetchpriority?: 'high' | 'low' | 'auto'
     objectFit?: string
     objectPosition?: string
     width?: string | number
@@ -67,6 +68,7 @@ const props = withDefaults(
     media: null,
     alt: '',
     loading: 'lazy',
+    fetchpriority: 'auto',
     objectFit: 'contain',
     objectPosition: 'center',
     width: undefined,

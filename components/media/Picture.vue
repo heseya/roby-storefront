@@ -12,8 +12,13 @@
     <img
       :src="baseUrl"
       :alt="alt"
-      :class="`hs-picture__img hs-picture__img--fit-${objectFit} hs-picture__img--position-${objectPosition}`"
+      :class="[
+        `hs-picture__img`,
+        `hs-picture__img--fit-${objectFit}`,
+        `hs-picture__img--position-${objectPosition}`,
+      ]"
       :loading="loading"
+      :fetchpriority="fetchpriority"
       @error="handleError"
     />
   </picture>
@@ -29,6 +34,7 @@ const props = withDefaults(
     objectFit?: string
     alt?: string
     loading?: 'lazy' | 'eager'
+    fetchpriority?: 'high' | 'low' | 'auto'
     placeholderClassName?: string
   }>(),
   {
@@ -38,6 +44,7 @@ const props = withDefaults(
     objectFit: 'cover',
     alt: '',
     loading: 'lazy',
+    fetchpriority: 'auto',
     placeholderClassName: '',
   },
 )
@@ -47,6 +54,20 @@ const emit = defineEmits<{
 
 const isError = ref(false)
 
+const createUrlWithSize = (base: string, width?: number | string, height?: number | string) => {
+  const url = new URL(base)
+  if (width) url.searchParams.append('w', width.toString())
+  if (height) url.searchParams.append('h', height.toString())
+  return url.toString()
+}
+
+const creatrUrlWithFormat = (baseUrl: string, format: string) => {
+  if (!baseUrl) return ''
+  const url = new URL(baseUrl)
+  url.searchParams.append('format', format)
+  return url.toString()
+}
+
 const baseUrl = computed(() => {
   if (!props.src) return undefined
 
@@ -55,16 +76,11 @@ const baseUrl = computed(() => {
   if (props.width) url.searchParams.append('w', props.width.toString())
   if (props.height) url.searchParams.append('h', props.height.toString())
 
-  return url.toString()
+  return createUrlWithSize(props.src, props.width, props.height)
 })
 
 const useFormatedUrl = (format: string) =>
-  computed(() => {
-    if (!baseUrl.value) return ''
-    const url = new URL(baseUrl.value)
-    url.searchParams.append('format', format)
-    return url.toString()
-  })
+  computed(() => (baseUrl.value ? creatrUrlWithFormat(baseUrl.value, format) : ''))
 
 const jpegUrl = useFormatedUrl('jpeg')
 const webpUrl = useFormatedUrl('webp')

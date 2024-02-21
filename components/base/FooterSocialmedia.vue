@@ -8,6 +8,7 @@
         src="@/assets/icons/social/***REMOVED***.svg"
         alt="Hammer logo"
         class="footer-socialmedia__main-icon"
+        loading="lazy"
       />
       <a
         v-for="[name, url] in ***REMOVED***SocialUrls"
@@ -16,7 +17,12 @@
         rel="nofollow noreferrer"
         :href="url"
       >
-        <img :src="ICONS[name]" :alt="t(`go_to_${name}`)" class="footer-socialmedia__icon" />
+        <img
+          :src="ICONS[name]"
+          :alt="t(`go_to_${name}`)"
+          class="footer-socialmedia__icon"
+          loading="lazy"
+        />
       </a>
     </div>
     <div v-if="***REMOVED***SocialUrls.length > 0" class="footer-socialmedia__section">
@@ -24,6 +30,7 @@
         src="@/assets/icons/social/***REMOVED***.svg"
         alt="myPhone logo"
         class="footer-socialmedia__main-icon"
+        loading="lazy"
       />
       <a
         v-for="[name, url] in ***REMOVED***SocialUrls"
@@ -32,7 +39,12 @@
         rel="nofollow noreferrer"
         :href="url"
       >
-        <img :src="ICONS[name]" :alt="t(`go_to_${name}`)" class="footer-socialmedia__icon" />
+        <img
+          :src="ICONS[name]"
+          :alt="t(`go_to_${name}`)"
+          class="footer-socialmedia__icon"
+          loading="lazy"
+        />
       </a>
     </div>
     <div v-if="***REMOVED***SocialUrls.length > 0" class="footer-socialmedia__section">
@@ -40,6 +52,7 @@
         src="@/assets/icons/social/***REMOVED***.svg"
         alt="Techbite logo"
         class="footer-socialmedia__main-icon"
+        loading="lazy"
       />
       <a
         v-for="[name, url] in ***REMOVED***SocialUrls"
@@ -48,7 +61,12 @@
         rel="nofollow noreferrer"
         :href="url"
       >
-        <img :src="ICONS[name]" :alt="t(`go_to_${name}`)" class="footer-socialmedia__icon" />
+        <img
+          :src="ICONS[name]"
+          :alt="t(`go_to_${name}`)"
+          class="footer-socialmedia__icon"
+          loading="lazy"
+        />
       </a>
     </div>
   </div>

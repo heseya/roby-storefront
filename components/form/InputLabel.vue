@@ -18,7 +18,3 @@ const props = withDefaults(
   },
 )
 </script>
-
-<style lang="scss" scoped>
-@import '@/assets/scss/components/input.scss';
-</style>

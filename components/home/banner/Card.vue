@@ -14,7 +14,8 @@
         :media="m.media"
         class="card__image"
         :height="height"
-        loading="eager"
+        :loading="loading"
+        :fetchpriority="loading === 'eager' ? 'high' : 'auto'"
       />
       <LayoutHeader v-show="subtitle" class="card__subtitle">
         {{ subtitle }}
@@ -40,8 +41,9 @@ const props = withDefaults(
     centered?: boolean
     height?: number
     gradient?: boolean
+    loading?: 'lazy' | 'eager'
   }>(),
-  { titleTag: 'span', subtitle: '', link: '', height: 580, gradient: false },
+  { titleTag: 'span', subtitle: '', link: '', height: 580, gradient: false, loading: 'lazy' },
 )
 
 useMediaQueriesForMediaBanners(props.media)

@@ -1,8 +1,8 @@
 <template>
   <div class="input input--select" :class="`input--${type}`">
-    <FormInputLabel v-if="label" :uppercase="labelUppercase" :for="name" class="input__label">
+    <LazyFormInputLabel v-if="label" :uppercase="labelUppercase" :for="name" class="input__label">
       {{ label }} <span v-if="isRequired && label" class="input__required-star">*</span>
-    </FormInputLabel>
+    </LazyFormInputLabel>
     <select
       :id="name"
       v-model="innerValue"
@@ -66,7 +66,3 @@ watch(
   () => validate(),
 )
 </script>
-
-<style lang="scss" scoped>
-@import '@/assets/scss/components/input.scss';
-</style>

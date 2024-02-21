@@ -165,6 +165,7 @@ export default {
     VALIDATION_STREET_NUMBER: 'Adres musi zawierać nazwę ulicy oraz numer domu.',
     VALIDATION_PRODUCT_SCHEMA_OPTION:
       'Wybrana konfiguracja produktów jest nieprawidłowa. Usuń produkty z koszyka i dodaj je ponownie.',
+    VALIDATION_EMAIL_TAKEN: 'Podany adres e-mail jest już zajęty.',
 
     UNPROCESSABLE_ENTITY: 'Błąd walidacji.',
 

@@ -200,14 +200,14 @@ const visibleTab = ref('required')
 }
 
 .cookies-bar {
-  height: 100vh;
+  height: 60vh;
   width: 100vw;
   background-color: #fff;
   position: fixed;
   left: 0;
   bottom: 0;
   z-index: 10000;
-  padding: 24px 12px 280px;
+  padding: 24px 12px 165px;
   overflow: auto;
   // --text-font-family: Arial, Helvetica, sans-serif;
   // font-family: Arial, Helvetica, sans-serif;
@@ -256,6 +256,10 @@ const visibleTab = ref('required')
     grid-template-columns: 1fr;
     gap: 8px;
     margin-top: 20px;
+
+    // * {
+    //   font-weight: 600;
+    // }
 
     @media ($viewport-5) {
       gap: 16px;

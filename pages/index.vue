@@ -1,13 +1,13 @@
 <template>
   <NuxtLayout>
     <div class="index-page">
-      <HomeBanner
+      <LazyHomeBanner
         v-if="data?.mainBanner && data?.mainBanner.active"
         class="index-page__banner"
         :banner="data?.mainBanner"
       />
 
-      <HomeBannerSecondary
+      <LazyHomeBannerSecondary
         v-if="data?.secondaryBanner && data?.secondaryBanner.active"
         class="index-page__banner-cards"
         :banner="data?.secondaryBanner"
@@ -17,13 +17,13 @@
         v-for="section in sections"
         :key="section.type === 'box' ? section.data.text : section.data.id"
       >
-        <BaseContainer
+        <LazyBaseContainer
           class="index-page__content"
           :class="{ 'index-page__content--wide': section.type === 'box' }"
         >
-          <HomeWysiwygContent v-if="section.type === 'page'" :page-id="section.data.id" />
+          <LazyHomeWysiwygContent v-if="section.type === 'page'" :page-id="section.data.id" />
 
-          <HomeProductCarousel
+          <LazyHomeProductCarousel
             v-if="section.type === 'set'"
             :category="section.data"
             :hide-unavailable="hideUnavailableOnHomepage"
@@ -31,10 +31,10 @@
           />
 
           <LazyHomeLinkBox v-if="section.type === 'box'" :link="section.data" />
-        </BaseContainer>
+        </LazyBaseContainer>
       </template>
 
-      <BaseContainer class="index-page__content">
+      <LazyBaseContainer class="index-page__content">
         <LazyHomeBlogArticlesList />
 
         <LazyHomeWhyUs />
@@ -51,7 +51,7 @@
           :image-height="banner.metadata.image_height?.toString()"
           :image-width="banner.metadata.image_width?.toString()"
         />
-      </BaseContainer>
+      </LazyBaseContainer>
     </div>
   </NuxtLayout>
 </template>

@@ -4,7 +4,7 @@
       class="carousel-banner__slider"
       :slides-per-view="1"
       :loop="true"
-      :modules="[SwiperAutoplay, SwiperPagination]"
+      :modules="[SwiperAutoplay]"
       :autoplay="{
         delay: 6000,
         disableOnInteraction: true,
@@ -12,7 +12,7 @@
     >
       <SwiperSlide v-for="(item, index) in mediaList" :key="index">
         <div class="carousel-banner__slide">
-          <HomeBannerCard
+          <LazyHomeBannerCard
             :title="item.title"
             :subtitle="item.subtitle"
             :link="item.url"
@@ -21,9 +21,11 @@
             :title-tag="index === 0 ? 'h1' : 'h2'"
             :height="480"
             :gradient="gradient"
+            :loading="index === 0 ? 'eager' : 'lazy'"
           />
         </div>
       </SwiperSlide>
+
       <template #container-start>
         <LayoutCarouselButton
           always-visible
@@ -131,7 +133,7 @@ const mediaList = computed(() => props.banner?.banner_media)
     }
 
     @media ($max-viewport-10) {
-      display: none;
+      display: none !important;
     }
   }
 }
