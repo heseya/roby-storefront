@@ -1,7 +1,7 @@
 <template>
   <LayoutCarousel :items="products" :space-between="spaceBetween">
     <template #item="product">
-      <ProductMiniature :product="product" force-size />
+      <LazyProductMiniature :product="product" force-size />
     </template>
   </LayoutCarousel>
 </template>

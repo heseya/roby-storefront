@@ -4,11 +4,11 @@
 
     <LayoutThemeContext>
       <NuxtLoadingIndicator />
-      <ShopOff v-if="isShopDisabled" />
+      <LazyShopOff v-if="isShopDisabled" />
       <NuxtPage v-else />
 
       <ClientOnly>
-        <CartUnavailableModal />
+        <LazyCartUnavailableModal />
         <Notifications class="notifications" position="bottom right" />
       </ClientOnly>
 
@@ -58,6 +58,11 @@ useHead({
   ],
   script: [...(seo.value.header_tags?.filter((tag) => tag.type === 'script') || [])],
 })
+
+delayedOnMounted(() => {
+  const { $enableGtm } = useNuxtApp()
+  $enableGtm()
+}, 3000)
 </script>
 
 <style lang="scss" scoped>

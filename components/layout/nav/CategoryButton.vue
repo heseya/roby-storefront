@@ -3,8 +3,14 @@
     v-if="mobile"
     :link="link"
     :highlighted="isProductSetHighlighted(category)"
+    @mouseenter="fetchSubcategories"
   />
-  <LayoutNavButton v-else :link="link" :highlighted="isProductSetHighlighted(category)" />
+  <LayoutNavButton
+    v-else
+    :link="link"
+    :highlighted="isProductSetHighlighted(category)"
+    @mouseenter="fetchSubcategories"
+  />
 </template>
 
 <script lang="ts" setup>
@@ -24,10 +30,14 @@ const props = withDefaults(
 const categoriesStore = useCategoriesStore()
 
 const subcategories = ref<ProductSetList[]>([])
+const subcategoriesFetched = ref(false)
 
-delayedOnMounted(async () => {
+const fetchSubcategories = async () => {
   subcategories.value = await categoriesStore.getSubcategories(props.category.id)
-})
+  subcategoriesFetched.value = true
+}
+
+delayedOnMounted(fetchSubcategories, 3000)
 
 const link = computed<NavLink>(() => ({
   text: props.category.name,

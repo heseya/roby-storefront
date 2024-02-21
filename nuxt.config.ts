@@ -24,6 +24,8 @@ const {
   EKOMI_REVIEWS_TOKEN,
   EKOMI_SURVEY_FORM_ID,
   GOOGLE_SITE_VERIFICATION,
+  NUXT_PUBLIC_GOOGLE_ANALYTICS_ID,
+  NUXT_PUBLIC_GOOGLE_ADS_ID,
   COLOR_THEME_PICKER,
   AXIOS_CACHE_TTL,
 
@@ -93,6 +95,7 @@ export default defineNuxtConfig({
         {
           hid: 'polyfill',
           defer: true,
+          fetchpriority: 'low',
           src: 'https://polyfill.io/v3/polyfill.min.js?features=Intl.NumberFormat%2CIntl.PluralRules.~locale.pl',
         },
       ],
@@ -107,7 +110,7 @@ export default defineNuxtConfig({
     },
   },
 
-  css: ['@/assets/scss/index.scss'],
+  css: ['@/assets/scss/index.scss', '@/assets/scss/components/_input.scss'],
 
   runtimeConfig: {
     mailHost: MAIL_HOST,
@@ -127,6 +130,8 @@ export default defineNuxtConfig({
       isProduction,
       recaptchaPublic: RECAPTCHA_PUBLIC,
       googleTagManagerId: GOOGLE_TAG_MANAGER_ID,
+      googleAnalyticsId: NUXT_PUBLIC_GOOGLE_ANALYTICS_ID,
+      googleAdsId: NUXT_PUBLIC_GOOGLE_ADS_ID,
       ceneoGuid: CENEO_GUID,
       leaslinkId: LEASLINK_ID,
       callpageId: CALLPAGE_ID,
@@ -235,7 +240,7 @@ export default defineNuxtConfig({
   },
 
   swiper: {
-    modules: ['pagination', 'navigation', 'autoplay'],
+    modules: ['autoplay'],
   },
 
   // routeRules: {

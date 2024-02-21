@@ -1,7 +1,7 @@
 <template>
   <footer class="footer">
     <div class="footer__content">
-      <BaseFooterSection
+      <LazyBaseFooterSection
         v-for="section in SECTIONS_COUNT"
         :key="section"
         class="footer__section"
@@ -15,7 +15,7 @@
         >
           {{ page.name }}
         </NuxtLink>
-      </BaseFooterSection>
+      </LazyBaseFooterSection>
 
       <div class="footer__section footer__section--main">
         <img
@@ -92,7 +92,7 @@
       </div>
     </div>
 
-    <BaseFooterSocialmedia />
+    <LazyBaseFooterSocialmedia />
   </footer>
 </template>
 

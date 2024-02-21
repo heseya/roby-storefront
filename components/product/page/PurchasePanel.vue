@@ -4,7 +4,7 @@
     :class="{ 'product-purchase-panel--no-schemas': !product.has_schemas }"
   >
     <div v-if="product.available" class="product-purchase-panel__price">
-      <LayoutLoading :active="pending" />
+      <LazyLayoutLoading :active="pending" />
       <span class="product-price" :class="{ 'product-price--discounted': price !== originalPrice }">
         {{ formatAmount(price, currency) }}
       </span>
@@ -49,7 +49,7 @@
 
     <div class="product-purchase-panel__detail"><DeliveryIcon /> {{ availability }}</div>
   </div>
-  <UpsellModal
+  <LazyProductPageUpsellModal
     v-model:open="upsellVisible"
     :product="product"
     :price="price"
@@ -91,7 +91,6 @@ import { parseSchemasToValues } from '@heseya/store-core'
 import type { CartItemSchema, Product } from '@heseya/store-core'
 
 import DeliveryIcon from '@/assets/icons/delivery.svg?component'
-import UpsellModal from '~/components/product/page/UpsellModal.vue'
 
 const props = withDefaults(
   defineProps<{

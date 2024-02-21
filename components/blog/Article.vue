@@ -6,7 +6,7 @@
       <article class="blog-page">
         <h1 class="blog-page__title">{{ translatedArticle?.title }}</h1>
         <div v-if="!article?.hide_cover" class="blog-page__img">
-          <img :src="coverUrl || imageUrl" :alt="translatedArticle?.description" />
+          <img :src="coverUrl || imageUrl" :alt="translatedArticle?.description" loading="lazy" />
         </div>
         <div class="blog-page__info">
           <div class="blog-page__tags">

@@ -1,6 +1,6 @@
 <template>
   <SmartLink :to="link.link || ''" class="link-box">
-    <Media
+    <LazyMedia
       v-for="m in link.media"
       :key="m.media.id"
       :media="m.media"
@@ -9,9 +9,9 @@
       object-fit="cover"
     />
 
-    <LayoutHeader class="link-box__header" tag="h2">{{ link.text }}</LayoutHeader>
+    <LazyLayoutHeader class="link-box__header" tag="h2">{{ link.text }}</LazyLayoutHeader>
 
-    <LayoutButton
+    <LazyLayoutButton
       v-if="link.linkText"
       class="link-box__btn"
       :label="link.linkText"

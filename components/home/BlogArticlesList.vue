@@ -5,12 +5,12 @@
         <LayoutHeader class="blog-articles__title" variant="black" tag="h2">
           {{ $t('breadcrumbs.blog') }}
         </LayoutHeader>
-        <HomeShowAllButton path="/blog" />
+        <LazyHomeShowAllButton path="/blog" />
       </div>
     </BaseContainer>
     <div class="blog-articles__list-container">
       <div class="blog-articles__list">
-        <BlogArticleTile
+        <LazyBlogArticleTile
           v-for="article in articles?.data || []"
           :key="article.id"
           :article="article"
