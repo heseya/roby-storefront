@@ -15,6 +15,7 @@
         class="card__image"
         :height="height"
         :loading="loading"
+        :fetchpriority="loading === 'eager' ? 'high' : 'auto'"
       />
       <LayoutHeader v-show="subtitle" class="card__subtitle">
         {{ subtitle }}

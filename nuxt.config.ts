@@ -93,6 +93,7 @@ export default defineNuxtConfig({
         {
           hid: 'polyfill',
           defer: true,
+          fetchpriority: 'low',
           src: 'https://polyfill.io/v3/polyfill.min.js?features=Intl.NumberFormat%2CIntl.PluralRules.~locale.pl',
         },
       ],
@@ -248,7 +249,7 @@ export default defineNuxtConfig({
   },
 
   swiper: {
-    modules: ['pagination', 'navigation', 'autoplay'],
+    modules: ['autoplay'],
   },
 
   // routeRules: {

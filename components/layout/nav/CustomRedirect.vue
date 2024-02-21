@@ -11,6 +11,7 @@
       :src="redirect.icon"
       role="presentation"
       class="nav-custom-redirect__icon"
+      loading="lazy"
     />
     <span class="nav-custom-redirect__text">{{ redirect.text }}</span>
   </a>

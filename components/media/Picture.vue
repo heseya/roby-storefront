@@ -18,6 +18,7 @@
         `hs-picture__img--position-${objectPosition}`,
       ]"
       :loading="loading"
+      :fetchpriority="fetchpriority"
       @error="handleError"
     />
   </picture>
@@ -33,6 +34,7 @@ const props = withDefaults(
     objectFit?: string
     alt?: string
     loading?: 'lazy' | 'eager'
+    fetchpriority?: 'high' | 'low' | 'auto'
     placeholderClassName?: string
   }>(),
   {
@@ -42,6 +44,7 @@ const props = withDefaults(
     objectFit: 'cover',
     alt: '',
     loading: 'lazy',
+    fetchpriority: 'auto',
     placeholderClassName: '',
   },
 )

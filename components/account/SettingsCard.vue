@@ -8,11 +8,11 @@
 
       <div class="settings-card__row settings-card__row--small">
         <p v-if="user?.phone">
-          <img :src="PhoneIcon" class="settings-card__icon" />
+          <img :src="PhoneIcon" class="settings-card__icon" loading="lazy" />
           {{ user?.phone }}
         </p>
         <p v-if="user?.birthday_date">
-          <img :src="CalendarIcon" class="settings-card__icon" />
+          <img :src="CalendarIcon" class="settings-card__icon" loading="lazy" />
           {{ user?.birthday_date }}
         </p>
       </div>
