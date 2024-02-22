@@ -38,8 +38,13 @@
           <CheckoutInpostSelect
             v-if="method.shipping_type === ShippingType.PointExternal && method.metadata.paczkomat"
           />
-          <CheckoutDpdSelect
+          <CheckoutFurgonetkaSelect
             v-if="method.shipping_type === ShippingType.PointExternal && method.metadata.dpd_pickup"
+            provider="dpd"
+          />
+          <CheckoutFurgonetkaSelect
+            v-if="method.shipping_type === ShippingType.PointExternal && method.metadata.dhl_pickup"
+            provider="dhl"
           />
           <CheckoutFormShippingPointSelect
             v-if="method.shipping_type === ShippingType.Point"

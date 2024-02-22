@@ -5,6 +5,10 @@
 <script setup lang="ts">
 import type { Furgonetka } from '@/interfaces/Furgonetka'
 
+const props = defineProps<{
+  provider: 'dhl' | 'dpd'
+}>()
+
 const emit = defineEmits<{
   (event: 'select', point: Furgonetka): void
   (event: 'close'): void
@@ -24,7 +28,7 @@ const mapWidget = ref<any>(null)
 
 onMounted(() => {
   mapWidget.value = new window.Furgonetka.Map({
-    courierServices: ['dpd'],
+    courierServices: [props.provider],
     callback: selectCallback,
     closeModalCallback: closeCallback,
   }).show()

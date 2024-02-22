@@ -65,6 +65,15 @@ export const useCheckoutStore = defineStore('checkout', {
         })
       }
 
+      // TODO: this needs to be handled via baselinker
+      if (this.isDhlShippingMethod) {
+        Object.assign(res, {
+          dhl_phone: this.shippingAddress.phone,
+          dhl_point: this.orderShippingPlace as string,
+          dhl_point_address: this.furgonetka?.name,
+        })
+      }
+
       if (ceneoEnabled && this.consents.ceneo) {
         Object.assign(res, {
           ceneo_survey_consent: this.consents.ceneo,
@@ -113,6 +122,13 @@ export const useCheckoutStore = defineStore('checkout', {
       return !!(
         this.shippingMethod?.shipping_type === ShippingType.PointExternal &&
         this.shippingMethod?.metadata.dpd_pickup
+      )
+    },
+
+    isDhlShippingMethod(): boolean {
+      return !!(
+        this.shippingMethod?.shipping_type === ShippingType.PointExternal &&
+        this.shippingMethod?.metadata.dhl_pickup
       )
     },
 
