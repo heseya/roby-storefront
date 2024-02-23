@@ -32,6 +32,10 @@ watch(
         const imgSrc = img.getAttribute('src')
         if (!imgSrc) return
 
+        const allowedExtensions = ['jpg', 'jpeg', 'png', 'webp']
+        const extension = imgSrc.split('.').pop()
+        if (!extension || !allowedExtensions.includes(extension)) return
+
         const imgUrl = new URL(imgSrc)
 
         if (!imgUrl.searchParams.get('w')) imgUrl.searchParams.set('w', '800')
