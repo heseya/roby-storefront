@@ -20,22 +20,19 @@
             />
           </CheckoutPersonalData>
 
-          <!--@TODO Check why form data is cleared when this element is not available-->
-          <KeepAlive>
-            <CheckoutRegisterForm
-              v-if="!isLogged && wantCreateAccount"
-              v-model:consents="registerForm.values.consents"
-              :name="registerForm.values.name"
-              :surname="registerForm.values.surname"
-              :password="registerForm.values.password"
-              :confirm-password="registerForm.values.confirmPassword"
-              @update="updateRegisterForm"
-            >
-              <LayoutInfoBox v-if="registerErrorMessage" type="danger">
-                {{ registerErrorMessage }}
-              </LayoutInfoBox>
-            </CheckoutRegisterForm>
-          </KeepAlive>
+          <CheckoutRegisterForm
+            v-if="!isLogged && wantCreateAccount"
+            v-model:consents="registerForm.values.consents"
+            :name="registerForm.values.name"
+            :surname="registerForm.values.surname"
+            :password="registerForm.values.password"
+            :confirm-password="registerForm.values.confirmPassword"
+            @update="updateRegisterForm"
+          >
+            <LayoutInfoBox v-if="registerErrorMessage" type="danger">
+              {{ registerErrorMessage }}
+            </LayoutInfoBox>
+          </CheckoutRegisterForm>
         </form>
 
         <CheckoutShippingMethods />
