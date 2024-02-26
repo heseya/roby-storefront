@@ -38,6 +38,7 @@
         :model-value="address.address"
         :name="`${namePrefix}_address`"
         rules="required"
+        autocomplete="address-line1"
         :label="t('address')"
         :disabled="disabled"
         @update:model-value="update('address', $event as string)"

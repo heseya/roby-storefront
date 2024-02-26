@@ -4,16 +4,16 @@
       <FormInput
         :model-value="name"
         :label="$t('form.name')"
-        autocomplete="name"
-        name="name"
+        autocomplete="given-name"
+        name="given-name"
         rules="alpha|required"
         @update:model-value="emit('update', { key: 'name', value: $event as string })"
       />
       <FormInput
         :model-value="surname"
         :label="$t('form.surname')"
-        autocomplete="surname"
-        name="surname"
+        autocomplete="family-name"
+        name="family-name"
         rules="alpha|required"
         @update:model-value="emit('update', { key: 'surname', value: $event as string })"
       />
@@ -27,7 +27,7 @@
       <FormInputPassword
         :model-value="confirmPassword"
         :label="$t('form.confirmPassword')"
-        autocomplete="confirmPassword"
+        autocomplete="confirm-password"
         name="confirmPassword"
         rules="confirmedPassword:@password|required"
         @update:model-value="emit('update', { key: 'confirmPassword', value: $event as string })"
