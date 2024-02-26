@@ -143,6 +143,7 @@ export default defineNuxtConfig({
       ekomiSurveyFormId: EKOMI_SURVEY_FORM_ID,
       showColorThemePicker: COLOR_THEME_PICKER === '1',
       axiosCacheTtl: parseInt(AXIOS_CACHE_TTL || '0') ?? 0,
+      i18nDefaultLocale: DEFAULT_LANGUAGE,
       sentry: {
         dsn: NUXT_PUBLIC_SENTRY_DSN,
         environment: NUXT_PUBLIC_SENTRY_ENVIRONMENT,
@@ -199,7 +200,7 @@ export default defineNuxtConfig({
     autoI18n: true,
     autoLastmod: false,
     cacheTtl: 1000 * 60 * 15,
-    _route: '_sitemap-urls',
+    sources: ALLOWED_UI_LANGUAGES.map((lang) => `/api/__sitemap__?language=${lang}`),
   },
 
   googleFonts: {

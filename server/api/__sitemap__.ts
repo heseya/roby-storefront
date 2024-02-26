@@ -57,7 +57,12 @@ export default defineEventHandler(async (event): Promise<SitemapEntry[]> => {
   // @ts-ignore Docs suggest to pass event to useRuntimeConfig, but it's not typed? https://nuxt.com/docs/guide/going-further/runtime-config#server-routes
   const config = useRuntimeConfig(event)
 
-  const sdk = createHeseyaApiService(axios.create({ baseURL: config.public.apiUrl }))
+  const { language } = getQuery<{ language: string }>(event)
+  const langPrefix = language === config.public.i18nDefaultLocale ? '' : `/${language}`
+
+  const sdk = createHeseyaApiService(
+    axios.create({ baseURL: config.public.apiUrl, headers: { 'Accept-Language': language } }),
+  )
   const directus = new Directus<DirectusCollections>(config.public.directusUrl || '')
 
   const [products, productSets, pages, blogPosts] = await Promise.all([
@@ -68,9 +73,9 @@ export default defineEventHandler(async (event): Promise<SitemapEntry[]> => {
   ])
 
   return [
-    ...products.map((e) => ({ loc: `/product/${e.slug}`, lastmod: '' })),
-    ...productSets.map((e) => ({ loc: `/category/${e.slug}`, lastmod: '' })),
-    ...pages.map((e) => ({ loc: `/${e.slug}`, lastmod: '' })),
-    ...blogPosts.map((e) => ({ loc: `/${e.slug}`, lastmod: '' })),
+    ...products.map((e) => ({ loc: `${langPrefix}/product/${e.slug}`, lastmod: '' })),
+    ...productSets.map((e) => ({ loc: `${langPrefix}/category/${e.slug}`, lastmod: '' })),
+    ...pages.map((e) => ({ loc: `${langPrefix}/${e.slug}`, lastmod: '' })),
+    ...blogPosts.map((e) => ({ loc: `${langPrefix}/${e.slug}`, lastmod: '' })),
   ]
 })
