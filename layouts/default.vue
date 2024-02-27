@@ -16,10 +16,12 @@
 
       <LazyLayoutBreadcrumps />
     </div>
+
     <div class="site__footer">
       <LazyNewsletterForm />
       <LazyBaseFooter />
     </div>
+
     <LazyBaseCookiesBar v-if="isShowCookies" />
   </div>
 </template>
