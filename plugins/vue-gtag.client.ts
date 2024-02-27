@@ -29,7 +29,7 @@ const useGtagCookieWatch = (cookieKey: string, gtagKey: string, track: (data: ob
 }
 
 export default defineNuxtPlugin((nuxtApp) => {
-  const { googleTagManagerId, isProduction, appHost } = usePublicRuntimeConfig()
+  const { googleTagManagerId, isProduction, i18n } = usePublicRuntimeConfig()
   if (!googleTagManagerId) return
 
   nuxtApp.vueApp.use(
@@ -188,7 +188,7 @@ export default defineNuxtPlugin((nuxtApp) => {
       event: 'purchase',
       ecommerce: {
         transaction_id: order.code,
-        affiliation: appHost,
+        affiliation: i18n.baseUrl,
         currency: channelStore.currency,
         shipping_tier: order.shipping_method?.name,
         // @ts-expect-error payment_method does not exists on Order type, but it is passed in event
