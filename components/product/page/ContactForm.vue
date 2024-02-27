@@ -57,7 +57,7 @@
       :name="`${type}_consent`"
       rules="required"
     >
-      {{ t('consent', { companyName }) }}
+      {{ constentContent }}
     </FormCheckbox>
 
     <LayoutButton :disabled="isLoading" html-type="submit" class="product-contact-form__btn">
@@ -108,6 +108,7 @@ const props = withDefaults(
   },
 )
 
+const i18n = useI18n()
 const t = useLocalI18n()
 const $t = useGlobalI18n()
 const { notify } = useNotify()
@@ -128,6 +129,12 @@ const form = useForm({
 })
 
 const companyName = computed(() => config.env.company_name)
+
+const constentContent = computed(
+  () =>
+    config.env[`contact_form_consent_${i18n.locale.value}`] ||
+    t('consent', { companyName: companyName.value }),
+)
 
 const onSubmit = form.handleSubmit(async () => {
   isLoading.value = true
