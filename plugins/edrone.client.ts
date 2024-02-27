@@ -14,7 +14,7 @@ export default defineNuxtPlugin(() => {
 (function (srcjs) {
   window._edrone = window._edrone || {};
   _edrone.app_id = '${config.edroneId}';
-  _edrone.platform = '${config.appHost}';
+  _edrone.platform = '${config.i18n.baseUrl}';
   var doc = document.createElement('script');
   doc.type = 'text/javascript';
   doc.async = true;
@@ -55,7 +55,7 @@ export default defineNuxtPlugin(() => {
       product_ids: product.id,
       product_titles: product.name,
       product_images: product.gallery.map((image) => image.url).join('|'),
-      product_urls: `${config.appHost}/product/${product.slug}}`,
+      product_urls: `${config.i18n.baseUrl}/product/${product.slug}}`,
       product_availability: product.available ? 1 : 0,
       product_category_ids: product.sets.map((set) => set.id).join('|'),
       product_category_names: product.sets.map((set) => set.name).join('|'),
@@ -74,7 +74,7 @@ export default defineNuxtPlugin(() => {
       product_titles: product.name,
       product_images:
         'gallery' in product ? product.gallery.map((image: any) => image.url).join('|') : '',
-      product_urls: `${config.appHost}/product/${product.slug}}`,
+      product_urls: `${config.i18n.baseUrl}/product/${product.slug}}`,
       product_availability: product.available ? 1 : 0,
       product_category_ids:
         'sets' in product ? product.sets.map((set: any) => set.id).join('|') : '',
@@ -104,7 +104,7 @@ export default defineNuxtPlugin(() => {
       product_titles: order.products.map((item) => item.name).join('|'),
       product_images: order.products.map((item) => item.product.cover?.url).join('|'),
       product_urls: order.products
-        .map((item) => `${config.appHost}/product/${item.product.slug}}`)
+        .map((item) => `${config.i18n.baseUrl}/product/${item.product.slug}}`)
         .join('|'),
       product_category_ids: order.products
         .flatMap((item) => item.product.sets.map((set) => set.id))

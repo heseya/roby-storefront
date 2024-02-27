@@ -58,7 +58,7 @@ export default defineEventHandler(async (event): Promise<SitemapEntry[]> => {
   const config = useRuntimeConfig(event)
 
   const { language } = getQuery<{ language: string }>(event)
-  const langPrefix = language === config.public.i18nDefaultLocale ? '' : `/${language}`
+  const langPrefix = language === config.public.i18n.defaultLocale ? '' : `/${language}`
 
   const sdk = createHeseyaApiService(
     axios.create({ baseURL: config.public.apiUrl, headers: { 'Accept-Language': language } }),
