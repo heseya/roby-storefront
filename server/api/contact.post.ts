@@ -41,10 +41,15 @@ export default defineEventHandler(async (event) => {
   // @ts-ignore Docs suggest to pass event to useRuntimeConfig, but it's not typed? https://nuxt.com/docs/guide/going-further/runtime-config#server-routes
   const config = useRuntimeConfig(event)
 
-  if (!config.mail.host || !config.mail.user || !config.mail.password || !config.public.appHost)
+  if (
+    !config.mail.host ||
+    !config.mail.user ||
+    !config.mail.password ||
+    !config.public.i18n.baseUrl
+  )
     // eslint-disable-next-line no-console
     console.warn(
-      '[Contact Form] Missing required env variables: MAIL_HOST, MAIL_USER, MAIL_PASSWORD, APP_HOST',
+      '[Contact Form] Missing required env variables: NUXT_MAIL_HOST, NUXT_MAIL_USER, NUXT_MAIL_PASSWORD, NUXT_PUBLIC_I18N_BASE_URL',
     )
 
   const { name, email, phone, message, type, product, recaptchaToken } = stripTags(
@@ -100,7 +105,7 @@ export default defineEventHandler(async (event) => {
       })
 
     const getContactMailReceiver = async (): Promise<string | undefined> => {
-      if (config.public.appHost?.includes('localhost')) return config.mail.receiver
+      if (config.public.i18n.baseUrl?.includes('localhost')) return config.mail.receiver
 
       const sdk = createHeseyaApiService(axios.create({ baseURL: config.public.apiUrl }))
       const settings = await sdk.Settings.get({ array: true })
@@ -119,7 +124,7 @@ export default defineEventHandler(async (event) => {
     await sendMail({
       from: `${name} <${config.mail.sender || config.mail.user}>`,
       to: mailReceiver,
-      subject: `${subject} | ${config.public.appHost}`,
+      subject: `${subject} | ${config.public.i18n.baseUrl}`,
       replyTo: email,
       text: `
       Wiadomość od ${name} \n
@@ -127,7 +132,7 @@ export default defineEventHandler(async (event) => {
       Telefon kontaktowy: ${phone || '-'}\n
       ${
         product
-          ? `Dotyczy produktu: ${product.name} (${config.public.appHost}/product/${product.slug}) \n\n`
+          ? `Dotyczy produktu: ${product.name} (${config.public.i18n.baseUrl}/product/${product.slug}) \n\n`
           : ''
       }
       ${message}
@@ -138,7 +143,7 @@ export default defineEventHandler(async (event) => {
       <p>Telefon kontaktowy: ${phone || '-'}</p>
       ${
         product
-          ? `<p>Dotyczy produktu: ${product.name} (<a href="${config.public.appHost}/product/${product.slug}">${config.public.appHost}/product/${product.slug}</a>)</p><br />`
+          ? `<p>Dotyczy produktu: ${product.name} (<a href="${config.public.i18n.baseUrl}/product/${product.slug}">${config.public.i18n.baseUrl}/product/${product.slug}</a>)</p><br />`
           : ''
       }
 

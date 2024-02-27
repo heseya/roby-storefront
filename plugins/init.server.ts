@@ -13,7 +13,7 @@ export default defineNuxtPlugin(async (nuxtApp) => {
   if (!runtimeConfig.apiUrl) console.error('NUXT_PUBLIC_API_URL env is not defined')
   if (!runtimeConfig.priceTrackerUrl)
     console.error('NUXT_PUBLIC_PRICE_TRACKER_URL env is not defined')
-  if (!runtimeConfig.appHost) console.error('NUXT_PUBLIC_APP_HOST env is not defined')
+  if (!runtimeConfig.i18n.baseUrl) console.error('NUXT_PUBLIC_I18N_BASE_URL env is not defined')
   if (!runtimeConfig.recaptchaPublic)
     console.error('NUXT_PUBLIC_RECAPTCHA_PUBLIC env is not defined')
 
