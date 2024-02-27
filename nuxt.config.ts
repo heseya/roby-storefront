@@ -197,14 +197,14 @@ export default defineNuxtConfig({
         CUSTOM_PAGE_NAMES.Rent,
       ]
 
-      const directusPagesEnabled = [
+      const directusPagesDisabled = [
         BUILD_PAGE_BLOG_PATH,
         BUILD_PAGE_CONTACT_PATH,
         BUILD_PAGE_ABOUT_PATH,
         BUILD_PAGE_RENT_PATH,
-      ].every((path) => path !== undefined && path !== '0')
+      ].every((path) => path === undefined || path === '' || path === '0')
 
-      if (!directusPagesEnabled) directusPageNames.forEach((name) => removePageByName(name, pages))
+      if (directusPagesDisabled) directusPageNames.forEach((name) => removePageByName(name, pages))
     },
   },
 
