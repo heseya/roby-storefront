@@ -88,21 +88,24 @@
               />
             </div>
 
-            <LazyProductPageCard
-              v-if="product?.metadata.allow_individual_offer"
-              :title="t('individualOffer')"
-            >
-              <LazyProductPageContactForm
+            <div v-if="product?.metadata.allow_individual_offer" class="product-page__form-wrapper">
+              <LazyProductPageCard
+                v-if="product?.metadata.allow_individual_offer"
+                class="product-page__individual-offer-form"
+                :title="t('individualOffer')"
+              >
+                <LazyProductPageContactForm
+                  :product="product"
+                  vertical
+                  type="offer"
+                  :action-text="t('individualOffer')"
+                />
+              </LazyProductPageCard>
+              <LazyProductPageAttributeCard
+                v-else-if="product && showAttributeCard"
                 :product="product"
-                vertical
-                type="offer"
-                :action-text="t('individualOffer')"
               />
-            </LazyProductPageCard>
-            <LazyProductPageAttributeCard
-              v-else-if="product && showAttributeCard"
-              :product="product"
-            />
+            </div>
           </div>
         </template>
 
@@ -342,6 +345,11 @@ useProductJsonLd(product)
 
   &__attachments {
     margin-top: 40px;
+  }
+
+  &__individual-offer-form {
+    position: sticky;
+    top: 190px;
   }
 }
 
