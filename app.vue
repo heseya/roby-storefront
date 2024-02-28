@@ -1,6 +1,6 @@
 <template>
   <Html :lang="i18nHead.htmlAttrs?.lang" :dir="i18nHead.htmlAttrs?.dir">
-    <IntegrationEkomiWidget :token="ekomi.popupToken" />
+    <IntegrationEkomiWidget :token="runtimeConfig.ekomi.popupToken" />
 
     <LayoutThemeContext>
       <NuxtLoadingIndicator />
@@ -20,8 +20,6 @@
 <script setup lang="ts">
 import { useConfigStore } from './store/config'
 
-const { showColorThemePicker, ekomi } = usePublicRuntimeConfig()
-
 const config = useConfigStore()
 const runtimeConfig = usePublicRuntimeConfig()
 const seo = toRef(config, 'seo')
@@ -33,6 +31,9 @@ const i18nHead = useLocaleHead({
 
 const title = computed(() => seo.value.title || 'Store')
 const isShopDisabled = computed(() => config.storeFrontDisabled)
+const showColorThemePicker = computed(() =>
+  ['true', '1', 1, true].includes(runtimeConfig.showColorThemePicker),
+)
 const isProduction = computed(() => ['true', '1', 1, true].includes(runtimeConfig.production))
 
 useSeoMeta({
