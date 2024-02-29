@@ -8,7 +8,7 @@ export default defineNuxtRouteMiddleware(async (to, _from) => {
     const [redirectTarget, redirectCode] = redirect
 
     if (redirectTarget !== '' && redirectTarget !== to.fullPath) {
-      return navigateTo(redirectTarget, { redirectCode })
+      return await navigateTo(redirectTarget, { redirectCode, external: true })
     }
   } catch (e) {
     // eslint-disable-next-line no-console
