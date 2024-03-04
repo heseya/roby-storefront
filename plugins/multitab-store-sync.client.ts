@@ -66,7 +66,8 @@ export default defineNuxtPlugin(({ $pinia }) => {
   }
 
   useStoreChannelPost('cart')
-  useStoreChannelPost('checkout')
   useStoreChannelPost('wishlist')
   useStoreChannelPost('user')
+  // Autocomplete of address in checkout creates infinite loop of updates
+  // useStoreChannelPost('checkout')
 })
