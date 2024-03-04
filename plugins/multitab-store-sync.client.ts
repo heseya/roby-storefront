@@ -55,35 +55,18 @@ export default defineNuxtPlugin(({ $pinia }) => {
     }
   })
 
-  watch(
-    () => stores.cart.$state,
-    (state) => {
-      channel.post({ type: 'cart', payload: JSON.stringify(state) })
-    },
-    { deep: true },
-  )
+  const useStoreChannelPost = (event: ChannelEventType) => {
+    watch(
+      () => stores[event].$state,
+      (state) => {
+        channel.post({ type: event, payload: JSON.stringify(state) })
+      },
+      { deep: true },
+    )
+  }
 
-  watch(
-    () => stores.wishlist.$state,
-    (state) => {
-      channel.post({ type: 'wishlist', payload: JSON.stringify(state) })
-    },
-    { deep: true },
-  )
-
-  watch(
-    () => stores.wishlist.$state,
-    (state) => {
-      channel.post({ type: 'checkout', payload: JSON.stringify(state) })
-    },
-    { deep: true },
-  )
-
-  watch(
-    () => stores.user.$state,
-    (state) => {
-      channel.post({ type: 'checkout', payload: JSON.stringify(state) })
-    },
-    { deep: true },
-  )
+  useStoreChannelPost('cart')
+  useStoreChannelPost('checkout')
+  useStoreChannelPost('wishlist')
+  useStoreChannelPost('user')
 })
