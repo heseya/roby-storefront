@@ -1,4 +1,5 @@
 import { restoreCart, type SavedCartItem } from '@heseya/store-core'
+import debounce from 'lodash/debounce'
 
 import { useCartStore } from '~/store/cart'
 import { useCheckoutStore } from '~/store/checkout'
@@ -31,36 +32,46 @@ export default defineNuxtPlugin(({ $pinia }) => {
   }
 
   watch(channel.data, (event) => {
-    const store = stores[event.type]
-    switch (event.type) {
-      case 'cart': {
-        if (event.payload === JSON.stringify(stores.cart.$state)) return
+    try {
+      const store = stores[event.type]
+      switch (event.type) {
+        case 'cart': {
+          if (event.payload === JSON.stringify(stores.cart.$state)) return
 
-        const state: typeof stores.cart.$state = JSON.parse(event.payload)
-        const items = restoreCart(state.items as unknown as SavedCartItem[])
-        stores.cart.$state = { ...state, items }
-        break
+          const state: typeof stores.cart.$state = JSON.parse(event.payload)
+          const items = restoreCart(state.items as unknown as SavedCartItem[])
+          stores.cart.$state = { ...state, items }
+          break
+        }
+        case 'checkout':
+        case 'user':
+        case 'wishlist': {
+          if (event.payload === JSON.stringify(store.$state)) return
+          const state: typeof store.$state = JSON.parse(event.payload)
+          store.$state = state
+          break
+        }
+        default:
+          // eslint-disable-next-line no-console
+          console.warn('Unknown event')
       }
-      case 'checkout':
-      case 'user':
-      case 'wishlist': {
-        if (event.payload === JSON.stringify(store.$state)) return
-        const state: typeof store.$state = JSON.parse(event.payload)
-        store.$state = state
-        break
-      }
-      default:
-        // eslint-disable-next-line no-console
-        console.warn('Unknown event')
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.error('Failed to parse event', e)
     }
   })
 
   const useStoreChannelPost = (event: ChannelEventType) => {
     watch(
       () => stores[event].$state,
-      (state) => {
-        channel.post({ type: event, payload: JSON.stringify(state) })
-      },
+      debounce((state) => {
+        try {
+          channel.post({ type: event, payload: JSON.stringify(state) })
+        } catch (e) {
+          // eslint-disable-next-line no-console
+          console.error('Failed to post event', e)
+        }
+      }, 300),
       { deep: true },
     )
   }

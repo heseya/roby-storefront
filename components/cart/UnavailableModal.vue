@@ -83,7 +83,7 @@ const isOpen = computed(() => unavailableItems.value.length > 0)
 const cartAge = computed(
   () =>
     Date.now() -
-    unavailableItems.value.reduce((maxAge, item) => Math.max(maxAge, item.toJSON().createdAt), 0),
+    unavailableItems.value.reduce((maxAge, item) => Math.max(maxAge, item?.toJSON()?.createdAt), 0),
 )
 
 const close = () => {
