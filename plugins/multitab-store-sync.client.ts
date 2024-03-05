@@ -21,6 +21,13 @@ export default defineNuxtPlugin(({ $pinia }) => {
     user: useUserStore($pinia as any),
   }
 
+  const history: Record<ChannelEventType, number[]> = {
+    cart: [],
+    checkout: [],
+    wishlist: [],
+    user: [],
+  }
+
   const channel = useBroadcastChannel<ChannelPush, ChannelPush>({
     name: 'multitab-store-sync',
   })
@@ -40,7 +47,8 @@ export default defineNuxtPlugin(({ $pinia }) => {
 
           const state: typeof stores.cart.$state = JSON.parse(event.payload)
           const items = restoreCart(state.items as unknown as SavedCartItem[])
-          stores.cart.$state = { ...state, items }
+          const unavailableItems = restoreCart(state.unavailableItems as unknown as SavedCartItem[])
+          stores.cart.$state = { ...state, items, unavailableItems }
           break
         }
         case 'checkout':
@@ -66,12 +74,13 @@ export default defineNuxtPlugin(({ $pinia }) => {
       () => stores[event].$state,
       debounce((state) => {
         try {
+          history[event].push(Date.now())
           channel.post({ type: event, payload: JSON.stringify(state) })
         } catch (e) {
           // eslint-disable-next-line no-console
           console.error('Failed to post event', e)
         }
-      }, 300),
+      }, 0),
       { deep: true },
     )
   }
@@ -79,6 +88,5 @@ export default defineNuxtPlugin(({ $pinia }) => {
   useStoreChannelPost('cart')
   useStoreChannelPost('wishlist')
   useStoreChannelPost('user')
-  // Autocomplete of address in checkout creates infinite loop of updates
-  // useStoreChannelPost('checkout')
+  useStoreChannelPost('checkout')
 })
