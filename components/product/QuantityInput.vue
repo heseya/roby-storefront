@@ -10,6 +10,7 @@
       @update:model-value="(v) => emit('update:quantity', Number(v))"
     >
       <option v-for="q in 10" :key="q" :value="q">{{ q }}</option>
+      <option v-if="quantity > 10" :value="quantity">{{ quantity }}</option>
     </FormSelect>
   </div>
 </template>
@@ -39,7 +40,7 @@ const emit = defineEmits<{
 .quantity-input {
   display: flex;
   align-items: center;
-  gap: 11px;
+  gap: 6px;
 
   &__label {
     font-size: rem(14);
