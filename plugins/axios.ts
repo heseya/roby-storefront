@@ -1,8 +1,7 @@
 import axios from 'axios'
 import { enhanceAxiosWithAuthTokenRefreshing } from '@heseya/store-core'
 import { setupCache, buildMemoryStorage, buildKeyGenerator } from 'axios-cache-interceptor'
-
-import type { Pinia } from '@pinia/nuxt/dist/runtime/composables'
+import type { Pinia } from 'pinia'
 
 import { useChannelsStore } from '@/store/channels'
 import { useLanguageStore } from '@/store/language'
