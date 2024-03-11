@@ -19,8 +19,8 @@
 </template>
 
 <script lang="ts" setup>
-import plFlagUrl from '@/assets/icons/pl.svg'
-import enFlagUrl from '@/assets/icons/en.svg'
+import plFlagUrl from '@/assets/icons/lang/pl.png'
+import enFlagUrl from '@/assets/icons/lang/en.png'
 import { useChannelsStore } from '@/store/channels'
 
 interface InnerLanguage {
