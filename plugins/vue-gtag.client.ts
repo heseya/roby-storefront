@@ -12,22 +12,6 @@ import {
 import { mapCartItemToItem, mapOrderProductToItem, mapProductToItem } from '@/utils/google'
 import { useChannelsStore } from '@/store/channels'
 
-/**
- * Watches for a change in the cookie and sets the value in gtag.
- */
-const useGtagCookieWatch = (cookieKey: string, gtagKey: string, track: (data: object) => void) => {
-  const cookie = useStatefulCookie<number>(cookieKey, COOKIES_CONFIG)
-
-  watch(
-    cookie,
-    (value) => {
-      if (value) track({ event: 'set', [gtagKey]: true })
-      else if (value !== undefined) track({ event: 'set', [gtagKey]: false })
-    },
-    { immediate: true },
-  )
-}
-
 export default defineNuxtPlugin((nuxtApp) => {
   const { googleTagManagerId, isProduction, i18n } = usePublicRuntimeConfig()
   if (!googleTagManagerId) return
@@ -72,11 +56,49 @@ export default defineNuxtPlugin((nuxtApp) => {
     trackEventsQueue.value = []
   }
 
-  useGtagCookieWatch(COOKIE_FUNCTIONAL_ACCEPTED_KEY, 'functionality_storage', push)
-  useGtagCookieWatch(COOKIE_ANALYTICS_ACCEPTED_KEY, 'analytics_storage', push)
-  useGtagCookieWatch(COOKIE_ADS_ACCEPTED_KEY, 'ad_storage', push)
-  useGtagCookieWatch(COOKIE_ADS_ACCEPTED_KEY, 'ad_user_data', push)
-  useGtagCookieWatch(COOKIE_ADS_ACCEPTED_KEY, 'ad_personalization', push)
+  /**
+   ** Sending consents
+   */
+
+  push([
+    'consent',
+    'default',
+    {
+      functionality_storage: 'denied',
+      analytics_storage: 'denied',
+      ad_storage: 'denied',
+      ad_user_data: 'denied',
+      ad_personalization: 'denied',
+      wait_for_update: 500,
+    },
+  ])
+
+  const functionalCookie = useStatefulCookie<number>(COOKIE_FUNCTIONAL_ACCEPTED_KEY, COOKIES_CONFIG)
+  const analyticsCookie = useStatefulCookie<number>(COOKIE_ANALYTICS_ACCEPTED_KEY, COOKIES_CONFIG)
+  const adsCookie = useStatefulCookie<number>(COOKIE_ADS_ACCEPTED_KEY, COOKIES_CONFIG)
+
+  watch(
+    [functionalCookie, analyticsCookie, adsCookie],
+    () => {
+      const isUnset = [functionalCookie, analyticsCookie, adsCookie].every(
+        (c) => c.value === undefined,
+      )
+      if (isUnset) return
+
+      push([
+        'consent',
+        'update',
+        {
+          functionality_storage: functionalCookie.value === 1 ? 'granted' : 'denied',
+          analytics_storage: analyticsCookie.value === 1 ? 'granted' : 'denied',
+          ad_storage: adsCookie.value === 1 ? 'granted' : 'denied',
+          ad_user_data: adsCookie.value === 1 ? 'granted' : 'denied',
+          ad_personalization: adsCookie.value === 1 ? 'granted' : 'denied',
+        },
+      ])
+    },
+    { immediate: true },
+  )
 
   /**
    * * EVENTS
