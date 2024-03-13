@@ -1,5 +1,7 @@
 <template>
   <div class="cart-summary" :class="{ 'cart-summary--disabled': disabled }">
+    <LayoutLoading :active="loading" />
+
     <div class="cart-summary__item">
       <div class="cart-summary__label">{{ $t('orders.productsPrice') }}</div>
       <div class="cart-summary__value">{{ formatAmount(cart.totalValueInitial, currency) }}</div>
@@ -85,9 +87,11 @@ import { useChannelsStore } from '@/store/channels'
 withDefaults(
   defineProps<{
     disabled?: boolean
+    loading?: boolean
   }>(),
   {
     disabled: false,
+    loading: false,
   },
 )
 
@@ -146,6 +150,7 @@ watch(
   display: flex;
   flex-direction: column;
   padding: 16px;
+  position: relative;
 
   font-size: rem(14);
   line-height: rem(19);

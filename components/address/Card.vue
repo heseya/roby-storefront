@@ -34,14 +34,18 @@
       />
     </div>
   </div>
-  <AddressFormModal
+  <LazyAddressFormModal
     v-model:open="isEditAddressModalVisible"
     :address="value"
     :type="type"
     :success-update-message="t(`${type}.sucessUpdate`)"
     :header="t(`${type}.header`)"
   />
-  <AddressDeleteModal v-model:open="isDeleteAddressModalVisible" :address="value" :type="type" />
+  <LazyAddressDeleteModal
+    v-model:open="isDeleteAddressModalVisible"
+    :address="value"
+    :type="type"
+  />
 </template>
 
 <i18n lang="json">

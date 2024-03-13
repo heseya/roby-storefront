@@ -1,4 +1,6 @@
-import type { Pinia } from '@pinia/nuxt/dist/runtime/composables'
+/* eslint-disable no-console */
+import type { Pinia } from 'pinia'
+
 import { useConfigStore } from '@/store/config'
 import { useCategoriesStore } from '@/store/categories'
 import { useAuthStore } from '@/store/auth'
@@ -8,6 +10,14 @@ import { useChannelsStore } from '@/store/channels'
 import { SALES_CHANNEL_KEY } from '@/consts/cookiesKeys'
 
 export default defineNuxtPlugin(async (nuxtApp) => {
+  const runtimeConfig = usePublicRuntimeConfig()
+  if (!runtimeConfig.apiUrl) console.error('NUXT_PUBLIC_API_URL env is not defined')
+  if (!runtimeConfig.priceTrackerUrl)
+    console.error('NUXT_PUBLIC_PRICE_TRACKER_URL env is not defined')
+  if (!runtimeConfig.i18n.baseUrl) console.error('NUXT_PUBLIC_I18N_BASE_URL env is not defined')
+  if (!runtimeConfig.recaptchaPublic)
+    console.error('NUXT_PUBLIC_RECAPTCHA_PUBLIC env is not defined')
+
   const config = useConfigStore(nuxtApp.$pinia as Pinia)
   const categories = useCategoriesStore(nuxtApp.$pinia as Pinia)
   const auth = useAuthStore(nuxtApp.$pinia as Pinia)

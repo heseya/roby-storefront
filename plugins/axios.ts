@@ -1,8 +1,7 @@
 import axios from 'axios'
 import { enhanceAxiosWithAuthTokenRefreshing } from '@heseya/store-core'
 import { setupCache, buildMemoryStorage, buildKeyGenerator } from 'axios-cache-interceptor'
-
-import type { Pinia } from '@pinia/nuxt/dist/runtime/composables'
+import type { Pinia } from 'pinia'
 
 import { useChannelsStore } from '@/store/channels'
 import { useLanguageStore } from '@/store/language'
@@ -21,6 +20,7 @@ const cacheStorage = buildMemoryStorage()
 
 export default defineNuxtPlugin((nuxt) => {
   const { apiUrl: baseURL, isProduction, axiosCacheTtl } = usePublicRuntimeConfig()
+  const axiosCacheTtlTime = parseInt(axiosCacheTtl || '0') ?? 0
   const localePath = useLocalePath()
 
   const baseAxios = axios.create({ baseURL, timeout: 20 * 1000 })
@@ -40,9 +40,9 @@ export default defineNuxtPlugin((nuxt) => {
 
   const ax = setupCache(baseAxios, {
     // This time is a fallback value, by default time is determined by the `Cache-Control` header
-    ttl: axiosCacheTtl,
+    ttl: axiosCacheTtlTime,
     // TODO: remove this override when API stop returning `Cache-Control: no-cache`
-    headerInterpreter: () => axiosCacheTtl,
+    headerInterpreter: () => axiosCacheTtlTime,
     storage: cacheStorage,
     generateKey: generateCacheKey,
   })

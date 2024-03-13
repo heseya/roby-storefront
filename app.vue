@@ -1,6 +1,6 @@
 <template>
   <Html :lang="i18nHead.htmlAttrs?.lang" :dir="i18nHead.htmlAttrs?.dir">
-    <IntegrationEkomiWidget :token="ekomiPopupToken" />
+    <IntegrationEkomiWidget :token="runtimeConfig.ekomi.popupToken" />
 
     <LayoutThemeContext>
       <NuxtLoadingIndicator />
@@ -20,18 +20,21 @@
 <script setup lang="ts">
 import { useConfigStore } from './store/config'
 
-const { showColorThemePicker, ekomiPopupToken } = usePublicRuntimeConfig()
-
 const config = useConfigStore()
+const runtimeConfig = usePublicRuntimeConfig()
 const seo = toRef(config, 'seo')
 const i18nHead = useLocaleHead({
   addDirAttribute: true,
   identifierAttribute: 'id',
   addSeoAttributes: true,
 })
-const title = computed(() => seo.value.title || 'Store')
 
+const title = computed(() => seo.value.title || 'Store')
 const isShopDisabled = computed(() => config.storeFrontDisabled)
+const showColorThemePicker = computed(() =>
+  ['true', '1', 1, true].includes(runtimeConfig.showColorThemePicker),
+)
+const isProduction = computed(() => ['true', '1', 1, true].includes(runtimeConfig.production))
 
 useSeoMeta({
   titleTemplate: (titleChunk) => (titleChunk ? `${titleChunk} - ${title.value}` : title.value),
@@ -48,11 +51,27 @@ useSeo(() => [
 
 useHead({
   link: [
-    ...(i18nHead.value.link || []),
+    { rel: 'preconnect', href: runtimeConfig.apiUrl },
+    { rel: 'dns-prefetch', href: runtimeConfig.apiUrl },
+    { rel: 'preconnect', href: runtimeConfig.cdnUrl },
+    { rel: 'dns-prefetch', href: runtimeConfig.cdnUrl },
+    { rel: 'preconnect', href: runtimeConfig.directusUrl },
+    { rel: 'dns-prefetch', href: runtimeConfig.directusUrl },
     { rel: 'icon', type: 'image/x-icon', href: config.faviconUrl },
+    ...(i18nHead.value.link || []),
     ...(seo.value.header_tags?.filter((tag) => tag.type === 'link') || []),
   ],
   meta: [
+    {
+      hid: isProduction.value ? 'robots' : 'force-robots',
+      name: 'robots',
+      content: isProduction.value ? 'index, follow' : 'noindex, nofollow',
+    },
+    {
+      hid: 'google-site-verification',
+      name: 'google-site-verification',
+      content: runtimeConfig.googleSiteVerification,
+    },
     ...(i18nHead.value.meta || []),
     ...(seo.value.header_tags?.filter((tag) => tag.type === 'meta') || []),
   ],

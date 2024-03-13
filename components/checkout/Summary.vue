@@ -1,6 +1,12 @@
 <template>
-  <CheckoutPageArea :title="$t('orders.summary')" :placeholder-height="300">
+  <CheckoutPageArea
+    class="checkout-summary-wrapper"
+    :title="$t('orders.summary')"
+    :placeholder-height="300"
+  >
     <div class="checkout-summary">
+      <LayoutLoading :active="cart.isProcessing" />
+
       <div v-for="item in cart.items" :key="item.id" class="checkout-summary-item">
         <span class="checkout-summary-item__text">
           <span class="primary-text">{{ item.totalQty }}x</span> {{ item.name }}
@@ -90,6 +96,10 @@ const handleClick = () => {
 </script>
 
 <style lang="scss" scoped>
+.checkout-summary-wrapper {
+  position: relative;
+}
+
 .checkout-summary {
   display: flex;
   flex-direction: column;

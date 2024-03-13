@@ -74,10 +74,10 @@
 
   &--select &__input {
     cursor: pointer;
-    padding-right: 32px;
+    padding-right: 24px;
     background-image: url('@/assets/icons/arrow-drop-down.svg');
     background-repeat: no-repeat;
-    background-position: right 15px center;
+    background-position: right 8px center;
   }
 
   &--postfix &__input {

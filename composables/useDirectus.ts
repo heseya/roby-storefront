@@ -6,7 +6,7 @@ export const useDirectus = (): Directus<DirectusCollections, Auth> => {
 
   if (!$directus.url) {
     // eslint-disable-next-line no-console
-    console.warn('Directus does not have URL set up, check DIRECTUS_URL env')
+    console.warn('Directus does not have URL set up, check NUXT_PUBLIC_DIRECTUS_URL env')
   }
 
   return $directus

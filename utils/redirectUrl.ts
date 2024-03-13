@@ -6,7 +6,12 @@ export const getAllRedirects = async (): Promise<Redirect[]> => {
   if (redirectsState.value) return redirectsState.value
 
   const heseya = useHeseya()
-  const { data } = await heseya.Redirects.get({ limit: 500 })
+  const { data, pagination } = await heseya.Redirects.get({ limit: 500 })
+
+  if (pagination.lastPage > 1)
+    // eslint-disable-next-line no-console
+    console.warn('Redirects pagination is not implemented, and only first 500 will be used')
+
   redirectsState.value = data
   return data
 }
