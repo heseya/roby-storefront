@@ -1,7 +1,7 @@
 <template>
   <div class="product-attributes">
     <template v-if="showDescriptionShortInAttributes">
-      <!-- This is a ***REMOVED*** specific rule, maybe refactor somehow in the future? -->
+      <!-- This is a very specific bussines rule, maybe refactor somehow in the future? -->
       <div class="attributes-description-short" v-html="product.description_short"></div>
 
       <br />
