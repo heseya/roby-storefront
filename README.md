@@ -50,9 +50,9 @@ Template uses 3 different APIs. You can change the url of each API by setting th
 - `PRICE_TRACKER_URL` is used by the application to fetch data from the Price Tracker API to fullfill the Omnibus requirement.
 
 ```env
-API_URL=https://demo-***REMOVED***.***REMOVED***
+API_URL=https://api.heseya.com
 DIRECTUS_URL=https://cms.heseya.com
-PRICE_TRACKER_URL=https://main-price-tracker.app.***REMOVED***
+PRICE_TRACKER_URL=https://main-price-tracker.heseya.com
 ```
 
 ### Custom pages
