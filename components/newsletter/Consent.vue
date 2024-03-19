@@ -2,6 +2,7 @@
   <FormCheckbox
     v-show="enabled"
     v-model="value"
+    :disabled="disabled"
     class="newsletter-consent"
     name="newsletter-consent"
   >
@@ -41,6 +42,7 @@ const localePath = useLocalePath()
 
 const props = defineProps<{
   modelValue: boolean
+  disabled: boolean
 }>()
 
 const emit = defineEmits<{

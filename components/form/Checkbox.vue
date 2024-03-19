@@ -28,12 +28,13 @@ const props = withDefaults(
     name: string
     label?: string
     text?: string
-    modelValue: boolean
+    modelValue?: boolean
     disabled?: boolean
     error?: string
     rules?: string
   }>(),
   {
+    modelValue: false,
     label: '',
     text: '',
     disabled: false,

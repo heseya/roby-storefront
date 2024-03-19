@@ -4,7 +4,7 @@
     :title="$t('orders.summary')"
     :placeholder-height="300"
   >
-    <div class="checkout-summary">
+    <div class="checkout-summary" :class="{ 'checkout-summary--disabled': disabled }">
       <LayoutLoading :active="cart.isProcessing" />
 
       <div v-for="item in cart.items" :key="item.id" class="checkout-summary-item">
@@ -44,14 +44,19 @@
       <hr class="checkout-summary__hr hr" />
 
       <div class="checkout-summary-item">
-        <CheckoutConsents />
+        <CheckoutConsents :disabled="disabled" />
       </div>
 
       <LayoutInfoBox v-if="!isValid && isErrorVisible" type="danger" class="checkout-summary-item">
         {{ shownError }}
       </LayoutInfoBox>
 
-      <LayoutButton variant="primary" class="cart-summary__button" @click="handleClick">
+      <LayoutButton
+        variant="primary"
+        class="cart-summary__button"
+        :disabled="disabled"
+        @click="handleClick"
+      >
         {{ $t('payments.confirmAndPay') }}
       </LayoutButton>
     </div>
@@ -103,6 +108,10 @@ const handleClick = () => {
 .checkout-summary {
   display: flex;
   flex-direction: column;
+
+  &--disabled {
+    color: $gray-color-600;
+  }
 
   &__hr {
     margin-top: 12px;
