@@ -148,7 +148,7 @@ const onSubmit = form.handleSubmit(async () => {
   isLoading.value = true
 
   try {
-    const recaptchaToken = await getRecaptchaToken(recaptchaPublic)
+    const recaptchaToken = await getRecaptchaToken(recaptchaPublic, 'register')
     const user = await heseya.Auth.register({
       ...registerFormDto.value,
       // @ts-expect-error - missing in UserRegisterDto
