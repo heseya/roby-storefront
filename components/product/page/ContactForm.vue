@@ -139,7 +139,7 @@ const constentContent = computed(
 const onSubmit = form.handleSubmit(async () => {
   isLoading.value = true
   try {
-    const recaptchaToken = await getRecaptchaToken(recaptchaPublic)
+    const recaptchaToken = await getRecaptchaToken(recaptchaPublic, 'contact_request')
 
     await axios.post('/api/contact', {
       ...form.values,
