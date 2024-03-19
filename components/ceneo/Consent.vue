@@ -20,7 +20,7 @@ const t = useLocalI18n()
 
 const props = defineProps<{
   modelValue: boolean
-  disabled: boolean
+  disabled?: boolean
 }>()
 
 const emit = defineEmits<{

@@ -68,7 +68,7 @@ import { useCartStore } from '@/store/cart'
 import { useCheckoutStore } from '~/store/checkout'
 
 const props = defineProps<{
-  disabled: boolean
+  disabled?: boolean
   isValidationError: boolean
 }>()
 

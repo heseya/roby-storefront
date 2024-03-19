@@ -76,7 +76,7 @@ import { useCeneo } from '~/composables/useCeneo'
 import { useConfigStore } from '~/store/config'
 
 defineProps<{
-  disabled: boolean
+  disabled?: boolean
 }>()
 
 const t = useLocalI18n()
