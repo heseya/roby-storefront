@@ -166,7 +166,6 @@ export default {
     VALIDATION_PRODUCT_SCHEMA_OPTION:
       'Wybrana konfiguracja produktów jest nieprawidłowa. Usuń produkty z koszyka i dodaj je ponownie.',
     VALIDATION_EMAIL_TAKEN: 'Podany adres e-mail jest już zajęty.',
-    VALIDATION_RECAPTCHA: 'Recaptcha token jest nieprawidłowy.',
 
     UNPROCESSABLE_ENTITY: 'Błąd walidacji.',
 
