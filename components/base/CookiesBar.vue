@@ -147,6 +147,7 @@ import { useConfigStore } from '~/store/config'
 const t = useLocalI18n()
 const config = useConfigStore()
 const localePath = useLocalePath()
+const { $enableGtm } = useNuxtApp()
 
 const optInForm = reactive({
   required: true,
@@ -180,6 +181,8 @@ const setCookies = ([required, functional, analytics, ads]: [
   functionalCookie.value = functional ? 1 : 0
   analyticsCookie.value = analytics ? 1 : 0
   adsCookie.value = ads ? 1 : 0
+
+  $enableGtm()
 }
 
 // Tabs
