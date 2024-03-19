@@ -151,8 +151,7 @@ const onSubmit = form.handleSubmit(async () => {
     const recaptchaToken = await getRecaptchaToken(recaptchaPublic, 'register')
     const user = await heseya.Auth.register({
       ...registerFormDto.value,
-      // @ts-expect-error - missing in UserRegisterDto
-      capcha_token: recaptchaToken,
+      captcha_token: recaptchaToken,
     })
     if (newsletterConsent.value) newsletterSubscribe(user.email)
 

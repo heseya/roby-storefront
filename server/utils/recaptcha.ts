@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-export const verifyRecaptchToken = async ({
+export const verifyRecaptchaToken = async ({
   secret,
   token,
   minScore,
