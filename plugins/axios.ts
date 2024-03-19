@@ -19,7 +19,8 @@ declare module 'axios' {
 const cacheStorage = buildMemoryStorage()
 
 export default defineNuxtPlugin((nuxt) => {
-  const { apiUrl: baseURL, isProduction, axiosCacheTtl } = usePublicRuntimeConfig()
+  const { apiUrl: baseURL, production, axiosCacheTtl } = usePublicRuntimeConfig()
+  const isProduction = computed(() => ['true', '1', 1, true].includes(production))
   const axiosCacheTtlTime = parseInt(axiosCacheTtl || '0') ?? 0
   const localePath = useLocalePath()
 
@@ -113,7 +114,7 @@ export default defineNuxtPlugin((nuxt) => {
   ax.interceptors.response.use((response) => {
     const config = response.config
     config._endTime = Date.now()
-    if (!isProduction) {
+    if (!isProduction.value) {
       const time = response.cached ? 'cache' : `${config._endTime - config._beginTime!}ms`
       // eslint-disable-next-line no-console
       console.log(`(${time}) - [${config.method}] ${config.url}`)
