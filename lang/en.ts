@@ -164,6 +164,7 @@ export default {
     VALIDATION_PRODUCT_SCHEMA_OPTION:
       'The selected product configuration is incorrect. Remove the products from the cart and add them again.',
     VALIDATION_EMAIL_TAKEN: 'The given e-mail has already been registered in the system.',
+    VALIDATION_RECAPTCHA: 'Recaptcha token is invalid.',
 
     UNPROCESSABLE_ENTITY: 'Validation error.',
 

@@ -61,6 +61,8 @@
       {{ errorMessage || consentsListError }}
     </LayoutInfoBox>
 
+    <LayoutRecaptchaBadge />
+
     <div class="register-form__btn-container">
       <LayoutButton
         :disabled="isFormDisabled"
@@ -92,12 +94,13 @@
 <script setup lang="ts">
 import { HeseyaEvent } from '@heseya/store-core'
 import type { User, UserConsentDto, UserRegisterDto } from '@heseya/store-core'
+import axios from 'axios'
 import { useForm } from 'vee-validate'
 
 const t = useLocalI18n()
 const $t = useGlobalI18n()
-const heseya = useHeseya()
 const formatError = useErrorMessage()
+const { recaptchaPublic } = usePublicRuntimeConfig()
 
 const isLoading = ref(false)
 const errorMessage = ref('')
@@ -145,7 +148,11 @@ const onSubmit = form.handleSubmit(async () => {
   isLoading.value = true
 
   try {
-    const user = await heseya.Auth.register(registerFormDto.value)
+    const recaptchaToken = await getRecaptchaToken(recaptchaPublic)
+    const { data: user } = await axios.post<User>('/api/register', {
+      recaptchaToken,
+      form: registerFormDto.value,
+    })
     if (newsletterConsent.value) newsletterSubscribe(user.email)
 
     ev.emit(HeseyaEvent.Register, user)
