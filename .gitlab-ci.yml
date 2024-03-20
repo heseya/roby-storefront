@@ -36,7 +36,7 @@ vue-tsc:
   script:
     - yarn lint:vue
   # Hopefully only for some time, until we have fixed all the errors
-  allow_failure: true
+  # allow_failure: true
 
 trigger-***REMOVED***-repo:
   stage: trigger
