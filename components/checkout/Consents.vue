@@ -4,6 +4,7 @@
       v-if="newsletterEnabled || ceneoEnabled"
       v-model="allAccepted"
       class="all-consent"
+      :disabled="disabled"
       name="all-consent"
     >
       {{ t('acceptAllText') }}
@@ -13,6 +14,7 @@
       v-model="checkout.consents.statute"
       rules="required"
       :class="{ 'checkout-consents__indented': newsletterEnabled }"
+      :disabled="disabled"
       name="statute-consent"
     >
       {{ t('statute.accept') }}
@@ -30,12 +32,14 @@
     <NewsletterConsent
       v-if="newsletterEnabled"
       v-model="checkout.consents.newsletter"
+      :disabled="disabled"
       class="checkout-consents__indented"
     />
 
     <CeneoConsent
       v-if="ceneoEnabled"
       v-model="checkout.consents.ceneo"
+      :disabled="disabled"
       class="checkout-consents__indented"
     />
   </div>
@@ -70,6 +74,10 @@
 import { useCheckoutStore } from '@/store/checkout'
 import { useCeneo } from '~/composables/useCeneo'
 import { useConfigStore } from '~/store/config'
+
+defineProps<{
+  disabled?: boolean
+}>()
 
 const t = useLocalI18n()
 

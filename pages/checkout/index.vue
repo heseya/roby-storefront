@@ -3,7 +3,12 @@
     <BaseContainer class="checkout-page">
       <LayoutLoading :active="isLoading" additional-blur />
 
-      <section class="checkout-page__section">
+      <section v-if="!areItemsInCart" class="checkout-page__section">
+        <CheckoutPageArea :title="$t('cart.title')">
+          <LazyCartEmpty />
+        </CheckoutPageArea>
+      </section>
+      <section v-else class="checkout-page__section">
         <CheckoutPageArea v-if="channels.channels.length > 1" :title="t('salesChannel')">
           <p class="checkout-page__channel-info">{{ t('salesChannelText') }}</p>
           <LayoutNavChannelSwitch mode="select" />
@@ -45,7 +50,7 @@
       </section>
       <section class="checkout-page__section">
         <CheckoutSummary
-          :disabled="(wantCreateAccount && !isRegisterFormValid) || isLoading"
+          :disabled="isLoading || !areItemsInCart"
           :is-validation-error="isFormValidatonError"
           @submit="processOrder()"
         />
@@ -87,6 +92,7 @@ import { useCheckoutStore } from '@/store/checkout'
 import { useChannelsStore } from '@/store/channels'
 
 const t = useLocalI18n()
+const $t = useGlobalI18n()
 const formatError = useErrorMessage()
 const { notify } = useNotify()
 
@@ -117,6 +123,8 @@ const registerForm = useForm({
   },
 })
 
+const areItemsInCart = computed(() => (checkout.orderDto?.items.length ?? 0) > 0)
+
 /**
  * This is a hack unfortunately.
  * registerForm handles all of the form fields in this page, including that used in purposes others than register
@@ -125,21 +133,6 @@ const registerForm = useForm({
 const isFormValidatonError = computed(() => {
   const record = Object.values(registerForm.errors.value).filter(Boolean)
   return record.length > 0
-})
-
-const isRegisterFormValid = computed(() => {
-  const { name, surname, password, confirmPassword } = registerForm.values
-
-  if (
-    !name ||
-    !surname ||
-    !password ||
-    !confirmPassword ||
-    Object.keys(registerForm.errors.value).length
-  )
-    return false
-
-  return true
 })
 
 const updateRegisterForm = (e: { key: keyof Omit<CreateUserForm, 'consents'>; value: string }) => {

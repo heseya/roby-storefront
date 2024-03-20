@@ -7,7 +7,7 @@ declare global {
   }
 }
 
-export const getRecaptchaToken = (publicToken: string): Promise<string> => {
+export const getRecaptchaToken = (publicToken: string, action: string): Promise<string> => {
   if (!window.grecaptcha) return Promise.reject(new Error('Recaptcha not loaded'))
   if (!publicToken) return Promise.reject(new Error('Recaptcha public token not provided'))
 
@@ -15,7 +15,7 @@ export const getRecaptchaToken = (publicToken: string): Promise<string> => {
     window.grecaptcha.ready(function () {
       window.grecaptcha
         .execute(publicToken, {
-          action: 'submit',
+          action,
         })
         .then((token: string) => resolve(token))
         .catch((err: Error) => reject(err))
