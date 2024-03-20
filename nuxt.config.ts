@@ -222,7 +222,7 @@ export default defineNuxtConfig({
     display: 'swap',
     families: {
       Rubik: [400, 500, 600, 700],
-      Roboto: [400, 500, 600, 700],
+      Roboto: [400, 500, 700],
     },
   },
 
