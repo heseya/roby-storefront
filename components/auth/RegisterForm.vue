@@ -61,6 +61,8 @@
       {{ errorMessage || consentsListError }}
     </LayoutInfoBox>
 
+    <LayoutRecaptchaBadge />
+
     <div class="register-form__btn-container">
       <LayoutButton
         :disabled="isFormDisabled"
@@ -98,6 +100,7 @@ const t = useLocalI18n()
 const $t = useGlobalI18n()
 const heseya = useHeseya()
 const formatError = useErrorMessage()
+const { recaptchaPublic } = usePublicRuntimeConfig()
 
 const isLoading = ref(false)
 const errorMessage = ref('')
@@ -145,7 +148,11 @@ const onSubmit = form.handleSubmit(async () => {
   isLoading.value = true
 
   try {
-    const user = await heseya.Auth.register(registerFormDto.value)
+    const recaptchaToken = await getRecaptchaToken(recaptchaPublic, 'register')
+    const user = await heseya.Auth.register({
+      ...registerFormDto.value,
+      captcha_token: recaptchaToken,
+    })
     if (newsletterConsent.value) newsletterSubscribe(user.email)
 
     ev.emit(HeseyaEvent.Register, user)

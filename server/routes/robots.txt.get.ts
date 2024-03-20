@@ -22,8 +22,9 @@ Disallow: /
 export default defineEventHandler((event) => {
   // @ts-ignore Docs suggest to pass event to useRuntimeConfig, but it's not typed? https://nuxt.com/docs/guide/going-further/runtime-config#server-routes
   const config = useRuntimeConfig(event)
+  const isProduction = ['true', '1', 1, true].includes(config.public.production)
 
   setHeader(event, 'Content-Type', 'text/plain; charset=utf-8')
 
-  return config.public.isProduction ? ALLOWED : DISALLOWED
+  return isProduction ? ALLOWED : DISALLOWED
 })

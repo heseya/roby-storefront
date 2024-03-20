@@ -6,7 +6,7 @@ import type { SendMailOptions, SentMessageInfo } from 'nodemailer'
 import axios from 'axios'
 import _ from 'lodash'
 
-import { verifyRecaptchToken } from '../utils/recaptcha'
+import { verifyRecaptchaToken } from '../utils/recaptcha'
 
 interface ContactForm {
   name: string
@@ -68,11 +68,12 @@ export default defineEventHandler(async (event) => {
       statusMessage: 'Message is too long, max 2048 characters',
     })
 
-  const isTokenValid = await verifyRecaptchToken(
-    config.recaptchaSecret,
-    recaptchaToken,
-    Number(config.minRecaptchaScore) || 0.7,
-  )
+  const isTokenValid = await verifyRecaptchaToken({
+    secret: config.recaptchaSecret,
+    token: recaptchaToken,
+    minScore: Number(config.minRecaptchaScore) || 0.7,
+    action: 'contact_request',
+  })
   if (!isTokenValid)
     throw createError({
       statusCode: 422,

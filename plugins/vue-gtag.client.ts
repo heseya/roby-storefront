@@ -13,14 +13,15 @@ import { mapCartItemToItem, mapOrderProductToItem, mapProductToItem } from '@/ut
 import { useChannelsStore } from '@/store/channels'
 
 export default defineNuxtPlugin((nuxtApp) => {
-  const { googleTagManagerId, isProduction, i18n } = usePublicRuntimeConfig()
+  const { googleTagManagerId, production, i18n } = usePublicRuntimeConfig()
+  const isProduction = computed(() => ['true', '1', 1, true].includes(production))
   if (!googleTagManagerId) return
 
   nuxtApp.vueApp.use(
     createGtm({
       id: googleTagManagerId,
       defer: true,
-      debug: !isProduction,
+      debug: !isProduction.value,
       vueRouter: useRouter(),
       loadScript: true,
       enabled: false,

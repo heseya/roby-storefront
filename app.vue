@@ -18,6 +18,7 @@
 </template>
 
 <script setup lang="ts">
+import { COOKIES_CONFIG, COOKIE_REQUIRED_ACCEPTED_KEY } from './consts/cookiesKeys'
 import { useConfigStore } from './store/config'
 
 const config = useConfigStore()
@@ -80,7 +81,8 @@ useHead({
 
 delayedOnMounted(() => {
   const { $enableGtm } = useNuxtApp()
-  $enableGtm()
+  const requiredCookie = useStatefulCookie<number>(COOKIE_REQUIRED_ACCEPTED_KEY, COOKIES_CONFIG)
+  if (requiredCookie.value) $enableGtm()
 }, 3000)
 </script>
 

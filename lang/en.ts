@@ -144,6 +144,7 @@ export default {
     CLIENT_TFA_REQUIRED: 'To log in, you need to enter the code from the two-factor authorization.',
     CLIENT_TFA_INVALID_TOKEN: 'Invalid two-factor authorization token.',
     CLIENT_NO_ACCESS: 'You do not have access to these resources.',
+    CLIENT_CAPTCHA_FAILED: 'Captcha verification failed.',
 
     ORDER_WITH_THIS_NUMBER_DOESNT_EXIST: 'Order with this number doesnt exist',
     CLIENT_GENERATE_PAYMENT_URL: 'Error while generating payment link.',
@@ -167,6 +168,7 @@ export default {
 
     UNPROCESSABLE_ENTITY: 'Validation error.',
 
+    SERVER_CAPTCHA_ERROR: 'Error while verifying the captcha.',
     NOT_FOUND: 'The specified page was not found.',
     INTERNAL_SERVER_ERROR: 'Internal server error.',
     UNAUTHORIZED: 'Nie posiadasz dostępu do tego miejsca.',

@@ -144,6 +144,7 @@ export default {
     CLIENT_TFA_REQUIRED: 'Do zalogowania potrzebne jest wpisanie kodu z podwójnej autoryzacji.',
     CLIENT_TFA_INVALID_TOKEN: 'Nieprawidłowy token podwójnej autoryzacji.',
     CLIENT_NO_ACCESS: 'Nie posiadasz dostępu do tego miejsca.',
+    CLIENT_CAPTCHA_FAILED: 'Weryfikacja reCAPTCHA nie powiodła się.',
 
     ORDER_WITH_THIS_NUMBER_DOESNT_EXIST: 'Zamówienie o tym numerze nie istnieje',
     CLIENT_GENERATE_PAYMENT_URL: 'Błąd podczas generowania linku do płatności.',
@@ -169,6 +170,7 @@ export default {
 
     UNPROCESSABLE_ENTITY: 'Błąd walidacji.',
 
+    SERVER_CAPTCHA_ERROR: 'Błąd serwera reCAPTCHA.',
     NOT_FOUND: 'Podana strona nie została znaleziona.',
     INTERNAL_SERVER_ERROR: 'Wewnętrzny błąd serwera.',
     UNAUTHORIZED: 'Nie posiadasz dostępu do tego miejsca.',
