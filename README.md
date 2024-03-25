@@ -82,3 +82,7 @@ npm run preview
 ```
 
 Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+
+## License
+
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fheseya%2Froby-storefront.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fheseya%2Froby-storefront?ref=badge_large)
