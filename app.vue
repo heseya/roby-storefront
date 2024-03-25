@@ -56,7 +56,11 @@ useHead({
     ...(i18nHead.value.meta || []),
     ...(seo.value.header_tags?.filter((tag) => tag.type === 'meta') || []),
   ],
-  script: [...(seo.value.header_tags?.filter((tag) => tag.type === 'script') || [])],
+  script: [
+    ...(seo.value.header_tags?.filter((tag) => tag.type === 'script') || []),
+    { id: 'custom-js', innerHTML: config.env?.custom_js?.toString() || '' },
+  ],
+  style: [{ id: 'custom-css', innerHTML: config.env?.custom_css?.toString() || '' }],
 })
 
 delayedOnMounted(() => {
