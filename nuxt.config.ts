@@ -72,8 +72,8 @@ const {
 } = process.env
 
 // TODO: remove that envs
-const allowedUiLanguages = BUILD_ALLOWED_UI_LANGUAGES?.split(',') || ['pl']
-const defaultLanguage = BUILD_DEFAULT_LANGUAGE || allowedUiLanguages[0]
+const activeLocales = BUILD_ALLOWED_UI_LANGUAGES?.split(',') || ['pl']
+const defaultLocale = BUILD_DEFAULT_LANGUAGE || activeLocales[0]
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -158,8 +158,8 @@ export default defineNuxtConfig({
         environment: NUXT_PUBLIC_SENTRY_ENVIRONMENT,
       },
       i18n: {
-        defaultLocale: defaultLanguage,
-        locales: allowedUiLanguages,
+        defaultLocale,
+        locales: activeLocales,
         baseUrl: NUXT_PUBLIC_I18N_BASE_URL,
       },
     },
@@ -181,7 +181,7 @@ export default defineNuxtConfig({
     autoI18n: true,
     autoLastmod: false,
     cacheTtl: 1000 * 60 * 15,
-    sources: allowedUiLanguages.map((lang) => `/api/__sitemap__?language=${lang}`),
+    sources: [`/api/__sitemap__`],
   },
 
   googleFonts: {
@@ -195,13 +195,16 @@ export default defineNuxtConfig({
   },
 
   i18n: {
-    defaultLocale: defaultLanguage,
+    defaultLocale,
     langDir: 'lang',
     strategy: 'prefix_except_default',
     locales: [
       { code: 'pl', iso: 'pl-PL', file: 'pl.ts' },
       { code: 'en', iso: 'en-US', file: 'en.ts' },
-    ].filter((locale) => allowedUiLanguages.includes(locale.code)),
+    ],
+    bundle: {
+      onlyLocales: activeLocales,
+    },
     detectBrowserLanguage: {
       useCookie: true,
       cookieKey: 'i18n_redirected',
