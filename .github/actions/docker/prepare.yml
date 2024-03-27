@@ -1,0 +1,21 @@
+name: Prepare docker
+description: Specific steps to prepare docker environment
+inputs:
+  username:
+    required: true
+  password:
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout
+        uses: actions/checkout@v3
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ inputs.username }}
+          password: ${{ inputs.password }}
