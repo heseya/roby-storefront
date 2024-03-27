@@ -7,11 +7,6 @@ During development of version `2.2` of this template, we have introduced a new w
 | Old name                    | New name                     |
 | --------------------------- | ---------------------------- |
 | `ENVIRONMENT`, `VERCEL_ENV` | `NODE_ENV`                   |
-| `PAGE_BLOG_PATH`            | `BUILD_PAGE_BLOG_PATH`       |
-| `PAGE_CONTACT_PATH`         | `BUILD_PAGE_CONTACT_PATH`    |
-| `PAGE_ABOUT_PATH`           | `BUILD_PAGE_ABOUT_PATH`      |
-| `PAGE_RENT_PATH`            | `BUILD_PAGE_RENT_PATH`       |
-| `PAGE_STATUTE_PATH`         | `BUILD_PAGE_STATUTE_PATH`    |
 | `DEFAULT_LANGUAGE`          | `BUILD_DEFAULT_LANGUAGE`     |
 | `ALLOWED_UI_LANGUAGES`      | `BUILD_ALLOWED_UI_LANGUAGES` |
 
@@ -42,6 +37,11 @@ During development of version `2.2` of this template, we have introduced a new w
 | `EKOMI_MINI_STARS_TOKEN`   | `NUXT_PUBLIC_EKOMI_MINI_STARS_TOKEN`   |
 | `EKOMI_REVIEWS_TOKEN`      | `NUXT_PUBLIC_EKOMI_REVIEWS_TOKEN`      |
 | `EKOMI_SURVEY_FORM_ID`     | `NUXT_PUBLIC_EKOMI_SURVEY_FORM_ID`     |
+| `PAGE_BLOG_PATH`           | `NUXT_PUBLIC_PAGE_BLOG_PATH`           |
+| `PAGE_CONTACT_PATH`        | `NUXT_PUBLIC_PAGE_CONTACT_PATH`        |
+| `PAGE_ABOUT_PATH`          | `NUXT_PUBLIC_PAGE_ABOUT_PATH`          |
+| `PAGE_RENT_PATH`           | `NUXT_PUBLIC_PAGE_RENT_PATH`           |
+| `PAGE_STATUTE_PATH`        | `NUXT_PUBLIC_PAGE_STATUTE_PATH`        |
 
 #### Not affected
 

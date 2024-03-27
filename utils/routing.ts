@@ -1,6 +1,6 @@
-import type { NuxtPage } from 'nuxt/schema'
+import type { RouteRecordRaw } from 'vue-router'
 
-export const removePageByName = (name?: string, pages: NuxtPage[] = []): void => {
+export const removePageByName = (name?: string, pages: RouteRecordRaw[] = []): void => {
   const pagesToRemove = []
   for (const page of pages) {
     page.name === name ? pagesToRemove.push(page) : removePageByName(name, page.children)
@@ -9,7 +9,7 @@ export const removePageByName = (name?: string, pages: NuxtPage[] = []): void =>
 }
 
 export const changePagePathByName = (
-  pages: NuxtPage[] = [],
+  pages: RouteRecordRaw[] = [],
   name: string,
   newPath: string,
 ): void => {
@@ -23,7 +23,7 @@ export const changePagePathByName = (
 }
 
 export const changePagePathOrRemoveByName = (
-  pages: NuxtPage[] = [],
+  pages: RouteRecordRaw[] = [],
   name: string,
   newPath?: string,
 ): void => {
