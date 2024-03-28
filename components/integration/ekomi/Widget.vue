@@ -17,7 +17,7 @@ const widgetHtml = computed(
   () =>
     `
 <div class="ekomi-widget-container ekomi-widget-${props.token}"></div>
-<div>${props.contentHtml}</div>
+${props.contentHtml}
 `,
 )
 
