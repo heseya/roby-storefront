@@ -1,23 +1,24 @@
 name: Run Docker image build and tag
 
-on: workflow_dispatch
-
-# on:
-#   push:
-#     tags:
-#       - '*'
-#     branches:
-#       - master
-#       - develop
-#       - hotfix/*
-#       - release/*
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - '*'
+    # branches:
+    #   - master
+    #   - develop
+    #   - hotfix/*
+    #   - release/*
 
 jobs:
-  build:
+  build-pl:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v3
       - name: Prepare docker
-        uses: ./.github/actions/docker
+        uses: ./.github/actions/prepare-docker
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
@@ -25,9 +26,61 @@ jobs:
         env:
           IMAGE_TAG: '${{ github.ref_name }}'
         run: echo "IMAGE_TAG=${IMAGE_TAG/\//-}" >> $GITHUB_ENV
+      - name: Prepare envs
+        run: |
+          echo "BUILD_DEFAULT_LANGUAGE=pl" >> ./.env \
+          echo "BUILD_ALLOWED_UI_LANGUAGES=pl" >> ./.env \
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
           context: .
           push: true
-          tags: heseya/roby-storefront:${{ env.IMAGE_TAG }}
+          tags: heseya/roby-storefront-pl:${{ env.IMAGE_TAG }}
+  build-pl-en:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Prepare docker
+        uses: ./.github/actions/prepare-docker
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Generate tag
+        env:
+          IMAGE_TAG: '${{ github.ref_name }}'
+        run: echo "IMAGE_TAG=${IMAGE_TAG/\//-}" >> $GITHUB_ENV
+      - name: Prepare envs
+        run: |
+          echo "BUILD_DEFAULT_LANGUAGE=pl" >> ./.env \
+          echo "BUILD_ALLOWED_UI_LANGUAGES=pl,en" >> ./.env \
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: heseya/roby-storefront-pl-en:${{ env.IMAGE_TAG }}
+  build-en:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Prepare docker
+        uses: ./.github/actions/prepare-docker
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Generate tag
+        env:
+          IMAGE_TAG: '${{ github.ref_name }}'
+        run: echo "IMAGE_TAG=${IMAGE_TAG/\//-}" >> $GITHUB_ENV
+      - name: Prepare envs
+        run: |
+          echo "BUILD_DEFAULT_LANGUAGE=en" >> ./.env \
+          echo "BUILD_ALLOWED_UI_LANGUAGES=en" >> ./.env \
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: heseya/roby-storefront-en:${{ env.IMAGE_TAG }}
