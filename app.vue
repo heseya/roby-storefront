@@ -1,6 +1,6 @@
 <template>
   <Html :lang="i18nHead.htmlAttrs?.lang" :dir="i18nHead.htmlAttrs?.dir">
-    <IntegrationEkomiWidget :token="runtimeConfig.ekomi.popupToken" />
+    <IntegrationEkomiWidget v-if="!isShopDisabled" :token="runtimeConfig.ekomi.popupToken" />
 
     <LayoutThemeContext>
       <NuxtLoadingIndicator />
@@ -31,11 +31,14 @@ const i18nHead = useLocaleHead({
 })
 
 const title = computed(() => seo.value.title || 'Store')
-const isShopDisabled = computed(() => config.storeFrontDisabled)
 const showColorThemePicker = computed(() =>
   ['true', '1', 1, true].includes(runtimeConfig.showColorThemePicker),
 )
 const isProduction = computed(() => ['true', '1', 1, true].includes(runtimeConfig.production))
+
+const event = useRequestEvent()
+const isShopDisabled = computed(() => config.storeFrontDisabled)
+if (isShopDisabled.value && event) setResponseStatus(event, 503)
 
 useSeoMeta({
   titleTemplate: (titleChunk) => (titleChunk ? `${titleChunk} - ${title.value}` : title.value),
