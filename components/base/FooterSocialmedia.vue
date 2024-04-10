@@ -74,7 +74,7 @@ const socialMedia = computed(() =>
     })),
 )
 
-const showSocials = computed(() => socialMedia.value.some(({ urls }) => urls.length > 0))
+const showSocials = computed(() => !!socialMedia.value?.some(({ urls }) => urls.length > 0))
 </script>
 
 <style lang="scss" scoped>

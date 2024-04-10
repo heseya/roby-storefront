@@ -2,7 +2,7 @@
   <nav class="nav-bar">
     <LazyLayoutNavNotification class="nav-bar__notification" />
     <LayoutNavTopBar v-if="isTopBarVisible" />
-    <div class="nav-items" :class="{ 'nav-items--small': scrollY > 100 }">
+    <div class="nav-items" :class="{ 'nav-items--small': scrollY > 20 }">
       <div class="nav-items__left">
         <LazyLayoutIconButton
           class="nav-items__menu-btn"

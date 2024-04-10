@@ -1,6 +1,6 @@
 import svgLoader from 'vite-svg-loader'
 
-import { removePageByName, changePagePathOrRemoveByName } from './utils/routing'
+// import { removePageByName, changePagePathOrRemoveByName } from './utils/routing'
 import pkg from './package.json'
 
 const {
@@ -8,13 +8,6 @@ const {
    * * Build envs
    */
   NODE_ENV,
-
-  // Custom pages paths
-  BUILD_PAGE_BLOG_PATH = '/blog',
-  BUILD_PAGE_CONTACT_PATH = '/kontakt',
-  BUILD_PAGE_ABOUT_PATH = '/o-nas',
-  BUILD_PAGE_RENT_PATH = '/wynajem',
-  BUILD_PAGE_STATUTE_PATH = '/regulamin',
 
   // Languages
   BUILD_DEFAULT_LANGUAGE,
@@ -40,6 +33,13 @@ const {
   NUXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
   NUXT_PUBLIC_COLOR_THEME_PICKER,
   NUXT_PUBLIC_AXIOS_CACHE_TTL,
+
+  // Custom pages paths
+  NUXT_PUBLIC_PAGE_BLOG_PATH = '/blog',
+  NUXT_PUBLIC_PAGE_CONTACT_PATH = '/kontakt',
+  NUXT_PUBLIC_PAGE_ABOUT_PATH = '/o-nas',
+  NUXT_PUBLIC_PAGE_RENT_PATH = '/wynajem',
+  NUXT_PUBLIC_PAGE_STATUTE_PATH = '/regulamin',
 
   // Font
   NUXT_PUBLIC_FONT_FAMILY = 'Roboto',
@@ -72,8 +72,8 @@ const {
 } = process.env
 
 // TODO: remove that envs
-const allowedUiLanguages = BUILD_ALLOWED_UI_LANGUAGES?.split(',') || ['pl']
-const defaultLanguage = BUILD_DEFAULT_LANGUAGE || allowedUiLanguages[0]
+const activeLocales = BUILD_ALLOWED_UI_LANGUAGES?.split(',') || ['pl']
+const defaultLocale = BUILD_DEFAULT_LANGUAGE || activeLocales[0]
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -146,12 +146,20 @@ export default defineNuxtConfig({
         reviewsToken: NUXT_PUBLIC_EKOMI_REVIEWS_TOKEN,
         surveyFormId: NUXT_PUBLIC_EKOMI_SURVEY_FORM_ID,
       },
+      page: {
+        blogPath: NUXT_PUBLIC_PAGE_BLOG_PATH,
+        contactPath: NUXT_PUBLIC_PAGE_CONTACT_PATH,
+        aboutPath: NUXT_PUBLIC_PAGE_ABOUT_PATH,
+        rentPath: NUXT_PUBLIC_PAGE_RENT_PATH,
+        statutePath: NUXT_PUBLIC_PAGE_STATUTE_PATH,
+      },
       sentry: {
         dsn: NUXT_PUBLIC_SENTRY_DSN,
         environment: NUXT_PUBLIC_SENTRY_ENVIRONMENT,
       },
       i18n: {
-        defaultLocale: defaultLanguage,
+        defaultLocale,
+        locales: activeLocales,
         baseUrl: NUXT_PUBLIC_I18N_BASE_URL,
       },
     },
@@ -168,52 +176,12 @@ export default defineNuxtConfig({
     '@nuxtjs/sitemap',
   ],
 
-  hooks: {
-    'pages:extend'(pages) {
-      const CUSTOM_PAGE_NAMES = {
-        Blog: 'blog',
-        Contact: 'kontakt',
-        AboutUs: 'o-nas',
-        Rent: 'wynajem',
-        Statute: 'regulamin',
-      }
-
-      /**
-       * All custom pages can be disabled or their path can be changed
-       */
-      changePagePathOrRemoveByName(pages, CUSTOM_PAGE_NAMES.Blog, BUILD_PAGE_BLOG_PATH)
-      changePagePathOrRemoveByName(pages, CUSTOM_PAGE_NAMES.Contact, BUILD_PAGE_CONTACT_PATH)
-      changePagePathOrRemoveByName(pages, CUSTOM_PAGE_NAMES.AboutUs, BUILD_PAGE_ABOUT_PATH)
-      changePagePathOrRemoveByName(pages, CUSTOM_PAGE_NAMES.Rent, BUILD_PAGE_RENT_PATH)
-      changePagePathOrRemoveByName(pages, CUSTOM_PAGE_NAMES.Statute, BUILD_PAGE_STATUTE_PATH)
-
-      /**
-       * These pages must be disabled, when directus is not available
-       */
-      const directusPageNames = [
-        CUSTOM_PAGE_NAMES.Blog,
-        CUSTOM_PAGE_NAMES.Contact,
-        CUSTOM_PAGE_NAMES.AboutUs,
-        CUSTOM_PAGE_NAMES.Rent,
-      ]
-
-      const directusPagesDisabled = [
-        BUILD_PAGE_BLOG_PATH,
-        BUILD_PAGE_CONTACT_PATH,
-        BUILD_PAGE_ABOUT_PATH,
-        BUILD_PAGE_RENT_PATH,
-      ].every((path) => path === undefined || path === '' || path === '0')
-
-      if (directusPagesDisabled) directusPageNames.forEach((name) => removePageByName(name, pages))
-    },
-  },
-
   sitemap: {
     sitemapName: 'sitemap.xml',
     autoI18n: true,
     autoLastmod: false,
     cacheTtl: 1000 * 60 * 15,
-    sources: allowedUiLanguages.map((lang) => `/api/__sitemap__?language=${lang}`),
+    sources: [`/api/__sitemap__`],
   },
 
   googleFonts: {
@@ -222,18 +190,21 @@ export default defineNuxtConfig({
     display: 'swap',
     families: {
       Rubik: [400, 500, 600, 700],
-      Roboto: [400, 500, 600, 700],
+      Roboto: [400, 500, 700],
     },
   },
 
   i18n: {
-    defaultLocale: defaultLanguage,
+    defaultLocale,
     langDir: 'lang',
     strategy: 'prefix_except_default',
     locales: [
       { code: 'pl', iso: 'pl-PL', file: 'pl.ts' },
       { code: 'en', iso: 'en-US', file: 'en.ts' },
-    ].filter((locale) => allowedUiLanguages.includes(locale.code)),
+    ],
+    bundle: {
+      onlyLocales: activeLocales,
+    },
     detectBrowserLanguage: {
       useCookie: true,
       cookieKey: 'i18n_redirected',

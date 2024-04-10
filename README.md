@@ -45,14 +45,14 @@ npm run dev
 
 Template uses 3 different APIs. You can change the url of each API by setting the following environment variables.
 
-- Most important is `API_URL` which is used by the application to fetch data from the Heseya API.
-- `DIRECTUS_URL` is used by the application to fetch data from the Directus API. This is used for example to fetch the blog posts. This is optional, if you don't have a Directus instance, you can leave this empty.
-- `PRICE_TRACKER_URL` is used by the application to fetch data from the Price Tracker API to fullfill the Omnibus requirement.
+- Most important is `NUXT_PUBLIC_API_URL` which is used by the application to fetch data from the Heseya API.
+- `NUXT_PUBLIC_DIRECTUS_URL` is used by the application to fetch data from the Directus API. This is used for example to fetch the blog posts. This is optional, if you don't have a Directus instance, you can leave this empty.
+- `NUXT_PUBLIC_PRICE_TRACKER_URL` is used by the application to fetch data from the Price Tracker API to fullfill the Omnibus requirement.
 
 ```env
-API_URL=https://api.heseya.com
-DIRECTUS_URL=https://cms.heseya.com
-PRICE_TRACKER_URL=https://main-price-tracker.heseya.com
+NUXT_PUBLIC_API_URL=https://api.heseya.com
+NUXT_PUBLIC_DIRECTUS_URL=https://cms.heseya.com
+NUXT_PUBLIC_PRICE_TRACKER_URL=https://main-price-tracker.heseya.com
 ```
 
 ### Custom pages
@@ -82,3 +82,7 @@ npm run preview
 ```
 
 Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+
+## License
+
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fheseya%2Froby-storefront.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fheseya%2Froby-storefront?ref=badge_large)
