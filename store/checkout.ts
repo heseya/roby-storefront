@@ -57,20 +57,16 @@ export const useCheckoutStore = defineStore('checkout', {
         })
       }
 
-      if (this.isDpdShippingMethod) {
+      if (this.isDpdShippingMethod || this.isDhlShippingMethod) {
         Object.assign(res, {
+          // @deprecated dpd_ metadata are deprecated, use furgonetka_ instead
           dpd_phone: this.shippingAddress.phone,
           dpd_point: this.orderShippingPlace as string,
           dpd_point_address: this.furgonetka?.name,
-        })
-      }
 
-      // TODO: this needs to be handled via baselinker
-      if (this.isDhlShippingMethod) {
-        Object.assign(res, {
-          dhl_phone: this.shippingAddress.phone,
-          dhl_point: this.orderShippingPlace as string,
-          dhl_point_address: this.furgonetka?.name,
+          furgonetka_phone: this.shippingAddress.phone,
+          furgonetka_point: this.orderShippingPlace as string,
+          furgonetka_point_address: this.furgonetka?.name,
         })
       }
 

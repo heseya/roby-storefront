@@ -11,7 +11,7 @@
           class="pickup-select__edit"
           :icon="EditIcon"
           :icon-size="14"
-          :title="t('change', { provider: provider.toUpperCase() })"
+          :title="t('change', { provider: t(`providers.${provider}`) })"
           @click="isFurgonetkaModalOpen = true"
         />
       </div>
@@ -28,7 +28,7 @@
     <LayoutButton
       v-else
       variant="gray"
-      :label="t('button', { provider: provider.toUpperCase() })"
+      :label="t('button', { provider: t(`providers.${provider}`) })"
       @click="isFurgonetkaModalOpen = true"
     />
 
@@ -44,14 +44,22 @@
 <i18n lang="json">
 {
   "pl": {
-    "button": "Wybierz punkt {provider} Pickup",
+    "button": "Wybierz punkt {provider}",
     "phone": "Numer telefonu odbiorcy",
-    "change": "Wybierz punkt {provider} Pickup"
+    "change": "Wybierz punkt {provider}",
+    "providers": {
+      "dpd": "DPD Pickup",
+      "dhl": "DHL POP"
+    }
   },
   "en": {
-    "button": "Choose point {provider} Pickup",
+    "button": "Choose point {provider}",
     "phone": "Recipient's phone number",
-    "change": "Choose point {provider} Pickup"
+    "change": "Choose point {provider}",
+    "providers": {
+      "dpd": "DPD Pickup",
+      "dhl": "DHL POP"
+    }
   }
 }
 </i18n>
