@@ -1,6 +1,12 @@
 <template>
-  <CheckoutPageArea :title="$t('orders.summary')" :placeholder-height="300">
-    <div class="checkout-summary">
+  <CheckoutPageArea
+    class="checkout-summary-wrapper"
+    :title="$t('orders.summary')"
+    :placeholder-height="300"
+  >
+    <div class="checkout-summary" :class="{ 'checkout-summary--disabled': disabled }">
+      <LayoutLoading :active="cart.isProcessing" />
+
       <div v-for="item in cart.items" :key="item.id" class="checkout-summary-item">
         <span class="checkout-summary-item__text">
           <span class="primary-text">{{ item.totalQty }}x</span> {{ item.name }}
@@ -38,14 +44,19 @@
       <hr class="checkout-summary__hr hr" />
 
       <div class="checkout-summary-item">
-        <CheckoutConsents />
+        <CheckoutConsents :disabled="disabled" />
       </div>
 
       <LayoutInfoBox v-if="!isValid && isErrorVisible" type="danger" class="checkout-summary-item">
         {{ shownError }}
       </LayoutInfoBox>
 
-      <LayoutButton variant="primary" class="cart-summary__button" @click="handleClick">
+      <LayoutButton
+        variant="primary"
+        class="cart-summary__button"
+        :disabled="disabled"
+        @click="handleClick"
+      >
         {{ $t('payments.confirmAndPay') }}
       </LayoutButton>
     </div>
@@ -57,7 +68,7 @@ import { useCartStore } from '@/store/cart'
 import { useCheckoutStore } from '~/store/checkout'
 
 const props = defineProps<{
-  disabled: boolean
+  disabled?: boolean
   isValidationError: boolean
 }>()
 
@@ -90,9 +101,17 @@ const handleClick = () => {
 </script>
 
 <style lang="scss" scoped>
+.checkout-summary-wrapper {
+  position: relative;
+}
+
 .checkout-summary {
   display: flex;
   flex-direction: column;
+
+  &--disabled {
+    color: $gray-color-600;
+  }
 
   &__hr {
     margin-top: 12px;

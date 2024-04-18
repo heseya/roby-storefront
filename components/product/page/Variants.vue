@@ -1,7 +1,9 @@
 <template>
   <div class="product-page-variants">
     <div v-for="set in variantsSets" :key="set.id" class="product-variant">
-      <span class="product-variant__name">{{ set.metadata[VARIANT_NAME_KEY] || set.name }}</span>
+      <span class="product-variant__name">{{
+        set.metadata[`${VARIANT_NAME_KEY}_${locale}`] || set.metadata[VARIANT_NAME_KEY] || set.name
+      }}</span>
       <div class="product-variant__options">
         <NuxtLink
           v-for="option in products?.[set.id]?.data || []"
@@ -10,7 +12,11 @@
           exact-active-class="product-variant__option--current"
           :to="localePath(`/product/${option.slug}`)"
         >
-          {{ option.metadata[VARIANT_NAME_KEY] || option.name }}
+          {{
+            option.metadata[`${VARIANT_NAME_KEY}_${locale}`] ||
+            option.metadata[VARIANT_NAME_KEY] ||
+            option.name
+          }}
         </NuxtLink>
       </div>
     </div>
@@ -22,6 +28,7 @@ import type { Product } from '@heseya/store-core'
 
 import { PRODUCT_SET_SHOW_AS_VARIANT } from '@/consts/metadataKeys'
 
+const { locale } = useI18n()
 const localePath = useLocalePath()
 
 const props = defineProps<{

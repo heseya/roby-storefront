@@ -1,13 +1,13 @@
 <template>
-  <div v-if="ekomiCustomerId && ekomiSurveyFormId" id="sff_127__widget-container"></div>
+  <div v-if="ekomi.customerId && ekomi.surveyFormId" id="sff_127__widget-container"></div>
 </template>
 
 <script setup lang="ts">
-const { ekomiCustomerId, ekomiSurveyFormId } = usePublicRuntimeConfig()
+const { ekomi } = usePublicRuntimeConfig()
 const props = defineProps<{ orderCode: string }>()
 
 onMounted(() => {
-  if (!ekomiCustomerId || !ekomiSurveyFormId) return
+  if (!ekomi.customerId || !ekomi.surveyFormId) return
 
   useHead({
     script: [
@@ -18,8 +18,8 @@ onMounted(() => {
         children: `
         (function(w) {
         w['_ekomiServerUrl'] = 'https://smartforms.ekomi.com';
-        w['_ekomiShopId'] = '${ekomiCustomerId}';
-        w['_ekomiFormId'] = '${ekomiSurveyFormId}';
+        w['_ekomiShopId'] = '${ekomi.customerId}';
+        w['_ekomiFormId'] = '${ekomi.surveyFormId}';
         w['_ekomiTransactionId'] = '${props.orderCode}';
         w['_ekomiProductIds'] = '';
         w['_ekomiWidgetWidth'] = '1020px';

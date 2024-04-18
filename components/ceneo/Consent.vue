@@ -1,5 +1,5 @@
 <template>
-  <FormCheckbox v-model="value" class="ceneo-consent" name="ceneo-consent">
+  <FormCheckbox v-model="value" class="ceneo-consent" name="ceneo-consent" :disabled="disabled">
     {{ t('text') }}
   </FormCheckbox>
 </template>
@@ -20,6 +20,7 @@ const t = useLocalI18n()
 
 const props = defineProps<{
   modelValue: boolean
+  disabled?: boolean
 }>()
 
 const emit = defineEmits<{

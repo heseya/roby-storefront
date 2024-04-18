@@ -28,7 +28,11 @@
           <h2 class="cart-page__title cart-page__title--hideable">{{ t('cart.summary') }}</h2>
 
           <ClientOnly>
-            <CartSummary class="cart-page__summary-box" :disabled="isCartEmpty" />
+            <CartSummary
+              class="cart-page__summary-box"
+              :disabled="isCartEmpty"
+              :loading="cart.isProcessing"
+            />
             <CartCoupons v-show="!isCartEmpty" class="cart-page__summary-box" />
           </ClientOnly>
         </div>

@@ -17,7 +17,7 @@ export const useJsonLd = <T extends MaybeRef<WithContext<Thing>>>(schema: T) => 
 }
 
 export const useProductJsonLd = (productRef?: MaybeRef<Product | null>) => {
-  const { appHost } = usePublicRuntimeConfig()
+  const { i18n } = usePublicRuntimeConfig()
   const currency = useCurrency()
 
   const jsonLd = computed<WithContext<ProductSchema>>(() => {
@@ -33,7 +33,7 @@ export const useProductJsonLd = (productRef?: MaybeRef<Product | null>) => {
       // sku: p.metadata.ean?.toString(),
       offers: {
         '@type': 'Offer',
-        url: `${appHost}/produkt/${product.slug}`,
+        url: `${i18n.baseUrl}/produkt/${product.slug}`,
         priceCurrency: currency.value,
         price: parsePrices(product.prices_min, currency.value),
         availability: product.available
@@ -49,7 +49,7 @@ export const useProductJsonLd = (productRef?: MaybeRef<Product | null>) => {
 }
 
 export const useBlogJsonLd = (articleRef?: MaybeRef<TranslatedBlogArticle | null>) => {
-  const { appHost, directusUrl } = usePublicRuntimeConfig()
+  const { i18n, directusUrl } = usePublicRuntimeConfig()
 
   const jsonLd = computed<WithContext<BlogPosting>>(() => {
     const article = unref(articleRef)
@@ -62,7 +62,7 @@ export const useBlogJsonLd = (articleRef?: MaybeRef<TranslatedBlogArticle | null
       image: `${directusUrl}/assets/${article.cover_image || article.image}`,
       editor: `${article.user_created?.first_name} ${article.user_created?.last_name}`,
       keywords: article.metatags?.split(',').join(' ') || '',
-      url: `${appHost}/${article.slug}`,
+      url: `${i18n.baseUrl}/${article.slug}`,
       datePublished: article.date_created,
       dateCreated: article.date_created,
       dateModified: article.date_updated || article.date_created,

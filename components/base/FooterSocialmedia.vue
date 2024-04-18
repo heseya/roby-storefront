@@ -3,59 +3,10 @@
     <div class="footer-socialmedia__section">
       <span class="footer-socialmedia__text">{{ t('text') }}</span>
     </div>
-    <div v-if="***REMOVED***SocialUrls.length > 0" class="footer-socialmedia__section">
-      <img
-        src="@/assets/icons/social/***REMOVED***.svg"
-        alt="Hammer logo"
-        class="footer-socialmedia__main-icon"
-        loading="lazy"
-      />
+    <div v-for="{ key, logo, urls } in socialMedia" :key="key" class="footer-socialmedia__section">
+      <img :src="logo" :alt="`Logo ${key}`" class="footer-socialmedia__main-icon" loading="lazy" />
       <a
-        v-for="[name, url] in ***REMOVED***SocialUrls"
-        :key="name"
-        target="_blank"
-        rel="nofollow noreferrer"
-        :href="url"
-      >
-        <img
-          :src="ICONS[name]"
-          :alt="t(`go_to_${name}`)"
-          class="footer-socialmedia__icon"
-          loading="lazy"
-        />
-      </a>
-    </div>
-    <div v-if="***REMOVED***SocialUrls.length > 0" class="footer-socialmedia__section">
-      <img
-        src="@/assets/icons/social/***REMOVED***.svg"
-        alt="myPhone logo"
-        class="footer-socialmedia__main-icon"
-        loading="lazy"
-      />
-      <a
-        v-for="[name, url] in ***REMOVED***SocialUrls"
-        :key="name"
-        target="_blank"
-        rel="nofollow noreferrer"
-        :href="url"
-      >
-        <img
-          :src="ICONS[name]"
-          :alt="t(`go_to_${name}`)"
-          class="footer-socialmedia__icon"
-          loading="lazy"
-        />
-      </a>
-    </div>
-    <div v-if="***REMOVED***SocialUrls.length > 0" class="footer-socialmedia__section">
-      <img
-        src="@/assets/icons/social/***REMOVED***.svg"
-        alt="Techbite logo"
-        class="footer-socialmedia__main-icon"
-        loading="lazy"
-      />
-      <a
-        v-for="[name, url] in ***REMOVED***SocialUrls"
+        v-for="[name, url] in urls"
         :key="name"
         target="_blank"
         rel="nofollow noreferrer"
@@ -90,10 +41,6 @@
 </i18n>
 
 <script setup lang="ts">
-/**
- * TODO: this is ***REMOVED*** specific component, maybe it should be refactored to be universal
- */
-
 import FacebookIcon from '@/assets/icons/social/facebook.svg'
 import InstagramIcon from '@/assets/icons/social/instagram.svg'
 import YoutubeIcon from '@/assets/icons/social/youtube.svg'
@@ -116,16 +63,18 @@ const ICONS = {
   youtube: YoutubeIcon,
 }
 
-const ***REMOVED***SocialUrls = computed(() => getSocialUrls('***REMOVED***'))
-const ***REMOVED***SocialUrls = computed(() => getSocialUrls('***REMOVED***'))
-const ***REMOVED***SocialUrls = computed(() => getSocialUrls('***REMOVED***'))
-
-const showSocials = computed(
-  () =>
-    ***REMOVED***SocialUrls.value.length > 0 ||
-    ***REMOVED***SocialUrls.value.length > 0 ||
-    ***REMOVED***SocialUrls.value.length > 0,
+const socialMedia = computed(() =>
+  config.env.footer_social_media
+    ?.toString()
+    .split(',')
+    ?.map((key) => ({
+      key,
+      logo: config.env[`${key}_logo_url`]?.toString(),
+      urls: getSocialUrls(key),
+    })),
 )
+
+const showSocials = computed(() => !!socialMedia.value?.some(({ urls }) => urls.length > 0))
 </script>
 
 <style lang="scss" scoped>

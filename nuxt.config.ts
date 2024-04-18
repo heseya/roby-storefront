@@ -1,64 +1,79 @@
-/* eslint-disable no-console */
 import svgLoader from 'vite-svg-loader'
-import { removePageByName, changePagePathOrRemoveByName } from './utils/routing'
+
+// import { removePageByName, changePagePathOrRemoveByName } from './utils/routing'
 import pkg from './package.json'
 
 const {
-  API_URL,
-  CDN_URL = 'https://cdn-dev.heseya.com"',
-  DIRECTUS_URL,
-  PRICE_TRACKER_URL,
-  ENVIRONMENT = 'development',
-  FONT_FAMILY = 'Roboto',
-  VERCEL_ENV,
-  APP_HOST,
-  RECAPTCHA_PUBLIC,
-  GOOGLE_TAG_MANAGER_ID,
-  CENEO_GUID,
-  LEASLINK_ID,
-  CALLPAGE_ID,
-  EDRONE_ID,
-  EKOMI_CUSTOMER_ID,
-  EKOMI_POPUP_TOKEN,
-  EKOMI_MINI_STARS_TOKEN,
-  EKOMI_REVIEWS_TOKEN,
-  EKOMI_SURVEY_FORM_ID,
-  GOOGLE_SITE_VERIFICATION,
+  /**
+   * * Build envs
+   */
+  NODE_ENV,
+
+  // Languages
+  BUILD_DEFAULT_LANGUAGE,
+  BUILD_ALLOWED_UI_LANGUAGES,
+
+  /**
+   * * Runtime envs
+   */
+  NUXT_PUBLIC_PRODUCTION = 'false',
+  NUXT_PUBLIC_API_URL,
+  NUXT_PUBLIC_CDN_URL,
+  NUXT_PUBLIC_DIRECTUS_URL,
+  NUXT_PUBLIC_PRICE_TRACKER_URL,
+  NUXT_PUBLIC_I18N_BASE_URL,
+  NUXT_PUBLIC_RECAPTCHA_PUBLIC,
+  NUXT_PUBLIC_GOOGLE_TAG_MANAGER_ID,
   NUXT_PUBLIC_GOOGLE_ANALYTICS_ID,
   NUXT_PUBLIC_GOOGLE_ADS_ID,
-  COLOR_THEME_PICKER,
-  AXIOS_CACHE_TTL,
+  NUXT_PUBLIC_CENEO_GUID,
+  NUXT_PUBLIC_LEASLINK_ID,
+  NUXT_PUBLIC_CALLPAGE_ID,
+  NUXT_PUBLIC_EDRONE_ID,
+  NUXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
+  NUXT_PUBLIC_COLOR_THEME_PICKER,
+  NUXT_PUBLIC_AXIOS_CACHE_TTL,
 
   // Custom pages paths
-  PAGE_BLOG_PATH = '/blog',
-  PAGE_CONTACT_PATH = '/kontakt',
-  PAGE_ABOUT_PATH = '/o-nas',
-  PAGE_RENT_PATH = '/wynajem',
-  PAGE_STATUTE_PATH = '/regulamin',
+  NUXT_PUBLIC_PAGE_BLOG_PATH = '/blog',
+  NUXT_PUBLIC_PAGE_CONTACT_PATH = '/kontakt',
+  NUXT_PUBLIC_PAGE_ABOUT_PATH = '/o-nas',
+  NUXT_PUBLIC_PAGE_RENT_PATH = '/wynajem',
+  NUXT_PUBLIC_PAGE_STATUTE_PATH = '/regulamin',
 
+  // Font
+  NUXT_PUBLIC_FONT_FAMILY = 'Roboto',
+
+  // Ekomi
+  NUXT_PUBLIC_EKOMI_CUSTOMER_ID,
+  NUXT_PUBLIC_EKOMI_POPUP_TOKEN,
+  NUXT_PUBLIC_EKOMI_MINI_STARS_TOKEN,
+  NUXT_PUBLIC_EKOMI_REVIEWS_TOKEN,
+  NUXT_PUBLIC_EKOMI_SURVEY_FORM_ID,
+
+  // Sentry
   NUXT_PUBLIC_SENTRY_DSN = '',
   NUXT_PUBLIC_SENTRY_ENVIRONMENT = 'development',
 
-  // Private
-  MAIL_HOST,
-  MAIL_USER,
-  MAIL_SENDER,
-  MAIL_PASSWORD,
-  MAIL_RECEIVER,
-  MAIL_PORT = '587',
-  MIN_RECAPTCHA_SCORE,
-  RECAPTCHA_SECRET,
+  /**
+   * * Runtime private envs
+   */
+  // Email
+  NUXT_MAIL_HOST,
+  NUXT_MAIL_SENDER,
+  NUXT_MAIL_USER,
+  NUXT_MAIL_PASSWORD,
+  NUXT_MAIL_RECEIVER,
+  NUXT_MAIL_PORT = '587',
+
+  // reCAPTCHA
+  NUXT_MIN_RECAPTCHA_SCORE,
+  NUXT_RECAPTCHA_SECRET,
 } = process.env
 
-const ALLOWED_UI_LANGUAGES = process.env.ALLOWED_UI_LANGUAGES?.split(',') || ['pl']
-const DEFAULT_LANGUAGE = process.env.DEFAULT_LANGUAGE || ALLOWED_UI_LANGUAGES[0]
-
-const isProduction = (VERCEL_ENV || ENVIRONMENT) === 'production'
-
-if (!API_URL) console.warn('API_URL env is not defined')
-if (!PRICE_TRACKER_URL) console.warn('PRICE_TRACKER_URL env is not defined')
-if (!APP_HOST) console.warn('APP_HOST env is not defined')
-if (!RECAPTCHA_PUBLIC) console.warn('RECAPTCHA_PUBLIC env is not defined')
+// TODO: remove that envs
+const activeLocales = BUILD_ALLOWED_UI_LANGUAGES?.split(',') || ['pl']
+const defaultLocale = BUILD_DEFAULT_LANGUAGE || activeLocales[0]
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -71,26 +86,8 @@ export default defineNuxtConfig({
           content: 'width=device-width,initial-scale=1,maximum-scale=5',
         },
         { name: 'version', content: pkg.version },
-        {
-          hid: isProduction ? 'robots' : 'force-robots',
-          name: 'robots',
-          content: isProduction ? 'index, follow' : 'noindex, nofollow',
-        },
-        {
-          hid: 'google-site-verification',
-          name: 'google-site-verification',
-          content: GOOGLE_SITE_VERIFICATION,
-        },
       ],
-      link: [
-        { rel: 'sitemap', href: '/sitemap.xml', type: 'application/xml' },
-        { rel: 'preconnect', href: API_URL },
-        { rel: 'dns-prefetch', href: API_URL },
-        { rel: 'preconnect', href: CDN_URL },
-        { rel: 'dns-prefetch', href: CDN_URL },
-        { rel: 'preconnect', href: DIRECTUS_URL },
-        { rel: 'dns-prefetch', href: DIRECTUS_URL },
-      ],
+      link: [{ rel: 'sitemap', href: '/sitemap.xml', type: 'application/xml' }],
       script: [
         {
           hid: 'polyfill',
@@ -113,39 +110,57 @@ export default defineNuxtConfig({
   css: ['@/assets/scss/index.scss', '@/assets/scss/components/_input.scss'],
 
   runtimeConfig: {
-    mailHost: MAIL_HOST,
-    mailUser: MAIL_USER,
-    mailSender: MAIL_SENDER,
-    mailPassword: MAIL_PASSWORD,
-    mailReceiver: MAIL_RECEIVER,
-    mailPort: MAIL_PORT,
-    minRecaptchaScore: MIN_RECAPTCHA_SCORE,
-    recaptchaSecret: RECAPTCHA_SECRET,
+    mail: {
+      host: NUXT_MAIL_HOST,
+      sender: NUXT_MAIL_SENDER,
+      user: NUXT_MAIL_USER,
+      password: NUXT_MAIL_PASSWORD,
+      receiver: NUXT_MAIL_RECEIVER,
+      port: NUXT_MAIL_PORT,
+    },
+    minRecaptchaScore: NUXT_MIN_RECAPTCHA_SCORE,
+    recaptchaSecret: NUXT_RECAPTCHA_SECRET,
 
     public: {
-      apiUrl: API_URL,
-      directusUrl: DIRECTUS_URL,
-      priceTrackerUrl: PRICE_TRACKER_URL,
-      appHost: APP_HOST,
-      isProduction,
-      recaptchaPublic: RECAPTCHA_PUBLIC,
-      googleTagManagerId: GOOGLE_TAG_MANAGER_ID,
+      production: NUXT_PUBLIC_PRODUCTION,
+      apiUrl: NUXT_PUBLIC_API_URL,
+      cdnUrl: NUXT_PUBLIC_CDN_URL,
+      directusUrl: NUXT_PUBLIC_DIRECTUS_URL,
+      priceTrackerUrl: NUXT_PUBLIC_PRICE_TRACKER_URL,
+      recaptchaPublic: NUXT_PUBLIC_RECAPTCHA_PUBLIC,
+      googleTagManagerId: NUXT_PUBLIC_GOOGLE_TAG_MANAGER_ID,
+      googleSiteVerification: NUXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
       googleAnalyticsId: NUXT_PUBLIC_GOOGLE_ANALYTICS_ID,
       googleAdsId: NUXT_PUBLIC_GOOGLE_ADS_ID,
-      ceneoGuid: CENEO_GUID,
-      leaslinkId: LEASLINK_ID,
-      callpageId: CALLPAGE_ID,
-      edroneId: EDRONE_ID,
-      ekomiCustomerId: EKOMI_CUSTOMER_ID,
-      ekomiPopupToken: EKOMI_POPUP_TOKEN,
-      ekomiMiniStarsToken: EKOMI_MINI_STARS_TOKEN,
-      ekomiReviewsToken: EKOMI_REVIEWS_TOKEN,
-      ekomiSurveyFormId: EKOMI_SURVEY_FORM_ID,
-      showColorThemePicker: COLOR_THEME_PICKER === '1',
-      axiosCacheTtl: parseInt(AXIOS_CACHE_TTL || '0') ?? 0,
+      ceneoGuid: NUXT_PUBLIC_CENEO_GUID,
+      leaslinkId: NUXT_PUBLIC_LEASLINK_ID,
+      callpageId: NUXT_PUBLIC_CALLPAGE_ID,
+      edroneId: NUXT_PUBLIC_EDRONE_ID,
+      showColorThemePicker: NUXT_PUBLIC_COLOR_THEME_PICKER,
+      fontFamily: NUXT_PUBLIC_FONT_FAMILY,
+      axiosCacheTtl: NUXT_PUBLIC_AXIOS_CACHE_TTL,
+      ekomi: {
+        customerId: NUXT_PUBLIC_EKOMI_CUSTOMER_ID,
+        popupToken: NUXT_PUBLIC_EKOMI_POPUP_TOKEN,
+        miniStarsToken: NUXT_PUBLIC_EKOMI_MINI_STARS_TOKEN,
+        reviewsToken: NUXT_PUBLIC_EKOMI_REVIEWS_TOKEN,
+        surveyFormId: NUXT_PUBLIC_EKOMI_SURVEY_FORM_ID,
+      },
+      page: {
+        blogPath: NUXT_PUBLIC_PAGE_BLOG_PATH,
+        contactPath: NUXT_PUBLIC_PAGE_CONTACT_PATH,
+        aboutPath: NUXT_PUBLIC_PAGE_ABOUT_PATH,
+        rentPath: NUXT_PUBLIC_PAGE_RENT_PATH,
+        statutePath: NUXT_PUBLIC_PAGE_STATUTE_PATH,
+      },
       sentry: {
         dsn: NUXT_PUBLIC_SENTRY_DSN,
         environment: NUXT_PUBLIC_SENTRY_ENVIRONMENT,
+      },
+      i18n: {
+        defaultLocale,
+        locales: activeLocales,
+        baseUrl: NUXT_PUBLIC_I18N_BASE_URL,
       },
     },
   },
@@ -161,45 +176,12 @@ export default defineNuxtConfig({
     '@nuxtjs/sitemap',
   ],
 
-  hooks: {
-    'pages:extend'(pages) {
-      const CUSTOM_PAGE_NAMES = {
-        Blog: 'blog',
-        Contact: 'kontakt',
-        AboutUs: 'o-nas',
-        Rent: 'wynajem',
-        Statute: 'regulamin',
-      }
-
-      /**
-       * All custom pages can be disabled or their path can be changed
-       */
-      changePagePathOrRemoveByName(pages, CUSTOM_PAGE_NAMES.Blog, PAGE_BLOG_PATH)
-      changePagePathOrRemoveByName(pages, CUSTOM_PAGE_NAMES.Contact, PAGE_CONTACT_PATH)
-      changePagePathOrRemoveByName(pages, CUSTOM_PAGE_NAMES.AboutUs, PAGE_ABOUT_PATH)
-      changePagePathOrRemoveByName(pages, CUSTOM_PAGE_NAMES.Rent, PAGE_RENT_PATH)
-      changePagePathOrRemoveByName(pages, CUSTOM_PAGE_NAMES.Statute, PAGE_STATUTE_PATH)
-
-      /**
-       * These pages must be disabled, when directus is not available
-       */
-      const directusPageNames = [
-        CUSTOM_PAGE_NAMES.Blog,
-        CUSTOM_PAGE_NAMES.Contact,
-        CUSTOM_PAGE_NAMES.AboutUs,
-        CUSTOM_PAGE_NAMES.Rent,
-      ]
-
-      if (!DIRECTUS_URL) directusPageNames.forEach((name) => removePageByName(name, pages))
-    },
-  },
-
   sitemap: {
     sitemapName: 'sitemap.xml',
     autoI18n: true,
     autoLastmod: false,
     cacheTtl: 1000 * 60 * 15,
-    _route: '_sitemap-urls',
+    sources: [`/api/__sitemap__`],
   },
 
   googleFonts: {
@@ -207,21 +189,22 @@ export default defineNuxtConfig({
     overwriting: true,
     display: 'swap',
     families: {
-      [FONT_FAMILY]: [400, 500, 600, 700],
+      Rubik: [400, 500, 600, 700],
+      Roboto: [400, 500, 700],
     },
   },
 
   i18n: {
-    baseUrl: APP_HOST,
-    defaultLocale: DEFAULT_LANGUAGE,
-    // @ts-ignore TODO: where to put this?
-    fallbackLocale: DEFAULT_LANGUAGE,
+    defaultLocale,
     langDir: 'lang',
     strategy: 'prefix_except_default',
     locales: [
       { code: 'pl', iso: 'pl-PL', file: 'pl.ts' },
       { code: 'en', iso: 'en-US', file: 'en.ts' },
-    ].filter((locale) => ALLOWED_UI_LANGUAGES.includes(locale.code)),
+    ],
+    bundle: {
+      onlyLocales: activeLocales,
+    },
     detectBrowserLanguage: {
       useCookie: true,
       cookieKey: 'i18n_redirected',
@@ -236,7 +219,8 @@ export default defineNuxtConfig({
   delayHydration: {
     mode: 'mount',
     // enables nuxt-delay-hydration in dev mode for testing
-    debug: process.env.NODE_ENV === 'development',
+    // on build it will be always disabled
+    debug: NODE_ENV === 'development',
   },
 
   swiper: {

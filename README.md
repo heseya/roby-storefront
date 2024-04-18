@@ -45,14 +45,14 @@ npm run dev
 
 Template uses 3 different APIs. You can change the url of each API by setting the following environment variables.
 
-- Most important is `API_URL` which is used by the application to fetch data from the Heseya API.
-- `DIRECTUS_URL` is used by the application to fetch data from the Directus API. This is used for example to fetch the blog posts. This is optional, if you don't have a Directus instance, you can leave this empty.
-- `PRICE_TRACKER_URL` is used by the application to fetch data from the Price Tracker API to fullfill the Omnibus requirement.
+- Most important is `NUXT_PUBLIC_API_URL` which is used by the application to fetch data from the Heseya API.
+- `NUXT_PUBLIC_DIRECTUS_URL` is used by the application to fetch data from the Directus API. This is used for example to fetch the blog posts. This is optional, if you don't have a Directus instance, you can leave this empty.
+- `NUXT_PUBLIC_PRICE_TRACKER_URL` is used by the application to fetch data from the Price Tracker API to fullfill the Omnibus requirement.
 
 ```env
-API_URL=https://demo-***REMOVED***.***REMOVED***
-DIRECTUS_URL=https://cms.heseya.com
-PRICE_TRACKER_URL=https://main-price-tracker.app.***REMOVED***
+NUXT_PUBLIC_API_URL=https://api.heseya.com
+NUXT_PUBLIC_DIRECTUS_URL=https://cms.heseya.com
+NUXT_PUBLIC_PRICE_TRACKER_URL=https://main-price-tracker.heseya.com
 ```
 
 ### Custom pages
@@ -60,11 +60,11 @@ PRICE_TRACKER_URL=https://main-price-tracker.app.***REMOVED***
 In this template there are 5 custom pages available. You can change the path of each page by setting the following environment variables. If you want to disable a page, set the env to _empty_ or to `0`.
 
 ```env
-PAGE_BLOG_PATH=/blog
-PAGE_CONTACT_PATH=/kontakt
-PAGE_ABOUT_PATH=/o-nas
-PAGE_RENT_PATH=/wynajem
-PAGE_STATUTE_PATH=/regulamin
+BUILD_PAGE_BLOG_PATH=/blog
+BUILD_PAGE_CONTACT_PATH=/kontakt
+BUILD_PAGE_ABOUT_PATH=/o-nas
+BUILD_PAGE_RENT_PATH=/wynajem
+BUILD_PAGE_STATUTE_PATH=/regulamin
 ```
 
 ## Production
@@ -82,3 +82,7 @@ npm run preview
 ```
 
 Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+
+## License
+
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fheseya%2Froby-storefront.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fheseya%2Froby-storefront?ref=badge_large)

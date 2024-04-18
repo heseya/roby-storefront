@@ -53,24 +53,32 @@ const fullPaginationFetch = async <T>(
 /**
  * https://nuxtseo.com/sitemap/guides/dynamic-urls
  */
-export default defineEventHandler(async (event): Promise<SitemapEntry[]> => {
+export default defineEventHandler((event): Promise<SitemapEntry[]> => {
   // @ts-ignore Docs suggest to pass event to useRuntimeConfig, but it's not typed? https://nuxt.com/docs/guide/going-further/runtime-config#server-routes
   const config = useRuntimeConfig(event)
 
-  const sdk = createHeseyaApiService(axios.create({ baseURL: config.public.apiUrl }))
-  const directus = new Directus<DirectusCollections>(config.public.directusUrl || '')
+  return Promise.all(
+    config.public.i18n.locales.map(async (language) => {
+      const langPrefix = language === config.public.i18n.defaultLocale ? '' : `/${language}`
 
-  const [products, productSets, pages, blogPosts] = await Promise.all([
-    fullPaginationFetch((params) => sdk.Products.get({ ...params, public: true })),
-    fullPaginationFetch((params) => sdk.ProductSets.get({ ...params, public: true })),
-    fullPaginationFetch((params) => sdk.Pages.get(params)),
-    directus.url ? fullPaginationFetch((params) => fetchDirectusPosts(directus)(params)) : [],
-  ])
+      const sdk = createHeseyaApiService(
+        axios.create({ baseURL: config.public.apiUrl, headers: { 'Accept-Language': language } }),
+      )
+      const directus = new Directus<DirectusCollections>(config.public.directusUrl || '')
 
-  return [
-    ...products.map((e) => ({ loc: `/product/${e.slug}`, lastmod: '' })),
-    ...productSets.map((e) => ({ loc: `/category/${e.slug}`, lastmod: '' })),
-    ...pages.map((e) => ({ loc: `/${e.slug}`, lastmod: '' })),
-    ...blogPosts.map((e) => ({ loc: `/${e.slug}`, lastmod: '' })),
-  ]
+      const [products, productSets, pages, blogPosts] = await Promise.all([
+        fullPaginationFetch((params) => sdk.Products.get({ ...params, public: true })),
+        fullPaginationFetch((params) => sdk.ProductSets.get({ ...params, public: true })),
+        fullPaginationFetch((params) => sdk.Pages.get(params)),
+        directus.url ? fullPaginationFetch((params) => fetchDirectusPosts(directus)(params)) : [],
+      ])
+
+      return [
+        ...products.map((e) => ({ loc: `${langPrefix}/product/${e.slug}`, lastmod: '' })),
+        ...productSets.map((e) => ({ loc: `${langPrefix}/category/${e.slug}`, lastmod: '' })),
+        ...pages.map((e) => ({ loc: `${langPrefix}/${e.slug}`, lastmod: '' })),
+        ...blogPosts.map((e) => ({ loc: `${langPrefix}/${e.slug}`, lastmod: '' })),
+      ]
+    }),
+  ).then((results) => results.flat())
 })

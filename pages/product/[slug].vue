@@ -88,21 +88,24 @@
               />
             </div>
 
-            <LazyProductPageCard
-              v-if="product?.metadata.allow_individual_offer"
-              :title="t('individualOffer')"
-            >
-              <LazyProductPageContactForm
+            <div v-if="product?.metadata.allow_individual_offer" class="product-page__form-wrapper">
+              <LazyProductPageCard
+                v-if="product?.metadata.allow_individual_offer"
+                class="product-page__individual-offer-form"
+                :title="t('individualOffer')"
+              >
+                <LazyProductPageContactForm
+                  :product="product"
+                  vertical
+                  type="offer"
+                  :action-text="t('individualOffer')"
+                />
+              </LazyProductPageCard>
+              <LazyProductPageAttributeCard
+                v-else-if="product && showAttributeCard"
                 :product="product"
-                vertical
-                type="offer"
-                :action-text="t('individualOffer')"
               />
-            </LazyProductPageCard>
-            <LazyProductPageAttributeCard
-              v-else-if="product && showAttributeCard"
-              :product="product"
-            />
+            </div>
           </div>
         </template>
 
@@ -125,12 +128,12 @@
 
       <LazyIntegrationEkomiProductWidget
         v-if="product?.id"
-        :token="ekomiMiniStarsToken"
+        :token="ekomi.miniStarsToken"
         :product-id="product.id"
       />
       <LazyIntegrationEkomiProductWidget
         v-if="product?.id"
-        :token="ekomiReviewsToken"
+        :token="ekomi.reviewsToken"
         :product-id="product.id"
       />
 
@@ -197,7 +200,7 @@ import type { Tab } from '@/components/layout/Tabs.vue'
 
 import { useConfigStore } from '@/store/config'
 
-const { ekomiMiniStarsToken, ekomiReviewsToken } = usePublicRuntimeConfig()
+const { ekomi } = usePublicRuntimeConfig()
 const heseya = useHeseya()
 const route = useRoute()
 const config = useConfigStore()
@@ -342,6 +345,11 @@ useProductJsonLd(product)
 
   &__attachments {
     margin-top: 40px;
+  }
+
+  &__individual-offer-form {
+    position: sticky;
+    top: 190px;
   }
 }
 

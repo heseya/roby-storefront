@@ -1,7 +1,7 @@
 <template>
-  <IntegrationEkomiWidget v-if="ekomiCustomerId" :token="props.token" :delay-time="1000">
+  <IntegrationEkomiWidget v-if="ekomi.customerId" :token="props.token" :delay-time="1000">
     <div
-      v-if="ekomiCustomerId"
+      v-if="ekomi.customerId"
       id="ekomi-product-widget-identifier"
       class="prod-data-emp"
       style="visibility: hidden"
@@ -11,7 +11,7 @@
 </template>
 
 <script setup lang="ts">
-const { ekomiCustomerId } = usePublicRuntimeConfig()
+const { ekomi } = usePublicRuntimeConfig()
 const props = defineProps<{ token: string; productId?: string }>()
 
 /**

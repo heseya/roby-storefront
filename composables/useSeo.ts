@@ -8,15 +8,23 @@ export const useSeo = (getSeoArray: () => Array<MaybeRef<SeoMetadata> | null | u
 
   const inputSeo = computed(() => getSeoArray().filter(Boolean).map(unref) as SeoMetadata[])
 
-  const computedSeo = computed(() =>
-    getSeoValues(...inputSeo.value, {
+  const computedSeo = computed(() => {
+    return getSeoValues(...inputSeo.value, {
       ...config.seo,
-      // Default title is used as suffix
       title: '',
-    }),
-  )
+    })
+  })
 
-  useHead(() => createSeoMetatags(computedSeo.value))
+  useHead(() => ({
+    ...createSeoMetatags({
+      ...computedSeo.value,
+      // Default title is used as suffix
+      title: computedSeo.value.title
+        ? `${computedSeo.value.title} - ${config.seo.title}`
+        : config.seo.title,
+    }),
+    title: computedSeo.value.title,
+  }))
 }
 
 export const useSeoTitle = (title: MaybeRef<string>) => {

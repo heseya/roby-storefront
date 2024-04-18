@@ -38,6 +38,7 @@
         :model-value="address.address"
         :name="`${namePrefix}_address`"
         rules="required"
+        autocomplete="address-line1"
         :label="t('address')"
         :disabled="disabled"
         @update:model-value="update('address', $event as string)"
@@ -86,7 +87,7 @@
 {
   "pl": {
     "companyName": "Nazwa firmy",
-    "address": "Adres",
+    "address": "Ulica wraz z numerem domu/mieszkania",
     "city": "Miasto",
     "cityAndState": "Miasto i stan",
     "postalCode": "Kod pocztowy",
@@ -96,7 +97,7 @@
   },
   "en": {
     "companyName": "Company name",
-    "address": "Address",
+    "address": "Street with house/apartment number",
     "city": "City",
     "cityAndState": "City and state",
     "postalCode": "Postal Code",
