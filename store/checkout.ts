@@ -41,7 +41,7 @@ export const useCheckoutStore = defineStore('checkout', {
       if (this.shippingMethod.shipping_type === ShippingType.Point)
         return this.shippingPointId || undefined
       if (this.isInpostShippingMethod) return this.paczkomat?.name
-      if (this.isDpdShippingMethod) return this.furgonetka?.code
+      if (this.isFurgonetkaShippingMethod) return this.furgonetka?.code
       return this.shippingAddress
     },
 
@@ -57,11 +57,16 @@ export const useCheckoutStore = defineStore('checkout', {
         })
       }
 
-      if (this.isDpdShippingMethod) {
+      if (this.isFurgonetkaShippingMethod) {
         Object.assign(res, {
+          // @deprecated dpd_ metadata are deprecated, use furgonetka_ instead
           dpd_phone: this.shippingAddress.phone,
           dpd_point: this.orderShippingPlace as string,
           dpd_point_address: this.furgonetka?.name,
+
+          furgonetka_phone: this.shippingAddress.phone,
+          furgonetka_point: this.orderShippingPlace as string,
+          furgonetka_point_address: this.furgonetka?.name,
         })
       }
 
@@ -84,7 +89,7 @@ export const useCheckoutStore = defineStore('checkout', {
         email: this.email,
         comment: this.comment,
         shipping_place:
-          this.isInpostShippingMethod || this.isDpdShippingMethod
+          this.isInpostShippingMethod || this.isFurgonetkaShippingMethod
             ? `${this.orderShippingPlace as string} | tel.: ${this.shippingAddress.phone}`
             : this.orderShippingPlace,
         items: cart.orderItems,
@@ -109,10 +114,10 @@ export const useCheckoutStore = defineStore('checkout', {
       )
     },
 
-    isDpdShippingMethod(): boolean {
+    isFurgonetkaShippingMethod(): boolean {
       return !!(
         this.shippingMethod?.shipping_type === ShippingType.PointExternal &&
-        this.shippingMethod?.metadata.dpd_pickup
+        (this.shippingMethod?.metadata.dhl_pickup || this.shippingMethod?.metadata.dpd_pickup)
       )
     },
 
