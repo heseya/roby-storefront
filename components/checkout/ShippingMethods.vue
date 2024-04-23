@@ -122,6 +122,14 @@ const setShippingMethod = (id: unknown) => {
   if (checkout.shippingMethod?.id === id) return
 
   const shippingMethod = shippingMethods.value?.find((method) => method.id === id) || null
+
+  /**
+   * Clear furgonetka point if shipping method is changed
+   */
+  if (shippingMethod?.shipping_type === ShippingType.PointExternal) {
+    checkout.furgonetka = null
+  }
+
   checkout.shippingMethod = shippingMethod
 
   if (shippingMethod?.shipping_type === ShippingType.Point && !checkout.shippingPointId) {
