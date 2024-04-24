@@ -1,68 +1,67 @@
 <template>
-  <div v-if="isCookiesBarVisible" class="cookies-bar-wrapper">
-    <div class="cookies-bar">
-      <div class="cookies-bar__content">
-        <span class="cookies-bar__text cookies-bar__text--bold">
-          {{ t('content.title') }}
-        </span>
-        <p class="cookies-bar__text">
-          {{ t('content.text') }}
-          <NuxtLink :to="localePath(privacyPolicyUrl)">{{ t('content.privacyPolicy') }}</NuxtLink
-          >.
-        </p>
+  <div v-if="isCookiesBarVisible" class="cookies-bar-wrapper"></div>
+  <div v-if="isCookiesBarVisible" class="cookies-bar">
+    <div class="cookies-bar__content">
+      <span class="cookies-bar__text cookies-bar__text--bold">
+        {{ t('content.title') }}
+      </span>
+      <p class="cookies-bar__text">
+        {{ t('content.text') }}
+        <NuxtLink :to="localePath(privacyPolicyUrl)">{{ t('content.privacyPolicy') }}</NuxtLink
+        >.
+      </p>
 
-        <div class="cookies-bar__sections cookies-tabs">
-          <div class="cookies-tabs__menu">
-            <button
-              v-for="section in cookiesCategories"
-              :key="section"
-              type="button"
-              class="cookies-tabs__menu-item"
-              :class="{ 'cookies-tabs__menu-item--active': section === visibleTab }"
-              @click="visibleTab = section"
-            >
-              {{ t(`consents.${section}.title`) }}
-            </button>
-          </div>
-
-          <div class="cookies-tabs__content">
-            <div
-              v-for="section in cookiesCategories"
-              :key="section"
-              class="cookies-tabs__tab"
-              :class="{ 'cookies-tabs__tab--active': section === visibleTab }"
-            >
-              <div class="cookies-tabs__row">
-                <span class="cookies-bar__text cookies-bar__text--bold">
-                  {{ t(`consents.${section}.title`) }}
-                </span>
-                <FormSwitch
-                  v-model:checked="optInForm[section]"
-                  :name="`cookies-${section}`"
-                  :disabled="section === 'required'"
-                />
-              </div>
-              <p class="cookies-bar__text">{{ t(`consents.${section}.text`) }}</p>
-            </div>
-          </div>
+      <div class="cookies-bar__sections cookies-tabs">
+        <div class="cookies-tabs__menu">
+          <button
+            v-for="section in cookiesCategories"
+            :key="section"
+            type="button"
+            class="cookies-tabs__menu-item"
+            :class="{ 'cookies-tabs__menu-item--active': section === visibleTab }"
+            @click="visibleTab = section"
+          >
+            {{ t(`consents.${section}.title`) }}
+          </button>
         </div>
 
-        <div class="cookies-bar__action">
-          <span class="cookies-bar__text cookies-bar__text--bold">
-            {{ t('content.question') }}
-          </span>
+        <div class="cookies-tabs__content">
+          <div
+            v-for="section in cookiesCategories"
+            :key="section"
+            class="cookies-tabs__tab"
+            :class="{ 'cookies-tabs__tab--active': section === visibleTab }"
+          >
+            <div class="cookies-tabs__row">
+              <span class="cookies-bar__text cookies-bar__text--bold">
+                {{ t(`consents.${section}.title`) }}
+              </span>
+              <FormSwitch
+                v-model:checked="optInForm[section]"
+                :name="`cookies-${section}`"
+                :disabled="section === 'required'"
+              />
+            </div>
+            <p class="cookies-bar__text">{{ t(`consents.${section}.text`) }}</p>
+          </div>
+        </div>
+      </div>
 
-          <div class="cookies-bar__btns">
-            <!-- <LayoutButton class="cookies-bar__btn" variant="white" @click="rejectCookies">
+      <div class="cookies-bar__action">
+        <span class="cookies-bar__text cookies-bar__text--bold">
+          {{ t('content.question') }}
+        </span>
+
+        <div class="cookies-bar__btns">
+          <!-- <LayoutButton class="cookies-bar__btn" variant="white" @click="rejectCookies">
               {{ t('actions.reject') }}
             </LayoutButton> -->
-            <LayoutButton class="cookies-bar__btn" variant="white" @click="acceptSelectedCookies">
-              {{ t('actions.selected') }}
-            </LayoutButton>
-            <LayoutButton class="cookies-bar__btn" variant="primary" @click="acceptAllCookies">
-              {{ t('actions.accept') }}
-            </LayoutButton>
-          </div>
+          <LayoutButton class="cookies-bar__btn" variant="white" @click="acceptSelectedCookies">
+            {{ t('actions.selected') }}
+          </LayoutButton>
+          <LayoutButton class="cookies-bar__btn" variant="primary" @click="acceptAllCookies">
+            {{ t('actions.accept') }}
+          </LayoutButton>
         </div>
       </div>
     </div>
@@ -198,7 +197,6 @@ const visibleTab = ref('required')
   width: 100vw;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
-  z-index: -1;
   z-index: 9999;
 }
 

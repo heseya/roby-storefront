@@ -38,8 +38,13 @@
           <CheckoutInpostSelect
             v-if="method.shipping_type === ShippingType.PointExternal && method.metadata.paczkomat"
           />
-          <CheckoutDpdSelect
+          <CheckoutFurgonetkaSelect
             v-if="method.shipping_type === ShippingType.PointExternal && method.metadata.dpd_pickup"
+            provider="dpd"
+          />
+          <CheckoutFurgonetkaSelect
+            v-if="method.shipping_type === ShippingType.PointExternal && method.metadata.dhl_pickup"
+            provider="dhl"
           />
           <CheckoutFormShippingPointSelect
             v-if="method.shipping_type === ShippingType.Point"
@@ -117,6 +122,14 @@ const setShippingMethod = (id: unknown) => {
   if (checkout.shippingMethod?.id === id) return
 
   const shippingMethod = shippingMethods.value?.find((method) => method.id === id) || null
+
+  /**
+   * Clear furgonetka point if shipping method is changed
+   */
+  if (shippingMethod?.shipping_type === ShippingType.PointExternal) {
+    checkout.furgonetka = null
+  }
+
   checkout.shippingMethod = shippingMethod
 
   if (shippingMethod?.shipping_type === ShippingType.Point && !checkout.shippingPointId) {
