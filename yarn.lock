@@ -807,24 +807,24 @@
   resolved "https://registry.yarnpkg.com/@floating-ui/utils/-/utils-0.2.2.tgz#d8bae93ac8b815b2bd7a98078cf91e2724ef11e5"
   integrity sha512-J4yDIIthosAsRZ5CPYP/jQvUAQtlZTTD/4suA08/FEnlxqW3sKS9iAhgsa9VYLZ6vDHn/ixJgIqRQPotoBjxIw==
 
-"@gtm-support/core@^2.0.0":
-  version "2.3.1"
-  resolved "https://registry.yarnpkg.com/@gtm-support/core/-/core-2.3.1.tgz#e802f1d60256583d468cf4ccef391f85e33c766d"
-  integrity sha512-eD0hndQjhgKm5f/7IA9fZYujmHiVMY+fnYv4mdZSmz5XJQlS4TiTmpdZx2l7I2A9rI9J6Ysz8LpXYYNo/Xq4LQ==
+"@gtm-support/core@^3.0.1":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/@gtm-support/core/-/core-3.0.1.tgz#0e545a46d40ddc9192c478f990edeed523f9c85d"
+  integrity sha512-SctcoqvvAbGAgZzOb7DZ4wjbZF3ZS7Las3qIEByv6g7mzPf4E9LpRXcQzjmywYLcUx2jys7PWJAa3s5slvj/0w==
 
-"@gtm-support/vue-gtm@^2.2.0":
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/@gtm-support/vue-gtm/-/vue-gtm-2.2.0.tgz#b6b17da2f27ff186aae731c8c32fdcb8a6738f25"
-  integrity sha512-7nhBTRkTG0mD+7r7JvNalJz++YwszZk0oP1HIY6fCgz6wNKxT6LuiXCqdPrZmNPe/WbPIKuqxGZN5s+i6NZqow==
+"@gtm-support/vue-gtm@^3.0.1":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/@gtm-support/vue-gtm/-/vue-gtm-3.0.1.tgz#b369e9ae96408eae14809035c394780db537d512"
+  integrity sha512-SeLN3R+5gHJ+1AtJPP4/+2lJ6vOfXo1pL094//GcKY7RrMk3ltxIS/CJ3PSlL2Dpxjr9UAov0m4K1SdvYj3Xzw==
   dependencies:
-    "@gtm-support/core" "^2.0.0"
+    "@gtm-support/core" "^3.0.1"
   optionalDependencies:
     vue-router ">= 4.1.0 < 5.0.0"
 
-"@heseya/store-core@6.1.0-dev.1":
-  version "6.1.0-dev.1"
-  resolved "https://registry.yarnpkg.com/@heseya/store-core/-/store-core-6.1.0-dev.1.tgz#66e63d584de6a42dd32dc977f2d0456e8b069ac5"
-  integrity sha512-cwrsyLBfyd6vpP+E6lDLzsCCX89Bo4dFQG+GXzSvKntW/kbSMWpZXg5S2toAJXA5/thZK4GVcfYRUx9yL+irnw==
+"@heseya/store-core@6.1.0":
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/@heseya/store-core/-/store-core-6.1.0.tgz#8a87598db94a429702d0ea5b11399e64db087eb2"
+  integrity sha512-IKPoGLkkXIjHcYkKkQTYE/qad+67mi7CSWHUrn39IxMR6ufCNhoWJNFzwWiYJMxtpAhPDulTElZrZNRP3WzhTA==
   dependencies:
     flat "^5.0.2"
     form-data "^4.0.0"
@@ -2527,7 +2527,7 @@
   dependencies:
     undici-types "~5.26.4"
 
-"@types/nodemailer@^6.4.14":
+"@types/nodemailer@^6.4.15":
   version "6.4.15"
   resolved "https://registry.yarnpkg.com/@types/nodemailer/-/nodemailer-6.4.15.tgz#494be695e11c438f7f5df738fb4ab740312a6ed2"
   integrity sha512-0EBJxawVNjPkng1zm2vopRctuWVCxk34JcIlRuXSf54habUWdz1FB7wHDqOqvDa8Mtpt0Q3LTXQkAs2LNyK5jQ==
@@ -3405,7 +3405,7 @@
   resolved "https://registry.yarnpkg.com/@vueuse/metadata/-/metadata-10.11.0.tgz#27be47cf115ee98e947a1bfcd0b1b5b35d785fb6"
   integrity sha512-kQX7l6l8dVWNqlqyN3ePW3KmjCQO3ZMgXuBMddIu83CmucrsBfXlH+JoviYyRBws/yLTQO8g3Pbw+bdIoVm4oQ==
 
-"@vueuse/nuxt@^10.9.0":
+"@vueuse/nuxt@^10.11.0", "@vueuse/nuxt@^10.9.0":
   version "10.11.0"
   resolved "https://registry.yarnpkg.com/@vueuse/nuxt/-/nuxt-10.11.0.tgz#41ea34b55399e014d50e5afd90728e7e3e3a7202"
   integrity sha512-PV15CU28qzr/+4IleyahobwU9kfTwfbsl8f+wkv6TWjboFVdt4WLMP2TNfPj7QgssyDdCRdl3gLZ4DC884wnDw==
@@ -3760,7 +3760,7 @@ available-typed-arrays@^1.0.7:
   dependencies:
     possible-typed-array-names "^1.0.0"
 
-axios-cache-interceptor@^1.5.1:
+axios-cache-interceptor@^1.5.3:
   version "1.5.3"
   resolved "https://registry.yarnpkg.com/axios-cache-interceptor/-/axios-cache-interceptor-1.5.3.tgz#2083fc68aacb915240e37edcb792b4fed63540be"
   integrity sha512-kPgGId9XW7tR+VF7hgSkqF4f6FrV4ecCyKxjkD9v1hNJ4sXSAskocr7SMKaVHVvrbzVeruwB6yL6Y9/lY1ApKg==
@@ -3777,7 +3777,7 @@ axios@^0.27.2:
     follow-redirects "^1.14.9"
     form-data "^4.0.0"
 
-axios@^1.6.8:
+axios@^1.7.2:
   version "1.7.2"
   resolved "https://registry.yarnpkg.com/axios/-/axios-1.7.2.tgz#b625db8a7051fbea61c35a3cbb3a1daa7b9c7621"
   integrity sha512-2A8QhOMrbomlDuiLeK9XibIBzuHeRcqqNOHp0Cyp5EoJ1IFDh+XZH3A6BkXtv0K4gFGCI0Y4BM7B1wOEi0Rmgw==
@@ -7186,7 +7186,7 @@ node-releases@^2.0.14:
   resolved "https://registry.yarnpkg.com/node-releases/-/node-releases-2.0.14.tgz#2ffb053bceb8b2be8495ece1ab6ce600c4461b0b"
   integrity sha512-y10wOWt8yZpqXmOgRo77WaHEmhYQYGNA6y421PKsKYWEK8aW+cqAphborZDhqfyKrbZEN92CN1X2KbafY2s7Yw==
 
-nodemailer@^6.9.13:
+nodemailer@^6.9.14:
   version "6.9.14"
   resolved "https://registry.yarnpkg.com/nodemailer/-/nodemailer-6.9.14.tgz#845fda981f9fd5ac264f4446af908a7c78027f75"
   integrity sha512-Dobp/ebDKBvz91sbtRKhcznLThrKxKt97GI2FAlAyy+fk19j73Uz3sBXolVtmcXjaorivqsbbbjDY+Jkt4/bQA==
@@ -9144,7 +9144,7 @@ swiper@^10.2.0:
   resolved "https://registry.yarnpkg.com/swiper/-/swiper-10.3.1.tgz#4d19d7e9d0bd184c30accf2c1b180cfe41b9f4af"
   integrity sha512-24Wk3YUdZHxjc9faID97GTu6xnLNia+adMt6qMTZG/HgdSUt4fS0REsGUXJOgpTED0Amh/j+gRGQxsLayJUlBQ==
 
-swiper@^11.1.0:
+swiper@^11.1.4:
   version "11.1.4"
   resolved "https://registry.yarnpkg.com/swiper/-/swiper-11.1.4.tgz#2f8e303e8bf9e5bc40a3885fc637ae60ff27996c"
   integrity sha512-1n7kbYJB2dFEpUHRFszq7gys/ofIBrMNibwTiMvPHwneKND/t9kImnHt6CfGPScMHgI+dWMbGTycCKGMoOO1KA==

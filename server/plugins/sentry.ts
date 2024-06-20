@@ -1,6 +1,7 @@
 import { H3Error } from 'h3'
 import * as Sentry from '@sentry/node'
-import { ProfilingIntegration } from '@sentry/profiling-node'
+// @ts-expect-error - Sentry Profiling is not in the types
+import { nodeProfilingIntegration } from '@sentry/profiling-node'
 import pkg from '../../package.json'
 
 /**
@@ -23,7 +24,7 @@ export default defineNitroPlugin((nitroApp) => {
     dsn: sentry.dsn,
     environment: sentry.environment,
     release: pkg.version,
-    integrations: [new ProfilingIntegration()],
+    integrations: [nodeProfilingIntegration()],
     // Performance Monitoring
     tracesSampleRate: 1.0, // TODO: Change in production!
     // Set sampling rate for profiling - this is relative to tracesSampleRate
