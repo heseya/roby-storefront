@@ -5,27 +5,29 @@ export default defineNuxtPlugin(() => {
   const config = usePublicRuntimeConfig()
   if (!config.edroneId) return
 
-  useHead({
-    script: [
-      {
-        hid: 'edrone',
-        defer: true,
-        children: `
-(function (srcjs) {
-  window._edrone = window._edrone || {};
-  _edrone.app_id = '${config.edroneId}';
-  _edrone.platform = '${config.i18n.baseUrl}';
-  var doc = document.createElement('script');
-  doc.type = 'text/javascript';
-  doc.async = true;
-  doc.src = ('https:' == document.location.protocol ? 'https:' : 'http:') + srcjs;
-  var s = document.getElementsByTagName('script')[0];
-  s.parentNode.insertBefore(doc, s);
-})("//d3bo67muzbfgtl.cloudfront.net/edrone_2_0.js?app_id=${config.edroneId}");
-        `,
-      },
-    ],
-  })
+  onLoad(() => {
+    useHead({
+      script: [
+        {
+          hid: 'edrone',
+          defer: true,
+          children: `
+  (function (srcjs) {
+    window._edrone = window._edrone || {};
+    _edrone.app_id = '${config.edroneId}';
+    _edrone.platform = '${config.i18n.baseUrl}';
+    var doc = document.createElement('script');
+    doc.type = 'text/javascript';
+    doc.async = true;
+    doc.src = ('https:' == document.location.protocol ? 'https:' : 'http:') + srcjs;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(doc, s);
+  })("//d3bo67muzbfgtl.cloudfront.net/edrone_2_0.js?app_id=${config.edroneId}");
+          `,
+        },
+      ],
+    })
+  }, 2000)
 
   const bus = useHeseyaEventBus()
   const { emit: emitEdroneEvent } = useEdrone()

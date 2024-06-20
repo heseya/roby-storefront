@@ -35,13 +35,15 @@ const t = useLocalI18n()
 
 const { recaptchaPublic } = usePublicRuntimeConfig()
 
-useHead({
-  script: [
-    {
-      src: `https://www.google.com/recaptcha/api.js?render=${recaptchaPublic}`,
-    },
-  ],
-})
+onLoad(() => {
+  useHead({
+    script: [
+      {
+        src: `https://www.google.com/recaptcha/api.js?render=${recaptchaPublic}`,
+      },
+    ],
+  })
+}, 500)
 </script>
 
 <style lang="scss" scoped>

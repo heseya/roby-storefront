@@ -20,11 +20,12 @@ const props = withDefaults(
 )
 
 if (ekomi.customerId)
-  useHead(() => ({
-    script: [
-      {
-        id: `ekomi-${props.token}`,
-        children: `
+  onLoad(() => {
+    useHead(() => ({
+      script: [
+        {
+          id: `ekomi-${props.token}`,
+          children: `
         function registerWidget(w, token) {
           w['_ekomiWidgetsServerUrl'] = 'https://widgets.ekomi.com'
           w['_customerId'] = ${ekomi.customerId}
@@ -53,9 +54,10 @@ if (ekomi.customerId)
           return true
         }
         `,
-      },
-    ],
-  }))
+        },
+      ],
+    }))
+  }, 1000)
 
 onMounted(() => {
   if (!ekomi.customerId) return

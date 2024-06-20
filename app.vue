@@ -86,11 +86,11 @@ useHead({
   style: [{ id: 'custom-css', innerHTML: config.env?.custom_css?.toString() || '' }],
 })
 
-delayedOnMounted(() => {
+onLoad(() => {
   const { $enableGtm } = useNuxtApp()
   const requiredCookie = useStatefulCookie<number>(COOKIE_REQUIRED_ACCEPTED_KEY, COOKIES_CONFIG)
   if (requiredCookie.value) $enableGtm()
-}, 3000)
+}, 1500)
 </script>
 
 <style lang="scss" scoped>
