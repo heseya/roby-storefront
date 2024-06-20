@@ -1,12 +1,12 @@
-import type { HeseyaPaginationMeta, ProductList, WishlistProduct } from '@heseya/store-core'
+import type { HeseyaPaginationMeta, ProductListed, WishlistProduct } from '@heseya/store-core'
 import { defineStore } from 'pinia'
 import { useAuthStore } from './auth'
-import type { ExtendedProductList } from '~/types/Product'
+import type { ExtendedProductListed } from '~/types/Product'
 
 export const useWishlistStore = defineStore('wishlist', {
   state: () => ({
     userWishlist: [] as WishlistProduct[],
-    localWishlist: [] as ProductList[],
+    localWishlist: [] as ProductListed[],
     pagination: {
       perPage: 0,
       currentPage: 0,
@@ -21,13 +21,13 @@ export const useWishlistStore = defineStore('wishlist', {
       return this.localWishlist.length + (this.pagination?.total || 0)
     },
 
-    products(): ProductList[] {
+    products(): ProductListed[] {
       return [...this.localWishlist, ...this.userWishlist.map((product) => product.product)]
     },
   },
 
   actions: {
-    async add(product: ProductList | ExtendedProductList) {
+    async add(product: ProductListed | ExtendedProductListed) {
       const auth = useAuthStore()
       if (await this.isInWishlist(product.id)) return
 
@@ -37,7 +37,7 @@ export const useWishlistStore = defineStore('wishlist', {
       }
     },
 
-    async authAdd(product: ProductList | ExtendedProductList) {
+    async authAdd(product: ProductListed | ExtendedProductListed) {
       const auth = useAuthStore()
       const heseya = useHeseya()
 
@@ -103,7 +103,7 @@ export const useWishlistStore = defineStore('wishlist', {
             (await this.isInWishlist(product.id)) ? null : product,
           ),
         )
-        const filteredProducts = productsToSync.filter(Boolean) as ProductList[]
+        const filteredProducts = productsToSync.filter(Boolean) as ProductListed[]
 
         await Promise.all(filteredProducts.map((product) => this.authAdd(product)))
         this.localWishlist = []

@@ -31,7 +31,7 @@
 </template>
 
 <script setup lang="ts">
-import type { HeseyaPaginationMeta, ProductSet, ProductSetList } from '@heseya/store-core'
+import type { HeseyaPaginationMeta, ProductSet, ProductSetListed } from '@heseya/store-core'
 import ChevronIcon from '@/assets/icons/chevron.svg?component'
 
 const props = defineProps<{
@@ -41,7 +41,7 @@ const heseya = useHeseya()
 const localePath = useLocalePath()
 
 const containerRef = ref()
-const subcategories = ref<ProductSetList[]>([])
+const subcategories = ref<ProductSetListed[]>([])
 const pagination = ref<HeseyaPaginationMeta>({ currentPage: 0, lastPage: 0, perPage: 0, total: 0 })
 const loadedPages = ref<number[]>([])
 

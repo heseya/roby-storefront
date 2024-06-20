@@ -73,14 +73,14 @@
 import { useConfigStore } from '@/store/config'
 import { ASK_FOR_PRICE_KEY } from '@/consts/metadataKeys'
 
-import type { ExtendedProductList } from '~/types/Product'
+import type { ExtendedProductListed } from '~/types/Product'
 
 const $t = useGlobalI18n()
 const localePath = useLocalePath()
 const config = useConfigStore()
 
 const props = defineProps<{
-  product: ExtendedProductList
+  product: ExtendedProductListed
   horizontal?: boolean
   forceSize?: boolean
 }>()

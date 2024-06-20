@@ -1,5 +1,5 @@
 import { HeseyaEvent } from '@heseya/store-core'
-import type { Product, ProductList } from '@heseya/store-core'
+import type { Product, ProductListed } from '@heseya/store-core'
 
 export default defineNuxtPlugin(() => {
   const config = usePublicRuntimeConfig()
@@ -66,7 +66,7 @@ export default defineNuxtPlugin(() => {
    * https://docs.edrone.me/sending-data-client.html#add-to-cart
    */
   bus.on(HeseyaEvent.AddToCart, (item) => {
-    const product = item.product as Product | ProductList
+    const product = item.product as Product | ProductListed
 
     emitEdroneEvent('add_to_cart', {
       product_skus: '', // TODO: add sku

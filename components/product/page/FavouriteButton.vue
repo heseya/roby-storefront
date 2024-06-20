@@ -25,12 +25,12 @@
 </i18n>
 
 <script setup lang="ts">
-import type { ProductList } from '@heseya/store-core'
+import type { ProductListed } from '@heseya/store-core'
 
 import HeartIcon from '@/assets/icons/heart.svg?component'
 
 const t = useLocalI18n()
-const props = withDefaults(defineProps<{ product: ProductList }>(), {})
+const props = withDefaults(defineProps<{ product: ProductListed }>(), {})
 
 const { isInWishlist, toggle } = useWishlist(props.product)
 </script>

@@ -7,11 +7,11 @@
 </template>
 
 <script setup lang="ts">
-import type { ExtendedProductList } from '~/types/Product'
+import type { ExtendedProductListed } from '~/types/Product'
 
 withDefaults(
   defineProps<{
-    products?: ExtendedProductList[]
+    products?: ExtendedProductListed[]
     spaceBetween?: number
   }>(),
   { products: () => [], spaceBetween: 10 },

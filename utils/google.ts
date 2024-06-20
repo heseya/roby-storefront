@@ -1,5 +1,5 @@
 import { CartItem, parsePrices } from '@heseya/store-core'
-import type { OrderProduct, ProductList } from '@heseya/store-core'
+import type { OrderProduct, ProductListed } from '@heseya/store-core'
 
 interface GoogleItem {
   item_id: string
@@ -25,7 +25,7 @@ interface GoogleItem {
 
 const round = (v: number): number => Math.round(v * 100) / 100
 
-export const mapProductToItem = (product: ProductList, currency: string): GoogleItem => ({
+export const mapProductToItem = (product: ProductListed, currency: string): GoogleItem => ({
   item_id: product.id,
   item_name: product.name,
   affiliation: 'website',
