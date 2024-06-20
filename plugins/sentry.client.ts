@@ -19,10 +19,10 @@ export default defineNuxtPlugin((nuxtApp) => {
     environment: config.sentry.environment,
     release: pkg.version,
     integrations: [
-      new Sentry.BrowserTracing({
-        routingInstrumentation: Sentry.vueRouterInstrumentation(router),
+      Sentry.browserTracingIntegration({
+        router,
       }),
-      new Sentry.Replay(),
+      Sentry.replayIntegration(),
     ],
 
     // Configure this whole part as you need it!
