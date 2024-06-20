@@ -14,10 +14,11 @@
       />
 
       <template
-        v-for="section in sections"
+        v-for="(section, i) in sections"
         :key="section.type === 'box' ? section.data.text : section.data.id"
       >
         <LazyBaseContainer
+          v-if="showAllContent || i < 2"
           class="index-page__content"
           :class="{ 'index-page__content--wide': section.type === 'box' }"
         >
@@ -34,7 +35,7 @@
         </LazyBaseContainer>
       </template>
 
-      <LazyBaseContainer class="index-page__content">
+      <LazyBaseContainer v-if="showAllContent" class="index-page__content">
         <LazyHomeBlogArticlesList />
 
         <LazyHomeWhyUs />
@@ -98,6 +99,16 @@ const { data } = useAsyncData('main-banner', async () => {
     homepagePages,
   }
 })
+
+const showAllContent = ref(false)
+const { y: scrollY } = useWindowScroll()
+watch(
+  scrollY,
+  () => {
+    showAllContent.value = scrollY.value > 1000
+  },
+  { immediate: true },
+)
 
 const { data: offertsBanner } = useAsyncData('offer-banner', async (): Promise<LinkBox[]> => {
   const { active, banner_media: bannerMedia } = await heseya.Banners.getOneBySlug('offer-banner')
