@@ -4,7 +4,7 @@ import type {
   CartItemDto,
   CartItemSchema,
   Coupon,
-  ProductList,
+  ProductListed,
   SaleShort,
   SavedCartItem,
   Schema,
@@ -197,7 +197,7 @@ export const useCartStore = defineStore('cart', {
       schemaValue,
       quantity = 1,
     }: {
-      product: ProductList
+      product: ProductListed
       schemaValue: CartItemSchema[]
       schemas: Schema[]
       quantity: number

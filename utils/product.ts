@@ -1,10 +1,10 @@
-import type { ProductListAttribute } from '@heseya/store-core'
+import type { ProductListedAttribute } from '@heseya/store-core'
 
-export const getProductSubtext = <T extends { attributes: ProductListAttribute[] }>(
+export const getProductSubtext = <T extends { attributes: ProductListedAttribute[] }>(
   item: T | null,
   attributeSlug: string,
 ) =>
   item?.attributes
-    ?.find((attribute: ProductListAttribute) => attribute.slug === attributeSlug)
+    ?.find((attribute: ProductListedAttribute) => attribute.slug === attributeSlug)
     ?.selected_options.map((option) => option.name)
     .join(', ')

@@ -58,7 +58,7 @@
 
 <script setup lang="ts">
 import { HeseyaEvent } from '@heseya/store-core'
-import type { ProductSetList, PageList } from '@heseya/store-core'
+import type { ProductSetListed, PageListed } from '@heseya/store-core'
 
 import { useConfigStore } from '~/store/config'
 import type { LinkBox } from '~~/components/home/LinkBox.vue'
@@ -68,9 +68,9 @@ const heseya = useHeseya()
 const config = useConfigStore()
 
 type Section =
-  | { type: 'set'; data: ProductSetList }
+  | { type: 'set'; data: ProductSetListed }
   | { type: 'box'; data: LinkBox }
-  | { type: 'page'; data: PageList }
+  | { type: 'page'; data: PageListed }
 
 useSeoTitle($t('breadcrumbs.home'))
 

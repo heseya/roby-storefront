@@ -4,7 +4,7 @@ import type {
   AddressDto,
   MetadataCreateDto,
   OrderCreateDto,
-  PaymentMethodList,
+  PaymentMethodListed,
   ShippingMethod,
 } from '@heseya/store-core'
 import { defineStore } from 'pinia'
@@ -27,7 +27,7 @@ export const useCheckoutStore = defineStore('checkout', {
     furgonetka: null as Furgonetka | null,
     invoiceRequested: false,
     paymentMethodId: null as string | null,
-    paymentMethod: null as PaymentMethodList | null,
+    paymentMethod: null as PaymentMethodListed | null,
     consents: {
       statute: false,
       newsletter: false,

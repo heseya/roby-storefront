@@ -1,4 +1,4 @@
-import type { ProductSet, ProductSetList } from '@heseya/store-core'
+import type { ProductSet, ProductSetListed } from '@heseya/store-core'
 import { defineStore } from 'pinia'
 import { useConfigStore } from './config'
 import { CATEGORY_IN_NAV_KEY } from '@/consts/metadataKeys'
@@ -6,16 +6,16 @@ import { CATEGORY_IN_NAV_KEY } from '@/consts/metadataKeys'
 export const useCategoriesStore = defineStore('categories', {
   state: () => ({
     rootCategory: null as ProductSet | null,
-    categories: [] as ProductSetList[],
-    subcategoriesMap: {} as Record<string, ProductSetList[]>,
+    categories: [] as ProductSetListed[],
+    subcategoriesMap: {} as Record<string, ProductSetListed[]>,
   }),
 
   getters: {
-    navCategories(): ProductSetList[] {
+    navCategories(): ProductSetListed[] {
       const showRootCategory =
         !!this.rootCategory?.metadata[CATEGORY_IN_NAV_KEY] && this.rootCategory
 
-      return ([] as ProductSetList[])
+      return ([] as ProductSetListed[])
         .concat(showRootCategory ? [{ ...this.rootCategory!, parent_id: null }] : [])
         .concat(this.categories.filter((category) => category.metadata[CATEGORY_IN_NAV_KEY]))
     },
