@@ -1,9 +1,11 @@
+import { onDocumentLoad } from '#imports'
+
 export default defineNuxtPlugin(() => {
   const { callpageId } = usePublicRuntimeConfig()
 
   if (!callpageId) return
 
-  onLoad(() => {
+  onDocumentLoad(() => {
     useHead({
       script: [
         {

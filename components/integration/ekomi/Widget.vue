@@ -20,7 +20,7 @@ const props = withDefaults(
 )
 
 if (ekomi.customerId)
-  onLoad(() => {
+  onDocumentLoad(() => {
     useHead(() => ({
       script: [
         {

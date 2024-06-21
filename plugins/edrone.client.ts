@@ -1,11 +1,12 @@
 import { HeseyaEvent } from '@heseya/store-core'
 import type { Product, ProductListed } from '@heseya/store-core'
+import { onDocumentLoad } from '#imports'
 
 export default defineNuxtPlugin(() => {
   const config = usePublicRuntimeConfig()
   if (!config.edroneId) return
 
-  onLoad(() => {
+  onDocumentLoad(() => {
     useHead({
       script: [
         {

@@ -9,7 +9,7 @@ const props = defineProps<{ orderCode: string }>()
 onMounted(() => {
   if (!ekomi.customerId || !ekomi.surveyFormId) return
 
-  onLoad(() => {
+  onDocumentLoad(() => {
     useHead({
       script: [
         {

@@ -1,11 +1,12 @@
 import { HeseyaEvent } from '@heseya/store-core'
+import { onDocumentLoad } from '#imports'
 
 export default defineNuxtPlugin(() => {
   const { ceneoGuid } = usePublicRuntimeConfig()
 
   if (!ceneoGuid) return
 
-  onLoad(() => {
+  onDocumentLoad(() => {
     useHead({
       script: [
         {

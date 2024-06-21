@@ -1,8 +1,10 @@
+import { onDocumentLoad } from '#imports'
+
 export default defineNuxtPlugin(() => {
   const config = usePublicRuntimeConfig()
   if (!config.googleAnalyticsId) return
 
-  onLoad(() => {
+  onDocumentLoad(() => {
     useHead({
       script: [
         {
