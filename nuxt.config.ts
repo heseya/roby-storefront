@@ -248,6 +248,13 @@ export default defineNuxtConfig({
     '/wynajem': { swr: true },
   },
 
+  nitro: {
+    routeRules: {
+      '/google-fonts/**': { headers: { 'Cache-Control': `public, max-age=${60 * 60 * 24 * 30}` } },
+      '/fonts/**': { headers: { 'Cache-Control': `public, max-age=${60 * 60 * 24 * 30}` } },
+    },
+  },
+
   vite: {
     plugins: [svgLoader({ defaultImport: 'url' })],
     css: {
