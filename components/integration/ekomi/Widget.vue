@@ -57,18 +57,13 @@ if (ekomi.customerId)
         },
       ],
     }))
+
+    setTimeout(() => {
+      // eslint-disable-next-line no-console
+      if (!window.registerWidget) console.error(`[${props.token}] Ekomi widget not loaded!`)
+      window.registerWidget?.(window, props.token)
+    }, props.delayTime)
   }, 1000)
-
-onMounted(() => {
-  if (!ekomi.customerId) return
-
-  setTimeout(() => {
-    // eslint-disable-next-line no-console
-    if (!window.registerWidget) console.error(`[${props.token}] Ekomi widget not loaded!`)
-
-    window.registerWidget?.(window, props.token)
-  }, props.delayTime)
-})
 </script>
 
 <style lang="scss" scoped>
