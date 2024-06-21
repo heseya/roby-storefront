@@ -185,13 +185,17 @@ export default defineNuxtConfig({
   },
 
   googleFonts: {
-    base64: true,
+    download: true,
+    inject: false,
     overwriting: true,
     display: 'swap',
     families: {
       Rubik: [400, 500, 600, 700],
       Roboto: [400, 500, 700],
     },
+    subsets: ['latin', 'latin-ext'],
+    outputDir: 'public/google-fonts',
+    fontsDir: 'fonts',
   },
 
   i18n: {

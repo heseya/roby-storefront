@@ -55,6 +55,12 @@ useSeo(() => [
 
 useHead({
   link: [
+    {
+      rel: 'stylesheet',
+      href: `/fonts/${runtimeConfig.fontFamily}.css`,
+      key: 'font-family',
+      fetchpriority: 'high',
+    },
     { rel: 'preconnect', href: runtimeConfig.apiUrl },
     { rel: 'dns-prefetch', href: runtimeConfig.apiUrl },
     { rel: 'preconnect', href: runtimeConfig.cdnUrl },

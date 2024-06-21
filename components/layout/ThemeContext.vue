@@ -20,9 +20,9 @@ const colorStyles = computed(() => ({
   '--warning-color': config.env.warning_color,
 
   // Fonts
-  '--header-font-family-family': runtimeConfig.fontFamily,
-  '--text-font-family': runtimeConfig.fontFamily,
-  'font-family': runtimeConfig.fontFamily,
+  '--header-font-family-family': `${runtimeConfig.fontFamily}, sans-serif`,
+  '--text-font-family': `${runtimeConfig.fontFamily}, sans-serif`,
+  'font-family': `${runtimeConfig.fontFamily}, sans-serif`,
 }))
 </script>
 
