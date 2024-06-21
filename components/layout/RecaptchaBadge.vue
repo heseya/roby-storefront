@@ -35,7 +35,7 @@ const t = useLocalI18n()
 
 const { recaptchaPublic } = usePublicRuntimeConfig()
 
-onDocumentLoad(() => {
+onMountedDocumentLoad(() => {
   useHead({
     script: [
       {

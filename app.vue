@@ -86,7 +86,7 @@ useHead({
   style: [{ id: 'custom-css', innerHTML: config.env?.custom_css?.toString() || '' }],
 })
 
-onDocumentLoad(() => {
+onMountedDocumentLoad(() => {
   const { $enableGtm } = useNuxtApp()
   const requiredCookie = useStatefulCookie<number>(COOKIE_REQUIRED_ACCEPTED_KEY, COOKIES_CONFIG)
   if (requiredCookie.value) $enableGtm()
