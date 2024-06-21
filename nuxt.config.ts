@@ -250,8 +250,8 @@ export default defineNuxtConfig({
 
   nitro: {
     routeRules: {
-      '/google-fonts/**': { headers: { 'Cache-Control': `public, max-age=${60 * 60 * 24 * 30}` } },
-      '/fonts/**': { headers: { 'Cache-Control': `public, max-age=${60 * 60 * 24 * 30}` } },
+      '/google-fonts/**': { headers: { 'Cache-Control': `public, max-age=${60 * 60 * 24 * 365}` } },
+      '/fonts/**': { headers: { 'Cache-Control': `public, max-age=${60 * 60 * 24 * 365}` } },
     },
   },
 
