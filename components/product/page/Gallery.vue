@@ -21,7 +21,13 @@
     </button>
 
     <div class="product-gallery__main">
-      <Media class="product-gallery__item" :media="active" width="1400" height="1400" />
+      <Media
+        class="product-gallery__item"
+        :media="active"
+        width="1400"
+        height="1400"
+        :controls="true"
+      />
     </div>
 
     <div class="product-gallery__list">
@@ -31,6 +37,7 @@
         class="product-gallery__item"
         :media="m"
         width="164"
+        :autoplay="false"
         height="164"
         @click="setActive(m)"
       />
