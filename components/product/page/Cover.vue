@@ -11,6 +11,7 @@
         :media="image"
         width="100"
         height="100"
+        :autoplay="false"
         @click="setActive(image)"
       />
     </div>
@@ -125,6 +126,7 @@ watch(
     cursor: pointer;
     aspect-ratio: 1/1;
     object-position: center;
+    overflow: initial;
   }
 
   &--singular {
