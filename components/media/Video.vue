@@ -1,7 +1,7 @@
 <template>
-  <Placeholder v-if="isError || !src" :placeholder-class-name="placeholderClassName">
+  <MediaPlaceholder v-if="isError || !src" :placeholder-class-name="placeholderClassName">
     <slot name="placeholder"></slot>
-  </Placeholder>
+  </MediaPlaceholder>
 
   <video
     v-else
@@ -26,6 +26,7 @@ const props = withDefaults(
     autoplay?: boolean
     loop?: boolean
     muted?: boolean
+    playsinline?: boolean
     controls?: boolean
   }>(),
   {
@@ -34,6 +35,7 @@ const props = withDefaults(
     autoplay: true,
     loop: true,
     muted: true,
+    playsinline: true,
     controls: false,
   },
 )

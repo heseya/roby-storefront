@@ -61,6 +61,7 @@ const props = withDefaults(
     autoplay?: boolean
     loop?: boolean
     muted?: boolean
+    playsinline?: boolean
     controls?: boolean
     placeholderClassName?: string
   }>(),
@@ -76,6 +77,7 @@ const props = withDefaults(
     autoplay: true,
     loop: true,
     muted: true,
+    playsinline: true,
     controls: false,
     placeholderClassName: '',
   },
