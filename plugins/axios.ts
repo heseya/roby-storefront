@@ -95,7 +95,7 @@ export default defineNuxtPlugin((nuxt) => {
 
     // Disable cache for some paths
     if ([...pathsWithoutCache, ...pathsWithAuth].some((url) => config.url?.includes(url))) config.cache = false
-    
+
     // @ts-ignore this $i18n exists, but it's not in the Nuxt types for some reason
     const apiLanguage = languageStore.getLanguageByIso(nuxt.$i18n.locale.value)
     if (apiLanguage && languageStore.languages.length > 0) {
