@@ -96,7 +96,7 @@ export default defineNuxtConfig({
           hid: 'polyfill',
           defer: true,
           fetchpriority: 'low',
-          src: 'https://polyfill.io/v3/polyfill.min.js?features=Intl.NumberFormat%2CIntl.PluralRules.~locale.pl',
+          src: 'https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?version=4.8.0&features=Intl.NumberFormat%2CIntl.PluralRules.~locale.pl',
         },
       ],
     },
