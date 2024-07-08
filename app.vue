@@ -19,6 +19,7 @@
 </template>
 
 <script setup lang="ts">
+import { COOKIES_CONFIG, COOKIE_REQUIRED_ACCEPTED_KEY } from './consts/cookiesKeys'
 import { useConfigStore } from './store/config'
 
 const { showColorThemePicker, ekomiPopupToken } = usePublicRuntimeConfig()
@@ -53,6 +54,14 @@ useHead({
     ...(seo.value.header_tags?.filter((tag) => tag.type === 'meta') || []),
   ],
   script: [...(seo.value.header_tags?.filter((tag) => tag.type === 'script') || [])],
+})
+
+onMounted(() => {
+  setTimeout(() => {
+    const { $enableGtm } = useNuxtApp()
+    const requiredCookie = useStatefulCookie<number>(COOKIE_REQUIRED_ACCEPTED_KEY, COOKIES_CONFIG)
+    if (requiredCookie.value) $enableGtm()
+  }, 3000)
 })
 </script>
 
