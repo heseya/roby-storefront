@@ -69,6 +69,8 @@ export default defineNuxtPlugin((nuxt) => {
 
   ax.interceptors.request.use((config) => {
     config._beginTime = Date.now()
+    // Disable cache for some paths
+    if (pathsWithAuth.some((url) => config.url?.includes(url))) config.cache = false
     return config
   })
 
