@@ -33,6 +33,7 @@ const {
   NUXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
   NUXT_PUBLIC_COLOR_THEME_PICKER,
   NUXT_PUBLIC_AXIOS_CACHE_TTL,
+  NUXT_PUBLIC_HOMEPAGE_TITLE,
 
   // Custom pages paths
   NUXT_PUBLIC_PAGE_BLOG_PATH = '/blog',
@@ -139,6 +140,7 @@ export default defineNuxtConfig({
       showColorThemePicker: NUXT_PUBLIC_COLOR_THEME_PICKER,
       fontFamily: NUXT_PUBLIC_FONT_FAMILY,
       axiosCacheTtl: NUXT_PUBLIC_AXIOS_CACHE_TTL,
+      homepageTitle: NUXT_PUBLIC_HOMEPAGE_TITLE,
       ekomi: {
         customerId: NUXT_PUBLIC_EKOMI_CUSTOMER_ID,
         popupToken: NUXT_PUBLIC_EKOMI_POPUP_TOKEN,
@@ -231,21 +233,23 @@ export default defineNuxtConfig({
     modules: ['autoplay'],
   },
 
-  routeRules: {
-    // '/account/**': { swr: true },
-    '/category/**': { swr: 3600 },
-    // '/checkout/**': { swr: true },
-    '/product/**': { swr: 600 },
-    '/search/**': { swr: 300 },
-    // '/status/**': { swr: true },
-    // '/**': { swr: true },
-    // '/cart': { swr: true },
-    '/forgot-password': { swr: true },
-    '/': { swr: 600 },
-    '/login': { swr: true },
-    '/register': { swr: true },
-    '/wishlist': { swr: true },
-    '/wynajem': { swr: true },
+  $production: {
+    routeRules: {
+      // '/account/**': { swr: true },
+      '/category/**': { swr: 3600 },
+      // '/checkout/**': { swr: true },
+      '/product/**': { swr: 600 },
+      '/search/**': { swr: 300 },
+      // '/status/**': { swr: true },
+      // '/**': { swr: true },
+      // '/cart': { swr: true },
+      '/forgot-password': { swr: true },
+      '/': { swr: 600 },
+      '/login': { swr: true },
+      '/register': { swr: true },
+      '/wishlist': { swr: true },
+      '/wynajem': { swr: true },
+    },
   },
 
   nitro: {
