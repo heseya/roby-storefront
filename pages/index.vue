@@ -67,13 +67,14 @@ import type { LinkBox } from '~~/components/home/LinkBox.vue'
 const $t = useGlobalI18n()
 const heseya = useHeseya()
 const config = useConfigStore()
+const runtimeConfig = usePublicRuntimeConfig()
 
 type Section =
   | { type: 'set'; data: ProductSetListed }
   | { type: 'box'; data: LinkBox }
   | { type: 'page'; data: PageListed }
 
-useSeoTitle($t('breadcrumbs.home'))
+useSeoTitle(runtimeConfig.homepageTitle || $t('breadcrumbs.home'))
 
 const hideUnavailableOnHomepage = computed(() => config.env.hide_unavailable_on_homepage === '1')
 
