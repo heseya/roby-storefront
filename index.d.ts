@@ -6,6 +6,7 @@ interface Window {
   Furgonetka: any
   _ceneo: any
   fbq: any
+  gtag: (...args: any) => void
   _edrone: any
   registerWidget?: (w: any, token: string) => boolean
 }
