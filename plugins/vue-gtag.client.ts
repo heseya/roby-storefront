@@ -64,17 +64,6 @@ export default defineNuxtPlugin((nuxtApp) => {
   /**
    ** Sending consents
    */
-
-  push('consent', 'default', {
-    functionality_storage: 'denied',
-    security_storage: 'denied',
-    analytics_storage: 'denied',
-    ad_storage: 'denied',
-    ad_user_data: 'denied',
-    ad_personalization: 'denied',
-    personalization_storage: 'denied',
-  })
-
   const functionalCookie = useStatefulCookie<number>(COOKIE_FUNCTIONAL_ACCEPTED_KEY, COOKIES_CONFIG)
   const analyticsCookie = useStatefulCookie<number>(COOKIE_ANALYTICS_ACCEPTED_KEY, COOKIES_CONFIG)
   const adsCookie = useStatefulCookie<number>(COOKIE_ADS_ACCEPTED_KEY, COOKIES_CONFIG)
@@ -96,7 +85,6 @@ export default defineNuxtPlugin((nuxtApp) => {
         ad_personalization: adsCookie.value === 1 ? 'granted' : 'denied',
         personalization_storage: adsCookie.value === 1 ? 'granted' : 'denied',
       })
-      trackEvent({ event: 'cookie_consent_update' })
     },
     { immediate: true },
   )
