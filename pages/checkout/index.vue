@@ -269,7 +269,7 @@ watch(
 
 useSeoTitle(t('title'))
 
-onDocumentLoad(() => {
+onMountedDocumentLoad(() => {
   useHead({
     // Import of Inpost & Furgonetka map widget
     link: [{ rel: 'stylesheet', href: 'https://geowidget.easypack24.net/css/easypack.css' }],
