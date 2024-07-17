@@ -1,9 +1,9 @@
 import { useWishlistStore } from '@/store/wishlist'
 import { useAuthStore } from '@/store/auth'
 
-import type { ExtendedProductList } from '@/types/Product'
+import type { ExtendedProductListed } from '@/types/Product'
 
-export const useWishlist = (product: ExtendedProductList) => {
+export const useWishlist = (product: ExtendedProductListed) => {
   const auth = useAuthStore()
   const wishlist = useWishlistStore()
   const { notify } = useNotify()

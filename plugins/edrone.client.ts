@@ -1,31 +1,34 @@
 import { HeseyaEvent } from '@heseya/store-core'
-import type { Product, ProductList } from '@heseya/store-core'
+import type { Product, ProductListed } from '@heseya/store-core'
+import { onDocumentLoad } from '#imports'
 
 export default defineNuxtPlugin(() => {
   const config = usePublicRuntimeConfig()
   if (!config.edroneId) return
 
-  useHead({
-    script: [
-      {
-        hid: 'edrone',
-        defer: true,
-        children: `
-(function (srcjs) {
-  window._edrone = window._edrone || {};
-  _edrone.app_id = '${config.edroneId}';
-  _edrone.platform = '${config.i18n.baseUrl}';
-  var doc = document.createElement('script');
-  doc.type = 'text/javascript';
-  doc.async = true;
-  doc.src = ('https:' == document.location.protocol ? 'https:' : 'http:') + srcjs;
-  var s = document.getElementsByTagName('script')[0];
-  s.parentNode.insertBefore(doc, s);
-})("//d3bo67muzbfgtl.cloudfront.net/edrone_2_0.js?app_id=${config.edroneId}");
-        `,
-      },
-    ],
-  })
+  onDocumentLoad(() => {
+    useHead({
+      script: [
+        {
+          hid: 'edrone',
+          defer: true,
+          children: `
+  (function (srcjs) {
+    window._edrone = window._edrone || {};
+    _edrone.app_id = '${config.edroneId}';
+    _edrone.platform = '${config.i18n.baseUrl}';
+    var doc = document.createElement('script');
+    doc.type = 'text/javascript';
+    doc.async = true;
+    doc.src = ('https:' == document.location.protocol ? 'https:' : 'http:') + srcjs;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(doc, s);
+  })("//d3bo67muzbfgtl.cloudfront.net/edrone_2_0.js?app_id=${config.edroneId}");
+          `,
+        },
+      ],
+    })
+  }, 2000)
 
   const bus = useHeseyaEventBus()
   const { emit: emitEdroneEvent } = useEdrone()
@@ -66,7 +69,7 @@ export default defineNuxtPlugin(() => {
    * https://docs.edrone.me/sending-data-client.html#add-to-cart
    */
   bus.on(HeseyaEvent.AddToCart, (item) => {
-    const product = item.product as Product | ProductList
+    const product = item.product as Product | ProductListed
 
     emitEdroneEvent('add_to_cart', {
       product_skus: '', // TODO: add sku

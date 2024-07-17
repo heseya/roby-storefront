@@ -14,10 +14,11 @@
       />
 
       <template
-        v-for="section in sections"
+        v-for="(section, i) in sections"
         :key="section.type === 'box' ? section.data.text : section.data.id"
       >
         <LazyBaseContainer
+          v-if="showAllContent || i < 2"
           class="index-page__content"
           :class="{ 'index-page__content--wide': section.type === 'box' }"
         >
@@ -34,7 +35,7 @@
         </LazyBaseContainer>
       </template>
 
-      <LazyBaseContainer class="index-page__content">
+      <LazyBaseContainer v-if="showAllContent" class="index-page__content">
         <LazyHomeBlogArticlesList />
 
         <LazyHomeWhyUs />
@@ -58,7 +59,7 @@
 
 <script setup lang="ts">
 import { HeseyaEvent } from '@heseya/store-core'
-import type { ProductSetList, PageList } from '@heseya/store-core'
+import type { ProductSetListed, PageListed } from '@heseya/store-core'
 
 import { useConfigStore } from '~/store/config'
 import type { LinkBox } from '~~/components/home/LinkBox.vue'
@@ -66,13 +67,14 @@ import type { LinkBox } from '~~/components/home/LinkBox.vue'
 const $t = useGlobalI18n()
 const heseya = useHeseya()
 const config = useConfigStore()
+const runtimeConfig = usePublicRuntimeConfig()
 
 type Section =
-  | { type: 'set'; data: ProductSetList }
+  | { type: 'set'; data: ProductSetListed }
   | { type: 'box'; data: LinkBox }
-  | { type: 'page'; data: PageList }
+  | { type: 'page'; data: PageListed }
 
-useSeoTitle($t('breadcrumbs.home'))
+useSeoTitle(runtimeConfig.homepageTitle || $t('breadcrumbs.home'))
 
 const hideUnavailableOnHomepage = computed(() => config.env.hide_unavailable_on_homepage === '1')
 
@@ -98,6 +100,16 @@ const { data } = useAsyncData('main-banner', async () => {
     homepagePages,
   }
 })
+
+const showAllContent = ref(false)
+const { y: scrollY } = useWindowScroll()
+watch(
+  scrollY,
+  () => {
+    showAllContent.value = scrollY.value > 1000
+  },
+  { immediate: true },
+)
 
 const { data: offertsBanner } = useAsyncData('offer-banner', async (): Promise<LinkBox[]> => {
   const { active, banner_media: bannerMedia } = await heseya.Banners.getOneBySlug('offer-banner')

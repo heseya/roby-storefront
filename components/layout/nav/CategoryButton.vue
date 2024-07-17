@@ -14,14 +14,14 @@
 </template>
 
 <script lang="ts" setup>
-import type { ProductSetList } from '@heseya/store-core'
+import type { ProductSetListed } from '@heseya/store-core'
 
 import { useCategoriesStore } from '@/store/categories'
 import type { NavLink } from '@/interfaces/NavLink'
 
 const props = withDefaults(
   defineProps<{
-    category: ProductSetList
+    category: ProductSetListed
     mobile?: boolean
   }>(),
   { mobile: false },
@@ -29,7 +29,7 @@ const props = withDefaults(
 
 const categoriesStore = useCategoriesStore()
 
-const subcategories = ref<ProductSetList[]>([])
+const subcategories = ref<ProductSetListed[]>([])
 const subcategoriesFetched = ref(false)
 
 const fetchSubcategories = async () => {

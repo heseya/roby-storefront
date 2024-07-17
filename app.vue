@@ -55,6 +55,12 @@ useSeo(() => [
 
 useHead({
   link: [
+    {
+      rel: 'stylesheet',
+      href: `/fonts/${runtimeConfig.fontFamily}.css`,
+      key: 'font-family',
+      fetchpriority: 'high',
+    },
     { rel: 'preconnect', href: runtimeConfig.apiUrl },
     { rel: 'dns-prefetch', href: runtimeConfig.apiUrl },
     { rel: 'preconnect', href: runtimeConfig.cdnUrl },
@@ -86,11 +92,11 @@ useHead({
   style: [{ id: 'custom-css', innerHTML: config.env?.custom_css?.toString() || '' }],
 })
 
-delayedOnMounted(() => {
+onMountedDocumentLoad(() => {
   const { $enableGtm } = useNuxtApp()
   const requiredCookie = useStatefulCookie<number>(COOKIE_REQUIRED_ACCEPTED_KEY, COOKIES_CONFIG)
   if (requiredCookie.value) $enableGtm()
-}, 3000)
+}, 1500)
 </script>
 
 <style lang="scss" scoped>

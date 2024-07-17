@@ -1,6 +1,6 @@
-import type { ListResponse, ProductList } from '@heseya/store-core'
+import type { ListResponse, ProductListed } from '@heseya/store-core'
 
-import type { ExtendedProductList, ProductGetParams } from '@/types/Product'
+import type { ExtendedProductListed, ProductGetParams } from '@/types/Product'
 import { useAuthStore } from '~/store/auth'
 
 export const useHeseyaProducts = () => {
@@ -9,7 +9,7 @@ export const useHeseyaProducts = () => {
   const omnibus = useOmnibus()
   const currency = useCurrency()
 
-  const getOmnibus = async (products: ProductList[]) => {
+  const getOmnibus = async (products: ProductListed[]) => {
     return await omnibus
       .getPrices(
         products.filter((p) => isOmnibusShowable(p, currency.value)).map((product) => product.id),
@@ -21,7 +21,7 @@ export const useHeseyaProducts = () => {
       })
   }
 
-  const getWishlist = async (products: ProductList[]) => {
+  const getWishlist = async (products: ProductListed[]) => {
     if (!auth.isLogged) return null
     return await heseya.Wishlist.check(products.map((p) => p.id)).catch(function () {
       return null
@@ -33,7 +33,7 @@ export const useHeseyaProducts = () => {
    */
   const getProducts = async (
     params?: ProductGetParams,
-  ): Promise<ListResponse<ExtendedProductList>> => {
+  ): Promise<ListResponse<ExtendedProductListed>> => {
     const products = await heseya.Products.get(params)
 
     const [omnibusData, wishlistData] = await Promise.all([

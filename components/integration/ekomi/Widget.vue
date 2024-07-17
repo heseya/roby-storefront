@@ -20,11 +20,12 @@ const props = withDefaults(
 )
 
 if (ekomi.customerId)
-  useHead(() => ({
-    script: [
-      {
-        id: `ekomi-${props.token}`,
-        children: `
+  onMountedDocumentLoad(() => {
+    useHead(() => ({
+      script: [
+        {
+          id: `ekomi-${props.token}`,
+          children: `
         function registerWidget(w, token) {
           w['_ekomiWidgetsServerUrl'] = 'https://widgets.ekomi.com'
           w['_customerId'] = ${ekomi.customerId}
@@ -53,20 +54,16 @@ if (ekomi.customerId)
           return true
         }
         `,
-      },
-    ],
-  }))
+        },
+      ],
+    }))
 
-onMounted(() => {
-  if (!ekomi.customerId) return
-
-  setTimeout(() => {
-    // eslint-disable-next-line no-console
-    if (!window.registerWidget) console.error(`[${props.token}] Ekomi widget not loaded!`)
-
-    window.registerWidget?.(window, props.token)
-  }, props.delayTime)
-})
+    setTimeout(() => {
+      // eslint-disable-next-line no-console
+      if (!window.registerWidget) console.error(`[${props.token}] Ekomi widget not loaded!`)
+      window.registerWidget?.(window, props.token)
+    }, props.delayTime)
+  }, 1000)
 </script>
 
 <style lang="scss" scoped>

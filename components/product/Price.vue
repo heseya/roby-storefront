@@ -31,12 +31,12 @@
 </template>
 
 <script setup lang="ts">
-import type { ProductList } from '@heseya/store-core'
+import type { ProductListed } from '@heseya/store-core'
 
 const $t = useGlobalI18n()
 const props = withDefaults(
   defineProps<{
-    product: ProductList
+    product: ProductListed
     tag?: string
   }>(),
   {

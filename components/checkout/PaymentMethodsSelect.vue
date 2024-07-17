@@ -39,7 +39,7 @@
 </i18n>
 
 <script setup lang="ts">
-import type { PaymentMethodList } from '@heseya/store-core'
+import type { PaymentMethodListed } from '@heseya/store-core'
 import type { RadioGroupOption } from '@/components/form/RadioGroup.vue'
 
 import { useConfigStore } from '~/store/config'
@@ -62,7 +62,7 @@ const props = withDefaults(
 
 const emit = defineEmits<{
   (e: 'update:value', value: string | null): void
-  (e: 'select', value: PaymentMethodList | null): void
+  (e: 'select', value: PaymentMethodListed | null): void
 }>()
 
 const value = computed<string | null>({

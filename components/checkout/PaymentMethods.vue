@@ -22,7 +22,7 @@
 
 <script setup lang="ts">
 import { CartItem, HeseyaEvent } from '@heseya/store-core'
-import type { PaymentMethodList } from '@heseya/store-core'
+import type { PaymentMethodListed } from '@heseya/store-core'
 import { useCheckoutStore } from '@/store/checkout'
 import { useCartStore } from '~/store/cart'
 
@@ -42,7 +42,7 @@ watch(
   { immediate: true },
 )
 
-const onSelect = (method: PaymentMethodList | null) => {
+const onSelect = (method: PaymentMethodListed | null) => {
   if (method) {
     checkout.paymentMethod = method
     ev.emit(HeseyaEvent.AddPaymentInfo, {

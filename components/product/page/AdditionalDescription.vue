@@ -6,12 +6,12 @@
 </template>
 
 <script setup lang="ts">
-import type { PageList } from '@heseya/store-core'
+import type { PageListed } from '@heseya/store-core'
 
 const heseya = useHeseya()
 
 const props = defineProps<{
-  page: PageList
+  page: PageListed
 }>()
 
 const { data: fullPage, pending } = useLazyAsyncData(`page-${props.page.slug}`, async () => {

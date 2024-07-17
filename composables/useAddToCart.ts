@@ -1,7 +1,7 @@
-import type { ProductList, Product, CartItemSchema } from '@heseya/store-core'
+import type { ProductListed, Product, CartItemSchema } from '@heseya/store-core'
 import { useCartStore } from '~/store/cart'
 
-export const useAddToCart = (product: ProductList | Product) => {
+export const useAddToCart = (product: ProductListed | Product) => {
   const cart = useCartStore()
 
   const quantity = ref(1)

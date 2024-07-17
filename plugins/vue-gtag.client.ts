@@ -32,12 +32,12 @@ export default defineNuxtPlugin((nuxtApp) => {
    * * TRACKING
    */
   const gtm = useGtm()
-  const pushEventsQueue = useState<object[]>('gtag-push-queue', () => [])
+  const pushEventsQueue = useState<unknown[][]>('gtag-push-queue', () => [])
   const trackEventsQueue = useState<object[]>('gtag-track-queue', () => [])
 
-  const push = (event: object) => {
-    if (gtm?.enabled()) gtm?.push(event)
-    else pushEventsQueue.value.push(event)
+  const push = (...args: unknown[]) => {
+    if (gtm?.enabled()) window.gtag(...args)
+    else pushEventsQueue.value.push(args)
   }
 
   const trackEvent = (event: object) => {
@@ -51,29 +51,19 @@ export default defineNuxtPlugin((nuxtApp) => {
     gtm?.enable()
 
     // Clear the queue
-    pushEventsQueue.value.forEach((event) => gtm?.push(event))
-    trackEventsQueue.value.forEach((event) => gtm?.trackEvent(event))
-    pushEventsQueue.value = []
-    trackEventsQueue.value = []
+    const interval = setInterval(() => {
+      if (!window.gtag) return
+      pushEventsQueue.value.forEach((args) => window.gtag(...args))
+      trackEventsQueue.value.forEach((event) => gtm?.trackEvent(event))
+      pushEventsQueue.value = []
+      trackEventsQueue.value = []
+      clearInterval(interval)
+    }, 300)
   }
 
   /**
    ** Sending consents
    */
-
-  push([
-    'consent',
-    'default',
-    {
-      functionality_storage: 'denied',
-      analytics_storage: 'denied',
-      ad_storage: 'denied',
-      ad_user_data: 'denied',
-      ad_personalization: 'denied',
-      wait_for_update: 500,
-    },
-  ])
-
   const functionalCookie = useStatefulCookie<number>(COOKIE_FUNCTIONAL_ACCEPTED_KEY, COOKIES_CONFIG)
   const analyticsCookie = useStatefulCookie<number>(COOKIE_ANALYTICS_ACCEPTED_KEY, COOKIES_CONFIG)
   const adsCookie = useStatefulCookie<number>(COOKIE_ADS_ACCEPTED_KEY, COOKIES_CONFIG)
@@ -86,17 +76,15 @@ export default defineNuxtPlugin((nuxtApp) => {
       )
       if (isUnset) return
 
-      push([
-        'consent',
-        'update',
-        {
-          functionality_storage: functionalCookie.value === 1 ? 'granted' : 'denied',
-          analytics_storage: analyticsCookie.value === 1 ? 'granted' : 'denied',
-          ad_storage: adsCookie.value === 1 ? 'granted' : 'denied',
-          ad_user_data: adsCookie.value === 1 ? 'granted' : 'denied',
-          ad_personalization: adsCookie.value === 1 ? 'granted' : 'denied',
-        },
-      ])
+      push('consent', 'update', {
+        functionality_storage: functionalCookie.value === 1 ? 'granted' : 'denied',
+        security_storage: functionalCookie.value === 1 ? 'granted' : 'denied',
+        analytics_storage: analyticsCookie.value === 1 ? 'granted' : 'denied',
+        ad_storage: adsCookie.value === 1 ? 'granted' : 'denied',
+        ad_user_data: adsCookie.value === 1 ? 'granted' : 'denied',
+        ad_personalization: adsCookie.value === 1 ? 'granted' : 'denied',
+        personalization_storage: adsCookie.value === 1 ? 'granted' : 'denied',
+      })
     },
     { immediate: true },
   )

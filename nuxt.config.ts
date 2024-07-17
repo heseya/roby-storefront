@@ -33,6 +33,7 @@ const {
   NUXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
   NUXT_PUBLIC_COLOR_THEME_PICKER,
   NUXT_PUBLIC_AXIOS_CACHE_TTL,
+  NUXT_PUBLIC_HOMEPAGE_TITLE,
 
   // Custom pages paths
   NUXT_PUBLIC_PAGE_BLOG_PATH = '/blog',
@@ -139,6 +140,7 @@ export default defineNuxtConfig({
       showColorThemePicker: NUXT_PUBLIC_COLOR_THEME_PICKER,
       fontFamily: NUXT_PUBLIC_FONT_FAMILY,
       axiosCacheTtl: NUXT_PUBLIC_AXIOS_CACHE_TTL,
+      homepageTitle: NUXT_PUBLIC_HOMEPAGE_TITLE,
       ekomi: {
         customerId: NUXT_PUBLIC_EKOMI_CUSTOMER_ID,
         popupToken: NUXT_PUBLIC_EKOMI_POPUP_TOKEN,
@@ -185,13 +187,17 @@ export default defineNuxtConfig({
   },
 
   googleFonts: {
-    base64: true,
+    download: true,
+    inject: false,
     overwriting: true,
     display: 'swap',
     families: {
       Rubik: [400, 500, 600, 700],
       Roboto: [400, 500, 700],
     },
+    subsets: ['latin', 'latin-ext'],
+    outputDir: 'public/google-fonts',
+    fontsDir: 'fonts',
   },
 
   i18n: {
@@ -227,22 +233,31 @@ export default defineNuxtConfig({
     modules: ['autoplay'],
   },
 
-  // routeRules: {
-  //   // '/account/**': { swr: true },
-  //   '/category/**': { swr: true },
-  //   '/checkout/**': { swr: true },
-  //   '/product/**': { swr: true },
-  //   '/search/**': { swr: true },
-  //   '/status/**': { swr: true },
-  //   // '/**': { swr: true },
-  //   '/cart': { swr: true },
-  //   '/forgot-password': { static: true },
-  //   '/': { swr: true },
-  //   '/login': { static: true },
-  //   '/register': { swr: true },
-  //   '/wishlist': { swr: true },
-  //   '/wynajem': { static: true },
-  // },
+  $production: {
+    routeRules: {
+      // '/account/**': { swr: true },
+      // '/category/**': { swr: 3600 },
+      // // '/checkout/**': { swr: true },
+      // '/product/**': { swr: 600 },
+      // '/search/**': { swr: 300 },
+      // // '/status/**': { swr: true },
+      // // '/**': { swr: true },
+      // // '/cart': { swr: true },
+      // '/forgot-password': { swr: true },
+      // '/': { swr: 600 },
+      // '/login': { swr: true },
+      // '/register': { swr: true },
+      // '/wishlist': { swr: true },
+      // '/wynajem': { swr: true },
+    },
+  },
+
+  nitro: {
+    routeRules: {
+      '/google-fonts/**': { headers: { 'Cache-Control': `public, max-age=${60 * 60 * 24 * 365}` } },
+      '/fonts/**': { headers: { 'Cache-Control': `public, max-age=${60 * 60 * 24 * 365}` } },
+    },
+  },
 
   vite: {
     plugins: [svgLoader({ defaultImport: 'url' })],

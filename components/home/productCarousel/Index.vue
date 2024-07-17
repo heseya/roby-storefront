@@ -46,14 +46,14 @@
 </i18n>
 
 <script lang="ts" setup>
-import type { ProductList, ProductSetList } from '@heseya/store-core'
+import type { ProductListed, ProductSetListed } from '@heseya/store-core'
 
 import { useCategoriesStore } from '@/store/categories'
 import { useConfigStore } from '@/store/config'
 
 const props = withDefaults(
   defineProps<{
-    category: ProductSetList
+    category: ProductSetListed
     label?: string
     withoutSubcategories?: boolean
     headerTag?: string
@@ -74,13 +74,13 @@ const categoriesStore = useCategoriesStore()
 const config = useConfigStore()
 
 const selectedCategory = useState<string | null>(`selected-${props.category.id}`, () => null)
-const subcategories = useState<ProductSetList[]>(`subcategories-${props.category.id}`, () => [])
+const subcategories = useState<ProductSetListed[]>(`subcategories-${props.category.id}`, () => [])
 const subcategoriesFetched = useState<boolean>(
   `subcategories-fetched-${props.category.id}`,
   () => false,
 )
 
-const products = useState<ProductList[]>(`products-${props.category.id}`, () => [])
+const products = useState<ProductListed[]>(`products-${props.category.id}`, () => [])
 const pending = ref(false)
 
 const fetchProducts = async () => {

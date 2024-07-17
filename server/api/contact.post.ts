@@ -1,5 +1,5 @@
 import { createHeseyaApiService } from '@heseya/store-core'
-import type { ProductList } from '@heseya/store-core'
+import type { ProductListed } from '@heseya/store-core'
 import { createTransport } from 'nodemailer'
 import * as Sentry from '@sentry/node'
 import type { SendMailOptions, SentMessageInfo } from 'nodemailer'
@@ -14,7 +14,7 @@ interface ContactForm {
   phone?: string
   message: string
   type: 'renting' | 'price' | 'offer' | 'contact'
-  product?: ProductList
+  product?: ProductListed
   recaptchaToken: string
 }
 
