@@ -15,6 +15,10 @@
   --text-font-family: #{$textFont};
 }
 
+@view-transition {
+  navigation: auto;
+}
+
 html {
   font-family: var(--text-font-family, $textFont);
   color: $text-color;

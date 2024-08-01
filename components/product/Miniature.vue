@@ -163,6 +163,8 @@ const handleAddToCart = () => {
     aspect-ratio: 1/1;
     padding: 4px;
     transition: 0.3s;
+    view-transition-name: product_image;
+    contain: layout;
   }
 
   &:hover &__cover {

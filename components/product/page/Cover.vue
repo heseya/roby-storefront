@@ -17,7 +17,7 @@
     </div>
     <div class="product-cover-gallery__main" style="max-width: 500px; max-height: 500px">
       <Media
-        class="product-cover-gallery__item"
+        class="product-cover-gallery__item product-cover-gallery__item--main"
         :media="active"
         :width="isMobile ? 300 : 500"
         height="500"
@@ -127,6 +127,10 @@ watch(
     aspect-ratio: 1/1;
     object-position: center;
     overflow: initial;
+
+    &--main {
+      view-transition-name: product_image;
+    }
   }
 
   &--singular {
