@@ -51,7 +51,7 @@
   "pl": {
     "actions": {
       "addToCart": "Dodaj do koszyka",
-      "lease": "Zapytaj o leasing"
+      "lease": "Leasing, raty lub odroczona płatność"
     },
     "availability": {
       "available": "Produkt dostępny",
@@ -67,7 +67,7 @@
   "en": {
     "actions": {
       "addToCart": "Add to cart",
-      "lease": "Ask about leasing"
+      "lease": "Leasing, installments or deferred payment"
     },
     "availability": {
       "available": "Product available",
