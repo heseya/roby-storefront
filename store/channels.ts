@@ -1,4 +1,4 @@
-import { SalesChannelStatus } from '@heseya/store-core'
+import { SalesChannelActivity, SalesChannelStatus } from '@heseya/store-core'
 import type { SalesChannel } from '@heseya/store-core'
 import { defineStore } from 'pinia'
 
@@ -41,7 +41,10 @@ export const useChannelsStore = defineStore('channels', {
         })
 
         this.channels = channels
-          .filter((c) => c.status === SalesChannelStatus.Active)
+          .filter(
+            (c) =>
+              c.status === SalesChannelStatus.Public && c.activity === SalesChannelActivity.Active,
+          )
           .sort((a, b) => a.name.localeCompare(b.name))
       } catch (e) {
         // eslint-disable-next-line no-console

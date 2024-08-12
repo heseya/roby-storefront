@@ -8,7 +8,7 @@ export const useUserAddreses = (type: 'billing' | 'shipping') => {
   const salesChannel = useChannelsStore()
 
   const valueKey = `${type}_addresses` as const
-  const methodSuffix = type === 'billing' ? 'BillingAddress' : 'ShippingAddress'
+  const methodSuffix = type === 'billing' ? 'BillingAddresses' : 'ShippingAddresses'
 
   const addresses = computed(() => user.value?.[valueKey] || [])
 
@@ -37,7 +37,7 @@ export const useUserAddreses = (type: 'billing' | 'shipping') => {
     try {
       if (!user.value) throw new Error('User is not logged')
 
-      const updatedAddresses = await heseya.UserProfile[`save${methodSuffix}`](payload)
+      const updatedAddresses = await heseya.UserProfile.My[methodSuffix].create(payload)
       user.value[valueKey] = updatedAddresses
       return { success: true }
     } catch (e) {
@@ -50,7 +50,7 @@ export const useUserAddreses = (type: 'billing' | 'shipping') => {
     try {
       if (!user.value) throw new Error('User is not logged')
 
-      const updatedAddresses = await heseya.UserProfile[`update${methodSuffix}`](id, payload)
+      const updatedAddresses = await heseya.UserProfile.My[methodSuffix].update(id, payload)
       user.value[valueKey] = updatedAddresses
       return { success: true }
     } catch (e) {
@@ -63,7 +63,7 @@ export const useUserAddreses = (type: 'billing' | 'shipping') => {
     try {
       if (!user.value) throw new Error('User is not logged')
 
-      await heseya.UserProfile[`remove${methodSuffix}`](id)
+      await heseya.UserProfile.My[methodSuffix].remove(id)
       user.value[valueKey] = user.value[valueKey].filter((address) => address.id !== id)
       return { success: true }
     } catch (e) {

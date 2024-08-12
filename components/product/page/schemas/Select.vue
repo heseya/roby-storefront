@@ -35,7 +35,7 @@
 </i18n>
 
 <script setup lang="ts">
-import { SchemaType, parsePrices } from '@heseya/store-core'
+import { parsePrices } from '@heseya/store-core'
 import type { CartItemSchemaValue, Schema } from '@heseya/store-core'
 
 const t = useLocalI18n()
@@ -43,17 +43,13 @@ const currency = useCurrency()
 
 const props = withDefaults(
   defineProps<{
-    schema: Schema & { type: SchemaType.Select }
+    schema: Schema
     value?: CartItemSchemaValue
   }>(),
   {
     value: undefined,
   },
 )
-
-if (props.schema.type !== SchemaType.Select) {
-  throw new Error('Schema type must be select')
-}
 
 const emit = defineEmits<{
   (e: 'update:value', value: CartItemSchemaValue | undefined): void

@@ -91,7 +91,7 @@ const breadcrumbs = computed(() => [{ label: $t('breadcrumbs.account'), link: '/
 
 const { data: recentOrder } = useAsyncData(`recent-order`, async () => {
   try {
-    const { data } = await heseya.UserProfile.Orders.get()
+    const { data } = await heseya.UserProfile.My.Orders.get()
     return data[0]
   } catch (e: any) {
     errorMessage.value = formatError(e)

@@ -63,7 +63,7 @@ export const useUserStore = defineStore('user', {
     async saveShippingAddress(payload: UserSavedAddressCreateDto) {
       const heseya = useHeseya()
       try {
-        const address = await heseya.UserProfile.saveShippingAddress(payload)
+        const address = await heseya.UserProfile.My.ShippingAddresses.create(payload)
         this.user?.shipping_addresses.push(...address)
       } catch (e) {
         return { success: false, error: e }
@@ -73,7 +73,7 @@ export const useUserStore = defineStore('user', {
     async saveBillingAddress(payload: UserSavedAddressCreateDto) {
       const heseya = useHeseya()
       try {
-        const address = await heseya.UserProfile.saveBillingAddress(payload)
+        const address = await heseya.UserProfile.My.BillingAddresses.create(payload)
         this.user?.billing_addresses.push(...address)
       } catch (e) {
         return { success: false, error: e }

@@ -55,7 +55,7 @@ const breadcrumbs = computed(() => [
 
 const { data: order } = useAsyncData(`account/orders/${orderNumber}`, async () => {
   try {
-    return await heseya.UserProfile.Orders.getOneByCode(orderNumber.value)
+    return await heseya.UserProfile.My.Orders.getOneByCode(orderNumber.value)
   } catch (e: any) {
     errorMessage.value = formatError(e)
   }

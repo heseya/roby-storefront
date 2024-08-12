@@ -84,6 +84,7 @@ export const useCheckoutStore = defineStore('checkout', {
       const channel = useSalesChannel()
       const currency = useCurrency()
 
+      if (!this.paymentMethodId) return null
       if (!(this.shippingAddress || this.billingAddress)) return null
       return {
         email: this.email,
@@ -102,6 +103,7 @@ export const useCheckoutStore = defineStore('checkout', {
         coupons: cart.coupons.map((c) => c.code),
         sales_ids: cart.sales.map((s) => s.id),
         sales_channel_id: channel.value?.id || '',
+        payment_method_id: this.paymentMethodId,
         currency: currency.value,
         metadata: this.metadataOrder,
       }
@@ -125,13 +127,6 @@ export const useCheckoutStore = defineStore('checkout', {
       return isAddressValid(this.shippingAddress)
     },
 
-    requirePaymentMethod(): boolean {
-      /**
-       * If selected shipping method has payment on delivery, then payment method is not required
-       */
-      return this.shippingMethod ? !this.shippingMethod.payment_on_delivery : true
-    },
-
     validationError(): string | null {
       if (!this.email) return 'errors.checkout.email'
 
@@ -150,7 +145,7 @@ export const useCheckoutStore = defineStore('checkout', {
       if (this.invoiceRequested && !this.billingAddress.vat)
         return 'errors.checkout.billingAddressVat'
 
-      if (this.requirePaymentMethod && !this.paymentMethodId) return 'errors.checkout.paymentMethod'
+      if (!this.paymentMethodId) return 'errors.checkout.paymentMethod'
 
       if (!this.consents.statute) return 'errors.checkout.consent'
       return null

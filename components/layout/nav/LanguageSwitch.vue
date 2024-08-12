@@ -46,9 +46,7 @@ const setLanguage = async (language: InnerLanguage) => {
 
   // TODO: remove this hardcoded rule maybe?
   // Set channel to a default channel for language
-  const langChannels = channels.channels.filter((c) =>
-    c.default_language.iso.includes(language.key),
-  )
+  const langChannels = channels.channels.filter((c) => c.language.iso.includes(language.key))
   // If lang switched to EN, select UK channel
   const channelSlug = language.key === 'en' ? 'uk' : 'pl'
   const channel = langChannels.find((c) => c.slug.includes(channelSlug)) || langChannels[0]

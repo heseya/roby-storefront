@@ -75,7 +75,7 @@ const localePath = useLocalePath()
 
 const { data: order } = useAsyncData(`account/orders/${props.code}`, async () => {
   try {
-    return await heseya.UserProfile.Orders.getOneByCode(props.code)
+    return await heseya.UserProfile.My.Orders.getOneByCode(props.code)
   } catch (e: any) {
     errorMessage.value = formatError(e)
   }

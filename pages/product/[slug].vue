@@ -189,7 +189,7 @@
 </i18n>
 
 <script setup lang="ts">
-import { HeseyaEvent } from '@heseya/store-core'
+import { HeseyaEvent, type ProductSale } from '@heseya/store-core'
 
 import {
   ALLOW_RENTING_KEY,
@@ -272,9 +272,8 @@ const showAttributeCard = computed(() => {
   return product.value?.attributes.length && config.env.show_attribute_card === '1'
 })
 
-const visibleSales = computed(() =>
-  (product.value?.sales || []).filter((sale) => sale.metadata.show_on_product_page),
-)
+// TODO: fetch sales from a dedicated heseya.Products.getProductSales method
+const visibleSales = computed(() => [] as ProductSale[])
 
 const relatedSets = computed(
   () =>

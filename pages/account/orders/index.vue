@@ -60,7 +60,7 @@ const errorMessage = ref('')
 
 const { data: orders, refresh } = useAsyncData(`user-orders-${route.query.page || 1}`, async () => {
   try {
-    const { data, pagination } = await heseya.UserProfile.Orders.get({
+    const { data, pagination } = await heseya.UserProfile.My.Orders.get({
       limit,
       page: page.value,
     })

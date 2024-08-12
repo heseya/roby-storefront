@@ -1,5 +1,5 @@
 <template>
-  <CheckoutPageArea v-show="requirePaymentMethod" :title="t('payment')" :placeholder-height="100">
+  <CheckoutPageArea :title="t('payment')" :placeholder-height="100">
     <CheckoutPaymentMethodsSelect
       v-model:value="checkout.paymentMethodId"
       :shipping-method-id="checkout.shippingMethod?.id"
@@ -31,16 +31,6 @@ const t = useLocalI18n()
 const checkout = useCheckoutStore()
 const cart = useCartStore()
 const ev = useHeseyaEventBus()
-
-const requirePaymentMethod = computed(() => checkout.requirePaymentMethod)
-
-watch(
-  () => requirePaymentMethod,
-  () => {
-    if (!requirePaymentMethod.value) checkout.paymentMethodId = null
-  },
-  { immediate: true },
-)
 
 const onSelect = (method: PaymentMethodListed | null) => {
   if (method) {
