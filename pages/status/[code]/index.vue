@@ -19,7 +19,7 @@
           {{ $t('payments.paid') }}
         </b>
         <b
-          v-else-if="order?.shipping_method?.payment_on_delivery"
+          v-else-if="order?.payment_method_type === PaymentMethodType.Postpaid"
           class="status-page__field-value warning-text"
         >
           {{ $t('payments.paymentOnDelivery') }}
@@ -66,6 +66,8 @@
 </i18n>
 
 <script setup lang="ts">
+import { PaymentMethodType } from '@heseya/store-core'
+
 const t = useLocalI18n()
 const $t = useGlobalI18n()
 const route = useRoute()

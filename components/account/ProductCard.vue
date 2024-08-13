@@ -7,10 +7,13 @@
 </template>
 
 <script setup lang="ts">
-import type { ProductListed } from '@heseya/store-core'
+import type { CdnMedia } from '@heseya/store-core'
 
 defineProps<{
-  product: ProductListed
+  product: {
+    slug: string
+    cover?: CdnMedia | null
+  }
 }>()
 
 const localePath = useLocalePath()

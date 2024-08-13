@@ -12,7 +12,7 @@ export const useChannelsStore = defineStore('channels', {
 
   getters: {
     currency(state) {
-      return state.selected?.default_currency.code || 'PLN'
+      return state.selected?.price_map?.currency || 'PLN'
     },
 
     /**

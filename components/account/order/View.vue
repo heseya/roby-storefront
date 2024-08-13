@@ -72,7 +72,7 @@
 </i18n>
 
 <script setup lang="ts">
-import { PaymentStatus } from '@heseya/store-core'
+import { PaymentMethodType, PaymentStatus } from '@heseya/store-core'
 import type { Order } from '@heseya/store-core'
 
 import Successful from '@/assets/icons/mark-circle.svg?component'
@@ -88,7 +88,7 @@ const props = defineProps<{
 }>()
 
 const paymentStatus = computed(() => {
-  const { paid, shipping_method: shippingMethod } = props.order
+  const { paid, payment_method_type: paymentMethodType } = props.order
 
   if (paid)
     return {
@@ -100,7 +100,7 @@ const paymentStatus = computed(() => {
       },
     }
 
-  if (shippingMethod?.payment_on_delivery)
+  if (paymentMethodType === PaymentMethodType.Postpaid)
     return {
       icon: Pending,
       class: 'account-order-view__payment-status--pending',

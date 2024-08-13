@@ -13,5 +13,6 @@ module.exports = {
   rules: {
     'vue/multi-word-component-names': ['off'],
     'vue/v-slot-style': ['off'],
+    'vue/no-v-html': ['off'],
   },
 }
