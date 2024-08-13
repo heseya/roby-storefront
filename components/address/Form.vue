@@ -113,12 +113,10 @@ import type { AddressDto } from '@heseya/store-core'
 
 import { useCheckoutStore } from '@/store/checkout'
 import { EMPTY_ADDRESS } from '@/consts/address'
-import { useChannelsStore } from '@/store/channels'
 
 const t = useLocalI18n()
 const heseya = useHeseya()
 const checkout = useCheckoutStore()
-const salesChannel = useChannelsStore()
 
 const props = withDefaults(
   defineProps<{
@@ -127,7 +125,7 @@ const props = withDefaults(
     disabled?: boolean
     namePrefix?: string
     channelCountriesOnly?: boolean
-    excludeCountries?: false | 'sales-channel' | 'shipping-method'
+    excludeCountries?: false | 'shipping-method'
   }>(),
   {
     address: () => ({ ...EMPTY_ADDRESS }),
@@ -151,10 +149,6 @@ const countries = computed(() => {
   // Limits countries to those available in selected shipping method
   if (props.excludeCountries === 'shipping-method')
     return allCountries.value?.filter((c) => checkout.isCountryCodeAllowedInShipping(c.code)) ?? []
-
-  // Limits countries to those available in selected sales channel
-  if (props.excludeCountries === 'sales-channel')
-    return allCountries.value?.filter((c) => salesChannel.isCountryCodeAllowed(c.code)) ?? []
 
   // Returns all countries
   return allCountries.value ?? []

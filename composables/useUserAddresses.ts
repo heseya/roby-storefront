@@ -1,11 +1,9 @@
 import type { UserSavedAddressCreateDto, UserSavedAddressUpdateDto } from '@heseya/store-core'
 import { useCheckoutStore } from '@/store/checkout'
-import { useChannelsStore } from '@/store/channels'
 
 export const useUserAddreses = (type: 'billing' | 'shipping') => {
   const user = useUser()
   const checkout = useCheckoutStore()
-  const salesChannel = useChannelsStore()
 
   const valueKey = `${type}_addresses` as const
   const methodSuffix = type === 'billing' ? 'BillingAddresses' : 'ShippingAddresses'
@@ -13,11 +11,8 @@ export const useUserAddreses = (type: 'billing' | 'shipping') => {
   const addresses = computed(() => user.value?.[valueKey] || [])
 
   const addressesAllowedInChannel = computed(() => {
-    // Allow only addresses from countries allowed in channel
-    if (type === 'billing')
-      return addresses.value.filter((address) =>
-        salesChannel.isCountryCodeAllowed(address.address.country),
-      )
+    // Allow all addresses
+    if (type === 'billing') return addresses.value
 
     // Allow only addresses from countries allowed in selected shipping method
     return addresses.value.filter((address) =>

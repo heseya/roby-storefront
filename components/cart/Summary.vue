@@ -110,7 +110,7 @@ const { data: cheapestShippingMethodPrice, refresh: refreshCheapestShippingMetho
     const { data } = await heseya.ShippingMethods.get({
       cart_value: { value: cart.totalValue, currency: currency.value },
       items: cart.items.map((item) => item.productId),
-      country: channel.countryCode,
+      sales_channel_id: channel.selected?.id,
     })
 
     const filteredData = data.filter((m) => !m.metadata?.paczkomat || cart.allowPaczkomatDelivery)
