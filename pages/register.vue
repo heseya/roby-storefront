@@ -2,7 +2,11 @@
   <NuxtLayout>
     <LayoutBreadcrumpsProvider :breadcrumbs="breadcrumbs" />
 
-    <div class="register-content">
+    <OrganizationRegisterForm
+      v-if="IS_B2B_REGISTRATION"
+      @registered="() => navigateTo(localePath('/login'))"
+    />
+    <div v-else class="register-content">
       <AuthRegisterForm @registered="() => navigateTo(localePath('/login'))" />
     </div>
   </NuxtLayout>
@@ -11,6 +15,9 @@
 <script setup lang="ts">
 const $t = useGlobalI18n()
 const localePath = useLocalePath()
+
+// TODO: dynamic from env or smth
+const IS_B2B_REGISTRATION = true
 
 useSeoTitle($t('account.registerTitle'))
 

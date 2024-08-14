@@ -19,6 +19,7 @@ export default {
     message: 'Message',
     continue: 'Continue',
     back: 'Back',
+    default: 'Default',
   },
 
   payments: {

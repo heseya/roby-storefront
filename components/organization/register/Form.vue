@@ -20,6 +20,10 @@
     </div>
 
     <div class="register-form__content">
+      <LayoutInfoBox v-show="errorMessage" type="danger" class="register-form__error">
+        {{ errorMessage }}
+      </LayoutInfoBox>
+
       <OrganizationRegisterUserForm
         v-if="currentStep === 'user'"
         :initial-value="organizationForm"
@@ -31,14 +35,12 @@
         @submit="handleBillingStepSubmit"
         @back="currentStep = 'user'"
       />
-      <div
+      <OrganizationRegisterAddressesForm
         v-else-if="currentStep === 'addresses'"
         :initial-value="organizationForm"
         @back="currentStep = 'company'"
         @submit="handleAddressesStepSubmit"
-      >
-        TODO: addresses
-      </div>
+      />
     </div>
   </div>
 </template>
@@ -67,36 +69,44 @@
 </i18n>
 
 <script setup lang="ts">
-import type {
-  OrganizationRegisterDto,
-  UserRegisterDto,
-  OrganizationSavedAddressCreateDto,
-} from '@heseya/store-core'
+import type { Organization, OrganizationRegisterDto, UserRegisterDto } from '@heseya/store-core'
+const $t = useGlobalI18n()
 const t = useLocalI18n()
 
 type RegisterSteps = 'user' | 'company' | 'addresses'
+
+const heseya = useHeseya()
+const { recaptchaPublic } = usePublicRuntimeConfig()
+const formatError = useErrorMessage()
+
+const emit = defineEmits<{
+  (event: 'registered', value: Organization): void
+}>()
+
 const steps = ['user', 'company', 'addresses'] as RegisterSteps[]
-
 const currentStep = ref<RegisterSteps>('user')
+const isLoading = ref(false)
+const errorMessage = ref('')
 
+// TODO: remove default data, leave empty strings
 const organizationForm = ref<OrganizationRegisterDto>({
-  billing_email: '',
+  billing_email: 'test@example.com',
   billing_address: {
-    name: '',
-    company_name: '',
-    address: '',
-    city: '',
-    country: '',
-    country_name: '',
-    phone: '',
-    zip: '',
-    vat: '',
+    name: 'Testowa firma',
+    company_name: 'Testowa firma',
+    address: 'ul. Sienkiewicza 1',
+    city: 'Warszawa',
+    country: 'PL',
+    country_name: 'Poland',
+    phone: '222 333 444',
+    zip: '00-222',
+    vat: '1112223331',
   },
-  shipping_adresses: [],
+  shipping_addresses: [],
   consents: {},
-  creator_email: '',
-  creator_password: '',
-  creator_name: '',
+  creator_email: `test-${Math.random()}@example.com`,
+  creator_password: 'blablaalesuperprojekt',
+  creator_name: 'Janusz Mikoszewski',
 })
 
 const handleUserStepSubmit = (data: UserRegisterDto) => {
@@ -111,12 +121,38 @@ const handleBillingStepSubmit = (
   data: Pick<OrganizationRegisterDto, 'billing_address' | 'billing_email'>,
 ) => {
   organizationForm.value.billing_address = data.billing_address
+  organizationForm.value.shipping_addresses = [
+    { default: true, name: $t('common.default').toString(), address: { ...data.billing_address } },
+  ]
   organizationForm.value.billing_email = data.billing_email
   currentStep.value = 'addresses'
 }
 
-const handleAddressesStepSubmit = (data: OrganizationSavedAddressCreateDto[]) => {
-  organizationForm.value.shipping_adresses = data
+const handleAddressesStepSubmit = (data: Pick<OrganizationRegisterDto, 'shipping_addresses'>) => {
+  organizationForm.value.shipping_addresses = data.shipping_addresses
+  registerOrganization()
+}
+
+const registerOrganization = async () => {
+  // const ev = useHeseyaEventBus()
+
+  isLoading.value = true
+
+  try {
+    const recaptchaToken = await getRecaptchaToken(recaptchaPublic, 'register')
+    const organization = await heseya.Organizations.register({
+      ...organizationForm.value,
+      // @ts-expect-error token is not used yet
+      captcha_token: recaptchaToken,
+    })
+
+    // ev.emit(HeseyaEvent.RegisterOrganization, organization)
+    emit('registered', organization)
+  } catch (e: any) {
+    errorMessage.value = formatError(e)
+  } finally {
+    isLoading.value = false
+  }
 }
 </script>
 
@@ -156,6 +192,12 @@ const handleAddressesStepSubmit = (data: OrganizationSavedAddressCreateDto[]) =>
   &__content {
     width: 100%;
     max-width: 500px;
+  }
+
+  &__error {
+    color: var(--error-color);
+    font-weight: bold;
+    text-align: center;
   }
 }
 

@@ -80,7 +80,6 @@ const { data: paymentMethods, refresh } = useLazyAsyncData('payment-methods-sele
 
   const { data } = await heseya.PaymentMethods.get({
     shipping_method_id: props.shippingMethodId,
-    // @ts-expect-error TODO: this will be typed soon
     sales_channel_id: channel.selected?.id,
   })
   return data

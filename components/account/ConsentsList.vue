@@ -22,11 +22,17 @@ import { ConsentType } from '@heseya/store-core'
 
 const heseya = useHeseya()
 
-const props = defineProps<{
-  value: UserConsentDto
-  forceRequired?: boolean
-  type: ConsentType
-}>()
+const props = withDefaults(
+  defineProps<{
+    value: UserConsentDto
+    forceRequired?: boolean
+    type?: ConsentType
+  }>(),
+  {
+    type: ConsentType.User,
+    forceRequired: false,
+  },
+)
 
 const emit = defineEmits<{
   (e: 'error', error: any): void

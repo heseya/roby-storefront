@@ -19,6 +19,7 @@ export default {
     message: 'Wiadomość',
     continue: 'Dalej',
     back: 'Wróć',
+    default: 'Domyślny',
   },
 
   payments: {

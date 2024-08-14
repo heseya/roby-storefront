@@ -16,7 +16,7 @@
       size="small"
       class="billing-form__btn"
       :label="$t('common.back')"
-      @emit="emit('back')"
+      @click="emit('back')"
     />
   </form>
 </template>
