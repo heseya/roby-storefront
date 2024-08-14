@@ -42,6 +42,7 @@
 import type { PaymentMethodListed } from '@heseya/store-core'
 import type { RadioGroupOption } from '@/components/form/RadioGroup.vue'
 
+import { useChannelsStore } from '@/store/channels'
 import { useConfigStore } from '~/store/config'
 import { TRADITIONAL_PAYMENT_KEY } from '~/consts/traditionalPayment'
 
@@ -75,8 +76,12 @@ const value = computed<string | null>({
 })
 
 const { data: paymentMethods, refresh } = useLazyAsyncData('payment-methods-select', async () => {
+  const channel = useChannelsStore()
+
   const { data } = await heseya.PaymentMethods.get({
     shipping_method_id: props.shippingMethodId,
+    // @ts-expect-error TODO: this will be typed soon
+    sales_channel_id: channel.selected?.id,
   })
   return data
 })
