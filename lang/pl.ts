@@ -17,6 +17,8 @@ export default {
     from: 'od',
     to: 'do',
     message: 'Wiadomość',
+    continue: 'Dalej',
+    back: 'Wróć',
   },
 
   payments: {

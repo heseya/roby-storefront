@@ -18,12 +18,14 @@
 
 <script setup lang="ts">
 import type { UserConsentDto } from '@heseya/store-core'
+import { ConsentType } from '@heseya/store-core'
 
 const heseya = useHeseya()
 
 const props = defineProps<{
   value: UserConsentDto
   forceRequired?: boolean
+  type: ConsentType
 }>()
 
 const emit = defineEmits<{
@@ -37,7 +39,7 @@ const setConsentValue = (consentId: string, value: boolean) => {
 
 const { data: consents } = useAsyncData('consents', async () => {
   try {
-    const { data } = await heseya.Consents.get({ lang_fallback: 'any' })
+    const { data } = await heseya.Consents.get({ lang_fallback: 'any', type: props.type })
 
     return data
   } catch (e: any) {

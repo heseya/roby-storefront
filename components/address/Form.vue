@@ -1,5 +1,5 @@
 <template>
-  <div class="address-form">
+  <div class="address-form" :class="{ 'address-form--vertical': vertical }">
     <FormInput
       :model-value="address.name"
       :name="`${namePrefix}_name`"
@@ -124,16 +124,16 @@ const props = withDefaults(
     invoice?: boolean
     disabled?: boolean
     namePrefix?: string
-    channelCountriesOnly?: boolean
     excludeCountries?: false | 'shipping-method'
+    vertical?: boolean
   }>(),
   {
     address: () => ({ ...EMPTY_ADDRESS }),
     invoice: false,
     disabled: false,
     namePrefix: 'address',
-    channelCountriesOnly: false,
     excludeCountries: false,
+    vertical: false,
   },
 )
 
@@ -195,6 +195,10 @@ const update = (key: keyof AddressDto, value: string) => {
     @media ($viewport-6) {
       flex-direction: row;
     }
+  }
+
+  &--vertical &__row {
+    flex-direction: column;
   }
 
   > *:not(:last-child) {
