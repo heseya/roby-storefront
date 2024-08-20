@@ -89,25 +89,24 @@ const currentStep = ref<RegisterSteps>('user')
 const isLoading = ref(false)
 const errorMessage = ref('')
 
-// TODO: remove default data, leave empty strings
 const organizationForm = ref<OrganizationRegisterDto>({
-  billing_email: 'test@example.com',
+  billing_email: '',
   billing_address: {
-    name: 'Testowa firma',
-    company_name: 'Testowa firma',
-    address: 'ul. Sienkiewicza 1',
-    city: 'Warszawa',
+    name: '',
+    company_name: '',
+    address: '',
+    city: '',
     country: 'PL',
     country_name: 'Poland',
-    phone: '222 333 444',
-    zip: '00-222',
-    vat: '1112223331',
+    phone: '',
+    zip: '',
+    vat: '',
   },
   shipping_addresses: [],
   consents: {},
-  creator_email: `test-${Math.random()}@example.com`,
-  creator_password: 'blablaalesuperprojekt',
-  creator_name: 'Janusz Mikoszewski',
+  creator_email: '',
+  creator_password: '',
+  creator_name: '',
 })
 
 const handleUserStepSubmit = (data: UserRegisterDto) => {

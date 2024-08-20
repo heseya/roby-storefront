@@ -28,8 +28,6 @@
 import type { OrganizationRegisterDto } from '@heseya/store-core'
 import { useForm } from 'vee-validate'
 
-// import { EMPTY_ADDRESS } from '@/consts/address'
-
 const t = useLocalI18n()
 
 const props = withDefaults(
