@@ -3,7 +3,7 @@
     <LayoutBreadcrumpsProvider :breadcrumbs="breadcrumbs" />
 
     <OrganizationRegisterForm
-      v-if="IS_B2B_REGISTRATION"
+      v-if="isModeB2B"
       @registered="() => navigateTo(localePath('/login'))"
     />
     <div v-else class="register-content">
@@ -13,11 +13,13 @@
 </template>
 
 <script setup lang="ts">
+import { SiteMode } from '@/interfaces/siteMode'
+
 const $t = useGlobalI18n()
 const localePath = useLocalePath()
+const config = usePublicRuntimeConfig()
 
-// TODO: dynamic from env or smth
-const IS_B2B_REGISTRATION = true
+const isModeB2B = computed(() => config.siteMode === SiteMode.B2B)
 
 useSeoTitle($t('account.registerTitle'))
 
