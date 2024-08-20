@@ -57,6 +57,7 @@
     </LayoutInfoBox>
 
     <LayoutRecaptchaBadge />
+    <slot></slot>
 
     <LayoutButton
       :disabled="isFormDisabled"

@@ -10,7 +10,9 @@
     <br />
     <AddressForm v-model:address="form.values.billing_address" invoice vertical />
 
-    <LayoutButton html-type="submit" class="billing-form__btn" :label="$t('common.continue')" />
+    <slot></slot>
+
+    <LayoutButton html-type="submit" class="billing-form__btn" :label="t('finalize')" />
     <LayoutButton
       variant="gray"
       size="small"
@@ -24,10 +26,12 @@
 <i18n lang="json">
 {
   "pl": {
-    "invoice_email": "Email na który wysyłane będą faktury"
+    "invoice_email": "Email na który wysyłane będą faktury",
+    "finalize": "Zarejestruj organizację"
   },
   "en": {
-    "invoice_email": "Invoice email"
+    "invoice_email": "Invoice email",
+    "finalize": "Register organization"
   }
 }
 </i18n>

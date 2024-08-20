@@ -20,27 +20,25 @@
     </div>
 
     <div class="register-form__content">
-      <LayoutInfoBox v-show="errorMessage" type="danger" class="register-form__error">
-        {{ errorMessage }}
-      </LayoutInfoBox>
-
       <OrganizationRegisterUserForm
         v-if="currentStep === 'user'"
         :initial-value="organizationForm"
         @submit="handleUserStepSubmit"
-      />
+      >
+        <LayoutInfoBox v-show="errorMessage" type="danger" class="register-form__error">
+          {{ errorMessage }}
+        </LayoutInfoBox>
+      </OrganizationRegisterUserForm>
       <OrganizationRegisterBillingForm
         v-else-if="currentStep === 'company'"
         :initial-value="organizationForm"
         @submit="handleBillingStepSubmit"
         @back="currentStep = 'user'"
-      />
-      <OrganizationRegisterAddressesForm
-        v-else-if="currentStep === 'addresses'"
-        :initial-value="organizationForm"
-        @back="currentStep = 'company'"
-        @submit="handleAddressesStepSubmit"
-      />
+      >
+        <LayoutInfoBox v-show="errorMessage" type="danger" class="register-form__error">
+          {{ errorMessage }}
+        </LayoutInfoBox>
+      </OrganizationRegisterBillingForm>
     </div>
   </div>
 </template>
@@ -49,21 +47,23 @@
 {
   "pl": {
     "title": "Utwórz nowe konto",
-    "subtitle": "w 3 prostych krokach",
+    "subtitle": "w 2 prostych krokach",
     "steps": {
       "user": "Twoje dane",
       "company": "Dane firmy",
       "addresses": "Adresy"
-    }
+    },
+    "registeredMessage": "Zarejestrowano pomyślnie"
   },
   "en": {
     "title": "Create new account",
-    "subtitle": "in 3 simple steps",
+    "subtitle": "in 2 simple steps",
     "steps": {
       "user": "Your data",
       "company": "Company data",
       "addresses": "Addresses"
-    }
+    },
+    "registeredMessage": "Registered successfully"
   }
 }
 </i18n>
@@ -73,17 +73,18 @@ import type { Organization, OrganizationRegisterDto, UserRegisterDto } from '@he
 const $t = useGlobalI18n()
 const t = useLocalI18n()
 
-type RegisterSteps = 'user' | 'company' | 'addresses'
+type RegisterSteps = 'user' | 'company'
 
 const heseya = useHeseya()
 const { recaptchaPublic } = usePublicRuntimeConfig()
 const formatError = useErrorMessage()
+const { notify } = useNotify()
 
 const emit = defineEmits<{
   (event: 'registered', value: Organization): void
 }>()
 
-const steps = ['user', 'company', 'addresses'] as RegisterSteps[]
+const steps = ['user', 'company'] as RegisterSteps[]
 const currentStep = ref<RegisterSteps>('user')
 const isLoading = ref(false)
 const errorMessage = ref('')
@@ -125,11 +126,6 @@ const handleBillingStepSubmit = (
     { default: true, name: $t('common.default').toString(), address: { ...data.billing_address } },
   ]
   organizationForm.value.billing_email = data.billing_email
-  currentStep.value = 'addresses'
-}
-
-const handleAddressesStepSubmit = (data: Pick<OrganizationRegisterDto, 'shipping_addresses'>) => {
-  organizationForm.value.shipping_addresses = data.shipping_addresses
   registerOrganization()
 }
 
@@ -146,9 +142,18 @@ const registerOrganization = async () => {
       captcha_token: recaptchaToken,
     })
 
+    // TODO: this event does not exist yet in sdk
     // ev.emit(HeseyaEvent.RegisterOrganization, organization)
     emit('registered', organization)
+    notify({
+      title: t('registeredMessage'),
+      type: 'success',
+    })
   } catch (e: any) {
+    notify({
+      title: formatError(e),
+      type: 'error',
+    })
     errorMessage.value = formatError(e)
   } finally {
     isLoading.value = false
