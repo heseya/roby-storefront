@@ -1,6 +1,6 @@
 # Roby Storefront Web template
 
-![Requires Heseya v6.0](https://img.shields.io/badge/Requires_Heseya-v6.0-8f022c)
+![Requires Heseya v8.0](https://img.shields.io/badge/Requires_Heseya-v8.0-8f022c)
 
 ## IDE
 
