@@ -17,6 +17,9 @@ export default {
     from: 'from',
     to: 'to',
     message: 'Message',
+    continue: 'Continue',
+    back: 'Back',
+    default: 'Default',
   },
 
   payments: {
@@ -165,6 +168,8 @@ export default {
     VALIDATION_PRODUCT_SCHEMA_OPTION:
       'The selected product configuration is incorrect. Remove the products from the cart and add them again.',
     VALIDATION_EMAIL_TAKEN: 'The given e-mail has already been registered in the system.',
+    VALIDATION_ORGANIZATION_VAT:
+      'The given VAT number is already taken by an existing organization.',
 
     UNPROCESSABLE_ENTITY: 'Validation error.',
 

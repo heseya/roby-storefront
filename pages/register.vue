@@ -2,15 +2,24 @@
   <NuxtLayout>
     <LayoutBreadcrumpsProvider :breadcrumbs="breadcrumbs" />
 
-    <div class="register-content">
+    <OrganizationRegisterForm
+      v-if="isModeB2B"
+      @registered="() => navigateTo(localePath('/login'))"
+    />
+    <div v-else class="register-content">
       <AuthRegisterForm @registered="() => navigateTo(localePath('/login'))" />
     </div>
   </NuxtLayout>
 </template>
 
 <script setup lang="ts">
+import { SiteMode } from '@/interfaces/siteMode'
+
 const $t = useGlobalI18n()
 const localePath = useLocalePath()
+const config = usePublicRuntimeConfig()
+
+const isModeB2B = computed(() => config.siteMode === SiteMode.B2B)
 
 useSeoTitle($t('account.registerTitle'))
 

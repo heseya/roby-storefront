@@ -34,6 +34,7 @@ const {
   NUXT_PUBLIC_COLOR_THEME_PICKER,
   NUXT_PUBLIC_AXIOS_CACHE_TTL,
   NUXT_PUBLIC_HOMEPAGE_TITLE,
+  NUXT_SITE_MODE = 'b2c',
 
   // Custom pages paths
   NUXT_PUBLIC_PAGE_BLOG_PATH = '/blog',
@@ -125,6 +126,7 @@ export default defineNuxtConfig({
 
     public: {
       production: NUXT_PUBLIC_PRODUCTION,
+      siteMode: NUXT_SITE_MODE,
       apiUrl: NUXT_PUBLIC_API_URL,
       cdnUrl: NUXT_PUBLIC_CDN_URL,
       directusUrl: NUXT_PUBLIC_DIRECTUS_URL,

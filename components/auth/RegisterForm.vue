@@ -6,14 +6,14 @@
       <FormInput
         v-model="form.values.name"
         name="name"
-        :label="t('form.name')"
+        :label="$t('form.name')"
         rules="required|alpha"
         :disabled="isFormDisabled"
       />
       <FormInput
         v-model="form.values.surname"
         name="surname"
-        :label="t('form.surname')"
+        :label="$t('form.surname')"
         rules="required|alpha"
         :disabled="isFormDisabled"
       />
@@ -48,6 +48,7 @@
 
     <AccountConsentsList
       v-model:value="form.values.consents"
+      :type="ConsentType.User"
       @error="(e) => (consentsListError = formatError(e))"
     >
       <NewsletterConsent v-if="newsletterEnabled" v-model="newsletterConsent" />
@@ -74,29 +75,11 @@
   </form>
 </template>
 
-<i18n lang="json">
-{
-  "pl": {
-    "form": {
-      "name": "Imię",
-      "surname": "Nazwisko"
-    }
-  },
-  "en": {
-    "form": {
-      "name": "Name",
-      "surname": "Surname"
-    }
-  }
-}
-</i18n>
-
 <script setup lang="ts">
-import { HeseyaEvent } from '@heseya/store-core'
+import { ConsentType, HeseyaEvent } from '@heseya/store-core'
 import type { User, UserConsentDto, UserRegisterDto } from '@heseya/store-core'
 import { useForm } from 'vee-validate'
 
-const t = useLocalI18n()
 const $t = useGlobalI18n()
 const heseya = useHeseya()
 const formatError = useErrorMessage()

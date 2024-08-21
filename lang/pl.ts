@@ -17,6 +17,9 @@ export default {
     from: 'od',
     to: 'do',
     message: 'Wiadomość',
+    continue: 'Dalej',
+    back: 'Wróć',
+    default: 'Domyślny',
   },
 
   payments: {
@@ -167,6 +170,7 @@ export default {
     VALIDATION_PRODUCT_SCHEMA_OPTION:
       'Wybrana konfiguracja produktów jest nieprawidłowa. Usuń produkty z koszyka i dodaj je ponownie.',
     VALIDATION_EMAIL_TAKEN: 'Podany adres e-mail jest już zajęty.',
+    VALIDATION_ORGANIZATION_VAT: 'Podany numer NIP jest już zajęty przez istniejącą organizację.',
 
     UNPROCESSABLE_ENTITY: 'Błąd walidacji.',
 

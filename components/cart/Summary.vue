@@ -124,7 +124,6 @@ const { data: cheapestShippingMethodPrice, refresh: refreshCheapestShippingMetho
 
 const { data: paymentMethods } = useLazyAsyncData('all-payment-methods', async () => {
   const { data } = await heseya.PaymentMethods.get({
-    // @ts-expect-error TODO: this will be typed soon
     sales_channel_id: channel.selected?.id,
   })
   return data.map((method) => ({
