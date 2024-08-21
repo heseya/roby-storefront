@@ -60,11 +60,11 @@ NUXT_PUBLIC_PRICE_TRACKER_URL=https://main-price-tracker.heseya.com
 In this template there are 5 custom pages available. You can change the path of each page by setting the following environment variables. If you want to disable a page, set the env to _empty_ or to `0`.
 
 ```env
-BUILD_PAGE_BLOG_PATH=/blog
-BUILD_PAGE_CONTACT_PATH=/kontakt
-BUILD_PAGE_ABOUT_PATH=/o-nas
-BUILD_PAGE_RENT_PATH=/wynajem
-BUILD_PAGE_STATUTE_PATH=/regulamin
+NUXT_PUBLIC_PAGE_BLOG_PATH=/blog
+NUXT_PUBLIC_PAGE_CONTACT_PATH=/kontakt
+NUXT_PUBLIC_PAGE_ABOUT_PATH=/o-nas
+NUXT_PUBLIC_PAGE_RENT_PATH=/wynajem
+NUXT_PUBLIC_PAGE_STATUTE_PATH=/regulamin
 ```
 
 ## Production
