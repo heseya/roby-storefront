@@ -56,6 +56,8 @@ export const useAuthStore = defineStore('auth', {
 
         userStore.setUser(user)
 
+        await userStore.fetchOrganization()
+
         this.setTokens(tokens)
         ev.emit(HeseyaEvent.Login, user)
         wasLoggedInPast.value = true

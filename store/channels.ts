@@ -1,17 +1,18 @@
 import { SalesChannelActivity, SalesChannelStatus } from '@heseya/store-core'
-import type { SalesChannel } from '@heseya/store-core'
+import type { SalesChannelListed } from '@heseya/store-core'
 import { defineStore } from 'pinia'
 
 import { SALES_CHANNEL_KEY } from '@/consts/cookiesKeys'
 
 export const useChannelsStore = defineStore('channels', {
   state: () => ({
-    channels: [] as SalesChannel[],
-    selected: null as SalesChannel | null,
+    channels: [] as SalesChannelListed[],
+    selected: null as SalesChannelListed | null,
   }),
 
   getters: {
     currency(state) {
+      // TODO: sales channel should return a currency
       return state.selected?.price_map?.currency || 'PLN'
     },
   },

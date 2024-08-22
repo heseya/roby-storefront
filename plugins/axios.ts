@@ -61,6 +61,7 @@ export default defineNuxtPlugin((nuxt) => {
 
   const pathsWithAuth = [
     'auth',
+    'my',
     'product-sets/favourites',
     'orders',
     'cart/process',
