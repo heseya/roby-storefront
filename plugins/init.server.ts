@@ -7,7 +7,6 @@ import { useAuthStore } from '@/store/auth'
 import { useUserStore } from '@/store/user'
 import { useLanguageStore } from '@/store/language'
 import { useChannelsStore } from '@/store/channels'
-import { SALES_CHANNEL_KEY } from '@/consts/cookiesKeys'
 
 export default defineNuxtPlugin(async (nuxtApp) => {
   const runtimeConfig = usePublicRuntimeConfig()
@@ -25,17 +24,12 @@ export default defineNuxtPlugin(async (nuxtApp) => {
   const languages = useLanguageStore(nuxtApp.$pinia as Pinia)
   const channels = useChannelsStore(nuxtApp.$pinia as Pinia)
 
-  // TODO: selected channel should probably be included in URL, not in the cookie
-  const channelCookie = useCookie(SALES_CHANNEL_KEY)
-
   await languages.fetchApiLanguages()
   await Promise.all([config.fetchConfig(), channels.fetchChannels()])
 
-  channels.setChannel(channelCookie.value || undefined)
+  if (auth.isLogged) await user.fetchProfile()
 
-  await Promise.all([
-    config.fetchSeo(),
-    categories.fetchRootCategories(),
-    auth.isLogged ? user.fetchProfile() : Promise.resolve(),
-  ])
+  channels.initSalesChannels()
+
+  await Promise.all([config.fetchSeo(), categories.fetchRootCategories()])
 })

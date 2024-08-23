@@ -1,14 +1,21 @@
 <template>
-  <div ref="target" class="layout-popover" @click="toggleDropdown">
+  <div
+    ref="target"
+    class="layout-popover"
+    :class="{ 'layout-popover--disabled': props.disabled }"
+    @click="toggleDropdown"
+  >
     <slot name="option" :value="props.value"> {{ props.value.key }}</slot>
 
     <LayoutIcon
+      v-if="!props.disabled"
       :icon="showDropdown ? arrowUp : arrowDown"
       class="layout-popover__icon"
       @click.stop="toggleDropdown"
     />
 
     <div
+      v-if="!props.disabled"
       class="layout-popover__dropdown"
       :class="{ 'layout-popover__dropdown--visible': showDropdown }"
     >
@@ -36,6 +43,7 @@ defineSlots<{
 const props = defineProps<{
   value: T
   options: T[]
+  disabled?: boolean
 }>()
 
 const emit = defineEmits<{
@@ -51,7 +59,10 @@ const selectAndClose = (value: T) => {
   showDropdown.value = false
 }
 
-const toggleDropdown = (): boolean => (showDropdown.value = !showDropdown.value)
+const toggleDropdown = () => {
+  if (props.disabled) return
+  showDropdown.value = !showDropdown.value
+}
 
 onClickOutside(target, () => {
   showDropdown.value = false
@@ -65,6 +76,10 @@ onClickOutside(target, () => {
   cursor: pointer;
   position: relative;
   user-select: none;
+
+  &--disabled {
+    cursor: default;
+  }
 
   &__dropdown {
     width: 160px;

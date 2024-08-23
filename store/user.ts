@@ -6,7 +6,6 @@ import type {
   UserSavedAddressCreateDto,
 } from '@heseya/store-core'
 import { defineStore } from 'pinia'
-import { useChannelsStore } from './channels'
 
 export const useUserStore = defineStore('user', {
   state: () => ({
@@ -21,14 +20,17 @@ export const useUserStore = defineStore('user', {
     setUser(user: User | null) {
       this.user = user
     },
+    setOrganization(organization: Organization | null) {
+      this.organization = organization
+    },
 
     async fetchProfile() {
       const heseya = useHeseya()
       try {
         const user = await heseya.UserProfile.get()
-        this.user = user as User
+        this.setUser(user as User)
 
-        this.fetchOrganization()
+        await this.fetchOrganization()
 
         return { success: true }
       } catch (e: any) {
@@ -39,17 +41,10 @@ export const useUserStore = defineStore('user', {
 
     async fetchOrganization() {
       const heseya = useHeseya()
-      const salesChannelStore = useChannelsStore()
 
       try {
         const organization = await heseya.UserProfile.My.Organization.get()
-        this.organization = organization
-
-        // TODO: this does not work as intended, default channel takes priority
-        if (this.organization.sales_channel) {
-          salesChannelStore.channels.push(this.organization.sales_channel)
-          salesChannelStore.setChannel(this.organization.sales_channel.id)
-        }
+        this.setOrganization(organization)
 
         return { success: true }
       } catch (e: any) {

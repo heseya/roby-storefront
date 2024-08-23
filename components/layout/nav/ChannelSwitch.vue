@@ -3,6 +3,7 @@
     v-show="channelsList.length > 1 && mode === 'popover'"
     :value="selected"
     :options="channelsList"
+    :disabled="!!organization"
     class="channel-switch__menu"
     @update:value="setChannel"
   >
@@ -16,6 +17,7 @@
     :model-value="selected.key"
     class="channel-switch__menu"
     name="sales_channel"
+    :disabled="!!organization"
     @update:model-value="(key) => setChannel({ key: key?.toString() || '' })"
   >
     <option v-for="item in channelsList" :key="item.key" :value="item.key">
@@ -39,6 +41,7 @@ withDefaults(
 
 const { setLocale, locales } = useI18n()
 const channels = useChannelsStore()
+const organization = useOrganization()
 
 const channelsList = computed(() => channels.channels.map((c) => ({ key: c.id, name: c.name })))
 

@@ -55,10 +55,10 @@ export const useAuthStore = defineStore('auth', {
           : await heseya.Auth.Providers.login(payload.provider, payload.returnUrl)
 
         userStore.setUser(user)
+        this.setTokens(tokens)
 
         await userStore.fetchOrganization()
 
-        this.setTokens(tokens)
         ev.emit(HeseyaEvent.Login, user)
         wasLoggedInPast.value = true
         return { success: true }
@@ -91,6 +91,7 @@ export const useAuthStore = defineStore('auth', {
     clearAuth() {
       const userStore = useUserStore()
       userStore.setUser(null)
+      userStore.setOrganization(null)
       this.setTokens({ accessToken: null, identityToken: null, refreshToken: null })
     },
   },
