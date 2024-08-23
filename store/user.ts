@@ -1,5 +1,6 @@
 import type {
   MetadataUpdateDto,
+  Organization,
   User,
   UserProfileUpdateDto,
   UserSavedAddressCreateDto,
@@ -9,6 +10,7 @@ import { defineStore } from 'pinia'
 export const useUserStore = defineStore('user', {
   state: () => ({
     user: null as User | null,
+    organization: null as Organization | null,
     error: null as any,
   }),
 
@@ -18,17 +20,36 @@ export const useUserStore = defineStore('user', {
     setUser(user: User | null) {
       this.user = user
     },
+    setOrganization(organization: Organization | null) {
+      this.organization = organization
+    },
 
     async fetchProfile() {
       const heseya = useHeseya()
       try {
         const user = await heseya.UserProfile.get()
-        this.user = user as User
+        this.setUser(user as User)
+
+        await this.fetchOrganization()
 
         return { success: true }
-      } catch (e) {
-        this.error = e
-        return { success: false, error: e }
+      } catch (e: any) {
+        this.error = e.message
+        return { success: false, error: e.message }
+      }
+    },
+
+    async fetchOrganization() {
+      const heseya = useHeseya()
+
+      try {
+        const organization = await heseya.UserProfile.My.Organization.get()
+        this.setOrganization(organization)
+
+        return { success: true }
+      } catch (e: any) {
+        this.error = e.message
+        return { success: false, error: e.message }
       }
     },
 

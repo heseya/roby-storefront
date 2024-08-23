@@ -1,17 +1,18 @@
 import { SalesChannelActivity, SalesChannelStatus } from '@heseya/store-core'
-import type { SalesChannel } from '@heseya/store-core'
+import type { SalesChannelListed } from '@heseya/store-core'
 import { defineStore } from 'pinia'
 
 import { SALES_CHANNEL_KEY } from '@/consts/cookiesKeys'
 
 export const useChannelsStore = defineStore('channels', {
   state: () => ({
-    channels: [] as SalesChannel[],
-    selected: null as SalesChannel | null,
+    channels: [] as SalesChannelListed[],
+    selected: null as SalesChannelListed | null,
   }),
 
   getters: {
     currency(state) {
+      // TODO: sales channel should return a currency
       return state.selected?.price_map?.currency || 'PLN'
     },
   },
@@ -38,8 +39,24 @@ export const useChannelsStore = defineStore('channels', {
       }
     },
 
+    initSalesChannels() {
+      // TODO: selected channel should probably be included in URL, not in the cookie
+      const channelCookie = useCookie(SALES_CHANNEL_KEY)
+      const organization = useOrganization()
+
+      if (organization.value?.sales_channel) {
+        this.channels.push(organization.value.sales_channel)
+        this.setChannel(organization.value.sales_channel.id)
+        return channelCookie.value !== organization.value.sales_channel.id
+      } else {
+        this.setChannel(undefined)
+        return true
+      }
+    },
+
     setChannel(channelId?: string) {
       const channelCookie = useStatefulCookie(SALES_CHANNEL_KEY)
+      const channelNameCookie = useStatefulCookie('channel_name')
 
       const channel =
         this.channels.find((c) => c.id === channelId) ||
@@ -48,6 +65,7 @@ export const useChannelsStore = defineStore('channels', {
 
       this.selected = channel
       channelCookie.value = channel.id
+      channelNameCookie.value = channel.name
     },
   },
 
