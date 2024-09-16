@@ -821,10 +821,10 @@
   optionalDependencies:
     vue-router ">= 4.1.0 < 5.0.0"
 
-"@heseya/store-core@8.0.0-beta.14":
-  version "8.0.0-beta.14"
-  resolved "https://registry.yarnpkg.com/@heseya/store-core/-/store-core-8.0.0-beta.14.tgz#fd9d9f5739c95a9e879b7106321a90763b621f8a"
-  integrity sha512-aRCIuU0RhHD0ILZLUPJ+PMiJPIIt18EOUoLrNADcQsrd4k9p41OMtsegjJd1cL9HRU9DeyTVPJzpYVvj7+OJHA==
+"@heseya/store-core@8.0.0-beta.15":
+  version "8.0.0-beta.15"
+  resolved "https://registry.yarnpkg.com/@heseya/store-core/-/store-core-8.0.0-beta.15.tgz#a08d16814d9755acd4161fb4d0d09d2d4732fcdc"
+  integrity sha512-YOYUHvEHhJgOwwnh1/jVT6Wh1LUpcYAo5A5OW2G1U4/V8VGQBnjHp9C+lcYcK7xbpwx2p1sMDKelW4Lv0sWyNg==
   dependencies:
     flat "^5.0.2"
     form-data "^4.0.0"
