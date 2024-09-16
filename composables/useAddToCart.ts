@@ -14,13 +14,13 @@ export const useAddToCart = (product: ProductListed | Product) => {
     return product.purchase_limit_per_user < productsInBasket + quantity.value
   })
 
-  const addToCart = (schemaValue: CartItemSchema[]) => {
+  const addToCart = (schemas: CartItemSchema[]) => {
     if (!product.available || isProductPurchaseLimitReached.value) return false
 
     cart.add({
       product,
-      schemas: 'schemas' in product ? product.schemas : [],
-      schemaValue,
+      productSchemas: 'schemas' in product ? product.schemas : [],
+      schemas,
       quantity: Number(quantity.value) || 1,
     })
 

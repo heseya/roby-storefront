@@ -12,32 +12,45 @@
           <span class="primary-text">{{ item.totalQty }}x</span> {{ item.name }}
         </span>
         <span class="checkout-summary-item__text">{{
-          formatAmount(item.totalPrice, currency)
+          formatAmount(getDisplayedPrice(item.totalPrice).value, currency)
         }}</span>
       </div>
 
-      <div v-if="cart.totalDiscountValue !== 0" class="checkout-summary-item">
+      <div v-if="cart.totalDiscountValue.net !== 0" class="checkout-summary-item">
         <span class="checkout-summary-item__text checkout-summary-item__text--green">
           {{ $t('payments.discount') }}
         </span>
         <span class="checkout-summary-item__text checkout-summary-item__text--green">
-          {{ formatAmount(-cart.totalDiscountValue, currency) }}
+          {{ formatAmount(-getDisplayedPrice(cart.totalDiscountValue).value, currency) }}
         </span>
       </div>
 
       <div class="checkout-summary-item">
         <span class="checkout-summary-item__text">{{ $t('orders.delivery') }}</span>
         <span class="checkout-summary-item__text">
-          {{ formatAmount(cart.shippingPrice, currency) }}
+          {{ formatAmount(getDisplayedPrice(cart.shippingPrice).value, currency) }}
         </span>
       </div>
 
       <hr class="checkout-summary__hr hr" />
 
-      <div class="checkout-summary-item">
+      <div
+        class="checkout-summary-item"
+        :class="{ 'checkout-summary-item--with-second-price': getSecondPrice(cart.summary).value }"
+      >
         <span class="checkout-summary-item__text">{{ $t('orders.totalAmount') }}</span>
-        <span class="checkout-summary-item__text checkout-summary-item__text--big">
-          {{ formatAmount(cart.summary, currency) }}
+        <span class="checkout-summary-item__value-wrapper">
+          <span class="checkout-summary-item__text checkout-summary-item__text--big">
+            {{ formatAmount(getDisplayedPrice(cart.summary).value, currency) }}
+          </span>
+          <span
+            v-if="getSecondPrice(cart.summary).value"
+            class="checkout-summary-item__text checkout-summary-item__text--second-price"
+          >
+            {{
+              `${formatAmount(getSecondPrice(cart.summary).value, currency)} ${$t('priceType.gross')} (${vatRate}% VAT)`
+            }}
+          </span>
         </span>
       </div>
 
@@ -76,10 +89,12 @@ const emit = defineEmits<{
   (e: 'submit'): void
 }>()
 
+const vatRate = useVatRate()
 const $t = useGlobalI18n()
 const cart = useCartStore()
 const checkout = useCheckoutStore()
 const currency = useCurrency()
+const { getDisplayedPrice, getSecondPrice } = useGetDisplayedPrice()
 
 const isErrorVisible = ref(false)
 
@@ -126,6 +141,11 @@ const handleClick = () => {
   max-width: 400px;
   margin-bottom: 10px;
 
+  &--with-second-price {
+    margin-bottom: 30px;
+    position: relative;
+  }
+
   &__text {
     &--big {
       font-size: rem(20);
@@ -136,6 +156,15 @@ const handleClick = () => {
     &--green {
       color: $green-color-500;
       font-weight: 500;
+    }
+
+    &--second-price {
+      display: block;
+      position: absolute;
+      right: 0;
+      font-weight: 500;
+      font-size: rem(12);
+      color: $gray-color-600;
     }
   }
 }

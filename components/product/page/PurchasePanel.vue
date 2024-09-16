@@ -5,12 +5,18 @@
   >
     <div v-if="product.available" class="product-purchase-panel__price">
       <LazyLayoutLoading :active="pending" />
-      <span class="product-price" :class="{ 'product-price--discounted': price !== originalPrice }">
-        {{ formatAmount(price, currency) }}
+      <span class="product-price" :class="{ 'product-price--discounted': hasDiscount }">
+        {{ formatAmount(mainPrice, currency) }}
       </span>
-      <span v-if="price !== originalPrice" class="product-price product-price--original">
-        {{ formatAmount(originalPrice, currency) }}
+      <span v-if="hasDiscount" class="product-price product-price--original">
+        {{ formatAmount(originalMainPrice, currency) }}
       </span>
+
+      <div v-if="secondPrice !== null">
+        <span class="product-price product-price--second">
+          {{ `${formatAmount(secondPrice, currency)} ${$t('priceType.gross')} (${vatRate}% VAT)` }}
+        </span>
+      </div>
     </div>
 
     <LazyProductPageOmnibus
@@ -23,7 +29,7 @@
       v-if="product.has_schemas"
       v-model:value="schemaValue"
       class="product-purchase-panel__schemas"
-      :product="product"
+      :product-schemas="product.schemas"
     />
     <LazyProductPageVariants class="product-purchase-panel__variants" :product="product" />
 
@@ -40,7 +46,7 @@
     <a
       v-if="isLeaseable && leaselinkEnabled"
       class="product-purchase-panel__lease-btn"
-      :href="getLeasingUrl(product.name, price, false, parseFloat(channel?.vat_rate || '0'))"
+      :href="getLeasingUrl(product.name, priceGross, false, vatRate)"
     >
       <LayoutButton variant="gray" :style="{ width: '100%' }">
         {{ t('offers.lease') }}
@@ -52,7 +58,7 @@
   <LazyProductPageUpsellModal
     v-model:open="upsellVisible"
     :product="product"
-    :price="price"
+    :price="priceGross"
     :currency="currency"
   />
 </template>
@@ -87,7 +93,7 @@
 </i18n>
 
 <script setup lang="ts">
-import { parseSchemasToValues } from '@heseya/store-core'
+import { parseSchemasToCartItemSchemas } from '@heseya/store-core'
 import type { CartItemSchema, Product } from '@heseya/store-core'
 
 import DeliveryIcon from '@/assets/icons/delivery.svg?component'
@@ -101,17 +107,30 @@ const props = withDefaults(
 const t = useLocalI18n()
 const $t = useGlobalI18n()
 const currency = useCurrency()
-const channel = useSalesChannel()
 const upsellVisible = ref(false)
 
 const { enabled: leaselinkEnabled, getUrl: getLeasingUrl } = useLeaselink()
 
 const { quantity, isProductPurchaseLimitReached, addToCart } = useAddToCart(props.product)
 
-const schemaValue = ref<CartItemSchema[]>(
-  parseSchemasToValues(props.product.schemas, currency.value),
+const schemaValue = ref<CartItemSchema[]>(parseSchemasToCartItemSchemas(props.product.schemas))
+
+const { priceGross, priceNet, originalPriceGross, originalPriceNet, pending } = useProductPrice(
+  props.product,
+  schemaValue,
 )
-const { price, originalPrice, pending } = useProductPrice(props.product, schemaValue)
+
+const { mainPrice, secondPrice, originalMainPrice, hasDiscount, vatRate } =
+  useDisplayedPriceDetails({
+    price: {
+      net: priceNet.value,
+      gross: priceGross.value,
+    },
+    priceInitial: {
+      net: originalPriceNet.value,
+      gross: originalPriceGross.value,
+    },
+  })
 
 const purchaseButtonText = computed((): string => {
   if (isProductPurchaseLimitReached.value) return t('availability.reachedLimit')
@@ -245,6 +264,12 @@ const handleAddToCart = () => {
     margin-left: 4px;
     font-size: 0.8em;
     text-decoration: line-through;
+  }
+
+  &--second {
+    color: $text-color;
+    font-size: 0.615em; // 16px
+    font-weight: 500;
   }
 }
 </style>

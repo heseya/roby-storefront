@@ -4,12 +4,19 @@
 
     <div class="cart-summary__item">
       <div class="cart-summary__label">{{ $t('orders.productsPrice') }}</div>
-      <div class="cart-summary__value">{{ formatAmount(cart.totalValueInitial, currency) }}</div>
+      <div class="cart-summary__value">
+        {{ formatAmount(getDisplayedPrice(cart.totalValueInitial).value, currency) }}
+      </div>
     </div>
 
-    <div v-if="cart.totalDiscountValue > 0" class="cart-summary__item cart-summary__item--green">
+    <div
+      v-if="cart.totalDiscountValue.net > 0"
+      class="cart-summary__item cart-summary__item--green"
+    >
       <div class="cart-summary__label">{{ $t('payments.discount') }}</div>
-      <div class="cart-summary__value">{{ formatAmount(cart.totalDiscountValue, currency) }}</div>
+      <div class="cart-summary__value">
+        {{ formatAmount(getDisplayedPrice(cart.totalDiscountValue).value, currency) }}
+      </div>
     </div>
 
     <div class="cart-summary__item">
@@ -21,10 +28,23 @@
 
     <hr class="hr cart-summary__line" />
 
-    <div class="cart-summary__item">
+    <div
+      class="cart-summary__item"
+      :class="{ 'cart-summary__item--with-second-price': getSecondPrice(cart.totalValue).value }"
+    >
       <div class="cart-summary__label">{{ $t('orders.totalAmount') }}</div>
-      <div class="cart-summary__value cart-summary__value--big">
-        {{ formatAmount(cart.totalValue, currency) }}
+      <div class="cart-summary__value-wrapper">
+        <div class="cart-summary__value cart-summary__value--big">
+          {{ formatAmount(getDisplayedPrice(cart.totalValue).value, currency) }}
+        </div>
+        <div
+          v-if="getSecondPrice(cart.totalValue).value"
+          class="cart-summary__value cart-summary__value--second-price"
+        >
+          {{
+            `${formatAmount(getSecondPrice(cart.totalValue).value, currency)} ${t('priceType.gross')} (${vatRate}% VAT)`
+          }}
+        </div>
       </div>
     </div>
 
@@ -84,6 +104,8 @@ import { useAuthStore } from '@/store/auth'
 import { useConfigStore } from '@/store/config'
 import { useChannelsStore } from '@/store/channels'
 
+const { getDisplayedPrice, getSecondPrice } = useGetDisplayedPrice()
+
 withDefaults(
   defineProps<{
     disabled?: boolean
@@ -95,6 +117,7 @@ withDefaults(
   },
 )
 
+const vatRate = useVatRate()
 const cart = useCartStore()
 const t = useLocalI18n()
 const $t = useGlobalI18n()
@@ -108,7 +131,7 @@ const channel = useChannelsStore()
 const { data: cheapestShippingMethodPrice, refresh: refreshCheapestShippingMethodPrice } =
   useLazyAsyncData(`shippingMethodPrice`, async () => {
     const { data } = await heseya.ShippingMethods.get({
-      cart_value: { value: cart.totalValue, currency: currency.value },
+      cart_value: { value: cart.totalValue.gross, currency: currency.value },
       items: cart.items.map((item) => item.productId),
       sales_channel_id: channel.selected?.id,
     })
@@ -170,12 +193,25 @@ watch(
     &--green {
       color: $green-color-500;
     }
+
+    &--with-second-price {
+      position: relative;
+      margin-bottom: 30px;
+    }
   }
 
   &__value--big {
     font-weight: 600;
     font-size: rem(20);
     line-height: rem(26);
+  }
+
+  &__value--second-price {
+    position: absolute;
+    right: 0;
+    font-weight: 500;
+    font-size: rem(12);
+    color: $gray-color-600;
   }
 
   &__line {

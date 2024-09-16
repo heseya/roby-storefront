@@ -7,13 +7,10 @@ export const useHeseyaProducts = () => {
   const auth = useAuthStore()
   const heseya = useHeseya()
   const omnibus = useOmnibus()
-  const currency = useCurrency()
 
   const getOmnibus = async (products: ProductListed[]) => {
     return await omnibus
-      .getPrices(
-        products.filter((p) => isOmnibusShowable(p, currency.value)).map((product) => product.id),
-      )
+      .getPrices(products.filter((p) => isOmnibusShowable(p)).map((product) => product.id))
       .catch(() => {
         // eslint-disable-next-line no-console
         console.warn('Failed to get omnibus prices')

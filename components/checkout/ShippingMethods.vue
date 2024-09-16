@@ -90,7 +90,7 @@ const { data: shippingMethods } = useLazyAsyncData(
   `shipping-methods-for-value`,
   async () => {
     const methods = await heseya.ShippingMethods.get({
-      cart_value: { value: cart.totalValue, currency: currency.value },
+      cart_value: { value: cart.totalValue.gross, currency: currency.value },
       items: cart.items.map((item) => item.productId),
       sales_channel_id: channel.selected?.id,
     })

@@ -23,7 +23,6 @@
 </i18n>
 
 <script setup lang="ts">
-import { parsePrices } from '@heseya/store-core'
 import isNil from 'lodash/isNil'
 
 import type { ExtendedProductListed } from '~/types/Product'
@@ -39,7 +38,7 @@ const t = useLocalI18n()
 const omnibus = useOmnibus()
 const currency = useCurrency()
 
-const currentPriceMin = computed(() => parsePrices(props.product.prices_min, currency.value))
+const currentPriceMin = computed(() => parseFloat(props.product.price.gross))
 
 const { data: fetchedOmnibusPrice } = useAsyncData(
   `product-omnibus-${props.product.id}-${!!props.product.omnibus}`,

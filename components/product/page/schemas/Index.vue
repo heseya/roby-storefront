@@ -1,7 +1,7 @@
 <template>
   <div class="product-schemas">
     <ProductPageSchemasSelect
-      v-for="schema in product.schemas"
+      v-for="schema in productSchemas"
       :key="schema.id"
       class="product-schemas__schema"
       :schema="schema"
@@ -12,10 +12,10 @@
 </template>
 
 <script setup lang="ts">
-import type { CartItemSchema, Product } from '@heseya/store-core'
+import type { CartItemSchema, Schema } from '@heseya/store-core'
 
 const props = defineProps<{
-  product: Product
+  productSchemas: Schema[]
   value: CartItemSchema[]
 }>()
 
@@ -24,10 +24,10 @@ const emit = defineEmits<{
 }>()
 
 const getValue = (schemaId: string) => {
-  return props.value.find((schema) => schema.id === schemaId)?.value
+  return props.value.find((schema) => schema.id === schemaId)?.value ?? null
 }
 
-const setValue = (schemaId: string, value: any) => {
+const setValue = (schemaId: string, value: string | null) => {
   const schema = props.value.find((schema) => schema.id === schemaId)
   if (!schema) {
     // eslint-disable-next-line no-console

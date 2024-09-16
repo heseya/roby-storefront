@@ -114,6 +114,11 @@ export default {
     en: 'English',
   },
 
+  priceType: {
+    net: 'net',
+    gross: 'gross',
+  },
+
   seo: {
     loading: 'Loading...',
   },

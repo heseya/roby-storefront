@@ -93,7 +93,13 @@ export const useCheckoutStore = defineStore('checkout', {
           this.isInpostShippingMethod || this.isFurgonetkaShippingMethod
             ? `${this.orderShippingPlace as string} | tel.: ${this.shippingAddress.phone}`
             : this.orderShippingPlace,
-        items: cart.orderItems,
+        items: cart.orderItems.map((item) => ({
+          ...item,
+          // remove empty schemas
+          schemas: Object.fromEntries(
+            Object.entries(item.schemas).filter(([_key, value]) => value !== null),
+          ) as Record<string, string>,
+        })),
         shipping_method_id: this.shippingMethod?.id,
         digital_shipping_method_id: this.digitalShippingMethod?.id,
         invoice_requested: !!this.invoiceRequested,

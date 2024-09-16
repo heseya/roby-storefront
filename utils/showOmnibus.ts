@@ -1,11 +1,9 @@
-import { parsePrices } from '@heseya/store-core'
 import type { ProductListed } from '@heseya/store-core'
 
-export const isOmnibusShowable = (product: ProductListed | null, currency: string) => {
+export const isOmnibusShowable = (product: ProductListed | null) => {
   if (!product) return false
 
   return (
-    product.available &&
-    parsePrices(product.prices_min, currency) !== parsePrices(product.prices_min_initial, currency)
+    product.available && parseFloat(product.price.gross) !== parseFloat(product.price_initial.gross)
   )
 }

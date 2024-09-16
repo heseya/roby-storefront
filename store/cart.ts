@@ -21,6 +21,11 @@ import { useConfigStore } from './config'
 
 export type CartCoupon = Coupon & { effective_value?: string }
 
+interface CartStorePrice {
+  net: number
+  gross: number
+}
+
 export const useCartStore = defineStore('cart', {
   state: () => ({
     items: [] as CartItem[],
@@ -28,12 +33,24 @@ export const useCartStore = defineStore('cart', {
     error: null as any, // TODO: show this error somewhere in the UI
     coupons: [] as CartCoupon[],
     sales: [] as SaleShort[],
-    totalValue: 0,
-    totalValueInitial: 0,
-    shippingPrice: 0,
+    totalValue: {
+      net: 0,
+      gross: 0,
+    } as CartStorePrice,
+    totalValueInitial: {
+      net: 0,
+      gross: 0,
+    } as CartStorePrice,
+    shippingPrice: {
+      net: 0,
+      gross: 0,
+    } as CartStorePrice,
     shippingTime: null as number | null,
     shippingDate: null as string | null,
-    summary: 0,
+    summary: {
+      net: 0,
+      gross: 0,
+    } as CartStorePrice,
     unavailableItems: [] as CartItem[],
   }),
 
@@ -41,11 +58,17 @@ export const useCartStore = defineStore('cart', {
     length(): number {
       return this.items.reduce((total, item) => total + item.totalQty, 0)
     },
-    calcedTotalValue(): number {
-      return this.items.reduce((acc, curr) => acc + curr.totalPrice, 0)
+    calcedTotalValue(): CartStorePrice {
+      return {
+        net: this.items.reduce((acc, curr) => acc + curr.totalPrice.net, 0),
+        gross: this.items.reduce((acc, curr) => acc + curr.totalPrice.gross, 0),
+      }
     },
-    totalDiscountValue(): number {
-      return this.totalValueInitial - this.totalValue
+    totalDiscountValue(): CartStorePrice {
+      return {
+        net: this.totalValueInitial.net - this.totalValue.net,
+        gross: this.totalValueInitial.gross - this.totalValue.gross,
+      }
     },
 
     isPhisicalShippingNeeded(): boolean {
@@ -106,11 +129,11 @@ export const useCartStore = defineStore('cart', {
       this.isProcessing = true
       this.error = null
       try {
-        const cart = await heseya.Orders.processCart(this.cartDto)
+        const processedCart = await heseya.Orders.processCart(this.cartDto)
 
-        this.sales = cart.sales
+        this.sales = processedCart.sales
 
-        this.coupons = cart.coupons.map((coupon) => ({
+        this.coupons = processedCart.coupons.map((coupon) => ({
           ...this.coupons.find((c) => c.id === coupon.id)!,
           effective_value: coupon.value,
         }))
@@ -119,28 +142,52 @@ export const useCartStore = defineStore('cart', {
           [
             ...this.unavailableItems,
             ...this.items.filter(
-              (item) => !cart.items.find((cartItem) => cartItem.cartitem_id === item.id),
+              (item) => !processedCart.items.find((cartItem) => cartItem.cartitem_id === item.id),
             ),
           ],
           'id',
         )
 
         this.items = mergeCartItems(
-          cart.items.map((item) => {
+          processedCart.items.map((item) => {
             const cartItem = this.items.find((cartItem) => cartItem.id === item.cartitem_id)!
             return cloneDeep(cartItem)
               .updateQuantity(item.quantity)
-              .setPrecalculatedPrices(parseFloat(item.price_discounted), parseFloat(item.price))
+              .setPrecalculatedPrices(
+                {
+                  net: parseFloat(item.price_discounted.net),
+                  gross: parseFloat(item.price_discounted.gross),
+                },
+                {
+                  net: parseFloat(item.price.net),
+                  gross: parseFloat(item.price.gross),
+                },
+              )
           }),
         )
 
-        this.totalValue = parseFloat(cart.cart_total)
-        this.totalValueInitial = parseFloat(cart.cart_total_initial)
+        this.totalValue = {
+          net: parseFloat(processedCart.cart_total.net),
+          gross: parseFloat(processedCart.cart_total.gross),
+        }
 
-        this.shippingPrice = parseFloat(cart.shipping_price)
-        this.shippingTime = cart.shipping_time
-        this.shippingDate = cart.shipping_date
-        this.summary = parseFloat(cart.summary)
+        this.totalValueInitial = {
+          net: parseFloat(processedCart.cart_total_initial.net),
+          gross: parseFloat(processedCart.cart_total_initial.gross),
+        }
+
+        this.shippingPrice = {
+          net: parseFloat(processedCart.shipping_price.net),
+          gross: parseFloat(processedCart.shipping_price.gross),
+        }
+
+        this.shippingTime = processedCart.shipping_time
+        this.shippingDate = processedCart.shipping_date
+
+        this.summary = {
+          net: parseFloat(processedCart.summary.net),
+          gross: parseFloat(processedCart.summary.gross),
+        }
 
         // Side effect: fetch the shipping method
         // dispatch('shippingMethods/fetch', state.totalValue, { root: true })
@@ -153,7 +200,7 @@ export const useCartStore = defineStore('cart', {
         this.error = e
         this.unavailableItems = this.items
         this.items = []
-        this.summary = 0
+        this.summary = { net: 0, gross: 0 }
         checkout.$reset()
       }
       this.isProcessing = false
@@ -193,18 +240,27 @@ export const useCartStore = defineStore('cart', {
 
     add({
       product,
+      productSchemas,
       schemas,
-      schemaValue,
       quantity = 1,
     }: {
       product: ProductListed
-      schemaValue: CartItemSchema[]
-      schemas: Schema[]
+      schemas: CartItemSchema[]
+      productSchemas: Schema[]
       quantity: number
     }) {
       const ev = useHeseyaEventBus()
       const currency = useCurrency()
-      const newCartItem = new CartItem(product, quantity, schemas, schemaValue, [], currency.value)
+
+      const newCartItem = new CartItem(
+        product,
+        quantity,
+        productSchemas,
+        schemas,
+        [],
+        currency.value,
+      )
+
       const existingCartItem = this.items.find(
         (item) => item.id === newCartItem.id && isEqual(item.schemas, newCartItem.schemas),
       )
@@ -240,12 +296,12 @@ export const useCartStore = defineStore('cart', {
       this.unavailableItems = []
       this.coupons = []
       this.sales = []
-      this.totalValue = 0
-      this.totalValueInitial = 0
-      this.shippingPrice = 0
+      this.totalValue = { net: 0, gross: 0 }
+      this.totalValueInitial = { net: 0, gross: 0 }
+      this.shippingPrice = { net: 0, gross: 0 }
       this.shippingTime = null
       this.shippingDate = null
-      this.summary = 0
+      this.summary = { net: 0, gross: 0 }
     },
 
     addCoupon(coupon: Coupon) {

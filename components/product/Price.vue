@@ -3,29 +3,17 @@
     <component
       :is="tag"
       class="product-price__price"
-      :class="{ 'product-price__price--discounted': isDiscounted }"
+      :class="{ 'product-price__price--discounted': hasDiscount }"
     >
-      <template v-if="priceMin !== priceMax">
-        {{ $t('common.from') }}
-      </template>
-      {{ formatAmount(priceMin, currency) }}
-      <!-- <template v-if="priceMin !== priceMax">
-        - {{ formatAmount(priceMax, currency) }}
-      </template> -->
+      {{ formatAmount(mainPrice, currency) }}
     </component>
     {{ ' ' }}
     <component
       :is="tag"
-      v-if="isDiscounted"
+      v-if="hasDiscount"
       class="product-price__price product-price__price--original"
     >
-      <template v-if="priceMinInitial !== priceMaxInitial">
-        {{ $t('common.from') }}
-      </template>
-      {{ formatAmount(priceMinInitial, currency) }}
-      <!-- <template v-if="priceMinInitial !== priceMaxInitial">
-        - {{ formatAmount(priceMaxInitial, currency) }}
-      </template> -->
+      {{ formatAmount(originalMainPrice, currency) }}
     </component>
   </div>
 </template>
@@ -33,7 +21,6 @@
 <script setup lang="ts">
 import type { ProductListed } from '@heseya/store-core'
 
-const $t = useGlobalI18n()
 const props = withDefaults(
   defineProps<{
     product: ProductListed
@@ -45,20 +32,11 @@ const props = withDefaults(
 )
 
 const currency = useCurrency()
-const calculateGrossPrice = usePriceGross()
 
-const priceMinInitial = computed(() =>
-  calculateGrossPrice(props.product.prices_min_initial, currency.value),
-)
-const priceMin = computed(() => calculateGrossPrice(props.product.prices_min, currency.value))
-const priceMaxInitial = computed(() =>
-  calculateGrossPrice(props.product.prices_max_initial, currency.value),
-)
-const priceMax = computed(() => calculateGrossPrice(props.product.prices_max, currency.value))
-
-const isDiscounted = computed(
-  () => priceMax.value < priceMaxInitial.value || priceMin.value < priceMinInitial.value,
-)
+const { mainPrice, originalMainPrice, hasDiscount } = useDisplayedPriceDetails({
+  price: props.product.price,
+  priceInitial: props.product.price_initial,
+})
 </script>
 
 <style lang="scss" scoped>

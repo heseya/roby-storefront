@@ -1,48 +1,39 @@
-import { CartItem, parsePrices } from '@heseya/store-core'
 import type { CartItemSchema, Product } from '@heseya/store-core'
 
 export const useProductPrice = (product: Product, schemaValue: Ref<CartItemSchema[]>) => {
   const heseya = useHeseya()
-  const currency = useCurrency()
-  const channel = useSalesChannel()
 
   const pending = ref(false)
 
-  const originalPrice = ref(parsePrices(product.prices_min_initial, currency.value))
-  const price = ref(parsePrices(product.prices_min, currency.value))
+  const priceGross = ref(parseFloat(product.price?.gross ?? 0))
+  const priceNet = ref(parseFloat(product.price?.net ?? 0))
+  const originalPriceGross = ref(parseFloat(product.price_initial?.gross ?? 0))
+  const originalPriceNet = ref(parseFloat(product.price_initial?.net ?? 0))
 
   const calc = async () => {
-    const cartItem = new CartItem(
-      product,
-      1,
-      product.schemas,
-      schemaValue.value,
-      [],
-      currency.value,
+    const productVariantDto = {
+      schemas: Object.fromEntries([...schemaValue.value].map((s) => [s.id, s.value])),
+    }
+
+    const productVariantPrice = await heseya.Products.getProductVariantPrice(
+      product.id,
+      productVariantDto,
     )
 
-    const cart = await heseya.Orders.processCart({
-      coupons: [],
-      items: [cartItem.getOrderObject()],
-      sales_channel_id: channel.value?.id || '',
-      currency: currency.value,
-    })
-
-    if (cart.items.length !== 1)
-      throw new Error(`[ID: ${product.id}] Invalid cart items count while calculating price`)
-
-    const item = cart.items[0]
-
-    price.value = parseFloat(item.price_discounted)
-    originalPrice.value = parseFloat(item.price)
+    priceGross.value = parseFloat(productVariantPrice.price.gross)
+    priceNet.value = parseFloat(productVariantPrice.price.net)
+    originalPriceGross.value = parseFloat(productVariantPrice.price_initial.gross)
+    originalPriceNet.value = parseFloat(productVariantPrice.price_initial.net)
 
     return {
-      price: item.price_discounted,
-      originalPrice: item.price,
+      priceGross: productVariantPrice.price.gross,
+      priceNet: productVariantPrice.price.net,
+      originalPriceGross: productVariantPrice.price_initial.gross,
+      originalPriceNet: productVariantPrice.price_initial.net,
     }
   }
 
   computedAsync(() => calc(), null, pending)
 
-  return { price, originalPrice, calc, pending }
+  return { priceGross, priceNet, originalPriceGross, originalPriceNet, calc, pending }
 }

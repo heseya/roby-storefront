@@ -12,7 +12,6 @@ export const useChannelsStore = defineStore('channels', {
 
   getters: {
     currency(state) {
-      // TODO: sales channel should return a currency
       return state.selected?.price_map?.currency || 'PLN'
     },
   },

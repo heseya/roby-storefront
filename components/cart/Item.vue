@@ -25,10 +25,18 @@
       />
 
       <div class="cart-item__price">
-        <span v-if="item.totalInitialPrice !== item.totalPrice" class="cart-item__price-initial">
-          {{ formatAmount(item.totalInitialPrice, currency) }}
+        <span
+          v-if="item.totalInitialPrice.net !== item.totalPrice.net"
+          class="cart-item__price-initial"
+        >
+          {{ formatAmount(getDisplayedPrice(item.totalInitialPrice).value, currency) }}
         </span>
-        <span class="cart-item__price-current">{{ formatAmount(item.totalPrice, currency) }}</span>
+        <span class="cart-item__price-current">{{
+          formatAmount(getDisplayedPrice(item.totalPrice).value, currency)
+        }}</span>
+        <span v-if="getSecondPrice(item.totalPrice).value" class="cart-item__price-gross">{{
+          `${formatAmount(getSecondPrice(item.totalPrice).value, currency)} ${t('priceType.gross')} (${vatRate}% VAT)`
+        }}</span>
       </div>
     </div>
 
@@ -53,6 +61,7 @@ import { isNil } from '~/utils/utils'
 
 const { t } = useI18n()
 const currency = useCurrency()
+const vatRate = useVatRate()
 
 const props = withDefaults(
   defineProps<{
@@ -65,6 +74,7 @@ const props = withDefaults(
 )
 
 const cart = useCartStore()
+const { getDisplayedPrice, getSecondPrice } = useGetDisplayedPrice()
 
 const updateQuantity = (newQty: number) => {
   cart.setQuantity(props.item.id, newQty)
@@ -75,8 +85,6 @@ const removeFromCart = () => {
 }
 
 const formatSchemaValue = (value: CartItemRawSchemaValue) => {
-  if (value === true) return t('common.yes')
-  if (value === false) return t('common.no')
   return value
 }
 
@@ -146,6 +154,7 @@ const filterSchemaVariant = (variant: [string, CartItemRawSchemaValue][]) => {
   }
 
   &__price {
+    position: relative;
     font-size: rem(16);
 
     @media ($viewport-8) {
@@ -160,6 +169,17 @@ const filterSchemaVariant = (variant: [string, CartItemRawSchemaValue][]) => {
 
   &__price-current {
     font-weight: 600;
+  }
+
+  &__price-gross {
+    position: absolute;
+    right: 0;
+    text-align: right;
+    display: block;
+    font-size: rem(12);
+    font-weight: 500;
+    color: $gray-color-600;
+    white-space: nowrap;
   }
 
   &__price-initial + &__price-current {

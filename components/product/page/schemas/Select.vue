@@ -16,8 +16,8 @@
       class="schema-select__option"
     >
       {{ option.name }}
-      <template v-if="parsePrices(option.prices, currency) > 0">
-        (+{{ calculateOptionPrice(parsePrices(option.prices, currency)) }})
+      <template v-if="getDisplayedPrice(option.price).value > 0">
+        (+{{ formatAmount(getDisplayedPrice(option.price).value, currency) }})
       </template>
     </option>
   </FormSelect>
@@ -35,40 +35,32 @@
 </i18n>
 
 <script setup lang="ts">
-import { parsePrices } from '@heseya/store-core'
-import type { CartItemSchemaValue, Schema } from '@heseya/store-core'
+import type { Schema } from '@heseya/store-core'
+import isNull from 'lodash/isNull'
+import { useGetDisplayedPrice } from '~/composables/useGetDisplayedPrice'
 
 const t = useLocalI18n()
 const currency = useCurrency()
+const { getDisplayedPrice } = useGetDisplayedPrice()
 
 const props = withDefaults(
   defineProps<{
     schema: Schema
-    value?: CartItemSchemaValue
+    value: string | null
   }>(),
   {
-    value: undefined,
+    value: null,
   },
 )
 
 const emit = defineEmits<{
-  (e: 'update:value', value: CartItemSchemaValue | undefined): void
+  (e: 'update:value', value: string | null): void
 }>()
 
 const innerValue = computed({
-  get: () => props.value,
-  set: (v) => emit('update:value', v),
+  get: () => (isNull(props.value) ? undefined : props.value),
+  set: (v) => emit('update:value', !v ? null : v),
 })
-
-const priceGross = usePriceGross()
-
-const calculateOptionPrice = (price: number) => {
-  const priceWithVat = priceGross(
-    [{ net: price.toString(), gross: price.toString(), currency: currency.value }],
-    currency.value,
-  )
-  return formatAmount(priceWithVat, currency.value)
-}
 </script>
 
 <style lang="scss" scoped>
