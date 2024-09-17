@@ -1,5 +1,4 @@
-import type { ListResponse, ProductListed } from '@heseya/store-core'
-
+import type { ListResponse, ProductListed, ProductPrice } from '@heseya/store-core'
 import type { ExtendedProductListed, ProductGetParams } from '@/types/Product'
 import { useAuthStore } from '~/store/auth'
 
@@ -25,17 +24,24 @@ export const useHeseyaProducts = () => {
     })
   }
 
-  /**
-   * TODO: inject personal price
-   */
+  const getPersonalPrices = async (products: ProductListed[]): Promise<ProductPrice[] | null> => {
+    if (!auth.isLogged) return null
+    return await heseya.Prices.getProductsPrices(products.map((p) => p.id)).catch(function () {
+      // eslint-disable-next-line no-console
+      console.warn('Failed to get personal prices')
+      return null
+    })
+  }
+
   const getProducts = async (
     params?: ProductGetParams,
   ): Promise<ListResponse<ExtendedProductListed>> => {
     const products = await heseya.Products.get(params)
 
-    const [omnibusData, wishlistData] = await Promise.all([
+    const [omnibusData, wishlistData, personalPrices] = await Promise.all([
       getOmnibus(products.data),
       getWishlist(products.data),
+      getPersonalPrices(products.data),
     ])
 
     return {
@@ -43,6 +49,7 @@ export const useHeseyaProducts = () => {
         ...p,
         omnibus: omnibusData.find((d) => d.product_id === p.id),
         isInWishlist: wishlistData?.includes(p.id),
+        price: personalPrices?.find((price) => price.id === p.id)?.price ?? p.price,
       })),
       pagination: products.pagination,
     }
