@@ -64,6 +64,7 @@ export default {
     configure: 'Configure',
     addToCart: 'Add to cart',
     lease: 'Ask about leasing',
+    from: 'From',
   },
 
   cart: {

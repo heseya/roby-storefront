@@ -15,10 +15,11 @@
       :label="$t('common.name')"
       name="address_name"
     />
-    <AddressForm v-model:address="formValues.address" :invoice="isInvoice" />
+
+    <AddressForm v-model:address="formValues.address" :invoice="isInvoice" :type="type" />
 
     <FormCheckbox
-      v-if="type === 'billing'"
+      v-if="type === addressTypeEnum.Billing"
       v-model="isInvoice"
       name="address_invoice"
       class="address-form-modal__checkbox"
@@ -59,6 +60,7 @@ import { EMPTY_ADDRESS } from '~/consts/address'
 
 // Without import, it assumes that it is recursive component
 import FormModal from '~/components/form/Modal.vue'
+import { AddressType } from '~/types/AddressType'
 
 const t = useLocalI18n()
 const $t = useGlobalI18n()
@@ -67,7 +69,7 @@ const { notify } = useNotify()
 const props = withDefaults(
   defineProps<{
     open: boolean
-    type: 'billing' | 'shipping'
+    type: AddressType
     address?: UserSavedAddress
     successUpdateMessage: string
     header: string
@@ -92,7 +94,7 @@ const isModalVisible = computed({
 const { add, edit } = useUserAddreses(props.type)
 
 const requestError = ref<any>()
-
+const addressTypeEnum = AddressType
 const isInvoice = ref<boolean>(!!props.address?.address.vat)
 
 const formValues = ref<UserSavedAddressCreateDto | UserSavedAddressUpdateDto>({

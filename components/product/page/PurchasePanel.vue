@@ -6,7 +6,7 @@
     <div v-if="product.available" class="product-purchase-panel__price">
       <LazyLayoutLoading :active="pending" />
       <span class="product-price" :class="{ 'product-price--discounted': hasDiscount }">
-        {{ formatAmount(mainPrice, currency) }}
+        {{ hasSchemas ? $t('offers.from') : '' }} {{ formatAmount(mainPrice, currency) }}
       </span>
       <span v-if="hasDiscount" class="product-price product-price--original">
         {{ formatAmount(originalMainPrice, currency) }}
@@ -119,6 +119,8 @@ const { priceGross, priceNet, originalPriceGross, originalPriceNet, pending } = 
   props.product,
   schemaValue,
 )
+
+const hasSchemas = computed(() => props.product.has_schemas)
 
 const { mainPrice, secondPrice, originalMainPrice, hasDiscount, vatRate } =
   useDisplayedPriceDetails({

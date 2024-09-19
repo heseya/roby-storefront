@@ -9,6 +9,17 @@
       :disabled="disabled"
       @update:model-value="update('name', $event as string)"
     />
+
+    <FormInput
+      v-if="type === addressTypeEnum.Shipping"
+      :model-value="address.company_name"
+      :name="`${namePrefix}_company_name`"
+      autocomplete="company_name"
+      :label="t('companyName')"
+      :disabled="disabled"
+      @update:model-value="update('company_name', $event as string)"
+    />
+
     <FormInput
       v-if="invoice"
       :key="vatNumberRules"
@@ -110,13 +121,14 @@
 
 <script setup lang="ts">
 import type { AddressDto } from '@heseya/store-core'
-
+import { AddressType } from '~/types/AddressType'
 import { useCheckoutStore } from '@/store/checkout'
 import { EMPTY_ADDRESS } from '@/consts/address'
 
 const t = useLocalI18n()
 const heseya = useHeseya()
 const checkout = useCheckoutStore()
+const addressTypeEnum = AddressType
 
 const props = withDefaults(
   defineProps<{
@@ -126,6 +138,7 @@ const props = withDefaults(
     namePrefix?: string
     excludeCountries?: false | 'shipping-method'
     vertical?: boolean
+    type?: 'billing' | 'shipping'
   }>(),
   {
     address: () => ({ ...EMPTY_ADDRESS }),
@@ -134,6 +147,7 @@ const props = withDefaults(
     namePrefix: 'address',
     excludeCountries: false,
     vertical: false,
+    type: 'shipping',
   },
 )
 

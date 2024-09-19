@@ -166,7 +166,9 @@ const registerOrganization = async () => {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
+  @media ($max-viewport-7) {
+    padding: 0 18px;
+  }
   &__title {
     font-size: rem(31);
     font-weight: 700;
