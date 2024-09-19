@@ -138,7 +138,7 @@ const props = withDefaults(
     namePrefix?: string
     excludeCountries?: false | 'shipping-method'
     vertical?: boolean
-    type?: 'billing' | 'shipping'
+    type?: AddressType
   }>(),
   {
     address: () => ({ ...EMPTY_ADDRESS }),
@@ -147,7 +147,7 @@ const props = withDefaults(
     namePrefix: 'address',
     excludeCountries: false,
     vertical: false,
-    type: 'shipping',
+    type: AddressType.Shipping,
   },
 )
 
