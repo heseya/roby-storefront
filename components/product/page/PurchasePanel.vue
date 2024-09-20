@@ -5,16 +5,21 @@
   >
     <div v-if="product.available" class="product-purchase-panel__price">
       <LazyLayoutLoading :active="pending" />
-      <span class="product-price" :class="{ 'product-price--discounted': hasDiscount }">
-        {{ formatAmount(mainPrice, currency) }}
+      <span
+        class="product-price"
+        :class="{ 'product-price--discounted': displayedPriceDetails.hasDiscount }"
+      >
+        {{ formatAmount(displayedPriceDetails.mainPrice, currency) }}
       </span>
-      <span v-if="hasDiscount" class="product-price product-price--original">
-        {{ formatAmount(originalMainPrice, currency) }}
+      <span v-if="displayedPriceDetails.hasDiscount" class="product-price product-price--original">
+        {{ formatAmount(displayedPriceDetails.originalMainPrice, currency) }}
       </span>
 
-      <div v-if="secondPrice !== null">
+      <div v-if="displayedPriceDetails.secondPrice !== null">
         <span class="product-price product-price--second">
-          {{ `${formatAmount(secondPrice, currency)} ${$t('priceType.gross')} (${vatRate}% VAT)` }}
+          {{
+            `${formatAmount(displayedPriceDetails.secondPrice, currency)} ${$t('priceType.gross')} (${displayedPriceDetails.vatRate}% VAT)`
+          }}
         </span>
       </div>
     </div>
@@ -46,7 +51,7 @@
     <a
       v-if="isLeaseable && leaselinkEnabled"
       class="product-purchase-panel__lease-btn"
-      :href="getLeasingUrl(product.name, priceGross, false, vatRate)"
+      :href="getLeasingUrl(product.name, priceGross, false, displayedPriceDetails.vatRate)"
     >
       <LayoutButton variant="gray" :style="{ width: '100%' }">
         {{ t('offers.lease') }}
@@ -120,17 +125,44 @@ const { priceGross, priceNet, originalPriceGross, originalPriceNet, pending } = 
   schemaValue,
 )
 
-const { mainPrice, secondPrice, originalMainPrice, hasDiscount, vatRate } =
-  useDisplayedPriceDetails({
-    price: {
-      net: priceNet.value,
-      gross: priceGross.value,
-    },
-    priceInitial: {
-      net: originalPriceNet.value,
-      gross: originalPriceGross.value,
-    },
-  })
+const displayedPriceDetails = ref({
+  mainPrice: 0,
+  secondPrice: 0,
+  originalMainPrice: 0,
+  hasDiscount: false,
+  vatRate: 0,
+})
+
+const updateDisplayedPrices = () => {
+  const { mainPrice, secondPrice, originalMainPrice, hasDiscount, vatRate } =
+    useDisplayedPriceDetails({
+      price: {
+        net: priceNet.value,
+        gross: priceGross.value,
+      },
+      priceInitial: {
+        net: originalPriceNet.value,
+        gross: originalPriceGross.value,
+      },
+    })
+
+  // Update the ref with the new values
+  displayedPriceDetails.value = {
+    mainPrice: Number(mainPrice.value),
+    secondPrice: Number(secondPrice.value),
+    originalMainPrice: Number(originalMainPrice.value),
+    hasDiscount: Boolean(hasDiscount.value),
+    vatRate: Number(vatRate.value),
+  }
+}
+
+updateDisplayedPrices()
+
+// Watch for changes in the prices and update the displayed price details
+watch([priceGross, priceNet, originalPriceGross, originalPriceNet], () => {
+  // Update the displayed prices whenever these change
+  updateDisplayedPrices()
+})
 
 const purchaseButtonText = computed((): string => {
   if (isProductPurchaseLimitReached.value) return t('availability.reachedLimit')
