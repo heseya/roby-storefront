@@ -42,7 +42,7 @@
           class="cart-summary__value cart-summary__value--second-price"
         >
           {{
-            `${formatAmount(getSecondPrice(cart.totalValue).value, currency)} ${t('priceType.gross')} (${vatRate}% VAT)`
+            `${formatAmount(getSecondPrice(cart.totalValue).value ?? 0, currency)} ${t('priceType.gross')} (${vatRate}% VAT)`
           }}
         </div>
       </div>
