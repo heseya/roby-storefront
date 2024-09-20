@@ -22,7 +22,7 @@ export const useGetDisplayedPrice = () => {
     return computed(() => toFloat(isModeB2B.value ? net : gross))
   }
 
-  const getSecondPrice = (dto: DisplayedPriceDto): ComputedRef<number> => {
+  const getSecondPrice = (dto: DisplayedPriceDto): ComputedRef<number | null> => {
     return computed(() => (isModeB2B.value ? toFloat(dto.gross) : null))
   }
 
