@@ -35,6 +35,7 @@ export const useProductJsonLd = (productRef?: MaybeRef<Product | null>) => {
         '@type': 'Offer',
         url: `${i18n.baseUrl}/produkt/${product.slug}`,
         priceCurrency: currency.value,
+        // @ts-ignore TODO: fix this
         price: parsePrices(product.prices_min, currency.value),
         availability: product.available
           ? 'https://schema.org/InStock'

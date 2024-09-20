@@ -64,6 +64,7 @@ export default {
     configure: 'Skonfiguruj',
     addToCart: 'Dodaj do koszyka',
     lease: 'Zapytaj o leasing',
+    from: 'Od',
   },
 
   cart: {

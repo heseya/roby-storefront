@@ -9,6 +9,17 @@
       :disabled="disabled"
       @update:model-value="update('name', $event as string)"
     />
+
+    <FormInput
+      v-if="type === 'shipping'"
+      :model-value="address.company_name"
+      :name="`${namePrefix}_company_name`"
+      autocomplete="company_name"
+      :label="t('companyName')"
+      :disabled="disabled"
+      @update:model-value="update('company_name', $event as string)"
+    />
+
     <FormInput
       v-if="invoice"
       :key="vatNumberRules"
@@ -110,7 +121,6 @@
 
 <script setup lang="ts">
 import type { AddressDto } from '@heseya/store-core'
-
 import { useCheckoutStore } from '@/store/checkout'
 import { EMPTY_ADDRESS } from '@/consts/address'
 
@@ -126,6 +136,7 @@ const props = withDefaults(
     namePrefix?: string
     excludeCountries?: false | 'shipping-method'
     vertical?: boolean
+    type?: 'shipping' | 'billing'
   }>(),
   {
     address: () => ({ ...EMPTY_ADDRESS }),
@@ -134,6 +145,7 @@ const props = withDefaults(
     namePrefix: 'address',
     excludeCountries: false,
     vertical: false,
+    type: 'shipping',
   },
 )
 

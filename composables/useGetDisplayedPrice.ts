@@ -1,11 +1,11 @@
 import type { ComputedRef } from 'vue'
-import type { StrNumber } from '../../sdk-core/src/interfaces/Number'
+
 import { SiteMode } from '~/interfaces/siteMode'
 import { toFloat } from '~/utils/utils'
 
 interface DisplayedPriceDto {
-  net: StrNumber | number
-  gross: StrNumber | number
+  net: string | number
+  gross: string | number
 }
 
 /**
@@ -22,7 +22,7 @@ export const useGetDisplayedPrice = () => {
     return computed(() => toFloat(isModeB2B.value ? net : gross))
   }
 
-  const getSecondPrice = (dto: DisplayedPriceDto): ComputedRef<number> => {
+  const getSecondPrice = (dto: DisplayedPriceDto): ComputedRef<number | null> => {
     return computed(() => (isModeB2B.value ? toFloat(dto.gross) : null))
   }
 

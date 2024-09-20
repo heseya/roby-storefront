@@ -35,7 +35,7 @@
           formatAmount(getDisplayedPrice(item.totalPrice).value, currency)
         }}</span>
         <span v-if="getSecondPrice(item.totalPrice).value" class="cart-item__price-gross">{{
-          `${formatAmount(getSecondPrice(item.totalPrice).value, currency)} ${t('priceType.gross')} (${vatRate}% VAT)`
+          `${formatAmount(getSecondPrice(item.totalPrice).value ?? 0, currency)} ${t('priceType.gross')} (${vatRate}% VAT)`
         }}</span>
       </div>
     </div>
