@@ -5,7 +5,7 @@
       class="product-price__price"
       :class="{ 'product-price__price--discounted': hasDiscount }"
     >
-      {{ formatAmount(mainPrice, currency) }}
+      {{ hasSchemas ? $t('offers.from') : '' }} {{ formatAmount(mainPrice, currency) }}
     </component>
     {{ ' ' }}
     <component
@@ -30,8 +30,9 @@ const props = withDefaults(
     tag: 'span',
   },
 )
-
+const $t = useGlobalI18n()
 const currency = useCurrency()
+const hasSchemas = computed(() => props.product.has_schemas)
 
 const { mainPrice, originalMainPrice, hasDiscount } = useDisplayedPriceDetails({
   price: props.product.price,

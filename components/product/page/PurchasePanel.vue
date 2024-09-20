@@ -9,6 +9,7 @@
         class="product-price"
         :class="{ 'product-price--discounted': displayedPriceDetails.hasDiscount }"
       >
+        {{ hasSchemas ? $t('offers.from') : '' }}
         {{ formatAmount(displayedPriceDetails.mainPrice, currency) }}
       </span>
       <span v-if="displayedPriceDetails.hasDiscount" class="product-price product-price--original">
@@ -124,6 +125,7 @@ const { priceGross, priceNet, originalPriceGross, originalPriceNet, pending } = 
   props.product,
   schemaValue,
 )
+const hasSchemas = computed(() => props.product.has_schemas)
 
 const displayedPriceDetails = ref({
   mainPrice: 0,

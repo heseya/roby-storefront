@@ -15,7 +15,8 @@
       :label="$t('common.name')"
       name="address_name"
     />
-    <AddressForm v-model:address="formValues.address" :invoice="isInvoice" />
+
+    <AddressForm v-model:address="formValues.address" :invoice="isInvoice" :type="type" />
 
     <FormCheckbox
       v-if="type === 'billing'"

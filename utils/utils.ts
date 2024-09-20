@@ -1,5 +1,4 @@
 import isString from 'lodash/isString'
-import type { StrNumber } from '../../sdk-core/src/interfaces/Number'
 
 export const isNil = (value: any) => value === null || value === undefined
 
@@ -12,6 +11,6 @@ export const isValidURL = (str: string): boolean => {
   return !!pattern.test(str) || str.includes('http://localhost') // ? Localhost helper
 }
 
-export const toFloat = (value: StrNumber | number): number => {
+export const toFloat = (value: string | number): number => {
   return isString(value) ? parseFloat(value) : value
 }
