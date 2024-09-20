@@ -30,8 +30,10 @@ export const mapProductToItem = (product: ProductListed, currency: string): Goog
   item_name: product.name,
   affiliation: 'website',
   currency,
+  // @ts-ignore TODO: fix this
   price: parsePrices(product.prices_min, currency),
   discount: round(
+    // @ts-ignore TODO: fix this
     parsePrices(product.prices_min_initial, currency) - parsePrices(product.prices_min, currency),
   ),
 })

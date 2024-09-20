@@ -1,11 +1,11 @@
 import type { ComputedRef } from 'vue'
-import type { StrNumber } from '../../sdk-core/src/interfaces/Number'
+
 import { SiteMode } from '~/interfaces/siteMode'
 import { toFloat } from '~/utils/utils'
 
 interface DisplayedPriceDto {
-  net: StrNumber | number
-  gross: StrNumber | number
+  net: string | number
+  gross: string | number
 }
 
 /**
