@@ -123,7 +123,7 @@ const registerForm = useForm({
   },
 })
 
-const areItemsInCart = computed(() => (checkout.orderDto?.items.length ?? 0) > 0)
+const areItemsInCart = computed(() => checkout.orderItems.length > 0)
 
 /**
  * This is a hack unfortunately.

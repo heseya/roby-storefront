@@ -6,6 +6,7 @@ import type {
   OrderCreateDto,
   PaymentMethodListed,
   ShippingMethod,
+  OrderCreateDtoItem,
 } from '@heseya/store-core'
 import { defineStore } from 'pinia'
 import { useCartStore } from './cart'
@@ -79,6 +80,20 @@ export const useCheckoutStore = defineStore('checkout', {
       return res
     },
 
+    orderItems(): OrderCreateDtoItem[] {
+      const cart = useCartStore()
+
+      return cart.orderItems.map((item) => {
+        return {
+          ...item,
+          // remove empty schemas
+          schemas: Object.fromEntries(
+            Object.entries(item.schemas).filter(([_key, value]) => value !== null),
+          ) as Record<string, string>,
+        }
+      })
+    },
+
     orderDto(): OrderCreateDto | null {
       const cart = useCartStore()
       const channel = useSalesChannel()
@@ -93,13 +108,7 @@ export const useCheckoutStore = defineStore('checkout', {
           this.isInpostShippingMethod || this.isFurgonetkaShippingMethod
             ? `${this.orderShippingPlace as string} | tel.: ${this.shippingAddress.phone}`
             : this.orderShippingPlace,
-        items: cart.orderItems.map((item) => ({
-          ...item,
-          // remove empty schemas
-          schemas: Object.fromEntries(
-            Object.entries(item.schemas).filter(([_key, value]) => value !== null),
-          ) as Record<string, string>,
-        })),
+        items: this.orderItems,
         shipping_method_id: this.shippingMethod?.id,
         digital_shipping_method_id: this.digitalShippingMethod?.id,
         invoice_requested: !!this.invoiceRequested,

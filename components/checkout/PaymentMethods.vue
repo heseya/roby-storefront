@@ -34,6 +34,7 @@ const ev = useHeseyaEventBus()
 
 const onSelect = (method: PaymentMethodListed | null) => {
   if (method) {
+    checkout.paymentMethodId = method.id
     checkout.paymentMethod = method
     ev.emit(HeseyaEvent.AddPaymentInfo, {
       items: cart.items as CartItem[],
