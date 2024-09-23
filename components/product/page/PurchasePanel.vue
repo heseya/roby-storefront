@@ -42,12 +42,16 @@
     <ProductQuantityInput v-model:quantity="quantity" class="product-purchase-panel__quantity" />
 
     <LayoutButton
+      v-if="!isUnavailableIfPriceZero"
       :disabled="!product.available || isProductPurchaseLimitReached"
       class="product-purchase-panel__cart-btn"
       @click="handleAddToCart"
     >
       {{ purchaseButtonText }}
     </LayoutButton>
+    <div v-if="isUnavailableIfPriceZero" :disabled="true" class="product-purchase-panel__cart-btn">
+      {{ t('availability.unavailableInRegion') }}
+    </div>
 
     <a
       v-if="isLeaseable && leaselinkEnabled"
@@ -75,6 +79,7 @@
     "availability": {
       "available": "Produkt dostępny",
       "availableOnRequest": "Produkt dostępny na zamówienie",
+      "unavailableInRegion": "Niedostępny w regionie",
       "unavailable": "Niedostępny",
       "reachedLimit": "Osiągnięto limit",
       "shippingDigital": "Dostawa natychmiastowa",
@@ -87,6 +92,7 @@
     "availability": {
       "available": "Product available",
       "availableOnRequest": "Product available on request",
+      "unavailableInRegion": "Unavailable in the region",
       "unavailable": "Unavailable",
       "reachedLimit": "Limit reached",
       "shippingDigital": "Shipping digital",
@@ -103,6 +109,7 @@ import { parseSchemasToCartItemSchemas } from '@heseya/store-core'
 import type { CartItemSchema, Product } from '@heseya/store-core'
 
 import DeliveryIcon from '@/assets/icons/delivery.svg?component'
+import { useConfigStore } from '~/store/config'
 
 const props = withDefaults(
   defineProps<{
@@ -110,6 +117,7 @@ const props = withDefaults(
   }>(),
   {},
 )
+const config = useConfigStore()
 const t = useLocalI18n()
 const $t = useGlobalI18n()
 const currency = useCurrency()
@@ -172,6 +180,10 @@ const purchaseButtonText = computed((): string => {
   if (props.product.available) return $t('offers.addToCart')
 
   return t('availability.unavailable')
+})
+
+const isUnavailableIfPriceZero = computed(() => {
+  return priceGross.value === 0 && config.unavailableIfPriceZero
 })
 
 const availability = computed(() => {
