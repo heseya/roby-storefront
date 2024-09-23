@@ -8,7 +8,7 @@
       autocomplete="email"
     />
     <br />
-    <AddressForm v-model:address="form.values.billing_address" invoice vertical />
+    <AddressForm v-model:address="form.values.billing_address" invoice vertical type="billing" />
 
     <slot></slot>
 
