@@ -217,6 +217,8 @@ const handleAddToCart = () => {
   const success = addToCart(schemaValue.value)
   if (success) upsellVisible.value = true
 }
+
+console.log(props.product)
 </script>
 
 <style lang="scss" scoped>
