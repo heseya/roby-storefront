@@ -42,8 +42,10 @@ export const mapCartItemToItem = (item: CartItem): GoogleItem => ({
   item_id: item.productId,
   item_name: item.name,
   affiliation: 'website',
-  price: Number(item.price),
-  discount: round(Number(item.initialPrice) - Number(item.price)),
+  // @ts-ignore TODO: fix this
+  price: item.price,
+  // @ts-ignore TODO: fix this
+  discount: round(item.initialPrice - item.price),
   quantity: item.totalQty,
 })
 
