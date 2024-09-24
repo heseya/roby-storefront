@@ -4,6 +4,7 @@ import { defineStore } from 'pinia'
 import { useUserStore } from './user'
 import { useWishlistStore } from './wishlist'
 import { LOGGED_IN_THE_PAST_KEY } from '~/consts/localstorageKeys'
+import { useChannelsStore } from '~/store/channels'
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
@@ -74,9 +75,15 @@ export const useAuthStore = defineStore('auth', {
     async logout() {
       const heseya = useHeseya()
       const wishlish = useWishlistStore()
+      const channelStore = useChannelsStore()
+      const channels = channelStore.channels
+      const defaultChannel = channels.find((c) => c.default)
 
       try {
-        await heseya.Auth.logout()
+        await heseya.Auth.logout().then(() => [
+          channelStore.setChannel(defaultChannel?.id),
+          window.location.reload(),
+        ])
       } catch (e) {
         this.error = e
         // eslint-disable-next-line no-console

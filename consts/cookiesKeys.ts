@@ -12,6 +12,10 @@ export const REFRESH_TOKEN_KEY = 'h_refresh_token'
 
 export const SALES_CHANNEL_KEY = 'h_sales_channel'
 
+export const SALES_CHANNEL_STATUS = 'h_sales_channel_status'
+
+export const SALES_CHANNEL_NAME = 'channel_name'
+
 export const COOKIE_REQUIRED_ACCEPTED_KEY = 'h_cookies_required_accepted'
 
 export const COOKIE_FUNCTIONAL_ACCEPTED_KEY = 'h_cookies_functional_accepted'

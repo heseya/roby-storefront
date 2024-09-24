@@ -2,7 +2,7 @@ import { SalesChannelActivity, SalesChannelStatus } from '@heseya/store-core'
 import type { SalesChannelListed } from '@heseya/store-core'
 import { defineStore } from 'pinia'
 
-import { SALES_CHANNEL_KEY } from '@/consts/cookiesKeys'
+import { SALES_CHANNEL_KEY, SALES_CHANNEL_NAME, SALES_CHANNEL_STATUS } from '@/consts/cookiesKeys'
 
 export const useChannelsStore = defineStore('channels', {
   state: () => ({
@@ -41,12 +41,16 @@ export const useChannelsStore = defineStore('channels', {
     initSalesChannels() {
       // TODO: selected channel should probably be included in URL, not in the cookie
       const channelCookie = useCookie(SALES_CHANNEL_KEY)
+      const channelStatusCookie = useStatefulCookie(SALES_CHANNEL_STATUS)
       const organization = useOrganization()
 
       if (organization.value?.sales_channel) {
         this.channels.push(organization.value.sales_channel)
         this.setChannel(organization.value.sales_channel.id)
         return channelCookie.value !== organization.value.sales_channel.id
+      } else if (channelStatusCookie.value === SalesChannelStatus.Public) {
+        this.setChannel(channelCookie.value ?? undefined)
+        return true
       } else {
         this.setChannel(undefined)
         return true
@@ -55,7 +59,8 @@ export const useChannelsStore = defineStore('channels', {
 
     setChannel(channelId?: string) {
       const channelCookie = useStatefulCookie(SALES_CHANNEL_KEY)
-      const channelNameCookie = useStatefulCookie('channel_name')
+      const channelNameCookie = useStatefulCookie(SALES_CHANNEL_NAME)
+      const channelStatusCookie = useStatefulCookie(SALES_CHANNEL_STATUS)
 
       const channel =
         this.channels.find((c) => c.id === channelId) ||
@@ -65,6 +70,7 @@ export const useChannelsStore = defineStore('channels', {
       this.selected = channel
       channelCookie.value = channel.id
       channelNameCookie.value = channel.name
+      channelStatusCookie.value = channel.status
     },
   },
 
