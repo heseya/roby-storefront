@@ -35,6 +35,10 @@ export const useConfigStore = defineStore('config', {
       return this.env.storefront_disabled === '1'
     },
 
+    unavailableIfPriceZero(): boolean {
+      return this.env.unavailable_if_price_zero === '1'
+    },
+
     productSubtextAttr(): string {
       return String(this.env.product_subtext_attribute_slug)
     },
