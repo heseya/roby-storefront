@@ -7,7 +7,13 @@
       <div class="account-order-product-view__name">{{ product.name }}</div>
       <div class="account-order-product-view__price">
         <div>{{ product.quantity }} {{ t('quantity') }}</div>
-        <div>{{ formatAmount(product.price, currency) }}</div>
+        <div>
+          {{
+            // TODO task: B2B-248
+            // @ts-ignore
+            formatAmount(product.price, currency)
+          }}
+        </div>
       </div>
     </div>
   </div>

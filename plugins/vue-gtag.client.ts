@@ -191,6 +191,8 @@ export default defineNuxtPlugin((nuxtApp) => {
     const vatPercentage = parseFloat(channelStore.selected?.vat_rate || '0') || 23
     const vatRate = vatPercentage / 100
 
+    // TODO task: B2B-248
+    // @ts-ignore
     const taxValue = Math.round(parseFloat(order.summary) * vatRate * 100) / 100
 
     // TODO: add coupons?
@@ -205,8 +207,14 @@ export default defineNuxtPlugin((nuxtApp) => {
         // @ts-expect-error payment_method does not exists on Order type, but it is passed in event
         payment_type: order.payment_method?.name,
         items: order.products.map(mapOrderProductToItem),
+        // TODO task: B2B-248
+        // @ts-ignore
         shipping: parseFloat(order.shipping_price),
+        // TODO task: B2B-248
+        // @ts-ignore
         items_value: parseFloat(order.cart_total),
+        // TODO task: B2B-248
+        // @ts-ignore
         value: parseFloat(order.summary),
         tax: taxValue,
       },

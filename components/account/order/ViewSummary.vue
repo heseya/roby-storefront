@@ -3,18 +3,34 @@
     <div class="view-summary__section">
       <div class="view-summary__container">
         <div>{{ $t('orders.productsPrice') }}</div>
-        <div>{{ formatAmount(order.cart_total, order.currency) }}</div>
+        <div>
+          {{
+            // TODO task: B2B-248
+            // @ts-ignore
+            formatAmount(order.cart_total, order.currency)
+          }}
+        </div>
       </div>
       <div class="view-summary__container">
         <div>{{ $t('orders.delivery') }}</div>
-        <div>{{ formatAmount(order.shipping_price, order.currency) }}</div>
+        <div>
+          {{
+            // TODO task: B2B-248
+            // @ts-ignore
+            formatAmount(order.shipping_price, order.currency)
+          }}
+        </div>
       </div>
     </div>
     <div class="view-summary__section">
       <div class="view-summary__container">
         <div>{{ $t('orders.totalAmount') }}</div>
         <div class="view-summary__total">
-          {{ formatAmount(order.summary, order.currency) }}
+          {{
+            // TODO task: B2B-248
+            // @ts-ignore
+            formatAmount(order.summary, order.currency)
+          }}
         </div>
       </div>
     </div>
