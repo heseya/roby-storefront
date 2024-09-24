@@ -48,7 +48,7 @@ export const useChannelsStore = defineStore('channels', {
         this.channels.push(organization.value.sales_channel)
         this.setChannel(organization.value.sales_channel.id)
         return channelCookie.value !== organization.value.sales_channel.id
-      } else if (channelStatusCookie.value === 'public') {
+      } else if (channelStatusCookie.value === SalesChannelStatus.Public) {
         this.setChannel(channelCookie.value ?? undefined)
         return true
       } else {

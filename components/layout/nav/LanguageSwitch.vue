@@ -52,7 +52,7 @@ const setLanguage = async (language: InnerLanguage) => {
   const channel = langChannels.find((c) => c.slug.includes(channelSlug)) || langChannels[0]
 
   if (channel) {
-    // channels.setChannel(channel.id)
+    channels.setChannel(channel.id)
     setTimeout(() => {
       if (window) window.location.reload()
     }, 100)
