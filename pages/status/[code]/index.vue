@@ -29,7 +29,7 @@
       <div class="status-page__field">
         <span class="status-page__field-label">{{ t('fields.value') }}:</span>
         <b class="status-page__field-value">
-          {{ formatAmount(order?.summary || 0, currency) }}
+          {{ formatAmount(order?.summary.gross || 0, currency) }}
         </b>
       </div>
 
@@ -66,7 +66,7 @@
 </i18n>
 
 <script setup lang="ts">
-import { PaymentMethodType } from '@heseya/store-core'
+import { PaymentMethodType, type OrderSummary } from '@heseya/store-core'
 
 const t = useLocalI18n()
 const $t = useGlobalI18n()
@@ -79,7 +79,7 @@ const orderCode = computed(() => route.params.code as string)
 const { data: order } = useAsyncData(`order-summary-${orderCode}`, async () => {
   try {
     const heseya = useHeseya()
-    const order = await heseya.Orders.getOneByCode(orderCode.value)
+    const order: OrderSummary = await heseya.Orders.getOneByCode(orderCode.value)
     return order
   } catch (e: any) {
     const code = e?.response?.status
