@@ -125,7 +125,6 @@ export const useCheckoutStore = defineStore('checkout', {
         sales_ids: cart.sales.map((s) => s.id),
         sales_channel_id: channel.value?.id || '',
         payment_method_id: this.paymentMethodId,
-        organization_id: user.organization?.id,
         currency: currency.value,
         metadata: this.metadataOrder,
       }
