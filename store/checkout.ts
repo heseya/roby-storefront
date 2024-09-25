@@ -14,6 +14,8 @@ import type { Paczkomat } from '@/interfaces/Paczkomat'
 import { EMPTY_ADDRESS } from '@/consts/address'
 import type { Furgonetka } from '~/interfaces/Furgonetka'
 import { useCeneo } from '~/composables/useCeneo'
+import { useUserStore } from '~/store/user'
+import { SiteMode } from '~/interfaces/siteMode'
 
 export const useCheckoutStore = defineStore('checkout', {
   state: () => ({
@@ -98,10 +100,14 @@ export const useCheckoutStore = defineStore('checkout', {
       const cart = useCartStore()
       const channel = useSalesChannel()
       const currency = useCurrency()
+      const user = useUserStore()
+      const config = usePublicRuntimeConfig()
+      const isModeB2B = computed(() => config.siteMode === SiteMode.B2B)
 
       if (!this.paymentMethodId) return null
       if (!(this.shippingAddress || this.billingAddress)) return null
-      return {
+
+      const dtos = {
         email: this.email,
         comment: this.comment,
         shipping_place:
@@ -119,9 +125,12 @@ export const useCheckoutStore = defineStore('checkout', {
         sales_ids: cart.sales.map((s) => s.id),
         sales_channel_id: channel.value?.id || '',
         payment_method_id: this.paymentMethodId,
+        organization_id: user.organization?.id,
         currency: currency.value,
         metadata: this.metadataOrder,
       }
+      // NOTE: If modeB2B then should always dtos have organization_id if not then should not have organization_id
+      return isModeB2B ? { ...dtos, organization_id: user.organization?.id } : dtos
     },
 
     isInpostShippingMethod(): boolean {
