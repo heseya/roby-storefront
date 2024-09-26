@@ -13,7 +13,9 @@
         />
         <div class="product-upsell-modal__product-details">
           <span class="product-upsell-modal__product-name">{{ product.name }}</span>
-          <span class="product-upsell-modal__product-price"> {{ price }} {{ currency }} </span>
+          <span class="product-upsell-modal__product-price">
+            {{ formatAmount(price, currency) }}
+          </span>
         </div>
       </div>
       <div v-for="set in relatedSets" :key="set.id" class="product-upsell-modal__upsell">
