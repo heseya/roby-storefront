@@ -9,7 +9,7 @@
         class="product-price"
         :class="{ 'product-price--discounted': displayedPriceDetails.hasDiscount }"
       >
-        {{ hasSchemas ? $t('offers.from') : '' }}
+        {{ hasSchemasMarkup }}
         {{ formatAmount(displayedPriceDetails.mainPrice, currency) }}
       </span>
       <span v-if="displayedPriceDetails.hasDiscount" class="product-price product-price--original">
@@ -154,17 +154,16 @@ const { priceGross, priceNet, originalPriceGross, originalPriceNet, pending } = 
 
 const { priceVisibility, redirectToLoginPage } = usePriceVisibility(props.product)
 
-const hasSchemas = computed(() => priceVisibility.value && props.product.has_schemas)
-
 const displayedPriceDetails = ref({
   mainPrice: 0,
   secondPrice: 0,
   originalMainPrice: 0,
   hasDiscount: false,
   vatRate: 0,
+  initialPrice: true,
 })
 
-const updateDisplayedPrices = () => {
+const updateDisplayedPrices = (initialPrice: boolean) => {
   const { mainPrice, secondPrice, originalMainPrice, hasDiscount, vatRate } =
     useDisplayedPriceDetails({
       price: {
@@ -184,16 +183,23 @@ const updateDisplayedPrices = () => {
     originalMainPrice: Number(originalMainPrice.value),
     hasDiscount: Boolean(hasDiscount.value),
     vatRate: Number(vatRate.value),
+    initialPrice,
   }
 }
 
-updateDisplayedPrices()
+updateDisplayedPrices(true)
 
 // Watch for changes in the prices and update the displayed price details
 watch([priceGross, priceNet, originalPriceGross, originalPriceNet], () => {
   // Update the displayed prices whenever these change
-  updateDisplayedPrices()
+  updateDisplayedPrices(false)
 })
+
+const hasSchemas = computed(() => priceVisibility.value && props.product.has_schemas)
+
+const hasSchemasMarkup = computed(() =>
+  hasSchemas.value && displayedPriceDetails.value.initialPrice ? t('offers.from') : '',
+)
 
 const purchaseButtonText = computed((): string => {
   if (isProductPurchaseLimitReached.value) return t('availability.reachedLimit')
