@@ -7,12 +7,16 @@
       <div class="account-order-product-view__name">{{ product.name }}</div>
       <div class="account-order-product-view__price">
         <div>{{ product.quantity }} {{ t('quantity') }}</div>
-        <div>
-          {{
-            // TODO task: B2B-248
-            // @ts-ignore
-            formatAmount(product.price, currency)
-          }}
+        <div class="account-order-product-view__price__price">
+          <div class="account-order-product-view__price__price-net">
+            {{ formatAmount(product.price.net, currency) }}
+          </div>
+          <div class="account-order-product-view__price__price-gross">
+            {{ formatAmount(product.price.gross, currency) }} {{ $t('priceType.gross') }}
+          </div>
+          <div class="account-order-product-view__price__price-gross">
+            ({{ Number(product.price.vat_rate) * 100 }}% VAT)
+          </div>
         </div>
       </div>
     </div>
@@ -33,7 +37,7 @@
 <script setup lang="ts">
 import type { OrderProduct } from '@heseya/store-core'
 const t = useLocalI18n()
-
+const $t = useGlobalI18n()
 defineProps<{
   product: OrderProduct
   currency: string
@@ -73,13 +77,22 @@ defineProps<{
 
   &__price {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
     flex-wrap: nowrap;
     width: 66%;
 
     @media ($viewport-12) {
       width: 40%;
+    }
+    &__price {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      &-gross {
+        font-size: 12px;
+        color: #9d9d9d;
+      }
     }
   }
 }
