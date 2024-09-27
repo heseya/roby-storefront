@@ -9,10 +9,14 @@
         <div>{{ product.quantity }} {{ t('quantity') }}</div>
         <div class="account-order-product-view__price__price">
           <div class="account-order-product-view__price__price-net">
-            {{ formatAmount(product.price.net, currency) }}
+            {{ formatAmount(getDisplayedPrice(product.price).value, currency) }}
           </div>
-          <div class="account-order-product-view__price__price-gross">
-            {{ formatAmount(product.price.gross, currency) }} {{ $t('priceType.gross') }}
+          <div
+            v-if="getSecondPrice(product.price).value"
+            class="account-order-product-view__price__price-gross"
+          >
+            {{ formatAmount(getSecondPrice(product.price).value ?? 0, currency) }}
+            {{ $t('priceType.gross') }}
           </div>
           <div class="account-order-product-view__price__price-gross">
             ({{ Number(product.price.vat_rate) * 100 }}% VAT)
@@ -38,6 +42,9 @@
 import type { OrderProduct } from '@heseya/store-core'
 const t = useLocalI18n()
 const $t = useGlobalI18n()
+
+const { getDisplayedPrice, getSecondPrice } = useGetDisplayedPrice()
+
 defineProps<{
   product: OrderProduct
   currency: string
@@ -90,6 +97,7 @@ defineProps<{
       flex-direction: column;
       align-items: flex-end;
       &-gross {
+        font-weight: 500;
         font-size: 12px;
         color: #9d9d9d;
       }
