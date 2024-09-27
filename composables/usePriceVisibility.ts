@@ -1,5 +1,4 @@
 import { computed } from 'vue'
-import { useRouter } from 'vue-router'
 import { ASK_FOR_PRICE_KEY } from '~/consts/metadataKeys'
 import { SiteMode } from '~/interfaces/siteMode'
 import type { ExtendedProductListed } from '~/types/Product'
@@ -7,7 +6,6 @@ import type { ExtendedProductListed } from '~/types/Product'
 export function usePriceVisibility(props: ExtendedProductListed) {
   const runtimeConfig = usePublicRuntimeConfig()
   const isLogged = useIsLogged()
-  const router = useRouter()
 
   const isModeB2B = computed(() => runtimeConfig.siteMode === SiteMode.B2B)
   const shouldShowPriceIfLoggedIn = computed(() => (isModeB2B.value ? isLogged.value : true))
@@ -34,15 +32,9 @@ export function usePriceVisibility(props: ExtendedProductListed) {
 
   const loginToBuy = computed(() => isModeB2B.value && !isLogged.value)
 
-  const redirectToLoginPage = (event: MouseEvent) => {
-    event.preventDefault()
-    router.push('/login')
-  }
-
   return {
     priceVisibility,
     loginToBuy,
-    redirectToLoginPage,
     askForPrice,
     hidePrice,
   }

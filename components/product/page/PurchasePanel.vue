@@ -57,7 +57,7 @@
       v-if="!priceVisibility"
       :disabled="!product.available || isProductPurchaseLimitReached"
       class="product-purchase-panel__cart-btn"
-      @click="redirectToLoginPage"
+      @click="redirectToRoute('/login', $event)"
     >
       {{ t('loginToBuy') }}
     </LayoutButton>
@@ -152,7 +152,8 @@ const { priceGross, priceNet, originalPriceGross, originalPriceNet, pending } = 
   schemaValue,
 )
 
-const { priceVisibility, redirectToLoginPage } = usePriceVisibility(props.product)
+const { priceVisibility } = usePriceVisibility(props.product)
+const { redirectToRoute } = useRedirect()
 
 const displayedPriceDetails = ref({
   mainPrice: 0,

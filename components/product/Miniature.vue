@@ -61,7 +61,7 @@
         <LayoutButton
           v-if="loginToBuy"
           class="product-miniature__btn"
-          @click="redirectToLoginPage($event)"
+          @click="redirectToRoute('/login', $event)"
         >
           {{ t('loginToBuy') }}
         </LayoutButton>
@@ -108,8 +108,8 @@ const props = defineProps<{
 
 const { notify } = useNotify()
 
-const { priceVisibility, loginToBuy, redirectToLoginPage, askForPrice, hidePrice } =
-  usePriceVisibility(props.product)
+const { priceVisibility, loginToBuy, askForPrice, hidePrice } = usePriceVisibility(props.product)
+const { redirectToRoute } = useRedirect()
 
 const showAddToCart = computed(() => config.env.show_add_to_cart_on_lists === '1')
 
