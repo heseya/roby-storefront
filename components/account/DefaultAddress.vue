@@ -50,8 +50,13 @@ const { notify } = useNotify()
 const props = defineProps<{
   type: 'billing' | 'shipping'
 }>()
+const { isModeB2B } = useSiteMode()
 
-const { defaultAddress, edit } = useUserAddreses(props.type)
+const addressesData = await (isModeB2B.value
+  ? useOrganizationAddresses(props.type)
+  : useUserAddreses(props.type))
+
+const { defaultAddress, edit } = addressesData
 
 const updateDefaultAddress = async (value: UserSavedAddress | null) => {
   if (value && value !== defaultAddress.value) {

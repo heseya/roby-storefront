@@ -90,7 +90,13 @@ const isModalVisible = computed({
   set: (value) => emit('update:open', value),
 })
 
-const { add, edit } = useUserAddreses(props.type)
+const { isModeB2B } = useSiteMode()
+
+const addressesData = await (isModeB2B.value
+  ? useOrganizationAddresses(props.type)
+  : useUserAddreses(props.type))
+
+const { add, edit } = addressesData
 
 const requestError = ref<any>()
 

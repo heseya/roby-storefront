@@ -71,7 +71,13 @@ const emit = defineEmits<{
   (e: 'update:value', value: UserSavedAddress | null): void
 }>()
 
-const { addresses } = useUserAddreses(props.type)
+const { isModeB2B } = useSiteMode()
+
+const addressesData = isModeB2B.value
+  ? useOrganizationAddresses(props.type)
+  : useUserAddreses(props.type)
+
+const { addresses } = addressesData
 
 const allowedAddresses = computed(() => {
   return (

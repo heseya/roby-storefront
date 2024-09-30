@@ -46,7 +46,7 @@ definePageMeta({
 useSeoTitle(`${$t('orders.details')} ${route.params.slug}`)
 
 const errorMessage = ref('')
-
+const { isModeB2B } = useSiteMode()
 const breadcrumbs = computed(() => [
   { label: $t('breadcrumbs.account'), link: '/account' },
   { label: $t('orders.title'), link: '/account/orders' },
@@ -55,7 +55,9 @@ const breadcrumbs = computed(() => [
 
 const { data: order } = useAsyncData(`account/orders/${orderNumber}`, async () => {
   try {
-    return await heseya.UserProfile.My.Orders.getOneByCode(orderNumber.value)
+    return isModeB2B.value
+      ? await heseya.UserProfile.My.Organization.Orders.getOneByCode(orderNumber.value)
+      : await heseya.UserProfile.My.Orders.getOneByCode(orderNumber.value)
   } catch (e: any) {
     errorMessage.value = formatError(e)
   }

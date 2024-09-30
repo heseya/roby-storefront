@@ -1,14 +1,15 @@
 import type { UserSavedAddressCreateDto, UserSavedAddressUpdateDto } from '@heseya/store-core'
 import { useCheckoutStore } from '@/store/checkout'
 
-export const useUserAddreses = (type: 'billing' | 'shipping') => {
-  const user = useUser()
+export const useOrganizationAddresses = (type: 'billing' | 'shipping') => {
   const checkout = useCheckoutStore()
+  const organization = useOrganization()
 
-  const valueKey = `${type}_addresses` as const
-  const methodSuffix = type === 'billing' ? 'BillingAddresses' : 'ShippingAddresses'
-
-  const addresses = computed(() => user.value?.[valueKey] || [])
+  const addresses = computed(() =>
+    type === 'billing'
+      ? [organization.value?.billing_address]
+      : organization.value?.shipping_addresses || [],
+  )
 
   const addressesAllowedInChannel = computed(() => {
     // Allow all addresses
@@ -30,11 +31,14 @@ export const useUserAddreses = (type: 'billing' | 'shipping') => {
   const addAddress = async (payload: UserSavedAddressCreateDto) => {
     const heseya = useHeseya()
     try {
-      if (!user.value) throw new Error('User is not logged')
+      if (!organization.value) throw new Error('User is not logged')
 
-      const updatedAddresses = await heseya.UserProfile.My[methodSuffix].create(payload)
+      const updatedAddresses =
+        await heseya.UserProfile.My.Organization.ShippingAddresses.create(payload)
 
-      user.value[valueKey] = updatedAddresses
+      if (organization.value) {
+        organization.value.shipping_addresses = updatedAddresses
+      }
       return { success: true }
     } catch (e) {
       return { success: false, error: e }
@@ -44,11 +48,15 @@ export const useUserAddreses = (type: 'billing' | 'shipping') => {
   const editAddress = async (id: string, payload: UserSavedAddressUpdateDto) => {
     const heseya = useHeseya()
     try {
-      if (!user.value) throw new Error('User is not logged')
+      if (!organization.value) throw new Error('User is not logged')
 
-      const updatedAddresses = await heseya.UserProfile.My[methodSuffix].update(id, payload)
-      console.log(updatedAddresses)
-      user.value[valueKey] = updatedAddresses
+      const updatedAddresses = await heseya.UserProfile.My.Organization.ShippingAddresses.update(
+        id,
+        payload,
+      )
+      if (organization.value) {
+        organization.value.shipping_addresses = updatedAddresses
+      }
       return { success: true }
     } catch (e) {
       return { success: false, error: e }
@@ -58,10 +66,14 @@ export const useUserAddreses = (type: 'billing' | 'shipping') => {
   const removeAddress = async (id: string) => {
     const heseya = useHeseya()
     try {
-      if (!user.value) throw new Error('User is not logged')
+      if (!organization.value) throw new Error('User is not logged')
 
-      await heseya.UserProfile.My[methodSuffix].remove(id)
-      user.value[valueKey] = user.value[valueKey].filter((address) => address.id !== id)
+      await heseya.UserProfile.My.Organization.ShippingAddresses.remove(id)
+      if (organization.value) {
+        organization.value.shipping_addresses = organization.value.shipping_addresses.filter(
+          (address) => address.id !== id,
+        )
+      }
       return { success: true }
     } catch (e) {
       return { success: false, error: e }
@@ -77,6 +89,3 @@ export const useUserAddreses = (type: 'billing' | 'shipping') => {
     remove: removeAddress,
   }
 }
-
-export const useUserBillingAddresses = () => useUserAddreses('billing')
-export const useUserShippingAddresses = () => useUserAddreses('shipping')

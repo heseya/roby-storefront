@@ -43,9 +43,14 @@ const setConsentValue = (consentId: string, value: boolean) => {
   emit('update:value', { ...props.value, [consentId]: value })
 }
 
+const organization = useOrganization()
+
 const { data: consents } = useAsyncData('consents', async () => {
   try {
-    const { data } = await heseya.Consents.get({ lang_fallback: 'any', type: props.type })
+    const { data } = await heseya.Consents.get({
+      lang_fallback: 'any',
+      type: organization.value?.id ? ConsentType.Organization : props.type,
+    })
 
     return data
   } catch (e: any) {
