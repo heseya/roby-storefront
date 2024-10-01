@@ -80,16 +80,14 @@ export const useAuthStore = defineStore('auth', {
       const defaultChannel = channels.find((c) => c.default)
 
       try {
-        await heseya.Auth.logout().then(() => [
-          channelStore.setChannel(defaultChannel?.id),
-          window.location.reload(),
-        ])
+        await heseya.Auth.logout().then(() => channelStore.setChannel(defaultChannel?.id))
       } catch (e) {
         this.error = e
         // eslint-disable-next-line no-console
         console.error('Logout in API failed', e)
       } finally {
         this.clearAuth()
+
         // Clear local wishlist after logout
         wishlish.$reset()
       }
