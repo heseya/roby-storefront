@@ -12,6 +12,7 @@
     </div>
 
     <button
+      v-if="!isBlocked"
       class="checkout-address-card__edit-btn"
       :title="$t('common.edit')"
       @click="emit('edit')"
@@ -27,10 +28,13 @@ import PencilLine from '@/assets/icons/pencil-line-filled.svg?component'
 
 const $t = useGlobalI18n()
 
-defineProps<{
+const props = defineProps<{
   address: Address
   title?: string
+  type?: 'billing' | 'shipping'
 }>()
+const { isModeB2B } = useSiteMode()
+const isBlocked = computed(() => props.type === 'billing' && isModeB2B.value)
 
 const emit = defineEmits<{
   (e: 'edit'): void

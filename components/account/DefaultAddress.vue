@@ -1,7 +1,9 @@
 <template>
   <div class="account-default-address">
     <div>
-      <div class="account-default-address__title">{{ t(`${type}.title`) }}</div>
+      <div class="account-default-address__title">
+        {{ isBlocked ? t(`${type}.b2b.title`) : t(`${type}.title`) }}
+      </div>
       <div>{{ t(`${type}.description`) }}</div>
     </div>
 
@@ -22,7 +24,11 @@
       "title": "Dane do rachunku",
       "description": "Zaznaczone dane są domyślnymi danymi do rachunku.",
       "sucessUpdate": "Zmieniono domyślne dane do rachunku",
-      "failedUpdate": "Nie udało się zmienić domyślnego rachunku"
+      "failedUpdate": "Nie udało się zmienić domyślnego rachunku",
+      "b2b": {
+        "title": "Dane rozliczeniowe",
+        "description": "Zaznaczone dane są domyślnymi danymi rozliczeniowymi."
+      }
     }
   },
   "en": {
@@ -36,7 +42,11 @@
       "title": "Billing data",
       "description": "The selected data are the default billing data.",
       "sucessUpdate": "The default billing data have been changed",
-      "failedUpdate": "Failed to change default billing data"
+      "failedUpdate": "Failed to change default billing data",
+      "b2b": {
+        "title": "Billing data",
+        "description": "The selected data are the default billing data."
+      }
     }
   }
 }
@@ -51,6 +61,7 @@ const props = defineProps<{
   type: 'billing' | 'shipping'
 }>()
 const { isModeB2B } = useSiteMode()
+const isBlocked = computed(() => props.type === 'billing' && isModeB2B.value)
 
 const addressesData = await (isModeB2B.value
   ? useOrganizationAddresses(props.type)

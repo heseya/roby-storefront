@@ -1,4 +1,8 @@
-import type { UserSavedAddressCreateDto, UserSavedAddressUpdateDto } from '@heseya/store-core'
+import type {
+  Address,
+  UserSavedAddressCreateDto,
+  UserSavedAddressUpdateDto,
+} from '@heseya/store-core'
 import { useCheckoutStore } from '@/store/checkout'
 
 export const useOrganizationAddresses = (type: 'billing' | 'shipping') => {
@@ -7,7 +11,14 @@ export const useOrganizationAddresses = (type: 'billing' | 'shipping') => {
 
   const addresses = computed(() =>
     type === 'billing'
-      ? [organization.value?.billing_address]
+      ? [
+          {
+            id: 'billing',
+            default: true,
+            name: '',
+            address: organization.value?.billing_address || ({} as Address),
+          },
+        ]
       : organization.value?.shipping_addresses || [],
   )
 
@@ -89,3 +100,5 @@ export const useOrganizationAddresses = (type: 'billing' | 'shipping') => {
     remove: removeAddress,
   }
 }
+export const useOrganizationShippingAddresses = () => useOrganizationAddresses('shipping')
+export const useOrganizationBillingAddresses = () => useOrganizationAddresses('billing')
