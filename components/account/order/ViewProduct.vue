@@ -7,18 +7,18 @@
       <div class="account-order-product-view__name">{{ product.name }}</div>
       <div class="account-order-product-view__price">
         <div>{{ product.quantity }} {{ t('quantity') }}</div>
-        <div class="account-order-product-view__price-price">
-          <div class="account-order-product-view__price__price-net">
+        <div class="account-order-product-view__price--price">
+          <div class="account-order-product-view__price--price-net">
             {{ formatAmount(getDisplayedPrice(product.price).value, currency) }}
           </div>
           <div
             v-if="getSecondPrice(product.price).value"
-            class="account-order-product-view__price__price-gross"
+            class="account-order-product-view__price--price-gross"
           >
             {{ formatAmount(getSecondPrice(product.price).value ?? 0, currency) }}
             {{ $t('priceType.gross') }}
           </div>
-          <div class="account-order-product-view__price__price-gross">
+          <div class="account-order-product-view__price--price-gross">
             ({{ Number(product.price.vat_rate) * 100 }}% VAT)
           </div>
         </div>
@@ -92,10 +92,11 @@ defineProps<{
     @media ($viewport-12) {
       width: 40%;
     }
-    &-price {
+    &--price {
       display: flex;
       flex-direction: column;
       align-items: flex-end;
+
       &-gross {
         font-weight: 500;
         font-size: 12px;
