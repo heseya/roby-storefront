@@ -61,7 +61,10 @@ const saveConsent = async (consents: UserConsentDto) => {
         consents,
       })
 
-      userStore.setOrganization(updatedOrganization)
+      userStore.setOrganization({
+        ...updatedOrganization,
+        shipping_addresses: organization.value?.shipping_addresses,
+      })
       notify({
         title: t('sucessUpdate'),
         type: 'success',
