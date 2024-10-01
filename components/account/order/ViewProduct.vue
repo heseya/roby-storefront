@@ -7,7 +7,7 @@
       <div class="account-order-product-view__name">{{ product.name }}</div>
       <div class="account-order-product-view__price">
         <div>{{ product.quantity }} {{ t('quantity') }}</div>
-        <div class="account-order-product-view__price__price">
+        <div class="account-order-product-view__price-price">
           <div class="account-order-product-view__price__price-net">
             {{ formatAmount(getDisplayedPrice(product.price).value, currency) }}
           </div>
@@ -92,7 +92,7 @@ defineProps<{
     @media ($viewport-12) {
       width: 40%;
     }
-    &__price {
+    &-price {
       display: flex;
       flex-direction: column;
       align-items: flex-end;
