@@ -7,12 +7,20 @@
       <div class="account-order-product-view__name">{{ product.name }}</div>
       <div class="account-order-product-view__price">
         <div>{{ product.quantity }} {{ t('quantity') }}</div>
-        <div>
-          {{
-            // TODO task: B2B-248
-            // @ts-ignore
-            formatAmount(product.price, currency)
-          }}
+        <div class="account-order-product-view__price--price">
+          <div class="account-order-product-view__price--price-net">
+            {{ formatAmount(getDisplayedPrice(product.price).value, currency) }}
+          </div>
+          <div
+            v-if="getSecondPrice(product.price).value"
+            class="account-order-product-view__price--price-gross"
+          >
+            {{ formatAmount(getSecondPrice(product.price).value ?? 0, currency) }}
+            {{ $t('priceType.gross') }}
+          </div>
+          <div class="account-order-product-view__price--price-gross">
+            ({{ Number(product.price.vat_rate) * 100 }}% VAT)
+          </div>
         </div>
       </div>
     </div>
@@ -33,6 +41,9 @@
 <script setup lang="ts">
 import type { OrderProduct } from '@heseya/store-core'
 const t = useLocalI18n()
+const $t = useGlobalI18n()
+
+const { getDisplayedPrice, getSecondPrice } = useGetDisplayedPrice()
 
 defineProps<{
   product: OrderProduct
@@ -73,13 +84,24 @@ defineProps<{
 
   &__price {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
     flex-wrap: nowrap;
     width: 66%;
 
     @media ($viewport-12) {
       width: 40%;
+    }
+    &--price {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+
+      &-gross {
+        font-weight: 500;
+        font-size: 12px;
+        color: #9d9d9d;
+      }
     }
   }
 }

@@ -3,13 +3,13 @@
     class="product-purchase-panel"
     :class="{ 'product-purchase-panel--no-schemas': !product.has_schemas }"
   >
-    <div v-if="product.available" class="product-purchase-panel__price">
+    <div v-if="priceVisibility" class="product-purchase-panel__price">
       <LazyLayoutLoading :active="pending" />
       <span
         class="product-price"
         :class="{ 'product-price--discounted': displayedPriceDetails.hasDiscount }"
       >
-        {{ hasSchemas ? $t('offers.from') : '' }}
+        {{ hasSchemasMarkup }}
         {{ formatAmount(displayedPriceDetails.mainPrice, currency) }}
       </span>
       <span v-if="displayedPriceDetails.hasDiscount" class="product-price product-price--original">
@@ -32,24 +32,40 @@
     />
 
     <LazyProductPageSchemas
-      v-if="product.has_schemas"
+      v-if="hasSchemas"
       v-model:value="schemaValue"
       class="product-purchase-panel__schemas"
       :product-schemas="product.schemas"
     />
     <LazyProductPageVariants class="product-purchase-panel__variants" :product="product" />
 
-    <ProductQuantityInput v-model:quantity="quantity" class="product-purchase-panel__quantity" />
+    <ProductQuantityInput
+      v-if="priceVisibility"
+      v-model:quantity="quantity"
+      class="product-purchase-panel__quantity"
+    />
 
     <LayoutButton
-      v-if="!isUnavailableIfPriceZero"
+      v-if="priceVisibility && !isUnavailableIfPriceZero"
       :disabled="!product.available || isProductPurchaseLimitReached"
       class="product-purchase-panel__cart-btn"
       @click="handleAddToCart"
     >
       {{ purchaseButtonText }}
     </LayoutButton>
-    <div v-if="isUnavailableIfPriceZero" :disabled="true" class="product-purchase-panel__cart-btn">
+    <LayoutButton
+      v-if="!priceVisibility"
+      :disabled="!product.available || isProductPurchaseLimitReached"
+      class="product-purchase-panel__cart-btn"
+      @click="redirectToRoute('/login', $event)"
+    >
+      {{ t('loginToBuy') }}
+    </LayoutButton>
+    <div
+      v-if="priceVisibility && isUnavailableIfPriceZero"
+      :disabled="true"
+      class="product-purchase-panel__cart-btn"
+    >
       {{ t('availability.unavailableInRegion') }}
     </div>
 
@@ -86,7 +102,8 @@
       "shippingDate": "Gotowy do wysłania od {date}",
       "shippingTime": "Gotowy do wysłania w {time}",
       "days": "dni"
-    }
+    },
+    "loginToBuy": "Zaloguj by kupić"
   },
   "en": {
     "availability": {
@@ -99,7 +116,8 @@
       "shippingDate": "Ready to ship from {date}",
       "shippingTime": "Ready to ship in {time}",
       "days": "days"
-    }
+    },
+    "loginToBuy": "Login to buy"
   }
 }
 </i18n>
@@ -133,7 +151,9 @@ const { priceGross, priceNet, originalPriceGross, originalPriceNet, pending } = 
   props.product,
   schemaValue,
 )
-const hasSchemas = computed(() => props.product.has_schemas)
+
+const { priceVisibility } = usePriceVisibility(props.product)
+const { redirectToRoute } = useRedirect()
 
 const displayedPriceDetails = ref({
   mainPrice: 0,
@@ -141,9 +161,10 @@ const displayedPriceDetails = ref({
   originalMainPrice: 0,
   hasDiscount: false,
   vatRate: 0,
+  initialPrice: true,
 })
 
-const updateDisplayedPrices = () => {
+const updateDisplayedPrices = (initialPrice: boolean) => {
   const { mainPrice, secondPrice, originalMainPrice, hasDiscount, vatRate } =
     useDisplayedPriceDetails({
       price: {
@@ -163,16 +184,23 @@ const updateDisplayedPrices = () => {
     originalMainPrice: Number(originalMainPrice.value),
     hasDiscount: Boolean(hasDiscount.value),
     vatRate: Number(vatRate.value),
+    initialPrice,
   }
 }
 
-updateDisplayedPrices()
+updateDisplayedPrices(true)
 
 // Watch for changes in the prices and update the displayed price details
 watch([priceGross, priceNet, originalPriceGross, originalPriceNet], () => {
   // Update the displayed prices whenever these change
-  updateDisplayedPrices()
+  updateDisplayedPrices(false)
 })
+
+const hasSchemas = computed(() => priceVisibility.value && props.product.has_schemas)
+
+const hasSchemasMarkup = computed(() =>
+  hasSchemas.value && displayedPriceDetails.value.initialPrice ? t('offers.from') : '',
+)
 
 const purchaseButtonText = computed((): string => {
   if (isProductPurchaseLimitReached.value) return t('availability.reachedLimit')
@@ -207,7 +235,7 @@ const availability = computed(() => {
   return props.product.available ? t('availability.available') : t('availability.unavailable')
 })
 
-const showOmnibus = useShowOmnibus(props.product)
+const showOmnibus = computed(() => priceVisibility.value && useShowOmnibus(props.product))
 
 const isLeaseable = computed(() => {
   return !!props.product.metadata.allow_lease

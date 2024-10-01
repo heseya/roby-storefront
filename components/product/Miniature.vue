@@ -33,7 +33,7 @@
       <span class="product-miniature__subtext">
         {{ getProductSubtext(product, config.productSubtextAttr) }}
       </span>
-      <template v-if="!hidePrice">
+      <template v-if="priceVisibility">
         <ProductPrice class="product-miniature__price" :product="product" />
         <LazyProductPageOmnibus
           v-if="showOmnibus"
@@ -57,11 +57,21 @@
           </LayoutButton>
         </template>
       </template>
-
-      <LayoutButton v-else-if="askForPrice" class="product-miniature__btn">
+      <template v-if="loginToBuy">
+        <LayoutButton
+          v-if="loginToBuy"
+          class="product-miniature__btn"
+          @click="redirectToRoute('/login', $event)"
+        >
+          {{ t('loginToBuy') }}
+        </LayoutButton>
+      </template>
+      <LayoutButton v-if="askForPrice" class="product-miniature__btn">
         {{ $t('offers.pricing') }}
       </LayoutButton>
-      <span v-else class="product-miniature__unavailable"> {{ $t('offers.unavailable') }} </span>
+      <span v-if="hidePrice" class="product-miniature__unavailable">
+        {{ $t('offers.unavailable') }}
+      </span>
 
       <ProductFavouriteButton class="product-miniature__wishlist-btn" :product="product" />
       <slot />
@@ -69,13 +79,24 @@
   </NuxtLink>
 </template>
 
+<i18n lang="json">
+{
+  "pl": {
+    "loginToBuy": "Zaloguj by kupić"
+  },
+  "en": {
+    "loginToBuy": "Login to buy"
+  }
+}
+</i18n>
+
 <script lang="ts" setup>
 import { useConfigStore } from '@/store/config'
-import { ASK_FOR_PRICE_KEY } from '@/consts/metadataKeys'
 
 import type { ExtendedProductListed } from '~/types/Product'
 
 const $t = useGlobalI18n()
+const t = useLocalI18n()
 const localePath = useLocalePath()
 const config = useConfigStore()
 
@@ -87,9 +108,8 @@ const props = defineProps<{
 
 const { notify } = useNotify()
 
-const askForPrice = computed(() => props.product?.metadata?.[ASK_FOR_PRICE_KEY])
-
-const hidePrice = computed(() => askForPrice.value || !props.product.available)
+const { priceVisibility, loginToBuy, askForPrice, hidePrice } = usePriceVisibility(props.product)
+const { redirectToRoute } = useRedirect()
 
 const showAddToCart = computed(() => config.env.show_add_to_cart_on_lists === '1')
 
@@ -222,7 +242,7 @@ const handleAddToCart = () => {
 
   &__btn {
     width: 100%;
-
+    margin-top: 5px;
     &--cart {
       margin-top: 8px;
     }
