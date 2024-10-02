@@ -1,6 +1,6 @@
 <template>
   <CheckoutPageArea :title="$t('payments.billingAddress')">
-    <CheckoutAddressCard :address="checkout.billingAddress" @edit="handleEdit" />
+    <CheckoutAddressCard :address="checkout.billingAddress" type="billing" @edit="handleEdit" />
 
     <CheckoutAddressModal
       :title="t('title')"
@@ -30,7 +30,14 @@ import { useCheckoutStore } from '~/store/checkout'
 
 const t = useLocalI18n()
 const checkout = useCheckoutStore()
-const { defaultAddress } = useUserBillingAddresses()
+const { isModeB2B } = useSiteMode()
+const { defaultAddress } = isModeB2B.value
+  ? useOrganizationBillingAddresses()
+  : useUserBillingAddresses()
+
+if (defaultAddress.value) {
+  checkout.billingAddress = clone(defaultAddress.value.address)
+}
 
 const isEditOpen = ref(false)
 const selectedAddress = ref(defaultAddress.value?.address || null)
@@ -44,6 +51,7 @@ watch(
 )
 
 const handleEdit = () => {
+  if (isModeB2B.value) return
   isEditOpen.value = true
 }
 

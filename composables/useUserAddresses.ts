@@ -33,6 +33,7 @@ export const useUserAddreses = (type: 'billing' | 'shipping') => {
       if (!user.value) throw new Error('User is not logged')
 
       const updatedAddresses = await heseya.UserProfile.My[methodSuffix].create(payload)
+
       user.value[valueKey] = updatedAddresses
       return { success: true }
     } catch (e) {
@@ -46,6 +47,7 @@ export const useUserAddreses = (type: 'billing' | 'shipping') => {
       if (!user.value) throw new Error('User is not logged')
 
       const updatedAddresses = await heseya.UserProfile.My[methodSuffix].update(id, payload)
+
       user.value[valueKey] = updatedAddresses
       return { success: true }
     } catch (e) {

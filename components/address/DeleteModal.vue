@@ -60,7 +60,11 @@ const emit = defineEmits<{
 
 const t = useLocalI18n()
 const { notify } = useNotify()
-const { remove } = useUserAddreses(props.type)
+const { isModeB2B } = useSiteMode()
+const addressesData = await (isModeB2B.value
+  ? useOrganizationAddresses(props.type)
+  : useUserAddreses(props.type))
+const { remove } = addressesData
 
 const isModalVisible = computed({
   get: () => props.open,

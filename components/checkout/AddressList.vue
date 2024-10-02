@@ -17,13 +17,17 @@ const props = defineProps<{
 const emit = defineEmits<{
   (e: 'update:address', value: Address | null): void
 }>()
+const { isModeB2B } = useSiteMode()
 
-const { addresses } = useUserAddreses(props.type)
+const addressesData = isModeB2B.value
+  ? useOrganizationAddresses(props.type)
+  : useUserAddreses(props.type)
+const { addresses } = addressesData
 
 const selectedSavedAddress = computed({
   get(): UserSavedAddress | null {
     // We need to map the Address in checkout to UserSavedAddress interface that comes from API
-    return addresses.value.find((a) => a.address.id === props.address?.id) || null
+    return addresses.value.find((a: UserSavedAddress) => a.address.id === props.address?.id) || null
   },
   set(value) {
     if (value) emit('update:address', clone(value.address))

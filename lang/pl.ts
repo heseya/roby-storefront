@@ -37,6 +37,7 @@ export default {
 
   account: {
     myData: 'Moje dane',
+    organizationData: 'Dane organizacji',
     deleteAccount: 'Usuń konto',
     login: 'Zaloguj się',
     register: 'Zarejestruj się',
@@ -44,6 +45,7 @@ export default {
     addresses: 'Adresy',
     registerTitle: 'Rejestracja',
     settings: 'Ustawienia konta',
+    organizationSettings: 'Ustawienia organizacji',
     noAccount: 'Nie masz konta?',
   },
 
