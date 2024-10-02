@@ -1,7 +1,7 @@
 <template>
   <div class="product-sale">
     <div class="product-sale__title">{{ sale.name }}</div>
-    <BaseWysiwygContent class="product-sale__content" :content="sale.description_html" />
+    <BaseWysiwygContent class="product-sale__content" :content="sale.description_html ?? ''" />
   </div>
 </template>
 

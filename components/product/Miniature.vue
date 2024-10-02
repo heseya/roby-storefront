@@ -33,7 +33,7 @@
       <span class="product-miniature__subtext">
         {{ getProductSubtext(product, config.productSubtextAttr) }}
       </span>
-      <template v-if="priceVisibility">
+      <template v-if="priceVisibility && !isUnavailableIfPriceZero">
         <ProductPrice class="product-miniature__price" :product="product" />
         <LazyProductPageOmnibus
           v-if="showOmnibus"
@@ -57,6 +57,13 @@
           </LayoutButton>
         </template>
       </template>
+      <div
+        v-if="priceVisibility && isUnavailableIfPriceZero"
+        :disabled="true"
+        class="product-miniature__unavailable"
+      >
+        {{ t('availability.unavailableInRegion') }}
+      </div>
       <template v-if="loginToBuy">
         <LayoutButton
           v-if="loginToBuy"
@@ -82,10 +89,16 @@
 <i18n lang="json">
 {
   "pl": {
-    "loginToBuy": "Zaloguj by kupić"
+    "loginToBuy": "Zaloguj by kupić",
+    "availability": {
+      "unavailableInRegion": "Niedostępny w regionie"
+    }
   },
   "en": {
-    "loginToBuy": "Login to buy"
+    "loginToBuy": "Login to buy",
+    "availability": {
+      "unavailableInRegion": "Unavailable in region"
+    }
   }
 }
 </i18n>
@@ -116,6 +129,10 @@ const showAddToCart = computed(() => config.env.show_add_to_cart_on_lists === '1
 const showOmnibus = useShowOmnibus(props.product)
 
 const { addToCart } = useAddToCart(props.product)
+
+const isUnavailableIfPriceZero = computed(() => {
+  return Number(props.product.price.gross) === 0 && config.unavailableIfPriceZero
+})
 
 const handleAddToCart = () => {
   addToCart([])
