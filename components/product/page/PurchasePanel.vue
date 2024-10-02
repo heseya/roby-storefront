@@ -3,7 +3,7 @@
     class="product-purchase-panel"
     :class="{ 'product-purchase-panel--no-schemas': !product.has_schemas }"
   >
-    <div v-if="priceVisibility" class="product-purchase-panel__price">
+    <div v-if="priceVisibility && !isUnavailableIfPriceZero" class="product-purchase-panel__price">
       <LazyLayoutLoading :active="pending" />
       <span
         class="product-price"
@@ -39,35 +39,23 @@
     />
     <LazyProductPageVariants class="product-purchase-panel__variants" :product="product" />
 
-    <ProductQuantityInput
-      v-if="priceVisibility"
-      v-model:quantity="quantity"
-      class="product-purchase-panel__quantity"
-    />
+    <ProductQuantityInput v-model:quantity="quantity" class="product-purchase-panel__quantity" />
 
     <LayoutButton
-      v-if="priceVisibility && !isUnavailableIfPriceZero"
-      :disabled="!product.available || isProductPurchaseLimitReached"
+      v-if="!loginToBuy"
+      :disabled="!product.available || isProductPurchaseLimitReached || isUnavailableIfPriceZero"
       class="product-purchase-panel__cart-btn"
       @click="handleAddToCart"
     >
       {{ purchaseButtonText }}
     </LayoutButton>
     <LayoutButton
-      v-if="!priceVisibility"
-      :disabled="!product.available || isProductPurchaseLimitReached"
+      v-if="loginToBuy"
       class="product-purchase-panel__cart-btn"
       @click="redirectToRoute('/login', $event)"
     >
       {{ t('loginToBuy') }}
     </LayoutButton>
-    <div
-      v-if="priceVisibility && isUnavailableIfPriceZero"
-      :disabled="true"
-      class="product-purchase-panel__cart-btn"
-    >
-      {{ t('availability.unavailableInRegion') }}
-    </div>
 
     <a
       v-if="isLeaseable && leaselinkEnabled"
@@ -78,7 +66,9 @@
         {{ t('offers.lease') }}
       </LayoutButton>
     </a>
-
+    <div v-if="isUnavailableIfPriceZero" :disabled="true" class="product-purchase-panel__unregion">
+      {{ t('availability.unavailableInRegion') }}
+    </div>
     <div class="product-purchase-panel__detail"><DeliveryIcon /> {{ availability }}</div>
   </div>
   <LazyProductPageUpsellModal
@@ -152,7 +142,7 @@ const { priceGross, priceNet, originalPriceGross, originalPriceNet, pending } = 
   schemaValue,
 )
 
-const { priceVisibility } = usePriceVisibility(props.product)
+const { priceVisibility, loginToBuy } = usePriceVisibility(props.product)
 const { redirectToRoute } = useRedirect()
 
 const displayedPriceDetails = ref({
@@ -303,6 +293,13 @@ const handleAddToCart = () => {
 
   &__lease-btn {
     grid-area: lease-btn;
+  }
+
+  &__unregion {
+    grid-area: unregion;
+    color: $gray-color-600;
+    font-size: 0.8em;
+    font-weight: 500;
   }
 
   &__detail {
