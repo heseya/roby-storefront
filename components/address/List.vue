@@ -7,11 +7,12 @@
         :value="userAddress"
         :selected="userAddress?.id === value?.id"
         :type="type"
-        :disabled="!allowedAddresses.includes(userAddress.id)"
+        :disabled="!allowedAddresses.includes(userAddress.id) || isBlocked"
         @update:selected="(v) => (selectedAddress = v)"
       />
     </div>
     <LayoutButton
+      v-if="!isBlocked"
       class="address-list__button"
       :label="t(`${type}.button`)"
       @click="isAddAddressModalVisible = true"
@@ -71,12 +72,21 @@ const emit = defineEmits<{
   (e: 'update:value', value: UserSavedAddress | null): void
 }>()
 
-const { addresses } = useUserAddreses(props.type)
+const { isModeB2B } = useSiteMode()
+const isBlocked = computed(() => props.type === 'billing' && isModeB2B.value)
+
+const addressesData = isModeB2B.value
+  ? useOrganizationAddresses(props.type)
+  : useUserAddreses(props.type)
+
+const { addresses } = addressesData
 
 const allowedAddresses = computed(() => {
   return (
-    addresses.value?.filter((c) => checkout.isCountryCodeAllowedInShipping(c.address.country)) ?? []
-  ).map((a) => a.id)
+    addresses.value?.filter((c: UserSavedAddress) =>
+      checkout.isCountryCodeAllowedInShipping(c.address.country),
+    ) ?? []
+  ).map((a: UserSavedAddress) => a.id)
 })
 
 const isAddAddressModalVisible = ref(false)

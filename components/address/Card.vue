@@ -5,7 +5,7 @@
       'address-card--selected': selected,
       'address-card--disabled': disabled,
     }"
-    @click="!disabled && emit('update:selected', value)"
+    @click="!disabled && !isBlocked && emit('update:selected', value)"
   >
     <div class="address-card__select" />
     <div>
@@ -19,7 +19,7 @@
       <p>{{ value.address.zip }} {{ value.address.city }}</p>
       <p>{{ value.address.country_name }}</p>
     </div>
-    <div class="address-card__actions">
+    <div v-if="!isBlocked" class="address-card__actions">
       <LayoutIcon
         class="address-card__icon"
         :size="14"
@@ -95,10 +95,10 @@ const props = defineProps<{
 const emit = defineEmits<{
   (e: 'update:selected', value: UserSavedAddress): void
 }>()
-
+const { isModeB2B } = useSiteMode()
 const isEditAddressModalVisible = ref(false)
 const isDeleteAddressModalVisible = ref(false)
-
+const isBlocked = computed(() => props.type === 'billing' && isModeB2B.value)
 const openDeleteAddressModal = () => {
   if (props.value.default) {
     notify({

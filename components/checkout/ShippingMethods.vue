@@ -85,7 +85,7 @@ const checkout = useCheckoutStore()
 const ev = useHeseyaEventBus()
 const currency = useCurrency()
 const channel = useChannelsStore()
-
+const { isModeB2B } = useSiteMode()
 const { data: shippingMethods } = useLazyAsyncData(
   `shipping-methods-for-value`,
   async () => {
@@ -100,8 +100,13 @@ const { data: shippingMethods } = useLazyAsyncData(
 )
 
 const hasShippingAddresses = computed(() => {
-  const { defaultAddress } = useUserShippingAddresses()
-  return !!defaultAddress.value
+  if (isModeB2B.value) {
+    const { defaultAddress } = useOrganizationShippingAddresses()
+    return !!defaultAddress.value
+  } else {
+    const { defaultAddress } = useUserShippingAddresses()
+    return !!defaultAddress.value
+  }
 })
 
 const shippingOptions = computed(() => {

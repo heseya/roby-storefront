@@ -2,6 +2,7 @@
   <CheckoutAddressCard
     :title="$t('payments.deliveryAddress')"
     :address="checkout.shippingAddress"
+    type="shipping"
     @edit="handleEdit"
   />
 
@@ -21,7 +22,10 @@ import { useCheckoutStore } from '~/store/checkout'
 
 const $t = useGlobalI18n()
 const checkout = useCheckoutStore()
-const { defaultAddress } = useUserShippingAddresses()
+const { isModeB2B } = useSiteMode()
+const { defaultAddress } = isModeB2B.value
+  ? useOrganizationShippingAddresses()
+  : useUserShippingAddresses()
 
 const isEditOpen = ref(false)
 const selectedAddress = ref(defaultAddress.value?.address || null)

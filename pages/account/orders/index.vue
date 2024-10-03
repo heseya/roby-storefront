@@ -50,7 +50,7 @@ definePageMeta({
 const limit = 3
 const page = computed(() => Number(route.query.page ?? 1))
 const lastPage = computed(() => Math.ceil((orders.value?.pagination.total ?? 1) / limit))
-
+const { isModeB2B } = useSiteMode()
 const breadcrumbs = computed(() => [
   { label: $t('breadcrumbs.account'), link: '/account' },
   { label: $t('orders.title'), link: '/account/orders' },
@@ -60,10 +60,15 @@ const errorMessage = ref('')
 
 const { data: orders, refresh } = useAsyncData(`user-orders-${route.query.page || 1}`, async () => {
   try {
-    const { data, pagination } = await heseya.UserProfile.My.Orders.get({
-      limit,
-      page: page.value,
-    })
+    const { data, pagination } = isModeB2B.value
+      ? await heseya.UserProfile.My.Organization.Orders.get({
+          limit,
+          page: page.value,
+        })
+      : await heseya.UserProfile.My.Orders.get({
+          limit,
+          page: page.value,
+        })
     return { data, pagination }
   } catch (e: any) {
     errorMessage.value = formatError(e)

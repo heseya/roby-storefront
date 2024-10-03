@@ -44,12 +44,25 @@ export const useUserStore = defineStore('user', {
 
       try {
         const organization = await heseya.UserProfile.My.Organization.get()
-        this.setOrganization(organization)
 
+        this.setOrganization({ ...organization })
         return { success: true }
       } catch (e: any) {
         this.error = e.message
         return { success: false, error: e.message }
+      }
+    },
+
+    async fetchOrganizationShippingAddresses() {
+      const heseya = useHeseya()
+
+      try {
+        const addresses = await heseya.UserProfile.My.Organization.ShippingAddresses.get()
+        this.organization!.shipping_addresses = addresses.data || []
+        return { success: true }
+      } catch (e) {
+        this.error = e
+        return { success: false, error: e }
       }
     },
 
