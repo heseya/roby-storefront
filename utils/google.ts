@@ -30,26 +30,16 @@ export const mapProductToItem = (product: ProductListed, currency: string): Goog
   item_name: product.name,
   affiliation: 'website',
   currency,
-  // TODO task: B2B-248
-  // @ts-ignore
-  price: parsePrices(product.prices_min, currency),
-  discount: round(
-    // TODO task: B2B-248
-    // @ts-ignore
-    parsePrices(product.prices_min_initial, currency) - parsePrices(product.prices_min, currency),
-  ),
+  price: parseFloat(product.price.gross),
+  discount: round(parseFloat(product.price_initial.gross) - parseFloat(product.price.gross)),
 })
 
 export const mapCartItemToItem = (item: CartItem): GoogleItem => ({
   item_id: item.productId,
   item_name: item.name,
   affiliation: 'website',
-  // TODO task: B2B-248
-  // @ts-ignore
-  price: item.price,
-  // TODO task: B2B-248
-  // @ts-ignore
-  discount: round(item.initialPrice - item.price),
+  price: item.price.gross,
+  discount: round(+item.initialPrice.gross - +item.price.gross),
   quantity: item.totalQty,
 })
 
@@ -57,11 +47,7 @@ export const mapOrderProductToItem = (item: OrderProduct): GoogleItem => ({
   item_id: item.product.id,
   item_name: item.name,
   affiliation: 'website',
-  // TODO task: B2B-248
-  // @ts-ignore
-  price: parseFloat(item.price),
-  // TODO task: B2B-248
-  // @ts-ignore
-  discount: round(parseFloat(item.price_initial) - parseFloat(item.price)),
+  price: parseFloat(item.price.gross),
+  discount: round(parseFloat(item.price_initial.gross) - parseFloat(item.price.gross)),
   quantity: item.quantity,
 })

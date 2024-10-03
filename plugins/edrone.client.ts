@@ -121,12 +121,8 @@ export default defineNuxtPlugin(() => {
       city: address.city,
       base_currency: order.currency,
       order_currency: order.currency,
-      // TODO task: B2B-248
-      // @ts-ignore
-      base_payment_value: order.summary,
-      // TODO task: B2B-248
-      // @ts-ignore
-      order_payment_value: order.summary,
+      base_payment_value: order.summary.gross,
+      order_payment_value: order.summary.gross,
     })
   })
 })
