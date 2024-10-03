@@ -1,6 +1,5 @@
 import { H3Error } from 'h3'
 import * as Sentry from '@sentry/node'
-// @ts-expect-error - Sentry Profiling is not in the types
 import { nodeProfilingIntegration } from '@sentry/profiling-node'
 import pkg from '../../package.json'
 
