@@ -1,4 +1,3 @@
-import { parsePrices } from '@heseya/store-core'
 import type { Page, Product } from '@heseya/store-core'
 import type { WithContext, Product as ProductSchema, Thing, BlogPosting, WebPage } from 'schema-dts'
 import type { MaybeRef } from '@vueuse/core'
@@ -35,8 +34,7 @@ export const useProductJsonLd = (productRef?: MaybeRef<Product | null>) => {
         '@type': 'Offer',
         url: `${i18n.baseUrl}/produkt/${product.slug}`,
         priceCurrency: currency.value,
-        // @ts-ignore TODO: fix this
-        price: parsePrices(product.prices_min, currency.value),
+        price: parseFloat(product.price.gross),
         availability: product.available
           ? 'https://schema.org/InStock'
           : 'https://schema.org/SoldOut',
