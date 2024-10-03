@@ -2,7 +2,7 @@
   <CheckoutPageArea :title="$t('orders.delivery')">
     <div class="checkout-shipping-methods">
       <FormRadioGroup
-        :value="checkout.shippingMethod?.id"
+        :value="checkout.shippingMethod?.id ?? null"
         :options="shippingOptions"
         name="shipping-method"
         @update:value="setShippingMethod"

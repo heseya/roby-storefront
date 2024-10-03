@@ -2,7 +2,7 @@ import axios from 'axios'
 import { enhanceAxiosWithAuthTokenRefreshing } from '@heseya/store-core'
 import { setupCache, buildMemoryStorage, buildKeyGenerator } from 'axios-cache-interceptor'
 import type { Pinia } from 'pinia'
-
+import { SiteMode } from '~/interfaces/siteMode'
 import { useChannelsStore } from '@/store/channels'
 import { useLanguageStore } from '@/store/language'
 import { useAuthStore } from '@/store/auth'
@@ -31,7 +31,7 @@ export default defineNuxtPlugin((nuxt) => {
   // ? --------------------------------------------------------------------------------------------
 
   const pathsWithoutCache = ['wishlist']
-
+  const publicPathWithToken = ['/products', '/product-sets', '/product-sets/favourites']
   const generateCacheKey = buildKeyGenerator((request) => ({
     method: request.method,
     url: request.url,
@@ -58,6 +58,7 @@ export default defineNuxtPlugin((nuxt) => {
   const accessToken = useAccessToken()
   const identityToken = useIdentityToken()
   const refreshToken = useRefreshToken()
+  const runtimeConfig = usePublicRuntimeConfig()
 
   const pathsWithAuth = [
     'auth',
@@ -110,6 +111,13 @@ export default defineNuxtPlugin((nuxt) => {
 
     if (channelsStore.selected) config.headers['X-Sales-Channel'] = channelsStore.selected.id
 
+    if (
+      accessToken.value &&
+      runtimeConfig.siteMode === SiteMode.B2B &&
+      [...publicPathWithToken].some((url) => config.url?.includes(url))
+    ) {
+      config.headers.Authorization = `Bearer ${accessToken.value}`
+    }
     return config
   })
 
