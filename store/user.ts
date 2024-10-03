@@ -3,19 +3,14 @@ import type {
   Organization,
   User,
   UserProfileUpdateDto,
-  UserSavedAddress,
   UserSavedAddressCreateDto,
 } from '@heseya/store-core'
 import { defineStore } from 'pinia'
 
-type FrontOrganization = Organization & {
-  shipping_addresses: UserSavedAddress[]
-}
-
 export const useUserStore = defineStore('user', {
   state: () => ({
     user: null as User | null,
-    organization: null as FrontOrganization | null,
+    organization: null as Organization | null,
     error: null as any,
   }),
 
@@ -25,7 +20,7 @@ export const useUserStore = defineStore('user', {
     setUser(user: User | null) {
       this.user = user
     },
-    setOrganization(organization: FrontOrganization | null) {
+    setOrganization(organization: Organization | null) {
       this.organization = organization
     },
 
@@ -50,8 +45,7 @@ export const useUserStore = defineStore('user', {
       try {
         const organization = await heseya.UserProfile.My.Organization.get()
 
-        this.setOrganization({ ...organization, shipping_addresses: [] })
-        await this.fetchOrganizationShippingAddresses()
+        this.setOrganization({ ...organization })
         return { success: true }
       } catch (e: any) {
         this.error = e.message
