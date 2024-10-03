@@ -74,7 +74,7 @@
   <LazyProductPageUpsellModal
     v-model:open="upsellVisible"
     :product="product"
-    :price="priceGross"
+    :price="displayedPriceDetails.mainPrice"
     :currency="currency"
   />
 </template>
@@ -241,14 +241,12 @@ const handleAddToCart = () => {
 .product-purchase-panel {
   display: grid;
   align-items: center;
-  align-items: center;
   grid-template-columns: 80px 1fr;
   grid-gap: 16px;
   grid-template-areas: 'schemas schemas' 'variants variants' 'quantity price' 'omnibus omnibus' 'cart-btn cart-btn' 'lease-btn lease-btn' 'details details';
 
   @media ($viewport-6) {
     grid-template-columns: 80px 1fr 1fr;
-    justify-content: strech;
     justify-content: stretch;
     grid-template-areas: 'price price price' 'omnibus omnibus omnibus' 'schemas schemas schemas' 'variants variants variants' 'quantity cart-btn lease-btn' 'details details details';
   }
