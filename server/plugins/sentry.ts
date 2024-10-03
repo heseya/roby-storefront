@@ -1,5 +1,6 @@
 import { H3Error } from 'h3'
 import * as Sentry from '@sentry/node'
+// @ts-ignore
 import { nodeProfilingIntegration } from '@sentry/profiling-node'
 import pkg from '../../package.json'
 
