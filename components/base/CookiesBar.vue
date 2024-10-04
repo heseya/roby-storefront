@@ -181,6 +181,9 @@ const setCookies = ([required, functional, analytics, ads]: [
   analyticsCookie.value = analytics ? 1 : 0
   adsCookie.value = ads ? 1 : 0
 
+  // TODO: remove this console log - it's only test of the built application
+  // eslint-disable-next-line no-console
+  console.info('------- setCookies -----------', $enableGtm)
   $enableGtm()
 }
 

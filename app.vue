@@ -95,6 +95,9 @@ useHead({
 onMountedDocumentLoad(() => {
   const { $enableGtm } = useNuxtApp()
   const requiredCookie = useStatefulCookie<number>(COOKIE_REQUIRED_ACCEPTED_KEY, COOKIES_CONFIG)
+  // TODO: remove this console log - it's only test of the built application
+  // eslint-disable-next-line no-console
+  console.info('------- onMountedDocumentLoad -----------', $enableGtm)
   if (requiredCookie.value) $enableGtm()
 }, 1500)
 </script>

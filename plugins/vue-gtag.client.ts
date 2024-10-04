@@ -46,6 +46,9 @@ export default defineNuxtPlugin((nuxtApp) => {
   }
 
   const enableGtm = () => {
+    // TODO: remove this console log - it's only test of the built application
+    // eslint-disable-next-line no-console
+    console.info('---------------- enableGtm ----------------', gtm)
     if (gtm?.enabled()) return
 
     gtm?.enable()
