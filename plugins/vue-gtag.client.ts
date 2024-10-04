@@ -15,7 +15,24 @@ import { useChannelsStore } from '@/store/channels'
 export default defineNuxtPlugin((nuxtApp) => {
   const { googleTagManagerId, production, i18n } = usePublicRuntimeConfig()
   const isProduction = computed(() => ['true', '1', 1, true].includes(production))
-  if (!googleTagManagerId) return
+
+  if (!googleTagManagerId) {
+    // eslint-disable-next-line no-console
+    console.warn('GOOGLE_TAG_MANAGER_ID env is not defined')
+
+    /**
+     * This is just a dummy of the real method (described below).
+     * It is needed so that the application does not crash when trying to call it.
+     */
+    return {
+      provide: {
+        enableGtm: () => {
+          // eslint-disable-next-line no-console
+          console.warn('GOOGLE_TAG_MANAGER_ID env is not defined. GTM will not work.')
+        },
+      },
+    }
+  }
 
   nuxtApp.vueApp.use(
     createGtm({
@@ -36,8 +53,14 @@ export default defineNuxtPlugin((nuxtApp) => {
   const trackEventsQueue = useState<object[]>('gtag-track-queue', () => [])
 
   const push = (...args: unknown[]) => {
-    if (gtm?.enabled()) window.gtag(...args)
-    else pushEventsQueue.value.push(args)
+    if (gtm?.enabled()) {
+      if (!window.gtag) {
+        // eslint-disable-next-line no-console
+        console.warn('GOOGLE_ANALYTICS_ID env is not defined')
+        return
+      }
+      window.gtag(...args)
+    } else pushEventsQueue.value.push(args)
   }
 
   const trackEvent = (event: object) => {
@@ -46,9 +69,6 @@ export default defineNuxtPlugin((nuxtApp) => {
   }
 
   const enableGtm = () => {
-    // TODO: remove this console log - it's only test of the built application
-    // eslint-disable-next-line no-console
-    console.info('---------------- enableGtm ----------------', gtm)
     if (gtm?.enabled()) return
 
     gtm?.enable()
@@ -56,7 +76,7 @@ export default defineNuxtPlugin((nuxtApp) => {
     // Clear the queue
     const interval = setInterval(() => {
       if (!window.gtag) return
-      pushEventsQueue.value.forEach((args) => window.gtag(...args))
+      pushEventsQueue.value.forEach((args) => window.gtag?.(...args))
       trackEventsQueue.value.forEach((event) => gtm?.trackEvent(event))
       pushEventsQueue.value = []
       trackEventsQueue.value = []
