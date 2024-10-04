@@ -8,6 +8,8 @@ export const useHeseyaProducts = () => {
   const omnibus = useOmnibus()
 
   const getOmnibus = async (products: ProductListed[]) => {
+    if (!products.length) return []
+
     return await omnibus
       .getPrices(products.filter((p) => isOmnibusShowable(p)).map((product) => product.id))
       .catch(() => {
@@ -19,6 +21,8 @@ export const useHeseyaProducts = () => {
 
   const getWishlist = async (products: ProductListed[]) => {
     if (!auth.isLogged) return null
+    if (!products.length) return []
+
     return await heseya.Wishlist.check(products.map((p) => p.id)).catch(function () {
       return null
     })
@@ -26,6 +30,8 @@ export const useHeseyaProducts = () => {
 
   const getPersonalPrices = async (products: ProductListed[]): Promise<ProductPrice[] | null> => {
     if (!auth.isLogged) return null
+    if (!products.length) return []
+
     return await heseya.Prices.getProductsPrices(products.map((p) => p.id)).catch(function () {
       // eslint-disable-next-line no-console
       console.warn('Failed to get personal prices')
