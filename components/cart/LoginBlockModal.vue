@@ -1,32 +1,34 @@
 <template>
   <LayoutModal v-model:open="isModalVisible" :closeable="false" :box="true">
-    <div class="login-block">
+    <div class="login-block" :class="{ 'login-block--only-login': isModeB2B }">
       <div>
         <h2 class="login-block__header">{{ $t('account.login') }}</h2>
         <AuthLoginForm class="login-block__login" @login="navigateTo('/checkout')" />
       </div>
 
-      <LayoutSpacer />
+      <template v-if="!isModeB2B">
+        <LayoutSpacer />
 
-      <div class="login-block__guest">
-        <div class="login-block__continue">
-          <h2 class="login-block__header">{{ t('block.continueWithoutLogin') }}</h2>
-          <div class="login-block__descrpition">{{ t('block.description') }}</div>
-          <NuxtLink :to="localePath('/checkout')">
-            <LayoutButton class="login-block__btn" :label="t('block.continueAsGuest')" />
-          </NuxtLink>
-        </div>
-
-        <div class="login-block__register">
-          <LayoutSpacer />
-          <div>
-            <h2 class="login-block__header">{{ $t('account.noAccount') }}</h2>
-            <NuxtLink :to="localePath('/register')">
-              <LayoutButton class="login-block__register-btn" :label="$t('account.register')" />
+        <div class="login-block__guest">
+          <div class="login-block__continue">
+            <h2 class="login-block__header">{{ t('block.continueWithoutLogin') }}</h2>
+            <div class="login-block__descrpition">{{ t('block.description') }}</div>
+            <NuxtLink :to="localePath('/checkout')">
+              <LayoutButton class="login-block__btn" :label="t('block.continueAsGuest')" />
             </NuxtLink>
           </div>
+
+          <div class="login-block__register">
+            <LayoutSpacer />
+            <div>
+              <h2 class="login-block__header">{{ $t('account.noAccount') }}</h2>
+              <NuxtLink :to="localePath('/register')">
+                <LayoutButton class="login-block__register-btn" :label="$t('account.register')" />
+              </NuxtLink>
+            </div>
+          </div>
         </div>
-      </div>
+      </template>
     </div>
   </LayoutModal>
 </template>
@@ -54,6 +56,7 @@
 const t = useLocalI18n()
 const $t = useGlobalI18n()
 const localePath = useLocalePath()
+const { isModeB2B } = useSiteMode()
 
 const props = defineProps<{
   open: boolean
@@ -81,6 +84,11 @@ const isModalVisible = computed({
     grid-template-columns: 1fr 0.1fr 1fr;
     gap: 10px;
     background-color: $gray-color-100;
+  }
+
+  &--only-login {
+    display: block;
+    width: 100%;
   }
 
   &__guest {
