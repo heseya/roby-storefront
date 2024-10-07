@@ -91,6 +91,13 @@ import { useAuthStore } from '@/store/auth'
 import { useCheckoutStore } from '@/store/checkout'
 import { useChannelsStore } from '@/store/channels'
 
+const { isModeB2B } = useSiteMode()
+if (isModeB2B.value) {
+  definePageMeta({
+    middleware: 'auth',
+  })
+}
+
 const t = useLocalI18n()
 const $t = useGlobalI18n()
 const formatError = useErrorMessage()

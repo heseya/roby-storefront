@@ -78,7 +78,7 @@
             is-resize
           />
         </NuxtLink>
-        <div class="nav-items__button-wrapper">
+        <div v-if="isVisibleShoppingButton" class="nav-items__button-wrapper">
           <NuxtLink class="nav-link-button" :to="localePath('/cart')">
             <LazyLayoutIconButton
               class="nav-link-button__button"
@@ -155,6 +155,7 @@ const $t = useGlobalI18n()
 const localePath = useLocalePath()
 const heseya = useHeseya()
 const { notify } = useNotify()
+const { isModeB2B } = useSiteMode()
 
 const auth = useAuthStore()
 const config = useConfigStore()
@@ -172,6 +173,8 @@ const { locales } = useI18n()
 const isTopBarVisible = computed(
   () => locales.value.length > 1 || !!config.customRedirect || channels.channels.length > 1,
 )
+
+const isVisibleShoppingButton = computed(() => (auth.isLogged ? true : !isModeB2B.value))
 
 const { y: scrollY } = useWindowScroll()
 

@@ -71,6 +71,13 @@ import type { Product } from '@heseya/store-core'
 import { useCartStore } from '@/store/cart'
 import { PRODUCT_SET_SHOW_AS_VARIANT } from '~/consts/metadataKeys'
 
+const { isModeB2B } = useSiteMode()
+if (isModeB2B.value) {
+  definePageMeta({
+    middleware: 'auth',
+  })
+}
+
 const cart = useCartStore()
 const t = useLocalI18n()
 const $t = useGlobalI18n()
