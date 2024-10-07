@@ -90,6 +90,10 @@ export const useAuthStore = defineStore('auth', {
 
         // Clear local wishlist after logout
         wishlish.$reset()
+
+        const router = useRouter()
+        // After logout, redirect to the current route to make the middleware work
+        await router.push({ path: router.currentRoute.value.fullPath })
       }
     },
 
