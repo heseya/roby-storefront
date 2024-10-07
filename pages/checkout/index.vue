@@ -111,7 +111,9 @@ const heseya = useHeseya()
 const auth = useAuthStore()
 const localePath = useLocalePath()
 
-const { defaultAddress: defaultBillingAddress } = useUserBillingAddresses()
+const { defaultAddress: defaultBillingAddress } = isModeB2B.value
+  ? useOrganizationBillingAddresses()
+  : useUserBillingAddresses()
 
 const wantCreateAccount = ref<boolean>(false)
 const isLoading = ref(false)

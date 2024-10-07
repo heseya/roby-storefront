@@ -11,6 +11,7 @@
     <div>
       <b :class="{ 'address-card__header': !value.address.vat }">{{ value.name }}</b>
       <p>{{ value.address.name }}</p>
+      <p v-if="value.address.company_name">{{ value.address.company_name }}</p>
       <p v-if="value.address.vat">{{ $t('form.vat') }} {{ value.address.vat }}</p>
       <p>{{ value.address.phone }}</p>
     </div>

@@ -4,6 +4,7 @@
 
     <div class="checkout-address-card__content">
       <span>{{ address.name }}</span>
+      <span v-if="address.company_name">{{ address.company_name }}</span>
       <span>{{ address.phone }}</span>
       <span>{{ address.address }}</span>
       <span>{{ address.zip }} {{ address.city }}</span>
