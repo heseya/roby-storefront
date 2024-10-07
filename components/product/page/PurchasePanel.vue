@@ -118,6 +118,7 @@ import type { CartItemSchema, Product } from '@heseya/store-core'
 
 import DeliveryIcon from '@/assets/icons/delivery.svg?component'
 import { useConfigStore } from '~/store/config'
+import { useSiteMode } from '~/composables/useSiteMode'
 
 const props = withDefaults(
   defineProps<{
@@ -130,6 +131,7 @@ const t = useLocalI18n()
 const $t = useGlobalI18n()
 const currency = useCurrency()
 const upsellVisible = ref(false)
+const { isModeB2B } = useSiteMode()
 
 const { enabled: leaselinkEnabled, getUrl: getLeasingUrl } = useLeaselink()
 
@@ -225,7 +227,9 @@ const availability = computed(() => {
   return props.product.available ? t('availability.available') : t('availability.unavailable')
 })
 
-const showOmnibus = computed(() => priceVisibility.value && useShowOmnibus(props.product))
+const showOmnibus = computed(
+  () => priceVisibility.value && useShowOmnibus(props.product) && !isModeB2B.value,
+)
 
 const isLeaseable = computed(() => {
   return !!props.product.metadata.allow_lease
