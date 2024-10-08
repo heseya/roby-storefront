@@ -3,7 +3,7 @@
     <FormInput
       :model-value="address.name"
       :name="`${namePrefix}_name`"
-      :label="invoice ? t('companyName') : $t('form.nameAndSurname')"
+      :label="nameLabel"
       :autocomplete="invoice ? 'organization' : 'name'"
       rules="required"
       :disabled="disabled"
@@ -11,11 +11,12 @@
     />
 
     <FormInput
-      v-if="type === 'shipping'"
+      v-if="isModeB2B && type === 'shipping'"
       :model-value="address.company_name"
       :name="`${namePrefix}_company_name`"
       autocomplete="company_name"
       :label="t('companyName')"
+      rules="required"
       :disabled="disabled"
       @update:model-value="update('company_name', $event as string)"
     />
@@ -97,6 +98,7 @@
 <i18n lang="json">
 {
   "pl": {
+    "recipientNameAndSurname": "Imię i nazwisko odbiorcy",
     "companyName": "Nazwa firmy",
     "address": "Ulica wraz z numerem domu/mieszkania",
     "city": "Miasto",
@@ -107,6 +109,7 @@
     "info": "Dane obowiązkowe do wypełnienia"
   },
   "en": {
+    "recipientNameAndSurname": "Recipient's name",
     "companyName": "Company name",
     "address": "Street with house/apartment number",
     "city": "City",
@@ -124,9 +127,17 @@ import type { AddressDto } from '@heseya/store-core'
 import { useCheckoutStore } from '@/store/checkout'
 import { EMPTY_ADDRESS } from '@/consts/address'
 
+/**
+ * For B2B:
+ * for the shipping address: the `name` field is the person receiving the package and the `company_name` is the company name
+ * for the billing address: the `name` field is the company name
+ */
+
 const t = useLocalI18n()
+const $t = useGlobalI18n()
 const heseya = useHeseya()
 const checkout = useCheckoutStore()
+const { isModeB2B } = useSiteMode()
 
 const props = withDefaults(
   defineProps<{
@@ -148,6 +159,19 @@ const props = withDefaults(
     type: 'shipping',
   },
 )
+
+const nameLabel = computed(() => {
+  if (props.type === 'shipping' && props.invoice) {
+    throw new Error('The shipping address cannot be used for invoice data')
+  }
+
+  if (props.type === 'shipping') {
+    return t('recipientNameAndSurname') // for isModeB2B in shipping address we have another field: company_name
+  }
+
+  // for billing address:
+  return isModeB2B.value || props.invoice ? t('companyName') : $t('form.nameAndSurname')
+})
 
 const emit = defineEmits<{
   (event: 'update:address', value: AddressDto): void

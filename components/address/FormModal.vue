@@ -13,13 +13,13 @@
       v-model="formValues.name"
       rules="required"
       :label="$t('common.name')"
-      name="address_name"
+      name="address_general_name"
     />
 
     <AddressForm v-model:address="formValues.address" :invoice="isInvoice" :type="type" />
 
     <FormCheckbox
-      v-if="type === 'billing'"
+      v-if="!isModeB2B && type === 'billing'"
       v-model="isInvoice"
       name="address_invoice"
       class="address-form-modal__checkbox"
@@ -64,6 +64,7 @@ import FormModal from '~/components/form/Modal.vue'
 const t = useLocalI18n()
 const $t = useGlobalI18n()
 const { notify } = useNotify()
+const { isModeB2B } = useSiteMode()
 
 const props = withDefaults(
   defineProps<{
@@ -90,8 +91,6 @@ const isModalVisible = computed({
   set: (value) => emit('update:open', value),
 })
 
-const { isModeB2B } = useSiteMode()
-
 const addressesData = await (isModeB2B.value
   ? useOrganizationAddresses(props.type)
   : useUserAddreses(props.type))
@@ -100,7 +99,9 @@ const { add, edit } = addressesData
 
 const requestError = ref<any>()
 
-const isInvoice = ref<boolean>(!!props.address?.address.vat)
+const isInvoice = ref<boolean>(
+  props.type === 'billing' && (isModeB2B.value || !!props.address?.address.vat),
+)
 
 const formValues = ref<UserSavedAddressCreateDto | UserSavedAddressUpdateDto>({
   default: false,

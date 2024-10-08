@@ -5,6 +5,7 @@
       v-model:address="checkout.shippingAddress"
       name-prefix="shipping_address"
       exclude-countries="shipping-method"
+      type="shipping"
     />
   </div>
 </template>
