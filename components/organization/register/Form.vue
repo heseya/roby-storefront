@@ -93,7 +93,6 @@ const organizationForm = ref<OrganizationRegisterDto>({
   billing_email: '',
   billing_address: {
     name: '',
-    company_name: '',
     address: '',
     city: '',
     country: 'PL',
@@ -122,9 +121,18 @@ const handleBillingStepSubmit = (
 ) => {
   organizationForm.value.billing_address = data.billing_address
   organizationForm.value.shipping_addresses = [
-    { default: true, name: $t('common.default').toString(), address: { ...data.billing_address } },
+    {
+      default: true,
+      name: $t('common.default').toString(),
+      address: {
+        ...data.billing_address,
+        company_name: data.billing_address.name,
+        name: organizationForm.value.creator_name,
+      },
+    },
   ]
   organizationForm.value.billing_email = data.billing_email
+
   registerOrganization()
 }
 
