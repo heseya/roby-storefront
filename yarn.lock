@@ -854,10 +854,10 @@
   optionalDependencies:
     vue-router ">= 4.4.1 < 5.0.0"
 
-"@heseya/store-core@8.0.0-beta.21":
-  version "8.0.0-beta.21"
-  resolved "https://registry.yarnpkg.com/@heseya/store-core/-/store-core-8.0.0-beta.21.tgz#88bc717b91ed072a7be6024262a040d509552fee"
-  integrity sha512-I9jbd4uJZ+pZ2UzdbJ2Tr+CU5GkRXssWGp38Imuc3HE0mDR7cZ429mA/C08DU/8bFx231Ijig+k5ZbeOpHFOLw==
+"@heseya/store-core@8.0.0-beta.22":
+  version "8.0.0-beta.22"
+  resolved "https://registry.yarnpkg.com/@heseya/store-core/-/store-core-8.0.0-beta.22.tgz#59a24a29e6195cb124b8dff64e51701083368003"
+  integrity sha512-F9bu8GxePHESat3ns98DVw89c9aBysO+j9AyaP/pPatSnfWFV7oyx77wIn8Hrvh2hP9J1MKwEonqWij5mi3CGw==
   dependencies:
     flat "^5.0.2"
     form-data "^4.0.0"
@@ -8306,10 +8306,10 @@ typed-array-length@^1.0.6:
     is-typed-array "^1.1.13"
     possible-typed-array-names "^1.0.0"
 
-typescript@^5.4.5:
-  version "5.6.2"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.6.2.tgz#d1de67b6bef77c41823f822df8f0b3bcff60a5a0"
-  integrity sha512-NW8ByodCSNCwZeghjN3o+JX5OFH0Ojg6sadjEKY4huZ52TqbJTJnDo5+Tw98lSy63NZvi4n+ez5m2u5d4PkZyw==
+typescript@5.5.4:
+  version "5.5.4"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.5.4.tgz#d9852d6c82bad2d2eda4fd74a5762a8f5909e9ba"
+  integrity sha512-Mtq29sKDAEYP7aljRgtPOpTvOfbwRWlS6dPRzwjdE+C0R4brX/GUyhHSecbHMFLNBLcJIPt9nl9yG5TZ1weH+Q==
 
 ufo@^1.1.2, ufo@^1.3.1, ufo@^1.5.3, ufo@^1.5.4:
   version "1.5.4"
