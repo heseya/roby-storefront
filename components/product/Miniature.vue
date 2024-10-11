@@ -33,7 +33,20 @@
       <span class="product-miniature__subtext">
         {{ getProductSubtext(product, config.productSubtextAttr) }}
       </span>
-      <template v-if="priceVisibility && !isUnavailableIfPriceZero">
+
+      <LayoutButton v-if="showAskForPrice" class="product-miniature__btn">
+        {{ $t('offers.pricing') }}
+      </LayoutButton>
+
+      <LayoutButton
+        v-else-if="showLogInToBuy"
+        class="product-miniature__btn"
+        @click="redirectToRoute('/login', $event)"
+      >
+        {{ t('loginToBuy') }}
+      </LayoutButton>
+
+      <template v-else-if="showPrice">
         <ProductPrice class="product-miniature__price" :product="product" />
         <LazyProductPageOmnibus
           v-if="showOmnibus"
@@ -41,7 +54,7 @@
           class="product-miniature__omnibus"
         />
 
-        <template v-if="showAddToCart">
+        <template v-if="showAddToCartOnList">
           <LayoutButton
             v-if="product.has_schemas"
             class="product-miniature__btn product-miniature__btn--cart"
@@ -57,27 +70,13 @@
           </LayoutButton>
         </template>
       </template>
-      <div
-        v-if="priceVisibility && isUnavailableIfPriceZero"
-        :disabled="true"
-        class="product-miniature__unavailable"
-      >
-        {{ t('availability.unavailableInRegion') }}
-      </div>
-      <template v-if="loginToBuy">
-        <LayoutButton
-          v-if="loginToBuy"
-          class="product-miniature__btn"
-          @click="redirectToRoute('/login', $event)"
-        >
-          {{ t('loginToBuy') }}
-        </LayoutButton>
-      </template>
-      <LayoutButton v-if="askForPrice" class="product-miniature__btn">
-        {{ $t('offers.pricing') }}
-      </LayoutButton>
-      <span v-if="hidePrice" class="product-miniature__unavailable">
-        {{ $t('offers.unavailable') }}
+
+      <span v-else-if="isProductUnavailable" class="product-miniature__unavailable">
+        {{
+          showProductUnavailableForRegion
+            ? $t('offers.unavailableInRegion')
+            : $t('offers.unavailable')
+        }}
       </span>
 
       <ProductFavouriteButton class="product-miniature__wishlist-btn" :product="product" />
@@ -89,16 +88,10 @@
 <i18n lang="json">
 {
   "pl": {
-    "loginToBuy": "Zaloguj by kupić",
-    "availability": {
-      "unavailableInRegion": "Niedostępny w regionie"
-    }
+    "loginToBuy": "Zaloguj by kupić"
   },
   "en": {
-    "loginToBuy": "Login to buy",
-    "availability": {
-      "unavailableInRegion": "Unavailable in region"
-    }
+    "loginToBuy": "Login to buy"
   }
 }
 </i18n>
@@ -121,18 +114,23 @@ const props = defineProps<{
 
 const { notify } = useNotify()
 
-const { priceVisibility, loginToBuy, askForPrice, hidePrice } = usePriceVisibility(props.product)
+const productPrice = computed(() => props.product.price.gross)
+
+const productRef = computed(() => props.product)
+
+const {
+  showAskForPrice,
+  showLogInToBuy,
+  showPrice,
+  showAddToCartOnList,
+  showOmnibus,
+  isProductUnavailable,
+  showProductUnavailableForRegion,
+} = usePriceVisibility(productRef, productPrice)
+
 const { redirectToRoute } = useRedirect()
 
-const showAddToCart = computed(() => config.env.show_add_to_cart_on_lists === '1')
-
-const showOmnibus = useShowOmnibus(props.product)
-
 const { addToCart } = useAddToCart(props.product)
-
-const isUnavailableIfPriceZero = computed(() => {
-  return Number(props.product.price.gross) === 0 && config.unavailableIfPriceZero
-})
 
 const handleAddToCart = () => {
   addToCart([])

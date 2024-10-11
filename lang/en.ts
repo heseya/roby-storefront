@@ -63,6 +63,7 @@ export default {
     renting: 'Ask for rental',
     pricing: 'Ask for price',
     unavailable: 'Product unavailable',
+    unavailableInRegion: 'Unavailable in region',
     configure: 'Configure',
     addToCart: 'Add to cart',
     lease: 'Ask about leasing',
