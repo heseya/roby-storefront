@@ -132,8 +132,8 @@ const { priceGross, priceNet, originalPriceGross, originalPriceNet, pending } = 
 const productRef = computed(() => props.product)
 
 const { showSchemas, showOmnibus, isProductUnavailable } = usePriceVisibility(
-  productRef,
-  priceGross,
+  productRef as Ref<Product>,
+  priceGross as ComputedRef<number>,
 )
 
 const displayedPriceDetails = ref({

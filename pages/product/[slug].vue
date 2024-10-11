@@ -229,21 +229,18 @@ const $t = useGlobalI18n()
 const i18n = useI18n()
 const { redirectToRoute } = useRedirect()
 
-const { data: product } = useAsyncData<{ data: Ref<Product | null> }>(
-  `product-${route.params.slug}`,
-  async () => {
-    try {
-      return await heseya.Products.getOneBySlug(route.params.slug as string)
-    } catch (e: any) {
-      if (e?.response?.status === 404 || e?.response?.status === 406)
-        showError({ message: t('notFoundError'), statusCode: e?.response?.status })
-      else showError({ message: e.statusCode, statusCode: e?.response?.status || 500 })
-      return null
-    }
-  },
-)
+const { data: product } = useAsyncData(`product-${route.params.slug}`, async () => {
+  try {
+    return await heseya.Products.getOneBySlug(route.params.slug as string)
+  } catch (e: any) {
+    if (e?.response?.status === 404 || e?.response?.status === 406)
+      showError({ message: t('notFoundError'), statusCode: e?.response?.status })
+    else showError({ message: e.statusCode, statusCode: e?.response?.status || 500 })
+    return null
+  }
+})
 
-const productPrice = computed(() => product.value?.price.gross)
+const productPrice = computed(() => product.value?.price.gross ?? '0')
 
 const {
   showAskForPrice,
@@ -251,7 +248,7 @@ const {
   showPrice,
   isProductUnavailable,
   showProductUnavailableForRegion,
-} = usePriceVisibility(product, productPrice)
+} = usePriceVisibility(product as Ref<Product>, productPrice)
 
 const { data: globalPages } = useAsyncData('globalPages', async () => {
   const { data } = await heseya.Pages.get({ metadata: { show_near_products: true } })
