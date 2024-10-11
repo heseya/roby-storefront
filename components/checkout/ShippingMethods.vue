@@ -1,5 +1,5 @@
 <template>
-  <CheckoutPageArea :title="$t('orders.delivery')">
+  <CheckoutPageArea :title="$t('orders.delivery')" :short-info="priceTypeInfoLabel">
     <div class="checkout-shipping-methods">
       <FormRadioGroup
         :value="checkout.shippingMethod?.id ?? null"
@@ -59,10 +59,12 @@
 <i18n lang="json">
 {
   "pl": {
+    "prices": "Ceny",
     "shippingTime": "Przewidywana wysyłka",
     "packagingTime": "Przewidywany czas realizacji dostawy"
   },
   "en": {
+    "prices": "Prices",
     "shippingTime": "Estimated shipment",
     "packagingTime": "Estimated delivery time"
   }
@@ -97,6 +99,10 @@ const { data: shippingMethods } = useLazyAsyncData(
     return methods.data.filter((m) => m.shipping_type !== ShippingType.Digital)
   },
   { server: false, default: () => [] as ShippingMethod[] },
+)
+
+const priceTypeInfoLabel = computed(
+  () => `${t('prices')} ${isModeB2B.value ? $t('priceType.net') : $t('priceType.gross')}`,
 )
 
 const hasShippingAddresses = computed(() => {
