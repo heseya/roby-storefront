@@ -3,7 +3,9 @@
     <LayoutLoading :active="loading" />
 
     <div class="cart-summary__item">
-      <div class="cart-summary__label">{{ $t('orders.productsPrice') }}</div>
+      <div class="cart-summary__label">
+        {{ $t('orders.productsPrice') }} <span v-if="isModeB2B">({{ $t('priceType.net') }})</span>
+      </div>
       <div class="cart-summary__value">
         {{ formatAmount(getDisplayedPrice(cart.totalValueInitial).value, currency) }}
       </div>
@@ -103,6 +105,7 @@ import { useAuthStore } from '@/store/auth'
 import { useChannelsStore } from '@/store/channels'
 
 const { getDisplayedPrice, getSecondPrice } = useGetDisplayedPrice()
+const { isModeB2B } = useSiteMode()
 
 withDefaults(
   defineProps<{

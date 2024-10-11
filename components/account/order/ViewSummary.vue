@@ -2,7 +2,9 @@
   <div class="view-summary">
     <div class="view-summary__section">
       <div class="view-summary__container">
-        <div>{{ $t('orders.productsPrice') }} {{ $t('priceType.net') }}</div>
+        <div>
+          {{ $t('orders.productsPrice') }} <span v-if="isModeB2B">{{ $t('priceType.net') }}</span>
+        </div>
         <div>
           {{ formatAmount(getDisplayedPrice(order.cart_total).value, order.currency) }}
         </div>
@@ -34,6 +36,7 @@ import type { Order } from '@heseya/store-core'
 
 const $t = useGlobalI18n()
 const { getDisplayedPrice, getSecondPrice } = useGetDisplayedPrice()
+const { isModeB2B } = useSiteMode()
 
 defineProps<{
   order: Order
