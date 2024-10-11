@@ -27,10 +27,6 @@ export const useConfigStore = defineStore('config', {
       return this.env[`top_site_text_${locale.value}`]?.toString() || ''
     },
 
-    isTraditionalTransfer(): boolean {
-      return this.env.allow_traditional_transfer === '1'
-    },
-
     storeFrontDisabled(): boolean {
       return this.env.storefront_disabled === '1'
     },

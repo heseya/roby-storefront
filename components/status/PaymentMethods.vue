@@ -4,6 +4,7 @@
     <CheckoutPaymentMethodsSelect
       v-model:value="selectedPaymentMethodId"
       :shipping-method-id="order?.shipping_method?.id"
+      :order-code="order?.code"
       class="order-status-payment__payment-methods"
     />
     <LayoutButton
@@ -28,8 +29,9 @@
 </i18n>
 
 <script setup lang="ts">
-import { TRADITIONAL_PAYMENT_KEY } from '~/consts/traditionalPayment'
+import type { PaymentMethodListed } from '@heseya/store-core'
 import { useCheckoutStore } from '~/store/checkout'
+import { isTraditionalTransferPayment } from '~/utils/paymentMethods'
 
 const props = withDefaults(
   defineProps<{
@@ -45,6 +47,7 @@ const localePath = useLocalePath()
 const formatError = useErrorMessage()
 const selectedPaymentMethodId = ref<string | null>(null)
 const checkout = useCheckoutStore()
+const heseya = useHeseya()
 
 const { data: order } = useAsyncData(`order-summary-${props.code}`, async () => {
   try {
@@ -64,7 +67,12 @@ const pay = async () => {
   try {
     if (!selectedPaymentMethodId.value) return
 
-    if (selectedPaymentMethodId.value === TRADITIONAL_PAYMENT_KEY) {
+    const { data: paymentMethods } = await heseya.PaymentMethods.get({
+      ids: [selectedPaymentMethodId.value],
+    })
+    const paymentMethod: PaymentMethodListed = paymentMethods[0]
+
+    if (isTraditionalTransferPayment(paymentMethod)) {
       navigateTo(localePath(`/status/${props.code}/traditional-payment`))
       return
     }
