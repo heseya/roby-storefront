@@ -214,6 +214,7 @@ export const useCheckoutStore = defineStore('checkout', {
       if (!this.orderDto) throw new Error('Order cannot be made, because data is invalid')
 
       const order = await heseya.Orders.create(this.orderDto)
+
       // @ts-expect-error Purposely pass this data to event
       ev.emit(HeseyaEvent.Purchase, { ...order, payment_method: this.paymentMethod })
 

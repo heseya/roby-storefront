@@ -77,8 +77,13 @@
 </i18n>
 
 <script setup lang="ts">
-import { CartItem, HeseyaEvent, ShippingType } from '@heseya/store-core'
-import type { Order } from '@heseya/store-core'
+import {
+  CartItem,
+  HeseyaEvent,
+  type PaymentMethodListed,
+  ShippingType,
+  type Order,
+} from '@heseya/store-core'
 import clone from 'lodash/clone'
 import { useForm } from 'vee-validate'
 
@@ -90,6 +95,7 @@ import { useCartStore } from '@/store/cart'
 import { useAuthStore } from '@/store/auth'
 import { useCheckoutStore } from '@/store/checkout'
 import { useChannelsStore } from '@/store/channels'
+import { isTraditionalTransferPayment } from '~/utils/paymentMethods'
 
 const { isModeB2B } = useSiteMode()
 if (isModeB2B.value) {
@@ -173,6 +179,7 @@ const saveUserAddresses = async () => {
 
 const createOrder = async () => {
   const paymentId = checkout.paymentMethodId
+  const paymentMethod: PaymentMethodListed | null = checkout.paymentMethod
   let order: Order
   try {
     order = await checkout.createOrder()
@@ -192,12 +199,15 @@ const createOrder = async () => {
     // save user addresses if they don't exist
     await saveUserAddresses()
 
-    if (paymentId === TRADITIONAL_PAYMENT_KEY) {
+    if (paymentMethod && !paymentMethod.creates_default_payment) {
       checkout.reset()
+
       return navigateTo(
-        localePath(`/checkout/thank-you?code=${order.code}&payment=${TRADITIONAL_PAYMENT_KEY}`),
+        localePath(
+          `/checkout/thank-you?code=${order.code}&payment=${isTraditionalTransferPayment(paymentMethod) ? TRADITIONAL_PAYMENT_KEY : ''}`,
+        ),
       )
-    } else if (paymentId) {
+    } else if (paymentId && paymentMethod && paymentMethod.creates_default_payment) {
       const paymentUrl = await checkout.createOrderPayment(order.code, paymentId)
       checkout.reset()
       window.location.href = paymentUrl

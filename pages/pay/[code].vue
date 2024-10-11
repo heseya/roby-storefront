@@ -24,7 +24,8 @@ useAsyncData(`order-summary-${orderCode}`, async () => {
     const heseya = useHeseya()
     const order = await heseya.Orders.getOneByCode(orderCode.value)
 
-    if (!order.payable) navigateTo(localePath(`/status/${orderCode.value}`), { replace: true })
+    if (order.paid || !order.payable)
+      navigateTo(localePath(`/status/${orderCode.value}`), { replace: true })
 
     return order
   } catch (e: any) {

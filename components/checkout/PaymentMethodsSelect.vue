@@ -7,7 +7,7 @@
 
       <template v-for="method in paymentMethods" :key="method.id" #[`${method.id}-label`]>
         <div class="payment-methods-select__label">
-          {{ t('paymentMethods.quick') }} {{ method.name }}
+          {{ method.name }}
           <img
             v-if="method.icon"
             :src="method.icon"
@@ -21,43 +21,26 @@
   </div>
 </template>
 
-<i18n lang="json">
-{
-  "pl": {
-    "paymentMethods": {
-      "traditional": "Przelew bankowy",
-      "quick": "Przelew natychmiastowy"
-    }
-  },
-  "en": {
-    "paymentMethods": {
-      "traditional": "Bank transfer",
-      "quick": "Instant transfer"
-    }
-  }
-}
-</i18n>
-
 <script setup lang="ts">
 import type { PaymentMethodListed } from '@heseya/store-core'
 import type { RadioGroupOption } from '@/components/form/RadioGroup.vue'
 
 import { useChannelsStore } from '@/store/channels'
-import { useConfigStore } from '~/store/config'
+import { isTraditionalTransferPayment } from '~/utils/paymentMethods'
 import { TRADITIONAL_PAYMENT_KEY } from '~/consts/traditionalPayment'
 
-const t = useLocalI18n()
-const config = useConfigStore()
 const heseya = useHeseya()
 
 const props = withDefaults(
   defineProps<{
     value: string | null
     shippingMethodId?: string
+    orderCode?: string
   }>(),
   {
     value: null,
     shippingMethodId: undefined,
+    orderCode: undefined,
   },
 )
 
@@ -81,6 +64,7 @@ const { data: paymentMethods, refresh } = useLazyAsyncData('payment-methods-sele
   const { data } = await heseya.PaymentMethods.get({
     shipping_method_id: props.shippingMethodId,
     sales_channel_id: channel.selected?.id,
+    order_code: props.orderCode,
   })
   return data
 })
@@ -95,19 +79,12 @@ watch(
   () => emit('select', paymentMethods.value?.find((method) => method.id === value.value) ?? null),
 )
 
-const TRADITIONAL_TRANSFER: RadioGroupOption = {
-  key: TRADITIONAL_PAYMENT_KEY,
-  value: TRADITIONAL_PAYMENT_KEY,
-  label: t('paymentMethods.traditional'),
-}
-
 const optionGroups = computed<RadioGroupOption[]>(() => [
   ...(paymentMethods.value?.map((method) => ({
-    key: method.id,
+    key: isTraditionalTransferPayment(method) ? TRADITIONAL_PAYMENT_KEY : method.id,
     value: method.id,
     label: method.name,
   })) || []),
-  ...(config.isTraditionalTransfer ? [TRADITIONAL_TRANSFER] : []),
 ])
 </script>
 

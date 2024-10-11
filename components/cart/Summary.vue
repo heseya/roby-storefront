@@ -65,7 +65,6 @@
 
     <span class="cart-summary__text">{{ t('summary.paymentMethods') }}</span>
     <div class="cart-summary__payment-methods">
-      <b v-if="config.isTraditionalTransfer">{{ $t('payments.traditionalTransfer') }}</b>
       <template v-for="method in paymentMethods" :key="method.id">
         <img v-if="method.icon" :src="method.icon" :alt="method.name" loading="lazy" />
         <b v-else>{{ method.name }}</b>
@@ -101,7 +100,6 @@ import { ShippingType, parsePrices } from '@heseya/store-core'
 
 import { useCartStore } from '@/store/cart'
 import { useAuthStore } from '@/store/auth'
-import { useConfigStore } from '@/store/config'
 import { useChannelsStore } from '@/store/channels'
 
 const { getDisplayedPrice, getSecondPrice } = useGetDisplayedPrice()
@@ -121,7 +119,6 @@ const vatRate = useVatRate()
 const cart = useCartStore()
 const t = useLocalI18n()
 const $t = useGlobalI18n()
-const config = useConfigStore()
 const auth = useAuthStore()
 const heseya = useHeseya()
 const localePath = useLocalePath()

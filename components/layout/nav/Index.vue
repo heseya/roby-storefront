@@ -266,11 +266,11 @@ onBeforeMount(async () => {
     @include flex-row;
     align-items: center;
     flex: 1;
+    gap: 40px;
 
     @media ($max-viewport-12) {
       gap: 18px;
     }
-    gap: 40px;
   }
 
   &__logo-link {
@@ -374,34 +374,34 @@ onBeforeMount(async () => {
     border: 1px solid $gray-color-300;
     background-color: $white-color;
 
-    &-item {
-      padding: 10px 20px;
+    display: none;
+  }
 
-      text-align: left;
-      white-space: nowrap;
-      text-decoration: none;
-      color: $gray-color-900;
-      transition: color 200ms ease-in-out;
+  &__list-item {
+    padding: 10px 20px;
 
-      &:hover {
-        color: var(--secondary-color);
-        cursor: pointer;
-      }
+    text-align: left;
+    white-space: nowrap;
+    text-decoration: none;
+    color: $gray-color-900;
+    transition: color 200ms ease-in-out;
 
-      &--logout {
-        outline: none;
-        border: none;
-        background-color: $white-color;
-      }
-
-      &:last-child {
-        padding: 10px 0px;
-        margin: 0 20px;
-        border-top: 1px solid $gray-color-300;
-      }
+    &:hover {
+      color: var(--secondary-color);
+      cursor: pointer;
     }
 
-    display: none;
+    &--logout {
+      outline: none;
+      border: none;
+      background-color: $white-color;
+    }
+
+    &:last-child {
+      padding: 10px 0px;
+      margin: 0 20px;
+      border-top: 1px solid $gray-color-300;
+    }
   }
 }
 </style>
