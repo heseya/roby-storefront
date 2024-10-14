@@ -7,7 +7,7 @@
 </template>
 
 <style lang="scss" scoped>
-.layout-nav-top-bar {
+.layout-nav-top-bar:not(:empty) {
   height: 50px;
   display: flex;
   gap: 16px;

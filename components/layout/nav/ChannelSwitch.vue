@@ -1,6 +1,6 @@
 <template>
   <LayoutPopover
-    v-show="channelsList.length > 1 && mode === 'popover'"
+    v-show="!!organization && channelsList.length > 1 && mode === 'popover'"
     :value="selected"
     :options="channelsList"
     :disabled="!!organization"

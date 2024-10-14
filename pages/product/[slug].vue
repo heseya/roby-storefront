@@ -38,32 +38,54 @@
             </LazyProductTag>
           </div>
 
-          <LazyLayoutTabs
-            class="product-header__tabs"
-            type="gray"
-            hide-single-tab
-            :tabs="productPurchaseTabs"
-          >
-            <template #buy>
+          <template v-if="product">
+            <div
+              v-if="showAskForPrice || showLogInToBuy || isProductUnavailable"
+              class="product-info-wrapper"
+            >
               <LazyProductPageContactForm
-                v-if="product && product?.metadata?.[ASK_FOR_PRICE_KEY]"
+                v-if="showAskForPrice"
                 :product="product"
                 :description="t('priceFormInfo')"
                 type="price"
                 :action-text="$t('offers.pricing')"
               />
-              <LazyProductPagePurchasePanel v-else-if="product" :product="product" />
-            </template>
-            <template #renting>
-              <LazyProductPageContactForm
-                v-if="product"
-                :product="product"
-                :description="t('priceFormInfo')"
-                type="renting"
-                :action-text="$t('offers.renting')"
-              />
-            </template>
-          </LazyLayoutTabs>
+
+              <LayoutButton v-else-if="showLogInToBuy" @click="redirectToRoute('/login', $event)">
+                {{ t('loginToBuy') }}
+              </LayoutButton>
+
+              <LayoutButton v-else-if="isProductUnavailable" :disabled="true" variant="gray">
+                {{
+                  showProductUnavailableForRegion
+                    ? $t('offers.unavailableInRegion')
+                    : $t('offers.unavailable')
+                }}
+              </LayoutButton>
+            </div>
+
+            <LazyLayoutTabs
+              v-else-if="showPrice"
+              class="product-header__tabs"
+              type="gray"
+              hide-single-tab
+              :tabs="productPurchaseTabs"
+            >
+              <template #buy>
+                <LazyProductPagePurchasePanel :product="product" />
+              </template>
+
+              <template #renting>
+                <LazyProductPageContactForm
+                  v-if="product"
+                  :product="product"
+                  :description="t('priceFormInfo')"
+                  type="renting"
+                  :action-text="$t('offers.renting')"
+                />
+              </template>
+            </LazyLayoutTabs>
+          </template>
         </div>
       </div>
 
@@ -164,6 +186,7 @@
 <i18n lang="json">
 {
   "pl": {
+    "loginToBuy": "Zaloguj by kupić",
     "notFoundError": "Podany produkt nie istnieje",
     "tabs": {
       "buy": "Zakup",
@@ -175,6 +198,7 @@
     "priceFormInfo": "Wypełnienie formularza zajmie tylko chwilę, a dzięki temu otrzymasz od nas wsparcie w wyborze urządzenia i ofertę dopasowaną do Twoich potrzeb."
   },
   "en": {
+    "loginToBuy": "Login to buy",
     "notFoundError": "The specified product doesnt exist",
     "tabs": {
       "buy": "Purchase",
@@ -189,13 +213,9 @@
 </i18n>
 
 <script setup lang="ts">
-import { HeseyaEvent, type ProductSale } from '@heseya/store-core'
+import { HeseyaEvent, type Product, type ProductSale } from '@heseya/store-core'
 
-import {
-  ALLOW_RENTING_KEY,
-  ASK_FOR_PRICE_KEY,
-  PRODUCT_SET_SHOW_AS_VARIANT,
-} from '@/consts/metadataKeys'
+import { ALLOW_RENTING_KEY, PRODUCT_SET_SHOW_AS_VARIANT } from '@/consts/metadataKeys'
 import type { Tab } from '@/components/layout/Tabs.vue'
 
 import { useConfigStore } from '@/store/config'
@@ -207,6 +227,7 @@ const config = useConfigStore()
 const t = useLocalI18n()
 const $t = useGlobalI18n()
 const i18n = useI18n()
+const { redirectToRoute } = useRedirect()
 
 const { data: product } = useAsyncData(`product-${route.params.slug}`, async () => {
   try {
@@ -218,6 +239,16 @@ const { data: product } = useAsyncData(`product-${route.params.slug}`, async () 
     return null
   }
 })
+
+const productPrice = computed(() => product.value?.price.gross ?? '0')
+
+const {
+  showAskForPrice,
+  showLogInToBuy,
+  showPrice,
+  isProductUnavailable,
+  showProductUnavailableForRegion,
+} = usePriceVisibility(product as Ref<Product>, productPrice)
 
 const { data: globalPages } = useAsyncData('globalPages', async () => {
   const { data } = await heseya.Pages.get({ metadata: { show_near_products: true } })
@@ -350,6 +381,12 @@ useProductJsonLd(product)
     position: sticky;
     top: 190px;
   }
+
+  &__product-unavailable {
+    color: $gray-color-400;
+    font-size: 0.8em;
+    font-weight: 500;
+  }
 }
 
 .product-header {
@@ -398,5 +435,10 @@ useProductJsonLd(product)
   &__tabs {
     margin-top: 14px;
   }
+}
+
+.product-info-wrapper {
+  background-color: $gray-color-100;
+  padding: 16px 20px;
 }
 </style>

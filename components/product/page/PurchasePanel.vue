@@ -1,9 +1,9 @@
 <template>
   <div
     class="product-purchase-panel"
-    :class="{ 'product-purchase-panel--no-schemas': !product.has_schemas }"
+    :class="{ 'product-purchase-panel--no-schemas': !showSchemas }"
   >
-    <div v-if="priceVisibility && !isUnavailableIfPriceZero" class="product-purchase-panel__price">
+    <div class="product-purchase-panel__price">
       <LazyLayoutLoading :active="pending" />
       <span
         class="product-price"
@@ -32,7 +32,7 @@
     />
 
     <LazyProductPageSchemas
-      v-if="hasSchemas"
+      v-if="showSchemas"
       v-model:value="schemaValue"
       class="product-purchase-panel__schemas"
       :product-schemas="product.schemas"
@@ -42,19 +42,11 @@
     <ProductQuantityInput v-model:quantity="quantity" class="product-purchase-panel__quantity" />
 
     <LayoutButton
-      v-if="!loginToBuy"
-      :disabled="!product.available || isProductPurchaseLimitReached || isUnavailableIfPriceZero"
+      :disabled="isProductUnavailable || isProductPurchaseLimitReached"
       class="product-purchase-panel__cart-btn"
       @click="handleAddToCart"
     >
       {{ purchaseButtonText }}
-    </LayoutButton>
-    <LayoutButton
-      v-if="loginToBuy"
-      class="product-purchase-panel__cart-btn"
-      @click="redirectToRoute('/login', $event)"
-    >
-      {{ t('loginToBuy') }}
     </LayoutButton>
 
     <a
@@ -66,9 +58,7 @@
         {{ t('offers.lease') }}
       </LayoutButton>
     </a>
-    <div v-if="isUnavailableIfPriceZero" :disabled="true" class="product-purchase-panel__unregion">
-      {{ t('availability.unavailableInRegion') }}
-    </div>
+
     <div class="product-purchase-panel__detail"><DeliveryIcon /> {{ availability }}</div>
   </div>
   <LazyProductPageUpsellModal
@@ -117,8 +107,6 @@ import { parseSchemasToCartItemSchemas } from '@heseya/store-core'
 import type { CartItemSchema, Product } from '@heseya/store-core'
 
 import DeliveryIcon from '@/assets/icons/delivery.svg?component'
-import { useConfigStore } from '~/store/config'
-import { useSiteMode } from '~/composables/useSiteMode'
 
 const props = withDefaults(
   defineProps<{
@@ -126,13 +114,10 @@ const props = withDefaults(
   }>(),
   {},
 )
-const config = useConfigStore()
 const t = useLocalI18n()
 const $t = useGlobalI18n()
 const currency = useCurrency()
 const upsellVisible = ref(false)
-const { isModeB2B } = useSiteMode()
-
 const { enabled: leaselinkEnabled, getUrl: getLeasingUrl } = useLeaselink()
 
 const { quantity, isProductPurchaseLimitReached, addToCart } = useAddToCart(props.product)
@@ -144,8 +129,12 @@ const { priceGross, priceNet, originalPriceGross, originalPriceNet, pending } = 
   schemaValue,
 )
 
-const { priceVisibility, loginToBuy } = usePriceVisibility(props.product)
-const { redirectToRoute } = useRedirect()
+const productRef = computed(() => props.product)
+
+const { showSchemas, showOmnibus, isProductUnavailable } = usePriceVisibility(
+  productRef as Ref<Product>,
+  priceGross as ComputedRef<number>,
+)
 
 const displayedPriceDetails = ref({
   mainPrice: 0,
@@ -188,10 +177,8 @@ watch([priceGross, priceNet, originalPriceGross, originalPriceNet], () => {
   updateDisplayedPrices(false)
 })
 
-const hasSchemas = computed(() => priceVisibility.value && props.product.has_schemas)
-
 const hasSchemasMarkup = computed(() =>
-  hasSchemas.value && displayedPriceDetails.value.initialPrice ? t('offers.from') : '',
+  showSchemas.value && displayedPriceDetails.value.initialPrice ? t('offers.from') : '',
 )
 
 const purchaseButtonText = computed((): string => {
@@ -200,10 +187,6 @@ const purchaseButtonText = computed((): string => {
   if (props.product.available) return $t('offers.addToCart')
 
   return t('availability.unavailable')
-})
-
-const isUnavailableIfPriceZero = computed(() => {
-  return priceGross.value === 0 && config.unavailableIfPriceZero
 })
 
 const availability = computed(() => {
@@ -226,10 +209,6 @@ const availability = computed(() => {
   }
   return props.product.available ? t('availability.available') : t('availability.unavailable')
 })
-
-const showOmnibus = computed(
-  () => priceVisibility.value && useShowOmnibus(props.product) && !isModeB2B.value,
-)
 
 const isLeaseable = computed(() => {
   return !!props.product.metadata.allow_lease
@@ -295,13 +274,6 @@ const handleAddToCart = () => {
 
   &__lease-btn {
     grid-area: lease-btn;
-  }
-
-  &__unregion {
-    grid-area: unregion;
-    color: $gray-color-600;
-    font-size: 0.8em;
-    font-weight: 500;
   }
 
   &__detail {

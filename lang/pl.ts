@@ -63,6 +63,7 @@ export default {
     renting: 'Zapytaj o wynajem',
     pricing: 'Zapytaj o cenę',
     unavailable: 'Produkt niedostępny',
+    unavailableInRegion: 'Niedostępny w regionie',
     configure: 'Skonfiguruj',
     addToCart: 'Dodaj do koszyka',
     lease: 'Zapytaj o leasing',
