@@ -171,7 +171,9 @@ const isOpenSearch = ref(false)
 const { locales } = useI18n()
 
 const isTopBarVisible = computed(
-  () => locales.value.length > 1 || !!config.customRedirect || channels.channels.length > 1,
+  () =>
+    !(isModeB2B.value && auth.isLogged) &&
+    (locales.value.length > 1 || !!config.customRedirect || channels.channels.length > 1),
 )
 
 const isVisibleShoppingButton = computed(() => (auth.isLogged ? true : !isModeB2B.value))

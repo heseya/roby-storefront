@@ -1,6 +1,11 @@
 <template>
   <LayoutPopover
-    v-show="!!organization && channelsList.length > 1 && mode === 'popover'"
+    v-show="
+      !(isModeB2B && auth.isLogged) &&
+      !!organization &&
+      channelsList.length > 1 &&
+      mode === 'popover'
+    "
     :value="selected"
     :options="channelsList"
     :disabled="!!organization"
@@ -13,7 +18,7 @@
   </LayoutPopover>
 
   <FormSelect
-    v-show="channelsList.length > 1 && mode === 'select'"
+    v-show="!!organization && channelsList.length > 1 && mode === 'select'"
     :model-value="selected.key"
     class="channel-switch__menu"
     name="sales_channel"
@@ -29,6 +34,7 @@
 <script lang="ts" setup>
 import type { Language } from '@heseya/store-core'
 import { useChannelsStore } from '@/store/channels'
+import { useAuthStore } from '~/store/auth'
 
 withDefaults(
   defineProps<{
@@ -42,6 +48,8 @@ withDefaults(
 const { setLocale, locales } = useI18n()
 const channels = useChannelsStore()
 const organization = useOrganization()
+const { isModeB2B } = useSiteMode()
+const auth = useAuthStore()
 
 const channelsList = computed(() => channels.channels.map((c) => ({ key: c.id, name: c.name })))
 
