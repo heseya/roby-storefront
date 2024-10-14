@@ -11,8 +11,8 @@
       </div>
       <div class="view-summary__container">
         <div>{{ $t('orders.delivery') }}</div>
-        <div v-if="getSecondPrice(order.shipping_price).value">
-          {{ formatAmount(getSecondPrice(order.shipping_price).value ?? 0, order.currency) }}
+        <div>
+          {{ formatAmount(getDisplayedPrice(order.shipping_price).value ?? 0, order.currency) }}
         </div>
       </div>
     </div>
