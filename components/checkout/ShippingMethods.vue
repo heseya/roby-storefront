@@ -11,7 +11,10 @@
           <div class="shipping-method">
             <span class="shipping-method__name">{{ method.name }}</span>
             <span class="shipping-method__price">{{
-              formatAmount(parsePrices(method.prices, currency), currency)
+              formatAmount(
+                parsePrices(method.prices, currency, isModeB2B ? 'net' : 'gross'),
+                currency,
+              )
             }}</span>
           </div>
           <div class="shipping-method-description">
