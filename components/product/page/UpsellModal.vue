@@ -39,9 +39,7 @@
           <LayoutIcon :icon="GoBackIcon" :size="14" />
           {{ t('buttons.back') }}
         </button>
-        <NuxtLink :to="localePath('/cart')">
-          <LayoutButton variant="primary">{{ t('buttons.cart') }}</LayoutButton>
-        </NuxtLink>
+        <LayoutButton variant="primary" @click="goToCart">{{ t('buttons.cart') }}</LayoutButton>
       </div>
     </div>
   </LayoutModal>
@@ -116,6 +114,11 @@ const isModalVisible = computed({
 const relatedSets = computed(() =>
   props.product.related_sets.filter((set) => !set.metadata[PRODUCT_SET_SHOW_AS_VARIANT]),
 )
+
+const goToCart = () => {
+  isModalVisible.value = false
+  navigateTo(localePath('/cart'))
+}
 </script>
 
 <style lang="scss" scoped>
