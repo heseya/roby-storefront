@@ -198,7 +198,7 @@ const handleAddToCart = () => {
     aspect-ratio: 1/1;
     padding: 4px;
     transition: 0.3s;
-    view-transition-name: product_image;
+    view-transition-name: product_miniature_image;
     contain: layout;
   }
 

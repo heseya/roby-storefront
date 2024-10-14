@@ -129,7 +129,9 @@ watch(
     overflow: initial;
 
     &--main {
-      view-transition-name: product_image;
+      // TODO: it's not working well; write it better
+      // @see https://github.com/heseya/roby-storefront/commit/eecd08d2c70042bd2a08f98c0402e207ffada3a0#diff-c7eaebd8edf5aaf87733bfb6d48e1797d1cddf8182fe5eaa24a8645fbc9b6e33R18
+      //view-transition-name: product_cover_image;
     }
   }
 
