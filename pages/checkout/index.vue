@@ -202,15 +202,14 @@ const createOrder = async () => {
     // save user addresses if they don't exist
     await saveUserAddresses()
 
-    if (paymentMethod && !paymentMethod.creates_default_payment) {
+    if (paymentMethod && paymentMethod.creates_default_payment) {
       checkout.reset()
-
       return navigateTo(
         localePath(
-          `/checkout/thank-you?code=${order.code}&payment=${isTraditionalTransferPayment(paymentMethod) ? TRADITIONAL_PAYMENT_KEY : ''}`,
+          `/checkout/thank-you?code=${order.code}${isTraditionalTransferPayment(paymentMethod) ? '&payment=' + TRADITIONAL_PAYMENT_KEY : ''}`,
         ),
       )
-    } else if (paymentId && paymentMethod && paymentMethod.creates_default_payment) {
+    } else if (paymentId && paymentMethod && !paymentMethod.creates_default_payment) {
       const paymentUrl = await checkout.createOrderPayment(order.code, paymentId)
       checkout.reset()
       window.location.href = paymentUrl
@@ -222,9 +221,6 @@ const createOrder = async () => {
       type: 'error',
     })
     isLoading.value = false
-  } finally {
-    checkout.reset()
-    navigateTo(localePath(`/checkout/thank-you?code=${order.code}`))
   }
 }
 
