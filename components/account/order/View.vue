@@ -84,7 +84,11 @@ const props = defineProps<{
 }>()
 
 const paymentStatus = computed(() => {
-  const { paid, payment_method_type: paymentMethodType } = props.order
+  const {
+    paid,
+    payment_method_type: paymentMethodType,
+    payment_method: paymentMethod,
+  } = props.order
 
   if (paid)
     return {
@@ -96,15 +100,16 @@ const paymentStatus = computed(() => {
       },
     }
 
-  if (paymentMethodType === PaymentMethodType.Postpaid)
+  if (paymentMethodType === PaymentMethodType.Postpaid) {
     return {
       icon: Pending,
       class: 'account-order-view__payment-status--pending',
       status: {
-        text: t('payments.paymentOnDelivery'),
+        text: paymentMethod.name,
         value: PaymentStatus.Pending,
       },
     }
+  }
 
   return {
     icon: Failed,
