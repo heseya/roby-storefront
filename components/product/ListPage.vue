@@ -197,6 +197,7 @@ const {
       attribute: Object.keys(attribute).length ? attribute : undefined,
       shipping_digital: false,
       attribute_slug: config.productSubtextAttr,
+      full: true,
     })
 
     return { pagination: response.pagination, data: response.data }

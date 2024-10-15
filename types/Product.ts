@@ -1,4 +1,4 @@
-import type { ProductListed } from '@heseya/store-core'
+import type { CdnMedia, ProductListed } from '@heseya/store-core'
 import type { ProductsService } from '@heseya/store-core/dist/src/services/api/modules/products'
 
 import type { OmnibusPrice } from './OmnibusPrice'
@@ -10,4 +10,5 @@ export type ProductGetParams = Omit<ArgumentType<ProductsService['get']>, 'full'
 export type ExtendedProductListed = ProductListed & {
   omnibus?: OmnibusPrice
   isInWishlist?: boolean
+  gallery?: CdnMedia[]
 }
