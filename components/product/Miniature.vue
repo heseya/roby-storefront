@@ -16,7 +16,7 @@
 
       <transition name="fade">
         <Media
-          :media="isHovered ? (product.gallery?.[2] ?? product.cover) : product.cover"
+          :media="isHovered ? (product.gallery?.[1] ?? product.cover) : product.cover"
           width="200"
           height="200"
           class="product-miniature__cover"
