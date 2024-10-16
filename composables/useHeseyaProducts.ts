@@ -32,10 +32,21 @@ export const useHeseyaProducts = () => {
    * TODO: inject personal price
    */
   const getProducts = async (
-    params?: ProductGetParams,
+    params?: ProductGetParams & { full?: boolean },
   ): Promise<ListResponse<ExtendedProductListed>> => {
-    const products = await heseya.Products.get(params)
+    let products
 
+    if (params?.full === true) {
+      products = await heseya.Products.get({
+        ...params,
+        full: true,
+      })
+    } else {
+      products = await heseya.Products.get({
+        ...params,
+        full: false,
+      })
+    }
     const [omnibusData, wishlistData] = await Promise.all([
       getOmnibus(products.data),
       getWishlist(products.data),

@@ -31,6 +31,7 @@ const { data: products } = useAsyncData(
       ...props.query,
       shipping_digital: false,
       attribute_slug: config.productSubtextAttr,
+      full: true,
     })
     return data
   },

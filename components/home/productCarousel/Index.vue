@@ -93,6 +93,7 @@ const fetchProducts = async () => {
     shipping_digital: false,
     attribute_slug: config.productSubtextAttr,
     available: props.hideUnavailable ? true : undefined,
+    full: true,
   })
 
   products.value = data
