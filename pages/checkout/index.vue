@@ -120,6 +120,7 @@ const registerForm = useForm({
     password: '',
     confirmPassword: '',
     consents: {},
+    birthday_date: '',
   },
 })
 

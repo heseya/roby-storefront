@@ -106,6 +106,7 @@ export default defineNuxtConfig({
         deep: false,
       },
     },
+    viewTransition: true,
   },
 
   css: ['@/assets/scss/index.scss', '@/assets/scss/components/_input.scss'],

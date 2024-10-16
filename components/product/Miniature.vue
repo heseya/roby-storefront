@@ -14,16 +14,19 @@
         </ProductTag>
       </div>
 
-      <Media
-        :media="product.cover"
-        width="200"
-        height="200"
-        class="product-miniature__cover"
-        :style="{
-          aspectRatio: config.env.product_miniature_cover_aspect_ratio || '1/1',
-          padding: config.env.product_miniature_cover_padding || '4px',
-        }"
-      />
+      <transition name="fade">
+        <Media
+          :media="isHovered ? product.gallery?.[1] ?? product.cover : product.cover"
+          width="200"
+          height="200"
+          class="product-miniature__cover"
+          :style="{
+            aspectRatio: config.env.product_miniature_cover_aspect_ratio || '1/1',
+            padding: config.env.product_miniature_cover_padding || '4px',
+          }"
+          @mouseenter="handleMouseEnter"
+          @mouseleave="handleMouseLeave"
+      /></transition>
     </div>
 
     <div class="product-miniature__content">
@@ -97,6 +100,16 @@ const showOmnibus = useShowOmnibus(props.product)
 
 const { addToCart } = useAddToCart(props.product)
 
+const isHovered = ref(false)
+
+const handleMouseEnter = () => {
+  isHovered.value = true
+}
+
+const handleMouseLeave = () => {
+  isHovered.value = false
+}
+
 const handleAddToCart = () => {
   addToCart([])
   notify({
@@ -163,6 +176,8 @@ const handleAddToCart = () => {
     aspect-ratio: 1/1;
     padding: 4px;
     transition: 0.3s;
+    view-transition-name: product_image;
+    contain: layout;
   }
 
   &:hover &__cover {
@@ -245,5 +260,17 @@ const handleAddToCart = () => {
   &--horizontal &__wishlist-btn {
     opacity: 1;
   }
+}
+.product-miniature__cover {
+  transition: opacity 0.5s ease-in-out; /* Ensures smooth transition */
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease-in-out; /* Customize duration and effect */
+}
+
+.fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */ {
+  opacity: 0; /* The state before and after the transition */
 }
 </style>
