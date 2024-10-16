@@ -39,6 +39,10 @@ export const useConfigStore = defineStore('config', {
       return String(this.env.product_subtext_attribute_slug)
     },
 
+    dynamicImageChange(): boolean {
+       return this.env.dynamic_image_change === '1'
+    },
+
     customRedirect(): { url: string; text: string; icon: string | null } | null {
       const url = this.env.custom_nav_redirect_url
       const text = this.env.custom_nav_redirect_text

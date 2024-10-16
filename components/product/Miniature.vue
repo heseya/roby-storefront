@@ -16,7 +16,7 @@
 
       <transition name="fade">
         <Media
-          :media="isHovered ? product.gallery?.[1] ?? product.cover : product.cover"
+          :media="dynamicGallery"
           width="200"
           height="200"
           class="product-miniature__cover"
@@ -101,6 +101,17 @@ const showOmnibus = useShowOmnibus(props.product)
 const { addToCart } = useAddToCart(props.product)
 
 const isHovered = ref(false)
+
+const dynamicGallery = computed(() => {
+  if(config.dynamicImageChange){
+    if (isHovered.value) {
+    return props.product.gallery?.[1] ?? props.product.cover
+  }
+  }
+
+
+  return props.product.cover
+})
 
 const handleMouseEnter = () => {
   isHovered.value = true

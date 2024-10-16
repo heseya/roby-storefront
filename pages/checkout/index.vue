@@ -32,6 +32,7 @@
             :surname="registerForm.values.surname"
             :password="registerForm.values.password"
             :confirm-password="registerForm.values.confirmPassword"
+            :birthday-date="registerForm.values.birthdayDate"
             @update="updateRegisterForm"
           >
             <LayoutInfoBox v-if="registerErrorMessage" type="danger">
@@ -120,7 +121,7 @@ const registerForm = useForm({
     password: '',
     confirmPassword: '',
     consents: {},
-    birthday_date: '',
+    birthdayDate: '',
   },
 })
 

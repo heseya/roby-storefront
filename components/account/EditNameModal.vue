@@ -21,8 +21,8 @@
     />
     <FormInput v-model="form.values.phone" :label="$t('form.phone')" name="phone" />
     <FormInput
-      v-model="form.values.birthday_date"
-      :disabled="!!form.values.birthday_date"
+      v-model="form.values.birthdayDate"
+      :disabled="!!form.values.birthdayDate"
       :label="$t('form.birthdayDate')"
       name="birthdayDate"
       rules="beforeNow"
@@ -60,7 +60,7 @@ const userStore = useUserStore()
 const error = ref<Error | null>(null)
 
 const form = useForm({
-  initialValues: { name: '', phone: '', birthday_date: '' },
+  initialValues: { name: '', phone: '', birthdayDate: '' },
 })
 
 const emit = defineEmits<{
@@ -78,7 +78,7 @@ const onSubmit = form.handleSubmit(async () => {
     const user = await heseya.UserProfile.update({
       name: form.values.name,
       phone: form.values.phone || null,
-      birthday_date: form.values.birthday_date || undefined,
+      birthday_date: form.values.birthdayDate || undefined,
     })
     userStore.setUser(user)
     isModalVisible.value = false
@@ -96,7 +96,7 @@ watch(
   () => {
     form.values.name = userStore.user?.name || ''
     form.values.phone = userStore.user?.phone || ''
-    form.values.birthday_date = userStore.user?.birthday_date || ''
+    form.values.birthdayDate = userStore.user?.birthday_date || ''
   },
 )
 </script>
