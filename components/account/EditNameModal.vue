@@ -22,6 +22,7 @@
     <FormInput v-model="form.values.phone" :label="$t('form.phone')" name="phone" />
     <FormInput
       v-model="form.values.birthday_date"
+      :disabled="!!form.values.birthday_date"
       :label="$t('form.birthdayDate')"
       name="birthdayDate"
       rules="beforeNow"

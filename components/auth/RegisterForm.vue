@@ -27,6 +27,13 @@
         autocomplete="username"
         :disabled="isFormDisabled"
       />
+      <FormInput
+        v-model="form.values.birthday_date"
+        :label="$t('form.birthdayDate')"
+        name="birthdayDate"
+        rules="beforeNow"
+        html-type="date"
+      />
     </div>
     <div class="register-form__container">
       <FormInputPassword
@@ -120,6 +127,7 @@ export interface CreateUserForm {
   name: string
   surname: string
   consents: UserConsentDto
+  birthday_date?: string
 }
 
 const form = useForm<CreateUserForm>({
@@ -140,6 +148,7 @@ const registerFormDto = computed<UserRegisterDto>(() => ({
   email: form.values.email,
   password: form.values.password,
   consents: form.values.consents,
+  birthday_date: form.values.birthday_date,
 }))
 
 const onSubmit = form.handleSubmit(async () => {
