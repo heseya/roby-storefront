@@ -127,7 +127,7 @@ export interface CreateUserForm {
   name: string
   surname: string
   consents: UserConsentDto
-  birthday_date: string
+  birthday_date?: string
 }
 
 const form = useForm<CreateUserForm>({
