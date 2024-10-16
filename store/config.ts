@@ -40,7 +40,7 @@ export const useConfigStore = defineStore('config', {
     },
 
     dynamicImageChange(): boolean {
-       return this.env.dynamic_image_change === '1'
+      return this.env.dynamic_image_change === '1'
     },
 
     customRedirect(): { url: string; text: string; icon: string | null } | null {

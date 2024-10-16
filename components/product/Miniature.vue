@@ -103,12 +103,11 @@ const { addToCart } = useAddToCart(props.product)
 const isHovered = ref(false)
 
 const dynamicGallery = computed(() => {
-  if(config.dynamicImageChange){
+  if (config.dynamicImageChange) {
     if (isHovered.value) {
-    return props.product.gallery?.[1] ?? props.product.cover
+      return props.product.gallery?.[1] ?? props.product.cover
+    }
   }
-  }
-
 
   return props.product.cover
 })

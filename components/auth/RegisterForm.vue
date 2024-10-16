@@ -160,7 +160,8 @@ const onSubmit = form.handleSubmit(async () => {
   try {
     const recaptchaToken = await getRecaptchaToken(recaptchaPublic, 'register')
 
-    if(registerFormDto.value.birthday_date === '') delete registerFormDto.value.birthday_date
+    if (registerFormDto.value.birthday_date === '') delete registerFormDto.value.birthday_date
+
     const user = await heseya.Auth.register({
       ...registerFormDto.value,
       captcha_token: recaptchaToken,
