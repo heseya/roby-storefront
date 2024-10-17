@@ -28,7 +28,7 @@
         :disabled="isFormDisabled"
       />
       <FormInput
-        v-model="form.values.birthday_date"
+        v-model="form.values.birthdayDate"
         :label="$t('form.birthdayDate')"
         name="birthdayDate"
         rules="beforeNow"
@@ -127,7 +127,7 @@ export interface CreateUserForm {
   name: string
   surname: string
   consents: UserConsentDto
-  birthday_date?: string
+  birthdayDate?: string
 }
 
 const form = useForm<CreateUserForm>({
@@ -138,6 +138,7 @@ const form = useForm<CreateUserForm>({
     name: '',
     surname: '',
     consents: {},
+    birthdayDate: '',
   },
 })
 
@@ -148,7 +149,7 @@ const registerFormDto = computed<UserRegisterDto>(() => ({
   email: form.values.email,
   password: form.values.password,
   consents: form.values.consents,
-  birthday_date: form.values.birthday_date,
+  birthday_date: form.values.birthdayDate,
 }))
 
 const onSubmit = form.handleSubmit(async () => {
@@ -158,6 +159,9 @@ const onSubmit = form.handleSubmit(async () => {
 
   try {
     const recaptchaToken = await getRecaptchaToken(recaptchaPublic, 'register')
+
+    if (registerFormDto.value.birthday_date === '') delete registerFormDto.value.birthday_date
+
     const user = await heseya.Auth.register({
       ...registerFormDto.value,
       captcha_token: recaptchaToken,

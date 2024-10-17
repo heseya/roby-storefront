@@ -32,7 +32,13 @@
         rules="confirmedPassword:@password|required"
         @update:model-value="emit('update', { key: 'confirmPassword', value: $event as string })"
       />
-
+      <FormInput
+        :model-value="birthdayDate"
+        :label="$t('form.birthdayDate')"
+        name="birthdayDate"
+        rules="beforeNow"
+        html-type="date"
+      />
       <AccountConsentsList v-model:value="consents" />
     </div>
 
@@ -51,6 +57,7 @@ const props = defineProps<{
   password: string
   confirmPassword: string
   consents: UserConsentDto
+  birthdayDate: string
 }>()
 
 const emit = defineEmits<{
