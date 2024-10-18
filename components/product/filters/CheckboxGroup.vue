@@ -28,6 +28,13 @@
 
 <script setup lang="ts">
 import type { Attribute, AttributeOption, HeseyaPaginationMeta } from '@heseya/store-core'
+import {
+  fixAttributeOptionName,
+  groupOptionsByValue,
+  makeOptionsUniq,
+  mergeArraysWithoutDuplicates,
+  removeStringsFromArray,
+} from '~/components/product/filters/utils'
 
 const props = withDefaults(
   defineProps<{
@@ -54,7 +61,23 @@ const isScrollable = computed(() => containerScrollHeight.value > containerHeigh
 
 const isLoading = ref(false)
 const pagination = ref<HeseyaPaginationMeta>({ currentPage: 0, lastPage: 0, perPage: 0, total: 0 })
-const options = ref<AttributeOption[]>([])
+const options = ref<AttributeOption[]>([]) // options with unique values - these are used in the view
+const allOptions = ref<AttributeOption[]>([])
+const allIdsByValue = ref<Record<string, string[]>>({}) // ids of all options grouped by value {[value]: [id1, id2, id3]}
+
+/**
+ * Why do we need to group the filter options?
+ *
+ * When creating an attribute value, the panel (FE and BE) does not trim the value and is not case-sensitive.
+ * This resulted in duplicates with apparently different values ('2G', '2G ', '2g' - these are different values for the system, but in practice they are the same).
+ * Migrating this data is difficult.
+ *
+ * In practice, we only display unique values in the filter. But by checking a single option we send all options that have the same value.
+ */
+watch([allOptions], () => {
+  options.value = [...makeOptionsUniq(allOptions.value)]
+  allIdsByValue.value = groupOptionsByValue(allOptions.value)
+})
 
 const loadOptions = async (page = 1) => {
   if (isLoading.value) return
@@ -65,7 +88,8 @@ const loadOptions = async (page = 1) => {
       product_set_slug: props.productSetSlug,
       sort: 'desc',
     })
-    options.value = [...options.value, ...data]
+    // sometimes someone add option with additional spaces
+    allOptions.value = [...allOptions.value, ...data.map(fixAttributeOptionName)]
     pagination.value = meta
   } catch (e) {
     const formatError = useErrorMessage()
@@ -92,13 +116,21 @@ onMounted(() => {
 })
 
 const innerValue = computed(() => (Array.isArray(props.value) ? props.value : [props.value]))
+
 const isChecked = (optionId: string) => innerValue.value.includes(optionId)
 
 const toggleCheckbox = (optionId: string) => {
-  const newValue = isChecked(optionId)
-    ? innerValue.value.filter((v) => v !== optionId)
-    : [...innerValue.value, optionId]
+  const newValue: string[] = isChecked(optionId)
+    ? // remove (uncheck) all id's with the same value
+      removeStringsFromArray(innerValue.value, findGroupById(optionId))
+    : // add (check) all id's with the same value
+      mergeArraysWithoutDuplicates(innerValue.value, findGroupById(optionId))
+
   emit('update:value', newValue.filter(Boolean))
+}
+
+const findGroupById = (optionId: string): string[] => {
+  return Object.values(allIdsByValue.value).find((ids) => ids.includes(optionId)) || []
 }
 </script>
 
