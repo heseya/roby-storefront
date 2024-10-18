@@ -34,10 +34,15 @@ const getValueFromOption = (option: AttributeOption): string => {
   return option.name.toLowerCase()
 }
 
-export const fixAttributeOptionName = (option: AttributeOption) => ({
-  ...option,
-  name: option.name.trim(),
-})
+export const fixAttributeOptionName = (option: AttributeOption) => {
+  // for some reason it's sometimes number
+  if (typeof option.name !== 'string') return option
+
+  return {
+    ...option,
+    name: option.name.trim(),
+  }
+}
 
 export const removeStringsFromArray = (source: string[], toRemove: string[]): string[] =>
   source.filter((item) => !toRemove.includes(item))

@@ -272,9 +272,11 @@ const showAttributeCard = computed(() => {
   return product.value?.attributes.length && config.env.show_attribute_card === '1'
 })
 
-const visibleSales = computed(() =>
-  (product.value?.sales || []).filter((sale) => sale.metadata.show_on_product_page),
-)
+const visibleSales = computed(() => {
+  // TODO: FIX THIS; is disabled for B2C, but the backend still does not return this value
+  // @ts-ignore
+  return (product.value?.sales || []).filter((sale) => sale.metadata.show_on_product_page)
+})
 
 const relatedSets = computed(
   () =>
