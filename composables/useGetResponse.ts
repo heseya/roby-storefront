@@ -1,7 +1,11 @@
 export const useGetResponse = () => {
   const config = usePublicRuntimeConfig()
 
-  const enabled = computed(() => config.getresponseApiEnabled)
+  const enabled = computed(() => {
+    // eslint-disable-next-line no-console
+    console.log('!!! config.getresponseApiEnabled !!!', config.getresponseApiEnabled)
+    return config.getresponseApiEnabled
+  })
   const webConnectEnabled = computed(() => !!config.getresponseWebConnect)
 
   const subscribe = async (data: { email: string }) => {
