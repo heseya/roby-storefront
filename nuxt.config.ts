@@ -35,6 +35,10 @@ const {
   NUXT_PUBLIC_AXIOS_CACHE_TTL,
   NUXT_PUBLIC_HOMEPAGE_TITLE,
 
+  NUXT_GETRESPONSE_API_KEY,
+  NUXT_GETRESPONSE_CAMPAIGN_ID,
+  NUXT_PUBLIC_GETRESPONSE_WEB_CONNECT_KEY,
+
   // Custom pages paths
   NUXT_PUBLIC_PAGE_BLOG_PATH = '/blog',
   NUXT_PUBLIC_PAGE_CONTACT_PATH = '/kontakt',
@@ -122,6 +126,8 @@ export default defineNuxtConfig({
     },
     minRecaptchaScore: NUXT_MIN_RECAPTCHA_SCORE,
     recaptchaSecret: NUXT_RECAPTCHA_SECRET,
+    getresponseApiKey: NUXT_GETRESPONSE_API_KEY,
+    getresponseCampaignId: NUXT_GETRESPONSE_CAMPAIGN_ID,
 
     public: {
       production: NUXT_PUBLIC_PRODUCTION,
@@ -138,6 +144,8 @@ export default defineNuxtConfig({
       leaslinkId: NUXT_PUBLIC_LEASLINK_ID,
       callpageId: NUXT_PUBLIC_CALLPAGE_ID,
       edroneId: NUXT_PUBLIC_EDRONE_ID,
+      getresponseWebConnectKey: NUXT_PUBLIC_GETRESPONSE_WEB_CONNECT_KEY,
+      getresponseApiEnabled: !!NUXT_GETRESPONSE_API_KEY && !!NUXT_GETRESPONSE_CAMPAIGN_ID,
       showColorThemePicker: NUXT_PUBLIC_COLOR_THEME_PICKER,
       fontFamily: NUXT_PUBLIC_FONT_FAMILY,
       axiosCacheTtl: NUXT_PUBLIC_AXIOS_CACHE_TTL,

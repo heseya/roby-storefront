@@ -170,7 +170,7 @@ const createOrder = async () => {
   try {
     order = await checkout.createOrder()
 
-    if (checkout.consents.newsletter) newsletterSubscribe(checkout.email)
+    if (checkout.consents.newsletter) await newsletterSubscribe(checkout.email)
   } catch (e: any) {
     const error = formatError(e)
     notify({
