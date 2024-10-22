@@ -5,11 +5,16 @@ export const useGetResponse = () => {
   const webConnectEnabled = computed(() => !!config.getresponseWebConnect)
 
   const subscribe = async (data: { email: string }) => {
+    // eslint-disable-next-line no-console
+    console.log('config.getresponseApiEnabled', config.getresponseApiEnabled)
     if (!config.getresponseApiEnabled) {
       // eslint-disable-next-line no-console
       console.error('[useGetResponse] GetResponse key not set in environment variables')
       return Promise.resolve({ success: false })
     }
+
+    // eslint-disable-next-line no-console
+    console.log('subscribe fetch')
 
     // sending a request to the server (nuxt)
     return await fetch('/api/newsletter', {
