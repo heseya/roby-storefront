@@ -6,7 +6,7 @@ export default defineEventHandler(async (event) => {
 
   if (!(!!config.getresponseApiKey && !!config.getresponseCampaignId)) {
     // eslint-disable-next-line no-console
-    console.error('[useGetResponse] GetResponse key not set in environment variables')
+    console.error('[SERVER [POST] /newsletter] GetResponse key not set in environment variables')
 
     throw createError({
       statusCode: 500,

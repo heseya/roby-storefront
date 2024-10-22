@@ -1,0 +1,27 @@
+export const useGetResponse = () => {
+  const config = usePublicRuntimeConfig()
+
+  const enabled = computed(() => config.getresponseApiEnabled)
+  const webConnectEnabled = computed(() => !!config.getresponseWebConnect)
+
+  const subscribe = async (data: { email: string }) => {
+    if (!config.getresponseApiEnabled) {
+      // eslint-disable-next-line no-console
+      console.error('[useGetResponse] GetResponse key not set in environment variables')
+      return Promise.resolve({ success: false })
+    }
+
+    // sending a request to the server (nuxt)
+    return await fetch('/api/newsletter', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email: data.email }),
+    })
+      .then(() => ({ success: true }))
+      .catch(() => ({ success: false }))
+  }
+
+  return { subscribe, enabled, webConnectEnabled }
+}

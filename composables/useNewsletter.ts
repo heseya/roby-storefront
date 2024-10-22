@@ -1,20 +1,35 @@
+import { useGetResponse } from '~/composables/useGetResponse'
+
 /**
- * Wrapper for Edrone newsletter subscription providers that may be used in the future.
+ * Wrapper for newsletter subscription providers that may be used in the future.
  */
 export const useNewsletter = () => {
   const { subscribe: edroneSubscribe, enabled: edroneEnabled } = useEdrone()
+  const { subscribe: grSubscribe, enabled: grEnabled } = useGetResponse()
 
-  const enabled = computed(() => edroneEnabled.value)
+  const enabled = computed(() => edroneEnabled.value || grEnabled.value)
 
-  const subscribe = (email: string) => {
-    if (!enabled.value) return
+  const subscribe = async (email: string) => {
+    subscribeEdrone(email)
+    await subscribeGetResponse(email)
+  }
 
-    if (edroneEnabled.value)
-      edroneSubscribe({
-        email,
-        customer_tags: 'Newsletter',
-        first_name: '',
-      })
+  const subscribeEdrone = (email: string) => {
+    if (!edroneEnabled.value) return
+
+    edroneSubscribe({
+      email,
+      customer_tags: 'Newsletter',
+      first_name: '',
+    })
+  }
+
+  const subscribeGetResponse = async (email: string) => {
+    if (!grEnabled.value) return
+
+    await grSubscribe({
+      email,
+    })
   }
 
   return { subscribe, enabled }

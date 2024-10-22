@@ -166,7 +166,7 @@ const onSubmit = form.handleSubmit(async () => {
       ...registerFormDto.value,
       captcha_token: recaptchaToken,
     })
-    if (newsletterConsent.value) newsletterSubscribe(user.email)
+    if (newsletterConsent.value) await newsletterSubscribe(user.email)
 
     ev.emit(HeseyaEvent.Register, user)
     emit('registered', user)
