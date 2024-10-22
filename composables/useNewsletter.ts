@@ -10,20 +10,12 @@ export const useNewsletter = () => {
   const enabled = computed(() => edroneEnabled.value || grEnabled.value)
 
   const subscribe = async (email: string) => {
-    // eslint-disable-next-line no-console
-    console.log('subscribe')
     subscribeEdrone(email)
-    // eslint-disable-next-line no-console
-    console.log('subscribe middle')
     await subscribeGetResponse(email)
-    // eslint-disable-next-line no-console
-    console.log('subscribe post')
   }
 
   const subscribeEdrone = (email: string) => {
     if (!edroneEnabled.value) return
-    // eslint-disable-next-line no-console
-    console.log('subscribeEdrone in')
 
     edroneSubscribe({
       email,
@@ -34,9 +26,6 @@ export const useNewsletter = () => {
 
   const subscribeGetResponse = async (email: string) => {
     if (!grEnabled.value) return
-
-    // eslint-disable-next-line no-console
-    console.log('subscribeEdrone in')
 
     await grSubscribe({
       email,

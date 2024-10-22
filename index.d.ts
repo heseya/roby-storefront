@@ -8,5 +8,6 @@ interface Window {
   fbq: any
   gtag: (...args: any) => void
   _edrone: any
+  GrTracking?: (eventSlug: string, userEmail: string) => void
   registerWidget?: (w: any, token: string) => boolean
 }

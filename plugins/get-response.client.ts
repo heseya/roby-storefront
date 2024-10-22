@@ -1,4 +1,5 @@
-import { onDocumentLoad } from '#imports'
+import { HeseyaEvent, type User } from '@heseya/store-core'
+import { onDocumentLoad, useGetResponse } from '#imports'
 
 export default defineNuxtPlugin(() => {
   const config = usePublicRuntimeConfig()
@@ -25,4 +26,11 @@ export default defineNuxtPlugin(() => {
       ],
     })
   }, 2000)
+
+  const bus = useHeseyaEventBus()
+  const { trackUserByEmail } = useGetResponse()
+
+  bus.on(HeseyaEvent.Login, (user: User) => {
+    trackUserByEmail(user.email)
+  })
 })
