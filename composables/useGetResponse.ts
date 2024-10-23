@@ -1,10 +1,30 @@
+import { useAuthStore } from '~/store/auth'
+
 export const useGetResponse = () => {
   const config = usePublicRuntimeConfig()
+  const auth = useAuthStore()
+  const user = useUser()
 
-  const enabled = computed(() => config.getresponseApiEnabled)
+  const enabled = computed(() => {
+    return config.getresponseApiEnabled
+  })
   const webConnectEnabled = computed(() => !!config.getresponseWebConnect)
 
+  const trackUserByEmail = (email: string) => {
+    if (import.meta.client && window.GrTracking) {
+      window.GrTracking('setUserId', email)
+    }
+  }
+
+  const trackLoggedUserByEmail = () => {
+    if (auth.isLogged && user.value?.email) {
+      trackUserByEmail(user.value?.email as string)
+    }
+  }
+
   const subscribe = async (data: { email: string }) => {
+    trackUserByEmail(data.email)
+
     if (!config.getresponseApiEnabled) {
       // eslint-disable-next-line no-console
       console.error('[useGetResponse] GetResponse key not set in environment variables')
@@ -23,5 +43,5 @@ export const useGetResponse = () => {
       .catch(() => ({ success: false }))
   }
 
-  return { subscribe, enabled, webConnectEnabled }
+  return { subscribe, enabled, webConnectEnabled, trackUserByEmail, trackLoggedUserByEmail }
 }
