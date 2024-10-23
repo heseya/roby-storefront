@@ -194,6 +194,10 @@ const createOrder = async () => {
       const paymentUrl = await checkout.createOrderPayment(order.code, paymentId)
       checkout.reset()
       window.location.href = paymentUrl
+    } else {
+      // cash on delivery
+      checkout.reset()
+      navigateTo(localePath(`/checkout/thank-you?code=${order.code}`))
     }
   } catch (e: any) {
     const error = formatError(e)
@@ -202,9 +206,6 @@ const createOrder = async () => {
       type: 'error',
     })
     isLoading.value = false
-  } finally {
-    checkout.reset()
-    navigateTo(localePath(`/checkout/thank-you?code=${order.code}`))
   }
 }
 

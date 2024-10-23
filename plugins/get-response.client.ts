@@ -28,9 +28,21 @@ export default defineNuxtPlugin(() => {
   }, 2000)
 
   const bus = useHeseyaEventBus()
-  const { trackUserByEmail } = useGetResponse()
+  const { trackUserByEmail, trackLoggedUserByEmail } = useGetResponse()
 
   bus.on(HeseyaEvent.Login, (user: User) => {
     trackUserByEmail(user.email)
+  })
+
+  bus.on(HeseyaEvent.ViewCart, () => {
+    trackLoggedUserByEmail()
+  })
+
+  bus.on(HeseyaEvent.InitiateCheckout, () => {
+    trackLoggedUserByEmail()
+  })
+
+  bus.on(HeseyaEvent.Purchase, () => {
+    trackLoggedUserByEmail()
   })
 })

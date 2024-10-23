@@ -1,5 +1,9 @@
+import { useAuthStore } from '~/store/auth'
+
 export const useGetResponse = () => {
   const config = usePublicRuntimeConfig()
+  const auth = useAuthStore()
+  const user = useUser()
 
   const enabled = computed(() => {
     return config.getresponseApiEnabled
@@ -7,8 +11,14 @@ export const useGetResponse = () => {
   const webConnectEnabled = computed(() => !!config.getresponseWebConnect)
 
   const trackUserByEmail = (email: string) => {
-    if (window.GrTracking) {
+    if (import.meta.client && window.GrTracking) {
       window.GrTracking('setUserId', email)
+    }
+  }
+
+  const trackLoggedUserByEmail = () => {
+    if (auth.isLogged && user.value?.email) {
+      trackUserByEmail(user.value?.email as string)
     }
   }
 
@@ -33,5 +43,5 @@ export const useGetResponse = () => {
       .catch(() => ({ success: false }))
   }
 
-  return { subscribe, enabled, webConnectEnabled, trackUserByEmail }
+  return { subscribe, enabled, webConnectEnabled, trackUserByEmail, trackLoggedUserByEmail }
 }
