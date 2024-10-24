@@ -62,6 +62,8 @@
                     : $t('offers.unavailable')
                 }}
               </LayoutButton>
+
+              <LazyProductPageVariants class="product-info-wrapper__variants" :product="product" />
             </div>
 
             <LazyLayoutTabs
@@ -440,5 +442,9 @@ useProductJsonLd(product)
 .product-info-wrapper {
   background-color: $gray-color-100;
   padding: 16px 20px;
+
+  &__variants {
+    margin-top: 32px;
+  }
 }
 </style>
