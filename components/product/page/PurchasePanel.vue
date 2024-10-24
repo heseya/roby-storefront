@@ -37,6 +37,7 @@
       class="product-purchase-panel__schemas"
       :product-schemas="product.schemas"
     />
+
     <LazyProductPageVariants class="product-purchase-panel__variants" :product="product" />
 
     <ProductQuantityInput v-model:quantity="quantity" class="product-purchase-panel__quantity" />
