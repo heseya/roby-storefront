@@ -31,7 +31,12 @@ export default defineNuxtPlugin((nuxt) => {
   // ? --------------------------------------------------------------------------------------------
 
   const pathsWithoutCache = ['wishlist']
-  const publicPathWithToken = ['/products', '/product-sets', '/product-sets/favourites']
+  const publicPathWithToken = [
+    '/products',
+    '/product-sets',
+    '/product-sets/favourites',
+    '/shipping-methods',
+  ]
   const generateCacheKey = buildKeyGenerator((request) => ({
     method: request.method,
     url: request.url,
