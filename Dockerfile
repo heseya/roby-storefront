@@ -2,7 +2,7 @@
 
 ARG NODE_VERSION=18.18.0
 
-FROM node:${NODE_VERSION}-slim as base
+FROM node:${NODE_VERSION}-slim AS base
 
 ARG PORT=3000
 
@@ -11,7 +11,7 @@ ENV NODE_ENV=production
 WORKDIR /src
 
 # Build
-FROM base as build
+FROM base AS build
 
 COPY --link package.json yarn.lock ./
 RUN yarn install --production=false
