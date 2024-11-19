@@ -22,10 +22,13 @@
         </NuxtLink>
       </div>
 
-      <CheckoutTraditionalPaymentDetails v-if="isTraditionalPayment" :code="order.code" />
+      <CheckoutTraditionalPaymentDetails
+        v-if="isTraditionalPayment && order?.code"
+        :code="order?.code"
+      />
     </div>
 
-    <IntegrationEkomiSurvey :order-code="order.code" />
+    <IntegrationEkomiSurvey v-if="order?.code" :order-code="order?.code" />
   </NuxtLayout>
 </template>
 

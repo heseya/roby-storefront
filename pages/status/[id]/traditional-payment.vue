@@ -1,7 +1,7 @@
 <template>
   <NuxtLayout name="checkout">
     <div class="checkout-container">
-      <CheckoutTraditionalPaymentDetails :code="order.code" />
+      <CheckoutTraditionalPaymentDetails v-if="order?.code" :code="order?.code" />
     </div>
   </NuxtLayout>
 </template>
