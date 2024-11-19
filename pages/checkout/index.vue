@@ -188,16 +188,16 @@ const createOrder = async () => {
     if (paymentId === TRADITIONAL_PAYMENT_KEY) {
       checkout.reset()
       return navigateTo(
-        localePath(`/checkout/thank-you?code=${order.code}&payment=${TRADITIONAL_PAYMENT_KEY}`),
+        localePath(`/checkout/thank-you?id=${order.id}&payment=${TRADITIONAL_PAYMENT_KEY}`),
       )
     } else if (paymentId) {
-      const paymentUrl = await checkout.createOrderPayment(order.code, paymentId)
+      const paymentUrl = await checkout.createOrderPayment(order.id, paymentId)
       checkout.reset()
       window.location.href = paymentUrl
     } else {
       // cash on delivery
       checkout.reset()
-      navigateTo(localePath(`/checkout/thank-you?code=${order.code}`))
+      navigateTo(localePath(`/checkout/thank-you?id=${order.id}`))
     }
   } catch (e: any) {
     const error = formatError(e)

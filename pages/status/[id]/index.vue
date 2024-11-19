@@ -5,7 +5,7 @@
 
       <div class="status-page__field">
         <span class="status-page__field-label">{{ t('fields.number') }}:</span>
-        <span class="status-page__field-value blue-text">{{ orderCode }}</span>
+        <span class="status-page__field-value blue-text">{{ order?.code }}</span>
       </div>
       <div class="status-page__field">
         <span class="status-page__field-label">{{ $t('orders.status') }}:</span>
@@ -33,7 +33,7 @@
         </b>
       </div>
 
-      <NuxtLink v-if="isPayable" class="status-page__link" :to="localePath(`/pay/${orderCode}`)">
+      <NuxtLink v-if="isPayable" class="status-page__link" :to="localePath(`/pay/${orderId}`)">
         <LayoutButton class="status-page__btn">
           {{ $t('payments.payForOrder') }}
         </LayoutButton>
@@ -72,12 +72,12 @@ const route = useRoute()
 const localePath = useLocalePath()
 const currency = useCurrency()
 
-const orderCode = computed(() => route.params.code as string)
+const orderId = computed(() => route.params.id as string)
 
-const { data: order } = useAsyncData(`order-summary-${orderCode}`, async () => {
+const { data: order } = useAsyncData(`order-summary-${orderId}`, async () => {
   try {
     const heseya = useHeseya()
-    const order = await heseya.Orders.getOneByCode(orderCode.value)
+    const order = await heseya.Orders.getOne(orderId.value)
     return order
   } catch (e: any) {
     const code = e?.response?.status
