@@ -39,7 +39,19 @@ const route = useRoute()
 
 const orderCode = ref<string>(route.params.code as string)
 
-console.log('orderCode', orderCode.value)
+definePageMeta({
+  middleware: 'auth',
+})
+
+useSeoTitle(`${$t('orders.details')} ${route.params.code}`)
+
+const errorMessage = ref('')
+const { isModeB2B } = useSiteMode()
+const breadcrumbs = computed(() => [
+  { label: $t('breadcrumbs.account'), link: '/account' },
+  { label: $t('orders.title'), link: '/account/orders' },
+  { label: `${t('route')}${orderCode.value}`, link: `/account/orders/${orderCode.value}` },
+])
 
 const { data: order } = useAsyncData(`account/orders/${orderCode.value}`, async () => {
   try {
@@ -50,20 +62,4 @@ const { data: order } = useAsyncData(`account/orders/${orderCode.value}`, async 
     errorMessage.value = formatError(e)
   }
 })
-
-console.log('order', order.value)
-
-definePageMeta({
-  middleware: 'auth',
-})
-
-useSeoTitle(`${$t('orders.details')} ${route.params.slug}`)
-
-const errorMessage = ref('')
-const { isModeB2B } = useSiteMode()
-const breadcrumbs = computed(() => [
-  { label: $t('breadcrumbs.account'), link: '/account' },
-  { label: $t('orders.title'), link: '/account/orders' },
-  { label: `${t('route')}${orderCode.value}`, link: `/account/orders/${orderCode.value}` },
-])
 </script>
