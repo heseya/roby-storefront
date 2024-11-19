@@ -28,7 +28,7 @@
             <div>{{ paymentStatus.status.text }}</div>
           </div>
         </div>
-        <NuxtLink :to="localePath(`/pay/${order.code}`)">
+        <NuxtLink :to="localePath(`/pay/${order.id}`)">
           <LayoutButton
             v-if="order.payable"
             class="account-order-view__payment-button"

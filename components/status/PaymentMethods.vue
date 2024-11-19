@@ -33,7 +33,7 @@ import { useCheckoutStore } from '~/store/checkout'
 
 const props = withDefaults(
   defineProps<{
-    code: string
+    orderId: string
   }>(),
   {},
 )
@@ -46,12 +46,12 @@ const formatError = useErrorMessage()
 const selectedPaymentMethodId = ref<string | null>(null)
 const checkout = useCheckoutStore()
 
-const { data: order } = useAsyncData(`order-summary-${props.code}`, async () => {
+const { data: order } = useAsyncData(`order-summary-${props.orderId}`, async () => {
   try {
     const heseya = useHeseya()
-    const order = await heseya.Orders.getOneByCode(props.code)
+    const order = await heseya.Orders.getOne(props.orderId)
 
-    if (!order.payable) navigateTo(localePath(`/status/${props.code}`), { replace: true })
+    if (!order.payable) navigateTo(localePath(`/status/${props.orderId}`), { replace: true })
 
     return order
   } catch (e: any) {
@@ -65,11 +65,14 @@ const pay = async () => {
     if (!selectedPaymentMethodId.value) return
 
     if (selectedPaymentMethodId.value === TRADITIONAL_PAYMENT_KEY) {
-      navigateTo(localePath(`/status/${props.code}/traditional-payment`))
+      navigateTo(localePath(`/status/${props.orderId}/traditional-payment`))
       return
     }
 
-    const paymentUrl = await checkout.createOrderPayment(props.code, selectedPaymentMethodId.value)
+    const paymentUrl = await checkout.createOrderPayment(
+      props.orderId,
+      selectedPaymentMethodId.value,
+    )
     window.location.href = paymentUrl
   } catch (e) {
     notify({ type: 'error', text: formatError(e) })

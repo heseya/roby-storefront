@@ -37,27 +37,27 @@ const heseya = useHeseya()
 const formatError = useErrorMessage()
 const route = useRoute()
 
-const orderNumber = ref<string>(route.params.slug as string)
+const orderCode = ref<string>(route.params.code as string)
 
 definePageMeta({
   middleware: 'auth',
 })
 
-useSeoTitle(`${$t('orders.details')} ${route.params.slug}`)
+const { data: order } = useAsyncData(`account/orders/${orderCode}`, async () => {
+  try {
+    return await heseya.UserProfile.Orders.getOneByCode(orderCode.value)
+  } catch (e: any) {
+    errorMessage.value = formatError(e)
+  }
+})
+
+useSeoTitle(`${$t('orders.details')} ${orderCode.value}`)
 
 const errorMessage = ref('')
 
 const breadcrumbs = computed(() => [
   { label: $t('breadcrumbs.account'), link: '/account' },
   { label: $t('orders.title'), link: '/account/orders' },
-  { label: `${t('route')}${orderNumber.value}`, link: `/account/orders/${orderNumber.value}` },
+  { label: `${t('route')}${orderCode.value}`, link: `/account/orders/${orderCode.value}` },
 ])
-
-const { data: order } = useAsyncData(`account/orders/${orderNumber}`, async () => {
-  try {
-    return await heseya.UserProfile.Orders.getOneByCode(orderNumber.value)
-  } catch (e: any) {
-    errorMessage.value = formatError(e)
-  }
-})
 </script>

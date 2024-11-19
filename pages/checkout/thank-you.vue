@@ -16,16 +16,16 @@
           </b>
         </span>
       </div>
-      <div v-if="route.query.code" class="checkout-container__nav">
-        <NuxtLink :to="localePath(`/status/${orderCode}`)">
+      <div v-if="route.query.id" class="checkout-container__nav">
+        <NuxtLink :to="localePath(`/status/${orderId}`)">
           <LayoutButton class="checkout-container__btn"> {{ t('container.btn') }}</LayoutButton>
         </NuxtLink>
       </div>
 
-      <CheckoutTraditionalPaymentDetails v-if="isTraditionalPayment" :code="orderCode" />
+      <CheckoutTraditionalPaymentDetails v-if="isTraditionalPayment" :code="order.code" />
     </div>
 
-    <IntegrationEkomiSurvey :order-code="orderCode" />
+    <IntegrationEkomiSurvey :order-code="order.code" />
   </NuxtLayout>
 </template>
 
@@ -65,9 +65,21 @@ const localePath = useLocalePath()
 const t = useLocalI18n()
 const $t = useGlobalI18n()
 
-const orderCode = computed(() => route.query.code as string)
+const orderId = computed(() => route.query.id as string)
 
 const isTraditionalPayment = computed(() => route.query.payment === TRADITIONAL_PAYMENT_KEY)
+
+const { data: order } = useAsyncData(`order-summary-${orderId}`, async () => {
+  try {
+    const heseya = useHeseya()
+    const order = await heseya.Orders.getOne(orderId.value)
+
+    return order
+  } catch (e: any) {
+    const code = e?.response?.status
+    showError({ message: t('notFoundError'), statusCode: code })
+  }
+})
 
 useSeoTitle(t('container.header'))
 </script>
