@@ -37,27 +37,27 @@ const heseya = useHeseya()
 const formatError = useErrorMessage()
 const route = useRoute()
 
-const orderNumber = ref<string>(route.params.slug as string)
+const orderCode = ref<string>(route.params.code as string)
 
 definePageMeta({
   middleware: 'auth',
 })
 
-useSeoTitle(`${$t('orders.details')} ${route.params.slug}`)
+useSeoTitle(`${$t('orders.details')} ${route.params.code}`)
 
 const errorMessage = ref('')
 const { isModeB2B } = useSiteMode()
 const breadcrumbs = computed(() => [
   { label: $t('breadcrumbs.account'), link: '/account' },
   { label: $t('orders.title'), link: '/account/orders' },
-  { label: `${t('route')}${orderNumber.value}`, link: `/account/orders/${orderNumber.value}` },
+  { label: `${t('route')}${orderCode.value}`, link: `/account/orders/${orderCode.value}` },
 ])
 
-const { data: order } = useAsyncData(`account/orders/${orderNumber}`, async () => {
+const { data: order } = useAsyncData(`account/orders/${orderCode.value}`, async () => {
   try {
     return isModeB2B.value
-      ? await heseya.UserProfile.My.Organization.Orders.getOneByCode(orderNumber.value)
-      : await heseya.UserProfile.My.Orders.getOneByCode(orderNumber.value)
+      ? await heseya.UserProfile.My.Organization.Orders.getOneByCode(orderCode.value)
+      : await heseya.UserProfile.My.Orders.getOneByCode(orderCode.value)
   } catch (e: any) {
     errorMessage.value = formatError(e)
   }

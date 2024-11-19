@@ -1,7 +1,7 @@
 <template>
   <NuxtLayout name="checkout">
     <div class="status-page">
-      <StatusPaymentMethods :code="orderCode" class="status-page__payment" />
+      <StatusPaymentMethods :order-id="orderId" class="status-page__payment" />
 
       <NuxtLink class="status-page__link" :to="localePath('/')">
         <LayoutButton class="status-page__btn" variant="gray">
@@ -17,15 +17,15 @@ const $t = useGlobalI18n()
 const route = useRoute()
 const localePath = useLocalePath()
 
-const orderCode = computed(() => route.params.code as string)
+const orderId = computed(() => route.params.id as string)
 
-useAsyncData(`order-summary-${orderCode}`, async () => {
+useAsyncData(`order-summary-${orderId}`, async () => {
   try {
     const heseya = useHeseya()
-    const order = await heseya.Orders.getOneByCode(orderCode.value)
+    const order = await heseya.Orders.getOne(orderId.value)
 
     if (order.paid || !order.payable)
-      navigateTo(localePath(`/status/${orderCode.value}`), { replace: true })
+      navigateTo(localePath(`/status/${orderId.value}`), { replace: true })
 
     return order
   } catch (e: any) {
