@@ -206,11 +206,11 @@ const createOrder = async () => {
       checkout.reset()
       return navigateTo(
         localePath(
-          `/checkout/thank-you?code=${order.code}${isTraditionalTransferPayment(paymentMethod) ? '&payment=' + TRADITIONAL_PAYMENT_KEY : ''}`,
+          `/checkout/thank-you?id=${order.id}${isTraditionalTransferPayment(paymentMethod) ? '&payment=' + TRADITIONAL_PAYMENT_KEY : ''}`,
         ),
       )
     } else if (paymentId && paymentMethod && !paymentMethod.creates_default_payment) {
-      const paymentUrl = await checkout.createOrderPayment(order.code, paymentId)
+      const paymentUrl = await checkout.createOrderPayment(order.id, paymentId)
       checkout.reset()
       window.location.href = paymentUrl
     }

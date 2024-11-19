@@ -221,12 +221,18 @@ export const useCheckoutStore = defineStore('checkout', {
       return order
     },
 
-    async createOrderPayment(orderCode: string, paymentMethodId: string) {
+    async createOrderPayment(orderId: string, paymentMethodId: string) {
       const heseya = useHeseya()
       const localePath = useLocalePath()
       const { i18n } = usePublicRuntimeConfig()
 
-      const { order, paymentMethods } = await heseya.Orders.getPaymentMethods(orderCode)
+      if (!orderId) throw new Error('No id in param')
+
+      const order = await heseya.Orders.getOne(orderId)
+
+      if (order.paid) throw new Error('Order already paid')
+
+      const { data: paymentMethods } = await heseya.PaymentMethods.get({ order_code: order.code })
 
       if (!order.payable) throw new Error('Order is not payable')
       if (!paymentMethods.find((m) => m.id === paymentMethodId))
@@ -235,10 +241,10 @@ export const useCheckoutStore = defineStore('checkout', {
       const orderShippingType = getOrderShippingType(order)
 
       return await heseya.Orders.pay(
-        orderCode,
+        order.code,
         paymentMethodId,
         joinUrl(
-          localePath(`/checkout/thank-you?code=${orderCode}&t=${orderShippingType}`),
+          localePath(`/checkout/thank-you?id=${order.id}&t=${orderShippingType}`),
           i18n.baseUrl,
         ),
       )

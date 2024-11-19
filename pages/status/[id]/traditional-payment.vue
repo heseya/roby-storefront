@@ -1,7 +1,7 @@
 <template>
   <NuxtLayout name="checkout">
     <div class="checkout-container">
-      <CheckoutTraditionalPaymentDetails :code="orderCode" />
+      <CheckoutTraditionalPaymentDetails v-if="order?.code" :code="order?.code" />
     </div>
   </NuxtLayout>
 </template>
@@ -25,16 +25,16 @@ const t = useLocalI18n()
 const $t = useGlobalI18n()
 const localePath = useLocalePath()
 
-const orderCode = computed(() => route.params.code as string)
+const orderId = computed(() => route.params.id as string)
 
-useAsyncData(`order-summary-${orderCode}`, async () => {
+const { data: order } = useAsyncData(`order-summary-${orderId}`, async () => {
   try {
     const heseya = useHeseya()
-    const order = await heseya.Orders.getOneByCode(orderCode.value)
+    const order = await heseya.Orders.getOne(orderId.value)
 
     if (order.paid) {
       notify({ type: 'success', text: $t('errors.CLIENT_ORDER_PAID') })
-      navigateTo(localePath(`/status/${orderCode.value}`))
+      navigateTo(localePath(`/status/${orderId.value}`))
     }
 
     return order
