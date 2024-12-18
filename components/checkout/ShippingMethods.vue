@@ -41,6 +41,10 @@
           <CheckoutDpdSelect
             v-if="method.shipping_type === ShippingType.PointExternal && method.metadata.dpd_pickup"
           />
+          <CheckoutFurgonetkaSelect
+            v-if="method.shipping_type === ShippingType.PointExternal && method.metadata.dhl_pickup"
+            provider="dhl"
+          />
           <CheckoutFormShippingPointSelect
             v-if="method.shipping_type === ShippingType.Point"
             :method="method"
@@ -118,6 +122,13 @@ const setShippingMethod = (id: unknown) => {
 
   const shippingMethod = shippingMethods.value?.find((method) => method.id === id) || null
   checkout.shippingMethod = shippingMethod
+
+  /**
+   * Clear furgonetka point if shipping method is changed
+   */
+  if (shippingMethod?.shipping_type === ShippingType.PointExternal) {
+    checkout.furgonetka = null
+  }
 
   if (shippingMethod?.shipping_type === ShippingType.Point && !checkout.shippingPointId) {
     checkout.shippingPointId = shippingMethod.shipping_points[0].id || null
