@@ -124,6 +124,7 @@ const registerForm = useForm({
  */
 const isFormValidatonError = computed(() => {
   const record = Object.values(registerForm.errors.value).filter(Boolean)
+  console.log(record)
   return record.length > 0
 })
 
