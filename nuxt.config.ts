@@ -40,6 +40,8 @@ const {
   NUXT_GETRESPONSE_CAMPAIGN_ID,
   NUXT_PUBLIC_GETRESPONSE_WEB_CONNECT_KEY,
 
+  NUXT_PUBLIC_KODABOT_CHATBOT_TOKEN,
+
   // Custom pages paths
   NUXT_PUBLIC_PAGE_BLOG_PATH = '/blog',
   NUXT_PUBLIC_PAGE_CONTACT_PATH = '/kontakt',
@@ -147,6 +149,7 @@ export default defineNuxtConfig({
       edroneId: NUXT_PUBLIC_EDRONE_ID,
       getresponseWebConnectKey: NUXT_PUBLIC_GETRESPONSE_WEB_CONNECT_KEY,
       getresponseApiEnabled: !!NUXT_PUBLIC_GETRESPONSE_API_ENABLED,
+      kodabotChatbotToken: NUXT_PUBLIC_KODABOT_CHATBOT_TOKEN,
       showColorThemePicker: NUXT_PUBLIC_COLOR_THEME_PICKER,
       fontFamily: NUXT_PUBLIC_FONT_FAMILY,
       axiosCacheTtl: NUXT_PUBLIC_AXIOS_CACHE_TTL,
