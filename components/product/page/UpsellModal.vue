@@ -24,7 +24,7 @@
         <div class="product-upsell-modal__upsell-content">
           <ProductSimpleCarousel
             :key="set.id"
-            :query="{ sets: [set.slug as string] }"
+            :query="{ sets: [set.slug as string], sort: `set.${set.slug}` }"
             class="product-upsell-modal__upsell-carousel"
           />
         </div>
