@@ -1,6 +1,10 @@
 import { HeseyaEvent } from '@heseya/store-core'
 
 export default defineNuxtPlugin(() => {
+  const { facebookPixelEnabled } = usePublicRuntimeConfig()
+
+  if (!facebookPixelEnabled) return
+
   const bus = useHeseyaEventBus()
 
   bus.on(HeseyaEvent.InitiateCheckout, () => {

@@ -2,6 +2,13 @@ import svgLoader from 'vite-svg-loader'
 
 // import { removePageByName, changePagePathOrRemoveByName } from './utils/routing'
 import pkg from './package.json'
+import { isTrue } from './utils/utils'
+
+const setDefaultValue = (value: any, defaultValue: any) => {
+  if (value === undefined) return defaultValue
+  if (typeof value === 'string' && value.length === 0) return defaultValue
+  return value
+}
 
 const {
   /**
@@ -39,6 +46,8 @@ const {
   NUXT_GETRESPONSE_API_KEY,
   NUXT_GETRESPONSE_CAMPAIGN_ID,
   NUXT_PUBLIC_GETRESPONSE_WEB_CONNECT_KEY,
+
+  NUXT_PUBLIC_FB_PIXEL_ENABLED = true,
 
   NUXT_PUBLIC_KODABOT_CHATBOT_TOKEN,
 
@@ -148,7 +157,8 @@ export default defineNuxtConfig({
       callpageId: NUXT_PUBLIC_CALLPAGE_ID,
       edroneId: NUXT_PUBLIC_EDRONE_ID,
       getresponseWebConnectKey: NUXT_PUBLIC_GETRESPONSE_WEB_CONNECT_KEY,
-      getresponseApiEnabled: !!NUXT_PUBLIC_GETRESPONSE_API_ENABLED,
+      getresponseApiEnabled: isTrue(NUXT_PUBLIC_GETRESPONSE_API_ENABLED),
+      facebookPixelEnabled: isTrue(setDefaultValue(NUXT_PUBLIC_FB_PIXEL_ENABLED, true)),
       kodabotChatbotToken: NUXT_PUBLIC_KODABOT_CHATBOT_TOKEN,
       showColorThemePicker: NUXT_PUBLIC_COLOR_THEME_PICKER,
       fontFamily: NUXT_PUBLIC_FONT_FAMILY,
