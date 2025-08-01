@@ -2,7 +2,7 @@
   <div
     v-if="mainImage"
     class="banner"
-    :style="{ height: remainingImages.length > 0 ? '960px' : '480px' }"
+    :style="{ height: remainingImages.length > 0 ? '960px' : '300px' }"
   >
     <div class="banner__main-card">
       <LazyHomeBannerCard
